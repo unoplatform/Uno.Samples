@@ -1,0 +1,37 @@
+phases:
+- phase: VS_Latest
+
+  steps:
+  - task: GitVersion@3
+    # Ignore gitversion for forks, until this is fixed:
+    # https://developercommunity.visualstudio.com/content/problem/284991/public-vsts-previouw-cant-set-build-number-of-pr-b.html
+    condition: eq(variables['System.PullRequest.IsFork'], 'False')
+    inputs:
+      updateAssemblyInfo: false   
+      
+  - task: NuGetToolInstaller@0
+    inputs:
+        versionSpec: 4.7.0
+        checkLatest: false
+
+  - task: NuGetCommand@2
+    inputs:
+      command: restore
+      solution: UI\**\.sln
+      selectOrConfig: select
+      includeNuGetOrg: true
+      verbosityRestore: Normal
+
+  - task: MSBuild@1
+    displayName: Build Samples
+    inputs:
+      solution: UI\**\*.sln
+      msbuildLocationMethod: version
+      msbuildVersion: latest
+      msbuildArchitecture: x86
+      msbuildArguments: /r /p:Configuration=Release "/p:PackageOutputPath=$(build.artifactstagingdirectory)\nuget" "/p:PackageVersion=%GITVERSION_FullSemVer%" "/p:InformationalVersion=%GITVERSION_InformationalVersion%" /detailedsummary
+      clean: false
+      maximumCpuCount: true
+      restoreNugetPackages: false
+      logProjectEvents: false
+      createLogFile: false
