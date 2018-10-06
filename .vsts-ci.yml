@@ -1,5 +1,8 @@
 phases:
 - phase: VS_Latest
+  variables:
+    GITVERSION.InformationalVersion: 0.1.0-PR
+    GITVERSION.FullSemVer: 0.1.0-PR
 
   steps:
   - task: GitVersion@3
@@ -29,7 +32,7 @@ phases:
       msbuildLocationMethod: version
       msbuildVersion: latest
       msbuildArchitecture: x86
-      msbuildArguments: /r /p:Configuration=Release "/p:PackageOutputPath=$(build.artifactstagingdirectory)\nuget" "/p:PackageVersion=%GITVERSION_FullSemVer%" "/p:InformationalVersion=%GITVERSION_InformationalVersion%" /detailedsummary
+      msbuildArguments: /r /p:Configuration=Release "/p:PackageOutputPath=$(build.artifactstagingdirectory)\nuget" "/p:PackageVersion=$(GITVERSION.FullSemVer)" "/p:InformationalVersion=$(GITVERSION.InformationalVersion)" /detailedsummary
       clean: false
       maximumCpuCount: true
       restoreNugetPackages: false
