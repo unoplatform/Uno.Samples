@@ -6,9 +6,9 @@
     <WasmHead>true</WasmHead>
     <DefineConstants>$(DefineConstants);__WASM__</DefineConstants>
     <NoWarn>NU1701</NoWarn>
-    <MonoWasmRuntimeConfiguration>release-dynamic</MonoWasmRuntimeConfiguration>
     <MonoRuntimeDebuggerEnabled Condition="'$(Configuration)'=='Debug'">true</MonoRuntimeDebuggerEnabled>
-  </PropertyGroup>
+		<WasmShellMonoRuntimeExecutionMode Condition="'$(Configuration)'=='Release'">InterpreterAndAOT</WasmShellMonoRuntimeExecutionMode>
+	</PropertyGroup>
   <ItemGroup>
     <Content Include="..\SkiaSharpTest.UWP\Assets\*.png" Link="Assets\%(FileName)%(Extension)" />
     <Content Include="Fonts\winjs-symbols.woff2" />
@@ -20,7 +20,13 @@
   <ItemGroup>
     <LinkerDescriptor Include="LinkerConfig.xml" />
   </ItemGroup>
-  <ItemGroup>
+	
+	<ItemGroup>
+		<!-- Required to enable IDBFS (https://github.com/emscripten-core/emscripten/blob/d2148d096e2b5f3ec4886f93e24312ef88976020/ChangeLog.md#v1391-10302019) -->
+		<WasmShellExtraEmccFlags Include="-lidbfs.js" />
+	</ItemGroup>
+
+	<ItemGroup>
     <!-- 
     This item group is required by the project templace because of the
     new SDK-Style project, otherwise some files are not aded automatically.
@@ -34,10 +40,10 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="1.1.1" />
     <PackageReference Include="Microsoft.Extensions.Logging.Filter" Version="1.1.1" />
-    <PackageReference Include="Uno.SkiaSharp.Views" Version="1.68.0-uno.228" />
-    <PackageReference Include="Uno.SkiaSharp.Wasm" Version="1.68.0-uno.228" />
-    <PackageReference Include="Uno.UI" Version="1.46.214-dev.2589" />
-    <PackageReference Include="Uno.Wasm.Bootstrap" Version="1.0.0-dev.302" />
+    <PackageReference Include="Uno.SkiaSharp.Views" Version="1.68.0-uno.293" />
+    <PackageReference Include="Uno.SkiaSharp.Wasm" Version="1.68.0-uno.293" />
+    <PackageReference Include="Uno.UI" Version="2.1.0-dev.1141" />
+    <PackageReference Include="Uno.Wasm.Bootstrap" Version="1.1.0-dev.416" />
     <DotNetCliToolReference Include="Uno.Wasm.Bootstrap.Cli" Version="1.0.0-dev.302" />
   </ItemGroup>
   <Import Project="..\SkiaSharpTest.Shared\SkiaSharpTest.Shared.projitems" Label="Shared" Condition="Exists('..\SkiaSharpTest.Shared\SkiaSharpTest.Shared.projitems')" />
