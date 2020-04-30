@@ -1,0 +1,12 @@
+﻿<linker>
+	<assembly fullname="AppBenchmark.Wasm" />
+	<assembly fullname="Uno.UI" />
+	<assembly fullname="BenchmarkDotNet">
+		<type fullname="BenchmarkDotNet.Toolchains.InProcess.InProcessRunner*" />
+	</assembly>
+
+	<assembly fullname="System.Core">
+		<!-- This is required by JSon.NET and any expression.Compile caller -->
+		<type fullname="System.Linq.Expressions*" />
+	</assembly>
+</linker>
