@@ -1,7 +1,7 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="MSBuild.Sdk.Extras/2.0.54">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;xamarinios10;MonoAndroid80;uap10.0</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;xamarinios10;MonoAndroid90;uap10.0</TargetFrameworks>
   </PropertyGroup>
 
 	<PropertyGroup Condition=" '$(TargetFramework)' == 'uap10.0' ">
@@ -14,8 +14,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-    <PackageReference Include="Uno.UI" Version="1.31.0-dev.8" />
-		<PackageReference Include="MSBuild.Sdk.Extras" Version="1.5.4" PrivateAssets="All" />
+    <PackageReference Include="Uno.UI" Version="2.3.0-dev.80" />
 	</ItemGroup>
 
 	<ItemGroup Condition=" '$(TargetFramework)' == 'uap10.0' ">
@@ -28,6 +27,4 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </Page>
 	</ItemGroup>
-
-	<Import Project="$(MSBuildSDKExtrasTargets)" Condition="Exists('$(MSBuildSDKExtrasTargets)')" />
 </Project>
