@@ -1,14 +1,14 @@
-phases:
-- phase: VS_Latest
+jobs:
+- job: VS_Latest
   variables:
     GITVERSION.InformationalVersion: 0.1.0-PR
     GITVERSION.FullSemVer: 0.1.0-PR
 
+  pool:
+    vmImage: 'windows-2019'
+
   steps:
-  - task: GitVersion@3
-    # Ignore gitversion for forks, until this is fixed:
-    # https://developercommunity.visualstudio.com/content/problem/284991/public-vsts-previouw-cant-set-build-number-of-pr-b.html
-    condition: eq(variables['System.PullRequest.IsFork'], 'False')
+  - task: GitVersion@5
     inputs:
       updateAssemblyInfo: false   
       
