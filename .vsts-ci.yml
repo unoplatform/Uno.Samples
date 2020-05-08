@@ -1,30 +1,17 @@
 jobs:
 - job: VS_Latest
-  variables:
-    GITVERSION.InformationalVersion: 0.1.0-PR
-    GITVERSION.FullSemVer: 0.1.0-PR
 
   pool:
-    vmImage: 'windows-2019'
+    vmImage: windows-2019
 
   steps:
+  - ${{ if startsWith(variables['Build.SourceBranch'], 'refs/heads/canaries') }}:
+    - template: .vsts-ci.canaries.yml
+
   - task: GitVersion@5
     inputs:
       updateAssemblyInfo: false   
-      
-  - task: NuGetToolInstaller@0
-    inputs:
-        versionSpec: 4.7.0
-        checkLatest: false
-
-  - task: NuGetCommand@2
-    inputs:
-      command: restore
-      solution: UI\**\.sln
-      selectOrConfig: select
-      includeNuGetOrg: true
-      verbosityRestore: Normal
-
+  
   - task: MSBuild@1
     displayName: Build Samples
     inputs:
@@ -32,9 +19,13 @@ jobs:
       msbuildLocationMethod: version
       msbuildVersion: latest
       msbuildArchitecture: x86
-      msbuildArguments: /r /p:Configuration=Release "/p:PackageOutputPath=$(build.artifactstagingdirectory)\nuget" "/p:PackageVersion=$(GITVERSION.FullSemVer)" "/p:InformationalVersion=$(GITVERSION.InformationalVersion)" /detailedsummary
+      msbuildArguments: /r /p:Configuration=Release "/p:InformationalVersion=$(GitVersion.InformationalVersion)" /detailedsummary
       clean: false
       maximumCpuCount: true
       restoreNugetPackages: false
       logProjectEvents: false
       createLogFile: false
+
+  - task: PublishBuildArtifacts@1
+    inputs:
+      pathtoPublish: $(Build.ArtifactStagingDirectory)
