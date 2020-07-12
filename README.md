@@ -10,4 +10,4 @@ The Uno Platform is a Universal Windows Platform Bridge to allow UWP based code 
 
 Use the UWP tooling from Windows in [Visual Studio](https://www.visualstudio.com/), such as [Xaml Edit and Continue](https://blogs.msdn.microsoft.com/visualstudio/2016/04/06/ui-development-made-easier-with-xaml-edit-continue/) and [C# Edit and Continue](https://docs.microsoft.com/en-us/visualstudio/debugger/how-to-use-edit-and-continue-csharp), build your application as much as possible on Windows, then validate that your application runs on iOS, Android and WebAssembly.
 
-Visit [our documentation](https://github.com/nventive/Uno/blob/master/doc/index.md) for more details.
+Visit [our documentation](https://platform.uno/docs/articles) for more details.
