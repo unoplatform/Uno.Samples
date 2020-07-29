@@ -1,7 +1,7 @@
 ﻿var UnoAppManifest = {
 
-    splashScreenImage: "Assets/SplashScreen.png",
-    splashScreenColor: "#0078D7",
+    splashScreenImage: "Assets/SplashScreen.scale-200.png",
+    splashScreenColor: "#FFFFFF",
     displayName: "UnoChat.Client"
 
 }
