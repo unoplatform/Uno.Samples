@@ -96,7 +96,13 @@
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-            <ItemsControl ItemsSource="{Binding AllMessages}" Grid.Row="0" Margin="20,12,20,0" ItemTemplateSelector="{StaticResource MessageTemplateSelector}" />
+            <ListView x:Name="MessagesListView" Grid.Row="0" Margin="20,12,20,0" ItemsSource="{Binding AllMessages}" ItemTemplateSelector="{StaticResource MessageTemplateSelector}">
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                    </Style>
+                </ListView.ItemContainerStyle>
+            </ListView>
             <TextBox x:Name="MessageToSendTextBox" PlaceholderText="Start a new message" Text="{Binding MessageToSend, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding MessageToSendIsEnabled}" Grid.Row="1" Grid.Column="0" CornerRadius="12" Margin="20"/>
         </Grid>
     </Grid>

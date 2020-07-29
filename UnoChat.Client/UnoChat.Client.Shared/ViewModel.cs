@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.SignalR.Client;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.ComponentModel.Design;
 using System.Linq;
@@ -8,6 +10,7 @@ using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Windows.Input;
 using Uno.Extensions;
+using UnoChat.Client.Message;
 
 namespace UnoChat.Client
 {
@@ -29,12 +32,13 @@ namespace UnoChat.Client
         private readonly MVx.Observable.Command _connect;
 
         private readonly MVx.Observable.Property<Message.Model> _lastMessageReceived;
-        private readonly MVx.Observable.Property<IEnumerable<Message.Model>> _allMessages;
         private readonly MVx.Observable.Property<string> _messageToSend;
         private readonly MVx.Observable.Property<bool> _messageToSendIsEnabled;
         private readonly MVx.Observable.Command _sendMessage;
         private readonly MVx.Observable.Property<string> _currentTheme;
         private readonly MVx.Observable.Command _toggleTheme;
+
+        private readonly ObservableCollection<Message.Model> _allMessages;
 
         private readonly HubConnection _connection;
 
@@ -54,12 +58,14 @@ namespace UnoChat.Client
             _hubState = new MVx.Observable.Property<HubConnectionState>(HubConnectionState.Disconnected, nameof(HubState), args => PropertyChanged?.Invoke(this, args));
             _connect = new MVx.Observable.Command();
             _lastMessageReceived = new MVx.Observable.Property<Message.Model>(nameof(LastMessageReceived), args => PropertyChanged?.Invoke(this, args));
-            _allMessages = new MVx.Observable.Property<IEnumerable<Message.Model>>(Enumerable.Empty<Message.Model>(), nameof(AllMessages), args => PropertyChanged?.Invoke(this, args));
             _messageToSend = new MVx.Observable.Property<string>(nameof(MessageToSend), args => PropertyChanged?.Invoke(this, args));
             _messageToSendIsEnabled = new MVx.Observable.Property<bool>(false, nameof(MessageToSendIsEnabled), args => PropertyChanged?.Invoke(this, args));
             _currentTheme = new MVx.Observable.Property<string>("Light", nameof(CurrentTheme), args => PropertyChanged?.Invoke(this, args));
             _toggleTheme = new MVx.Observable.Command(true);
             _sendMessage = new MVx.Observable.Command();
+
+
+            _allMessages = new ObservableCollection<Message.Model>();
 
             _connection = new HubConnectionBuilder()
                 .WithUrl("https://unochatservice20200716114254.azurewebsites.net/ChatHub")
@@ -160,8 +166,8 @@ namespace UnoChat.Client
         {
             return _lastMessageReceived
                 .Where(message => message != null)
-                .WithLatestFrom(_allMessages, (message, messages) => messages.Concat(message).ToArray())
-                .Subscribe(_allMessages);
+                .Do(message => _allMessages.Add(message))
+                .Subscribe();
         }
 
         private IDisposable ShouldEnableSendMessageWhenConnectedAndBothNameAndMessageToSendAreNotEmpty()
@@ -200,7 +206,22 @@ namespace UnoChat.Client
                 .Subscribe(themeObserver);
         }
 
-        public IDisposable Activate(IObservable<object> messageToSendBoxReturn, IObserver<string> themeObserver)
+        private IDisposable ShouldSendModelsAddedToAllMessagesToMessageObserver(IObserver<Model> messageObserver)
+        {
+            return Observable
+                .FromEvent<NotifyCollectionChangedEventHandler, NotifyCollectionChangedEventArgs>(
+                    handler => (s, e) => handler(e),
+                    handler => _allMessages.CollectionChanged += handler,
+                    handler => _allMessages.CollectionChanged -= handler)
+                .Where(args => args.Action == NotifyCollectionChangedAction.Add)
+                .Select(args => args.NewItems.OfType<Message.Model>().FirstOrDefault())
+                .Where(model => model != null)
+                .Delay(TimeSpan.FromMilliseconds(10), Schedulers.Default) // Wait for the list view to have been updated
+                .ObserveOn(Schedulers.Dispatcher)
+                .Subscribe(messageObserver);
+        }
+
+        public IDisposable Activate(IObservable<object> messageToSendBoxReturn, IObserver<string> themeObserver, IObserver<Message.Model> messageObserver)
         {
             return new CompositeDisposable(
                 ShouldUpdateStateWhenHubStateChanges(),
@@ -213,7 +234,8 @@ namespace UnoChat.Client
                 ShouldEnableSendMessageWhenConnectedAndBothNameAndMessageToSendAreNotEmpty(),
                 ShouldSendMessageToServiceThenClearSentMessage(messageToSendBoxReturn),
                 ShouldToggleThemeWhenToggleThemeInvoked(),
-                ShouldSendThemeToThemeObserver(themeObserver)
+                ShouldSendThemeToThemeObserver(themeObserver),
+                ShouldSendModelsAddedToAllMessagesToMessageObserver(messageObserver)
             );
         }
 
@@ -229,7 +251,7 @@ namespace UnoChat.Client
 
         public Message.Model LastMessageReceived => _lastMessageReceived.Get();
 
-        public IEnumerable<Message.Model> AllMessages => _allMessages.Get();
+        public IEnumerable<Message.Model> AllMessages => _allMessages;
 
         public string MessageToSend
         {

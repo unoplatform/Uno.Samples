@@ -47,7 +47,9 @@ namespace UnoChat.Client
                 }
             );
 
-            _behaviours = _viewModel.Activate(messageToSendReturn, themeChanger);
+            var scroller = Observer.Create<Message.Model>(model => MessagesListView.ScrollIntoView(model));
+
+            _behaviours = _viewModel.Activate(messageToSendReturn, themeChanger, scroller);
         }
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
