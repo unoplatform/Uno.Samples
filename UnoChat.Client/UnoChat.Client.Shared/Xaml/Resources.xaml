@@ -14,18 +14,28 @@
             <SolidColorBrush x:Key="ToMessageForegroundBrush" Color="Black" />
         </ResourceDictionary>
     </ResourceDictionary.ThemeDictionaries>
+    <local:StringFormatConverter x:Key="StringFormatConverter" />
     <DataTemplate x:Key="FromMessageTemplate">
         <Grid>
-            <Border CornerRadius="12" Padding="12" HorizontalAlignment="Right" Margin="16,8,0,8" Background="#3671e7">
+            <Border CornerRadius="12,12,0,12" Padding="12" HorizontalAlignment="Right" Margin="16,8,0,8" Background="#3671e7">
                 <TextBlock Text="{Binding Path=Text}" TextWrapping="WrapWholeWords" Foreground="White" />
             </Border>
         </Grid>
     </DataTemplate>
     <DataTemplate x:Key="ToMessageTemplate">
         <Grid>
-            <Border CornerRadius="12" Padding="12" HorizontalAlignment="Left" Margin="0,8,16,8" Background="{ThemeResource ToMessageBackgroundBrush}">
-                <TextBlock Text="{Binding Path=Text}" TextWrapping="WrapWholeWords" Foreground="{ThemeResource ToMessageForegroundBrush}" />
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Border Grid.Row="0" CornerRadius="12,12,12,0" Padding="12" HorizontalAlignment="Left" Margin="0,8,16,8" Background="{ThemeResource ToMessageBackgroundBrush}">
+                <TextBlock Text="{Binding Path=Text}" Style="{StaticResource BodyTextBlockStyle}" TextWrapping="WrapWholeWords" Foreground="{ThemeResource ToMessageForegroundBrush}" />
             </Border>
+            <StackPanel Grid.Row="1" Orientation="Horizontal">
+                <TextBlock Text="{Binding Path=Sender.Name}" Style="{StaticResource CaptionTextBlockStyle}" TextWrapping="NoWrap" Foreground="{ThemeResource ToMessageForegroundBrush}"/>
+                <TextBlock Text="·" Style="{StaticResource CaptionTextBlockStyle}" TextWrapping="NoWrap" Foreground="{ThemeResource ToMessageForegroundBrush}" Margin="4,0"/>
+                <TextBlock Text="{Binding Path=ReceivedAt, Converter={StaticResource StringFormatConverter}, ConverterParameter=[0:t]}" Style="{StaticResource CaptionTextBlockStyle}" TextWrapping="NoWrap" Foreground="{ThemeResource ToMessageForegroundBrush}" Margin="0,0,4,0"/>
+            </StackPanel>
         </Grid>
     </DataTemplate>
     <local:MessageTemplateSelector x:Name="MessageTemplateSelector" FromTemplate="{StaticResource FromMessageTemplate}" ToTemplate="{StaticResource ToMessageTemplate}"/>
