@@ -24,12 +24,19 @@
     <Compile Include="$(MSBuildThisFileDirectory)Message\Model.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Schedulers.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Xaml\Controls\Cogenity.xaml.cs">
+      <DependentUpon>Cogenity.xaml</DependentUpon>
+    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Xaml\MessageTemplateSelector.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Xaml\StringEqualityConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Xaml\StringFormatConverter.cs" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="$(MSBuildThisFileDirectory)MainPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Xaml\Controls\Cogenity.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -6,6 +6,7 @@
     xmlns:lottie="using:Microsoft.Toolkit.Uwp.UI.Lottie"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:UnoChat.Client.Xaml.Controls"
     xmlns:xaml="using:UnoChat.Client.Xaml"
     mc:Ignorable="d">
 
@@ -45,22 +46,39 @@
         </VisualStateManager.VisualStateGroups>
 
         <Grid x:Name="SignInGrid" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="0.4*"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="0.2*"/>
+                <RowDefinition Height="0.1*" MinHeight="100"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.4*"/>
+                <ColumnDefinition Width="0.2*" MinWidth="320"/>
+                <ColumnDefinition Width="0.4*"/>
+            </Grid.ColumnDefinitions>
+            <Image Grid.Row="1" Grid.Column="1" Source="ms-appx:///Assets/UnoPlatformLogo.png" Width="160" Height="160" Margin="32" />
+            <Button Grid.Row="3" Grid.Column="1" Command="{Binding Connect}" Content="Connect" Margin="4" Padding="16,4" HorizontalAlignment="Center"/>
+            <TextBox Grid.Row="2" Grid.Column="1" PlaceholderText="Name" Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="4"/>
+            <controls:Cogenity Grid.Row="5" Grid.Column="1" Margin="16" />
+        </Grid>
+
+        <Grid x:Name="ConnectingGrid" Width="320" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed">
+
             <Grid Width="320" Height="320" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
-                <Image Source="ms-appx:///Assets/UnoPlatformLogo.png" Width="160" Height="160" Margin="32" />
-                <Button Grid.Row="2" Command="{Binding Connect}" Content="Connect" Margin="4" Padding="16,4" HorizontalAlignment="Center"/>
-                <TextBox Grid.Row="1" PlaceholderText="Name" Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="4"/>
+                <winui:AnimatedVisualPlayer Margin="32">
+                    <lottie:LottieVisualSource UriSource="ms-appx:///Animations/connecting.json" />
+                </winui:AnimatedVisualPlayer>
+                <TextBlock Grid.Row="1" HorizontalAlignment="Center" Style="{StaticResource SubheaderTextBlockStyle}" Text="Connecting..." Margin="4"/>
             </Grid>
-        </Grid>
-
-        <Grid x:Name="ConnectingGrid" Width="320" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed">
-            <winui:AnimatedVisualPlayer Margin="32">
-                <lottie:LottieVisualSource UriSource="ms-appx:///Animations/connecting.json" />
-            </winui:AnimatedVisualPlayer>
+            
         </Grid>
 
         <Grid x:Name="ChattingGrid" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Visibility="Collapsed">
