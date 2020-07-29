@@ -33,6 +33,8 @@ namespace UnoChat.Client
         private readonly MVx.Observable.Property<string> _messageToSend;
         private readonly MVx.Observable.Property<bool> _messageToSendIsEnabled;
         private readonly MVx.Observable.Command _sendMessage;
+        private readonly MVx.Observable.Property<string> _currentTheme;
+        private readonly MVx.Observable.Command _toggleTheme;
 
         private readonly HubConnection _connection;
 
@@ -55,6 +57,8 @@ namespace UnoChat.Client
             _allMessages = new MVx.Observable.Property<IEnumerable<Message.Model>>(Enumerable.Empty<Message.Model>(), nameof(AllMessages), args => PropertyChanged?.Invoke(this, args));
             _messageToSend = new MVx.Observable.Property<string>(nameof(MessageToSend), args => PropertyChanged?.Invoke(this, args));
             _messageToSendIsEnabled = new MVx.Observable.Property<bool>(false, nameof(MessageToSendIsEnabled), args => PropertyChanged?.Invoke(this, args));
+            _currentTheme = new MVx.Observable.Property<string>("Light", nameof(CurrentTheme), args => PropertyChanged?.Invoke(this, args));
+            _toggleTheme = new MVx.Observable.Command(true);
             _sendMessage = new MVx.Observable.Command();
 
             _connection = new HubConnectionBuilder()
@@ -182,7 +186,21 @@ namespace UnoChat.Client
                 .Subscribe(_messageToSend);
         }
 
-        public IDisposable Activate(IObservable<object> messageToSendBoxReturn)
+        private IDisposable ShouldToggleThemeWhenToggleThemeInvoked()
+        {
+            return _toggleTheme
+                .WithLatestFrom(_currentTheme, (_, theme) => theme.Equals("Dark", StringComparison.OrdinalIgnoreCase) ? "Light" : "Dark")
+                .Subscribe(_currentTheme);
+        }
+
+        private IDisposable ShouldSendThemeToThemeObserver(IObserver<string> themeObserver)
+        {
+            return _currentTheme
+                .Skip(1) // Don't emit the default value
+                .Subscribe(themeObserver);
+        }
+
+        public IDisposable Activate(IObservable<object> messageToSendBoxReturn, IObserver<string> themeObserver)
         {
             return new CompositeDisposable(
                 ShouldUpdateStateWhenHubStateChanges(),
@@ -193,7 +211,9 @@ namespace UnoChat.Client
                 ShouldListenForNewMessagesFromTheService(),
                 ShouldAddNewMessagesToAllMessages(),
                 ShouldEnableSendMessageWhenConnectedAndBothNameAndMessageToSendAreNotEmpty(),
-                ShouldSendMessageToServiceThenClearSentMessage(messageToSendBoxReturn)
+                ShouldSendMessageToServiceThenClearSentMessage(messageToSendBoxReturn),
+                ShouldToggleThemeWhenToggleThemeInvoked(),
+                ShouldSendThemeToThemeObserver(themeObserver)
             );
         }
 
@@ -218,6 +238,10 @@ namespace UnoChat.Client
         }
 
         public bool MessageToSendIsEnabled => _messageToSendIsEnabled.Get();
+
+        public string CurrentTheme => _currentTheme.Get();
+
+        public ICommand ToggleTheme => _toggleTheme;
 
         public ICommand Connect => _connect;
 
