@@ -40,7 +40,7 @@ namespace UnoChat.Client
             var themeChanger = Observer.Create<string>(
                 value =>
                 {
-                    if (Enum.TryParse<ElementTheme>(value, out ElementTheme theme) && Window.Current.Content is FrameworkElement frameworkElement)
+                    if (Enum.TryParse<ElementTheme>(value, out ElementTheme theme) && Windows.UI.Xaml.Window.Current.Content is FrameworkElement frameworkElement)
                     {
                         frameworkElement.RequestedTheme = theme;
                     }
@@ -58,22 +58,6 @@ namespace UnoChat.Client
             {
                 _behaviours.Dispose();
                 _behaviours = null;
-            }
-        }
-
-        private void LightButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
-        {
-            if (Window.Current.Content is FrameworkElement frameworkElement)
-            {
-                frameworkElement.RequestedTheme = ElementTheme.Light;
-            }
-        }
-
-        private void DarkButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
-        {
-            if (Window.Current.Content is FrameworkElement frameworkElement)
-            {
-                frameworkElement.RequestedTheme = ElementTheme.Dark;
             }
         }
     }
