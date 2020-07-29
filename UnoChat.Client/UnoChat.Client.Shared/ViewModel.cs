@@ -12,12 +12,15 @@ namespace UnoChat.Client
 {
     public class ViewModel : INotifyPropertyChanged
     {
+        private readonly Guid _id = Guid.NewGuid();
+        private readonly Guid _deviceTypeId = Guid.Empty;
+
         private readonly MVx.Observable.Property<string> _name;
         private readonly MVx.Observable.Property<HubConnectionState> _state;
         private readonly MVx.Observable.Command _connect;
 
-        private readonly MVx.Observable.Property<string> _lastMessageReceived;
-        private readonly MVx.Observable.Property<IEnumerable<string>> _allMessages;
+        private readonly MVx.Observable.Property<Message.Model> _lastMessageReceived;
+        private readonly MVx.Observable.Property<IEnumerable<Message.Model>> _allMessages;
         private readonly MVx.Observable.Property<string> _messageToSend;
         private readonly MVx.Observable.Property<bool> _messageToSendIsEnabled;
         private readonly MVx.Observable.Command _sendMessage;
@@ -38,14 +41,15 @@ namespace UnoChat.Client
             _name = new MVx.Observable.Property<string>(DefaultName, nameof(Name), args => PropertyChanged?.Invoke(this, args));
             _state = new MVx.Observable.Property<HubConnectionState>(HubConnectionState.Disconnected, nameof(State), args => PropertyChanged?.Invoke(this, args));
             _connect = new MVx.Observable.Command();
-            _lastMessageReceived = new MVx.Observable.Property<string>(nameof(LastMessageReceived), args => PropertyChanged?.Invoke(this, args));
-            _allMessages = new MVx.Observable.Property<IEnumerable<string>>(Enumerable.Empty<string>(), nameof(AllMessages), args => PropertyChanged?.Invoke(this, args));
+            _lastMessageReceived = new MVx.Observable.Property<Message.Model>(nameof(LastMessageReceived), args => PropertyChanged?.Invoke(this, args));
+            _allMessages = new MVx.Observable.Property<IEnumerable<Message.Model>>(Enumerable.Empty<Message.Model>(), nameof(AllMessages), args => PropertyChanged?.Invoke(this, args));
             _messageToSend = new MVx.Observable.Property<string>(nameof(MessageToSend), args => PropertyChanged?.Invoke(this, args));
             _messageToSendIsEnabled = new MVx.Observable.Property<bool>(false, nameof(MessageToSendIsEnabled), args => PropertyChanged?.Invoke(this, args));
             _sendMessage = new MVx.Observable.Command();
 
             _connection = new HubConnectionBuilder()
                 .WithUrl("https://unochatservice20200716114254.azurewebsites.net/ChatHub")
+                //.WithUrl("http://localhost:61877")
                 .WithAutomaticReconnect()
                 .Build();
         }
@@ -86,11 +90,26 @@ namespace UnoChat.Client
         private IDisposable ShouldListenForNewMessagesFromTheService()
         {
             return Observable
-                .Create<string>(
+                .Create<Message.Model>(
                     observer =>
                     {
-                        Action<string, string> onReceiveMessage =
-                            (user, message) => observer.OnNext($"{user}: {message}");
+                        Action<DateTimeOffset, DateTimeOffset, Guid, string, Guid, string> onReceiveMessage =
+                            (sentAt, relayedAt, userId, userName, deviceTypeId, message) => observer.OnNext(
+                                new Message.Model
+                                {
+                                    Sender = new Message.Sender
+                                    {
+                                        Id = userId,
+                                        Name = userName,
+                                        DeviceTypeId = deviceTypeId,
+                                        IsMe = userId == _id
+                                    },
+                                    Text = message,
+                                    SentAt = sentAt,
+                                    RelayedAt = relayedAt,
+                                    ReceivedAt = DateTimeOffset.UtcNow
+                                }
+                            );
 
                         return _connection.On("ReceiveMessage", onReceiveMessage);
                     })
@@ -101,7 +120,7 @@ namespace UnoChat.Client
         private IDisposable ShouldAddNewMessagesToAllMessages()
         {
             return _lastMessageReceived
-                .Where(message => !string.IsNullOrWhiteSpace(message))
+                .Where(message => message != null)
                 .WithLatestFrom(_allMessages, (message, messages) => messages.Concat(message).ToArray())
                 .Subscribe(_allMessages);
         }
@@ -116,13 +135,13 @@ namespace UnoChat.Client
         private IDisposable ShouldSendMessageToServiceThenClearSentMessage(IObservable<object> messageToSendBoxReturn)
         {
             var namedMessage = Observable
-                .CombineLatest(_name, _messageToSend, (name, message) => (Name: name, Message: message));
+                .CombineLatest(_name, _messageToSend, (name, message) => (Id: _id, Name: name, DeviceTypeId: _deviceTypeId, Message: message));
 
             return Observable.Merge(_sendMessage, messageToSendBoxReturn)
                 .WithLatestFrom(namedMessage, (_, tuple) => tuple)
                 .Where(tuple => !string.IsNullOrEmpty(tuple.Message))
                 .SelectMany(tuple => Observable
-                    .StartAsync(() => _connection.InvokeAsync("SendMessage", tuple.Name, tuple.Message)))
+                    .StartAsync(() => _connection.InvokeAsync("SendMessage", DateTimeOffset.UtcNow, tuple.Id, tuple.Name, tuple.DeviceTypeId, tuple.Message)))
                 .Select(_ => string.Empty)
                 .ObserveOn(Schedulers.Dispatcher)
                 .Subscribe(_messageToSend);
@@ -150,9 +169,9 @@ namespace UnoChat.Client
 
         public HubConnectionState State => _state.Get();
 
-        public string LastMessageReceived => _lastMessageReceived.Get();
+        public Message.Model LastMessageReceived => _lastMessageReceived.Get();
 
-        public IEnumerable<string> AllMessages => _allMessages.Get();
+        public IEnumerable<Message.Model> AllMessages => _allMessages.Get();
 
         public string MessageToSend
         {
