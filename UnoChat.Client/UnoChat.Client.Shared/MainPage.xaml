@@ -15,22 +15,63 @@
     </Page.Resources>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="Auto"/>
-        </Grid.ColumnDefinitions>
-        <TextBlock Text="Name:" Style="{StaticResource BaseTextBlockStyle}" Grid.Row="0" Grid.Column="0" Margin="4" VerticalAlignment="Center" />
-        <TextBox Text="{Binding Path=Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Row="0" Grid.Column="1" Margin="4"/>
-        <Button Command="{Binding Path=Connect}" Content="Connect" Grid.Row="0" Grid.Column="2" Margin="4" Padding="16,4" HorizontalAlignment="Stretch"/>
-        <ItemsControl ItemsSource="{Binding Path=AllMessages}" Grid.Row="1" Grid.ColumnSpan="3" Margin="4" ItemTemplateSelector="{StaticResource MessageTemplateSelector}" />
-        <TextBlock Text="Message:" Style="{StaticResource BaseTextBlockStyle}" Grid.Row="2" Grid.Column="0" Margin="4" VerticalAlignment="Center"/>
-        <TextBox x:Name="MessageToSendTextBox" Text="{Binding Path=MessageToSend, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding Path=MessageToSendIsEnabled}" Grid.Row="2" Grid.Column="1" Margin="4"/>
-        <Button Command="{Binding Path=SendMessage}" Content="Send" Grid.Row="2" Grid.Column="2" Margin="4" Padding="16,4" HorizontalAlignment="Stretch"/>
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="StateGroup">
+                <VisualState x:Name="SignInState">
+                    <VisualState.StateTriggers>
+                        <StateTrigger IsActive="{Binding Path=State, Mode=OneWay, Converter={StaticResource StringEqualityConverter}, ConverterParameter=SignIn}" />
+                    </VisualState.StateTriggers>
+                </VisualState>
+                <VisualState x:Name="ConnectingState">
+                    <VisualState.Setters>
+                        <Setter Target="SignInGrid.(UIElement.Visibility)" Value="Collapsed"/>
+                        <Setter Target="ConnectingGrid.(UIElement.Visibility)" Value="Visible"/>
+                    </VisualState.Setters>
+                    <VisualState.StateTriggers>
+                        <StateTrigger IsActive="{Binding Path=State, Mode=OneWay, Converter={StaticResource StringEqualityConverter}, ConverterParameter=Connecting}" />
+                    </VisualState.StateTriggers>
+                </VisualState>
+                <VisualState x:Name="ChattingState">
+                    <VisualState.Setters>
+                        <Setter Target="SignInGrid.(UIElement.Visibility)" Value="Collapsed"/>
+                        <Setter Target="ChattingGrid.(UIElement.Visibility)" Value="Visible"/>
+                    </VisualState.Setters>
+                    <VisualState.StateTriggers>
+                        <StateTrigger IsActive="{Binding Path=State, Mode=OneWay, Converter={StaticResource StringEqualityConverter}, ConverterParameter=Chatting}" />
+                    </VisualState.StateTriggers>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+
+        <Grid x:Name="SignInGrid" Width="320" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Image Source="ms-appx:///Assets/UnoPlatformLogo.png" Width="160" Margin="32" />
+            <TextBox Grid.Row="1" PlaceholderText="Name" Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="4"/>
+            <Button Grid.Row="2" Command="{Binding Connect}" Content="Connect" Margin="4" Padding="16,4" HorizontalAlignment="Center"/>
+        </Grid>
+
+        <Grid x:Name="ConnectingGrid" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed">
+            
+        </Grid>
+
+        <Grid x:Name="ChattingGrid" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Visibility="Collapsed">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <ItemsControl ItemsSource="{Binding AllMessages}" Grid.Row="0" Grid.ColumnSpan="3" Margin="4" ItemTemplateSelector="{StaticResource MessageTemplateSelector}" />
+            <TextBlock Text="Message:" Style="{StaticResource BaseTextBlockStyle}" Grid.Row="1" Grid.Column="0" Margin="4" VerticalAlignment="Center"/>
+            <TextBox x:Name="MessageToSendTextBox" Text="{Binding MessageToSend, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding MessageToSendIsEnabled}" Grid.Row="1" Grid.Column="1" Margin="4"/>
+            <Button Command="{Binding SendMessage}" Content="Send" Grid.Row="1" Grid.Column="2" Margin="4" Padding="16,4" HorizontalAlignment="Stretch"/>
+        </Grid>
     </Grid>
 </Page>

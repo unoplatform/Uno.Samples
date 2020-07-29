@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.Design;
 using System.Linq;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
@@ -10,13 +11,21 @@ using Uno.Extensions;
 
 namespace UnoChat.Client
 {
+    public enum State
+    {
+        SignIn,
+        Connecting,
+        Chatting
+    }
+
     public class ViewModel : INotifyPropertyChanged
     {
         private readonly Guid _id = Guid.NewGuid();
         private readonly Guid _deviceTypeId = Guid.Empty;
 
+        private readonly MVx.Observable.Property<State> _state;
         private readonly MVx.Observable.Property<string> _name;
-        private readonly MVx.Observable.Property<HubConnectionState> _state;
+        private readonly MVx.Observable.Property<HubConnectionState> _hubState;
         private readonly MVx.Observable.Command _connect;
 
         private readonly MVx.Observable.Property<Message.Model> _lastMessageReceived;
@@ -38,8 +47,9 @@ namespace UnoChat.Client
 
         public ViewModel()
         {
+            _state = new MVx.Observable.Property<State>(State.SignIn, nameof(State), args => PropertyChanged?.Invoke(this, args));
             _name = new MVx.Observable.Property<string>(DefaultName, nameof(Name), args => PropertyChanged?.Invoke(this, args));
-            _state = new MVx.Observable.Property<HubConnectionState>(HubConnectionState.Disconnected, nameof(State), args => PropertyChanged?.Invoke(this, args));
+            _hubState = new MVx.Observable.Property<HubConnectionState>(HubConnectionState.Disconnected, nameof(HubState), args => PropertyChanged?.Invoke(this, args));
             _connect = new MVx.Observable.Command();
             _lastMessageReceived = new MVx.Observable.Property<Message.Model>(nameof(LastMessageReceived), args => PropertyChanged?.Invoke(this, args));
             _allMessages = new MVx.Observable.Property<IEnumerable<Message.Model>>(Enumerable.Empty<Message.Model>(), nameof(AllMessages), args => PropertyChanged?.Invoke(this, args));
@@ -56,7 +66,7 @@ namespace UnoChat.Client
 
         private IDisposable ShouldEnableConnectWhenNotConnected()
         {
-            return _state
+            return _hubState
                 .Select(state => state == HubConnectionState.Disconnected)
                 .ObserveOn(Schedulers.Dispatcher)
                 .Subscribe(_connect);
@@ -64,7 +74,7 @@ namespace UnoChat.Client
 
         private IDisposable ShouldEnableMessageToSendWhenConnected()
         {
-            return _state
+            return _hubState
                 .Select(state => state == HubConnectionState.Connected)
                 .Subscribe(_messageToSendIsEnabled);
         }
@@ -74,10 +84,33 @@ namespace UnoChat.Client
             return _connect
                 .SelectMany(_ => Observable
                     .StartAsync(async () =>
-                    {
-                        await _connection.StartAsync();
-                        return _connection.State;
-                    }))
+                        {
+                            await _connection.StartAsync();
+                            return _connection.State;
+                        })
+                    .StartWith(HubConnectionState.Connecting))
+                .ObserveOn(Schedulers.Dispatcher)
+                .Subscribe(_hubState);
+        }
+
+        private static State? MapToState(HubConnectionState state)
+        {
+            return state switch
+            {
+                HubConnectionState.Disconnected => State.SignIn,
+                HubConnectionState.Connecting => State.Connecting,
+                HubConnectionState.Connected => State.Chatting,
+                HubConnectionState.Reconnecting => State.Connecting,
+                _ => null
+            };
+        }
+
+        private IDisposable ShouldUpdateStateWhenHubStateChanges()
+        {
+            return _hubState
+                .Select(MapToState)
+                .Where(newState => newState.HasValue)
+                .Select(newState => newState.Value)
                 .ObserveOn(Schedulers.Dispatcher)
                 .Subscribe(_state);
         }
@@ -128,7 +161,7 @@ namespace UnoChat.Client
         private IDisposable ShouldEnableSendMessageWhenConnectedAndBothNameAndMessageToSendAreNotEmpty()
         {
             return Observable
-                .CombineLatest(_state, _name, _messageToSend, (state, name, message) => state == HubConnectionState.Connected && !(string.IsNullOrWhiteSpace(name) || string.IsNullOrWhiteSpace(message)))
+                .CombineLatest(_hubState, _name, _messageToSend, (state, name, message) => state == HubConnectionState.Connected && !(string.IsNullOrWhiteSpace(name) || string.IsNullOrWhiteSpace(message)))
                 .Subscribe(_sendMessage);
         }
 
@@ -150,6 +183,7 @@ namespace UnoChat.Client
         public IDisposable Activate(IObservable<object> messageToSendBoxReturn)
         {
             return new CompositeDisposable(
+                ShouldUpdateStateWhenHubStateChanges(),
                 ShouldEnableConnectWhenNotConnected(),
                 ShouldEnableMessageToSendWhenConnected(),
                 ShouldConnectToServiceWhenConnectInvoked(),
@@ -167,7 +201,9 @@ namespace UnoChat.Client
             set => _name.Set(value);
         }
 
-        public HubConnectionState State => _state.Get();
+        public State State => _state.Get();
+
+        public HubConnectionState HubState => _hubState.Get();
 
         public Message.Model LastMessageReceived => _lastMessageReceived.Get();
 
