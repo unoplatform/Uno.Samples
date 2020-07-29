@@ -15,6 +15,7 @@
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
+    <Content Include="..\UnoChat.Client.Animations\connecting.json" Link="Animations\connecting.json" />
     <Content Include="Assets\SplashScreen.png" />
   </ItemGroup>
   <ItemGroup>
@@ -42,9 +43,13 @@
     <PackageReference Include="Microsoft.Extensions.Logging.Filter" Version="1.1.1" />
     <PackageReference Include="MVx.Observable" Version="2.0.0" />
     <PackageReference Include="Uno.UI" Version="2.4.4" />
+    <PackageReference Include="Uno.UI.Lottie" Version="2.4.4" />
     <PackageReference Include="Uno.UI.RemoteControl" Version="2.4.4" Condition="'$(Configuration)'=='Debug'" />
-    <PackageReference Include="Uno.Wasm.Bootstrap" Version="1.3.0" />
+    <PackageReference Include="Uno.Wasm.Bootstrap" Version="1.2.0" />
     <PackageReference Include="Uno.Wasm.Bootstrap.DevServer" Version="1.3.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Animations\" />
   </ItemGroup>
   <Import Project="..\UnoChat.Client.Shared\UnoChat.Client.Shared.projitems" Label="Shared" Condition="Exists('..\UnoChat.Client.Shared\UnoChat.Client.Shared.projitems')" />
 </Project>

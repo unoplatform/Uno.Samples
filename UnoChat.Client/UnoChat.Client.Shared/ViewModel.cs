@@ -88,6 +88,8 @@ namespace UnoChat.Client
                             await _connection.StartAsync();
                             return _connection.State;
                         })
+                    // Ensure the transition takes at least three seconds so the user sees the connecting animation
+                    .Zip(Observable.Interval(TimeSpan.FromSeconds(3), Schedulers.Default), (state, _) => state) 
                     .StartWith(HubConnectionState.Connecting))
                 .ObserveOn(Schedulers.Dispatcher)
                 .Subscribe(_hubState);
