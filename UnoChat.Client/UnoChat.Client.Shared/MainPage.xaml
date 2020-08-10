@@ -49,7 +49,7 @@
         <Grid x:Name="SignInGrid" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
             <Grid.RowDefinitions>
                 <RowDefinition Height="0.3*"/>
-                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="320"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="0.2*"/>
@@ -57,10 +57,10 @@
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="0.4*"/>
-                <ColumnDefinition Width="0.2*" MinWidth="320"/>
+                <ColumnDefinition Width="320" />
                 <ColumnDefinition Width="0.4*"/>
             </Grid.ColumnDefinitions>
-            <winui:AnimatedVisualPlayer Grid.Column="1" Margin="32" Grid.Row="1">
+            <winui:AnimatedVisualPlayer Grid.Column="1" Grid.Row="1">
                 <lottie:LottieVisualSource UriSource="ms-appx:///Animations/chat.json" />
             </winui:AnimatedVisualPlayer>
             <Button Grid.Row="3" Grid.Column="1" Command="{Binding Connect}" Content="Connect" Margin="4" Padding="16,4" HorizontalAlignment="Center"/>
