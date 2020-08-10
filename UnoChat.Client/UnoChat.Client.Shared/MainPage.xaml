@@ -60,7 +60,9 @@
                 <ColumnDefinition Width="0.2*" MinWidth="320"/>
                 <ColumnDefinition Width="0.4*"/>
             </Grid.ColumnDefinitions>
-            <Image Grid.Row="1" Grid.Column="1" Source="ms-appx:///Assets/UnoPlatformLogo.png" Width="160" Height="160" Margin="32" />
+            <winui:AnimatedVisualPlayer Grid.Column="1" Margin="32" Grid.Row="1">
+                <lottie:LottieVisualSource UriSource="ms-appx:///Animations/chat.json" />
+            </winui:AnimatedVisualPlayer>
             <Button Grid.Row="3" Grid.Column="1" Command="{Binding Connect}" Content="Connect" Margin="4" Padding="16,4" HorizontalAlignment="Center"/>
             <TextBox Grid.Row="2" Grid.Column="1" PlaceholderText="Name" Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="4"/>
             <controls:Cogenity Grid.Row="5" Grid.Column="1" Margin="16" />
