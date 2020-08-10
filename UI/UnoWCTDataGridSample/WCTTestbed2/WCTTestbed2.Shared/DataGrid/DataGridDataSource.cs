@@ -20,6 +20,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Data
     [Bindable]
     public class DataGridDataSource
     {
+        public ObservableCollection<DataGridDataItem> Items { get; set; }
         private static ObservableCollection<DataGridDataItem> _items;
         private static List<string> _mountains;
         private static CollectionViewSource groupedItems;
@@ -28,41 +29,109 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Data
         // Loading data
         public async Task<IEnumerable<DataGridDataItem>> GetDataAsync()
         {
-            using (var stream = await StreamHelperEx.GetEmbeddedFileStreamAsync(GetType(), "mtns.csv"))
+            //            using (var stream = await StreamHelperEx.GetEmbeddedFileStreamAsync(GetType(), "mtns.csv"))
+            //            {
+            //                var list = new List<DataGridDataItem>();
+
+            //                using (var sr = new StreamReader(stream))
+            //                {
+            //                    while (!sr.EndOfStream)
+            //                    {
+            //                        string line = sr.ReadLine();
+            //                        string[] values = line.Split(',');
+
+            //                        list.Add(
+            //                            new DataGridDataItem()
+            //                            {
+            //                                Rank = uint.Parse(values[0]),
+            //                                Mountain = values[1],
+            //                                Height_m = uint.Parse(values[2]),
+            //                                Range = values[3],
+            //                                Coordinates = values[4],
+            //                                Prominence = uint.Parse(values[5]),
+            //                                Parent_mountain = values[6],
+            //                                First_ascent = uint.Parse(values[7]),
+            //                                Ascents = values[8]
+            //                            });
+            //                    }
+            //                }
+
+            //                _items = new ObservableCollection<DataGridDataItem>(
+            //                    list
+            ////#if true //__WASM__ // Uncomment this line to load the sample faster in WASM interpreted mode
+            ////                    .Take(5)
+            ////#endif
+            //                );
+            //                return _items;
+            //            }
+
+            var list = new List<DataGridDataItem>()
             {
-                var list = new List<DataGridDataItem>();
-
-                using (var sr = new StreamReader(stream))
+                new DataGridDataItem()
                 {
-                    while (!sr.EndOfStream)
-                    {
-                        string line = sr.ReadLine();
-                        string[] values = line.Split(',');
-
-                        list.Add(
-                            new DataGridDataItem()
-                            {
-                                Rank = uint.Parse(values[0]),
-                                Mountain = values[1],
-                                Height_m = uint.Parse(values[2]),
-                                Range = values[3],
-                                Coordinates = values[4],
-                                Prominence = uint.Parse(values[5]),
-                                Parent_mountain = values[6],
-                                First_ascent = uint.Parse(values[7]),
-                                Ascents = values[8]
-                            });
-                    }
+                    Rank = 1,
+                    Mountain = "Pico",
+                    Range = "High",
+                    Coordinates = "50,25",
+                    Prominence = 100,
+                    Parent_mountain = "Pico Again",
+                    First_ascent = 5,
+                    Ascents = string.Empty,
+                    Height_m = 500
+                },
+                new DataGridDataItem()
+                {
+                    Rank = 2,
+                    Mountain = "Pico",
+                    Range = "High",
+                    Coordinates = "50,25",
+                    Prominence = 100,
+                    Parent_mountain = "Pico Again",
+                    First_ascent = 5,
+                    Ascents = string.Empty,
+                    Height_m = 500
+                },
+                new DataGridDataItem()
+                {
+                    Rank = 3,
+                    Mountain = "Pico",
+                    Range = "High",
+                    Coordinates = "50,25",
+                    Prominence = 100,
+                    Parent_mountain = "Pico Again",
+                    First_ascent = 5,
+                    Ascents = string.Empty,
+                    Height_m = 500
+                },
+                new DataGridDataItem()
+                {
+                    Rank = 4,
+                    Mountain = "Pico",
+                    Range = "High",
+                    Coordinates = "50,25",
+                    Prominence = 100,
+                    Parent_mountain = "Pico Again",
+                    First_ascent = 5,
+                    Ascents = string.Empty,
+                    Height_m = 500
+                },
+                new DataGridDataItem()
+                {
+                    Rank = 5,
+                    Mountain = "Pico",
+                    Range = "High",
+                    Coordinates = "50,25",
+                    Prominence = 100,
+                    Parent_mountain = "Pico Again",
+                    First_ascent = 5,
+                    Ascents = string.Empty,
+                    Height_m = 500
                 }
+            };
 
-                _items = new ObservableCollection<DataGridDataItem>(
-                    list
-//#if true //__WASM__ // Uncomment this line to load the sample faster in WASM interpreted mode
-//                    .Take(5)
-//#endif
-                );
-                return _items;
-            }
+            _items = Items = new ObservableCollection<DataGridDataItem>(list);
+
+            return _items;
         }
 
         // Load mountains into separate collection for use in combobox column

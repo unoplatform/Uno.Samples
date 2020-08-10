@@ -23,18 +23,18 @@ namespace WCTTestbed2
 	/// </summary>
 	public sealed partial class MainPage : Page
 	{
-        private DataGridDataSource viewModel = new DataGridDataSource();
+        public DataGridDataSource ViewModel { get; private set; } = new DataGridDataSource();
 		
 		public MainPage()
 		{
 			this.InitializeComponent();
 
-			Loading += MainPage_Loading;
+            Loaded += MainPage_Loaded;
 		}
 
-		private async void MainPage_Loading(object sender, object args)
-		{
-			dataGrid.ItemsSource = await viewModel.GetDataAsync();
+        private async void MainPage_Loaded(object sender, RoutedEventArgs e)
+        {
+			dataGrid.ItemsSource = await ViewModel.GetDataAsync();
 		}
 	}
 }
