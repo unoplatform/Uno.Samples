@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.SignalR.Client;
+﻿using System;
+using Microsoft.AspNetCore.SignalR.Client;
 using System.Threading.Tasks;
 
 namespace UnoChat.Client.Console
@@ -13,6 +14,9 @@ namespace UnoChat.Client.Console
 
             var name = Console.ReadLine();
 
+            var id = Guid.NewGuid();
+            var deviceTypeId = Guid.Empty;
+
             Console.WriteLine($"Ok {name} one second, we're going to connect to the SignalR server...");
 
             var connection = new HubConnectionBuilder()
@@ -20,7 +24,19 @@ namespace UnoChat.Client.Console
                 .WithAutomaticReconnect()
                 .Build();
 
-            connection.On<string, string>("ReceiveMessage", (user, message) => Console.WriteLine($"{user}: {message}"));
+            void OnMessageReceived(DateTimeOffset sentAt, DateTimeOffset relayedAt, Guid userId, string userName, Guid deviceTypeId, string message)
+            {
+                if (userId == id)
+                {
+                    Console.WriteLine("sent!");
+                }
+                else
+                {
+                    Console.WriteLine($"{userName}: {message}");
+                }
+            }
+
+            connection.On<DateTimeOffset, DateTimeOffset, Guid, string, Guid, string>("ReceiveMessage", OnMessageReceived);
 
             await connection.StartAsync();
 
@@ -30,7 +46,7 @@ namespace UnoChat.Client.Console
             {
                 var message = Console.ReadLine();
 
-                await connection.InvokeAsync("SendMessage", name, message);
+                await connection.InvokeAsync("SendMessage", DateTimeOffset.UtcNow, id, name, deviceTypeId, message);
             }
         }
     }
