@@ -1,5 +1,6 @@
 steps:
 - pwsh: |
+    git merge origin/master -s recursive -X theirs
     $savedMSBuildExtensionsPath = $env:MSBuildExtensionsPath
     $env:MSBuildExtensionsPath = 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\MSBuild'
     dotnet new sln --name=Uno.Samples.generated
@@ -16,8 +17,7 @@ steps:
     solution: Uno.Samples.generated.sln
     usePrivateFeed: false
     useNuGetOrg: true
-    mergeBranch: true
-    branchToMerge: 'master'
+    mergeBranch: false
     nugetUpdaterVersion: '2.1.1'
     allowDowngrade: true
     packageAuthor: 'nventive'
