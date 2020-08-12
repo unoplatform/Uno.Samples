@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <WasmHead>true</WasmHead>
+    <DefineConstants>$(DefineConstants);__WASM__</DefineConstants>
+    <NoWarn>NU1701</NoWarn>
+  </PropertyGroup>
+  <ItemGroup>
+    <Content Include="..\MapControlSample.UWP\Assets\*.png" Link="Assets\%(FileName)%(Extension)" />
+    <Content Include="Fonts\winjs-symbols.woff2" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="WasmCSS\Fonts.css" />
+    <EmbeddedResource Include="WasmScripts\AppManifest.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <LinkerDescriptor Include="LinkerConfig.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <!-- 
+    This item group is required by the project templace because of the
+    new SDK-Style project, otherwise some files are not aded automatically.
+    
+    You can safely this ItemGroup completely.
+    -->
+    <Compile Remove="Program.cs" />
+    <Compile Include="Program.cs" />
+    <Content Include="LinkerConfig.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Uno.UI" Version="2.4.4" />
+    <PackageReference Include="Uno.Wasm.Bootstrap" Version="1.3.0" />
+  </ItemGroup>
+  <Import Project="..\MapControlSample.Shared\MapControlSample.Shared.projitems" Label="Shared" Condition="Exists('..\MapControlSample.Shared\MapControlSample.Shared.projitems')" />
+</Project>

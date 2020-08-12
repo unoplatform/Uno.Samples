@@ -1,0 +1,25 @@
+steps:
+- pwsh: |
+    git merge origin/master -s recursive -X theirs
+    $savedMSBuildExtensionsPath = $env:MSBuildExtensionsPath
+    $env:MSBuildExtensionsPath = 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\MSBuild'
+    dotnet new sln --name=Uno.Samples.generated
+    dotnet sln Uno.Samples.generated.sln add (Get-ChildItem -Recurse *.csproj)
+    $env:MSBuildExtensionsPath = $savedMSBuildExtensionsPath
+
+- task: UseDotNet@2
+  inputs:
+    packageType: 'runtime'
+    version: '2.2.0'
+
+- task: nventiveCanaryUpdater@5
+  inputs:
+    solution: Uno.Samples.generated.sln
+    usePrivateFeed: false
+    useNuGetOrg: true
+    mergeBranch: false
+    nugetUpdaterVersion: '2.1.1'
+    allowDowngrade: true
+    packageAuthor: 'nventive'
+    summaryFile: '$(Build.ArtifactStagingDirectory)/Summary.md'
+    resultFile: '$(Build.ArtifactStagingDirectory)/Results.json'
