@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType Condition="'$(Configuration)'=='Release'">WinExe</OutputType>
+    <OutputType Condition="'$(Configuration)'=='Debug'">Exe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="..\ToyCar.UWP\Package.appxmanifest" LogicalName="Package.appxmanifest" />
+    <Content Include="..\ToyCar.UWP\Assets\StoreLogo.png" Link="Assets\StoreLogo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <UpToDateCheckInput Include="..\ToyCar.Shared\**\*.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <!-- Note that for WebAssembly version 1.1.1 of the console logger required -->
+    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="1.1.1" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Filter" Version="1.1.1" />
+    <PackageReference Include="Uno.UI.Skia.Gtk" Version="3.1.0-dev.19" />
+    <PackageReference Include="Uno.UI.RemoteControl" Version="3.1.0-dev.19" Condition="'$(Configuration)'=='Debug'" />
+  </ItemGroup>
+  <Import Project="..\ToyCar.Shared\ToyCar.Shared.projitems" Label="Shared" />
+</Project>
