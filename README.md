@@ -40,13 +40,18 @@ An example of a toggle that allows you to switch between Native UI Controls and 
 ### SkiaSharp Test  
 An example of the Uno implementation of SkiaSharp creating a basic canvas with text.
 
+### ToyCar
+A proof of concept of a car animation using the `TwoPaneView` control spanned accross dual screens (such as Neo or Duo dual screen devices for example).
+Inspiration from Justin Liu's [demo app](https://twitter.com/justinxinliu/status/1281123335410049027).
+
 ### SQLite  
 This is a simple standalone app demonstrating the use of SQLite in an Uno application, including WebAssembly. It uses Erik Sink's [SQLitePCLRaw](https://github.com/ericsink/SQLitePCL.raw), and Frank Krueger's [sqlite-net](https://github.com/praeclarum/sqlite-net) libraries.
 
 ### WCT DataGrid  
 A dynamic grid view ported from the Windows Community Toolkit that allows for x:Bind. 
 
-### WCT TabView  
+### WCT TabView
 Ported from the Windows Community Toolkit, this sample shows an implementation of a `TabViewItem` in a shared container.
+
 =======
 Visit [our documentation](https://github.com/unoplatform/uno/blob/master/doc/articles/intro.md) for more details.
