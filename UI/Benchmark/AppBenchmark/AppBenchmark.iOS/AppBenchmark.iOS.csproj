@@ -9,8 +9,7 @@
     <RootNamespace>AppBenchmark</RootNamespace>
     <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
     <AssemblyName>AppBenchmark</AssemblyName>
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
+    <NuGetPackageImportStamp></NuGetPackageImportStamp>
     <ResourcesDirectory>..\AppBenchmark.Shared\Strings</ResourcesDirectory>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhoneSimulator' ">
@@ -121,10 +120,10 @@
     <PackageReference Include="BenchmarkDotNet.Annotations">
       <Version>0.11.4-develop</Version>
     </PackageReference>
-    <PackageReference Include="Uno.UI" Version="2.3.0-dev.11" />
-    <PackageReference Include="Uno.UI.RemoteControl" Version="2.3.0-dev.11" Condition="'$(Configuration)'=='Debug'" />
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="1.1.1" />
     <PackageReference Include="Microsoft.Extensions.Logging.Filter" Version="1.1.1" />
+    <PackageReference Include="Uno.UI" Version="3.0.17" />
+    <PackageReference Include="Uno.UI.RemoteControl" Version="3.0.17" Condition="'$(Configuration)'=='Debug'" />
   </ItemGroup>
   <ItemGroup>
     <ImageAsset Include="Media.xcassets\AppIcons.appiconset\Contents.json">
@@ -158,38 +157,26 @@
   <ItemGroup />
   <Import Project="..\AppBenchmark.Shared\AppBenchmark.Shared.projitems" Label="Shared" Condition="Exists('..\AppBenchmark.Shared\AppBenchmark.Shared.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
-
-	<Target Name="VS16Mac_RemoveSystemMemory" BeforeTargets="ResolveAssemblyReferences">
-		<!--
+  <Target Name="VS16Mac_RemoveSystemMemory" BeforeTargets="ResolveAssemblyReferences">
+    <!--
 				VS4Mac seems to process System.Memory differently, and removes
 				the System.Memory local reference if the package is transitively referenced.
 				We remove the Reference added by the nuget targets so that ResolveAssemblyReferences
 				is properly adding the local System.Memory to the Reference item group.
 		-->
-		<ItemGroup>
-			<_ReferenceToRemove
-        Include="@(Reference)"
-        Condition="'%(Reference.Identity)'=='System.Memory'" />
-			<_ReferenceToRemove
-        Include="@(Reference)"
-        Condition="'%(Reference.Identity)'=='System.Reflection.Emit'" />
-			<Reference Remove="@(_ReferenceToRemove)" />
-			<Reference Include="System.Memory"/>
-			<Reference Include="System.Reflection.Emit"/>
-		</ItemGroup>
-	</Target>
-
-	<Target
-    Name="VS16_RemoveSystemMemory"
-    BeforeTargets="FindReferenceAssembliesForReferences">
-		<ItemGroup>
-			<_ReferencePathToRemove
-        Include="@(ReferencePath)"
-        Condition="'%(ReferencePath.NuGetPackageId)'=='System.Memory'" />
-			<_ReferencePathToRemove
-        Include="@(ReferencePath)"
-        Condition="'%(ReferencePath.NuGetPackageId)'=='System.Reflection.Emit'" />
-			<ReferencePath Remove="@(_ReferencePathToRemove)" />
-		</ItemGroup>
-	</Target>
+    <ItemGroup>
+      <_ReferenceToRemove Include="@(Reference)" Condition="'%(Reference.Identity)'=='System.Memory'" />
+      <_ReferenceToRemove Include="@(Reference)" Condition="'%(Reference.Identity)'=='System.Reflection.Emit'" />
+      <Reference Remove="@(_ReferenceToRemove)" />
+      <Reference Include="System.Memory" />
+      <Reference Include="System.Reflection.Emit" />
+    </ItemGroup>
+  </Target>
+  <Target Name="VS16_RemoveSystemMemory" BeforeTargets="FindReferenceAssembliesForReferences">
+    <ItemGroup>
+      <_ReferencePathToRemove Include="@(ReferencePath)" Condition="'%(ReferencePath.NuGetPackageId)'=='System.Memory'" />
+      <_ReferencePathToRemove Include="@(ReferencePath)" Condition="'%(ReferencePath.NuGetPackageId)'=='System.Reflection.Emit'" />
+      <ReferencePath Remove="@(_ReferencePathToRemove)" />
+    </ItemGroup>
+  </Target>
 </Project>
