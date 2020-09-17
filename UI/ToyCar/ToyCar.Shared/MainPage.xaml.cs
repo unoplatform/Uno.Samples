@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
+using Windows.Devices.Sensors;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -20,7 +23,12 @@ namespace ToyCar
 	{
 		private TranslateTransform dragUpperTranslation;
 		private TranslateTransform dragLowerTranslation;
-		private bool isAnimationStarted = false;
+		private bool isSceneAnimationStarted = false;
+		private bool isCarAnimationStarted = false;
+		private double previousAngle = 0.0;
+		private double leftSideThresholdRatio = 0.1;
+		private double rightSideThresholdRatio = 0.65;
+		private HingeAngleSensor hinge;
 
 		public MainPage()
 		{
@@ -45,6 +53,31 @@ namespace ToyCar
 			Unloaded += OnUnloaded;
 		}
 
+		protected override async void OnNavigatedTo(NavigationEventArgs e)
+		{
+			base.OnNavigatedTo(e);
+			await InitializeAsync();
+		}
+
+		public async Task InitializeAsync()
+		{
+			//Asynchronously retrieves the default hinge angle sensor.
+			hinge = await HingeAngleSensor.GetDefaultAsync();
+
+			if (hinge != null)
+			{
+				SensorStatus.Content = "HingeAngleSensor created";
+
+				//Listener for the HingeAngleSensor ReadingChanged event.
+				hinge.ReadingChanged += HingeAngleSensor_ReadingChanged;
+			}
+			else
+			{
+				SensorStatus.Content = "HingeAngleSensor not available on this device";
+				AngleValue.Content = "Angle value: Not available";
+			}
+		}
+
 		private void MainRoot_SizeChanged(object sender, SizeChangedEventArgs e)
 		{
 			// Making sure we are resetting the X axis and the Y axis if the MainRoot is resized (Can be reviewed in the long term).
@@ -56,23 +89,24 @@ namespace ToyCar
 			CarStoryboard.Stop();
 
 			// Making sure the scene animation is paused if it was already started.
-			if (isAnimationStarted)
+			if (isSceneAnimationStarted)
 			{
 				SceneStoryboard.Pause();
 			}
 
 			// Ajusting the margins on the right side so it will be at the same level as the margins on the left side.
-			DragLeftCar.Margin = new Thickness(MainRoot.ActualWidth * 0.1, 0, 0, 0);
-			TouchRectangle.Margin = new Thickness(MainRoot.ActualWidth * 0.1, 0, 0, 0);
-			DragRightCar.Margin = new Thickness(-((MainRoot.ActualWidth / 2) - (MainRoot.ActualWidth * 0.1)), 0, 0, 0);
-			FeaturesPanel.Margin = new Thickness(-((MainRoot.ActualWidth / 2) - (MainRoot.ActualWidth * 0.1)) - 180, 0, 0, 0);
+			DragLeftCar.Margin = new Thickness(MainRoot.ActualWidth * leftSideThresholdRatio, 0, 0, 0);
+			TouchRectangle.Margin = new Thickness(MainRoot.ActualWidth * leftSideThresholdRatio, 0, 0, 0);
+			DragRightCar.Margin = new Thickness(-((MainRoot.ActualWidth / 2) - (MainRoot.ActualWidth * leftSideThresholdRatio)), 0, 0, 0);
+			FeaturesPanel.Margin = new Thickness(-((MainRoot.ActualWidth / 2) - (MainRoot.ActualWidth * leftSideThresholdRatio)) - 180, 0, 0, 0);
 		}
 
 		private void OnUnloaded(object sender, RoutedEventArgs e)
 		{
-			// Unsubscribe from SizeChanged and ManipulationDelta events.
+			// Unsubscribe from SizeChanged, ManipulationDelta and ReadingChanged events.
 			MainRoot.SizeChanged -= MainRoot_SizeChanged;
 			TouchRectangle.ManipulationDelta -= TouchRectangle_ManipulationDelta;
+			hinge.ReadingChanged -= HingeAngleSensor_ReadingChanged;
 		}
 
 		// Handler for the ManipulationDelta event.
@@ -88,13 +122,13 @@ namespace ToyCar
 				// Move the upper touch rectangle along the x-axis.
 				dragUpperTranslation.X += e.Delta.Translation.X;
 
-				if (dragUpperTranslation.X >= 0 && dragUpperTranslation.X < (MainRoot.ActualWidth * 0.65))
+				if (dragUpperTranslation.X >= 0 && dragUpperTranslation.X < (MainRoot.ActualWidth * rightSideThresholdRatio))
 				{
 					//Making sure the SketchCar is not bouncing and rotating wheels under this threshold.
 					CarStoryboard.Stop();
 
 					// Making sure the scene animation is paused at the same time if it was already started.
-					if (isAnimationStarted)
+					if (isSceneAnimationStarted)
 					{
 						SceneStoryboard.Pause();
 					}
@@ -103,24 +137,34 @@ namespace ToyCar
 					dragLowerTranslation.X = dragUpperTranslation.X;
 					dragLowerTranslation.Y = dragUpperTranslation.Y;
 				}
-				else if (dragUpperTranslation.X >= (MainRoot.ActualWidth * 0.65))
+				else if (dragUpperTranslation.X >= (MainRoot.ActualWidth * rightSideThresholdRatio))
 				{
 					// Keep the upper rectangle at the same position as the lower rectangle.
 					dragUpperTranslation.X = dragLowerTranslation.X;
 					dragUpperTranslation.Y = dragLowerTranslation.Y;
 
-					//Starting the SketchCar bouncing and rotating wheels animations above the threshold.
-					CarStoryboard.Begin();
+					// Making sure the SketchCar bouncing and rotating wheels animations above the threshold
+					// begin for the first time or correctly being stopped and begin again if already started.
+					if (isCarAnimationStarted)
+					{
+						CarStoryboard.Stop();
+						CarStoryboard.Begin();
+					}
+					else
+					{
+						CarStoryboard.Begin();
+						isCarAnimationStarted = true;
+					}
 
 					// Making sure the scene animation begin for the first time or resume if paused.
-					if (isAnimationStarted)
+					if (isSceneAnimationStarted)
 					{
 						SceneStoryboard.Resume();
 					}
-					else 
-					{ 
+					else
+					{
 						SceneStoryboard.Begin();
-						isAnimationStarted = true;
+						isSceneAnimationStarted = true;
 					}
 				}
 				else
@@ -130,12 +174,83 @@ namespace ToyCar
 					dragUpperTranslation.Y = dragLowerTranslation.Y;
 
 					// Making sure the scene animation is paused at the same time if it was already started.
-					if (isAnimationStarted)
+					if (isSceneAnimationStarted)
 					{
 						SceneStoryboard.Pause();
 					}
 				}
 			}
+		}
+
+		private async void HingeAngleSensor_ReadingChanged(HingeAngleSensor sender, HingeAngleSensorReadingChangedEventArgs args)
+		{
+			await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+			{
+				var angleValue = args.Reading.AngleInDegrees;
+
+				AngleValue.Content = "Angle value: " + angleValue.ToString();
+
+				//Making sure we are not moving again the cars if we are keeping the same angle
+				if (angleValue != previousAngle)
+				{
+					previousAngle = angleValue;
+
+					// When the dual-screen device is half-opened
+					if (angleValue == 180)
+					{
+						//Making sure the SketchCar is not bouncing and rotating wheels.
+						CarStoryboard.Stop();
+
+						// Making sure the scene animation is paused at the same time if it was already started.
+						if (isSceneAnimationStarted)
+						{
+							SceneStoryboard.Pause();
+						}
+
+						// Move the lower cars along the x-axis in the middle of the screen and keeping the same upper y-axis.
+						dragLowerTranslation.X = (MainRoot.ActualWidth / 2) - (MainRoot.ActualWidth * leftSideThresholdRatio) - 100;
+						dragLowerTranslation.Y = dragUpperTranslation.Y;
+
+						// Keep the upper rectangle at the same position as the lower rectangle.
+						dragUpperTranslation.X = dragLowerTranslation.X;
+					}
+					// When the dual-screen device is fully opened, meaning that both screens are facing aware from each other.
+					else if (angleValue == 360)
+					{
+						// Move the lower cars along the x-axis on the right side of the screen and keeping the same upper y-axis.
+						dragLowerTranslation.X = MainRoot.ActualWidth * rightSideThresholdRatio;
+						dragLowerTranslation.Y = dragUpperTranslation.Y;
+
+						// Keep the upper rectangle at the same position as the lower rectangle.
+						dragUpperTranslation.X = dragLowerTranslation.X;
+						dragUpperTranslation.Y = dragLowerTranslation.Y;
+
+						// Making sure the SketchCar bouncing and rotating wheels animations begin for
+						// the first time or correctly being stopped and begin again if already started.
+						if (isCarAnimationStarted)
+						{
+							CarStoryboard.Stop();
+							CarStoryboard.Begin();
+						}
+						else
+						{
+							CarStoryboard.Begin();
+							isCarAnimationStarted = true;
+						}
+
+						// Making sure the scene animation begin for the first time or resume if paused.
+						if (isSceneAnimationStarted)
+						{
+							SceneStoryboard.Resume();
+						}
+						else
+						{
+							SceneStoryboard.Begin();
+							isSceneAnimationStarted = true;
+						}
+					}
+				}
+			});
 		}
 	}
 }

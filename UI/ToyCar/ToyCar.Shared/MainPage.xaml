@@ -13,10 +13,10 @@
 			<TextBlock Margin="0,5"
 					   FontSize="14"
 					   TextWrapping="Wrap"
-					   FontWeight="Medium"
+					   FontWeight="Bold"
 					   FontFamily="{StaticResource QuicksandFontFamily}">
 				<Run Text="• "
-					 Foreground="#D97904" />
+					 Foreground="#67E5AD" />
 				<Run Text="{Binding}" />
 			</TextBlock>
 		</DataTemplate>
@@ -95,15 +95,22 @@
 					<!-- Clouds animation -->
 					<DoubleAnimation From="0"
 									 To="-800"
-									 Duration="0:1:0"
+									 Duration="0:3:0"
 									 RepeatBehavior="Forever"
 									 Storyboard.TargetName="Clouds"
 									 Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)" />
+
+					<!-- Uno Air Balloon animation -->
+					<DoubleAnimation From="0"
+									 To="-500"
+									 Duration="0:1:0"
+									 Storyboard.TargetName="UnoAirBalloon"
+									 Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.Y)" />
 				</Storyboard>
 			</muxc:TwoPaneView.Resources>
 
 			<muxc:TwoPaneView.Pane1>
-				<Grid Background="#E8C444">
+				<Grid Background="#159BFF">
 					<Grid.RowDefinitions>
 						<RowDefinition Height="Auto" />
 						<RowDefinition Height="*" />
@@ -113,10 +120,9 @@
 					<!-- Left NavBar -->
 					<Image Name="LeftNavBar"
 						   Stretch="Uniform"
-						   ManipulationMode="All"
 						   VerticalAlignment="Top"
 						   HorizontalAlignment="Stretch"
-						   Source="ms-appx:///Assets/left-navbar.png" />
+						   Source="ms-appx:///Assets/left-navbar-transparent.png" />
 
 					<!-- Left main content -->
 					<Grid Grid.Row="1"
@@ -160,13 +166,15 @@
 									   FontWeight="Bold"
 									   FontFamily="{StaticResource QuicksandFontFamily}" />
 
-							<ContentControl Content="Sagittis, ullamcorper phasellus ut ultrices"
+							<ContentControl Content="ToyCar animation with hinge angle"
 											ContentTemplate="{StaticResource BulletPointContentTemplate}" />
 
-							<ContentControl Content="Urna sit scelerisque lectus mi"
+							<ContentControl x:Name="SensorStatus"
+											x:DefaultBindMode="TwoWay"
 											ContentTemplate="{StaticResource BulletPointContentTemplate}" />
 
-							<ContentControl Content="Scelerisque fusce nunc bibendum"
+							<ContentControl x:Name="AngleValue"
+											x:DefaultBindMode="TwoWay"
 											ContentTemplate="{StaticResource BulletPointContentTemplate}" />
 						</StackPanel>
 
@@ -178,14 +186,14 @@
 									HorizontalAlignment="Left">
 							<TextBlock Text="Retail"
 									   FontSize="14"
-									   FontWeight="Bold"
+									   FontWeight="ExtraBold"
 									   Foreground="#2F2A25"
 									   VerticalAlignment="Bottom"
 									   FontFamily="{StaticResource QuicksandFontFamily}" />
 
-							<TextBlock FontWeight="Bold"
+							<TextBlock FontWeight="ExtraBold"
 									   Margin="8,0,0,0"
-									   Foreground="#D97904"
+									   Foreground="#67E5AD"
 									   VerticalAlignment="Bottom"
 									   FontFamily="{StaticResource QuicksandFontFamily}">
 								<Run Text="$16"
@@ -225,14 +233,26 @@
 					</Grid>
 
 					<!-- ToyCar -->
-					<Image Name="DragLeftCar"
-						   Grid.Row="2"
-						   Width="220"
-						   Height="120"
-						   Stretch="Fill"
-						   ManipulationMode="All"
-						   HorizontalAlignment="Left"
-						   Source="ms-appx:///Assets/YellowCar.png" />
+					<Grid Name="DragLeftCar"
+						  Grid.Row="2"
+						  Width="220"
+						  Height="120"
+						  VerticalAlignment="Center"
+						  HorizontalAlignment="Left">
+						<Image Width="220"
+							   Height="120"
+							   Stretch="Fill"
+							   HorizontalAlignment="Left"
+							   Source="ms-appx:///Assets/BlueCar.png" />
+
+						<Image Width="25"
+							   Height="25"
+							   Stretch="Fill"
+							   Margin="110,0,0,36"
+							   VerticalAlignment="Bottom"
+							   HorizontalAlignment="Left"
+							   Source="ms-appx:///Assets/UnoLogoSmall.png" />
+					</Grid>
 				</Grid>
 			</muxc:TwoPaneView.Pane1>
 			<muxc:TwoPaneView.Pane2>
@@ -248,7 +268,6 @@
 					<!-- Right NavBar -->
 					<Image Name="RightNavBar"
 						   Stretch="Uniform"
-						   ManipulationMode="All"
 						   VerticalAlignment="Top"
 						   HorizontalAlignment="Stretch"
 						   Source="ms-appx:///Assets/right-navbar.png" />
@@ -264,6 +283,20 @@
 							   VerticalAlignment="Bottom"
 							   HorizontalAlignment="Left"
 							   FontFamily="{StaticResource QuicksandFontFamily}" />
+
+					<!-- Uno Air Balloon -->
+					<Image Name="UnoAirBalloon"
+						   Grid.Row="3"
+						   Width="70"
+						   Margin="220,0,0,20"
+						   Stretch="Uniform"
+						   HorizontalAlignment="Center"
+						   VerticalAlignment="Bottom"
+						   Source="ms-appx:///Assets/uno-air-balloon.png">
+						<Image.RenderTransform>
+							<TranslateTransform />
+						</Image.RenderTransform>
+					</Image>
 
 					<!-- Mountains -->
 					<Path Grid.Row="3"
@@ -285,7 +318,6 @@
 						<Image Name="LeftTree"
 							   Width="32"
 							   Stretch="Uniform"
-							   ManipulationMode="All"
 							   HorizontalAlignment="Left"
 							   Source="ms-appx:///Assets/tree-left.png" />
 
@@ -293,14 +325,12 @@
 							   Width="28"
 							   Margin="100,0,0,0"
 							   Stretch="Uniform"
-							   ManipulationMode="All"
 							   HorizontalAlignment="Left"
 							   Source="ms-appx:///Assets/tree-middle.png" />
 
 						<Image Name="LeftRight"
 							   Width="32"
 							   Stretch="Uniform"
-							   ManipulationMode="All"
 							   HorizontalAlignment="Right"
 							   Source="ms-appx:///Assets/tree-right.png" />
 					</Grid>
@@ -318,8 +348,6 @@
 						<Image Name="BigCloud"
 							   Width="46"
 							   Margin="40,0,0,0"
-							   Stretch="Uniform"
-							   ManipulationMode="All"
 							   HorizontalAlignment="Left"
 							   Source="ms-appx:///Assets/cloud-big.png" />
 
@@ -327,7 +355,6 @@
 							   Width="28"
 							   Margin="150,0,0,0"
 							   Stretch="Uniform"
-							   ManipulationMode="All"
 							   HorizontalAlignment="Left"
 							   Source="ms-appx:///Assets/cloud.png" />
 					</Grid>
@@ -338,7 +365,6 @@
 						   Height="22"
 						   Margin="0,0,100,0"
 						   Stretch="Uniform"
-						   ManipulationMode="All"
 						   VerticalAlignment="Top"
 						   HorizontalAlignment="Right"
 						   Source="ms-appx:///Assets/Sun.png" />
@@ -350,24 +376,34 @@
 						  Height="120"
 						  VerticalAlignment="Center"
 						  HorizontalAlignment="Left">
-						<Image x:Name="SketchCar"
-							   Width="220"
-							   Height="120"
-							   Stretch="Fill"
-							   ManipulationMode="All"
-							   HorizontalAlignment="Left"
-							   Source="ms-appx:///Assets/SketchCarWithoutWheels.png">
-							<Image.RenderTransform>
+						<Grid x:Name="SketchCar"
+							  Width="220"
+							  Height="120"
+							  HorizontalAlignment="Left">
+							<Grid.RenderTransform>
 								<TranslateTransform />
-							</Image.RenderTransform>
-						</Image>
+							</Grid.RenderTransform>
+
+							<Image Width="220"
+								   Height="120"
+								   Stretch="Fill"
+								   HorizontalAlignment="Left"
+								   Source="ms-appx:///Assets/SketchCarWithoutWheels.png" />
+
+							<Image Width="25"
+								   Height="25"
+								   Stretch="Fill"
+								   Margin="110,0,0,36"
+								   VerticalAlignment="Bottom"
+								   HorizontalAlignment="Left"
+								   Source="ms-appx:///Assets/UnoLogoSmallMonochrome.png" />
+						</Grid>
 
 						<Image Name="BackWheel"
 							   Width="50"
 							   Height="50"
 							   Stretch="Fill"
 							   Margin="16,0,0,0"
-							   ManipulationMode="All"
 							   VerticalAlignment="Bottom"
 							   HorizontalAlignment="Left"
 							   RenderTransformOrigin="0.5,0.5"
@@ -382,7 +418,6 @@
 							   Height="50"
 							   Stretch="Fill"
 							   Margin="0,0,20,0"
-							   ManipulationMode="All"
 							   RenderTransformOrigin="0.5,0.5"
 							   VerticalAlignment="Bottom"
 							   HorizontalAlignment="Right"
@@ -405,21 +440,19 @@
 							   Width="184"
 							   Margin="0,12,0,0"
 							   Stretch="Uniform"
-							   ManipulationMode="All"
 							   VerticalAlignment="Top"
 							   HorizontalAlignment="Right"
-							   Source="ms-appx:///Assets/vector-headlamp.png" />
+							   Source="ms-appx:///Assets/new-vector-headlamp.png" />
 
 						<Image x:Name="FeatureHeadlamp"
 							   Width="93"
 							   Margin="110,0,0,0"
 							   Stretch="Uniform"
-							   ManipulationMode="All"
 							   VerticalAlignment="Top"
 							   HorizontalAlignment="Left"
-							   Source="ms-appx:///Assets/feature-card-headlamp.png" />
+							   Source="ms-appx:///Assets/new-feature-card-headlamp.png" />
 
-						<Ellipse Fill="#D97904"
+						<Ellipse Fill="#F85977"
 								 Height="5"
 								 Width="5"
 								 Margin="0,113,0,0"
@@ -431,21 +464,19 @@
 							   Width="160"
 							   Margin="150,70,0,0"
 							   Stretch="Uniform"
-							   ManipulationMode="All"
 							   VerticalAlignment="Top"
 							   HorizontalAlignment="Left"
-							   Source="ms-appx:///Assets/vector-window.png" />
+							   Source="ms-appx:///Assets/new-vector-window.png" />
 
 						<Image x:Name="FeatureWindow"
 							   Width="131"
 							   Margin="0,60,0,0"
 							   Stretch="Uniform"
-							   ManipulationMode="All"
 							   VerticalAlignment="Top"
 							   HorizontalAlignment="Left"
-							   Source="ms-appx:///Assets/feature-card-window.png" />
+							   Source="ms-appx:///Assets/new-feature-card-window.png" />
 
-						<Ellipse Fill="#D97904"
+						<Ellipse Fill="#67E5AD"
 								 Height="5"
 								 Width="5"
 								 Margin="239,88,0,0"
@@ -457,21 +488,19 @@
 							   Width="121"
 							   Margin="165,0,0,20"
 							   Stretch="Uniform"
-							   ManipulationMode="All"
 							   VerticalAlignment="Bottom"
 							   HorizontalAlignment="Left"
-							   Source="ms-appx:///Assets/vector-battery.png" />
+							   Source="ms-appx:///Assets/new-vector-battery.png" />
 
 						<Image x:Name="FeatureBattery"
 							   Width="122"
 							   Margin="30,0,0,10"
 							   Stretch="Uniform"
-							   ManipulationMode="All"
 							   VerticalAlignment="Bottom"
 							   HorizontalAlignment="Left"
-							   Source="ms-appx:///Assets/feature-card-battery.png" />
+							   Source="ms-appx:///Assets/new-feature-card-battery.png" />
 
-						<Ellipse Fill="#D97904"
+						<Ellipse Fill="#7A67F8"
 								 Height="5"
 								 Width="5"
 								 Margin="284,0,0,98"
@@ -484,7 +513,6 @@
 						   Grid.RowSpan="5"
 						   Width="38"
 						   Stretch="Uniform"
-						   ManipulationMode="All"
 						   VerticalAlignment="Center"
 						   HorizontalAlignment="Right"
 						   Source="ms-appx:///Assets/SocialNetworks.png" />
