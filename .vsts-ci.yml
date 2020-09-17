@@ -19,7 +19,7 @@ jobs:
       msbuildLocationMethod: version
       msbuildVersion: latest
       msbuildArchitecture: x86
-      msbuildArguments: /r /p:Configuration=Release "/p:InformationalVersion=$(GitVersion.InformationalVersion)" /detailedsummary
+      msbuildArguments: /r /p:Configuration=Release "/p:InformationalVersion=$(GitVersion.InformationalVersion)" /p:AotAssemblies=false /ds
       clean: false
       maximumCpuCount: true
       restoreNugetPackages: false
