@@ -1,9 +1,7 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <WasmHead>true</WasmHead>
     <DefineConstants>$(DefineConstants);__WASM__</DefineConstants>
     <NoWarn>NU1701</NoWarn>
   </PropertyGroup>
@@ -30,8 +28,12 @@
     <Content Include="LinkerConfig.xml" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Uno.UI" Version="2.3.0-dev.80" />
-    <PackageReference Include="Uno.Wasm.Bootstrap" Version="1.2.0-dev.29" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="1.1.1" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Filter" Version="1.1.1" />
+    <PackageReference Include="Uno.UI.WebAssembly" Version="3.0.17" />
+    <PackageReference Include="Uno.UI.RemoteControl" Version="3.0.17" Condition="'$(Configuration)'=='Debug'" />
+    <PackageReference Include="Uno.Wasm.Bootstrap" Version="1.3.4" />
+    <PackageReference Include="Uno.Wasm.Bootstrap.DevServer" Version="1.3.4" />
   </ItemGroup>
   <Import Project="..\CameraCaptureUISample.Shared\CameraCaptureUISample.Shared.projitems" Label="Shared" Condition="Exists('..\CameraCaptureUISample.Shared\CameraCaptureUISample.Shared.projitems')" />
 </Project>

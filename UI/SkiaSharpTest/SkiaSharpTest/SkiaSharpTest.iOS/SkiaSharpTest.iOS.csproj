@@ -9,8 +9,7 @@
     <RootNamespace>SkiaSharpTest</RootNamespace>
     <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
     <AssemblyName>SkiaSharpTest</AssemblyName>
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
+    <NuGetPackageImportStamp></NuGetPackageImportStamp>
     <ResourcesDirectory>..\SkiaSharpTest.Shared\Strings</ResourcesDirectory>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhoneSimulator' ">
@@ -116,9 +115,12 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Uno.SkiaSharp.Views">
-      <Version>1.68.0-uno.293</Version>
+      <Version>2.80.0-uno.483</Version>
     </PackageReference>
-    <PackageReference Include="Uno.UI" Version="2.3.0-dev.90" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="1.1.1" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Filter" Version="1.1.1" />
+    <PackageReference Include="Uno.UI" Version="3.0.17" />
+    <PackageReference Include="Uno.UI.RemoteControl" Version="3.0.17" Condition="'$(Configuration)'=='Debug'" />
   </ItemGroup>
   <ItemGroup>
     <ImageAsset Include="Media.xcassets\AppIcons.appiconset\Contents.json">
