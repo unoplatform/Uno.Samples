@@ -29,8 +29,11 @@ An implementation of the .NET Benchmark Control, performance comparison tool
 A cross-platform implementation of the UWP `CameraCaptureUI` class that allows the user to capture audio, video, and photos from the device camera. 
 
 ### Control Library  
-An example of creating a custom control library and calling a control from your shared project. 
+An example of creating a custom control library and calling a control from your shared project.
 
+### Dual-Screen
+A simple example using the `TwoPaneView` control spanned across dual screens (such as Neo or Duo dual-screen devices for example). 
+ 
 ### Map Control  
 An implementation of the UWP `Maps` control with a custom slider that binds the value of the slider to the `ZoomLevel` property of the control. 
 
@@ -41,7 +44,7 @@ An example of a toggle that allows you to switch between Native UI Controls and 
 An example of the Uno implementation of SkiaSharp creating a basic canvas with text.
 
 ### ToyCar
-A proof of concept of a car animation using the `TwoPaneView` control spanned accross dual screens (such as Neo or Duo dual screen devices for example).
+A proof of concept of a car animation using the `TwoPaneView` control spanned across dual screens (such as Neo or Duo dual-screen devices for example).
 Inspiration from Justin Liu's [demo app](https://twitter.com/justinxinliu/status/1281123335410049027).
 
 ### SQLite  
