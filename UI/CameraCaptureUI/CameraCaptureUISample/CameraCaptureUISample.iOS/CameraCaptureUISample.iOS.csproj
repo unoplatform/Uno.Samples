@@ -9,7 +9,8 @@
     <RootNamespace>CameraCaptureUISample</RootNamespace>
     <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
     <AssemblyName>CameraCaptureUISample</AssemblyName>
-    <NuGetPackageImportStamp></NuGetPackageImportStamp>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
     <ResourcesDirectory>..\CameraCaptureUISample.Shared\Strings</ResourcesDirectory>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhoneSimulator' ">
@@ -102,8 +103,8 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="1.1.1" />
     <PackageReference Include="Microsoft.Extensions.Logging.Filter" Version="1.1.1" />
-    <PackageReference Include="Uno.UI" Version="3.0.17" />
-    <PackageReference Include="Uno.UI.RemoteControl" Version="3.0.17" Condition="'$(Configuration)'=='Debug'" />
+    <PackageReference Include="Uno.UI" Version="3.1.0-beta.3" />
+    <PackageReference Include="Uno.UI.RemoteControl" Version="3.1.0-beta.3" Condition="'$(Configuration)'=='Debug'" />
   </ItemGroup>
   <Import Project="..\CameraCaptureUISample.Shared\CameraCaptureUISample.Shared.projitems" Label="Shared" Condition="Exists('..\CameraCaptureUISample.Shared\CameraCaptureUISample.Shared.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />

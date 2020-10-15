@@ -1,4 +1,4 @@
-# Benchmark.NET Sample
+# Benchmark.NET Sample (Works on Wasm only)
 
 This is a simple standalone app that demonstrates the use of Benchmark.NET with the Uno platform.
 
