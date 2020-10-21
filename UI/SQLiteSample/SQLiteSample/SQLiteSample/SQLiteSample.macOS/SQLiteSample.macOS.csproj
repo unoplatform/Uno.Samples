@@ -28,17 +28,22 @@
     <UseSGen>true</UseSGen>
     <UseRefCounting>true</UseRefCounting>
     <Profiling>true</Profiling>
-    <HttpClientHandler></HttpClientHandler>
-    <LinkMode></LinkMode>
-    <XamMacArch></XamMacArch>
-    <NoWarn></NoWarn>
+    <HttpClientHandler>
+    </HttpClientHandler>
+    <LinkMode>
+    </LinkMode>
+    <XamMacArch>
+    </XamMacArch>
+    <NoWarn>
+    </NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
     <DebugSymbols>false</DebugSymbols>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release</OutputPath>
-    <DefineConstants></DefineConstants>
+    <DefineConstants>
+    </DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <EnableCodeSigning>false</EnableCodeSigning>
@@ -48,9 +53,12 @@
     <UseSGen>true</UseSGen>
     <UseRefCounting>true</UseRefCounting>
     <LinkMode>SdkOnly</LinkMode>
-    <HttpClientHandler></HttpClientHandler>
-    <XamMacArch></XamMacArch>
-    <NoWarn></NoWarn>
+    <HttpClientHandler>
+    </HttpClientHandler>
+    <XamMacArch>
+    </XamMacArch>
+    <NoWarn>
+    </NoWarn>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -66,8 +74,8 @@
     </PackageReference>
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="1.1.1" />
     <PackageReference Include="Microsoft.Extensions.Logging.Filter" Version="1.1.1" />
-    <PackageReference Include="Uno.UI" Version="3.0.17" />
-    <PackageReference Include="Uno.UI.RemoteControl" Version="3.0.17" Condition="'$(Configuration)'=='Debug'" />
+    <PackageReference Include="Uno.UI" Version="3.1.0-beta.3" />
+    <PackageReference Include="Uno.UI.RemoteControl" Version="3.1.0-beta.3" Condition="'$(Configuration)'=='Debug'" />
   </ItemGroup>
   <Import Project="..\SQLiteSample.Shared\SQLiteSample.Shared.projitems" Label="Shared" Condition="Exists('..\SQLiteSample.Shared\SQLiteSample.Shared.projitems')" />
   <ItemGroup>
@@ -90,14 +98,10 @@
   <ItemGroup>
     <None Include="Info.plist" />
     <None Include="Entitlements.plist" />
+    <BundleResource Include="Resources\Fonts\uno-fluentui-assets.ttf" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Main.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <BundleResource Include="Resources\Fonts\winjs-symbols.ttf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </BundleResource>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Mac\Xamarin.Mac.CSharp.targets" />
   <Target Name="VS16Mac_RemoveSystemMemory" BeforeTargets="ResolveAssemblyReferences">

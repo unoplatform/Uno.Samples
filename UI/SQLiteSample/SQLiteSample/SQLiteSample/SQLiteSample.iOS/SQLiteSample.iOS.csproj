@@ -9,7 +9,8 @@
     <RootNamespace>SQLiteSample</RootNamespace>
     <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
     <AssemblyName>SQLiteSample</AssemblyName>
-    <NuGetPackageImportStamp></NuGetPackageImportStamp>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
     <ResourcesDirectory>..\SQLiteSample.Shared\Strings</ResourcesDirectory>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhoneSimulator' ">
@@ -103,6 +104,7 @@
     <BundleResource Include="Resources\SplashScreen%402x.png" />
     <BundleResource Include="Resources\SplashScreen%403x.png" />
     <BundleResource Include="Resources\Default-568h%402x.png" />
+    <BundleResource Include="Resources\Fonts\uno-fluentui-assets.ttf" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -111,16 +113,13 @@
     <Reference Include="Xamarin.iOS" />
   </ItemGroup>
   <ItemGroup>
-    <BundleResource Include="Resources\Fonts\winjs-symbols.ttf" />
-  </ItemGroup>
-  <ItemGroup>
     <PackageReference Include="sqlite-net-pcl">
       <Version>1.7.335</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="1.1.1" />
     <PackageReference Include="Microsoft.Extensions.Logging.Filter" Version="1.1.1" />
-    <PackageReference Include="Uno.UI" Version="3.0.17" />
-    <PackageReference Include="Uno.UI.RemoteControl" Version="3.0.17" Condition="'$(Configuration)'=='Debug'" />
+    <PackageReference Include="Uno.UI" Version="3.1.0-beta.3" />
+    <PackageReference Include="Uno.UI.RemoteControl" Version="3.1.0-beta.3" Condition="'$(Configuration)'=='Debug'" />
   </ItemGroup>
   <ItemGroup>
     <ImageAsset Include="Media.xcassets\AppIcons.appiconset\Contents.json">

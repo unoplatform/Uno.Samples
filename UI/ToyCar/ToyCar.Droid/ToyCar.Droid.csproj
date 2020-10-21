@@ -50,7 +50,7 @@
     <AotAssemblies>true</AotAssemblies>
     <EnableLLVM>true</EnableLLVM>
     <AndroidEnableSGenConcurrent>true</AndroidEnableSGenConcurrent>
-</PropertyGroup>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Mono.Android" />
     <Reference Include="Mono.Android.Export" />
@@ -61,13 +61,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Uno.UI" Version="3.1.0-dev.271" />
-    <PackageReference Include="Uno.UI.RemoteControl" Version="3.1.0-dev.271" Condition="'$(Configuration)'=='Debug'" />
+    <PackageReference Include="Uno.UI" Version="3.1.0-beta.3" />
+    <PackageReference Include="Uno.UI.RemoteControl" Version="3.1.0-beta.3" Condition="'$(Configuration)'=='Debug'" />
     <PackageReference Include="Uno.UniversalImageLoader" Version="1.9.32" />
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="1.1.1" />
     <PackageReference Include="Microsoft.Extensions.Logging.Filter" Version="1.1.1" />
     <PackageReference Include="Uno.WinUI.DualScreen">
-      <Version>3.1.0-dev.271</Version>
+      <Version>3.1.0-beta.3</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
@@ -97,5 +97,5 @@
   <Import Project="..\ToyCar.Shared\ToyCar.Shared.projitems" Label="Shared" Condition="Exists('..\ToyCar.Shared\ToyCar.Shared.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- This will force the generation of the APK when not building inside visual studio -->
-	<Target Name="GenerateBuild" DependsOnTargets="SignAndroidPackage" AfterTargets="Build" Condition="'$(BuildingInsideVisualStudio)'==''" />
+  <Target Name="GenerateBuild" DependsOnTargets="SignAndroidPackage" AfterTargets="Build" Condition="'$(BuildingInsideVisualStudio)'==''" />
 </Project>

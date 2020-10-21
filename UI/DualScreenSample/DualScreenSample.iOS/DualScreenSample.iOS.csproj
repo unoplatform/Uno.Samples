@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">iPhoneSimulator</Platform>
-    <ProjectGuid>80e29bbf-ba12-4366-be30-8c58c5c67377</ProjectGuid>
+    <ProjectGuid>{80E29BBF-BA12-4366-BE30-8C58C5C67377}</ProjectGuid>
     <ProjectTypeGuids>{FEACFBD2-3405-455C-9665-78FE426C6842};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Exe</OutputType>
     <RootNamespace>DualScreenSample</RootNamespace>
@@ -115,8 +115,8 @@
     <BundleResource Include="Resources\Fonts\uno-fluentui-assets.ttf" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Uno.UI" Version="3.0.12" />
-    <PackageReference Include="Uno.UI.RemoteControl" Version="3.0.12" Condition="'$(Configuration)'=='Debug'" />
+    <PackageReference Include="Uno.UI" Version="3.1.0-beta.3" />
+    <PackageReference Include="Uno.UI.RemoteControl" Version="3.1.0-beta.3" Condition="'$(Configuration)'=='Debug'" />
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="1.1.1" />
     <PackageReference Include="Microsoft.Extensions.Logging.Filter" Version="1.1.1" />
   </ItemGroup>
@@ -149,11 +149,7 @@
       <Visible>false</Visible>
     </ImageAsset>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Media" Visible="false" />
-    <Folder Include="Media\AppIcons" Visible="false" />
-    <Folder Include="Media\LaunchImages" Visible="false" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="..\DualScreenSample.Shared\DualScreenSample.Shared.projitems" Label="Shared" Condition="Exists('..\DualScreenSample.Shared\DualScreenSample.Shared.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>

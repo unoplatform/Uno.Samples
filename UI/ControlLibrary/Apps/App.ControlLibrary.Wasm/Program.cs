@@ -8,7 +8,7 @@ namespace Uno.Sample.ControlLibrary.Wasm
 
 		static void Main(string[] args)
 		{
-			_app = new App();
+			Windows.UI.Xaml.Application.Start(_ => _app = new App());
 		}
 	}
 }
