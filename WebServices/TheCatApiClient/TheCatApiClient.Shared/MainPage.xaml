@@ -1,0 +1,80 @@
+﻿<Page
+    x:Class="TheCatApiClient.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:TheCatApiClient"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:viewmodels="using:TheCatApiClient.Shared.Models.ViewModels" 
+    xmlns:datamodels="using:TheCatApiClient.Shared.Models.DataModels"
+    xmlns:toolkit="using:Uno.UI.Toolkit"
+    Name="Main"
+    mc:Ignorable="d">
+
+    <Page.DataContext>
+        <viewmodels:MainViewModel x:Name="ViewModel" />
+    </Page.DataContext>
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+          toolkit:VisibleBoundsPadding.PaddingMask="All">
+        <Grid Padding="4">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <!-- ROW 0 - Title -->
+            <TextBlock Text="The Cat API Client" Style="{StaticResource HeaderTextBlockStyle}" />
+
+            <!-- ROW 1 - Search Box -->
+            <AutoSuggestBox Grid.Row="1" PlaceholderText="Search for breed" QueryIcon="Find" 
+                        Name="BreedSearchBox"
+                        Width="300" Margin="4,20" HorizontalAlignment="Left"
+                        Text="{x:Bind ViewModel.SearchTerm, Mode=TwoWay}"
+                        QuerySubmitted="BreedSearchBox_QuerySubmitted" />
+
+            <!-- ROW 2 - Search Results -->
+            <GridView Grid.Row="2" ItemsSource="{x:Bind ViewModel.SearchResults, Mode=OneWay}" Margin="4" 
+                  SelectionMode="None"
+                  IsItemClickEnabled="True"
+                  ItemClick="SearchResults_ItemClick">
+                <GridView.ItemTemplate>
+                    <DataTemplate x:DataType="datamodels:Breed">
+                        <StackPanel Width="300" Padding="4">
+                            <TextBlock Text="{x:Bind Name}" Style="{StaticResource TitleTextBlockStyle}"/>
+                            <TextBlock Text="{x:Bind Description}" Style="{StaticResource BodyTextBlockStyle}" TextWrapping="WrapWholeWords"
+                                   Height="70" TextTrimming="CharacterEllipsis"/>
+                        </StackPanel>
+
+                    </DataTemplate>
+                </GridView.ItemTemplate>
+            </GridView>
+
+            <!-- ROW 3 - Favorites Title -->
+            <TextBlock Grid.Row="3" Text="Favorites" Style="{StaticResource SubheaderTextBlockStyle}" />
+
+            <!-- ROW 4 - Favorites -->
+            <GridView Grid.Row="4" ItemsSource="{x:Bind ViewModel.Favorites, Mode=OneWay}" Margin="4" 
+                  SelectionMode="None"
+                  Name="Favorites"
+                  IsItemClickEnabled="True"
+                  ItemClick="Favorites_ItemClick">
+                <GridView.ItemTemplate>
+                    <DataTemplate x:DataType="datamodels:Favorite">
+                        <Grid Padding="4" Height="100" Width="100" Background="#EEEEEE">
+                            <Image Source="{x:Bind Image.Url}" Stretch="Uniform"/>
+                        </Grid>
+                    </DataTemplate>
+                </GridView.ItemTemplate>
+            </GridView>
+
+            <!-- Busy Overlay -->
+            <Grid Background="Gray" Opacity="0.75" Visibility="{x:Bind ViewModel.IsBusy, Mode=OneWay}"
+              Grid.Row="1" Grid.RowSpan="4">
+                <TextBlock Text="Downloading data..." Style="{StaticResource TitleTextBlockStyle}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            </Grid>
+        </Grid>
+    </Grid>
+</Page>
