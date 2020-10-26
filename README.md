@@ -43,6 +43,9 @@ An example of a toggle that allows you to switch between Native UI Controls and 
 ### SkiaSharp Test  
 An example of the Uno implementation of SkiaSharp creating a basic canvas with text.
 
+### TheCatApiClient
+An example demonstrating an approach to consuming REST web services in Uno using HttpClient.
+
 ### ToyCar
 A proof of concept of a car animation using the `TwoPaneView` control spanned across dual screens (such as Neo or Duo dual-screen devices for example).
 Inspiration from Justin Liu's [demo app](https://twitter.com/justinxinliu/status/1281123335410049027).
