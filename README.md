@@ -53,6 +53,9 @@ Inspiration from Justin Liu's [demo app](https://twitter.com/justinxinliu/status
 ### SQLite  
 This is a simple standalone app demonstrating the use of SQLite in an Uno application, including WebAssembly. It uses Erik Sink's [SQLitePCLRaw](https://github.com/ericsink/SQLitePCL.raw), and Frank Krueger's [sqlite-net](https://github.com/praeclarum/sqlite-net) libraries.
 
+### UnoContoso
+This is a project that ported Microsoft's Contoso Enterprise UWP app to Uno Platform Prism.
+
 ### WCT DataGrid  
 A dynamic grid view ported from the Windows Community Toolkit that allows for x:Bind. 
 
