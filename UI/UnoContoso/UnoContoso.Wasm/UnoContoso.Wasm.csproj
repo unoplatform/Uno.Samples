@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <NoWarn>NU1701</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)'=='Debug'">
+    <MonoRuntimeDebuggerEnabled>true</MonoRuntimeDebuggerEnabled>
+    <DefineConstants>$(DefineConstants);TRACE;DEBUG</DefineConstants>
+    <DebugType>portable</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+    <PropertyGroup>
+      <WasmShellILLinkerEnabled>true</WasmShellILLinkerEnabled>
+    </PropertyGroup>
+  <ItemGroup>
+    <Content Include="Assets\SplashScreen.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="WasmCSS\Fonts.css" />
+    <EmbeddedResource Include="WasmScripts\AppManifest.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <LinkerDescriptor Include="LinkerConfig.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <!--
+    This item group is required by the project template because of the
+    new SDK-Style project, otherwise some files are not added automatically.
+
+    You can safely remove this ItemGroup completely.
+    -->
+    <None Include="Program.cs" />
+    <None Include="LinkerConfig.xml" />
+    <None Include="wwwroot\web.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <!-- Note that for WebAssembly version 1.1.1 of the console logger required -->
+    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="1.1.1" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Filter" Version="1.1.1" />
+    <PackageReference Include="Uno.Microsoft.Toolkit.Uwp.UI.Controls" Version="6.1.0-build.191.gc988bdd4ff" />
+    <PackageReference Include="Uno.Microsoft.Toolkit.Uwp.UI.Controls.DataGrid" Version="6.1.0-build.191.gc988bdd4ff" />
+    <PackageReference Include="Uno.Microsoft.Xaml.Behaviors.Uwp.Managed" Version="2.0.2-uno.79" />
+    <PackageReference Include="Uno.UI.WebAssembly" Version="3.2.0-dev.254" />
+    <PackageReference Include="Uno.UI.RemoteControl" Version="3.2.0-dev.254" Condition="'$(Configuration)'=='Debug'" />
+    <PackageReference Include="Uno.Wasm.Bootstrap" Version="1.5.0-dev.57" />
+    <PackageReference Include="Uno.Wasm.Bootstrap.DevServer" Version="1.5.0-dev.57" />
+    <PackageReference Include="Prism.Core" Version="8.0.0.1909" />
+    <PackageReference Include="Prism.DryIoc.Uno" Version="8.0.0.1909" />
+    <PackageReference Include="Uno.WindowsStateTriggers" Version="1.1.1-uno.132" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\UnoContoso.Models\UnoContoso.Models.csproj" />
+    <ProjectReference Include="..\UnoContoso.Repository\UnoContoso.Repository.csproj" />
+  </ItemGroup>
+  <Import Project="..\UnoContoso.Shared\UnoContoso.Shared.projitems" Label="Shared" Condition="Exists('..\UnoContoso.Shared\UnoContoso.Shared.projitems')" />
+</Project>

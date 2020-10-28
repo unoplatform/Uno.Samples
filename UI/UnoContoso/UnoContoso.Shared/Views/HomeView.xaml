@@ -1,0 +1,127 @@
+﻿<UserControl
+    x:Class="UnoContoso.Views.HomeView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:UnoContoso.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:i="using:Microsoft.Xaml.Interactivity" 
+    xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:prismMvvm="using:Prism.Mvvm"
+    prismMvvm:ViewModelLocator.AutowireViewModel="True"
+    xmlns:stateTriggers="using:UnoContoso.StateTriggers"
+    mc:Ignorable="d">
+
+    <Grid>
+        <ScrollViewer>
+            <RelativePanel>
+                <TextBlock 
+                    x:Name="PageTitle"
+                    Text="UnoContoso"
+                    Margin="0,4,0,0"
+                    Style="{StaticResource TitleTextBlockStyle}" />
+
+                <StackPanel
+                    Margin="0,10,0,0"
+                    RelativePanel.Below="PageTitle">
+                    <StackPanel.Resources>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
+                            <Setter Property="TextWrapping" Value="Wrap" />
+                            <Setter Property="Margin" Value="0,10,0,0"/>
+                        </Style>
+                    </StackPanel.Resources>
+                    <TextBlock Style="{StaticResource SubtitleTextBlockStyle}">
+                        This is a project that ported Microsoft's Contoso Enterprise UWP app to Uno Platform Prism.
+                    </TextBlock>
+                    <TextBox Header="Uno Platform" IsReadOnly="True"
+                             Text="https://platform.uno/">
+                        <TextBox.HeaderTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding}" Style="{StaticResource SubtitleTextBlockStyle}"
+                                           Margin="0,10,0,0"/>
+                            </DataTemplate>
+                        </TextBox.HeaderTemplate>
+                    </TextBox>
+
+                    <ListView Header="Envviroment">
+                        <ListView.HeaderTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding}" Style="{StaticResource SubtitleTextBlockStyle}"
+                                           Margin="0,10,0,0"/>
+                            </DataTemplate>
+                        </ListView.HeaderTemplate>
+                        <ListViewItem>
+                            - Microsoft.EntityFrameworkCore v3.1.9
+                        </ListViewItem>
+                        <ListViewItem>
+                            - Microsoft.EntityFrameworkCore.Sqlite v3.1.9
+                        </ListViewItem>
+                        <ListViewItem>
+                            - NETStandard.Library v2.0.3
+                        </ListViewItem>
+                        <ListViewItem>
+                            - Prism.Core v8.0.0.1909
+                        </ListViewItem>
+                        <ListViewItem>
+                            - Prism.DryIoc.Uno v8.0.0.1909
+                        </ListViewItem>
+                        <ListViewItem>
+                            - Uno.Microsoft.Toolkit.Uwp.UI.Controls v6.1.0-build.191
+                        </ListViewItem>
+                        <ListViewItem>
+                            - Uno.Microsoft.Toolkit.Uwp.UI.Controls.DataGrid v6.1.0-build.191
+                        </ListViewItem>
+                        <ListViewItem>
+                            - Uno.UI v3.2.0-dev.254
+                        </ListViewItem>
+                        <ListViewItem>
+                            - Uno.WindowsStateTriggers v1.1.1-uno.132
+                        </ListViewItem>
+                        <ListViewItem>
+                            - WindowsStateTriggers v1.1.0
+                        </ListViewItem>
+                        <ListViewItem>
+                            - UWP Target version : Windows 10, version 1903(10.0; Build 18362)
+                        </ListViewItem>
+                        <ListViewItem>
+                            - UWP Min version : Windows 10, version 1809(10.0; Build 17763)
+                        </ListViewItem>
+                    </ListView>
+                </StackPanel>
+            </RelativePanel>
+        </ScrollViewer>
+
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="{StaticResource LargeWindowSnapPoint}" />
+                    </VisualState.StateTriggers>
+                </VisualState>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="{StaticResource MediumWindowSnapPoint}" />
+                    </VisualState.StateTriggers>
+                </VisualState>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="{StaticResource MinWindowSnapPoint}" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="PageTitle.Margin" Value="30,4,0,0"/>
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <stateTriggers:MobileScreenTrigger InteractionMode="Touch" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="PageTitle.Margin" Value="30,4,0,0"/>
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+    </Grid>
+</UserControl>
