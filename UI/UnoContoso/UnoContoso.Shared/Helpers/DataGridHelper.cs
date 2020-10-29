@@ -27,6 +27,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using Microsoft.Toolkit.Uwp.UI.Controls;
+using Uno.Extensions;
 
 namespace UnoContoso.Helpers
 {
@@ -63,17 +64,15 @@ namespace UnoContoso.Helpers
         /// <summary>
         /// Sorts the data in an ObservableCollection by the specified property and in the specified sort direction.
         /// </summary>
-        public static void Sort<T>(this ObservableCollection<T> collection, string propertyName, bool isAscending)
+        public static void Sort<T>(this IList<T> collection, string propertyName, bool isAscending)
         {
             object sortFunc(T obj) => obj.GetType().GetProperty(propertyName).GetValue(obj);
+
             List<T> sortedCollection = isAscending ?
                 collection.OrderBy(sortFunc).ToList() :
                 collection.OrderByDescending(sortFunc).ToList();
             collection.Clear();
-            foreach (var obj in sortedCollection)
-            {
-                collection.Add(obj);
-            }
+            collection.AddRange(sortedCollection);
         }
     }
 }

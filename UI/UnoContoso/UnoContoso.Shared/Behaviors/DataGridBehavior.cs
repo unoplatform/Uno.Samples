@@ -1,11 +1,13 @@
 ﻿using Microsoft.Toolkit.Uwp.UI.Controls;
 using Microsoft.Xaml.Interactivity;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text;
 using UnoContoso.Helpers;
 using UnoContoso.Model;
+using UnoContoso.Models;
 using Windows.UI.Xaml;
 
 namespace UnoContoso.Behaviors
@@ -21,8 +23,15 @@ namespace UnoContoso.Behaviors
 
         private void AssociatedObject_Sorting(object sender, DataGridColumnEventArgs e)
         {
-            var datas = AssociatedObject.ItemsSource as ObservableCollection<object>;
-            AssociatedObject.Sort(e.Column, datas.Sort);
+            switch(AssociatedObject.ItemsSource)
+            {
+                case IList<CustomerWrapper> customers:
+                    AssociatedObject.Sort(e.Column, customers.Sort);
+                    break;
+                case IList<Order> orders:
+                    AssociatedObject.Sort(e.Column, orders.Sort);
+                    break;
+            }
         }
 
         private void AssociatedObject_RightTapped(object sender, Windows.UI.Xaml.Input.RightTappedRoutedEventArgs e)
