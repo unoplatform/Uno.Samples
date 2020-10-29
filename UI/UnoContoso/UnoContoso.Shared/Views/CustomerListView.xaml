@@ -13,6 +13,7 @@
     xmlns:uc="using:UnoContoso.UserControls" 
     xmlns:behaviors="using:UnoContoso.Behaviors"
     xmlns:stateTriggers="using:UnoContoso.StateTriggers"
+    xmlns:model="using:UnoContoso.Model"
     mc:Ignorable="d">
     <UserControl.Resources>
         <MenuFlyout x:Key="DataGridContextMenu">
@@ -88,8 +89,58 @@
                 RelativePanel.AlignBottomWithPanel="True"
                 RelativePanel.Below="PageTitle">
 
+                <ListView
+                    x:Name="CustomerListMobileView"
+                    Visibility="Collapsed"
+                    VerticalAlignment="Stretch"
+                    HorizontalAlignment="Stretch"
+                    BorderThickness="0"
+                    ItemsSource="{x:Bind ViewModel.Customers, Mode=OneWay}"
+                    SelectedItem="{x:Bind ViewModel.SelectedCustomer, Mode=TwoWay}"
+                    ContextFlyout="{StaticResource DataGridContextMenu}">
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                            <Setter Property="Padding" Value="4,10" />
+                        </Style>
+                    </ListView.ItemContainerStyle>
+                    <ListView.ItemTemplate>
+                        <DataTemplate x:DataType="model:CustomerWrapper">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Style="{StaticResource ListTitleStyle}">
+                                        <Run Text="{x:Bind FirstName, Mode=OneWay}"/>
+                                        <Run Text="{x:Bind LastName, Mode=OneWay}"/>
+                                    </TextBlock>
+                                    <TextBlock Margin="4,0,0,0">
+                                        <Run>(</Run><Run Text="{x:Bind Company}"/><Run>)</Run>
+                                    </TextBlock>
+                                </StackPanel>
+                                <TextBlock
+                                    Grid.Row="0" Grid.Column="1"
+                                    HorizontalAlignment="Right">
+                                    <Run Text="{x:Bind Phone,Mode=OneWay}"/>
+                                </TextBlock>
+                                <TextBlock 
+                                    Grid.Row="1" 
+                                    Text="{x:Bind Address, Mode=OneWay}"
+                                    Style="{StaticResource ListSubTitleStyle}"/>
+                            </Grid>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+                
                 <toolkit:DataGrid
                     x:Name="CustomerDataGrid"
+                    Visibility="Visible"
                     CanUserReorderColumns="False"
                     CanUserResizeColumns="False"
 					VerticalAlignment="Stretch"
@@ -158,7 +209,7 @@
                 </VisualState>
                 <VisualState>
                     <VisualState.StateTriggers>
-                        <stateTriggers:MobileScreenTrigger InteractionMode="Touch" />
+                        <stateTriggers:MobileScreenTrigger InteractionMode="Touch"/>
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="mainCommandBar.(RelativePanel.AlignBottomWithPanel)" Value="True" />
@@ -169,7 +220,9 @@
                         <Setter Target="mainCommandBar.HorizontalAlignment" Value="Stretch" />
                         <Setter Target="PageTitle.Margin" Value="30,4,0,0"/>
                         <Setter Target="CustomerSearchBox.Width" Value="300" />
-                        <Setter Target="RootDataGrid.Margin" Value="0,10,0,60" />
+                        <Setter Target="RootDataGrid.Margin" Value="0,10,0,40" />
+                        <Setter Target="CustomerListMobileView.Visibility" Value="Visible"/>
+                        <Setter Target="CustomerDataGrid.Visibility" Value="Collapsed"/>
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
