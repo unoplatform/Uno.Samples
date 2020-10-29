@@ -73,7 +73,7 @@ namespace UnoContoso.ViewModels
         /// <summary>
         /// Gets the unfiltered collection of all orders. 
         /// </summary>
-        private IList<Order> MasterOrdersList { get; } = new List<Order>();
+        private IList<Order> MasterOrdersList { get; } = new ObservableCollection<Order>();
 
         /// <summary>
         /// Gets the orders to display.
