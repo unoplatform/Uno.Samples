@@ -19,9 +19,10 @@
     <UserControl.Resources>
         <MenuFlyout x:Key="DataGridContextMenu">
             <MenuFlyoutItem
+                Command="{x:Bind ViewModel.EditCommand, Mode=OneWay}"
                 Style="{StaticResource MenuFlyoutItemIconTemplate}"
                 Tag="&#xE1A5;"
-                Text="View details" />
+                Text="Edit" />
         </MenuFlyout>
     </UserControl.Resources>
     

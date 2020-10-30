@@ -36,7 +36,19 @@ namespace UnoContoso.Behaviors
 
         private void AssociatedObject_RightTapped(object sender, Windows.UI.Xaml.Input.RightTappedRoutedEventArgs e)
         {
-            AssociatedObject.SelectedItem = (e.OriginalSource as FrameworkElement).DataContext;
+            var selectedElement = e.OriginalSource as FrameworkElement;
+            switch(selectedElement.DataContext)
+            {
+                case Order order:
+                    AssociatedObject.SelectedItem = order;
+                    break;
+                case CustomerWrapper customer:
+                    AssociatedObject.SelectedItem = customer;
+                    break;
+                default:
+                    e.Handled = true;
+                    break;
+            }
         }
 
         private void AssociatedObject_KeyDown(object sender, Windows.UI.Xaml.Input.KeyRoutedEventArgs e)

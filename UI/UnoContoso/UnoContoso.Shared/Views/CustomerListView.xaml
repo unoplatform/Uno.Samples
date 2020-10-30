@@ -18,12 +18,12 @@
     <UserControl.Resources>
         <MenuFlyout x:Key="DataGridContextMenu">
             <MenuFlyoutItem
-                Command="{x:Bind ViewModel.ViewDetailCommand}"
+                Command="{x:Bind ViewModel.ViewDetailCommand, Mode=OneWay}"
                 Style="{StaticResource MenuFlyoutItemIconTemplate}"
                 Tag="&#xE1A5;"
                 Text="View details" />
             <MenuFlyoutItem
-                Command="{x:Bind ViewModel.AddOrderCommand}"
+                Command="{x:Bind ViewModel.AddOrderCommand, Mode=OneWay}"
                 Style="{StaticResource MenuFlyoutItemIconTemplate}"
                 Tag="&#xE14D;"
                 Text="Add order" />
