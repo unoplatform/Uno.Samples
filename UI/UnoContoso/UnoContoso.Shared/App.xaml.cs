@@ -225,7 +225,6 @@ namespace UnoContoso
 			//	.UseSqlite("Data Source=" + databasePath);
    //         //var dbOptions = new DbContextOptionsBuilder<ContosoContext>();
 
-   //         //todo : 리졸브할때 파라메터를 던져주면되는데..귀찮음..수정해야지
    //         //var repository = Container.Resolve<IContosoRepository>("Sql");
    //         var repository = new SqlContosoRepository(dbOptions);
    //         containerRegistry.RegisterInstance<IContosoRepository>(repository);

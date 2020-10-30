@@ -33,17 +33,14 @@
                         </Style>
                     </StackPanel.Resources>
                     <TextBlock Style="{StaticResource SubtitleTextBlockStyle}">
-                        This is a project that ported Microsoft's Contoso Enterprise UWP app to Uno Platform Prism.
+                        This is a port project that ported Microsoft's Contoso Enterprise UWP app to Uno Platform Prism.
                     </TextBlock>
-                    <TextBox Header="Uno Platform" IsReadOnly="True"
-                             Text="https://platform.uno/">
-                        <TextBox.HeaderTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding}" Style="{StaticResource SubtitleTextBlockStyle}"
-                                           Margin="0,10,0,0"/>
-                            </DataTemplate>
-                        </TextBox.HeaderTemplate>
-                    </TextBox>
+                    
+                    <TextBlock Text="Uno Platform" 
+                               Style="{StaticResource TitleTextBlockStyle}"
+                               Margin="0,8,0,0"/>
+                    <HyperlinkButton Content="https://platform.uno/" 
+                                     NavigateUri="https://platform.uno/"/>
 
                     <ListView Header="Envviroment">
                         <ListView.HeaderTemplate>
