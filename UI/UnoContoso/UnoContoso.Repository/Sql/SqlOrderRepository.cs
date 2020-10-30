@@ -71,7 +71,7 @@ namespace UnoContoso.Repository.Sql
         {
             try
             {
-                //EF3.x롤 업그레이드 되면서 너무 복잡한 쿼리는 실행 못함
+                //Queries that are too complex will cause an Entity Framework error.
                 return await _db.Orders
                     .Include(order => order.Customer)
                     .Include(order => order.LineItems)

@@ -60,20 +60,5 @@ namespace UnoContoso.Service.Controllers
             }
             return Ok(products);
         }
-
-        //// POST api/<CustomerController>
-        //[HttpPost]
-        //public async Task<IActionResult> Post([FromBody]Product product)
-        //{
-        //    return Ok(await _repository.UpsertAsync(product));
-        //}
-
-        //// DELETE api/<CustomerController>/5
-        //[HttpDelete("{id}")]
-        //public async Task<IActionResult> Delete(Guid id)
-        //{
-        //    await _repository.DeleteAsync(id);
-        //    return Ok();
-        //}
     }
 }

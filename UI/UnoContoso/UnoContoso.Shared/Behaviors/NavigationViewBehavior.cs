@@ -29,7 +29,7 @@ namespace UnoContoso.Behaviors
             var selectedItem = AssociatedObject.SelectedItem as NavigationViewItem;
             if(selectedItem.Name == "SettingsNavPaneItem")
             {
-                //Setting을 선택해도 여기옮
+                //Commented as part to be processed when setting is selected
                 //selectedItem.Name
                 //"SettingsNavPaneItem"
                 //selectedItem.Content

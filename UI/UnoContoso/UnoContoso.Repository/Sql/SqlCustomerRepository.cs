@@ -63,7 +63,7 @@ namespace UnoContoso.Repository.Sql
         public async Task<IEnumerable<Customer>> GetAsync(string value)
         {
             value = value.ToLower();
-            //쿼리 에러 때문에 복잡하게 할 수 없어서 첫번째 단어로만 검색하도록 수정
+            //Fix to search only with the first word because it cannot be complicated due to an Entity Framework error.
             string[] parameters = value.Split(' ');
 
             try

@@ -41,7 +41,7 @@ namespace UnoContoso.Model
                 if (_model != value)
                 {
                     _model = value;
-                    //일단 막음
+                    //Comment processing due to performance issues
                     //RefreshOrders();
                     // Raise the PropertyChanged event for all properties.
                     RaisePropertyChanged();
