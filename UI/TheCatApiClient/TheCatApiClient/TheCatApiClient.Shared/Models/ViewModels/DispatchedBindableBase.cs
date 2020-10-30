@@ -37,7 +37,16 @@ namespace TheCatApiClient.Shared.Models.ViewModels
         // Insert Dispatch below here
         protected async Task DispatchAsync(DispatchedHandler callback)
         {
-            if (Dispatcher.HasThreadAccess)
+            // As WASM is currently single-threaded, and Dispatcher.HasThreadAccess always returns false for broader compatibility reasons
+            // the following code ensures the local code always directly invokes the callback on WASM.
+            var hasThreadAccess =
+#if __WASM__
+                true;
+#else
+                Dispatcher.HasThreadAccess;
+#endif
+
+            if (hasThreadAccess)
             {
                 callback.Invoke();
             }
