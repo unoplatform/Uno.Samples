@@ -97,12 +97,12 @@ namespace UnoContoso.ViewModels
                         {
                             if(callback.Result == false)
                             {
-                                //원래 메뉴로 돌려놔함
+                                //Return to previous menu
                                 SelectedItem = _previewSelectedItem;
                             }
                             else
                             {
-                                //네비게이션이 완료되었을 때만 입력
+                                //Changes the previous menu item to the current menu when navigation is completed normally
                                 _previewSelectedItem = SelectedItem;
                             }
                         });

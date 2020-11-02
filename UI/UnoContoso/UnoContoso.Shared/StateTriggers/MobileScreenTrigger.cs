@@ -12,32 +12,23 @@ namespace UnoContoso.StateTriggers
     {
         private UserInteractionMode _interactionMode;
 
+
+
         public MobileScreenTrigger()
         {
             Windows.UI.Xaml.Window.Current.SizeChanged += Window_SizeChanged;
+
+            Windows.Foundation.Size size = new Windows.Foundation.Size()
+            {
+                Width = Windows.UI.Xaml.Window.Current.Bounds.Width,
+                Height = Windows.UI.Xaml.Window.Current.Bounds.Height
+            };
+            UpdateTrigger(size);
         }
 
         private void Window_SizeChanged(object sender, Windows.UI.Core.WindowSizeChangedEventArgs e)
         {
             UpdateTrigger(e.Size);
-        }
-
-        /// <summary>
-        /// The target device family.
-        /// </summary>
-        public UserInteractionMode InteractionMode
-        {
-            get { return _interactionMode; }
-            set 
-            { 
-                _interactionMode = value;
-                Windows.Foundation.Size size = new Windows.Foundation.Size()
-                {
-                    Width = Windows.UI.Xaml.Window.Current.Bounds.Width,
-                    Height = Windows.UI.Xaml.Window.Current.Bounds.Height
-                };
-                UpdateTrigger(size); 
-            }
         }
 
         private void UpdateTrigger(Windows.Foundation.Size size)
