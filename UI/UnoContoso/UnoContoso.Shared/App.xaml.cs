@@ -238,13 +238,13 @@ namespace UnoContoso
 		{
             //var repository = new RestContosoRepository("https://customers-orders-api-prod.azurewebsites.net/api/");
             //var repository = new RestContosoRepository("https://localhost:44394/api/");
-//#if __ANDROID__
-//            var repository = new RestContosoRepository("http://10.0.2.2:5000/api/");
-//#else
-//            var repository = new RestContosoRepository("http://localhost:5000/api/");
-//#endif
+#if __ANDROID__
+            var repository = new RestContosoRepository("http://10.0.2.2:5000/api/");
+#else
+            var repository = new RestContosoRepository("http://localhost:5000/api/");
+#endif
 
-            var repository = new RestContosoRepository("https://unocontososervice20201016190520.azurewebsites.net/api/");
+            //var repository = new RestContosoRepository("https://unocontososervice20201016190520.azurewebsites.net/api/");
             containerRegistry.RegisterInstance<IContosoRepository>(repository);
 		}
 	}
