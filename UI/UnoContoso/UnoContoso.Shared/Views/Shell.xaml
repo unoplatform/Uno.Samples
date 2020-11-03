@@ -1,0 +1,53 @@
+<ContentControl
+    x:Class="UnoContoso.Views.Shell"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:UnoContoso"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:prismMvvm="using:Prism.Mvvm"
+    xmlns:prismRegions="using:Prism.Regions" 
+    xmlns:i="using:Microsoft.Xaml.Interactivity" 
+    xmlns:behaviors="using:UnoContoso.Behaviors"
+    prismMvvm:ViewModelLocator.AutowireViewModel="True"
+    HorizontalContentAlignment="Stretch"
+    VerticalContentAlignment="Stretch"
+    xmlns:win="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:not_win="http://uno.ui/not_win" 
+    xmlns:ios="http:/uno.ui/ios"
+    xmlns:not_ios="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:wasm="http://uno.ui/wasm"
+    xmlns:android="http://uno.ui/android"
+    xmlns:core="using:Microsoft.Xaml.Interactions.Core"
+    mc:Ignorable="d not_win ios wasm android">
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <NavigationView
+            IsBackButtonVisible="Collapsed"
+            OpenPaneLength="160"
+            IsSettingsVisible="False"
+            AlwaysShowHeader="False"
+            IsTabStop="False">
+            <i:Interaction.Behaviors>
+                <behaviors:NavigationViewBehavior 
+                    MenuItems="{Binding Menus}"
+                    SelectedMenuItem="{Binding SelectedItem, Mode=TwoWay}"/>
+            </i:Interaction.Behaviors>
+            <ContentControl 
+                prismRegions:RegionManager.RegionName="ContentRegion" 
+				HorizontalContentAlignment="Stretch"
+				VerticalContentAlignment="Stretch"
+                not_ios:Padding="10,0,0,0"
+                ios:Padding="10,20,0,0"/>
+        </NavigationView>
+
+        <Border Background="#7F000000" 
+                Visibility="{Binding IsBusy, Converter={StaticResource BoolToVisibilityConverter}}">
+            <ProgressRing IsActive="True" 
+                          win:Width="60" win:Height="60" 
+                          not_win:Width="40" not_win:Height="40"
+                          Foreground="White"/>
+        </Border>
+
+    </Grid>
+</ContentControl>
