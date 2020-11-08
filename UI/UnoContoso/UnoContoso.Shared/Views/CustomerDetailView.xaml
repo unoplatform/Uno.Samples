@@ -21,16 +21,12 @@
                              ViewModel="{x:Bind ViewModel}"/>
 
         <DataTemplate x:Key="InvoiceTemplate">
-            <win:HyperlinkButton
+            <HyperlinkButton
                 Content="{Binding InvoiceNumber}"
                 Margin="12,0"
-                Command="{Binding Source={StaticResource ViewModelElement}, 
+                win:Command="{Binding Source={StaticResource ViewModelElement}, 
                     Path=ViewModel.ViewInvoiceCommand}"
-                CommandParameter="{Binding}"/>
-            <not_win:HyperlinkButton
-                Content="{Binding InvoiceNumber}"
-                Margin="12,0"
-                Command="{Binding ElementName=DataGrid, 
+                not_win:Command="{Binding ElementName=DataGrid, 
                     Path=DataContext.ViewInvoiceCommand}"
                 CommandParameter="{Binding}"/>
         </DataTemplate>
@@ -191,7 +187,7 @@
                             Text="Orders"
                             Style="{ThemeResource SubtitleTextBlockStyle}"/>
                     </Border>
-                    
+
                     <toolkit:DataGrid
                         x:Name="DataGrid"
                         Margin="0,4,0,0"
@@ -217,7 +213,9 @@
                                         <TextBlock
                                             VerticalAlignment="Center"
                                             Margin="12,0"
-                                            Text="{Binding DatePlaced}"/>
+                                            Text="{Binding DatePlaced, Mode=OneWay,
+                                                Converter={StaticResource StringFormatConverter},
+                                                ConverterParameter='{}{0:g}'}"/>
                                     </DataTemplate>
                                 </toolkit:DataGridTemplateColumn.CellTemplate>
                             </toolkit:DataGridTemplateColumn>
@@ -229,7 +227,9 @@
                                         <TextBlock
                                             VerticalAlignment="Center"
                                             Margin="12,0"
-                                            Text="{Binding DateFilled}"/>
+                                            Text="{Binding DateFilled, Mode=OneWay,
+                                                Converter={StaticResource StringFormatConverter},
+                                                ConverterParameter='{}{0:g}'}"/>
                                     </DataTemplate>
                                 </toolkit:DataGridTemplateColumn.CellTemplate>
                             </toolkit:DataGridTemplateColumn>
@@ -240,7 +240,10 @@
                                         <TextBlock 
                                             VerticalAlignment="Center"
                                             Margin="12,0"
-                                            Text="{Binding Subtotal}"/>
+                                            Text="{Binding Subtotal, Mode=OneWay,
+                                                    Converter={StaticResource StringFormatConverter},
+                                                    ConverterParameter='{}{0:n}'}"
+                                            TextAlignment="Right"/>
                                     </DataTemplate>
                                 </toolkit:DataGridTemplateColumn.CellTemplate>
                             </toolkit:DataGridTemplateColumn>
@@ -251,7 +254,10 @@
                                         <TextBlock 
                                             VerticalAlignment="Center"
                                             Margin="12,0"
-                                            Text="{Binding Tax}"/>
+                                            Text="{Binding Tax, Mode=OneWay,
+                                                    Converter={StaticResource StringFormatConverter},
+                                                    ConverterParameter='{}{0:n}'}"
+                                            TextAlignment="Right"/>
                                     </DataTemplate>
                                 </toolkit:DataGridTemplateColumn.CellTemplate>
                             </toolkit:DataGridTemplateColumn>
@@ -263,7 +269,10 @@
                                         <TextBlock 
                                             VerticalAlignment="Center"
                                             Margin="12,0"
-                                            Text="{Binding GrandTotal}"/>
+                                            Text="{Binding GrandTotal, Mode=OneWay,
+                                                    Converter={StaticResource StringFormatConverter},
+                                                    ConverterParameter='{}{0:n}'}"
+                                            TextAlignment="Right"/>
                                     </DataTemplate>
                                 </toolkit:DataGridTemplateColumn.CellTemplate>
                             </toolkit:DataGridTemplateColumn>
@@ -316,7 +325,7 @@
                         <Setter Target="mainCommandBar.(RelativePanel.LeftOf)" Value="" />
                         <Setter Target="mainCommandBar.(RelativePanel.RightOf)" Value="" />
                         <Setter Target="mainCommandBar.HorizontalAlignment" Value="Stretch" />
-                        <Setter Target="CustomerSearchBox.Width" Value="300" />
+                        <Setter Target="CustomerSearchBox.Width" Value="240" />
                         <Setter Target="EmailText.(RelativePanel.AlignLeftWithPanel)" Value="True" />
                         <Setter Target="EmailText.(RelativePanel.Below)" Value="CompanyText" />
                         <Setter Target="EmailText.(RelativePanel.RightOf)" Value=""/>

@@ -25,7 +25,7 @@
                 Text="Edit" />
         </MenuFlyout>
     </UserControl.Resources>
-    
+
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <RelativePanel>
 
@@ -144,7 +144,61 @@
 
                 <SplitView.Content>
                     <Grid>
+                        <ListView
+                            x:Name="OrderListMobileView"
+                            Visibility="Collapsed"
+                            BorderThickness="0"
+                            ItemsSource="{x:Bind ViewModel.Orders, Mode=OneWay}"
+                            SelectedItem="{x:Bind ViewModel.SelectedOrder, Mode=TwoWay}">
+                            <ListView.ItemContainerStyle>
+                                <Style TargetType="ListViewItem">
+                                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                    <Setter Property="Padding" Value="4,10" />
+                                </Style>
+                            </ListView.ItemContainerStyle>
+                            <ListView.ItemTemplate>
+                                <DataTemplate x:DataType="models:Order">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Style="{StaticResource ListTitleStyle}">
+                                                <Run Text="{x:Bind InvoiceNumber, Mode=OneWay}"/>
+                                            </TextBlock>
+                                            <TextBlock Margin="4,0,0,0">
+                                                <Run>(</Run><Run Text="{x:Bind CustomerName}"/><Run>)</Run>
+                                            </TextBlock>
+                                        </StackPanel>
+                                        <TextBlock
+                                            Grid.Row="0" Grid.Column="1"
+                                            HorizontalAlignment="Right">
+                                            <Run Text="{x:Bind Status, Mode=OneWay}"/>
+                                        </TextBlock>
+                                        <TextBlock
+                                            Grid.Row="1" Grid.Column="0"
+                                            Text="{Binding DatePlaced, Mode=OneWay,
+                                                    Converter={StaticResource StringFormatConverter},
+                                                    ConverterParameter='{}{0:d}'}"
+                                            Style="{StaticResource ListSubTitleStyle}" />
+                                        <TextBlock 
+                                            Grid.Row="1" Grid.Column="1"
+                                            Text="{Binding GrandTotal, Mode=OneWay,
+                                                    Converter={StaticResource StringFormatConverter},
+                                                    ConverterParameter='{}{0:n}'}"
+                                            Style="{StaticResource ListSubTitleStyle}" />
+                                    </Grid>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+
                         <toolkit:DataGrid
+                            x:Name="OrderListDataGrid"
                             BorderThickness="0"
                             CanUserReorderColumns="False"
                             CanUserResizeColumns="False"
@@ -171,7 +225,7 @@
                                     Header="Date"
                                     Tag="DatePlaced">
                                     <toolkit:DataGridTemplateColumn.CellTemplate>
-                                        <DataTemplate x:DataType="models:Order">
+                                        <DataTemplate>
                                             <TextBlock
                                                 VerticalAlignment="Center"
                                                 Margin="12,0"
@@ -185,7 +239,7 @@
                                     Header="Total"
                                     Tag="GrandTotal">
                                     <toolkit:DataGridTemplateColumn.CellTemplate>
-                                        <DataTemplate x:DataType="models:Order">
+                                        <DataTemplate>
                                             <TextBlock 
                                                 VerticalAlignment="Center"
                                                 Margin="12,0"
@@ -241,10 +295,12 @@
                         <Setter Target="mainCommandBar.(RelativePanel.LeftOf)" Value="" />
                         <Setter Target="mainCommandBar.(RelativePanel.RightOf)" Value="" />
                         <Setter Target="mainCommandBar.HorizontalAlignment" Value="Stretch" />
-                        <Setter Target="OrderSearchBox.Width" Value="300" />
+                        <Setter Target="OrderSearchBox.Width" Value="240" />
                         <Setter Target="listSplitView.IsPaneOpen" Value="False" />
-                        <Setter Target="listSplitView.Margin" Value="0,0,0,30" />
+                        <Setter Target="listSplitView.Margin" Value="0,0,0,0" />
                         <Setter Target="PageTitle.Margin" Value="30,0,0,0"/>
+                        <Setter Target="OrderListMobileView.Visibility" Value="Visible"/>
+                        <Setter Target="OrderListDataGrid.Visibility" Value="Collapsed"/>
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>

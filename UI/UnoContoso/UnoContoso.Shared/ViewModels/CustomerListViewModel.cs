@@ -32,10 +32,10 @@ namespace UnoContoso.ViewModels
 
         private IList<CustomerWrapper> _customers;
 
-        public IList<CustomerWrapper> Customers 
-        { 
+        public IList<CustomerWrapper> Customers
+        {
             get => _customers;
-            set => SetProperty(ref _customers, value); 
+            set => SetProperty(ref _customers, value);
         }
 
         private CustomerWrapper _selectedCustomer;
@@ -95,7 +95,7 @@ namespace UnoContoso.ViewModels
             _allCustomers = new List<CustomerWrapper>();
             Customers = new ObservableCollection<CustomerWrapper>();
 
-            ViewDetailCommand = new DelegateCommand(OnViewDetail, 
+            ViewDetailCommand = new DelegateCommand(OnViewDetail,
                 () => SelectedCustomer != null)
                 .ObservesProperty(() => SelectedCustomer);
             AddOrderCommand = new DelegateCommand(OnAddOrder,
@@ -150,7 +150,7 @@ namespace UnoContoso.ViewModels
 
         private async void CustomerListViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            switch(e.PropertyName)
+            switch (e.PropertyName)
             {
                 case nameof(SearchBoxText):
                     SetSuggestItems(SearchBoxText);
@@ -164,7 +164,7 @@ namespace UnoContoso.ViewModels
         private async Task SetCustomersAsync(string queryText)
         {
             Customers.Clear();
-            if(string.IsNullOrEmpty(queryText))
+            if (string.IsNullOrEmpty(queryText))
             {
                 Customers.AddRange(_allCustomers);
             }
@@ -183,7 +183,7 @@ namespace UnoContoso.ViewModels
             Debug.WriteLine($"queryText : {queryText}");
 
             var customers = _allCustomers
-                .Where(c => 
+                .Where(c =>
                     c.Address.StartsWith(queryText, StringComparison.OrdinalIgnoreCase) ||
                     c.FirstName.StartsWith(queryText, StringComparison.OrdinalIgnoreCase) ||
                     c.LastName.StartsWith(queryText, StringComparison.OrdinalIgnoreCase) ||
@@ -197,7 +197,7 @@ namespace UnoContoso.ViewModels
 
         private void SetSuggestItems(string searchBoxText)
         {
-            if(string.IsNullOrEmpty(searchBoxText))
+            if (string.IsNullOrEmpty(searchBoxText))
             {
                 Customers.Clear();
                 Customers.AddRange(_allCustomers);
@@ -214,10 +214,10 @@ namespace UnoContoso.ViewModels
 
         private void OnSync()
         {
-            Task.Run(async () => 
+            Task.Run(async () =>
             {
                 SetBusy("Sync", true);
-                foreach(var modifiedCustomer in Customers?
+                foreach (var modifiedCustomer in Customers?
                     .Where(c => c.IsModified)
                     .Select(c => c.Model))
                 {
@@ -265,22 +265,31 @@ namespace UnoContoso.ViewModels
             return new ObservableCollection<CustomerWrapper>(custs);
         }
 
-        public override async void OnNavigatedTo(NavigationContext navigationContext)
+        public override void OnNavigatedTo(NavigationContext navigationContext)
         {
             base.OnNavigatedTo(navigationContext);
 
-            if(_allCustomers?.Any() == false)
+            if (_allCustomers?.Any() == false)
             {
-                SetBusy("FirstLoading", true);
-                await DispatcherHelper.ExecuteOnUIThreadAsync(
-                    async () => 
-                    {
-                        _allCustomers = await GetCustomerListAsync();
-                        Customers.Clear();
-                        Customers.AddRange(_allCustomers);
-                    });
-                SetBusy("FirstLoading", false);
+                LoadCustomers();
             }
+        }
+
+        private async void LoadCustomers()
+        {
+            SetBusy("FirstLoading", true);
+            _allCustomers?.Clear();
+            Customers.Clear();
+            SelectedCustomer = null;
+
+            await DispatcherHelper.ExecuteOnUIThreadAsync(
+                async () =>
+                {
+                    _allCustomers = await GetCustomerListAsync();
+                    Customers.AddRange(_allCustomers);
+                });
+            SetBusy("FirstLoading", false);
+
         }
     }
 }
