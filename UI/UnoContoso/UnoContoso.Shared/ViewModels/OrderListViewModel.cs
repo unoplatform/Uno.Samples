@@ -38,7 +38,7 @@ namespace UnoContoso.ViewModels
         public Order SelectedOrder
         {
             get { return _selectedOrder; }
-            set 
+            set
             {
                 if (SetProperty(ref _selectedOrder, value))
                 {
@@ -64,7 +64,7 @@ namespace UnoContoso.ViewModels
         {
             var customer = await _contosoRepository.Customers.GetAsync(customerId);
             await DispatcherHelper.ExecuteOnUIThreadAsync(
-                () => 
+                () =>
                 {
                     SelectedCustomer = customer;
                 });
@@ -135,20 +135,20 @@ namespace UnoContoso.ViewModels
             PropertyChanged += OrderListViewModel_PropertyChanged;
         }
 
-        private async void OrderListViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        private void OrderListViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            switch(e.PropertyName)
+            switch (e.PropertyName)
             {
                 case nameof(SearchBoxText):
                     SetSuggestItems(SearchBoxText);
                     break;
                 case nameof(QueryText):
-                    await SetOrdersAsync(QueryText);
+                    SetOrders(QueryText);
                     break;
             }
         }
 
-        private async Task SetOrdersAsync(string queryText)
+        private void SetOrders(string queryText)
         {
             Orders.Clear();
             if (string.IsNullOrEmpty(queryText))
@@ -157,12 +157,8 @@ namespace UnoContoso.ViewModels
             }
             else
             {
-                await DispatcherHelper.ExecuteOnUIThreadAsync(
-                    () =>
-                    {
-                        List<Order> orders = GetOrders(queryText);
-                        Orders.AddRange(orders);
-                    });
+                List<Order> orders = GetOrders(queryText);
+                Orders.AddRange(orders);
             }
         }
 
@@ -229,12 +225,14 @@ namespace UnoContoso.ViewModels
                         {"title", $"Delete to Invoice # {deleteOrder.InvoiceNumber}?" },
                         {"message", $"Are you sure you want to delete Invoice # {deleteOrder.InvoiceNumber}" },
                         {"buttons", "Yes,No"}
-                    }, async result => 
+                    }, async result =>
                     {
                         if (result.Result != ButtonResult.Yes) return;
                         await _contosoRepository.Orders.DeleteAsync(deleteOrder.Id);
+                        MasterOrdersList.Remove(deleteOrder);
+                        Orders.Remove(deleteOrder);
                     });
-                //todo : 삭제된 오더를 화면에서 삭제해야하는거 아닌가??
+
             }
             catch (OrderDeletionException ex)
             {
@@ -251,8 +249,8 @@ namespace UnoContoso.ViewModels
 
         private void OnEdit()
         {
-            NavigationService.RequestNavigate("OrderDetailView", 
-                new NavigationParameters 
+            NavigationService.RequestNavigate("OrderDetailView",
+                new NavigationParameters
                 {
                     {"OrderId", SelectedOrder.Id }
                 });
@@ -260,21 +258,16 @@ namespace UnoContoso.ViewModels
 
         private async void LoadOrders()
         {
-            await DispatcherHelper.ExecuteOnUIThreadAsync(
-                () =>
-                {
-                    SetBusy("LoadOrders", true);
-                    Orders.Clear();
-                    MasterOrdersList.Clear();
-                    SelectedOrder = null;
-                    SelectedCustomer = null;
-                });
-
-            var orders = await _contosoRepository.Orders.GetAsync();
+            SetBusy("LoadOrders", true);
+            Orders.Clear();
+            MasterOrdersList.Clear();
+            SelectedOrder = null;
+            SelectedCustomer = null;
 
             await DispatcherHelper.ExecuteOnUIThreadAsync(
-                () =>
+                async () =>
                 {
+                    var orders = await _contosoRepository.Orders.GetAsync();
                     Orders.AddRange(orders);
                     MasterOrdersList.AddRange(orders);
                     SetBusy("LoadOrders", false);
@@ -285,7 +278,7 @@ namespace UnoContoso.ViewModels
         {
             base.OnNavigatedTo(navigationContext);
 
-            if (Orders.Count < 1)
+            if (Orders?.Any() == false)
             {
                 LoadOrders();
             }

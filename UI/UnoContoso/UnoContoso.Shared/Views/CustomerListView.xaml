@@ -29,7 +29,7 @@
                 Text="Add order" />
         </MenuFlyout>
     </UserControl.Resources>
-    
+
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <RelativePanel>
             <TextBlock 
@@ -80,7 +80,7 @@
                 Text="{x:Bind ViewModel.SearchBoxText, Mode=TwoWay}"
                 ItemsSource="{x:Bind ViewModel.SuggestItems, Mode=OneWay}"
                 QueryText="{x:Bind ViewModel.QueryText, Mode=TwoWay}" />
-            
+
             <Grid
                 x:Name="RootDataGrid"
                 Margin="0,10,0,0"
@@ -137,7 +137,7 @@
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
-                
+
                 <toolkit:DataGrid
                     x:Name="CustomerDataGrid"
                     Visibility="Visible"
@@ -157,7 +157,7 @@
                     <i:Interaction.Behaviors>
                         <behaviors:DataGridBehavior/>
                     </i:Interaction.Behaviors>
-		            <toolkit:DataGrid.Columns>
+                    <toolkit:DataGrid.Columns>
                         <toolkit:DataGridTextColumn
                             Header="First name"
                             Tag="FirstName"
@@ -219,7 +219,7 @@
                         <Setter Target="mainCommandBar.(RelativePanel.RightOf)" Value="" />
                         <Setter Target="mainCommandBar.HorizontalAlignment" Value="Stretch" />
                         <Setter Target="PageTitle.Margin" Value="30,4,0,0"/>
-                        <Setter Target="CustomerSearchBox.Width" Value="300" />
+                        <Setter Target="CustomerSearchBox.Width" Value="240" />
                         <Setter Target="RootDataGrid.Margin" Value="0,10,0,40" />
                         <Setter Target="CustomerListMobileView.Visibility" Value="Visible"/>
                         <Setter Target="CustomerDataGrid.Visibility" Value="Collapsed"/>
