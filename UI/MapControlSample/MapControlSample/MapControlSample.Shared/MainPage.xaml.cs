@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using Windows.Devices.Geolocation;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
@@ -25,6 +26,8 @@ namespace MapControlSample
 		public MainPage()
 		{
 			this.InitializeComponent();
+
+			MapControl.Center = new Geopoint(new BasicGeoposition { Latitude = 45.491912, Longitude = -73.551542 });
 		}
 	}
 }
