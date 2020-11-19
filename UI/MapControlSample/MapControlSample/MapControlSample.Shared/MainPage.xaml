@@ -22,7 +22,8 @@
 					x:Name="zoomSlider"
 					Value="12" />
 		</StackPanel>
-		<maps:MapControl Grid.Row="1"
+		<maps:MapControl x:Name="MapControl"
+						 Grid.Row="1"
 						 ZoomLevel="{Binding ElementName=zoomSlider, Path=Value, Mode=TwoWay}" />
 	</Grid>
 </Page>
