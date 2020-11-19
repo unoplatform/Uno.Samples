@@ -30,4 +30,5 @@ using Android.App;
 [assembly: AssemblyFileVersion("1.0.0.0")]
 
 [assembly: UsesLibrary("com.google.android.maps")]
+// Set an API key locally to test the MapControl - https://developers.google.com/maps/documentation/android-sdk/get-api-key
 [assembly: MetaData("com.google.android.maps.v2.API_KEY", Value = "")]
