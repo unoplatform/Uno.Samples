@@ -35,19 +35,18 @@
   <ItemGroup>
     <!-- Note that for WebAssembly version 1.1.1 of the console logger required -->
     <PackageReference Include="sqlite-net-pcl" Version="1.7.335" />
-    <PackageReference Include="Uno.SQLitePCLRaw.provider.wasm" Version="3.0.14" />
+    <PackageReference Include="Uno.SQLitePCLRaw.provider.wasm" Version="3.0.0-dev.30" />
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="1.1.1" />
     <PackageReference Include="Microsoft.Extensions.Logging.Filter" Version="1.1.1" />
     <PackageReference Include="Uno.UI.WebAssembly" Version="3.1.0-beta.3" />
     <PackageReference Include="Uno.UI.RemoteControl" Version="3.1.0-beta.3" Condition="'$(Configuration)'=='Debug'" />
-    <PackageReference Include="Uno.Wasm.Bootstrap" Version="1.3.4" />
-    <PackageReference Include="Uno.Wasm.Bootstrap.DevServer" Version="1.3.4" />
+    <PackageReference Include="Uno.Wasm.Bootstrap" Version="1.3.6" />
+    <PackageReference Include="Uno.Wasm.Bootstrap.DevServer" Version="1.3.6" />
   </ItemGroup>
   <PropertyGroup>
     <CanUseAOT Condition="$([MSBuild]::IsOsPlatform('Linux')) or ( $([MSBuild]::IsOsPlatform('Windows')) and '$(BUILD_REPOSITORY_PROVIDER)'=='' )">true</CanUseAOT>
   </PropertyGroup>
   <ItemGroup Condition="'$(CanUseAOT)'==''">
-    <PackageReference Include="Uno.sqlite-wasm" Version="1.1.0-dev.16828" IncludeAssets="none" />
     <PackageReference Update="Uno.SQLitePCLRaw.provider.wasm" Version="3.0.14" IncludeAssets="none" />
   </ItemGroup>
   <Import Project="..\SQLiteSample.Shared\SQLiteSample.Shared.projitems" Label="Shared" Condition="Exists('..\SQLiteSample.Shared\SQLiteSample.Shared.projitems')" />
