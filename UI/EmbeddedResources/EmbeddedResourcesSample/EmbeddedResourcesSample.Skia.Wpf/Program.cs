@@ -1,0 +1,4 @@
+﻿
+namespace EmbeddedResourcesSample.Skia.Gtk
+{
+}
