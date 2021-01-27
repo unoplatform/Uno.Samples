@@ -6,16 +6,20 @@
     <NoWarn>NU1701</NoWarn>
     <MonoRuntimeDebuggerEnabled Condition="'$(Configuration)'=='Debug'">true</MonoRuntimeDebuggerEnabled>
     <WasmShellMonoRuntimeExecutionMode Condition="'$(Configuration)'=='Release'">InterpreterAndAOT</WasmShellMonoRuntimeExecutionMode>
-  </PropertyGroup>
+		<UnoUIUseRoslynSourceGenerators>false</UnoUIUseRoslynSourceGenerators>
+		<WasmShellILLinkerEnabled>false</WasmShellILLinkerEnabled>
+	</PropertyGroup>
   <ItemGroup>
     <Content Include="..\SkiaSharpTest.UWP\Assets\*.png" Link="Assets\%(FileName)%(Extension)" />
-    <Content Include="Fonts\winjs-symbols.woff2" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="WasmCSS\Fonts.css" />
     <EmbeddedResource Include="WasmScripts\AppManifest.js" />
   </ItemGroup>
-  <ItemGroup>
+	<ItemGroup>
+		<UpToDateCheckInput Include="..\SkiaSharpTest.Shared\**\*.xaml" />
+	</ItemGroup>
+	<ItemGroup>
     <LinkerDescriptor Include="LinkerConfig.xml" />
   </ItemGroup>
   <ItemGroup>
@@ -30,18 +34,20 @@
     You can safely remove this ItemGroup completely.
     -->
     <Compile Remove="Program.cs" />
+    <None Remove="Fonts\uno-fluentui-assets.ttf" />
     <Compile Include="Program.cs" />
+    <Content Include="Fonts\uno-fluentui-assets.ttf" />
     <Content Include="LinkerConfig.xml" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Uno.SkiaSharp.Views" Version="2.80.0-uno.493" />
-    <PackageReference Include="Uno.SkiaSharp.Wasm" Version="2.80.0-uno.493" />
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="1.1.1" />
     <PackageReference Include="Microsoft.Extensions.Logging.Filter" Version="1.1.1" />
-    <PackageReference Include="Uno.UI.WebAssembly" Version="3.5.0-dev.90" />
-    <PackageReference Include="Uno.UI.RemoteControl" Version="3.5.0-dev.90" Condition="'$(Configuration)'=='Debug'" />
-    <PackageReference Include="Uno.Wasm.Bootstrap" Version="2.0.0-dev.137" />
-    <PackageReference Include="Uno.Wasm.Bootstrap.DevServer" Version="2.0.0-dev.137" />
+    <PackageReference Include="SkiaSharp.NativeAssets.WebAssembly" Version="2.80.3-preview.24" />
+    <PackageReference Include="SkiaSharp.Views.Uno" Version="2.80.3-preview.24" />
+    <PackageReference Include="Uno.UI.WebAssembly" Version="3.5.0-dev.223" />
+    <PackageReference Include="Uno.UI.RemoteControl" Version="3.5.0-dev.223" Condition="'$(Configuration)'=='Debug'" />
+    <PackageReference Include="Uno.Wasm.Bootstrap" Version="2.0.0-dev.148" />
+    <PackageReference Include="Uno.Wasm.Bootstrap.DevServer" Version="2.0.0-dev.148" />
   </ItemGroup>
   <Import Project="..\SkiaSharpTest.Shared\SkiaSharpTest.Shared.projitems" Label="Shared" Condition="Exists('..\SkiaSharpTest.Shared\SkiaSharpTest.Shared.projitems')" />
 </Project>

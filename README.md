@@ -33,12 +33,21 @@ An example of creating a custom control library and calling a control from your 
 
 ### Dual-Screen
 A simple example using the `TwoPaneView` control spanned across dual screens (such as Neo or Duo dual-screen devices for example). 
+
+### EmbeddedResources
+An example that demonstrates the use of embedded resources and how to read them from your app.
+Note that the [`Default namespace`](https://stackoverflow.com/questions/2871314/change-project-namespace-in-visual-studio) property of all projects is the same in order for the embedded resources names to be the same on all platforms.
  
 ### Map Control  
 An implementation of the UWP `Maps` control with a custom slider that binds the value of the slider to the `ZoomLevel` property of the control. 
 
 ### Native Style Switch  
 An example of a toggle that allows you to switch between Native UI Controls and UWP UI Controls. The sample includes a checkbox, slider, button, and toggle. 
+
+### Package Resources
+An example that demonstrates the use of package assets and how to read them from your app. 
+
+Note that for WebAssembly assets are downloaded on demand, as can be seen in the brower's network tab.
 
 ### SkiaSharp Test  
 An example of the Uno implementation of SkiaSharp creating a basic canvas with text.

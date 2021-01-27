@@ -9,6 +9,20 @@
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-      <skia:SKXamlCanvas x:Name="test" PaintSurface="OnPaintSurface" />
-    </Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="auto"/>
+			<RowDefinition/>
+		</Grid.RowDefinitions>
+		<CheckBox Content="Hardware Accelerated" x:Name="hwAcceleration" />
+		<Grid Grid.Row="1">
+			<skia:SKSwapChainPanel
+				x:Name="swapChain"
+				PaintSurface="OnPaintSwapChain"
+				Visibility="{x:Bind hwAcceleration.IsChecked, Mode=OneWay}" />
+			<skia:SKXamlCanvas 
+				x:Name="canvas" 
+				PaintSurface="OnPaintSurface"
+				Visibility="{x:Bind Not(hwAcceleration.IsChecked), Mode=OneWay}" />
+		</Grid>
+	</Grid>
 </Page>
