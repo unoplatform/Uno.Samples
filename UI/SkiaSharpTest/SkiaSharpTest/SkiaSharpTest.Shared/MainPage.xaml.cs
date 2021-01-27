@@ -30,36 +30,52 @@ namespace SkiaSharpTest
             this.InitializeComponent();
         }
 
+		private Visibility Not(bool? value) => (!value ?? false) ? Visibility.Visible : Visibility.Collapsed;
+
+        private void OnPaintSwapChain(object sender, SKPaintGLSurfaceEventArgs e)
+		{
+			// the the canvas and properties
+			var canvas = e.Surface.Canvas;
+
+			Render(canvas, new Size(e.BackendRenderTarget.Width, e.BackendRenderTarget.Height), SKColors.Green, "SkiaSharp Hardware Rendering");
+		}
+
         private void OnPaintSurface(object sender, SKPaintSurfaceEventArgs e)
-        {
-            // the the canvas and properties
-            var canvas = e.Surface.Canvas;
+		{
+			// the the canvas and properties
+			var canvas = e.Surface.Canvas;
+			var info = e.Info;
 
-            // get the screen density for scaling
-            var display = DisplayInformation.GetForCurrentView();
-            var scale = display.LogicalDpi / 96.0f;
-            var scaledSize = new SKSize(e.Info.Width / scale, e.Info.Height / scale);
+			Render(canvas, new Size(info.Width, info.Height), SKColors.Yellow, "SkiaSharp Software Rendering");
+		}
 
-            // handle the device screen density
-            canvas.Scale(scale);
+		private static void Render(SKCanvas canvas, Size size, SKColor color, string text)
+		{
+			// get the screen density for scaling
+			var display = DisplayInformation.GetForCurrentView();
+			var scale = display.LogicalDpi / 96.0f;
+			var scaledSize = new SKSize((float)size.Width / scale, (float)size.Height / scale);
 
-            // make sure the canvas is blank
-            canvas.Clear(SKColors.Yellow);
+			// handle the device screen density
+			canvas.Scale(scale);
 
-            // draw some text
-            var paint = new SKPaint
-            {
-                Color = SKColors.Black,
-                IsAntialias = true,
-                Style = SKPaintStyle.Fill,
-                TextAlign = SKTextAlign.Center,
-                TextSize = 24
-            };
-            var coord = new SKPoint(scaledSize.Width / 2, (scaledSize.Height + paint.TextSize) / 2);
-            canvas.DrawText("SkiaSharp", coord, paint);
+			// make sure the canvas is blank
+			canvas.Clear(color);
 
-            // Width 41.6587026 => 144.34135
-            // Height 56 => 147
-        }
-    }
+			// draw some text
+			var paint = new SKPaint
+			{
+				Color = SKColors.Black,
+				IsAntialias = true,
+				Style = SKPaintStyle.Fill,
+				TextAlign = SKTextAlign.Center,
+				TextSize = 24
+			};
+			var coord = new SKPoint(scaledSize.Width / 2, (scaledSize.Height + paint.TextSize) / 2);
+			canvas.DrawText(text, coord, paint);
+
+			// Width 41.6587026 => 144.34135
+			// Height 56 => 147
+		}
+	}
 }

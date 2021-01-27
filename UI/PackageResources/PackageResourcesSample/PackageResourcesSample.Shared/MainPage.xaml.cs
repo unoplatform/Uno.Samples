@@ -26,6 +26,8 @@ namespace PackageResourcesSample
 		public MainPage()
 		{
 			this.InitializeComponent();
+
+			var o = new ToggleSwitch { FlowDirection = FlowDirection.RightToLeft };
 		}
 
 		private async void LoadPackageFile()
