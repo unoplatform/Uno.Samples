@@ -1,0 +1,74 @@
+﻿<UserControl
+    x:Class="TimeEntryUno.Shared.Views.Login.LoginStatus"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:TimeEntryUno.Shared.Views.Login"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:Height="100"
+    d:Width="800"
+    mc:Ignorable="d">
+
+    <Grid x:Name="LayoutRoot">
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="loginStates">
+                <VisualState x:Name="windowsAuth">
+                    <Storyboard>
+                        <ObjectAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="loginControls" Storyboard.TargetProperty="(UIElement.Visibility)">
+                            <DiscreteObjectKeyFrame KeyTime="00:00:00.0000000">
+                                <DiscreteObjectKeyFrame.Value>
+                                    <Visibility>Collapsed</Visibility>
+                                </DiscreteObjectKeyFrame.Value>
+                            </DiscreteObjectKeyFrame>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="logoutButton" Storyboard.TargetProperty="(UIElement.Visibility)">
+                            <DiscreteObjectKeyFrame KeyTime="00:00:00.0000000">
+                                <DiscreteObjectKeyFrame.Value>
+                                    <Visibility>Collapsed</Visibility>
+                                </DiscreteObjectKeyFrame.Value>
+                            </DiscreteObjectKeyFrame>
+                        </ObjectAnimationUsingKeyFrames>
+                    </Storyboard>
+                </VisualState>
+                <VisualState x:Name="loggedIn">
+                    <Storyboard>
+                        <ObjectAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="loginControls" Storyboard.TargetProperty="(UIElement.Visibility)">
+                            <DiscreteObjectKeyFrame KeyTime="00:00:00.0000000">
+                                <DiscreteObjectKeyFrame.Value>
+                                    <Visibility>Collapsed</Visibility>
+                                </DiscreteObjectKeyFrame.Value>
+                            </DiscreteObjectKeyFrame>
+                        </ObjectAnimationUsingKeyFrames>
+                    </Storyboard>
+                </VisualState>
+                <VisualState x:Name="loggedOut">
+                    <Storyboard>
+                        <ObjectAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="logoutControls" Storyboard.TargetProperty="(UIElement.Visibility)">
+                            <DiscreteObjectKeyFrame KeyTime="00:00:00.0000000">
+                                <DiscreteObjectKeyFrame.Value>
+                                    <Visibility>Collapsed</Visibility>
+                                </DiscreteObjectKeyFrame.Value>
+                            </DiscreteObjectKeyFrame>
+                        </ObjectAnimationUsingKeyFrames>
+                    </Storyboard>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+
+        <StackPanel x:Name="loginControls" Style="{StaticResource LoginPanelStyle}">
+            <Button x:Name="loginButton" x:Uid="LoginButton"                    
+                    Style="{StaticResource LoginRegisterLinkStyle}" 
+                    Click="LoginButton_Click" />
+        </StackPanel>
+
+        <StackPanel x:Name="logoutControls" Style="{StaticResource LoginPanelStyle}">
+            <!-- welcomeText.Text property's binding is setup in code-behind -->
+            <TextBlock x:Name="welcomeText" Style="{StaticResource WelcomeTextStyle}"/>
+            <TextBlock Text="  |  " Style="{StaticResource SpacerStyle}"/>
+            <Button x:Name="logoutButton" 
+                    x:Uid="LogoutButton"
+                    Style="{StaticResource LoginRegisterLinkStyle}" 
+                    Click="LogoutButton_Click" />
+        </StackPanel>
+    </Grid>
+</UserControl>

@@ -1,0 +1,82 @@
+﻿<UserControl 
+  x:Class="TimeEntryRia.MainPage"
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:navigation="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Navigation" 
+  xmlns:uriMapper="clr-namespace:System.Windows.Navigation;assembly=System.Windows.Controls.Navigation"
+  xmlns:dataControls="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Data.DataForm.Toolkit" 
+  xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+  mc:Ignorable="d" d:DesignWidth="1000" d:DesignHeight="480">
+
+    <Grid x:Name="LayoutRoot" Style="{StaticResource LayoutRootGridStyle}">
+
+        <Border x:Name="BackgroundBorder" Style="{StaticResource ContentBorderStyle}"/>
+
+        <Border x:Name="ContentBorder">
+            <navigation:Frame x:Name="ContentFrame" Style="{StaticResource ContentFrameStyle}" 
+                              Source="/Home" 
+                              Navigated="ContentFrame_Navigated" 
+                              NavigationFailed="ContentFrame_NavigationFailed"
+                              Navigating="ContentFrame_Navigating">
+                <navigation:Frame.UriMapper>
+                    <uriMapper:UriMapper>
+                        <uriMapper:UriMapping Uri="" MappedUri="/Views/Home.xaml"/>
+                        <uriMapper:UriMapping Uri="/AddTimeEntry/{date}" MappedUri="/Views/AddTimeEntryPage.xaml?date={date}"/>
+                        <uriMapper:UriMapping Uri="/{pageName}" MappedUri="/Views/{pageName}.xaml"/>
+                    </uriMapper:UriMapper>
+                </navigation:Frame.UriMapper>
+            </navigation:Frame>
+        </Border>
+
+        <Grid Style="{StaticResource NavigationOuterGridStyle}">
+            <Grid x:Name="NavigationGrid" Style="{StaticResource NavigationGridStyle}">
+
+                <Border x:Name="BrandingBorder" Style="{StaticResource BrandingBorderStyle}">
+                    <StackPanel x:Name="BrandingStackPanel" Style="{StaticResource BrandingStackPanelStyle}">
+
+                        <ContentControl Style="{StaticResource LogoIcon}"/>
+                        <TextBlock x:Name="ApplicationNameTextBlock" Style="{StaticResource ApplicationNameStyle}" 
+                               Text="{Binding ApplicationStrings.ApplicationName, Source={StaticResource ResourceWrapper}}"/>
+
+                    </StackPanel>
+                </Border>
+
+                <Border x:Name="LinksBorder" Style="{StaticResource LinksBorderStyle}">
+                    <StackPanel x:Name="LinksStackPanel" Style="{StaticResource LinksStackPanelStyle}">
+
+                        <HyperlinkButton x:Name="Link1" Style="{StaticResource LinkStyle}" 
+                                     NavigateUri="/Home" TargetName="ContentFrame" Content="{Binding Path=ApplicationStrings.HomePageTitle, Source={StaticResource ResourceWrapper}}"/>
+
+                        <Rectangle Style="{StaticResource DividerStyle}"/>
+
+                        <HyperlinkButton x:Name="Link2" Style="{StaticResource LinkStyle}" 
+                                     NavigateUri="/TimeEntryPage" TargetName="ContentFrame" Content="{Binding Path=ApplicationStrings.TimeEntryNavTitle, Source={StaticResource ResourceWrapper}}"/>
+
+                        <Rectangle  Style="{StaticResource DividerStyle}"/>
+
+                        <HyperlinkButton x:Name="Link3" Style="{StaticResource LinkStyle}" 
+                                     NavigateUri="/ReportsPage" TargetName="ContentFrame" Content="{Binding Path=ApplicationStrings.ReportsPageTitle, Source={StaticResource ResourceWrapper}}"/>
+
+                        <Rectangle  Style="{StaticResource DividerStyle}"/>
+
+                        <HyperlinkButton x:Name="Link4" Style="{StaticResource LinkStyle}" 
+                                     NavigateUri="/AdminPage" TargetName="ContentFrame" Content="{Binding Path=ApplicationStrings.AdminPageTitle, Source={StaticResource ResourceWrapper}}"/>
+
+                        <Rectangle  Style="{StaticResource DividerStyle}"/>
+
+                        <HyperlinkButton x:Name="Link5" Style="{StaticResource LinkStyle}" 
+                                     NavigateUri="/About" TargetName="ContentFrame" Content="{Binding Path=ApplicationStrings.AboutPageTitle, Source={StaticResource ResourceWrapper}}"/>
+
+                    </StackPanel>
+                </Border>
+
+            </Grid>
+
+            <Border x:Name="loginContainer" Style="{StaticResource LoginContainerStyle}" Padding="8">
+                <!-- LoginStatus will be added here in code behind. This is required for the designer view to work -->
+            </Border>
+        </Grid>
+
+    </Grid>
+
+</UserControl>

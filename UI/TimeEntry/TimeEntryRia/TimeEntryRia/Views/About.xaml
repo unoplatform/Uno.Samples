@@ -1,0 +1,54 @@
+﻿<navigation:Page 
+  x:Class="TimeEntryRia.About" 
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+  xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+  xmlns:navigation="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Navigation"
+  mc:Ignorable="d" d:DesignWidth="640" d:DesignHeight="480"  
+  Style="{StaticResource PageStyle}">
+
+    <Grid x:Name="LayoutRoot">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <TextBlock x:Name="HeaderText" Style="{StaticResource HeaderTextStyle}" 
+                           Text="{Binding Path=ApplicationStrings.AboutPageTitle, Source={StaticResource ResourceWrapper}}"/>
+        <ScrollViewer Grid.Row="1" x:Name="PageScrollViewer" Style="{StaticResource PageScrollViewerStyle}">
+
+            <StackPanel x:Name="ContentStackPanel" Style="{StaticResource ContentStackPanelStyle}">
+
+
+                <TextBlock x:Name="ContentText" Style="{StaticResource ContentTextStyle}" FontWeight="Bold"
+                           Text="{Binding ApplicationStrings.ApplicationName, Source={StaticResource ResourceWrapper}}"/>
+
+                <TextBlock x:Name="VersionInfo" Style="{StaticResource ContentTextStyle}"/>
+
+                <TextBlock x:Name="BodyContent" Style="{StaticResource ContentTextStyle}" TextWrapping="Wrap"
+                           Text="A simple Silverlight application that will be used as the basis for a series of articles on migrating from Silverlight to Uno."/>
+
+                <TextBlock Style="{StaticResource ContentTextStyle}" Foreground="{StaticResource HighLightColorBrush}"
+                           Text="3rd Party Resources"/>
+
+
+                <StackPanel Orientation="Horizontal">
+                    <Ellipse Width="4" Height="4" Fill="Black" Margin="4"/>
+                    <TextBlock Style="{StaticResource ContentTextStyle}" VerticalAlignment="Center"
+                           Text="Icons from Icons8.com: " />
+                    <HyperlinkButton VerticalAlignment="Center" Click="HyperlinkButton_Click">https://icons8.com</HyperlinkButton>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Ellipse Width="4" Height="4" Fill="Black" Margin="4"/>
+                    <StackPanel>
+                        <TextBlock Style="{StaticResource ContentTextStyle}" VerticalAlignment="Center" TextWrapping="Wrap"
+                           Text="MVVM Base files from Pro Business Applications with Silverlight 5 by Chris Anderson (Apress, 2012): " />
+                        <HyperlinkButton VerticalAlignment="Center" Click="HyperlinkButton_Click">https://www.apress.com/us/book/9781430235002</HyperlinkButton>
+                    </StackPanel>
+                </StackPanel>
+
+            </StackPanel>
+
+        </ScrollViewer>
+    </Grid>
+
+</navigation:Page>

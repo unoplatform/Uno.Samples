@@ -1,0 +1,32 @@
+<Page
+    x:Class="TimeEntryUno.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:TimeEntryUno"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"  
+    xmlns:login="using:TimeEntryUno.Shared.Views.Login"
+    mc:Ignorable="d" d:DesignWidth="863.588" d:DesignHeight="461.826">
+ 
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <muxc:NavigationView x:Name="NavView" PaneDisplayMode="Top" IsSettingsVisible="False" 
+                        IsBackEnabled="{Binding ElementName=ContentFrame, Path=CanGoBack}">
+            <muxc:NavigationView.MenuItems>
+                <muxc:NavigationViewItem x:Uid="NavHome" Content="Home - D" Tag="HomePage"/>
+                <muxc:NavigationViewItem x:Uid="NavTimeEntry" Content="Time Entry" Tag="TimeEntryPage" />
+                <muxc:NavigationViewItem x:Uid="NavReports" Content="Reports" Tag="ReportsPage" />
+                <muxc:NavigationViewItem x:Uid="NavAdmin" Content="Admin" Tag="AdminPage" />
+                <muxc:NavigationViewItem x:Uid="NavAbout" Content="About" Tag="AboutPage" />
+            </muxc:NavigationView.MenuItems>
+            <muxc:NavigationView.PaneFooter>
+                <!--<TextBlock VerticalAlignment="Center" Margin="12,0" Text="LOGIN CONTROL PLACEHOLDER" />-->
+                <login:LoginStatus />
+            </muxc:NavigationView.PaneFooter>
+            <ScrollViewer>
+                <Frame x:Name="ContentFrame" Padding="12,0,12,24" IsTabStop="True"
+                       NavigationFailed="ContentFrame_NavigationFailed"/>
+            </ScrollViewer>
+        </muxc:NavigationView>
+    </Grid>
+</Page>

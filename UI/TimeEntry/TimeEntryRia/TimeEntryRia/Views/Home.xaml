@@ -1,0 +1,45 @@
+﻿<navigation:Page
+  x:Class="TimeEntryRia.Home" 
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+  xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+  xmlns:navigation="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Navigation"
+  mc:Ignorable="d" d:DesignWidth="640" d:DesignHeight="480"  
+  Style="{StaticResource PageStyle}">
+
+  <Grid x:Name="LayoutRoot">
+
+        <TextBlock x:Name="HeaderText" Style="{StaticResource HeaderTextStyle}" 
+                           Text="{Binding Path=ApplicationStrings.HomePageTitle, Source={StaticResource ResourceWrapper}}"/>
+        <Grid VerticalAlignment="Center" HorizontalAlignment="Center">
+            <Rectangle Style="{StaticResource ContentPanelBackground}" />
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="48">
+                <HyperlinkButton Margin="12" NavigateUri="/TimeEntryPage">
+                    <Grid>
+                        <Rectangle Style="{StaticResource HomeNavButtonsBackground}"/>
+                        <Image Source="../Assets/Images/icons8-watch-50.png" Stretch="None" />
+                        <TextBlock Style="{StaticResource HomeNavButtonsText}" 
+                               Text="Time Entries" />
+                    </Grid>
+                </HyperlinkButton>
+                <HyperlinkButton Margin="12" NavigateUri="/ReportsPage">
+                    <Grid>
+                        <Rectangle Style="{StaticResource HomeNavButtonsBackground}"/>
+                        <Image Source="../Assets/Images/icons8-doughnut-chart-50.png" Stretch="None" />
+                        <TextBlock Style="{StaticResource HomeNavButtonsText}"
+                               Text="Reports" />
+                    </Grid>
+                </HyperlinkButton>
+                <HyperlinkButton Margin="12" NavigateUri="/AdminPage">
+                    <Grid>
+                        <Rectangle Style="{StaticResource HomeNavButtonsBackground}"/>
+                        <Image Source="../Assets/Images/icons8-control-panel-50.png" Stretch="None" />
+                        <TextBlock Style="{StaticResource HomeNavButtonsText}" 
+                               Text="Admin" />
+                    </Grid>
+                </HyperlinkButton>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</navigation:Page>

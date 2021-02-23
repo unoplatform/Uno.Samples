@@ -1,0 +1,34 @@
+﻿<ContentDialog
+    x:Class="TimeEntryUno.Shared.Views.Login.LoginForm"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:TimeEntryUno.Shared.Views.Login"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    x:Uid="LoginDialog"
+    Title="TITLE"
+    PrimaryButtonText="Button1"
+    SecondaryButtonText="Button2"
+    PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
+    SecondaryButtonClick="ContentDialog_SecondaryButtonClick">
+
+    <Grid>
+        <StackPanel>
+            <Border Background="Red" Margin="4" Padding="4" 
+                    Visibility="{x:Bind IsErrorMessageVisible(), Mode=OneWay}">
+                <TextBlock Foreground="White" 
+                           Text="{x:Bind ErrorMessage, Mode=TwoWay}"/>
+            </Border>
+            <TextBox x:Uid="UserName" Margin="4" 
+                     Text="{x:Bind UserName, Mode=TwoWay}"/>
+            <PasswordBox x:Uid="Password" Margin="4" 
+                         Password="{x:Bind Password, Mode=TwoWay}"/>
+            <CheckBox x:Uid="StaySignedIn" Margin="4" IsThreeState="False" 
+                      IsChecked="{x:Bind StaySignedIn, Mode=TwoWay}"/>
+        </StackPanel>
+        <ProgressRing IsActive="{x:Bind IsBusy, Mode=TwoWay}" 
+                      Visibility="{x:Bind IsBusyVisible(), Mode=OneWay}" 
+                      VerticalAlignment="Center" HorizontalAlignment="Center" />
+    </Grid>
+</ContentDialog>
