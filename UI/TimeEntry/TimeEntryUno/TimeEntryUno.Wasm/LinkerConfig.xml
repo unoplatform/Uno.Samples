@@ -1,0 +1,10 @@
+<linker>
+  <assembly fullname="TimeEntryUno.Wasm" />
+  <assembly fullname="Uno.UI" />
+  <assembly fullname="System.Text.Json" />
+  <assembly fullname="IdentityModel" />
+  <assembly fullname="System.Core">
+	<!-- This is required by JSon.NET and any expression.Compile caller -->
+	<type fullname="System.Linq.Expressions*" />
+  </assembly>
+</linker>

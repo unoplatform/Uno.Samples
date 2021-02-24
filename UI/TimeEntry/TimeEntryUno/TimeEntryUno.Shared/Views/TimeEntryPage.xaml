@@ -1,0 +1,23 @@
+﻿<Page
+    x:Class="TimeEntryUno.Shared.Views.TimeEntryPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:TimeEntryUno.Shared.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Text="Time Entry" Grid.Row="0" Style="{StaticResource HeaderTextBlockStyle}"/>
+        <StackPanel x:Name="Body" Grid.Row="1">
+            <TextBlock Text="Placeholder stuff" x:Name="MessageText"/>
+            <TextBox x:Uid="DemoTextBox"/>
+        </StackPanel>
+    </Grid>
+</Page>

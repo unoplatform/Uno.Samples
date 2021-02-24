@@ -1,0 +1,44 @@
+﻿<navigation:Page x:Class="TimeEntryRia.Views.AddTimeEntryPage" 
+           xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+           xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+           xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+           xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+           mc:Ignorable="d"
+           xmlns:navigation="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Navigation"
+           d:DesignWidth="640" d:DesignHeight="480"
+                 xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk" 
+           xmlns:toolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit"
+           xmlns:converters="clr-namespace:TimeEntryRia">
+    <Grid x:Name="LayoutRoot">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <TextBlock x:Name="HeaderText" Style="{StaticResource HeaderTextStyle}" 
+                           Text="{Binding Path=ApplicationStrings.AddTimeEntryPageTitle, Source={StaticResource ResourceWrapper}}"/>
+        <StackPanel Grid.Row="1"
+                    Margin="12">
+            <toolkit:HeaderedContentControl HorizontalAlignment="Left" VerticalAlignment="Top" Header="{Binding Path=ApplicationStrings.TimeEntry_Date, Source={StaticResource ResourceWrapper}}">
+                <sdk:DatePicker Name="TimeEntryDate" 
+                                HorizontalAlignment="Left" VerticalAlignment="Center" Width="120" FirstDayOfWeek="Monday"
+                                SelectedDate="{Binding NewTimeEntry.Date, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true}"/>
+            </toolkit:HeaderedContentControl>
+            <toolkit:HeaderedContentControl HorizontalAlignment="Left" VerticalAlignment="Top" Header="{Binding Path=ApplicationStrings.TimeEntry_Project, Source={StaticResource ResourceWrapper}}">
+                <ComboBox Width="200" ItemsSource="{Binding Projects}" DisplayMemberPath="Name" SelectedValuePath="Value"
+                          SelectedValue="{Binding NewTimeEntry.ProjectId, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true}"/>
+            </toolkit:HeaderedContentControl>
+            <toolkit:HeaderedContentControl HorizontalAlignment="Left" VerticalAlignment="Top" Header="{Binding Path=ApplicationStrings.TimeEntry_Hours, Source={StaticResource ResourceWrapper}}">
+                <toolkit:NumericUpDown DecimalPlaces="1" Width="200" 
+                                       Value="{Binding NewTimeEntry.Hours, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true}" />
+            </toolkit:HeaderedContentControl>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button Margin="4" Command="{Binding SaveCommand}" Content="{Binding Path=ApplicationStrings.SaveButton, Source={StaticResource ResourceWrapper}}"/>
+                <Button Margin="4" Command="{Binding CancelCommand}" Content="{Binding Path=ApplicationStrings.CancelButton, Source={StaticResource ResourceWrapper}}"/>
+            </StackPanel>
+            <sdk:ValidationSummary DataContext="{Binding NewTimeEntry, Mode=TwoWay}"/>
+
+        </StackPanel>
+
+
+    </Grid>
+</navigation:Page>

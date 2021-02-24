@@ -1,0 +1,17 @@
+﻿<configuration>
+    <system.serviceModel>
+        <bindings>
+            <customBinding>
+                <binding name="CustomBinding_TimesheetSummaryService">
+                    <binaryMessageEncoding />
+                    <httpTransport maxReceivedMessageSize="2147483647" maxBufferSize="2147483647" />
+                </binding>
+            </customBinding>
+        </bindings>
+        <client>
+            <endpoint address="http://localhost:51114/Services/TimesheetSummaryService.svc"
+                binding="customBinding" bindingConfiguration="CustomBinding_TimesheetSummaryService"
+                contract="Services.TimesheetSummaryService" name="CustomBinding_TimesheetSummaryService" />
+        </client>
+    </system.serviceModel>
+</configuration>

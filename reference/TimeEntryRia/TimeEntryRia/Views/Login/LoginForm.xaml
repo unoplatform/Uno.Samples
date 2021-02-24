@@ -1,0 +1,36 @@
+﻿<StackPanel 
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:TimeEntryRia.Controls"
+    xmlns:login="clr-namespace:TimeEntryRia.LoginUI"
+    x:Class="TimeEntryRia.LoginUI.LoginForm"
+    KeyDown="LoginForm_KeyDown"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    mc:Ignorable="d"
+    d:DataContext="{d:DesignInstance Type=login:LoginInfo}">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <local:BusyIndicator x:Name="busyIndicator" BusyContent="{Binding Path=ApplicationStrings.BusyIndicatorLoggingIn, Source={StaticResource ResourceWrapper}}"
+                             IsBusy="{Binding IsLoggingIn}">
+            <StackPanel Orientation="Vertical">
+                <local:CustomDataForm x:Name="loginForm"
+                                      Padding="10,10,20,0"
+                                      CurrentItem="{Binding}"
+                                      IsEnabled="{Binding IsLoggingIn, Converter={StaticResource NotOperatorValueConverter}}"
+                                      AutoEdit="True" CommandButtonsVisibility="None" HeaderVisibility="Collapsed" 
+                                      AutoGeneratingField="LoginForm_AutoGeneratingField" 
+                                      Style="{StaticResource LoginDataFormStyle}" />
+            </StackPanel>
+        </local:BusyIndicator>
+
+        <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,10,0">
+            <Button x:Name="loginButton" Content="{Binding Path=ApplicationStrings.OKButton, Source={StaticResource ResourceWrapper}}" Click="LoginButton_Click" Style="{StaticResource RegisterLoginButtonStyle}" IsEnabled="{Binding Path=CanLogIn}" />
+            <Button x:Name="loginCancel" Content="{Binding Path=ApplicationStrings.CancelButton, Source={StaticResource ResourceWrapper}}" Click="CancelButton_Click" Style="{StaticResource RegisterLoginButtonStyle}" />
+        </StackPanel>
+    </Grid>
+</StackPanel>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://www.custommayd.com/timeentry" elementFormDefault="qualified" targetNamespace="http://www.custommayd.com/timeentry" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://localhost:51114/Services/TimesheetSummaryService.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/TimeEntryRia.Web.Models" />
+  <xs:element name="GetWeekSummary">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="userId" type="xs:int" />
+        <xs:element minOccurs="0" name="weekStartDate" type="xs:dateTime" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetWeekSummaryResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/TimeEntryRia.Web.Models" minOccurs="0" name="GetWeekSummaryResult" nillable="true" type="q1:ArrayOfSummaryRow" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

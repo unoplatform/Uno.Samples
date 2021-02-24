@@ -1,0 +1,42 @@
+﻿<navigation:Page 
+           xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+           xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+           xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+           xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+           xmlns:navigation="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Navigation"
+           xmlns:riaControls="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.DomainServices" xmlns:Web="clr-namespace:TimeEntryRia.Web" xmlns:Services="clr-namespace:TimeEntryRia.Web.Services" xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk" x:Class="TimeEntryRia.Views.AdminPage"
+           mc:Ignorable="d"
+           d:DesignWidth="640" d:DesignHeight="480"
+           Title="AdminPage Page">
+    <Grid x:Name="LayoutRoot">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <TextBlock x:Name="HeaderText" Style="{StaticResource HeaderTextStyle}" 
+			Text="{Binding ApplicationStrings.AdminPageTitle, Source={StaticResource ResourceWrapper}}"/>
+        <riaControls:DomainDataSource x:Name="projectDomainDataSource" AutoLoad="True" Height="0" 
+                                      LoadedData="projectDomainDataSource_LoadedData" QueryName="GetProjectsQuery" 
+                                      Width="0" d:DesignData="{d:DesignInstance Web:Project, CreateList=true}" FontFamily="Portable User Interface">
+            <riaControls:DomainDataSource.DomainContext>
+                <Services:ProjectContext/>
+            </riaControls:DomainDataSource.DomainContext>
+            <!-- https://stackoverflow.com/questions/226433/set-initial-sort-order-in-silverlight-datagrid -->
+            <riaControls:DomainDataSource.SortDescriptors>
+                <riaControls:SortDescriptor PropertyPath="Id" Direction="Ascending" />
+            </riaControls:DomainDataSource.SortDescriptors>
+        </riaControls:DomainDataSource>
+        <sdk:DataPager x:Name="projectPager" Grid.Row="1" Source="{Binding Data, ElementName=projectDomainDataSource}" PageSize="10"/>
+        <Button x:Name="AddRow" Content="Add" Grid.Row="1" HorizontalAlignment="Left" Margin="4" Click="AddRow_Click"/>
+        <sdk:DataGrid x:Name="projectDataGrid" AutoGenerateColumns="False" ItemsSource="{Binding Data, ElementName=projectDomainDataSource}" 
+                      Grid.Row="2"
+                      RowDetailsVisibilityMode="VisibleWhenSelected" CanUserSortColumns="True" CanUserReorderColumns="False">
+            <sdk:DataGrid.Columns>
+                <sdk:DataGridTextColumn x:Name="idColumn" CanUserSort="True" Binding="{Binding Id, Mode=OneWay}" Header="Project ID" IsReadOnly="True" Width="SizeToHeader"/>
+                <sdk:DataGridTextColumn x:Name="nameColumn" Binding="{Binding Name}" Header="Project Name"/>
+            </sdk:DataGrid.Columns>
+        </sdk:DataGrid>
+    </Grid>
+
+</navigation:Page>

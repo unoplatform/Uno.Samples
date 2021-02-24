@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>6279c845-92f8-4333-ab99-3d213163593c</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>TimeEntryUno.Shared</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="$(MSBuildThisFileDirectory)App.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </ApplicationDefinition>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\ErrorDialogHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\TokenService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\DialogManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\ErrorMessageHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\NavigationSyncHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\NotOperatorValueConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\AuthenticationService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\SingletonBase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MainPage.xaml.cs">
+      <DependentUpon>MainPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Models\TimeEntryRoles.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\User.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\DialogExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Views\AboutPage.xaml.cs">
+      <DependentUpon>AboutPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Views\AdminPage.xaml.cs">
+      <DependentUpon>AdminPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Views\FatalErrorPage.xaml.cs">
+      <DependentUpon>FatalErrorPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Views\HomePage.xaml.cs">
+      <DependentUpon>HomePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Views\Login\LoginForm.xaml.cs">
+      <DependentUpon>LoginForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Views\Login\LoginStatus.xaml.cs">
+      <DependentUpon>LoginStatus.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Views\ReportsPage.xaml.cs">
+      <DependentUpon>ReportsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Views\TimeEntryPage.xaml.cs">
+      <DependentUpon>TimeEntryPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)WebServices\IdentityApi.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WebServices\IdentityServerClient.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WebServices\WebApiBase.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="$(MSBuildThisFileDirectory)MainPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Resources\Styles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Views\AboutPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Views\AdminPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Views\FatalErrorPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Views\HomePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Views\Login\LoginForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Views\Login\LoginStatus.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Views\ReportsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Views\TimeEntryPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)Assets\SharedAssets.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <PRIResource Include="$(MSBuildThisFileDirectory)Strings\en\ErrorMessages.resw" />
+    <PRIResource Include="$(MSBuildThisFileDirectory)Strings\en\Resources.resw" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\icons8-add-user-male-50.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\icons8-calendar-12-50.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\icons8-change-user-50.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\icons8-control-panel-50.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\icons8-customer-50.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\icons8-date-from-50.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\icons8-date-to-50.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\icons8-delete-50.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\icons8-denied-50.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\icons8-doughnut-chart-50.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\icons8-pie-chart-50.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\icons8-plus-math-50.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\icons8-registration-50.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\icons8-timeline-50.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\icons8-watch-50.png" />
+  </ItemGroup>
+</Project>
