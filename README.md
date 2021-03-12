@@ -53,6 +53,10 @@ An example that demonstrates the use of package assets and how to read them from
 
 Note that for WebAssembly assets are downloaded on demand, as can be seen in the brower's network tab.
 
+### StatusBar Theme Color
+An example showing how to adjust the `StatusBar` and `CommandBar` dynamically based on the current light/dark theme.  
+[Browse source](UI/StatusBarThemeColor)
+
 ### SkiaSharp Test  
 An example of the Uno implementation of SkiaSharp creating a basic canvas with text.
 
