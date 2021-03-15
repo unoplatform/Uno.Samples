@@ -41,6 +41,10 @@ Note that the [`Default namespace`](https://stackoverflow.com/questions/2871314/
 ### Map Control  
 An implementation of the UWP `Maps` control with a custom slider that binds the value of the slider to the `ZoomLevel` property of the control. 
 
+### Native Frame Navigation
+An example showcasing how to set up the native frame navigation for iOS and Android, and frame navigation in general for Uno.  
+[Browse source](UI/NativeFrameNav)
+
 ### Native Style Switch  
 An example of a toggle that allows you to switch between Native UI Controls and UWP UI Controls. The sample includes a checkbox, slider, button, and toggle. 
 
@@ -48,6 +52,10 @@ An example of a toggle that allows you to switch between Native UI Controls and 
 An example that demonstrates the use of package assets and how to read them from your app. 
 
 Note that for WebAssembly assets are downloaded on demand, as can be seen in the brower's network tab.
+
+### StatusBar Theme Color
+An example showing how to adjust the `StatusBar` and `CommandBar` dynamically based on the current light/dark theme.  
+[Browse source](UI/StatusBarThemeColor)
 
 ### SkiaSharp Test  
 An example of the Uno implementation of SkiaSharp creating a basic canvas with text.
