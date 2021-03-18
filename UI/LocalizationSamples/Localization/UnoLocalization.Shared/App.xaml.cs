@@ -30,10 +30,27 @@ namespace UnoLocalization
 		public App()
 		{
 			ConfigureFilters(global::Uno.Extensions.LogExtensionPoint.AmbientLoggerFactory);
+			
+			// Uncomment the next line to make the app start in french
+			//ChangeStartingLanguage();
 
 			this.InitializeComponent();
 			this.Suspending += OnSuspending;
 		}
+
+		private void ChangeStartingLanguage()
+		{
+			var culture = new System.Globalization.CultureInfo("fr");
+
+#if WINDOWS_UWP
+			Windows.Globalization.ApplicationLanguages.PrimaryLanguageOverride = culture.IetfLanguageTag;
+#else
+			System.Globalization.CultureInfo.CurrentUICulture = culture;
+			System.Globalization.CultureInfo.CurrentCulture = culture;
+			Windows.ApplicationModel.Resources.ResourceLoader.DefaultLanguage = culture.IetfLanguageTag;
+#endif
+		}
+
 
 		/// <summary>
 		/// Invoked when the application is launched normally by the end user.  Other entry points

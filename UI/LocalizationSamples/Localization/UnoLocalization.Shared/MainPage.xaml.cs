@@ -25,6 +25,9 @@ namespace UnoLocalization
 		public MainPage()
 		{
 			this.InitializeComponent();
+			this.Loaded += (s, e) => CodeBehindText.Text = Windows.ApplicationModel.Resources.ResourceLoader
+				.GetForViewIndependentUse()
+				.GetString("MainPage_CodeBehindString");
 		}
 	}
 }
