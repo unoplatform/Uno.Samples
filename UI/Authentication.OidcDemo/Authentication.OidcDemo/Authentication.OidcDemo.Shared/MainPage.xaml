@@ -1,0 +1,19 @@
+﻿<Page
+	x:Class="Authentication.OidcDemo.MainPage"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:toolkit="using:Uno.UI.Toolkit"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	mc:Ignorable="d">
+
+	<Border toolkit:VisibleBoundsPadding.PaddingMask="All">
+		<StackPanel Spacing="10" Margin="10">
+			<StackPanel Orientation="Horizontal" Spacing="5">
+				<Button Click="SignIn_Clicked" x:Name="btnSignin" IsEnabled="False">Sign In</Button>
+				<Button Click="SignOut_Clicked" x:Name="btnSignout" IsEnabled="False">Sign Out</Button>
+			</StackPanel>
+			<TextBlock x:Name="txtAuthResult" />
+		</StackPanel>
+	</Border>
+</Page>
