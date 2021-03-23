@@ -1,6 +1,37 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 					xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
+	<ResourceDictionary.ThemeDictionaries>
+
+		<!-- Light Theme -->
+		<ResourceDictionary x:Key="Light">
+		</ResourceDictionary>
+
+		<!-- Dark Theme -->
+		<ResourceDictionary x:Key="Dark">
+		</ResourceDictionary>
+		
+	</ResourceDictionary.ThemeDictionaries>
+
+	<!-- 
+		note: beside theme color overrides, any resource referencing material colors
+		SHOULD NOT be declared in a ResourceDictionary imported directly from App.xaml.
+		Since they will be loaded before material color palette, and have a transparent color instead.
+
+		ex: <SolidColorBrush x:Key="..." Color="{ThemeResource Material...}" />
+	-->
+
+	<SolidColorBrush x:Key="DividerBrush"
+					 Color="{ThemeResource MaterialOnSurfaceColor}"
+					 Opacity="0.13" />
+
+	<SolidColorBrush x:Key="SampleSecondBackgroundBrush"
+					 Color="{ThemeResource MaterialOnSurfaceColor}"
+					 Opacity="0.05" />
+
+	<SolidColorBrush x:Key="ApplicationPageBackgroundThemeBrush"
+					 Color="{ThemeResource MaterialBackgroundColor}" />
+
 	<Color x:Key="UnoBlueColor">#FF229DFC</Color>
 	<Color x:Key="UnoPurpleColor">#FF7A69F5</Color>
 	<Color x:Key="UnoGreenColor">#FF6CE5AE</Color>

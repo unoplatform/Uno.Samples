@@ -9,10 +9,11 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WCTDataTreeTabSample;
 using Windows.Storage;
 using Windows.Storage.Streams;
 using Windows.UI.Xaml.Data;
+using WCTDataTreeTabSample;
+using WCTDataTreeTabSample.Helpers;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.Data
 {

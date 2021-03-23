@@ -22,11 +22,21 @@
 							 IsTabStop="False"
 							 ItemInvoked="NavView_ItemInvoked">
 			<muxc:NavigationView.PaneHeader>
-				<Image Source="ms-appx:///Assets/Logo.png"
-					   Height="50"
-					   Stretch="Uniform"
-					   HorizontalAlignment="Center"
-					   Margin="0,12,0,0"/>
+				<Grid HorizontalAlignment="Stretch">
+					<Image Source="ms-appx:///Assets/Logo.png"
+						   Height="50"
+						   Stretch="Uniform"
+						   HorizontalAlignment="Center"
+						   VerticalAlignment="Center"/>
+
+					<ToggleButton x:Name="DarkLightModeToggle"
+								  Content="Light and Dark"
+								  Style="{StaticResource DarkLightToggleTheme}"
+								  Click="ToggleButton_Click"
+								  Margin="16,0,8,0"
+								  HorizontalAlignment="Right"
+								  VerticalAlignment="Center" />
+				</Grid>
 			</muxc:NavigationView.PaneHeader>
 			<muxc:NavigationView.Header>
 				<TextBlock />

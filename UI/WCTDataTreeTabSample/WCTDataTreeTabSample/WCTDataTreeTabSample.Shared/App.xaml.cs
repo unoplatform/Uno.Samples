@@ -43,6 +43,8 @@ namespace WCTDataTreeTabSample
 			}
 #endif
 
+			InitializeMaterialStyles();
+
 #if NET5_0 && WINDOWS
 			var window = new Window();
 			window.Activate();
@@ -183,6 +185,18 @@ namespace WCTDataTreeTabSample
 #else
 				.AddConsole(LogLevel.Information);
 #endif
+		}
+
+		private void InitializeMaterialStyles()
+		{
+			// Set a default palette to make sure all colors used by MaterialResources exist
+			this.Resources.MergedDictionaries.Add(new global::Uno.Material.MaterialColorPalette());
+
+			// Overlap the default colors with the application's colors palette. 
+			this.Resources.MergedDictionaries.Add(new ResourceDictionary() { Source = new Uri("ms-appx:///Styles/ColorPaletteOverride.xaml") });
+
+			// Add all the material resources. Those resources depend on the colors above, which is why this one must be added last.
+			this.Resources.MergedDictionaries.Add(new global::Uno.Material.MaterialResources());
 		}
 	}
 }
