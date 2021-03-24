@@ -4,7 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 
-namespace WCTDataTreeTabSample
+namespace WCTDataTreeTabSample.Helpers
 {
 	public static class StreamHelperEx
 	{
