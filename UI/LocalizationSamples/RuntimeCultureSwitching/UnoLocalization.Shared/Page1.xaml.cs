@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -13,24 +13,20 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
-// The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
+// The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
 namespace UnoLocalization
 {
 	/// <summary>
 	/// An empty page that can be used on its own or navigated to within a Frame.
 	/// </summary>
-	public sealed partial class MainPage : Page
+	public sealed partial class Page1 : Page
 	{
-		public MainPage()
+		public Page1()
 		{
 			this.InitializeComponent();
-			this.Loaded += (s, e) => CodeBehindText.Text = Windows.ApplicationModel.Resources.ResourceLoader
-				.GetForViewIndependentUse()
-				.GetString("MainPage_CodeBehindString");
 		}
 
-		private void GotoNextPage(object sender, RoutedEventArgs e) => Frame.Navigate(typeof(Page1));
-		private void GotoLanguageSettings(object sender, RoutedEventArgs e) => Frame.Navigate(typeof(LanguageSettings));
+		private void GoBack(object sender, RoutedEventArgs e) => Frame.GoBack();
 	}
 }
