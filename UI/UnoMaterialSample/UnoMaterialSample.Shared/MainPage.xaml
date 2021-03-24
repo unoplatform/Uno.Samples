@@ -1,13 +1,42 @@
-<Page
-    x:Class="UnoMaterialSample.MainPage"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:UnoMaterialSample"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d">
+<Page x:Class="UnoMaterialSample.MainPage"
+	  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	  xmlns:toolkit="using:Uno.UI.Toolkit"
+	  xmlns:material="using:Uno.Material.Controls">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-		<TextBlock Text="Hello, world!" Margin="20" FontSize="30" />
-    </Grid>
+	<Grid toolkit:VisibleBoundsPadding.PaddingMask="Top" >
+		<ScrollViewer>
+			<StackPanel Margin="16,0" Spacing="8">
+				<!-- controls with material styles -->
+				<TextBlock Text="Hello, Material!" Style="{StaticResource MaterialHeadline2}" />
+				<TextBlock Text="text" Style="{StaticResource MaterialBody1}" />
+				<Button Content="button" Style="{StaticResource MaterialContainedButtonStyle}" />
+				<ComboBox ItemsSource="asd" Style="{StaticResource MaterialComboBoxStyle}" />
+				<DatePicker Style="{StaticResource MaterialDatePickerStyle}" />
+				<TextBox Text="input" Style="{StaticResource MaterialFilledTextBoxStyle}" />
+				
+				<!-- material controls -->
+				<material:Divider SubHeader="Uno.Material Controls:" Style="{StaticResource MaterialDividerStyle}" />
+				<material:Card HeaderContent="Material Design"
+					   SupportingContent="Material is a design system created by Google to help teams build high-quality digital experiences for Android, iOS, Flutter, and the web."
+					   Style="{StaticResource MaterialOutlinedCardStyle}">
+					<material:Card.HeaderContentTemplate>
+						<DataTemplate>
+							<TextBlock Text="{Binding}" Margin="16,14,16,0" Style="{ThemeResource MaterialHeadline6}" />
+						</DataTemplate>
+					</material:Card.HeaderContentTemplate>
+					<material:Card.SupportingContentTemplate>
+						<DataTemplate>
+							<TextBlock Text="{Binding}" Margin="16,0,16,14" Style="{ThemeResource MaterialBody2}" />
+						</DataTemplate>
+					</material:Card.SupportingContentTemplate>
+				</material:Card>
+				<material:ChipGroup SelectionMode="Multiple" Style="{StaticResource MaterialChipGroupStyle}">
+					<material:Chip Content="Uno" Style="{StaticResource MaterialChipStyle}" />
+					<material:Chip Content="Material" Style="{StaticResource MaterialChipStyle}" />
+					<material:Chip Content="Controls" Style="{StaticResource MaterialChipStyle}" />
+				</material:ChipGroup>
+			</StackPanel>
+		</ScrollViewer>
+	</Grid>
 </Page>

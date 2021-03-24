@@ -49,6 +49,8 @@ namespace UnoMaterialSample
             }
 #endif
 
+            Uno.Material.Resources.Init(this, null);
+
 #if NET5_0 && WINDOWS
             var window = new Window();
             window.Activate();
