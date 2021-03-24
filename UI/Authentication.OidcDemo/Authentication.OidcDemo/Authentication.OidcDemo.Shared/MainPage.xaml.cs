@@ -93,7 +93,7 @@ namespace Authentication.OidcDemo
 
 		private async void SignOut_Clicked(object sender, RoutedEventArgs e)
 		{
-			// Important: there should be NO await before calling .AuthenticateAsync() - at least
+			// Important: there should be NO other awaits before calling .AuthenticateAsync() - at least
 			// on WebAssembly, in order to prevent triggering the popup blocker mechanisms.
 			await WebAuthenticationBroker.AuthenticateAsync(WebAuthenticationOptions.None, _logoutUrl);
 		}
