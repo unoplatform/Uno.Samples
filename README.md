@@ -37,7 +37,14 @@ A simple example using the `TwoPaneView` control spanned across dual screens (su
 ### EmbeddedResources
 An example that demonstrates the use of embedded resources and how to read them from your app.
 Note that the [`Default namespace`](https://stackoverflow.com/questions/2871314/change-project-namespace-in-visual-studio) property of all projects is the same in order for the embedded resources names to be the same on all platforms.
- 
+
+## LocalizationSamples
+A collection samples related to localization:
+- Localization: A sample showcasing the basics of localization.  
+  [Browse source](UI/Localization/Localization)
+- RuntimeCultureSwitching: An example of changing app language while it is running.  
+  [Browse source](UI/Localization/RuntimeCultureSwitching)
+
 ### Map Control  
 An implementation of the UWP `Maps` control with a custom slider that binds the value of the slider to the `ZoomLevel` property of the control. 
 
