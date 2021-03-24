@@ -11,6 +11,8 @@ using Android.Views;
 using Android.Widget;
 using Com.Nostra13.Universalimageloader.Core;
 using Windows.UI.Xaml.Media;
+using Uno.AuthenticationBroker;
+using Uno.Foundation.Extensibility;
 
 namespace Authentication.OidcDemo.Droid
 {
@@ -26,6 +28,10 @@ namespace Authentication.OidcDemo.Droid
 			: base(() => new App(), javaReference, transfer)
 		{
 			ConfigureUniversalImageLoader();
+
+			ApiExtensibility.Register(
+				typeof(IWebAuthenticationBrokerProvider),
+				_ => new ChromeCustomTabsProvider());
 		}
 
 		private void ConfigureUniversalImageLoader()
