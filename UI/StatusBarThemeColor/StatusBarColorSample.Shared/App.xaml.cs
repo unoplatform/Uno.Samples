@@ -107,7 +107,19 @@ namespace StatusBarColorSample
 		{
 			// Listen for the system theme changes.
 			_uiSettings = new UISettings();
-			_uiSettings.ColorValuesChanged += (s, e) => UpdateStatusBar();
+			_uiSettings.ColorValuesChanged += (s, e) =>
+			{
+#if __ANDROID__
+				var backgroundColor = _uiSettings.GetColorValue(UIColorType.Background);
+				var isDarkMode = backgroundColor == Windows.UI.Colors.Black;
+
+				// Prevent deadlock as setting StatusBar.ForegroundColor will also trigger this event.
+				if (_wasDarkMode == isDarkMode) return;
+				_wasDarkMode = isDarkMode;
+#endif
+
+				UpdateStatusBar();
+			};
 
 #if __IOS__
 			// Force an update when the app is launched.
@@ -121,12 +133,6 @@ namespace StatusBarColorSample
 			// which is calculated from the theme and can only be black or white.
 			var backgroundColor = _uiSettings.GetColorValue(UIColorType.Background);
 			var isDarkMode = backgroundColor == Windows.UI.Colors.Black;
-
-#if __ANDROID__
-			// Prevent deadlock as setting StatusBar.ForegroundColor will also trigger this event.
-			if (_wasDarkMode == isDarkMode) return;
-			_wasDarkMode = isDarkMode;
-#endif
 
 #if __IOS__ || __ANDROID__
 			// === 2. Set the foreground color.
