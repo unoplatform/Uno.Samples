@@ -27,6 +27,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)DataGrid\MountainDataItem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DataGrid\MountainDataSource.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Entities\ExplorerItem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\MasterDetailsPage.xaml.cs">
+      <DependentUpon>MasterDetailsPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Shell.xaml.cs">
       <DependentUpon>Shell.xaml</DependentUpon>
     </Compile>
@@ -38,6 +41,10 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="$(MSBuildThisFileDirectory)Pages\DataGridPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Pages\MasterDetailsPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -73,9 +80,6 @@
   </ItemGroup>
   <ItemGroup>
     <PRIResource Include="$(MSBuildThisFileDirectory)Strings\en\Resources.resw" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="$(MSBuildThisFileDirectory)Pages\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="$(MSBuildThisFileDirectory)Assets\Logo.scale-100.png" />

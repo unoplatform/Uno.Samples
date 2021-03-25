@@ -10,8 +10,8 @@ namespace WCTDataTreeTabSample
 {
 	public sealed partial class DataGridPage : Page
 	{
-		private MountainDataSource MountainGridData = new MountainDataSource();
-		private LocationDataSource LocationGridData = new LocationDataSource();
+		private MountainDataSource MountainData = new MountainDataSource();
+		private LocationDataSource LocationData = new LocationDataSource();
 
 		public DataGridPage()
 		{
@@ -22,10 +22,10 @@ namespace WCTDataTreeTabSample
 
 		private async void DataGridPage_Loaded(object sender, RoutedEventArgs e)
 		{
-			var mountains = await MountainGridData.GetDataAsync();
+			var mountains = await MountainData.GetDataAsync();
 			this.MountainDataGrid.ItemsSource = mountains.ToList();
 
-			var locations = await LocationGridData.GetDataAsync();
+			var locations = await LocationData.GetDataAsync();
 			this.LocationDataGrid.ItemsSource = locations.ToList();
 		}
 	}

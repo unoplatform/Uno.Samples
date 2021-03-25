@@ -119,10 +119,15 @@ namespace WCTDataTreeTabSample
 			switch (targetPageType.Name)
 			{
 				case nameof(TreeViewPage):
-					App.NavigationView.Header = "TreeView";
+					App.NavigationView.Header = "TreeView Sample";
 					break;
+
 				case nameof(DataGridPage):
-					App.NavigationView.Header = "DataGrid";
+					App.NavigationView.Header = "DataGrid Sample";
+					break;
+
+				case nameof(MasterDetailsPage):
+					App.NavigationView.Header = "Master-Details Sample";
 					break;
 			}
 

@@ -37,6 +37,10 @@ namespace WCTDataTreeTabSample
 				case nameof(DataGridPage):
 					App.NavigateTo(typeof(DataGridPage));
 					break;
+
+				case nameof(MasterDetailsPage):
+					App.NavigateTo(typeof(MasterDetailsPage));
+					break;
 			}
 		}
 
