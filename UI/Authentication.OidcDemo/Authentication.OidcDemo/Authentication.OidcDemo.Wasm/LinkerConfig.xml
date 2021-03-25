@@ -1,0 +1,13 @@
+﻿<linker>
+  <assembly fullname="Authentication.OidcDemo.Wasm" />
+  <assembly fullname="Uno.UI" />
+
+	<assembly fullname="IdentityModel" />
+	<assembly fullname="System.IdentityModel.Tokens.Jwt" />
+	<assembly fullname="System.Net.Http" />
+	
+  <assembly fullname="System.Core">
+	<!-- This is required by JSon.NET and any expression.Compile caller -->
+	<type fullname="System.Linq.Expressions*" />
+  </assembly>
+</linker>
