@@ -21,12 +21,18 @@
     <Compile Include="$(MSBuildThisFileDirectory)DataGrid\LocationDataItem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DataGrid\LocationDataSource.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\SystemThemeHelper.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Pages\DataGridPage.xaml.cs">
-      <DependentUpon>DataGridPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)DataGrid\MountainDataItem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DataGrid\MountainDataSource.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Entities\ExplorerItem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\DataGrid\LocationsPage.xaml.cs">
+      <DependentUpon>LocationsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\MasterDetailsPage.xaml.cs">
+      <DependentUpon>MasterDetailsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\DataGrid\MountainsPage.xaml.cs">
+      <DependentUpon>MountainsPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Shell.xaml.cs">
       <DependentUpon>Shell.xaml</DependentUpon>
     </Compile>
@@ -37,7 +43,15 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="$(MSBuildThisFileDirectory)Pages\DataGridPage.xaml">
+    <Page Include="$(MSBuildThisFileDirectory)Pages\DataGrid\LocationsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Pages\MasterDetailsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Pages\DataGrid\MountainsPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -75,13 +89,13 @@
     <PRIResource Include="$(MSBuildThisFileDirectory)Strings\en\Resources.resw" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="$(MSBuildThisFileDirectory)Pages\" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="$(MSBuildThisFileDirectory)Assets\Logo.scale-100.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Logo.scale-125.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Logo.scale-150.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Logo.scale-200.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Logo.scale-400.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)Pages\DataGrid\" />
   </ItemGroup>
 </Project>
