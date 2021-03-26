@@ -1,0 +1,62 @@
+﻿<ContentDialog
+    x:Class="FileSavePickeriOS.Extensions.FolderSavePickerDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:FileSavePickeriOS.Extensions"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    Title="Save file"
+    DefaultButton="Primary"
+    IsPrimaryButtonEnabled="False"
+    PrimaryButtonClick="SaveButtonClick"
+    PrimaryButtonText="Save"
+    SecondaryButtonClick="CancelButtonClick"
+    SecondaryButtonText="Cancel"
+    mc:Ignorable="d">
+
+    <StackPanel Spacing="8">
+        <Grid ColumnSpacing="8">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE8B7;" />
+            <TextBlock
+                x:Name="PickFolderLabel"
+                Grid.Column="1"
+                VerticalAlignment="Center"
+                d:Text="Pick a folder"
+                Style="{ThemeResource CaptionTextBlockStyle}" />
+            <TextBlock
+                x:Name="PickedFolderNameLabel"
+                Grid.Column="1"
+                VerticalAlignment="Center"
+                d:Text="Pictures" />
+
+            <Button
+                x:Name="PickButton"
+                Grid.Column="2"
+                VerticalAlignment="Center"
+                d:Content="Browse..."
+                Click="PickButtonClick" />
+        </Grid>
+
+        <AutoSuggestBox
+            x:Name="FileNameSuggestBox"
+            d:Header="File name"
+            Text=""
+            TextChanged="FileNameSuggestBox_TextChanged" />
+
+        <ComboBox
+            x:Name="FileTypeComboBox"
+            HorizontalAlignment="Stretch"
+            d:Header="File type">
+            <ComboBox.ItemTemplate>
+                <DataTemplate x:DataType="local:FileTypeChoiceListItem">
+                    <TextBlock Text="{x:Bind Label}" />
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+    </StackPanel>
+</ContentDialog>
