@@ -42,6 +42,10 @@ namespace WCTDataTreeTabSample
 					App.NavigateTo(typeof(LocationsPage));
 					break;
 
+				case nameof(TabViewPage):
+					App.NavigateTo(typeof(TabViewPage));
+					break;
+
 				case nameof(MasterDetailsPage):
 					App.NavigateTo(typeof(MasterDetailsPage));
 					break;
