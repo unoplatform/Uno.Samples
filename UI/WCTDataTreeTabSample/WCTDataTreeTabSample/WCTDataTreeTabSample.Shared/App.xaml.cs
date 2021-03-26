@@ -130,6 +130,10 @@ namespace WCTDataTreeTabSample
 					App.NavigationView.Header = "DataGrid Sample (Locations)";
 					break;
 
+				case nameof(TabViewPage):
+					App.NavigationView.Header = "TabView Sample";
+					break;
+
 				case nameof(MasterDetailsPage):
 					App.NavigationView.Header = "Master-Details Sample";
 					break;
