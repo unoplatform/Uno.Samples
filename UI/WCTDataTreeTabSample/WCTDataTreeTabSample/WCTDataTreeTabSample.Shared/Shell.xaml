@@ -43,6 +43,7 @@
 			</muxc:NavigationView.Header>
 
 			<muxc:NavigationView.MenuItems>
+				<!-- TreeView -->
 				<muxc:NavigationViewItem Tag="TreeViewPage">
 					<StackPanel Orientation="Horizontal">
 						<Path Width="20"
@@ -53,7 +54,9 @@
 						<TextBlock Text="TreeView" />
 					</StackPanel>
 				</muxc:NavigationViewItem>
-				<muxc:NavigationViewItem Tag="DataGridPage">
+				
+				<!-- DataGrid -->
+				<muxc:NavigationViewItem>
 					<StackPanel Orientation="Horizontal">
 						<Path Width="16"
 							  Stretch="Uniform"
@@ -62,7 +65,32 @@
 							  Data="{StaticResource IconGrid}" />
 						<TextBlock Text="DataGrid" />
 					</StackPanel>
+
+					<muxc:NavigationViewItem.MenuItems>
+						<muxc:NavigationViewItem Tag="MountainsPage">
+							<StackPanel Orientation="Horizontal">
+								<Path Width="16"
+									  Stretch="Uniform"
+									  Margin="0,0,8,0"
+									  Fill="{StaticResource UnoBlueColor}"
+									  Data="{StaticResource IconMountains}" />
+								<TextBlock Text="Mountains" />
+							</StackPanel>
+						</muxc:NavigationViewItem>
+						<muxc:NavigationViewItem Tag="LocationsPage">
+							<StackPanel Orientation="Horizontal">
+								<Path Width="16"
+									  Stretch="Uniform"
+									  Margin="0,0,8,0"
+									  Fill="{StaticResource UnoBlueColor}"
+									  Data="{StaticResource IconMap}" />
+								<TextBlock Text="Famous Locations" />
+							</StackPanel>
+						</muxc:NavigationViewItem>
+					</muxc:NavigationViewItem.MenuItems>
 				</muxc:NavigationViewItem>
+
+				<!-- Master Details -->
 				<muxc:NavigationViewItem Tag="MasterDetailsPage">
 					<StackPanel Orientation="Horizontal">
 						<Path Width="16"

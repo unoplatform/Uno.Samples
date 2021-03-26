@@ -122,8 +122,12 @@ namespace WCTDataTreeTabSample
 					App.NavigationView.Header = "TreeView Sample";
 					break;
 
-				case nameof(DataGridPage):
-					App.NavigationView.Header = "DataGrid Sample";
+				case nameof(MountainsPage):
+					App.NavigationView.Header = "DataGrid Sample (Mountains)";
+					break;
+
+				case nameof(LocationsPage):
+					App.NavigationView.Header = "DataGrid Sample (Locations)";
 					break;
 
 				case nameof(MasterDetailsPage):
@@ -135,6 +139,7 @@ namespace WCTDataTreeTabSample
 				App.NavigationView
 					.MenuItems
 					.Cast<Microsoft.UI.Xaml.Controls.NavigationViewItem>()
+					.Where(item => item.Tag != null)
 					.FirstOrDefault(item => item.Tag.ToString().Equals(targetPageType.Name, StringComparison.OrdinalIgnoreCase));
 		}
 

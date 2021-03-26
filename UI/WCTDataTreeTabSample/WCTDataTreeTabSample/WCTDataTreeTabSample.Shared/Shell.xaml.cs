@@ -28,14 +28,18 @@ namespace WCTDataTreeTabSample
 		{
 			var item = args.InvokedItemContainer as Microsoft.UI.Xaml.Controls.NavigationViewItem;
 
-			switch (item.Tag.ToString())
+			switch (item.Tag?.ToString() ?? string.Empty)
 			{
 				case nameof(TreeViewPage):
 					App.NavigateTo(typeof(TreeViewPage));
 					break;
 
-				case nameof(DataGridPage):
-					App.NavigateTo(typeof(DataGridPage));
+				case nameof(MountainsPage):
+					App.NavigateTo(typeof(MountainsPage));
+					break;
+
+				case nameof(LocationsPage):
+					App.NavigateTo(typeof(LocationsPage));
 					break;
 
 				case nameof(MasterDetailsPage):
