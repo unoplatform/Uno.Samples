@@ -49,6 +49,10 @@ namespace WCTDataTreeTabSample
 				case nameof(MasterDetailsPage):
 					App.NavigateTo(typeof(MasterDetailsPage));
 					break;
+
+				case nameof(TwoPaneViewPage):
+					App.NavigateTo(typeof(TwoPaneViewPage));
+					break;
 			}
 		}
 

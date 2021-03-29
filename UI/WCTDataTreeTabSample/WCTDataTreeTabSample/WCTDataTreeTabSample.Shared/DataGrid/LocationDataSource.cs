@@ -50,7 +50,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Data
                 _items = new ObservableCollection<LocationDataItem>(
                     list
 #if __WASM__        // Uncomment this line to load the sample faster in WASM interpreted mode
-                    .Take(15)
+                    .Take(10)
 #endif
                 );
                 return _items;
