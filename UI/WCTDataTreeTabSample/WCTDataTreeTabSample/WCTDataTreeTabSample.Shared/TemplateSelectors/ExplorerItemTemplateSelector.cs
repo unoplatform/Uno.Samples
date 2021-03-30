@@ -12,6 +12,12 @@ namespace WCTDataTreeTabSample.TemplateSelectors
 		protected override DataTemplate SelectTemplateCore(object item)
 		{
 			var explorerItem = (ExplorerItem)item;
+
+			if (explorerItem == null)
+			{
+				return FolderTemplate;
+			}
+
 			return explorerItem.Type == ExplorerItem.ExplorerItemType.Folder
 				? FolderTemplate
 				: FileTemplate;
