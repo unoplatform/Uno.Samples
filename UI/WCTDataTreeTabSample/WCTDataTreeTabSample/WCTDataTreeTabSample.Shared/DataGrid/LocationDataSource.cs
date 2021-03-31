@@ -2,22 +2,17 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using Windows.Storage;
-using Windows.Storage.Streams;
-using Windows.UI.Xaml.Data;
-using WCTDataTreeTabSample;
 using WCTDataTreeTabSample.Helpers;
+using Windows.UI.Xaml.Data;
 
-namespace Microsoft.Toolkit.Uwp.SampleApp.Data
+namespace WCTdataTreeTabSample.DataGrid.SampleData
 {
-    [Bindable]
+	[Bindable]
     public class LocationDataSource
     {
         private static ObservableCollection<LocationDataItem> _items;

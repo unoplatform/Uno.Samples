@@ -1,4 +1,4 @@
-﻿using Microsoft.Toolkit.Uwp.SampleApp.Data;
+﻿using WCTdataTreeTabSample.DataGrid.SampleData;
 using System.Collections.ObjectModel;
 using WCTDataTreeTabSample.Entities;
 using Windows.UI.Xaml.Controls;
@@ -8,8 +8,6 @@ namespace WCTDataTreeTabSample
 {
 	public sealed partial class TreeViewPage : Page
 	{
-		//private mux.TreeViewNode personalFolder;
-		//private mux.TreeViewNode personalFolder2;
 		private ObservableCollection<ExplorerItem> DataSource;
 
 		public TreeViewPage()

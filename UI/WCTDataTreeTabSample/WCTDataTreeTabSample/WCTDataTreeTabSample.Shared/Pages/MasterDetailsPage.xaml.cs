@@ -1,4 +1,4 @@
-﻿using Microsoft.Toolkit.Uwp.SampleApp.Data;
+﻿using WCTdataTreeTabSample.DataGrid.SampleData;
 using System.Linq;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;

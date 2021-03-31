@@ -15,7 +15,7 @@ using Windows.UI.Xaml.Data;
 using WCTDataTreeTabSample;
 using WCTDataTreeTabSample.Helpers;
 
-namespace Microsoft.Toolkit.Uwp.SampleApp.Data
+namespace WCTdataTreeTabSample.DataGrid.SampleData
 {
     [Bindable]
     public class MountainDataSource
