@@ -53,6 +53,10 @@ An example that demonstrates the use of package assets and how to read them from
 
 Note that for WebAssembly assets are downloaded on demand, as can be seen in the brower's network tab.
 
+### Splash Screen Sample
+An example showing how to set the splash/launch screen in Uno.  
+[Browse source](UI/SplashScreenSample)
+
 ### StatusBar Theme Color
 An example showing how to adjust the `StatusBar` and `CommandBar` dynamically based on the current light/dark theme.  
 [Browse source](UI/StatusBarThemeColor)
