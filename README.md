@@ -86,5 +86,10 @@ A dynamic grid view ported from the Windows Community Toolkit that allows for x:
 ### WCT TabView
 Ported from the Windows Community Toolkit, this sample shows an implementation of a `TabViewItem` in a shared container.
 
+### WebRTC
+
+Demo of the usage of a WebRTC in Uno WebAssembly. This sample establish a direct WebRTC connection between 2 browsers and uses it to send messages between peers.
+
 =======
+
 Visit [our documentation](https://github.com/unoplatform/uno/blob/master/doc/articles/intro.md) for more details.

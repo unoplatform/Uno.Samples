@@ -22,8 +22,6 @@ namespace WebRTC.SignalingServer.Hubs
 
 		public override async Task OnConnectedAsync()
 		{
-			await Clients.Caller.SendCoreAsync("Test", new[] {"This is a test"});
-
 			_logger.LogInformation($"New connection for client/room {Context.ConnectionId}.");
 
 			// Send all rooms to all clients
