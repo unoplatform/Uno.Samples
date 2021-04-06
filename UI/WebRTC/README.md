@@ -16,14 +16,14 @@ This is a short sample demonstrating how to establish a WebRTC connection betwee
 4. Application B receives the `Rooms` message from SignalingServer using SignalR
 5. User B selects the room and press <kbd>Join</kbd>
 6. Application B uses the remote _SPD offer_ to create a _SPD Answer_
-7. Application B is sending a `Join` request to SignalingServer through Signal and sens the room id and the _SDP Answer_
+7. Application B is sending a `Join` request to SignalingServer through Signal and sends the room id and the _SDP Answer_
 8. Application A receives the `Answer` message from SignalingServer using SignalR
 9. Application A uses the _SDP Answer_ to launch the WebRTC connection between the two browsers
-10. The connection is negociated and established between the 2 browsers
+10. The connection is negotiated and established between the 2 browsers
 
 ## Technology Stack
 
-This projects use the following technologies:
+This project use the following technologies:
 
 * Uno Platform
 * Aspnet Core - for the signaling server
