@@ -1,5 +1,6 @@
 jobs:
 - job: VS_Latest
+  timeoutInMinutes: 90
 
   pool:
     vmImage: windows-2019
@@ -11,7 +12,13 @@ jobs:
   - task: GitVersion@5
     inputs:
       updateAssemblyInfo: false   
-  
+
+# Restore nuget.org to the list of existing sources, .NET 6 Pre 2 may somehow remove it
+  - powershell: |
+      dotnet nuget add source https://api.nuget.org/v3/index.json -n nuget.org | Out-Null
+      $global:LASTEXITCODE = 0
+    displayName: Adjust nuget.org source
+    
   - task: MSBuild@1
     displayName: Build Samples
     inputs:

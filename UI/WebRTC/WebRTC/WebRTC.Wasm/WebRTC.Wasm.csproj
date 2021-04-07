@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <NoWarn>NU1701</NoWarn>
+    <LangVersion>8</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)'=='Debug'">
+    <MonoRuntimeDebuggerEnabled>true</MonoRuntimeDebuggerEnabled>
+    <DefineConstants>$(DefineConstants);TRACE;DEBUG</DefineConstants>
+    <DebugType>portable</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+  <ItemGroup>
+    <Content Include="Assets\SplashScreen.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <UpToDateCheckInput Include="..\WebRTC.Shared\**\*.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="WasmCSS\Fonts.css" />
+    <EmbeddedResource Include="WasmScripts\*.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <LinkerDescriptor Include="LinkerConfig.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <!--
+    This item group is required by the project template because of the
+    new SDK-Style project, otherwise some files are not added automatically.
+
+    You can safely remove this ItemGroup completely.
+    -->
+    <None Include="Program.cs" />
+    <None Include="LinkerConfig.xml" />
+    <None Include="wwwroot\web.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="5.0.4" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="5.0.0" />
+    <PackageReference Include="Microsoft.TypeScript.MSBuild" Version="4.2.3">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="Uno.Extensions.Logging.WebAssembly.Console" Version="1.0.1" />
+    <PackageReference Include="Uno.UI.WebAssembly" Version="3.6.6" />
+    <PackageReference Include="Uno.UI.RemoteControl" Version="3.6.6" Condition="'$(Configuration)'=='Debug'" />
+    <PackageReference Include="Uno.Wasm.Bootstrap" Version="1.3.4" />
+    <PackageReference Include="Uno.Wasm.Bootstrap.DevServer" Version="1.3.4" />
+  </ItemGroup>
+  <Import Project="..\WebRTC.Shared\WebRTC.Shared.projitems" Label="Shared" Condition="Exists('..\WebRTC.Shared\WebRTC.Shared.projitems')" />
+  <Import Project="..\..\WebRTC.Entities\WebRTC.Entities.projitems" Label="Shared" />
+</Project>

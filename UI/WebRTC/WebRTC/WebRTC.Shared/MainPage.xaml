@@ -1,0 +1,64 @@
+﻿<Page
+	x:Class="WebRTC.MainPage"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:local="using:WebRTC"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	mc:Ignorable="d">
+
+	<Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+		  ColumnSpacing="10"
+		  RowSpacing="15"
+		  Margin="10">
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="*" />
+			<ColumnDefinition Width="*" />
+		</Grid.ColumnDefinitions>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="*" />
+		</Grid.RowDefinitions>
+
+		<StackPanel Grid.Row="0" Grid.Column="0" Spacing="4">
+			<TextBlock FontSize="20">--initiator (create room)--</TextBlock>
+			<TextBox Header="Room Name:" x:Name="roomName" />
+			<StackPanel Orientation="Horizontal" Spacing="4">
+				<Button x:Name="createRoomButon" Click="CreateRoom">Create Room</Button>
+				<TextBlock x:Name="createRoomStatus" />
+			</StackPanel>
+		</StackPanel>
+
+		<StackPanel Grid.Row="0" Grid.Column="1" Spacing="4">
+			<TextBlock FontSize="20">--join waiting room--</TextBlock>
+			<ListView x:Name="roomsList">
+				<ListView.ItemTemplate>
+					<DataTemplate>
+						<StackPanel>
+							<TextBlock FontSize="20" Text="{Binding RoomName}" />
+							<TextBlock FontSize="8" Text="{Binding RoomId}" />
+						</StackPanel>
+					</DataTemplate>
+				</ListView.ItemTemplate>
+			</ListView>
+			<Button x:Name="joinRoomButton" Click="JoinRoom">Join</Button>
+		</StackPanel>
+		
+		<Grid Grid.Row="1" Grid.Column="0">
+			<Grid.RowDefinitions>
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="*" />
+			</Grid.RowDefinitions>
+			<TextBlock FontSize="20">--inbound/log--</TextBlock>
+			<ScrollViewer Grid.Row="1">
+				<StackPanel x:Name="received" Spacing="3" />
+			</ScrollViewer>
+		</Grid>
+		
+		<StackPanel Grid.Row="1" Grid.Column="1" Spacing="4">
+			<TextBlock FontSize="20">--outbound--</TextBlock>
+			<TextBox x:Name="msgToSend" Header="Message to send: (when connection is opened)" />
+			<Button Click="SendMessage">SEND</Button>
+		</StackPanel>
+	</Grid>
+</Page>
