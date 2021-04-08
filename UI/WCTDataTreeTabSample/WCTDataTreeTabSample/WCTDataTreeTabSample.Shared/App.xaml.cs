@@ -141,6 +141,10 @@ namespace WCTDataTreeTabSample
 				case nameof(TwoPaneViewPage):
 					App.NavigationView.Header = "TwoPaneView Sample";
 					break;
+
+				case nameof(ExpanderPage):
+					App.NavigationView.Header = "Expander Sample";
+					break;
 			}
 
 			App.NavigationView.SelectedItem =
