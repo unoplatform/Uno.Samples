@@ -1,0 +1,3 @@
+namespace SplashScreenSample.Skia.Gtk
+{
+}
