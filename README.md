@@ -81,6 +81,10 @@ Inspiration from Justin Liu's [demo app](https://twitter.com/justinxinliu/status
 ### SQLite  
 This is a simple standalone app demonstrating the use of SQLite in an Uno application, including WebAssembly. It uses Erik Sink's [SQLitePCLRaw](https://github.com/ericsink/SQLitePCL.raw), and Frank Krueger's [sqlite-net](https://github.com/praeclarum/sqlite-net) libraries.
 
+### UnoMaterialSample
+An example showing how to set up the [`Uno.Material`](https://github.com/unoplatform/Uno.Themes) library.  
+[Browse source](UI/UnoMaterialSample)
+
 ### UnoContoso
 This is a project that ported Microsoft's Contoso Enterprise UWP app to Uno Platform Prism.
 
