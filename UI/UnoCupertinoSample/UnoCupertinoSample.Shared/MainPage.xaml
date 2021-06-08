@@ -1,0 +1,30 @@
+﻿<Page x:Class="UnoCupertinoSample.MainPage"
+	  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	  xmlns:local="using:UnoCupertinoSample"
+	  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	  xmlns:toolkit="using:Uno.UI.Toolkit"
+	  mc:Ignorable="d">
+
+	<Grid toolkit:VisibleBoundsPadding.PaddingMask="Top">
+		<ScrollViewer>
+			<StackPanel Margin="16,0"
+						Spacing="8">
+				<!-- controls with material styles -->
+				<TextBlock Text="Hello, Cupertino!"
+						   Style="{StaticResource CupertinoHeadline}" />
+				<TextBlock Text="text"
+						   Style="{StaticResource CupertinoBody}" />
+				<Button Content="button"
+						Style="{StaticResource CupertinoContainedButtonStyle}" />
+				<ComboBox ItemsSource="asd"
+						  Style="{StaticResource CupertinoComboBoxStyle}" />
+				<DatePicker Style="{StaticResource CupertinoDatePickerStyle}" />
+				<TextBox Text="input"
+						 Style="{StaticResource CupertinoTextBoxStyle}" />
+
+			</StackPanel>
+		</ScrollViewer>
+	</Grid>
+</Page>
