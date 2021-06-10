@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType Condition="'$(Configuration)'=='Release'">WinExe</OutputType>
+    <OutputType Condition="'$(Configuration)'=='Debug'">Exe</OutputType>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup Condition="exists('..\UnoCupertinoSample.UWP')">
+    <EmbeddedResource Include="..\UnoCupertinoSample.UWP\Package.appxmanifest" LogicalName="Package.appxmanifest" />
+    <Content Include="..\UnoCupertinoSample.UWP\Assets\StoreLogo.png" Link="Assets\StoreLogo.png" />
+    <Content Include="Assets\Fonts\uno-fluentui-assets.ttf" />
+  </ItemGroup>
+  <ItemGroup>
+    <UpToDateCheckInput Include="..\UnoCupertinoSample.Shared\**\*.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="5.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="5.0.0" />
+    <PackageReference Include="Uno.Cupertino" Version="1.0.0-dev.780" />
+    <PackageReference Include="Uno.UI.Skia.Gtk" Version="3.8.6" />
+    <PackageReference Include="Uno.UI.RemoteControl" Version="3.8.6" Condition="'$(Configuration)'=='Debug'" />
+  </ItemGroup>
+  <Import Project="..\UnoCupertinoSample.Shared\UnoCupertinoSample.Shared.projitems" Label="Shared" />
+</Project>

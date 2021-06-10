@@ -49,8 +49,6 @@ namespace UnoMaterialSample
             }
 #endif
 
-            Uno.Material.Resources.Init(this, new ResourceDictionary { Source = new Uri("ms-appx:///Styles/Application/ColorPaletteOverride.xaml") });
-
 #if NET5_0 && WINDOWS
             var window = new Window();
             window.Activate();
