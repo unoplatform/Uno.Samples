@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>
+		<PackageReference Include="SkiaSharp.Views.Uno" Version="2.80.3-preview.93" />
+		<PackageReference Include="Microsoft.Extensions.Logging" Version="5.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="5.0.0" />
+    <PackageReference Include="Uno.UI.Skia.Wpf" Version="3.8.0-dev.302" />
+    <PackageReference Include="Uno.UI.RemoteControl" Version="3.8.0-dev.302" Condition="'$(Configuration)'=='Debug'" />
+  </ItemGroup>
+  <ItemGroup>
+    <UpToDateCheckInput Include="..\SkiaSharpTest.Shared\**\*.xaml" />
+  </ItemGroup>
+  <Import Project="..\SkiaSharpTest.Shared\SkiaSharpTest.Shared.projitems" Label="Shared" />
+</Project>
