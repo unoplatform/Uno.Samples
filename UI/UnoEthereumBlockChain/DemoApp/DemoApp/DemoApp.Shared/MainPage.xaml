@@ -1,0 +1,132 @@
+﻿<Page
+    x:Class="DemoApp.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:DemoApp"
+    xmlns:vm="using:DemoApp.ViewModels"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Page.DataContext>
+        <vm:MainViewModel/>
+    </Page.DataContext>
+
+    <ScrollViewer>
+        <StackPanel Padding="10">
+            <Grid BorderBrush="{StaticResource SystemAccentColorDark1}"
+              BorderThickness="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="3*"/>
+                    <RowDefinition Height="3*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="2*"/>
+                </Grid.ColumnDefinitions>
+
+                <!--#region Grid Lines -->
+                <!-- Horizontal Lines -->
+                <Rectangle Grid.ColumnSpan="2" Height="1" VerticalAlignment="Bottom" Fill="{StaticResource SystemAccentColorDark1}"/>
+                <Rectangle Grid.Row="1" Grid.ColumnSpan="2" Height="1" VerticalAlignment="Bottom" Fill="{StaticResource SystemAccentColorDark1}"/>
+                <Rectangle Grid.Row="2" Grid.ColumnSpan="2" Height="1" VerticalAlignment="Bottom" Fill="{StaticResource SystemAccentColorDark1}"/>
+                <Rectangle Grid.Row="3" Grid.ColumnSpan="2" Height="1" VerticalAlignment="Bottom" Fill="{StaticResource SystemAccentColorDark1}"/>
+                <Rectangle Grid.Row="4" Grid.ColumnSpan="2" Height="1" VerticalAlignment="Bottom" Fill="{StaticResource SystemAccentColorDark1}"/>
+                <!-- Vertical Lines -->
+                <Rectangle Grid.RowSpan="5" Width="1" HorizontalAlignment="Right" Fill="{StaticResource SystemAccentColorDark1}"/>
+                <Rectangle Grid.Column="1" Grid.RowSpan="5" Width="1" HorizontalAlignment="Right" Fill="{StaticResource SystemAccentColorDark1}"/>
+                <!--#endregion-->
+
+                <TextBlock Text="URL" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="36" Grid.Row="0" Grid.Column="0"/>
+                <TextBlock Text="NETWORK ID :" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="36" Grid.Row="1" Grid.Column="0"/>
+                <TextBlock Text="PRE-DEPLOYED CONTRACT ADDRESS :" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="36" Grid.Row="2" Grid.Column="0"/>
+                <TextBlock Text="MIGRATION CONTRACT ADDRESS :" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="36" Grid.Row="3" Grid.Column="0"/>
+                <TextBlock Text="ACCOUNTS : " HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="36" Grid.Row="4" Grid.Column="0"/>
+                <TextBlock Text="PRIVATE KEYS : " HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="36" Grid.Row="5" Grid.Column="0"/>
+
+                <TextBox x:Name="url" 
+                     Grid.Row="0" 
+                     Grid.Column="1" 
+                     FontSize="36" 
+                     BorderBrush="{StaticResource SystemAccentColorDark1}"
+                     Text="{Binding Url, Mode=TwoWay}"/>
+                <TextBox x:Name="ntwkId" 
+                     Grid.Row="1" 
+                     Grid.Column="1" 
+                     FontSize="36" 
+                     BorderBrush="{StaticResource SystemAccentColorDark1}"
+                     Text="{Binding NetworkId, Mode=TwoWay}"/>
+                <TextBox x:Name="drugContract" 
+                     Grid.Row="2" 
+                     Grid.Column="1" 
+                     FontSize="36" 
+                     BorderBrush="{StaticResource SystemAccentColorDark1}"
+                     Text="{Binding DrugShipment, Mode=TwoWay}"/>
+                <TextBox x:Name="migrationContract" 
+                     Grid.Row="3" 
+                     Grid.Column="1" 
+                     FontSize="36" 
+                     BorderBrush="{StaticResource SystemAccentColorDark1}"
+                     Text="{Binding Migrations, Mode=TwoWay}"/>
+
+                <StackPanel Grid.Row="4" 
+                            Grid.Column="1" 
+                            HorizontalAlignment="Stretch" 
+                            VerticalAlignment="Stretch">
+                    <TextBox x:Name="accountOne"  
+                         FontSize="36" 
+                         BorderBrush="{StaticResource SystemAccentColorDark1}"
+                         Text="{Binding AccountAddress.one, Mode=TwoWay}"/>
+                    <TextBox x:Name="accountTwo"  
+                         FontSize="36" 
+                         BorderBrush="{StaticResource SystemAccentColorDark1}"
+                         Text="{Binding AccountAddress.two, Mode=TwoWay}"/>
+                    <TextBox x:Name="accountThree" 
+                         FontSize="36" 
+                         BorderBrush="{StaticResource SystemAccentColorDark1}"
+                         Text="{Binding AccountAddress.three, Mode=TwoWay}"/>
+                    <TextBox x:Name="accountFour"  
+                         FontSize="36" 
+                         BorderBrush="{StaticResource SystemAccentColorDark1}"
+                         Text="{Binding AccountAddress.four, Mode=TwoWay}"/>         
+                </StackPanel>
+
+                <StackPanel Grid.Row="5" 
+                            Grid.Column="1" 
+                            HorizontalAlignment="Stretch" 
+                            VerticalAlignment="Stretch">
+                    <TextBox x:Name="keyOne"  
+                         FontSize="36" 
+                         BorderBrush="{StaticResource SystemAccentColorDark1}" 
+                         Text="{Binding AccountKeys.one, Mode=TwoWay}"/>
+                    <TextBox x:Name="keyTwo"  
+                         FontSize="36" 
+                         BorderBrush="{StaticResource SystemAccentColorDark1}"
+                         Text="{Binding AccountKeys.two, Mode=TwoWay}"/>
+                    <TextBox x:Name="keyThree"  
+                         FontSize="36" 
+                         BorderBrush="{StaticResource SystemAccentColorDark1}"
+                         Text="{Binding AccountKeys.three, Mode=TwoWay}"/>
+                    <TextBox x:Name="keyFour"  
+                         FontSize="36" 
+                         BorderBrush="{StaticResource SystemAccentColorDark1}"
+                         Text="{Binding AccountKeys.four, Mode=TwoWay}"/>        
+                </StackPanel>
+            </Grid>
+            <Button x:Name="enterBtn" 
+                FontWeight="ExtraBold"
+                Content="Setup Network and Accounts" 
+                HorizontalAlignment="Stretch" 
+                VerticalAlignment="Center" 
+                Padding="20"
+                Margin="0, 20"
+                FontSize="36"
+                Click="enterBtn_Click"/>
+        </StackPanel>
+    </ScrollViewer>
+
+</Page>

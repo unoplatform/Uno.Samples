@@ -1,0 +1,53 @@
+﻿<Page
+    x:Class="DemoApp.HomePage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:DemoApp"
+    xmlns:vm="using:DemoApp.ViewModels"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Page.DataContext>
+        <vm:HomeViewModel/>
+    </Page.DataContext>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="9*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <AppBarButton Icon="Back" Label="Main" Click="AppBarButton_Click" Grid.Row="0"/>
+        <Frame x:Name="pageView" Grid.Row="1"/>
+        <CommandBar Grid.Row="2"
+                    OverflowButtonVisibility="Collapsed"
+                    DefaultLabelPosition="Bottom"
+                    VerticalAlignment="Center" 
+                    HorizontalAlignment="Center">
+            <AppBarButton  Content="Manufacturer"
+                           Label="Manufacturer"
+                           Tag="Manufacturer"
+                           Icon="Admin"
+                           Click="OnAppBarButtonTapped"/>
+
+            <AppBarButton  Content="Wholesaler"
+                           Label="Wholesaler"
+                           Tag="Wholesaler"
+                           Icon="Globe"
+                           Click="OnAppBarButtonTapped"/>
+
+            <AppBarButton  Content="Pharmacy"
+                           Label="Pharmacy"
+                           Tag="Pharmacy"
+                           Icon="Home"
+                           Click="OnAppBarButtonTapped"/>
+
+            <AppBarButton  Content="Patient"
+                           Label="Patient"
+                           Tag="Patient"
+                           Icon="People"
+                           Click="OnAppBarButtonTapped"/>
+        </CommandBar>
+    </Grid>
+</Page>
