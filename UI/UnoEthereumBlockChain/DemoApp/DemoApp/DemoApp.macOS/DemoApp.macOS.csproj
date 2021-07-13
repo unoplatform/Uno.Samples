@@ -61,9 +61,6 @@
     </NoWarn>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="PharmaSupply">
-      <HintPath>..\Pre-BuiltDLLS\xamarinmac20\PharmaSupply.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Net.Http" />
@@ -98,7 +95,12 @@
     <ImageAsset Include="Assets.xcassets\unologo.imageset\Contents.json" />
     <ImageAsset Include="Assets.xcassets\unologo.imageset\unoplatform.jpg" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\UnoPharmaSupply\UnoPharmaSupply\UnoPharmaSupply.csproj">
+      <Project>{749e7b62-af0c-4b0b-8d62-5b8d7962a2e3}</Project>
+      <Name>UnoPharmaSupply</Name>
+    </ProjectReference>
+  </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
     <None Include="Entitlements.plist" />

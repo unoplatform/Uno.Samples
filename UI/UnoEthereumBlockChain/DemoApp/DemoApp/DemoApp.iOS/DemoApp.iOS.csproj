@@ -106,9 +106,6 @@
     <BundleResource Include="Resources\Default-568h%402x.png" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="PharmaSupply">
-      <HintPath>..\Pre-BuiltDLLS\xamarinios10\PharmaSupply.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
@@ -156,7 +153,12 @@
       <Visible>false</Visible>
     </ImageAsset>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\UnoPharmaSupply\UnoPharmaSupply\UnoPharmaSupply.csproj">
+      <Project>{749e7b62-af0c-4b0b-8d62-5b8d7962a2e3}</Project>
+      <Name>UnoPharmaSupply</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="..\DemoApp.Shared\DemoApp.Shared.projitems" Label="Shared" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>
