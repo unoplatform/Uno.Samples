@@ -44,7 +44,7 @@
                 <RowDefinition Height="3*"/>                
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="3*"/>
             </Grid.ColumnDefinitions>
 
@@ -60,17 +60,17 @@
             <Rectangle Grid.Column="1" Grid.RowSpan="5" Width="1" HorizontalAlignment="Right" Fill="{StaticResource SystemAccentColorDark1}"/>
             <!--#endregion-->
 
-            <TextBlock Text="URL" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="36" Grid.Row="0" Grid.Column="0" Style="{StaticResource MaterialHeadline3}"/>
-            <TextBlock Text="NETWORK ID :" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="36" Grid.Row="1" Grid.Column="0" Style="{StaticResource MaterialHeadline3}"/>
-            <TextBlock Text="PRE-DEPLOYED CONTRACT ADDRESS :" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="36" Grid.Row="2" Grid.Column="0" Style="{StaticResource MaterialHeadline3}"/>
-            <TextBlock Text="MIGRATION CONTRACT ADDRESS :" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="36" Grid.Row="3" Grid.Column="0" Style="{StaticResource MaterialHeadline3}"/>
-            <TextBlock Text="PRIVATE KEYS : " HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="36" Grid.Row="4" Grid.Column="0" Style="{StaticResource MaterialHeadline3}"/>
+            <TextBlock TextWrapping="Wrap" Text="URL" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Row="0" Grid.Column="0" />
+            <TextBlock TextWrapping="Wrap" Text="NETWORK ID :" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Row="1" Grid.Column="0" />
+            <TextBlock TextWrapping="Wrap" Text="PRE-DEPLOYED CONTRACT ADDRESS :" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Row="2" Grid.Column="0"/>
+            <TextBlock TextWrapping="Wrap" Text="MIGRATION CONTRACT ADDRESS :" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Row="3" Grid.Column="0" />
+            <TextBlock TextWrapping="Wrap" Text="PRIVATE KEYS : " HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Row="4" Grid.Column="0" />
 
             <TextBox x:Name="url" 
                      Grid.Row="0" 
                      Grid.Column="1" 
                      CornerRadius="5"
-                     FontSize="36" 
+                     
                      Margin="0,2"
                      Background="{StaticResource SystemAccentColorLight1}"
                      Style="{StaticResource MaterialOutlinedTextBoxStyle}"
@@ -78,8 +78,7 @@
             <TextBox x:Name="ntwkId" 
                      Grid.Row="1" 
                      Grid.Column="1" 
-                     CornerRadius="5"
-                     FontSize="36" 
+                     CornerRadius="5"                     
                      Margin="0,2"
                      Background="{StaticResource SystemAccentColorLight1}"
                      Style="{StaticResource MaterialOutlinedTextBoxStyle}"
@@ -89,7 +88,6 @@
                      Grid.Row="2" 
                      Grid.Column="1" 
                      CornerRadius="5"
-                     FontSize="36"
                      Margin="0,2"
                      Background="{StaticResource SystemAccentColorLight1}"
                      Style="{StaticResource MaterialOutlinedTextBoxStyle}"
@@ -98,8 +96,7 @@
             <TextBox x:Name="migrationContract" 
                      Grid.Row="3" 
                      Grid.Column="1" 
-                     CornerRadius="5"
-                     FontSize="36" 
+                     CornerRadius="5"                     
                      Margin="0,2"
                      Background="{StaticResource SystemAccentColorLight1}"
                      Style="{StaticResource MaterialOutlinedTextBoxStyle}"
@@ -113,29 +110,27 @@
                             HorizontalAlignment="Stretch" 
                             VerticalAlignment="Stretch">
                 <TextBox x:Name="keyOne"  
-                         CornerRadius="5"
-                         FontSize="36" 
+                         CornerRadius="5"                         
                          Margin="0,2"
                          Background="{StaticResource SystemAccentColorLight1}"
                          Style="{StaticResource MaterialOutlinedTextBoxStyle}"
                          BorderBrush="{StaticResource SystemAccentColorDark1}" 
                          Text="{Binding AccountKeys.one, Mode=TwoWay}"/>
-                <TextBox x:Name="keyTwo"  
-                         FontSize="36" 
+                <TextBox x:Name="keyTwo"                           
                          Margin="0,2"
                          Background="{StaticResource SystemAccentColorLight1}"
                          Style="{StaticResource MaterialOutlinedTextBoxStyle}"
                          BorderBrush="{StaticResource SystemAccentColorDark1}" 
                          Text="{Binding AccountKeys.two, Mode=TwoWay}"/>
                 <TextBox x:Name="keyThree"  
-                         FontSize="36" 
+                         
                          Margin="0,2"
                          Background="{StaticResource SystemAccentColorLight1}"
                          Style="{StaticResource MaterialOutlinedTextBoxStyle}"
                          BorderBrush="{StaticResource SystemAccentColorDark1}" 
                          Text="{Binding AccountKeys.three, Mode=TwoWay}"/>
                 <TextBox x:Name="keyFour"  
-                         FontSize="36" 
+                         
                          Margin="0,2"
                          Background="{StaticResource SystemAccentColorLight1}"
                          Style="{StaticResource MaterialOutlinedTextBoxStyle}"
@@ -149,7 +144,7 @@
                 HorizontalAlignment="Stretch" 
                 VerticalAlignment="Center" 
                 Padding="15"
-                FontSize="36"
+                FontSize="14"
                 Background="Transparent"
                 BorderBrush="{StaticResource SystemColorWindowTextColor}"
                 BorderThickness="5"
