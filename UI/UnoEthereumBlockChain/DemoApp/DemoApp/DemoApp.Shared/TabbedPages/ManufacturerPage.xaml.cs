@@ -45,18 +45,7 @@ namespace DemoApp.TabbedPages
 
         #region Method(s)
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
-        {
-            base.OnNavigatedTo(e);
-            if (ViewModel == null)
-            {
-                ViewModel = DataContext as ManufacturerVM;
-            }
-            ViewModel.SetUp = e.Parameter as SetUp;
-            ViewModel.Bind();
-        }
-
-
+       
         private async void DispatchButton_ClickAsync(object sender, RoutedEventArgs e)
         {
             var fxn = new DispatchFunction();
@@ -65,7 +54,7 @@ namespace DemoApp.TabbedPages
             fxn.DestinationAddress = (string.IsNullOrEmpty(_accountParam.Text) || string.IsNullOrWhiteSpace(_accountParam.Text)) ? ViewModel.SetUp.Accounts.two.Address : _accountParam.Text;
             fxn.DestinationType = (string.IsNullOrEmpty(_typeParam.Text) || string.IsNullOrWhiteSpace(_typeParam.Text)) ? Convert.ToByte(1) : Convert.ToByte(_typeParam.Text);
             fxn.TokenId = string.IsNullOrEmpty(tokenId.Text) || string.IsNullOrWhiteSpace(tokenId.Text) ? BigInteger.Parse(tokenId.Text) : new BigInteger(new Random().Next(10, 1000));
-
+            ViewModel = DataContext as ManufacturerVM;
             await ViewModel.DispatchCommand(fxn);
             await UpdateTracking();    
         }
@@ -75,7 +64,7 @@ namespace DemoApp.TabbedPages
             var deployment = new DrugShipmentDeployment();
             deployment.Name = (string.IsNullOrEmpty(tokenName.Text) || string.IsNullOrWhiteSpace(tokenName.Text)) ?  ViewModel.Name : tokenName.Text;
             deployment.Symbol = (string.IsNullOrEmpty(tokenSymbol.Text) || string.IsNullOrWhiteSpace(tokenSymbol.Text)) ? ViewModel.Symbol : tokenSymbol.Text;
-
+            ViewModel = DataContext as ManufacturerVM;
             await ViewModel.DeployCommand(deployment);
         }
 

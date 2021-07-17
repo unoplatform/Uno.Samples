@@ -120,9 +120,10 @@ namespace DemoApp.ViewModels
 
         public async Task DeployCommand(PharmacyDeployment deployment)
         {
-            //DeployReceipt = await PharmacyService.DeployContractAndWaitForReceiptAsync(SetUp.Web3s.three, deployment);
             DrugShipmentService = await PharmacyService.DeployContractAndGetServiceAsync(SetUp.Web3s.three, deployment);
             SetUp.Service = DrugShipmentService;
+            DeployReceipt = new TransactionReceipt();
+            DeployReceipt.ContractAddress = DrugShipmentService.ContractHandler.ContractAddress;
         }
 
         public async Task DispatchCommand(DispatchFunction fxn)

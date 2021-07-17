@@ -116,7 +116,7 @@ namespace DemoApp.ViewModels
 
             try
             {
-                ConsumptionReceipt = await DrugShipmentService.ConsumeRequestAndWaitForReceiptAsync(fxn);
+                ConsumptionReceipt = await SetUp.Service.ConsumeRequestAndWaitForReceiptAsync(fxn);
                 GetDispatchEvents();
             }
             catch (Exception exception)
@@ -128,7 +128,7 @@ namespace DemoApp.ViewModels
 
         public async Task<(IEnumerable<TextBlock> _types, IEnumerable<TextBlock> _addresses, IEnumerable<TextBlock> _tokens)> GetPreviousOwners()
         {
-            var owners = await DrugShipmentService.GetPreviousOwnersQueryAsync();
+            var owners = await SetUp.Service.GetPreviousOwnersQueryAsync();
             var _addresses = owners?.ReturnValue1.Select(address => new TextBlock { Text = address, FontWeight = FontWeights.ExtraBold });
             var _types = owners?.ReturnValue2.Select(_type => new TextBlock { Text = _type, FontWeight = FontWeights.ExtraBold });
             var _tokens = owners?.ReturnValue3.Select(_token => new TextBlock { Text = _token.ToString(), FontWeight = FontWeights.ExtraBold });

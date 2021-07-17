@@ -67,7 +67,7 @@ namespace DemoApp.ViewModels
         public string Url { get; set; }
         public string NetworkId { get; set; }
 
-        public AccountAddresses AccountAddress { get; set; }
+        //public AccountAddresses AccountAddress { get; set; }
         public AccountKeys AccountKeys { get; set; }
 
         public Accounts Accounts { get; set; }
@@ -82,7 +82,6 @@ namespace DemoApp.ViewModels
             NetworkId = "5777";
             DrugShipment = "N/A";
             Migrations = "N/A";
-            AccountAddress = new AccountAddresses();
             AccountKeys = new AccountKeys();
             Accounts = new Accounts();
             Web3s = new Web3s();

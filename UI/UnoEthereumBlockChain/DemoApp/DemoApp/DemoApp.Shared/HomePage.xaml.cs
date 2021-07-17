@@ -1,6 +1,8 @@
 ﻿using DemoApp.TabbedPages;
 using DemoApp.ViewModels;
 
+using Microsoft.UI.Xaml.Controls;
+
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -49,51 +51,34 @@ namespace DemoApp
             {
                 ViewModel = DataContext as HomeViewModel;
             }
-            ViewModel.SetUp = e.Parameter as SetUp;
-            CurrentPage = typeof(ManufacturerPage);
-            pageView.Navigate(CurrentPage, ViewModel.SetUp);
+            var setUp = e.Parameter as SetUp;
+
+            ViewModel.PatientVM.SetUp = setUp;
+            ViewModel.PharmacyVM.SetUp = setUp;
+            ViewModel.ManufacturerVM.SetUp = setUp;
+            ViewModel.WholesalerVM.SetUp = setUp;
+
+            ViewModel.ManufacturerVM.Bind();
+            ViewModel.PharmacyVM.Bind();
+            ViewModel.WholesalerVM.Bind();
+            ViewModel.PatientVM.Bind();
+
         }
 
-        void OnAppBarButtonTapped(object sender, RoutedEventArgs args)
-        {
-            if (sender is FrameworkElement element)
-            {
-                var tag = element.Tag.ToString();
-                Type page = null;
-                switch (tag)
-                {
-                    case "Manufacturer":
-                        page = typeof(ManufacturerPage);
-                        break;
-                    case "Wholesaler":
-                        page = typeof(WholesalerPage);
-                        break;
-                    case "Pharmacy":
-                        page = typeof(PharmacyPage);
-                        break;
-                    case "Patient":
-                        
-                        page = typeof(PatientPage);
-                        break;
-
-                    default:
-                        page = typeof(ManufacturerPage);
-                        break;
-                }
-
-                if (CurrentPage != page)
-                {
-                    CurrentPage = page;
-                    pageView.Navigate(page, ViewModel.SetUp);
-                }
-            }
-        }
 
         private void AppBarButton_Click(object sender, RoutedEventArgs e)
         {
             this.Frame.Navigate(typeof(MainPage));
         }
 
+        private void TabView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var tabbedView = sender as TabView;
+            
+        }
+
         #endregion
+
+
     }
 }

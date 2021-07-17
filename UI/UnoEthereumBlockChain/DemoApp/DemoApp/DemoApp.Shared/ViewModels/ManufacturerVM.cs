@@ -66,7 +66,7 @@ namespace DemoApp.ViewModels
         public TransactionReceipt DeployReceipt
         {
             get => deployReceipt;
-            set => SetField(ref deployReceipt, value, "DepolyReceipt");
+            set => SetField(ref deployReceipt, value, "DeployReceipt");
         }
 
         public TransactionReceipt DispatchReceipt
@@ -123,9 +123,10 @@ namespace DemoApp.ViewModels
 
         public async Task DeployCommand(DrugShipmentDeployment deployment)
         {
-            //DeployReceipt = await DrugShipmentService.DeployContractAndWaitForReceiptAsync(SetUp.Web3s.one, deployment);
             DrugShipmentService = await DrugShipmentService.DeployContractAndGetServiceAsync(SetUp.Web3s.one, deployment);
-
+            DeployReceipt = new TransactionReceipt();
+            DeployReceipt.ContractAddress = DrugShipmentService.ContractHandler.ContractAddress;
+            
         }
 
         public async Task DispatchCommand(DispatchFunction fxn)

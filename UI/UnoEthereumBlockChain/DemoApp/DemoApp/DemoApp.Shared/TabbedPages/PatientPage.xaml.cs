@@ -42,26 +42,14 @@ namespace DemoApp.TabbedPages
 
         #region Method(s)
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
-        {
-            base.OnNavigatedTo(e);
-            if (ViewModel == null)
-            {
-                ViewModel = DataContext as PatientVM;
-            }
-            ViewModel.SetUp = e.Parameter as SetUp;
-            ViewModel.Bind();
-        }
-
-
-        
         private async void ConsumeButton_ClickAsync(object sender, RoutedEventArgs e)
         {
+            ViewModel = DataContext as PatientVM;
+
             var fxn = new ConsumeFunction();
             fxn.TokenId = string.IsNullOrEmpty(tokenId.Text) || string.IsNullOrWhiteSpace(tokenId.Text) ? BigInteger.Parse(tokenId.Text) : new BigInteger(new Random().Next(10, 1000));
             fxn.PatientAddress = ViewModel.SetUp.Accounts.four.Address;
             fxn.Patient = Convert.ToByte(3);
-
             await ViewModel.ConsumptionCommand(fxn);
             await UpdateTracking();
         }

@@ -4,51 +4,68 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:DemoApp"
     xmlns:vm="using:DemoApp.ViewModels"
+    xmlns:pages="using:DemoApp.TabbedPages"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d"
-    Background="Black">
+    xmlns:winui="using:Microsoft.UI.Xaml.Controls"
+    mc:Ignorable="d">
 
     <Page.DataContext>
         <vm:HomeViewModel/>
     </Page.DataContext>
 
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="9*"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-        <AppBarButton Icon="Back" Label="Main" Click="AppBarButton_Click" Grid.Row="0"/>
-        <Frame x:Name="pageView" Grid.Row="1"/>
-        <CommandBar Grid.Row="2"
-                    OverflowButtonVisibility="Collapsed"
-                    DefaultLabelPosition="Bottom"
-                    VerticalAlignment="Center" 
-                    HorizontalAlignment="Center">
-            <AppBarButton  Content="Manufacturer"
-                           Label="Manufacturer"
-                           Tag="Manufacturer"
-                           Icon="Admin"
-                           Click="OnAppBarButtonTapped"/>
+    <winui:TabView IsAddTabButtonVisible="False"
+                   x:Name="tabView"
+                    CanDragTabs="False"
+                    CanReorderTabs="False" 
+                    CornerRadius="2,2,2,2"
+                    HorizontalAlignment="Stretch" 
+                    VerticalAlignment="Stretch"
+                    TabWidthMode="Equal"
+                    TabFocusNavigation="Cycle"
+                    SelectionChanged="TabView_SelectionChanged">
+        <winui:TabView.TabItems>
+            <winui:TabViewItem Header="Manufacturer" 
+                                Tag="Manufacturer"
+                                IsClosable="False">
+                <winui:TabViewItem.IconSource>
+                    <winui:SymbolIconSource Symbol="Admin"/>
+                </winui:TabViewItem.IconSource>
+                <winui:TabViewItem.Content>
+                    <pages:ManufacturerPage DataContext="{Binding ManufacturerVM}" />
+                </winui:TabViewItem.Content>
 
-            <AppBarButton  Content="Wholesaler"
-                           Label="Wholesaler"
-                           Tag="Wholesaler"
-                           Icon="Globe"
-                           Click="OnAppBarButtonTapped"/>
-
-            <AppBarButton  Content="Pharmacy"
-                           Label="Pharmacy"
-                           Tag="Pharmacy"
-                           Icon="Home"
-                           Click="OnAppBarButtonTapped"/>
-
-            <AppBarButton  Content="Patient"
-                           Label="Patient"
-                           Tag="Patient"
-                           Icon="People"
-                           Click="OnAppBarButtonTapped"/>
-        </CommandBar>
-    </Grid>
+            </winui:TabViewItem>
+            <winui:TabViewItem Header="Wholesaler"
+                                   IsClosable="False"
+                                   Tag="Wholesaler">
+                <winui:TabViewItem.IconSource>
+                    <winui:SymbolIconSource Symbol="Globe"/>
+                </winui:TabViewItem.IconSource>
+                <winui:TabViewItem.Content>
+                    <pages:WholesalerPage DataContext="{Binding WholesalerVM}"/>
+                </winui:TabViewItem.Content>
+            </winui:TabViewItem>
+            <winui:TabViewItem Header="Pharmacy"
+                                   IsClosable="False"
+                                   Tag="Pharmacy">
+                <winui:TabViewItem.IconSource>
+                    <winui:SymbolIconSource Symbol="Home"/>
+                </winui:TabViewItem.IconSource>
+                <winui:TabViewItem.Content>
+                    <pages:PharmacyPage DataContext="{Binding PharmacyVM}"/>
+                </winui:TabViewItem.Content>
+            </winui:TabViewItem>
+            <winui:TabViewItem Header="Patient"
+                                   IsClosable="False"
+                                   Tag="Patient">
+                <winui:TabViewItem.IconSource>
+                    <winui:SymbolIconSource Symbol="People"/>
+                </winui:TabViewItem.IconSource>
+                <winui:TabViewItem.Content>
+                    <pages:PatientPage DataContext="{Binding PatientVM}"/>
+                </winui:TabViewItem.Content>
+            </winui:TabViewItem>
+        </winui:TabView.TabItems>
+    </winui:TabView>
 </Page>

@@ -6,128 +6,155 @@
     xmlns:vm="using:DemoApp.ViewModels"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d"
-    Background="Black">
+    xmlns:toolkit="using:Uno.UI.Toolkit"
+    xmlns:material="using:Uno.Material.Controls"
+    mc:Ignorable="d">
 
     <Page.DataContext>
         <vm:MainViewModel/>
     </Page.DataContext>
 
-    <ScrollViewer>
-        <StackPanel Padding="10">
-            <Grid BorderBrush="{StaticResource SystemAccentColorDark1}"
+    <StackPanel CornerRadius="5"
+                Padding="15"
+                BorderThickness="2"
+                Margin="10">
+        <StackPanel.BorderBrush>
+            <media:AcrylicBrush TintOpacity="0.1"
+                                                TintLuminosityOpacity="0.9"
+                                                TintColor="{ThemeResource SystemAccentColor}"
+                                                FallbackColor="{ThemeResource SystemAccentColor}"
+                                                BackgroundSource="Backdrop"
+                                                xmlns:media="using:Windows.UI.Xaml.Media" />
+        </StackPanel.BorderBrush>
+        <StackPanel.Background>
+            <media:AcrylicBrush TintOpacity="0.7"
+                                                TintLuminosityOpacity="0.9"
+                                                TintColor="{ThemeResource SystemAccentColor}"
+                                                FallbackColor="{ThemeResource SystemAccentColor}"
+                                                BackgroundSource="Backdrop"
+                             xmlns:media="using:Windows.UI.Xaml.Media" />
+        </StackPanel.Background>
+        <Grid BorderBrush="{StaticResource SystemAccentColorDark1}"
               BorderThickness="1">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="3*"/>
-                    <RowDefinition Height="3*"/>
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="2*"/>
-                </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="3*"/>                
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="3*"/>
+            </Grid.ColumnDefinitions>
 
-                <!--#region Grid Lines -->
-                <!-- Horizontal Lines -->
-                <Rectangle Grid.ColumnSpan="2" Height="1" VerticalAlignment="Bottom" Fill="{StaticResource SystemAccentColorDark1}"/>
-                <Rectangle Grid.Row="1" Grid.ColumnSpan="2" Height="1" VerticalAlignment="Bottom" Fill="{StaticResource SystemAccentColorDark1}"/>
-                <Rectangle Grid.Row="2" Grid.ColumnSpan="2" Height="1" VerticalAlignment="Bottom" Fill="{StaticResource SystemAccentColorDark1}"/>
-                <Rectangle Grid.Row="3" Grid.ColumnSpan="2" Height="1" VerticalAlignment="Bottom" Fill="{StaticResource SystemAccentColorDark1}"/>
-                <Rectangle Grid.Row="4" Grid.ColumnSpan="2" Height="1" VerticalAlignment="Bottom" Fill="{StaticResource SystemAccentColorDark1}"/>
-                <!-- Vertical Lines -->
-                <Rectangle Grid.RowSpan="5" Width="1" HorizontalAlignment="Right" Fill="{StaticResource SystemAccentColorDark1}"/>
-                <Rectangle Grid.Column="1" Grid.RowSpan="5" Width="1" HorizontalAlignment="Right" Fill="{StaticResource SystemAccentColorDark1}"/>
-                <!--#endregion-->
+            <!--#region Grid Lines -->
+            <!-- Horizontal Lines -->
+            <Rectangle Grid.ColumnSpan="2" Height="1" VerticalAlignment="Bottom" Fill="{StaticResource SystemAccentColorDark1}"/>
+            <Rectangle Grid.Row="1" Grid.ColumnSpan="2" Height="1" VerticalAlignment="Bottom" Fill="{StaticResource SystemAccentColorDark1}"/>
+            <Rectangle Grid.Row="2" Grid.ColumnSpan="2" Height="1" VerticalAlignment="Bottom" Fill="{StaticResource SystemAccentColorDark1}"/>
+            <Rectangle Grid.Row="3" Grid.ColumnSpan="2" Height="1" VerticalAlignment="Bottom" Fill="{StaticResource SystemAccentColorDark1}"/>
+            <Rectangle Grid.Row="4" Grid.ColumnSpan="2" Height="1" VerticalAlignment="Bottom" Fill="{StaticResource SystemAccentColorDark1}"/>
+            <!-- Vertical Lines -->
+            <Rectangle Grid.RowSpan="5" Width="1" HorizontalAlignment="Right" Fill="{StaticResource SystemAccentColorDark1}"/>
+            <Rectangle Grid.Column="1" Grid.RowSpan="5" Width="1" HorizontalAlignment="Right" Fill="{StaticResource SystemAccentColorDark1}"/>
+            <!--#endregion-->
 
-                <TextBlock Text="URL" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="36" Grid.Row="0" Grid.Column="0"/>
-                <TextBlock Text="NETWORK ID :" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="36" Grid.Row="1" Grid.Column="0"/>
-                <TextBlock Text="PRE-DEPLOYED CONTRACT ADDRESS :" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="36" Grid.Row="2" Grid.Column="0"/>
-                <TextBlock Text="MIGRATION CONTRACT ADDRESS :" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="36" Grid.Row="3" Grid.Column="0"/>
-                <TextBlock Text="ACCOUNTS : " HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="36" Grid.Row="4" Grid.Column="0"/>
-                <TextBlock Text="PRIVATE KEYS : " HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="36" Grid.Row="5" Grid.Column="0"/>
+            <TextBlock Text="URL" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="36" Grid.Row="0" Grid.Column="0" Style="{StaticResource MaterialHeadline3}"/>
+            <TextBlock Text="NETWORK ID :" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="36" Grid.Row="1" Grid.Column="0" Style="{StaticResource MaterialHeadline3}"/>
+            <TextBlock Text="PRE-DEPLOYED CONTRACT ADDRESS :" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="36" Grid.Row="2" Grid.Column="0" Style="{StaticResource MaterialHeadline3}"/>
+            <TextBlock Text="MIGRATION CONTRACT ADDRESS :" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="36" Grid.Row="3" Grid.Column="0" Style="{StaticResource MaterialHeadline3}"/>
+            <TextBlock Text="PRIVATE KEYS : " HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="36" Grid.Row="4" Grid.Column="0" Style="{StaticResource MaterialHeadline3}"/>
 
-                <TextBox x:Name="url" 
+            <TextBox x:Name="url" 
                      Grid.Row="0" 
                      Grid.Column="1" 
+                     CornerRadius="5"
                      FontSize="36" 
-                     BorderBrush="{StaticResource SystemAccentColorDark1}"
+                     Margin="0,2"
+                     Background="{StaticResource SystemAccentColorLight1}"
+                     Style="{StaticResource MaterialOutlinedTextBoxStyle}"
                      Text="{Binding Url, Mode=TwoWay}"/>
-                <TextBox x:Name="ntwkId" 
+            <TextBox x:Name="ntwkId" 
                      Grid.Row="1" 
                      Grid.Column="1" 
+                     CornerRadius="5"
                      FontSize="36" 
+                     Margin="0,2"
+                     Background="{StaticResource SystemAccentColorLight1}"
+                     Style="{StaticResource MaterialOutlinedTextBoxStyle}"
                      BorderBrush="{StaticResource SystemAccentColorDark1}"
                      Text="{Binding NetworkId, Mode=TwoWay}"/>
-                <TextBox x:Name="drugContract" 
+            <TextBox x:Name="drugContract" 
                      Grid.Row="2" 
                      Grid.Column="1" 
-                     FontSize="36" 
+                     CornerRadius="5"
+                     FontSize="36"
+                     Margin="0,2"
+                     Background="{StaticResource SystemAccentColorLight1}"
+                     Style="{StaticResource MaterialOutlinedTextBoxStyle}"
                      BorderBrush="{StaticResource SystemAccentColorDark1}"
                      Text="{Binding DrugShipment, Mode=TwoWay}"/>
-                <TextBox x:Name="migrationContract" 
+            <TextBox x:Name="migrationContract" 
                      Grid.Row="3" 
                      Grid.Column="1" 
+                     CornerRadius="5"
                      FontSize="36" 
+                     Margin="0,2"
+                     Background="{StaticResource SystemAccentColorLight1}"
+                     Style="{StaticResource MaterialOutlinedTextBoxStyle}"
                      BorderBrush="{StaticResource SystemAccentColorDark1}"
                      Text="{Binding Migrations, Mode=TwoWay}"/>
 
-                <StackPanel Grid.Row="4" 
-                            Grid.Column="1" 
-                            HorizontalAlignment="Stretch" 
-                            VerticalAlignment="Stretch">
-                    <TextBox x:Name="accountOne"  
-                         FontSize="36" 
-                         BorderBrush="{StaticResource SystemAccentColorDark1}"
-                         Text="{Binding AccountAddress.one, Mode=TwoWay}"/>
-                    <TextBox x:Name="accountTwo"  
-                         FontSize="36" 
-                         BorderBrush="{StaticResource SystemAccentColorDark1}"
-                         Text="{Binding AccountAddress.two, Mode=TwoWay}"/>
-                    <TextBox x:Name="accountThree" 
-                         FontSize="36" 
-                         BorderBrush="{StaticResource SystemAccentColorDark1}"
-                         Text="{Binding AccountAddress.three, Mode=TwoWay}"/>
-                    <TextBox x:Name="accountFour"  
-                         FontSize="36" 
-                         BorderBrush="{StaticResource SystemAccentColorDark1}"
-                         Text="{Binding AccountAddress.four, Mode=TwoWay}"/>         
-                </StackPanel>
+            
 
-                <StackPanel Grid.Row="5" 
+            <StackPanel Grid.Row="4" 
                             Grid.Column="1" 
                             HorizontalAlignment="Stretch" 
                             VerticalAlignment="Stretch">
-                    <TextBox x:Name="keyOne"  
+                <TextBox x:Name="keyOne"  
+                         CornerRadius="5"
                          FontSize="36" 
+                         Margin="0,2"
+                         Background="{StaticResource SystemAccentColorLight1}"
+                         Style="{StaticResource MaterialOutlinedTextBoxStyle}"
                          BorderBrush="{StaticResource SystemAccentColorDark1}" 
                          Text="{Binding AccountKeys.one, Mode=TwoWay}"/>
-                    <TextBox x:Name="keyTwo"  
+                <TextBox x:Name="keyTwo"  
                          FontSize="36" 
-                         BorderBrush="{StaticResource SystemAccentColorDark1}"
+                         Margin="0,2"
+                         Background="{StaticResource SystemAccentColorLight1}"
+                         Style="{StaticResource MaterialOutlinedTextBoxStyle}"
+                         BorderBrush="{StaticResource SystemAccentColorDark1}" 
                          Text="{Binding AccountKeys.two, Mode=TwoWay}"/>
-                    <TextBox x:Name="keyThree"  
+                <TextBox x:Name="keyThree"  
                          FontSize="36" 
-                         BorderBrush="{StaticResource SystemAccentColorDark1}"
+                         Margin="0,2"
+                         Background="{StaticResource SystemAccentColorLight1}"
+                         Style="{StaticResource MaterialOutlinedTextBoxStyle}"
+                         BorderBrush="{StaticResource SystemAccentColorDark1}" 
                          Text="{Binding AccountKeys.three, Mode=TwoWay}"/>
-                    <TextBox x:Name="keyFour"  
+                <TextBox x:Name="keyFour"  
                          FontSize="36" 
-                         BorderBrush="{StaticResource SystemAccentColorDark1}"
-                         Text="{Binding AccountKeys.four, Mode=TwoWay}"/>        
-                </StackPanel>
-            </Grid>
-            <Button x:Name="enterBtn" 
-                FontWeight="ExtraBold"
+                         Margin="0,2"
+                         Background="{StaticResource SystemAccentColorLight1}"
+                         Style="{StaticResource MaterialOutlinedTextBoxStyle}"
+                         BorderBrush="{StaticResource SystemAccentColorDark1}" 
+                         Text="{Binding AccountKeys.four, Mode=TwoWay}"/>
+            </StackPanel>
+        </Grid>
+        <Button x:Name="enterBtn" 
+                FontWeight="Bold"
                 Content="Setup Network and Accounts" 
                 HorizontalAlignment="Stretch" 
                 VerticalAlignment="Center" 
-                Padding="20"
-                Margin="0, 20"
+                Padding="15"
                 FontSize="36"
+                Background="Transparent"
+                BorderBrush="{StaticResource SystemColorWindowTextColor}"
+                BorderThickness="5"
+                Margin="5,2"
                 Click="enterBtn_Click"/>
-        </StackPanel>
-    </ScrollViewer>
+    </StackPanel>
 
 </Page>
