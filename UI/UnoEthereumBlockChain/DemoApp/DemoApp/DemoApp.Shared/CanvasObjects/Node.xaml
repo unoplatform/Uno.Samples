@@ -1,0 +1,37 @@
+﻿<StackPanel
+    x:Class="DemoApp.CanvasObjects.Node"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:DemoApp.CanvasObjects"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Orientation="Horizontal"
+     Padding="5,20,0,20"
+    d:DesignHeight="300"
+    d:DesignWidth="400">
+
+    <Canvas Width="150">
+        <Ellipse
+             Fill="Transparent"
+             Stroke="{StaticResource SystemAccentColor}"
+             StrokeThickness="5"
+             HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="150" Height="150"/>
+        <TextBlock x:Name="textBlock" 
+                   Text="Manufacturer"
+                   HorizontalAlignment="Center"
+                   Canvas.Left="28" 
+                   Canvas.Top="66" 
+                   FontWeight="ExtraBold"/>
+    </Canvas>
+
+    <Line x:Name="_line" 
+          Height="150"
+          Width="50"
+          Stroke="{StaticResource SystemAccentColorDark1}"
+          StrokeThickness="5"
+          Margin="5,0,0,0"
+          X2="150" 
+          Y1="75" 
+          Y2="75" Visibility="Collapsed"/>
+</StackPanel>
