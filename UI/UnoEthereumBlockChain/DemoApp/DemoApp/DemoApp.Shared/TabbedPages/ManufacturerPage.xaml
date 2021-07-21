@@ -1,0 +1,358 @@
+﻿<Page
+    x:Class="DemoApp.TabbedPages.ManufacturerPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:DemoApp.TabbedPages"
+    xmlns:vm="using:DemoApp.ViewModels"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:toolkit="using:Uno.UI.Toolkit"
+    xmlns:material="using:Uno.Material.Controls"
+    mc:Ignorable="d">
+
+    
+
+    <Border CornerRadius="2"
+            Padding="5"
+            BorderThickness="2"
+            BorderBrush="{ThemeResource SystemAccentColor}">
+        <Grid toolkit:VisibleBoundsPadding.PaddingMask="Top">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="9*"/>
+            </Grid.RowDefinitions>
+
+            <TextBlock Text="MANUFACTURER"
+                       Grid.Row="0"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"
+                       Style="{StaticResource MaterialHeadline3}"/>
+
+            <ListView Grid.Row="1"
+                      SelectionMode="None"
+                      IsItemClickEnabled="False"
+                      ScrollViewer.VerticalScrollMode="Enabled"
+                      HorizontalAlignment="Stretch"
+                      VerticalAlignment="Stretch">
+                <ListViewItem HorizontalAlignment="Stretch"
+                              HorizontalContentAlignment="Stretch">
+                    <StackPanel CornerRadius="5"
+								Margin="5"
+								BorderThickness="1"
+                                Padding="10">
+                        <StackPanel.BorderBrush>
+                            <media:AcrylicBrush TintOpacity="0.1"
+                                                TintLuminosityOpacity="0.9"
+                                                TintColor="{ThemeResource SystemAccentColor}"
+                                                FallbackColor="{ThemeResource SystemAccentColor}"
+                                                BackgroundSource="Backdrop"
+                                                xmlns:media="using:Windows.UI.Xaml.Media" />
+                        </StackPanel.BorderBrush>
+                        <StackPanel.Background>
+                            <media:AcrylicBrush TintOpacity="0.7"
+                                                TintLuminosityOpacity="0.9"
+                                                TintColor="{ThemeResource SystemAccentColor}"
+                                                FallbackColor="{ThemeResource SystemAccentColor}"
+                                                BackgroundSource="Backdrop"
+                             xmlns:media="using:Windows.UI.Xaml.Media" />
+                        </StackPanel.Background>
+                        <TextBlock Text="ACCOUNT DETAILS"
+                               Padding="20,10"
+                               FontWeight="Bold"
+                               HorizontalAlignment="Left"
+                               Style="{ThemeResource MaterialHeadline4}"/>
+
+                        <Grid Padding="20,0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                                
+                            </Grid.RowDefinitions>
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="3*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock Grid.Column="0"
+                                       Grid.Row="0"
+                                       Text="ACCOUNT HASH :"
+                                       Style="{ThemeResource MaterialHeadline6}" 
+                                       HorizontalAlignment="Left"/>
+                            <TextBlock Grid.Column="0"
+                                       Grid.Row="1"
+                                       Text="ACCOUNT TYPE :"
+                                       Style="{ThemeResource MaterialHeadline6}" 
+                                       HorizontalAlignment="Left"/>
+                            
+
+                            <TextBlock x:Name="accountHash"
+                                    Grid.Row="0"
+                                    Grid.Column="1"
+                                    Text="{Binding SetUp.Accounts.one.Address}"
+                                    TextWrapping="Wrap"
+                                    Style="{ThemeResource MaterialHeadline6}"/>
+                            <TextBlock x:Name="accountType"
+                                         Grid.Row="1"
+                                         Grid.Column="1"
+                                         Text="MANUFACTURER"
+                                         TextWrapping="Wrap"
+                                       Style="{ThemeResource MaterialHeadline6}"/>                            
+
+                        </Grid>
+
+                    </StackPanel>
+                </ListViewItem>
+
+                <ListViewItem HorizontalAlignment="Stretch"
+                              HorizontalContentAlignment="Stretch">
+                    <StackPanel CornerRadius="5"
+								Margin="5"
+								BorderThickness="1"
+                                Padding="5">
+                        <StackPanel.BorderBrush>
+                            <media:AcrylicBrush TintOpacity="0.1"
+                                                TintLuminosityOpacity="0.9"
+                                                TintColor="{ThemeResource SystemAccentColor}"
+                                                FallbackColor="{ThemeResource SystemAccentColor}"
+                                                BackgroundSource="Backdrop"
+                                                xmlns:media="using:Windows.UI.Xaml.Media" />
+                        </StackPanel.BorderBrush>
+                        <StackPanel.Background>
+                            <media:AcrylicBrush TintOpacity="0.7"
+                                                TintLuminosityOpacity="0.9"
+                                                TintColor="{ThemeResource SystemAccentColor}"
+                                                FallbackColor="{ThemeResource SystemAccentColor}"
+                                                BackgroundSource="Backdrop"
+                             xmlns:media="using:Windows.UI.Xaml.Media" />
+                        </StackPanel.Background>
+                        <TextBlock Text="DEPLOY CONTRACT"
+                                   Padding="20,10"
+                                   Style="{ThemeResource MaterialHeadline4}" 
+                                   FontWeight="Bold"
+                                   HorizontalAlignment="Left"/>
+
+                        <StackPanel Padding="15">
+                            <TextBox x:Name="tokenSymbol" 
+                                     CornerRadius="5"
+                                     PlaceholderText="Enter Token Symbol" 
+                                     Margin="5,2"
+                                     Text="{Binding Symbol, Mode=TwoWay}"
+                                     Style="{StaticResource MaterialOutlinedTextBoxStyle}"/>
+                            <TextBox x:Name="tokenName" 
+                                     CornerRadius="5"
+                                     PlaceholderText="Enter Token Name" 
+                                     Margin="5,2"
+                                     Text="{Binding Name, Mode=TwoWay}" 
+                                     Style="{StaticResource MaterialOutlinedTextBoxStyle}"/>
+
+                            <Button Content="DEPLOY"
+                                    FontWeight="ExtraBlack"
+                                    x:Name="deployBtn"
+                                    Click="DeployButton_ClickAsync"     
+                                    Padding="15"
+                                    Background="Transparent"
+                                    BorderThickness="2"
+                                    Margin="5,2"
+                                    BorderBrush="{StaticResource SystemColorWindowTextColor}"/>
+                        </StackPanel>
+                        <Grid Padding="20,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="3*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>                                
+                            </Grid.RowDefinitions>
+
+                            <TextBlock Grid.Row="0"
+                                       Margin="2,5"
+                                       Grid.Column="0"
+                                       Text="CONTRACT HASH :"
+                                       Style="{ThemeResource MaterialHeadline6}" 
+                                       HorizontalAlignment="Left"/>
+
+                            <TextBlock x:Name="contractHashOne"
+                                       Grid.Row="0"
+                                       Grid.Column="1"
+                                       Text="{Binding DeployReceipt.ContractAddress, Mode=TwoWay}"/>
+                        </Grid>
+                    </StackPanel>
+                </ListViewItem>
+
+                <ListViewItem HorizontalAlignment="Stretch"
+                              HorizontalContentAlignment="Stretch">
+                    <StackPanel CornerRadius="5"
+								Margin="5"
+								BorderThickness="1"
+                                Padding="5">
+                        <StackPanel.BorderBrush>
+                            <media:AcrylicBrush TintOpacity="0.1"
+                                                TintLuminosityOpacity="0.9"
+                                                TintColor="{ThemeResource SystemAccentColor}"
+                                                FallbackColor="{ThemeResource SystemAccentColor}"
+                                                BackgroundSource="Backdrop"
+                                                xmlns:media="using:Windows.UI.Xaml.Media" />
+                        </StackPanel.BorderBrush>
+                        <StackPanel.Background>
+                            <media:AcrylicBrush TintOpacity="0.7"
+                                                TintLuminosityOpacity="0.9"
+                                                TintColor="{ThemeResource SystemAccentColor}"
+                                                FallbackColor="{ThemeResource SystemAccentColor}"
+                                                BackgroundSource="Backdrop"
+                             xmlns:media="using:Windows.UI.Xaml.Media" />
+                        </StackPanel.Background>
+
+                        <TextBlock Text="DISPATCH DRUG SHIPMENT"
+                                   Padding="20,10"
+                                   FontWeight="Bold"
+                                   HorizontalAlignment="Left"
+                                   Style="{ThemeResource MaterialHeadline4}"/>
+                        <StackPanel x:Name="stackPanel" Padding="15">
+
+                            <TextBox x:Name="tokenId" 
+                                     CornerRadius="5"
+                                     PlaceholderText="Enter Token Id (Numbers only)" 
+                                     Margin="5,2" 
+                                     InputScope="Digits"
+                                     Style="{StaticResource MaterialOutlinedTextBoxStyle}"/>
+                            <TextBox Text="{Binding AccountAddresses}"
+                                     x:Name="_accountParam"
+                                     CornerRadius="5"
+                                     PlaceholderText="Enter Account Address" 
+                                     Margin="5,2"
+                                     Style="{StaticResource MaterialOutlinedTextBoxStyle}"/>
+                            <TextBox Text="{Binding AccountTypes}"
+                                     x:Name="_typeParam"
+                                     CornerRadius="5"
+                                     TextWrapping="Wrap"
+                                     PlaceholderText="Enter Account Type(0 - Manufacturer,1 - Wholesaler,2 - Pharmacy,3 - Patient)" 
+                                     Margin="5,2" 
+                                     InputScope="Digits"
+                                     Style="{StaticResource MaterialOutlinedTextBoxStyle}"/>
+                            <Button Content="DISPATCH"
+                                        FontWeight="ExtraBold"
+                                        x:Name="dispatchBtn"
+                                        Click="DispatchButton_ClickAsync"
+                                        Padding="15"
+                                        Background="Transparent"
+                                        BorderBrush="{StaticResource SystemColorWindowTextColor}"
+                                        BorderThickness="2"
+                                        Margin="5,2"/>
+                        </StackPanel>
+                        <Grid Padding="20,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="3*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                
+                            </Grid.RowDefinitions>
+
+                            <TextBlock Grid.Row="0"
+                                       Grid.Column="0"
+                                       Margin="2,5"
+                                       Text="TRANSACTION HASH :"
+                                       Style="{ThemeResource MaterialHeadline6}" 
+                                       HorizontalAlignment="Left"/>
+                            
+                            <TextBlock x:Name="txnHashTwo"
+                                   Grid.Row="0"
+                                   Grid.Column="1"
+                                   Text="{Binding DispatchReceipt.TransactionHash}"
+                                   Style="{ThemeResource MaterialHeadline6}" 
+                                   HorizontalAlignment="Left"/>
+                            
+                        </Grid>
+
+                        <Grid Padding="20" 
+                              BorderBrush="{StaticResource ApplicationHeaderForegroundThemeBrush}"
+                              BorderThickness="1"
+                              CornerRadius="5">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+
+                            <TextBlock Text="EMITTED EVENTS :"
+                                       Margin="2,5"
+                                       Style="{ThemeResource MaterialHeadline6}" 
+                                       HorizontalAlignment="Left"/>
+                            <TextBlock Grid.Row="1"
+                                       Text="{Binding ShipmentMsgs}"
+                                       Margin="2,5"
+                                       FontWeight="SemiBold"
+                                       Style="{ThemeResource MaterialHeadline6}" 
+                                       HorizontalAlignment="Left"/>
+                            <TextBlock Grid.Row="2"
+                                       Margin="2,5"
+                                       Style="{ThemeResource MaterialHeadline6}" 
+                                       HorizontalAlignment="Left"
+                                       Text="{Binding TransferMsgs}"
+                                       FontWeight="SemiBold"/>
+                            <TextBlock Grid.Row="3"
+                                       Margin="2,5"
+                                       Style="{ThemeResource MaterialHeadline6}" 
+                                       HorizontalAlignment="Left"
+                                       Text="{Binding ApprovalMsgs}"
+                                       FontWeight="SemiBold"/>
+                            <TextBlock Grid.Row="4"
+                                       Margin="2,5"
+                                       Text="{Binding ErrorMsgs}"
+                                       FontWeight="SemiBold"
+                                       Style="{ThemeResource MaterialHeadline6}"/>
+                        </Grid>
+                    </StackPanel>
+                </ListViewItem>
+
+                <ListViewItem x:Name="listViewItem" MinHeight="200">
+                    <StackPanel CornerRadius="5"
+                                Margin="5"
+                                BorderThickness="1" MinHeight="{Binding ActualHeight, ElementName=listViewItem, Mode=OneWay}" 
+                                MinWidth="{Binding ActualWidth, ElementName=listViewItem, Mode=OneWay}">
+                        <StackPanel.BorderBrush>
+                            <media:AcrylicBrush TintOpacity="0.1"
+                                                TintLuminosityOpacity="0.9"
+                                                TintColor="{ThemeResource SystemAccentColor}"
+                                                FallbackColor="{ThemeResource SystemAccentColor}"
+                                                BackgroundSource="Backdrop"
+                                                xmlns:media="using:Windows.UI.Xaml.Media" />
+                        </StackPanel.BorderBrush>
+                        <StackPanel.Background>
+                            <media:AcrylicBrush TintOpacity="0.7"
+                                                TintLuminosityOpacity="0.9"
+                                                TintColor="{ThemeResource SystemAccentColor}"
+                                                FallbackColor="{ThemeResource SystemAccentColor}"
+                                                BackgroundSource="Backdrop"
+                             xmlns:media="using:Windows.UI.Xaml.Media" />
+                        </StackPanel.Background>
+                        <TextBlock Text="OWNERSHIP MAPPING"
+                                    Margin="2,5"
+                                    Padding="20,10"
+                                    FontWeight="Bold"
+                                    Style="{ThemeResource MaterialHeadline4}" 
+                                    HorizontalAlignment="Left"/>
+                        <StackPanel Orientation="Horizontal"
+                                x:Name="trackOrder"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center">
+                            <StackPanel x:Name="trackTypes" BorderBrush="{StaticResource SystemColorWindowTextBrush}"/>
+                            <StackPanel x:Name="trackAddresses" BorderBrush="{StaticResource SystemColorWindowTextBrush}"/>
+                            <StackPanel x:Name="trackTokenIds" BorderBrush="{StaticResource SystemColorWindowTextBrush}"/>
+
+
+                        </StackPanel>
+                    </StackPanel>
+                </ListViewItem>
+            </ListView>
+
+
+
+
+        </Grid>
+    </Border>
+</Page>

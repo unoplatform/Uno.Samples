@@ -1,0 +1,71 @@
+﻿<Page
+    x:Class="DemoApp.HomePage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:DemoApp"
+    xmlns:vm="using:DemoApp.ViewModels"
+    xmlns:pages="using:DemoApp.TabbedPages"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:winui="using:Microsoft.UI.Xaml.Controls"
+    mc:Ignorable="d">
+
+    <Page.DataContext>
+        <vm:HomeViewModel/>
+    </Page.DataContext>
+
+    <winui:TabView IsAddTabButtonVisible="False"
+                   x:Name="tabView"
+                    CanDragTabs="False"
+                    CanReorderTabs="False" 
+                    CornerRadius="2,2,2,2"
+                    HorizontalAlignment="Stretch" 
+                    VerticalAlignment="Stretch"
+                    TabWidthMode="Equal"
+                    TabFocusNavigation="Cycle"
+                    SelectionChanged="TabView_SelectionChanged">
+        <winui:TabView.TabItems>
+            <winui:TabViewItem Header="Manufacturer" 
+                                Tag="Manufacturer"
+                                IsClosable="False">
+                <winui:TabViewItem.IconSource>
+                    <winui:SymbolIconSource Symbol="Admin"/>
+                </winui:TabViewItem.IconSource>
+                <winui:TabViewItem.Content>
+                    <pages:ManufacturerPage DataContext="{Binding ManufacturerVM}" />
+                </winui:TabViewItem.Content>
+
+            </winui:TabViewItem>
+            <winui:TabViewItem Header="Wholesaler"
+                                   IsClosable="False"
+                                   Tag="Wholesaler">
+                <winui:TabViewItem.IconSource>
+                    <winui:SymbolIconSource Symbol="Globe"/>
+                </winui:TabViewItem.IconSource>
+                <winui:TabViewItem.Content>
+                    <pages:WholesalerPage DataContext="{Binding WholesalerVM}"/>
+                </winui:TabViewItem.Content>
+            </winui:TabViewItem>
+            <winui:TabViewItem Header="Pharmacy"
+                                   IsClosable="False"
+                                   Tag="Pharmacy">
+                <winui:TabViewItem.IconSource>
+                    <winui:SymbolIconSource Symbol="Home"/>
+                </winui:TabViewItem.IconSource>
+                <winui:TabViewItem.Content>
+                    <pages:PharmacyPage DataContext="{Binding PharmacyVM}"/>
+                </winui:TabViewItem.Content>
+            </winui:TabViewItem>
+            <winui:TabViewItem Header="Patient"
+                                   IsClosable="False"
+                                   Tag="Patient">
+                <winui:TabViewItem.IconSource>
+                    <winui:SymbolIconSource Symbol="People"/>
+                </winui:TabViewItem.IconSource>
+                <winui:TabViewItem.Content>
+                    <pages:PatientPage DataContext="{Binding PatientVM}"/>
+                </winui:TabViewItem.Content>
+            </winui:TabViewItem>
+        </winui:TabView.TabItems>
+    </winui:TabView>
+</Page>
