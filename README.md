@@ -14,7 +14,7 @@ It allows C# and Windows XAML code to run on all target platforms, while allowin
 
 Use the UWP/WinUI tooling from Windows in [Visual Studio](https://www.visualstudio.com/), such as [XAML Hot Reload](https://docs.microsoft.com/en-us/visualstudio/xaml-tools/xaml-hot-reload?view=vs-2019) and [C# Edit and Continue](https://docs.microsoft.com/en-us/visualstudio/debugger/how-to-use-edit-and-continue-csharp), build your application as much as possible on Windows, then validate that your application runs on iOS, Android, macOS and WebAssembly.
 
-Visit [our documentation](doc/articles/intro.md) for more details.
+Visit [our documentation](https://platform.uno/docs/articles/intro.html) for more details.
 
 # Samples
 
@@ -102,4 +102,4 @@ Demo of the usage of a WebRTC in Uno WebAssembly. This sample establish a direct
 
 =======
 
-Visit [our documentation](https://github.com/unoplatform/uno/blob/master/doc/articles/intro.md) for more details.
+Visit [our documentation](https://platform.uno/docs/articles/intro.html) for more details.
