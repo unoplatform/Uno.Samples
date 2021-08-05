@@ -39,6 +39,12 @@
     <PackageReference Include="Microsoft.Windows.Compatibility" Version="5.0.1" />
 		<PackageReference Include="Uno.Wasm.Bootstrap" Version="3.0.0-dev.129" />
     <PackageReference Include="Uno.Wasm.Bootstrap.DevServer" Version="3.0.0-dev.129" />
+
+		<!-- 
+		Disable the native wasm assets until the CI process in Uno.Samples force-disables
+		the linker to get a faster build (fixed in Uno.Wasm.Bootstrap 3.0-dev.XX.
+		-->
+		<PackageReference Include="uno.sqlite-wasm" Version="3.34.1.3" IncludeAssets="none" Condition="'$(WasmShellILLinkerEnabled)'=='False'" />
   </ItemGroup>
   <Import Project="..\SQLiteSample.Shared\SQLiteSample.Shared.projitems" Label="Shared" Condition="Exists('..\SQLiteSample.Shared\SQLiteSample.Shared.projitems')" />
 </Project>
