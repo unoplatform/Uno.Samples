@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>net5.0</TargetFramework>
@@ -21,34 +21,24 @@
   <ItemGroup>
     <LinkerDescriptor Include="LinkerConfig.xml" />
   </ItemGroup>
-  <ItemGroup>
-    <!--
-    This item group is required by the project template because of the
-    new SDK-Style project, otherwise some files are not added automatically.
 
-    You can safely remove this ItemGroup completely.
-    -->
-    <None Include="Program.cs" />
-    <None Include="LinkerConfig.xml" />
-    <None Include="wwwroot\web.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <!-- Note that for WebAssembly version 1.1.1 of the console logger required -->
+	<ItemGroup>
     <PackageReference Include="sqlite-net-pcl" Version="1.7.335" />
-    <PackageReference Include="Uno.SQLitePCLRaw.provider.wasm" Version="3.0.14" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="1.1.1" />
+		<PackageReference Include="Uno.SQLitePCLRaw.provider.wasm" Version="3.1.1" />
+		
+		<!-- 
+		Required when using sqlite-net-pcl which otherwise overrides the 
+		wasm compatible version of the SQLitePCL.raw provider.
+		-->
+		<PackageReference Include="SQLitePCLRaw.bundle_green" Version="2.0.5-pre20210521085756" IncludeAssets="none" />
+		
+		<PackageReference Include="Microsoft.Extensions.Logging.Console" Version="1.1.1" />
     <PackageReference Include="Microsoft.Extensions.Logging.Filter" Version="1.1.1" />
-    <PackageReference Include="Uno.UI.WebAssembly" Version="3.7.4" />
-    <PackageReference Include="Uno.UI.RemoteControl" Version="3.7.4" Condition="'$(Configuration)'=='Debug'" />
+    <PackageReference Include="Uno.UI.WebAssembly" Version="3.9.1" />
+    <PackageReference Include="Uno.UI.RemoteControl" Version="3.9.1" Condition="'$(Configuration)'=='Debug'" />
     <PackageReference Include="Microsoft.Windows.Compatibility" Version="5.0.1" />
 		<PackageReference Include="Uno.Wasm.Bootstrap" Version="2.1.0" />
     <PackageReference Include="Uno.Wasm.Bootstrap.DevServer" Version="2.1.0" />
-  </ItemGroup>
-  <PropertyGroup>
-    <CanUseAOT Condition="$([MSBuild]::IsOsPlatform('Linux')) or ( $([MSBuild]::IsOsPlatform('Windows')) and '$(BUILD_REPOSITORY_PROVIDER)'=='' )">true</CanUseAOT>
-  </PropertyGroup>
-  <ItemGroup Condition="'$(CanUseAOT)'==''">
-    <PackageReference Update="Uno.SQLitePCLRaw.provider.wasm" Version="3.0.14" IncludeAssets="none" />
   </ItemGroup>
   <Import Project="..\SQLiteSample.Shared\SQLiteSample.Shared.projitems" Label="Shared" Condition="Exists('..\SQLiteSample.Shared\SQLiteSample.Shared.projitems')" />
 </Project>
