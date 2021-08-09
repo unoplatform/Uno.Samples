@@ -27,6 +27,14 @@ namespace SQLiteSample
 		{
 			this.InitializeComponent();
 
+			InitializeDatabase();
+		}
+
+		private async void InitializeDatabase()
+		{
+			// Ensure that the storage subsystem is initialized on webassembly
+			await Windows.Storage.StorageFolder.GetFolderFromPathAsync(Windows.Storage.ApplicationData.Current.LocalFolder.Path);
+		
 			using (var db = TryCreateDatabase())
 			{
 				UpdateList(db);
@@ -37,7 +45,7 @@ namespace SQLiteSample
 		{
 			using (var db = TryCreateDatabase())
 			{
-				AddStock(db, stockSymbol.Text);
+				AddValuation(db, stockSymbol.Text);
 
 				UpdateList(db);
 			}
