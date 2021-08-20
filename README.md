@@ -1,12 +1,19 @@
-# The Uno Platform (Pronounced 'Oono' or 'Ouno') is a Universal Windows Platform Bridge that allows UWP-based code (C# and XAML) to run on iOS, Android, macOS, and WebAssembly
+# Uno Platform Samples
+
+This repository provides simple, to-the-point code samples for the [Uno Platform](https://platform.uno/).
+
+See a complete list of code samples [below](#samples). Some of the samples have accompanying [step-by-step tutorials](https://platform.uno/docs/articles/tutorials-intro.html) in the official Uno Platform documentation.
+
+<h1 align=center>
+ <img align=center width="25%" src="https://raw.githubusercontent.com/unoplatform/styleguide/master/logo/uno-platform-logo-with-text.png" />
+</h1>
+
+## Pixel-Perfect. Multi-Platform. C# & Windows XAML. Today.
 
 [![Twitter Followers](https://img.shields.io/twitter/follow/unoplatform?label=follow%20%40unoplatform&style=flat)](https://twitter.com/unoplatform)
-[![GitHub Stars](https://img.shields.io/github/stars/unoplatform/uno?label=github%20stars)](https://github.com/unoplatform/uno/stargazers/)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](https://github.com/unoplatform/uno/blob/master/CONTRIBUTING.md)
 
-This repository provides simple to-the-point samples for features of the Uno platform.
-
-# What is the Uno Platform?
+## What is the Uno Platform?
 
 The Uno Platform is a UI Platform for building single-codebase applications for Windows, Web/WebAssembly, iOS, macOS, Android and Linux. 
 
@@ -16,7 +23,7 @@ Use the UWP/WinUI tooling from Windows in [Visual Studio](https://www.visualstud
 
 Visit [our documentation](https://platform.uno/docs/articles/intro.html) for more details.
 
-# Samples
+## Samples
 
 ### Android Custom Camera  
 An android specific sample that shows how to start a camera capture intent, and display the result in an `Image` control.
