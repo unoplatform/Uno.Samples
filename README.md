@@ -36,6 +36,8 @@ This sample application demonstrates the usage  of the `WebAuthenticationBroker`
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/Authentication.OidcDemo)
 
+[Follow the tutorial](https://platform.uno/docs/articles/guides/open-id-connect.html)
+
 ### Auto Suggest  
 An implementation of the XAML `AutoSuggest` control, showing how to autofill suggestions for user input. 
 
@@ -88,8 +90,10 @@ A working implementation of a folder-based save file picker for iOS. See [the 'i
 A pair of samples related to localization:
 - Localization: A sample showcasing the basics of localization.  
   [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/LocalizationSamples/Localization)
+  [Follow the tutorial](https://platform.uno/docs/articles/guides/localization.html)
 - RuntimeCultureSwitching: An example of changing app language while it is running.  
   [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/LocalizationSamples/RuntimeCultureSwitching)
+  [Follow the tutorial](https://platform.uno/docs/articles/guides/hotswap-app-language.html)
 
 ### Map Control  
 An implementation of the UWP `Maps` control with a custom slider that binds the value of the slider to the `ZoomLevel` property of the control. 
@@ -100,6 +104,8 @@ An implementation of the UWP `Maps` control with a custom slider that binds the 
 An example showcasing how to set up the native frame navigation for iOS and Android, and frame navigation in general for Uno.  
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/NativeFrameNav)
+
+[Follow the tutorial](https://platform.uno/docs/articles/guides/native-frame-nav-tutorial.html)
 
 ### Native Style Switch  
 An example of a toggle that allows you to switch between Native UI Controls and UWP UI Controls. The sample includes a checkbox, slider, button, and toggle. 
@@ -128,21 +134,29 @@ An example showing how to set the splash/launch screen in Uno.
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/SplashScreenSample)
 
+[Follow the tutorial](https://platform.uno/docs/articles/splash-screen.html)
+
 ### StatusBar Theme Color
 An example showing how to adjust the `StatusBar` and `CommandBar` dynamically based on the current light/dark theme.  
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/StatusBarThemeColor)
+
+[Follow the tutorial](https://platform.uno/docs/articles/guides/status-bar-theme-color.html)
 
 ### TheCatApiClient
 An example demonstrating an approach to consuming REST web services in Uno using HttpClient.
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/TheCatApiClient)
 
+[Follow the tutorial](https://platform.uno/docs/articles/howto-consume-webservices.html)
+
 ### TimeEntry
 
 Code for the Silverlight migration tutorial.
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/TimeEntry)
+
+[Follow the tutorial](https://platform.uno/docs/articles/silverlight-migration-landing.html)
 
 ### ToyCar
 A proof of concept of a car animation using the `TwoPaneView` control spanned across dual screens (such as Neo or Duo dual-screen devices for example).
@@ -161,6 +175,8 @@ An example showing how to set up the [`Uno.Cupertino`](https://github.com/unopla
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/UnoCupertinoSample)
 
+[Follow the tutorial](https://platform.uno/docs/articles/guides/uno-cupertino-walkthrough.html)
+
 ### Uno+Ethereum+Blockchain sample
 
 A sample showing how to integrate smart contracts on the Ethereum blockchain with a multi-targeted Uno Platform application.
@@ -172,10 +188,14 @@ An example showing how to set up the [`Uno.Material`](https://github.com/unoplat
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/UnoMaterialSample)
 
+[Follow the tutorial](https://platform.uno/docs/articles/guides/uno-material-walkthrough.html)
+
 ### WCT DataGrid  
 A dynamic grid view ported from the Windows Community Toolkit that allows for x:Bind. 
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/UnoWCTDataGridSample)
+
+[Follow the tutorial](https://platform.uno/docs/articles/uno-community-toolkit.html)
 
 ### WCT DataGrid, TreeView, TabView
 
