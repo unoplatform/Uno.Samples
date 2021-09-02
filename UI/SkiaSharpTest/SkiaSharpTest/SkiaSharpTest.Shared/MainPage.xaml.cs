@@ -25,7 +25,9 @@ namespace SkiaSharpTest
     /// </summary>
     public sealed partial class MainPage : Page
     {
-        public MainPage()
+		private Point _currentPosition;
+
+		public MainPage()
         {
             this.InitializeComponent();
         }
@@ -49,7 +51,22 @@ namespace SkiaSharpTest
 			Render(canvas, new Size(info.Width, info.Height), SKColors.Yellow, "SkiaSharp Software Rendering");
 		}
 
-		private static void Render(SKCanvas canvas, Size size, SKColor color, string text)
+		private void OnPointerMoved(object sender, PointerRoutedEventArgs e)
+        {
+			_currentPosition = e.GetCurrentPoint(panelGrid).Position;
+			currentPositionText.Text = _currentPosition.ToString();
+
+			if (hwAcceleration.IsChecked ?? false)
+			{
+				swapChain.Invalidate();
+			}
+			else
+			{
+				canvas.Invalidate();
+			}
+		}
+
+		private void Render(SKCanvas canvas, Size size, SKColor color, string text)
 		{
 			// get the screen density for scaling
 			var display = DisplayInformation.GetForCurrentView();
@@ -74,8 +91,14 @@ namespace SkiaSharpTest
 			var coord = new SKPoint(scaledSize.Width / 2, (scaledSize.Height + paint.TextSize) / 2);
 			canvas.DrawText(text, coord, paint);
 
-			// Width 41.6587026 => 144.34135
-			// Height 56 => 147
+			var circlePaint = new SKPaint
+			{
+				Style = SKPaintStyle.Fill,
+				Color = SKColors.Red
+
+			};
+
+			canvas.DrawCircle((float)_currentPosition.X, (float)_currentPosition.Y, 5, circlePaint);
 		}
 	}
 }
