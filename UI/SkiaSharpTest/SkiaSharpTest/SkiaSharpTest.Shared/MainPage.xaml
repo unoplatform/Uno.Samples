@@ -13,15 +13,22 @@
 			<RowDefinition Height="auto"/>
 			<RowDefinition/>
 		</Grid.RowDefinitions>
-		<CheckBox Content="Hardware Accelerated" x:Name="hwAcceleration" />
-		<Grid Grid.Row="1">
+		<StackPanel>
+			<CheckBox Content="Hardware Accelerated" x:Name="hwAcceleration" />
+			<TextBlock x:Name="currentPositionText" />
+		</StackPanel>
+		<Grid x:Name="panelGrid" Grid.Row="1">
 			<skia:SKSwapChainPanel
 				x:Name="swapChain"
 				PaintSurface="OnPaintSwapChain"
+				PointerMoved="{x:Bind OnPointerMoved}"
+				Background="Transparent"
 				Visibility="{x:Bind hwAcceleration.IsChecked, Mode=OneWay}" />
 			<skia:SKXamlCanvas 
 				x:Name="canvas" 
 				PaintSurface="OnPaintSurface"
+				PointerMoved="{x:Bind OnPointerMoved}"
+				Background="Transparent"
 				Visibility="{x:Bind Not(hwAcceleration.IsChecked), Mode=OneWay}" />
 		</Grid>
 	</Grid>
