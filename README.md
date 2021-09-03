@@ -86,7 +86,7 @@ A working implementation of a folder-based save file picker for iOS. See [the 'i
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/FileSavePickeriOS)
 
-## Localization Samples
+### Localization Samples
 A pair of samples related to localization:
 - Localization: A sample showcasing the basics of localization.  
   [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/LocalizationSamples/Localization)
