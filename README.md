@@ -40,7 +40,12 @@ A simple example using the `TwoPaneView` control spanned across dual screens (su
 An example that demonstrates the use of embedded resources and how to read them from your app.
 Note that the [`Default namespace`](https://stackoverflow.com/questions/2871314/change-project-namespace-in-visual-studio) property of all projects is the same in order for the embedded resources names to be the same on all platforms.
 
+### HtmlControls
+
+This is a WASM-only sample. It is creating _native_ HTML elements that can be used directly in XAML.
+
 ## LocalizationSamples
+
 A collection samples related to localization:
 - Localization: A sample showcasing the basics of localization.  
   [Browse source](UI/Localization/Localization)
