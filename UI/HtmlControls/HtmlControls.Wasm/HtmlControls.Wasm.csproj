@@ -1,0 +1,50 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net5.0</TargetFramework>
+    <NoWarn>NU1701</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)'=='Debug'">
+    <MonoRuntimeDebuggerEnabled>true</MonoRuntimeDebuggerEnabled>
+    <DefineConstants>$(DefineConstants);TRACE;DEBUG</DefineConstants>
+    <DebugType>portable</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+  <ItemGroup>
+    <Content Include="Assets\SplashScreen.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <UpToDateCheckInput Include="..\HtmlControls.Shared\**\*.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="WasmCSS\Fonts.css" />
+    <EmbeddedResource Include="WasmScripts\AppManifest.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <LinkerDescriptor Include="LinkerConfig.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <!--
+        This item group is required by the project template because of the
+        new SDK-Style project, otherwise some files are not added automatically.
+
+        You can safely remove this ItemGroup completely.
+        -->
+    <None Include="Program.cs" />
+    <None Include="LinkerConfig.xml" />
+    <None Include="wwwroot\web.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Windows.Compatibility" Version="5.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="5.0.0" />
+    <PackageReference Include="Uno.Extensions.Logging.WebAssembly.Console" Version="1.0.1" />
+    <PackageReference Include="Uno.UI.WebAssembly" Version="3.10.0-dev.617" />
+    <PackageReference Include="Uno.UI.RemoteControl" Version="3.10.0-dev.617" Condition="'$(Configuration)'=='Debug'" />
+    <PackageReference Include="Uno.Wasm.Bootstrap" Version="3.0.0-dev.101" />
+    <PackageReference Include="Uno.Wasm.Bootstrap.DevServer" Version="3.0.0-dev.101" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\HtmlControls\HtmlControls.csproj" />
+  </ItemGroup>
+  <Import Project="..\HtmlControls.Shared\HtmlControls.Shared.projitems" Label="Shared" Condition="Exists('..\HtmlControls.Shared\HtmlControls.Shared.projitems')" />
+</Project>
