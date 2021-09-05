@@ -32,7 +32,7 @@ namespace HtmlControls
         {
             if (o is HtmlMeter meter && args.NewValue is double min)
             {
-                meter.SetAttribute("min", min.ToStringInvariant());
+                meter.SetHtmlAttribute("min", min.ToStringInvariant());
             }
         }
 
@@ -49,7 +49,7 @@ namespace HtmlControls
         {
             if (o is HtmlMeter meter && args.NewValue is double max)
             {
-                meter.SetAttribute("max", max.ToStringInvariant());
+                meter.SetHtmlAttribute("max", max.ToStringInvariant());
             }
         }
 
@@ -66,7 +66,7 @@ namespace HtmlControls
         {
             if (o is HtmlMeter meter && args.NewValue is double value)
             {
-                meter.SetAttribute("value", value.ToStringInvariant());
+                meter.SetHtmlAttribute("value", value.ToStringInvariant());
             }
         }
 

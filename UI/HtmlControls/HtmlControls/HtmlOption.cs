@@ -44,7 +44,7 @@ namespace HtmlControls
             {
                 if (args.NewValue is string str)
                 {
-                    option.SetAttribute("value", str);
+                    option.SetHtmlAttribute("value", str);
                 }
             }
         }

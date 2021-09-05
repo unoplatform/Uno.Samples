@@ -12,9 +12,6 @@ namespace HtmlControls
     {
         public HtmlH1Text()
         {
-            // Set a background to ensure pointer events are allowed
-            Background = new SolidColorBrush(Colors.Transparent);
-
             // Avoid flicking while we're measuring the element
             this.SetCssStyle("overflow", "hidden");
         }

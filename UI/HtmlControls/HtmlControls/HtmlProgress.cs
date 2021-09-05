@@ -32,7 +32,7 @@ namespace HtmlControls
         {
             if (o is HtmlProgress progress && args.NewValue is double max)
             {
-                progress.SetAttribute("max", max.ToStringInvariant());
+                progress.SetHtmlAttribute("max", max.ToStringInvariant());
             }
         }
 
@@ -49,7 +49,7 @@ namespace HtmlControls
         {
             if (o is HtmlProgress progress && args.NewValue is double value)
             {
-                progress.SetAttribute("value", value.ToStringInvariant());
+                progress.SetHtmlAttribute("value", value.ToStringInvariant());
             }
         }
 
