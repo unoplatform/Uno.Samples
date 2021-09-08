@@ -38,7 +38,7 @@ This sample application demonstrates the usage  of the `WebAuthenticationBroker`
 
 [Follow the tutorial](https://platform.uno/docs/articles/guides/open-id-connect.html)
 
-### Auto Suggest  
+### Auto-Suggest  
 An implementation of the XAML `AutoSuggest` control, showing how to autofill suggestions for user input. 
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/AutoSuggestSample)
@@ -116,7 +116,7 @@ An example of a toggle that allows you to switch between Native UI Controls and 
 ### Package Resources
 An example that demonstrates the use of package assets and how to read them from your app. 
 
-Note that for WebAssembly assets are downloaded on demand, as can be seen in the brower's network tab.
+Note that for WebAssembly assets are downloaded on demand, as can be seen in the browser's network tab.
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/PackageResources)
 
