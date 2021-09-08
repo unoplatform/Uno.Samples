@@ -73,11 +73,6 @@ A simple example using the `TwoPaneView` control spanned across dual screens (su
 An example that demonstrates the use of embedded resources and how to read them from your app.
 Note that the [`Default namespace`](https://stackoverflow.com/questions/2871314/change-project-namespace-in-visual-studio) property of all projects is the same in order for the embedded resource names to be the same on all platforms.
 
-### HtmlControls
-
-This is a WASM-only sample. It is creating _native_ HTML elements that can be used directly in XAML.
-
-## LocalizationSamples
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/EmbeddedResources)
 
 ### FileSavePicker iOS
@@ -85,6 +80,12 @@ This is a WASM-only sample. It is creating _native_ HTML elements that can be us
 A working implementation of a folder-based save file picker for iOS. See [the 'iOS' section in the Windows.Storage.Pickers Uno documentation](https://platform.uno/docs/articles/features/windows-storage-pickers.html#ios) for more information.
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/FileSavePickeriOS)
+
+### HtmlControls
+
+This is a WASM-only sample. It is creating _native_ HTML elements that can be used directly in XAML.
+
+[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/HtmlControls)
 
 ### Localization Samples
 A pair of samples related to localization:
