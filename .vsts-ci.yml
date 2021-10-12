@@ -13,25 +13,31 @@ jobs:
     inputs:
       updateAssemblyInfo: false   
 
-# Restore nuget.org to the list of existing sources, .NET 6 Pre 2 may somehow remove it
+  # Restore nuget.org to the list of existing sources, .NET 6 Pre 2 may somehow remove it
   - powershell: |
       dotnet nuget add source https://api.nuget.org/v3/index.json -n nuget.org | Out-Null
       $global:LASTEXITCODE = 0
     displayName: Adjust nuget.org source
-    
-  - task: MSBuild@1
-    displayName: Build Samples
-    inputs:
-      solution: UI\**\*.sln
-      msbuildLocationMethod: version
-      msbuildVersion: latest
-      msbuildArchitecture: x86
-      msbuildArguments: /r /p:Configuration=Release "/p:InformationalVersion=$(GitVersion.InformationalVersion)" /p:AotAssemblies=false /p:WasmShellILLinkerEnabled=false /ds
-      clean: false
-      maximumCpuCount: true
-      restoreNugetPackages: false
-      logProjectEvents: false
-      createLogFile: false
+
+  # Restore nuget.org to the list of existing sources, .NET 6 Pre 2 may somehow remove it
+  - powershell: |
+        & choco install vswhere
+        $msbuildpath=(vswhere -latest -requires Microsoft.Component.MSBuild -find MSBuild\**\Bin\MSBuild.exe -nologo)
+
+        echo "##vso[task.setvariable variable=msbuildpath]$msbuildpath"
+    displayName: Set MSBUILDPATH
+
+  - powershell: |
+      $SolutionsToBuild = Get-ChildItem -Path UI\**\*.sln -Recurse
+
+      foreach ($SolutionName in $SolutionsToBuild) {
+           & $env:msbuildpath $SolutionName /r /p:Configuration=Release "/p:InformationalVersion=$(GitVersion.InformationalVersion)" /p:AotAssemblies=false /p:WasmShellILLinkerEnabled=false /ds
+
+           # Clean the whole tree after every build to avoid disk space issues
+           git clean -fdx
+      }
+
+    displayName: Build samples
 
   - task: PublishBuildArtifacts@1
     inputs:
