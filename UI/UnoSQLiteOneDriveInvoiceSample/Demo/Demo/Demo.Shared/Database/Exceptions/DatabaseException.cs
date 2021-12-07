@@ -18,10 +18,6 @@ namespace Demo.Database.Exceptions
 
         public DatabaseException(string typeName, string methodName, string description) : base(string.Format($"SoloDatabaseException : TYPE = {typeName}, METHOD = {methodName}, DESCRIPTION = {description}")) { }
 
-        public override string ToString()
-        {
-            return base.ToString();
-        }
         #endregion
 
     }
