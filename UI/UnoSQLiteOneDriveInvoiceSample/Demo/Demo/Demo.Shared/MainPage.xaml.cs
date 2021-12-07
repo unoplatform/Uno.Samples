@@ -43,21 +43,12 @@ namespace Demo
         {
             base.OnNavigatedTo(e);
 
-            //Frame.Navigate(typeof(CUInvoice), new Invoice());
             if (ViewModel == null)
             {
                 ViewModel = new MainVM();
             }
 
             ViewModel.SettingsVM = new SettingsVM();
-            
-
-        }
-
-        private async void tabView_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            
-            
         }
     }
 }

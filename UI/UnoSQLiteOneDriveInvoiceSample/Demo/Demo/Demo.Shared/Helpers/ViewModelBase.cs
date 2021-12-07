@@ -5,7 +5,7 @@ using System.Runtime.CompilerServices;
 
 namespace Demo.Helpers
 {
-    public class BaseNotifyClass : INotifyPropertyChanged
+    public class ViewModelBase : INotifyPropertyChanged
     {
         #region INotifyPropertyChanged Implementation(s)
 

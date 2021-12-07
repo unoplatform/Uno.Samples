@@ -11,7 +11,7 @@ using Uno.Extensions;
 
 namespace Demo.ViewModels
 {
-    public class InvoicesVM : BaseNotifyClass
+    public class InvoicesVM : ViewModelBase
     {
         #region Properties
 
@@ -40,13 +40,13 @@ namespace Demo.ViewModels
 
         private void LoadEntities()
         {
-            
+
             var fetchInvoices = InvoiceDBService.GetEntities();
             Invoices = new ObservableCollection<Invoice>(fetchInvoices.entities);
 
         }
 
-        public void DeleteEntity(Invoice invoice )
+        public void DeleteEntity(Invoice invoice)
         {
             var result = InvoiceDBService.DeleteEntity(invoice);
             if (result.isSuccessful)

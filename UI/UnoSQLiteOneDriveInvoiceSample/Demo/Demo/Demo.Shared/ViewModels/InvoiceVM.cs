@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace Demo.ViewModels
 {
-    public class InvoiceVM : BaseNotifyClass
+    public class InvoiceVM : ViewModelBase
     {
         #region Properties
 
@@ -40,7 +40,7 @@ namespace Demo.ViewModels
         public void SaveEntity()
         {
             var userAccount = new AccountDBService().GetUserEntities().entities.FirstOrDefault();
-            if (userAccount != null) 
+            if (userAccount != null)
             {
                 Entity.UserBankAccount = userAccount;
                 Entity.UserAddress = userAccount.Address;
@@ -56,9 +56,9 @@ namespace Demo.ViewModels
                 }
             }
 
-            
-            
-        }        
+
+
+        }
 
         #endregion
     }

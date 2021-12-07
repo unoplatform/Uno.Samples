@@ -26,7 +26,7 @@ using Uno.Extensions;
 
 namespace Demo.ViewModels
 {
-    public class MainVM : BaseNotifyClass
+    public class MainVM : ViewModelBase
     {
         #region Properties
 
@@ -35,12 +35,12 @@ namespace Demo.ViewModels
         public SettingsVM SettingsVM { get; set; }
 
         public ObservableCollection<Invoice> Invoices { get; set; }
-        
+
         private readonly string databasePath = Path.Combine(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Demo.db"));
-        
+
 
         #endregion
-                
+
         #region Summary Properties
 
         public List<(InvoiceStatus status, double amount, string currency)> GroupedByStatus { get; set; }
@@ -59,7 +59,7 @@ namespace Demo.ViewModels
             InitializeDatabase();
             InitializeServices();
             Summarize();
-           
+
             SettingsVM = new SettingsVM();
             ClientsVM = new ClientsVM();
             InvoicesVM = new InvoicesVM();
@@ -87,7 +87,7 @@ namespace Demo.ViewModels
                 using (var connection = new SQLiteConnection(databasePath))
                 {
                     connection.CreateTable<Account>();
-                    connection.CreateTable<Address>();                    
+                    connection.CreateTable<Address>();
                     connection.CreateTable<Client>();
                     connection.CreateTable<Communication>();
                     connection.CreateTable<Invoice>();
@@ -148,8 +148,8 @@ namespace Demo.ViewModels
                 GroupedByStatus = Invoices.GroupBy(invoice => invoice.Status, (_status, invoices) =>
                  (
                      status: _status,
-                     amount :invoices.Select(invoice => invoice.Items.Sum(item => item.Price)).Sum(),
-                     currency : invoices.Select(invoice => invoice.Currency).FirstOrDefault()
+                     amount: invoices.Select(invoice => invoice.Items.Sum(item => item.Price)).Sum(),
+                     currency: invoices.Select(invoice => invoice.Currency).FirstOrDefault()
                 )).ToList();
 
                 GroupedByClient = Invoices.GroupBy(invoice => invoice.Client, (_client, invoices) =>
@@ -157,10 +157,10 @@ namespace Demo.ViewModels
                     client: _client,
                     statusAmount: invoices.GroupBy(invoice => invoice.Status, (_status, _invoices) => (
                        _status: _status,
-                       amount : _invoices.Select(invoice => invoice.Items.Sum(item => item.Price)).Sum(),
-                       currency : _invoices.Select(invoice => invoice.Currency).FirstOrDefault()
+                       amount: _invoices.Select(invoice => invoice.Items.Sum(item => item.Price)).Sum(),
+                       currency: _invoices.Select(invoice => invoice.Currency).FirstOrDefault()
                    )).ToList()
-                )).ToList(); 
+                )).ToList();
 
                 var topPaid = GroupedByClient.Select(group => new { client = group.client, amount = group.statusAmount.FirstOrDefault(item => item.status == InvoiceStatus.Paid).amount });
                 var topDue = GroupedByClient.Select(group => new { client = group.client, amount = group.statusAmount.FirstOrDefault(item => item.status == InvoiceStatus.Due).amount });
@@ -174,6 +174,6 @@ namespace Demo.ViewModels
 
         #endregion
 
-       
+
     }
 }

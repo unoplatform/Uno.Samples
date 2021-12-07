@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 
 namespace Demo.ViewModels
 {
-    public class SettingsVM : BaseNotifyClass
+    public class SettingsVM : ViewModelBase
     {
         #region OneDrive Properties
 
@@ -52,7 +52,7 @@ namespace Demo.ViewModels
         #endregion
 
         #region Properties
-        
+
         public Account UserAccount { get; set; }
         public Address UserAddress { get; set; }
 
@@ -91,7 +91,7 @@ namespace Demo.ViewModels
                 UserAddress = new Address();
                 UserAddress.IsUser = true;
             }
-            
+
         }
 
         public async Task SaveAccount(Account account)

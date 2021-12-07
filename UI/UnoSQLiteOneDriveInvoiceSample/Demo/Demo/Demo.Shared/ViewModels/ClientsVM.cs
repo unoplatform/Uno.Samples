@@ -14,7 +14,7 @@ using System.Text;
 
 namespace Demo.ViewModels
 {
-    public class ClientsVM : BaseNotifyClass
+    public class ClientsVM : ViewModelBase
     {
         #region Properties
 
@@ -37,10 +37,10 @@ namespace Demo.ViewModels
 
         private void LoadEntities()
         {
-            
+
             var fetchClients = ClientDBService.GetEntities();
-            Clients = new ObservableCollection<Client>(fetchClients.entities); 
-            
+            Clients = new ObservableCollection<Client>(fetchClients.entities);
+
         }
 
         public void DeleteEntity(Client client)
