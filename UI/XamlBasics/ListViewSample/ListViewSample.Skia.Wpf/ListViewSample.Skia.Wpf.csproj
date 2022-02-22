@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="5.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="5.0.0" />
+    <PackageReference Include="Uno.UI.Skia.Wpf" Version="4.0.11" />
+    <PackageReference Include="Uno.UI.RemoteControl" Version="4.0.11" Condition="'$(Configuration)'=='Debug'" />
+    <PackageReference Include="Uno.UI.Adapter.Microsoft.Extensions.Logging" Version="4.0.11" />
+  </ItemGroup>
+  <ItemGroup>
+    <UpToDateCheckInput Include="..\ListViewSample.Shared\**\*.xaml" />
+  </ItemGroup>
+  <Import Project="..\ListViewSample.Shared\ListViewSample.Shared.projitems" Label="Shared" />
+</Project>
