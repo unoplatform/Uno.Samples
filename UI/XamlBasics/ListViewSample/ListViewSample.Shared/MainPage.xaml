@@ -1,0 +1,34 @@
+﻿<Page
+    x:Class="ListViewSample.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:ListViewSample"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"    
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="*"/>
+		</Grid.RowDefinitions>
+		<TextBlock Margin="12" FontSize="22" Text="My Connections" FontWeight="SemiBold"/>
+		<ListView Grid.Row="1" ContainerContentChanging="ListView_ContainerContentChanging" ItemsSource="{x:Bind Friends}">
+			<ListView.ItemTemplate>
+				<DataTemplate x:DataType="local:WorkplaceFriend">
+					<Grid>
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="*"/>
+							<ColumnDefinition Width="*"/>
+							<ColumnDefinition Width="*"/>
+						</Grid.ColumnDefinitions>
+						<TextBlock Grid.Column="0" Text="{x:Bind Name}"/>
+						<TextBlock Grid.Column="1" Text="{x:Bind Occupation}"/>
+						<TextBlock Grid.Column="2" Text="{x:Bind Id}"/>
+					</Grid>
+				</DataTemplate>
+			</ListView.ItemTemplate>
+		</ListView>
+    </Grid>
+</Page>
