@@ -27,7 +27,7 @@ jobs:
       $SolutionsToBuild = Get-ChildItem -Path UI\**\*.sln -Recurse
 
       foreach ($SolutionName in $SolutionsToBuild) {
-           & $env:msbuildpath $SolutionName /r /p:Configuration=Release "/p:InformationalVersion=$(GitVersion.InformationalVersion)" /p:AotAssemblies=false /p:WasmShellILLinkerEnabled=false /ds
+           & $env:msbuildpath $SolutionName /r /p:Configuration=Release /p:AotAssemblies=false /p:WasmShellILLinkerEnabled=false /ds
 
            # Clean the whole tree after every build to avoid disk space issues
            git clean -fdx
