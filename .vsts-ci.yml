@@ -9,10 +9,6 @@ jobs:
   - ${{ if startsWith(variables['Build.SourceBranch'], 'refs/heads/canaries') }}:
     - template: .vsts-ci.canaries.yml
 
-  - task: GitVersion@5
-    inputs:
-      updateAssemblyInfo: false   
-
   # Restore nuget.org to the list of existing sources, .NET 6 Pre 2 may somehow remove it
   - powershell: |
       dotnet nuget add source https://api.nuget.org/v3/index.json -n nuget.org | Out-Null
@@ -31,7 +27,7 @@ jobs:
       $SolutionsToBuild = Get-ChildItem -Path UI\**\*.sln -Recurse
 
       foreach ($SolutionName in $SolutionsToBuild) {
-           & $env:msbuildpath $SolutionName /r /p:Configuration=Release "/p:InformationalVersion=$(GitVersion.InformationalVersion)" /p:AotAssemblies=false /p:WasmShellILLinkerEnabled=false /ds
+           & $env:msbuildpath $SolutionName /r /p:Configuration=Release /p:AotAssemblies=false /p:WasmShellILLinkerEnabled=false /ds
 
            # Clean the whole tree after every build to avoid disk space issues
            git clean -fdx
