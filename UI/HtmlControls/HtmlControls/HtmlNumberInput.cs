@@ -49,7 +49,7 @@ namespace HtmlControls
         {
             if (o is HtmlNumberInput input && args.NewValue is long value)
             {
-                input.ExecuteJavascript($"element.value={value.ToStringInvariant()};");
+                input.ExecuteJavascript($"element.value={value.ToString(CultureInfo.InvariantCulture)};");
             }
         }
 
