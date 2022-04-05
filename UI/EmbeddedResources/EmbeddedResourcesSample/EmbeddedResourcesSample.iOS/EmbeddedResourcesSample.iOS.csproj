@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">iPhoneSimulator</Platform>
-    <ProjectGuid>046329e0-831c-4297-a78c-50b3a782e7ab</ProjectGuid>
+    <ProjectGuid>{046329E0-831C-4297-A78C-50B3A782E7AB}</ProjectGuid>
     <ProjectTypeGuids>{FEACFBD2-3405-455C-9665-78FE426C6842};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Exe</OutputType>
     <RootNamespace>EmbeddedResourcesSample</RootNamespace>
@@ -115,10 +115,11 @@
     <BundleResource Include="Resources\Fonts\uno-fluentui-assets.ttf" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Uno.UI" Version="3.7.4" />
-    <PackageReference Include="Uno.UI.RemoteControl" Version="3.7.4" Condition="'$(Configuration)'=='Debug'" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="1.1.1" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Filter" Version="1.1.1" />
+    <PackageReference Include="Uno.UI" Version="4.1.9" />
+    <PackageReference Include="Uno.UI.RemoteControl" Version="4.1.9" Condition="'$(Configuration)'=='Debug'" />
+    <PackageReference Include="Uno.UI.Adapter.Microsoft.Extensions.Logging" Version="4.1.9" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="5.0.0" />
+    <PackageReference Include="Uno.Extensions.Logging.OSLog " Version="1.0.1" />
   </ItemGroup>
   <ItemGroup>
     <ImageAsset Include="Media.xcassets\AppIcons.appiconset\Contents.json">
@@ -149,11 +150,7 @@
       <Visible>false</Visible>
     </ImageAsset>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Media" Visible="false" />
-    <Folder Include="Media\AppIcons" Visible="false" />
-    <Folder Include="Media\LaunchImages" Visible="false" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="..\EmbeddedResourcesSample.Shared\EmbeddedResourcesSample.Shared.projitems" Label="Shared" Condition="Exists('..\EmbeddedResourcesSample.Shared\EmbeddedResourcesSample.Shared.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>
