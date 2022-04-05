@@ -35,15 +35,16 @@
     <Content Include="LinkerConfig.xml" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="1.1.1" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Filter" Version="1.1.1" />
-    <PackageReference Include="SkiaSharp.NativeAssets.WebAssembly" Version="2.80.3-preview.93" />
-    <PackageReference Include="SkiaSharp.Views.Uno" Version="2.80.3-preview.93" />
-		<PackageReference Include="Uno.UI.WebAssembly" Version="3.7.4" />
-		<PackageReference Include="Uno.UI.RemoteControl" Version="3.7.4" Condition="'$(Configuration)'=='Debug'" />
+    <PackageReference Include="SkiaSharp.NativeAssets.WebAssembly" Version="2.88.0-preview.232" />
+    <PackageReference Include="SkiaSharp.Views.Uno" Version="2.88.0-preview.232" />
     <PackageReference Include="Microsoft.Windows.Compatibility" Version="5.0.1" />
-		<PackageReference Include="Uno.Wasm.Bootstrap" Version="3.0.0-dev.138" />
-		<PackageReference Include="Uno.Wasm.Bootstrap.DevServer" Version="3.0.0-dev.138" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="5.0.0" />
+    <PackageReference Include="Uno.Extensions.Logging.WebAssembly.Console" Version="1.0.1" />
+    <PackageReference Include="Uno.UI.WebAssembly" Version="4.1.9" />
+    <PackageReference Include="Uno.UI.RemoteControl" Version="4.1.9" Condition="'$(Configuration)'=='Debug'" />
+    <PackageReference Include="Uno.UI.Adapter.Microsoft.Extensions.Logging" Version="4.1.9" />
+    <PackageReference Include="Uno.Wasm.Bootstrap" Version="3.2.0" />
+    <PackageReference Include="Uno.Wasm.Bootstrap.DevServer" Version="3.2.0" />
 	</ItemGroup>
   <Import Project="..\SkiaSharpTest.Shared\SkiaSharpTest.Shared.projitems" Label="Shared" Condition="Exists('..\SkiaSharpTest.Shared\SkiaSharpTest.Shared.projitems')" />
 </Project>
