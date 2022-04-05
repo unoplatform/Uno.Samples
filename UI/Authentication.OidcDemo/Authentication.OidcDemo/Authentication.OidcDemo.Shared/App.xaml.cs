@@ -23,40 +23,45 @@ namespace Authentication.OidcDemo
 	/// </summary>
 	public sealed partial class App : Application
 	{
+		private Window _window;
+
 		/// <summary>
 		/// Initializes the singleton application object.  This is the first line of authored code
 		/// executed, and as such is the logical equivalent of main() or WinMain().
 		/// </summary>
 		public App()
 		{
-			ConfigureFilters(global::Uno.Extensions.LogExtensionPoint.AmbientLoggerFactory);
+			InitializeLogging();
 
 			this.InitializeComponent();
+
+#if HAS_UNO || NETFX_CORE
 			this.Suspending += OnSuspending;
+#endif
 		}
 
 		/// <summary>
 		/// Invoked when the application is launched normally by the end user.  Other entry points
 		/// will be used such as when the application is launched to open a specific file.
 		/// </summary>
-		/// <param name="e">Details about the launch request and process.</param>
-		protected override void OnLaunched(LaunchActivatedEventArgs e)
+		/// <param name="args">Details about the launch request and process.</param>
+		protected override void OnLaunched(LaunchActivatedEventArgs args)
 		{
 #if DEBUG
-            if (System.Diagnostics.Debugger.IsAttached)
-            {
-                // this.DebugSettings.EnableFrameRateCounter = true;
-            }
+			if (System.Diagnostics.Debugger.IsAttached)
+			{
+				// this.DebugSettings.EnableFrameRateCounter = true;
+			}
 #endif
 
 #if NET5_0 && WINDOWS
-            var window = new Window();
-            window.Activate();
+            _window = new Window();
+            _window.Activate();
 #else
-			var window = Windows.UI.Xaml.Window.Current;
+			_window = Windows.UI.Xaml.Window.Current;
 #endif
 
-			var rootFrame = window.Content as Frame;
+			var rootFrame = _window.Content as Frame;
 
 			// Do not repeat app initialization when the Window already has content,
 			// just ensure that the window is active
@@ -67,17 +72,17 @@ namespace Authentication.OidcDemo
 
 				rootFrame.NavigationFailed += OnNavigationFailed;
 
-				if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)
+				if (args.PreviousExecutionState == ApplicationExecutionState.Terminated)
 				{
 					//TODO: Load state from previously suspended application
 				}
 
 				// Place the frame in the current Window
-				window.Content = rootFrame;
+				_window.Content = rootFrame;
 			}
 
 #if !(NET5_0 && WINDOWS)
-			if (e.PrelaunchActivated == false)
+			if (args.PrelaunchActivated == false)
 #endif
 			{
 				if (rootFrame.Content == null)
@@ -85,10 +90,10 @@ namespace Authentication.OidcDemo
 					// When the navigation stack isn't restored navigate to the first page,
 					// configuring the new page by passing required information as a navigation
 					// parameter
-					rootFrame.Navigate(typeof(MainPage), e.Arguments);
+					rootFrame.Navigate(typeof(MainPage), args.Arguments);
 				}
 				// Ensure the current window is active
-				window.Activate();
+				_window.Activate();
 			}
 		}
 
@@ -118,55 +123,62 @@ namespace Authentication.OidcDemo
 
 
 		/// <summary>
-		/// Configures global logging
+		/// Configures global Uno Platform logging
 		/// </summary>
-		/// <param name="factory"></param>
-		static void ConfigureFilters(ILoggerFactory factory)
+		private static void InitializeLogging()
 		{
-			factory
-				.WithFilter(new FilterLoggerSettings
-					{
-						{ "Uno", LogLevel.Warning },
-						{ "Windows", LogLevel.Warning },
-
-                        // Debug JS interop
-                        // { "Uno.Foundation.WebAssemblyRuntime", LogLevel.Debug },
-
-                        // Generic Xaml events
-                        // { "Windows.UI.Xaml", LogLevel.Debug },
-                        // { "Windows.UI.Xaml.VisualStateGroup", LogLevel.Debug },
-                        // { "Windows.UI.Xaml.StateTriggerBase", LogLevel.Debug },
-                        // { "Windows.UI.Xaml.UIElement", LogLevel.Debug },
-
-                        // Layouter specific messages
-                        // { "Windows.UI.Xaml.Controls", LogLevel.Debug },
-                        // { "Windows.UI.Xaml.Controls.Layouter", LogLevel.Debug },
-                        // { "Windows.UI.Xaml.Controls.Panel", LogLevel.Debug },
-                        // { "Windows.Storage", LogLevel.Debug },
-
-                        // Binding related messages
-                        // { "Windows.UI.Xaml.Data", LogLevel.Debug },
-
-                        // DependencyObject memory references tracking
-                        // { "ReferenceHolder", LogLevel.Debug },
-
-                        // ListView-related messages
-                        // { "Windows.UI.Xaml.Controls.ListViewBase", LogLevel.Debug },
-                        // { "Windows.UI.Xaml.Controls.ListView", LogLevel.Debug },
-                        // { "Windows.UI.Xaml.Controls.GridView", LogLevel.Debug },
-                        // { "Windows.UI.Xaml.Controls.VirtualizingPanelLayout", LogLevel.Debug },
-                        // { "Windows.UI.Xaml.Controls.NativeListViewBase", LogLevel.Debug },
-                        // { "Windows.UI.Xaml.Controls.ListViewBaseSource", LogLevel.Debug }, //iOS
-                        // { "Windows.UI.Xaml.Controls.ListViewBaseInternalContainer", LogLevel.Debug }, //iOS
-                        // { "Windows.UI.Xaml.Controls.NativeListViewBaseAdapter", LogLevel.Debug }, //Android
-                        // { "Windows.UI.Xaml.Controls.BufferViewCache", LogLevel.Debug }, //Android
-                        // { "Windows.UI.Xaml.Controls.VirtualizingPanelGenerator", LogLevel.Debug }, //WASM
-                    }
-				)
-#if DEBUG
-                .AddConsole(LogLevel.Debug);
+			var factory = LoggerFactory.Create(builder =>
+			{
+#if __WASM__
+				builder.AddProvider(new global::Uno.Extensions.Logging.WebAssembly.WebAssemblyConsoleLoggerProvider());
+#elif __IOS__
+				builder.AddProvider(new global::Uno.Extensions.Logging.OSLogLoggerProvider());
+#elif NETFX_CORE
+                builder.AddDebug();
 #else
-				.AddConsole(LogLevel.Information);
+                builder.AddConsole();
+#endif
+
+				// Exclude logs below this level
+				builder.SetMinimumLevel(LogLevel.Information);
+
+				// Default filters for Uno Platform namespaces
+				builder.AddFilter("Uno", LogLevel.Warning);
+				builder.AddFilter("Windows", LogLevel.Warning);
+				builder.AddFilter("Microsoft", LogLevel.Warning);
+
+				// Generic Xaml events
+				// builder.AddFilter("Windows.UI.Xaml", LogLevel.Debug );
+				// builder.AddFilter("Windows.UI.Xaml.VisualStateGroup", LogLevel.Debug );
+				// builder.AddFilter("Windows.UI.Xaml.StateTriggerBase", LogLevel.Debug );
+				// builder.AddFilter("Windows.UI.Xaml.UIElement", LogLevel.Debug );
+				// builder.AddFilter("Windows.UI.Xaml.FrameworkElement", LogLevel.Trace );
+
+				// Layouter specific messages
+				// builder.AddFilter("Windows.UI.Xaml.Controls", LogLevel.Debug );
+				// builder.AddFilter("Windows.UI.Xaml.Controls.Layouter", LogLevel.Debug );
+				// builder.AddFilter("Windows.UI.Xaml.Controls.Panel", LogLevel.Debug );
+
+				// builder.AddFilter("Windows.Storage", LogLevel.Debug );
+
+				// Binding related messages
+				// builder.AddFilter("Windows.UI.Xaml.Data", LogLevel.Debug );
+				// builder.AddFilter("Windows.UI.Xaml.Data", LogLevel.Debug );
+
+				// Binder memory references tracking
+				// builder.AddFilter("Uno.UI.DataBinding.BinderReferenceHolder", LogLevel.Debug );
+
+				// RemoteControl and HotReload related
+				// builder.AddFilter("Uno.UI.RemoteControl", LogLevel.Information);
+
+				// Debug JS interop
+				// builder.AddFilter("Uno.Foundation.WebAssemblyRuntime", LogLevel.Debug );
+			});
+
+			global::Uno.Extensions.LogExtensionPoint.AmbientLoggerFactory = factory;
+
+#if HAS_UNO
+			global::Uno.UI.Adapter.Microsoft.Extensions.Logging.LoggingAdapter.Initialize();
 #endif
 		}
 	}

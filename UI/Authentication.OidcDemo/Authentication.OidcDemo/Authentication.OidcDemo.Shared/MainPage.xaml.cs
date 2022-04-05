@@ -28,7 +28,7 @@ namespace Authentication.OidcDemo
 			// Create options for endpoint discovery
 			var options = new OidcClientOptions
 			{
-				Authority = "https://demo.identityserver.io",
+				Authority = "https://demo.duendesoftware.com/",
 				ClientId = "interactive.confidential",
 				ClientSecret = "secret",
 				Scope = "openid profile email api offline_access",

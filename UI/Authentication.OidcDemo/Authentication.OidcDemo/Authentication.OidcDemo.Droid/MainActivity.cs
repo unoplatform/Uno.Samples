@@ -7,7 +7,7 @@ using Android.Views;
 namespace Authentication.OidcDemo.Droid
 {
 	[Activity(
-			MainLauncher = true,
+			MainLauncher = true, Exported = true, 
 			ConfigurationChanges = global::Uno.UI.ActivityHelper.AllConfigChanges,
 			WindowSoftInputMode = SoftInput.AdjustPan | SoftInput.StateHidden
 		)]
