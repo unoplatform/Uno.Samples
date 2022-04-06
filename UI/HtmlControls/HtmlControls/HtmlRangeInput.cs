@@ -48,7 +48,7 @@ namespace HtmlControls
         {
             if (o is HtmlRangeInput input && args.NewValue is long value)
             {
-                input.ExecuteJavascript($"element.value={value.ToStringInvariant()};");
+                input.ExecuteJavascript($"element.value={value.ToString(CultureInfo.InvariantCulture)};");
             }
         }
 
