@@ -6,10 +6,6 @@
     <OutputType>Exe</OutputType>
     <DefineConstants>$(DefineConstants);__TIZEN__;</DefineConstants>
   </PropertyGroup>
-  <ItemGroup>
-    <Folder Include="lib\" />
-    <Folder Include="res\" />
-  </ItemGroup>
   <ItemGroup Condition="exists('..\UnoCupertinoSample.UWP')">
     <EmbeddedResource Include="..\UnoCupertinoSample.UWP\Package.appxmanifest" LogicalName="Package.appxmanifest" />
     <Content Include="..\UnoCupertinoSample.UWP\Assets\StoreLogo.png" Link="Assets\StoreLogo.png" />
@@ -18,12 +14,13 @@
     <UpToDateCheckInput Include="..\UnoCupertinoSample.Shared\**\*.xaml" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Uno.Cupertino" Version="1.3.1" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="5.0.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="5.0.0" />
-    <PackageReference Include="SkiaSharp.Views" Version="2.80.2" />
-    <PackageReference Include="Uno.Cupertino" Version="1.0.0-dev.780" />
-    <PackageReference Include="Uno.UI.Skia.Tizen" Version="3.8.6" />
-    <PackageReference Include="Uno.UI.RemoteControl" Version="3.8.6" Condition="'$(Configuration)'=='Debug'" />
+    <PackageReference Include="SkiaSharp.Views" Version="2.80.3" />
+    <PackageReference Include="Uno.UI.Skia.Tizen" Version="4.1.9" />
+    <PackageReference Include="Uno.UI.RemoteControl" Version="4.1.9" Condition="'$(Configuration)'=='Debug'" />
+    <PackageReference Include="Uno.UI.Adapter.Microsoft.Extensions.Logging" Version="4.1.9" />
   </ItemGroup>
   <Import Project="..\UnoCupertinoSample.Shared\UnoCupertinoSample.Shared.projitems" Label="Shared" />
 </Project>
