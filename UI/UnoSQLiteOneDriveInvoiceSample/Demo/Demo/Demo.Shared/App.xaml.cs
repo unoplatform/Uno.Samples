@@ -228,6 +228,10 @@ namespace Demo
             });
 
             global::Uno.Extensions.LogExtensionPoint.AmbientLoggerFactory = factory;
+
+#if HAS_UNO
+            global::Uno.UI.Adapter.Microsoft.Extensions.Logging.LoggingAdapter.Initialize();
+#endif
         }
 
 #if __IOS__
@@ -249,5 +253,6 @@ namespace Demo
         }
 
 #endif
+
     }
 }

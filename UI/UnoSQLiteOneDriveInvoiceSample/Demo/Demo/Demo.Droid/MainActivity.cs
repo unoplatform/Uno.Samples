@@ -12,6 +12,7 @@ namespace Demo.Droid
 {
     [Activity(Label ="Demo.Droid",
             MainLauncher = true,
+            Exported = true,
             ConfigurationChanges = global::Uno.UI.ActivityHelper.AllConfigChanges,
             WindowSoftInputMode = SoftInput.AdjustPan | SoftInput.StateHidden
         )]
