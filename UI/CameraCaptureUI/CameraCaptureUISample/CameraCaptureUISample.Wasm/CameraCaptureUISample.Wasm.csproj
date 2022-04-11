@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk.web">
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>net5.0</TargetFramework>
@@ -6,8 +6,9 @@
     <NoWarn>NU1701</NoWarn>
   </PropertyGroup>
   <ItemGroup>
-    <Content Include="..\CameraCaptureUISample.UWP\Assets\*.png" Link="Assets\%(FileName)%(Extension)" />
+    <Content Include="Assets\SplashScreen.png" />
     <Content Include="Fonts\winjs-symbols.woff2" />
+    <Content Include="Properties\launchSettings.json" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="WasmCSS\Fonts.css" />
@@ -23,18 +24,19 @@
     
     You can safely this ItemGroup completely.
     -->
-    <Compile Remove="Program.cs" />
-    <Compile Include="Program.cs" />
-    <Content Include="LinkerConfig.xml" />
+    <None Include="Program.cs" />
+    <None Include="LinkerConfig.xml" />
+    <None Include="wwwroot\web.config" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="1.1.1" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Filter" Version="1.1.1" />
-    <PackageReference Include="Uno.UI.WebAssembly" Version="3.7.4" />
-    <PackageReference Include="Uno.UI.RemoteControl" Version="3.7.4" Condition="'$(Configuration)'=='Debug'" />
     <PackageReference Include="Microsoft.Windows.Compatibility" Version="5.0.1" />
-		<PackageReference Include="Uno.Wasm.Bootstrap" Version="2.1.0" />
-    <PackageReference Include="Uno.Wasm.Bootstrap.DevServer" Version="2.1.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="5.0.0" />
+    <PackageReference Include="Uno.Extensions.Logging.WebAssembly.Console" Version="1.0.1" />
+    <PackageReference Include="Uno.UI.WebAssembly" Version="4.1.9" />
+    <PackageReference Include="Uno.UI.RemoteControl" Version="4.1.9" Condition="'$(Configuration)'=='Debug'" />
+    <PackageReference Include="Uno.UI.Adapter.Microsoft.Extensions.Logging" Version="4.1.9" />
+    <PackageReference Include="Uno.Wasm.Bootstrap" Version="3.2.0" />
+    <PackageReference Include="Uno.Wasm.Bootstrap.DevServer" Version="3.2.0" />
   </ItemGroup>
   <Import Project="..\CameraCaptureUISample.Shared\CameraCaptureUISample.Shared.projitems" Label="Shared" Condition="Exists('..\CameraCaptureUISample.Shared\CameraCaptureUISample.Shared.projitems')" />
 </Project>
