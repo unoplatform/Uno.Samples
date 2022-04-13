@@ -2,8 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using TheCatApiClient.Shared.Models.DataModels;
-using TheCatApiClient.Shared.WebServices;
-using Uno.Extensions.Specialized;
+using TheCatApiClient.Shared.WebServices; 
 
 namespace TheCatApiClient.Shared.Models.ViewModels
 {
