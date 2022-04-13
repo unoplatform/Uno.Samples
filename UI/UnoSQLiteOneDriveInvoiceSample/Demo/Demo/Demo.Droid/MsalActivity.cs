@@ -14,7 +14,7 @@ using System.Text;
 
 namespace Demo.Droid
 {
-    [Activity]
+    [Activity(Exported = true)]
     [IntentFilter(new[] { Intent.ActionView },
         Categories = new[] { Intent.CategoryBrowsable, Intent.CategoryDefault },
         DataHost = "auth",

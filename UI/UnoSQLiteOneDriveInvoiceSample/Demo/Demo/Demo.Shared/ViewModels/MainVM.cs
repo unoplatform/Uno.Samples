@@ -15,9 +15,9 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.Diagnostics.Metrics;
 using System.IO;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
@@ -125,14 +125,13 @@ namespace Demo.ViewModels
             var invoices = mockData.InvoiceFaker.Generate(20);
             invoices.ForEach(invoice =>
             {
-                invoice.Items = mockData.ItemBlobFaker.Generate(10).ToObservableCollection(); ;
+                invoice.Items = new ObservableCollection<ItemBlob>(mockData.ItemBlobFaker.Generate(10));
                 invoice.FullName = fetchAccount.Holder;
                 invoice.UserAddress = fetchAddress;
                 invoice.UserBankAccount = fetchAccount;
                 invoice.Client = fetchClients[random.Next(fetchClients.Count)];
             });
             InvoiceDBService.AddEntities(invoices.ToArray());
-
 
 
         }
