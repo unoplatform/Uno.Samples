@@ -38,7 +38,7 @@ namespace SkiaSharpTest
 		{
 			// the the canvas and properties
 			var canvas = e.Surface.Canvas;
-
+			
 			Render(canvas, new Size(e.BackendRenderTarget.Width, e.BackendRenderTarget.Height), SKColors.Green, "SkiaSharp Hardware Rendering");
 		}
 
@@ -95,7 +95,6 @@ namespace SkiaSharpTest
 			{
 				Style = SKPaintStyle.Fill,
 				Color = SKColors.Red
-
 			};
 
 			canvas.DrawCircle((float)_currentPosition.X, (float)_currentPosition.Y, 5, circlePaint);
