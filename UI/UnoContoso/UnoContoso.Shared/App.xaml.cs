@@ -237,9 +237,9 @@ namespace UnoContoso
 		public void UseRest(IContainerRegistry containerRegistry) 
 		{
 #if __ANDROID__
-            var repository = new RestContosoRepository("http://10.0.2.2:5000/api/");
+            var repository = new RestContosoRepository("http://10.0.2.2:2706/api/");
 #else
-            var repository = new RestContosoRepository("http://localhost:5000/api/");
+			var repository = new RestContosoRepository("http://localhost:2706/api/");
 #endif
             //var repository = new RestContosoRepository("https://unocontososervice20201016190520.azurewebsites.net/api/");
             containerRegistry.RegisterInstance<IContosoRepository>(repository);
