@@ -6,6 +6,9 @@ jobs:
     vmImage: windows-2022
 
   steps:
+  - checkout: self
+    clean: true
+  
   - ${{ if startsWith(variables['Build.SourceBranch'], 'refs/heads/canaries') }}:
     - template: .vsts-ci.canaries.yml
 
@@ -24,13 +27,22 @@ jobs:
     displayName: Set MSBUILDPATH
 
   - powershell: |
+      Set-PSDebug -Trace 1
+
       $SolutionsToBuild = Get-ChildItem -Path UI\**\*.sln -Recurse
 
       foreach ($SolutionName in $SolutionsToBuild) {
-           & $env:msbuildpath $SolutionName /r /p:Configuration=Release /p:AotAssemblies=false /p:WasmShellILLinkerEnabled=false /ds
+           $solutionPath=[System.IO.Path]::GetDirectoryName($SolutionName);
+           git diff --quiet HEAD "origin/$(System.PullRequest.TargetBranch)" -- "$solutionPath"
 
-           # Clean the whole tree after every build to avoid disk space issues
-           git clean -fdx
+           # Only build if there a change in the solution path for the current PR, if we're in a PR
+           if( ('$(System.PullRequest.PullRequestId)' -eq '') -or ($global:LASTEXITCODE -ne 0)) {
+
+               & $env:msbuildpath $SolutionName /r /p:Configuration=Release /p:AotAssemblies=false /p:WasmShellILLinkerEnabled=false /ds ;
+
+               # Clean the whole tree after every build to avoid disk space issues
+               git clean -fdx
+           }
       }
 
     displayName: Build samples
