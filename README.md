@@ -130,6 +130,14 @@ An example of the Uno implementation of SkiaSharp creating a basic canvas with t
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/SkiaSharpTest)
 
+### SkiaSharp Skottie: Lottie file player
+
+This samples shows the use of the SkiaSharp.Skottie component, which allows the playback of [lottie files](https://airbnb.design/lottie).
+
+This component provides Lottie support for all available Uno Platform targets.
+
+[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/SkottieSample)
+
 ### Splash Screen Sample
 An example showing how to set the splash/launch screen in Uno.  
 

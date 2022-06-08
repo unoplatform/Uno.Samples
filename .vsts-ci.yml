@@ -18,7 +18,8 @@ jobs:
       $global:LASTEXITCODE = 0
     displayName: Adjust nuget.org source
 
-  # Restore nuget.org to the list of existing sources, .NET 6 Pre 2 may somehow remove it
+  - template: build/templates/dotnet6-install-windows.yml
+
   - powershell: |
         & choco install vswhere
         $msbuildpath=(vswhere -latest -requires Microsoft.Component.MSBuild -find MSBuild\**\Bin\MSBuild.exe -nologo)
@@ -39,6 +40,10 @@ jobs:
            if( ('$(System.PullRequest.PullRequestId)' -eq '') -or ($global:LASTEXITCODE -ne 0)) {
 
                & $env:msbuildpath $SolutionName /r /p:Configuration=Release /p:AotAssemblies=false /p:WasmShellILLinkerEnabled=false /ds ;
+
+               if (($lastexitcode -ne 0)) {
+                    exit $lastexitcode
+               }
 
                # Clean the whole tree after every build to avoid disk space issues
                git clean -fdx
