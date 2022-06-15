@@ -1,0 +1,70 @@
+﻿<Page
+	x:Class="ThreeLevelListDetailsSample.ListPage"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:local="using:ThreeLevelListDetailsSample"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	mc:Ignorable="d"
+	xmlns:data="using:ThreeLevelListDetailsSample.Data"
+	Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+	<Grid>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition
+				Width="325" />
+			<ColumnDefinition
+				Width="*" />
+		</Grid.ColumnDefinitions>
+		<ListView
+			x:Name="AttachmentsListView"
+			SelectionMode="Single"
+			SelectionChanged="ListPage_SelectionChanged"
+			Grid.Column="0"
+			ItemsSource="{x:Bind Items, Mode=OneWay}">
+			<ListView.ItemTemplate>
+				<DataTemplate
+					x:DataType="data:AttachmentItem">
+					<Grid
+						ColumnSpacing="8"
+						RowSpacing="8"
+						Margin="12">
+						<Grid.RowDefinitions>
+							<RowDefinition
+								Height="Auto" />
+							<RowDefinition
+								Height="Auto" />
+						</Grid.RowDefinitions>
+
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition
+								Width="Auto" />
+							<ColumnDefinition
+								Width="*" />
+						</Grid.ColumnDefinitions>
+
+						<FontIcon
+							Grid.RowSpan="2"
+							FontSize="48"
+							Glyph="&#xE723;" />
+
+						<TextBlock
+							Grid.Column="1"
+							Text="{x:Bind Title, Mode=OneWay}"
+							TextWrapping="WrapWholeWords" />
+
+						<TextBlock
+							Grid.Column="1"
+							Text="{x:Bind DateAdded, Mode=OneWay}"
+							Grid.Row="1" />
+					</Grid>
+				</DataTemplate>
+			</ListView.ItemTemplate>
+		</ListView>
+
+		<local:DetailsPage
+			x:FieldModifier="public"
+			x:Name="AttachmentViewerPage"
+			Grid.Column="1" />
+	</Grid>
+</Page>
