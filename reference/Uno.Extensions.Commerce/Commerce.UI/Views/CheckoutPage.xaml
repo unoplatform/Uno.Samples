@@ -1,0 +1,29 @@
+﻿<Page x:Class="Commerce.CheckoutPage"
+	  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	  xmlns:local="using:Commerce"
+	  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	  xmlns:uen="using:Uno.Extensions.Navigation.UI"
+	  xmlns:utu="using:Uno.Toolkit.UI"
+	  mc:Ignorable="d"
+	  Background="{ThemeResource BackgroundBrush}">
+
+	<Grid  MinHeight="300"
+		   MinWidth="300">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition />
+		</Grid.RowDefinitions>
+		<utu:NavigationBar Content="Checkout" />
+		<StackPanel Grid.Row="1">
+			<TextBlock Text="Checkout"
+					   FontSize="32"
+					   HorizontalAlignment="Center"
+					   VerticalAlignment="Center" />
+			<Button Content="Done"
+					uen:Navigation.Request="/-" />
+		</StackPanel>
+
+	</Grid>
+</Page>

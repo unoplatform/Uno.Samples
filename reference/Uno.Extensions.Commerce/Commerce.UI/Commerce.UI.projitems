@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>6279c845-92f8-4333-ab99-3d213163593c</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>Commerce</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="$(MSBuildThisFileDirectory)App.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </ApplicationDefinition>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)App.xaml.host.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)AppTheme.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GlobalUsings.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ReactiveClasses.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Views\CartFlyout.xaml.cs">
+      <DependentUpon>CartFlyout.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Views\CartPage.xaml.cs">
+      <DependentUpon>CartPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Views\CheckoutPage.xaml.cs">
+      <DependentUpon>CheckoutPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Views\FilterPage.xaml.cs">
+      <DependentUpon>FilterPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Views\HomePage.xaml.cs">
+      <DependentUpon>HomePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Views\DealsPage.xaml.cs">
+      <DependentUpon>DealsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Views\LoginPage.xaml.cs">
+      <DependentUpon>LoginPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Views\ProductControl.xaml.cs">
+      <DependentUpon>ProductControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Views\ProductDetailsPage.xaml.cs">
+      <DependentUpon>ProductDetailsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Views\ProductsPage.xaml.cs">
+      <DependentUpon>ProductsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Views\ProfilePage.xaml.cs">
+      <DependentUpon>ProfilePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)_Compat\IsExternalInit.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="$(MSBuildThisFileDirectory)Styles\ColorPaletteOverride.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Styles\MaterialFontsOverride.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Styles\FeedView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Styles\NavigationBar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Views\CartFlyout.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Views\CartPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Views\CheckoutPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Views\FilterPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Views\HomePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Views\DealsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Views\LoginPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Views\ProductControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Views\ProductDetailsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Views\ProductsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Views\ProfilePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Icons\back.scale-100.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Icons\back.scale-150.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Icons\back.scale-200.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Icons\back.scale-300.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Icons\back.scale-400.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Icons\close.scale-100.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Icons\close.scale-150.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Icons\close.scale-200.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Icons\close.scale-300.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Icons\close.scale-400.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Icons\help_outline.scale-100.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Icons\help_outline.scale-150.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Icons\help_outline.scale-200.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Icons\help_outline.scale-300.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Icons\help_outline.scale-400.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Icons\notifications.scale-100.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Icons\notifications.scale-150.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Icons\notifications.scale-200.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Icons\notifications.scale-300.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Icons\notifications.scale-400.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Icons\share.scale-100.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Icons\share.scale-150.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Icons\share.scale-200.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Icons\share.scale-300.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Icons\share.scale-400.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Products\bondi-7-running-shoes.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Products\fresh-foam-hierro-v6.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Products\gel-nimbus-23-running-shoes.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Products\gocap-century.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Products\gt-1000-10-gs-running-shoes.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Products\isochill-armourvent-hat.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Products\profile-michael-scott.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Products\the-absolute-freedom.png" />
+    <Content Include="$(MSBuildThisFileDirectory)reviews.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <None Include="$(MSBuildThisFileDirectory)Assets\SharedAssets.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <PRIResource Include="$(MSBuildThisFileDirectory)Strings\en\Resources.resw" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)appsettings.development.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <Content Include="$(MSBuildThisFileDirectory)products.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+</Project>
