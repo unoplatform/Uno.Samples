@@ -30,7 +30,7 @@ jobs:
   - powershell: |
       Set-PSDebug -Trace 1
 
-      $SolutionsToBuild = Get-ChildItem -Path UI\**\*.sln -Recurse
+      $SolutionsToBuild = Get-ChildItem -Path **\*.sln -Recurse
 
       foreach ($SolutionName in $SolutionsToBuild) {
            $solutionPath=[System.IO.Path]::GetDirectoryName($SolutionName);

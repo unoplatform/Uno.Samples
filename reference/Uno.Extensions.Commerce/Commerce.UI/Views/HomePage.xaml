@@ -1,0 +1,156 @@
+﻿<Page x:Class="Commerce.HomePage"
+	  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	  xmlns:aut="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	  xmlns:local="using:Commerce"
+	  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	  xmlns:utu="using:Uno.Toolkit.UI"
+	  xmlns:uen="using:Uno.Extensions.Navigation.UI"
+	  xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+	  mc:Ignorable="d"
+	  NavigationCacheMode="Required"
+	  Background="{ThemeResource BackgroundBrush}">
+
+	<Page.Resources>
+		<x:String x:Key="Icon_Bolt">F1 M 3.9962074756622314 18 L 2.9962074756622314 18 L 3.9962074756622314 11 L 0.4962073564529419 11 C -0.08379262685775757 11 -0.07379274815320969 10.68000015616417 0.11620724946260452 10.34000015258789 C 0.30620724707841873 10.000000149011612 0.16620741412043571 10.260000266134739 0.18620741367340088 10.220000267028809 C 1.4762073755264282 7.940000295639038 3.4162073135375977 4.539999961853027 5.996207237243652 0 L 6.996207237243652 0 L 5.996207237243652 7 L 9.496207237243652 7 C 9.986207246780396 7 10.056206554174423 7.330000221729279 9.966206550598145 7.510000228881836 L 9.896206855773926 7.659999847412109 C 5.956206798553467 14.549999713897705 3.9962074756622314 18 3.9962074756622314 18 Z</x:String>
+		<x:String x:Key="Icon_Search">F1 M 12.5 11 L 11.710000038146973 11 L 11.430000305175781 10.729999542236328 C 12.410000324249268 9.589999556541443 13 8.110000014305115 13 6.5 C 13 2.9100000858306885 10.089999914169312 0 6.5 0 C 2.9100000858306885 0 0 2.9100000858306885 0 6.5 C 0 10.089999914169312 2.9100000858306885 13 6.5 13 C 8.110000014305115 13 9.589999556541443 12.410000324249268 10.729999542236328 11.430000305175781 L 11 11.710000038146973 L 11 12.5 L 16 17.489999771118164 L 17.489999771118164 16 L 12.5 11 L 12.5 11 Z M 6.5 11 C 4.009999990463257 11 2 8.990000009536743 2 6.5 C 2 4.009999990463257 4.009999990463257 2 6.5 2 C 8.990000009536743 2 11 4.009999990463257 11 6.5 C 11 8.990000009536743 8.990000009536743 11 6.5 11 Z</x:String>
+		<x:String x:Key="Icon_Person">F1 M 8 8 C 10.210000038146973 8 12 6.210000038146973 12 4 C 12 1.7899999618530273 10.210000038146973 0 8 0 C 5.789999961853027 0 4 1.7899999618530273 4 4 C 4 6.210000038146973 5.789999961853027 8 8 8 Z M 8 10 C 5.329999923706055 10 0 11.339999914169312 0 14 L 0 16 L 16 16 L 16 14 C 16 11.339999914169312 10.670000076293945 10 8 10 Z</x:String>
+		<x:String x:Key="Icon_Shopping_Cart">F1 M 6 16 C 4.899999976158142 16 4.010000228881836 16.899999976158142 4.010000228881836 18 C 4.010000228881836 19.100000023841858 4.899999976158142 20 6 20 C 7.100000023841858 20 8 19.100000023841858 8 18 C 8 16.899999976158142 7.100000023841858 16 6 16 Z M 0 0 L 0 2 L 2 2 L 5.599999904632568 9.59000015258789 L 4.25 12.039999961853027 C 4.090000003576279 12.31999996304512 4 12.650000005960464 4 13 C 4 14.100000023841858 4.899999976158142 15 6 15 L 18 15 L 18 13 L 6.420000076293945 13 C 6.280000075697899 13 6.170000076293945 12.890000000596046 6.170000076293945 12.75 L 6.199999809265137 12.630000114440918 L 7.100000381469727 11 L 14.550000190734863 11 C 15.300000190734863 11 15.959999233484268 10.59000027179718 16.299999237060547 9.970000267028809 L 19.8799991607666 3.4800000190734863 C 19.959999158978462 3.34000001847744 20 3.1700000017881393 20 3 C 20 2.449999988079071 19.55000001192093 2 19 2 L 4.210000038146973 2 L 3.2699999809265137 0 L 0 0 Z M 16 16 C 14.899999976158142 16 14.010000228881836 16.899999976158142 14.010000228881836 18 C 14.010000228881836 19.100000023841858 14.899999976158142 20 16 20 C 17.100000023841858 20 18 19.100000023841858 18 18 C 18 16.899999976158142 17.100000023841858 16 16 16 Z</x:String>
+	</Page.Resources>
+
+	<Grid x:Name="NavRoot">
+
+		<VisualStateManager.VisualStateGroups>
+			<VisualStateGroup>
+				<VisualState x:Name="Narrow">
+
+					<VisualState.Setters>
+						<Setter Target="Tabs.Visibility" Value="Visible" />
+						<Setter Target="NavView.IsPaneToggleButtonVisible" Value="false" />
+						<Setter Target="NavView.PaneDisplayMode" Value="LeftMinimal" />
+						<Setter Target="NavView.IsPaneOpen" Value="False" />
+					</VisualState.Setters>
+				</VisualState>
+				<VisualState x:Name="Normal">
+					<VisualState.StateTriggers>
+						<AdaptiveTrigger MinWindowWidth="700" />
+					</VisualState.StateTriggers>
+					<VisualState.Setters>
+						<Setter Target="Tabs.Visibility" Value="Collapsed" />
+						<Setter Target="NavView.IsPaneToggleButtonVisible" Value="True" />
+						<Setter Target="NavView.IsPaneVisible" Value="true" />
+						<Setter Target="NavView.PaneDisplayMode" Value="Auto" />
+					</VisualState.Setters>
+				</VisualState>
+				<VisualState x:Name="Wide">
+					<VisualState.StateTriggers>
+						<AdaptiveTrigger MinWindowWidth="1000" />
+					</VisualState.StateTriggers>
+					<VisualState.Setters>
+						<Setter Target="Tabs.Visibility" Value="Collapsed" />
+						<Setter Target="NavView.IsPaneToggleButtonVisible" Value="True" />
+						<Setter Target="NavView.IsPaneVisible" Value="true" />
+						<Setter Target="NavView.PaneDisplayMode" Value="Auto" />
+					</VisualState.Setters>
+				</VisualState>
+			</VisualStateGroup>
+		</VisualStateManager.VisualStateGroups>
+
+		<muxc:NavigationView x:Name="NavView"
+							 AutomationProperties.AutomationId="NavView"
+							 IsSettingsVisible="False"
+							 IsPaneToggleButtonVisible="False"
+							 PaneDisplayMode="LeftMinimal"
+							 IsPaneOpen="False"
+							 IsBackButtonVisible="Collapsed"
+							 OpenPaneLength="200"
+							 uen:Region.Attached="true">
+			<muxc:NavigationView.MenuItems>
+				<muxc:NavigationViewItem Content="Deals"
+										 uen:Region.Name="Deals">
+					<muxc:NavigationViewItem.Icon>
+						<PathIcon Data="{StaticResource Icon_Bolt}" />
+					</muxc:NavigationViewItem.Icon>
+				</muxc:NavigationViewItem>
+				<muxc:NavigationViewItem Content="Products"
+										 uen:Region.Name="Products">
+					<muxc:NavigationViewItem.Icon>
+						<PathIcon Data="{StaticResource Icon_Search}" />
+					</muxc:NavigationViewItem.Icon>
+				</muxc:NavigationViewItem>
+				<muxc:NavigationViewItem Content="Profile"
+										 uen:Region.Name="Profile">
+					<muxc:NavigationViewItem.Icon>
+						<PathIcon Data="{StaticResource Icon_Person}" />
+					</muxc:NavigationViewItem.Icon>
+				</muxc:NavigationViewItem>
+				<muxc:NavigationViewItem Content="Cart"
+										 uen:Navigation.Request="!Cart"
+										 SelectsOnInvoked="False">
+					<muxc:NavigationViewItem.Icon>
+						<PathIcon Data="{StaticResource Icon_Shopping_Cart}" />
+					</muxc:NavigationViewItem.Icon>
+				</muxc:NavigationViewItem>
+			</muxc:NavigationView.MenuItems>
+			<utu:AutoLayout Background="{StaticResource BackgroundBrush}">
+				<Grid uen:Region.Attached="True"
+					  uen:Region.Navigator="Visibility"
+					  utu:AutoLayout.PrimaryAlignment="Stretch"
+					  utu:AutoLayout.CounterAlignment="Stretch" />
+				<utu:TabBar x:Name="Tabs"
+							uen:Region.Attached="True"
+							Style="{StaticResource BottomTabBarStyle}">
+					<utu:TabBarItem IsSelectable="True"
+									AutomationProperties.Name="Deals"
+									uen:Region.Name="Deals"
+									utu:AutoLayout.CounterAlignment="Start"
+									utu:AutoLayout.PrimaryAlignment="Stretch"
+									utu:AutoLayout.CounterLength="56"
+									Style="{StaticResource BottomTabBarItemStyle}"
+									x:Uid="Profile_TabBarItem">
+						<utu:TabBarItem.Icon>
+							<PathIcon Data="{StaticResource Icon_Bolt}" />
+						</utu:TabBarItem.Icon>
+					</utu:TabBarItem>
+					<utu:TabBarItem IsSelectable="True"
+									AutomationProperties.Name="Products"
+									uen:Region.Name="Products"
+									utu:AutoLayout.CounterAlignment="Start"
+									utu:AutoLayout.PrimaryAlignment="Stretch"
+									utu:AutoLayout.CounterLength="56"
+									Style="{StaticResource BottomTabBarItemStyle}"
+									x:Uid="Profile_TabBarItem">
+						<utu:TabBarItem.Icon>
+							<PathIcon Data="{StaticResource Icon_Search}" />
+						</utu:TabBarItem.Icon>
+					</utu:TabBarItem>
+					<utu:TabBarItem IsSelectable="True"
+									AutomationProperties.Name="Profile"
+									uen:Region.Name="Profile"
+									utu:AutoLayout.CounterAlignment="Start"
+									utu:AutoLayout.PrimaryAlignment="Stretch"
+									utu:AutoLayout.CounterLength="56"
+									Style="{StaticResource BottomTabBarItemStyle}"
+									x:Uid="Profile_TabBarItem">
+						<utu:TabBarItem.Icon>
+							<PathIcon Data="{StaticResource Icon_Person}" />
+						</utu:TabBarItem.Icon>
+					</utu:TabBarItem>
+					<utu:TabBarItem IsSelectable="False"
+									AutomationProperties.Name="Cart"
+									utu:AutoLayout.CounterAlignment="Start"
+									utu:AutoLayout.PrimaryAlignment="Stretch"
+									Style="{StaticResource BottomFabTabBarItemStyle}"
+									x:Uid="Profile_TabBarItem"
+									uen:Navigation.Request="!Cart">
+						<utu:TabBarItem.Icon>
+							<PathIcon Data="{StaticResource Icon_Shopping_Cart}" />
+						</utu:TabBarItem.Icon>
+					</utu:TabBarItem>
+				</utu:TabBar>
+			</utu:AutoLayout>
+
+		</muxc:NavigationView>
+	</Grid>
+</Page>
