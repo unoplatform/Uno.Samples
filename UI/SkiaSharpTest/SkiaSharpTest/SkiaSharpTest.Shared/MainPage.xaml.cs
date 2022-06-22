@@ -51,7 +51,7 @@ namespace SkiaSharpTest
 			Render(canvas, new Size(info.Width, info.Height), SKColors.Yellow, "SkiaSharp Software Rendering");
 		}
 
-		private void OnPointerMoved(object sender, PointerRoutedEventArgs e)
+		private void OnSurfacePointerMoved(object sender, PointerRoutedEventArgs e)
         {
 			_currentPosition = e.GetCurrentPoint(panelGrid).Position;
 			currentPositionText.Text = _currentPosition.ToString();
