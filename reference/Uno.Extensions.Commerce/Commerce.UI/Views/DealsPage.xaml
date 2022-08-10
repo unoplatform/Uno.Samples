@@ -235,23 +235,9 @@
 											  Style="{StaticResource ListViewStyle}" >
 
 										<ListView.Footer>
-											<Grid Background="Pink">
-												<Grid.RowDefinitions>
-													<RowDefinition Height="Auto" />
-													<RowDefinition Height="Auto" />
-												</Grid.RowDefinitions>
-
-												<!--<ProgressBar Grid.Row="0"
-															 IsIndeterminate="{Binding Data.ExtendedProperties.IsLoadingMoreItems}"
+											<ProgressBar IsIndeterminate="{Binding Data.ExtendedProperties.IsLoadingMoreItems}"
 														 HorizontalAlignment="Stretch"
-														 Visibility="{Binding Data.ExtendedProperties.IsLoadingMoreItems}" />-->
-												<StackPanel>
-													<TextBlock Text="{Binding Data}" />
-													<TextBlock Text="{Binding Data.ExtendedProperties}" />
-													<TextBlock Text="{Binding Data.ExtendedProperties.HasMoreItems}" />
-													<TextBlock Text="{Binding Data.ExtendedProperties.IsLoadingMoreItems}" />
-												</StackPanel>
-											</Grid>
+														 Visibility="{Binding Data.ExtendedProperties.IsLoadingMoreItems}" />
 										</ListView.Footer>
 									</ListView>
 								</Grid>

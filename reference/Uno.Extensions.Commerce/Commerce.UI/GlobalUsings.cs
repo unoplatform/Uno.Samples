@@ -30,7 +30,6 @@ global using Commerce.Business.Models;
 global using Commerce.Data;
 global using Commerce.Data.Models;
 global using Commerce.ViewModels;
-global using Commerce.Reactive;
 global using Commerce.Views;
 global using Microsoft.Extensions.Options;
 global using Uno.Extensions;
