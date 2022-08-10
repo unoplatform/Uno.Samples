@@ -13,17 +13,17 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace UnoIslandsSampleApp.WPF.Host
+namespace WpfApp
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-public partial class MainWindow : Window
-{
-    public MainWindow()
+    public partial class MainWindow : Window
     {
-        InitializeComponent();
-        DataContext = "friends";
+        public MainWindow()
+        {
+            InitializeComponent();
+            DataContext = "friends";
+        }
     }
-}
 }

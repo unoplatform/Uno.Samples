@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace UnoIslandsSampleApp.WPF.Host
+namespace WpfApp
 {
     /// <summary>
     /// Interaction logic for App.xaml
