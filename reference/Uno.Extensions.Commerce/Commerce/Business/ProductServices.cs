@@ -44,7 +44,7 @@ public class ProductService : IProductService
 			.ToImmutableList();
 
 	/// <inheritdoc />
-	public async ValueTask Update(Product product, CancellationToken ct)
+	public ValueTask Update(Product product, CancellationToken ct)
 	{
 		ImmutableInterlocked.Update(
 			ref _favorites,
@@ -52,6 +52,8 @@ public class ProductService : IProductService
 			product);
 
 		_messenger.Send(new EntityMessage<Product>(product.IsFavorite ? EntityChange.Created : EntityChange.Deleted, product));
+
+		return ValueTask.CompletedTask;
 	}
 
 	private IImmutableList<Product> ToProduct(IEnumerable<ProductData> data)
