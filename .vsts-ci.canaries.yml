@@ -23,3 +23,15 @@ steps:
     packageAuthor: 'nventive'
     summaryFile: '$(Build.ArtifactStagingDirectory)/Summary.md'
     resultFile: '$(Build.ArtifactStagingDirectory)/Results.json'
+
+- task: nventiveCanaryUpdater@5
+  inputs:
+    solution: Uno.Samples.generated.sln
+    usePrivateFeed: false
+    useNuGetOrg: true
+    mergeBranch: false
+    nugetUpdaterVersion: '2.1.1'
+    allowDowngrade: true
+    packageAuthor: 'Uno Platform'
+    summaryFile: '$(Build.ArtifactStagingDirectory)/Summary-Uno.md'
+    resultFile: '$(Build.ArtifactStagingDirectory)/Results-Uno.json'
