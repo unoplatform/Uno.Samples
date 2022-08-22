@@ -15,21 +15,20 @@ public partial class DealsViewModel
 		_dealService = dealService;
 		_productService = productService;
 
-        // TODO: Uncomment these when build errors have been fixed (see https://github.com/unoplatform/Uno.Samples/issues/147)
-        //messenger.Observe(Favorites, p => p.ProductId);
+        messenger.Observe(Favorites, p => p.ProductId);
     }
 
+    public IListFeed<Product> Items => ListFeed<Product>.AsyncPaginated(async (page, ct) =>
+    {
+        var results = await _dealService.GetPaginated(ct, (int)page.CurrentCount, (int)(page.DesiredSize ?? 20));
+        await Task.Delay(2000);
+
+        return results;
+    });
+
+    public IListState<Product> Favorites => ListState.Async(this, _productService.GetFavorites);
+
     // TODO: Uncomment these when build errors have been fixed (see https://github.com/unoplatform/Uno.Samples/issues/147)
-    //public IListFeed<Product> Items => ListFeed<Product>.AsyncPaginated(async (page, ct) =>
-    //{
-    //	var results = await _dealService.GetPaginated(ct, (int)page.CurrentCount, (int)(page.DesiredSize ?? 20));
-    //	await Task.Delay(2000);
-
-    //	return results;
-    //});
-
-    //public IListState<Product> Favorites => ListState.Async(this, _productService.GetFavorites);
-
     //public async ValueTask RemoveFromFavorite(Product product, CancellationToken ct)
     //	=> await _productService.Update(product with { IsFavorite = false }, ct);
 }
