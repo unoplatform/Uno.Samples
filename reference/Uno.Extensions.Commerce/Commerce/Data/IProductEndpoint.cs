@@ -68,6 +68,6 @@ public record ProductData
     public string? Photo => Photos?.FirstOrDefault();
     [JsonPropertyName("images")]
     public string[]? Photos { get; init; }
-    public double? Rating { get; init; } = Random.Shared.NextDouble()*5.0;
+    public double? Rating { get; init; }
     //public ReviewData[]? Reviews { get; init; }
 }

@@ -58,7 +58,7 @@ public class ProductService : IProductService
 
 		_messenger.Send(new EntityMessage<Product>(product.IsFavorite ? EntityChange.Created : EntityChange.Deleted, product));
 
-		return ValueTask.CompletedTask;
+		return new ValueTask();
 	}
 
 	private IImmutableList<Product> ToProduct(IEnumerable<ProductData> data)

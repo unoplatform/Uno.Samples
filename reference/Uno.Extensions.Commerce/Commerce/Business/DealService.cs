@@ -9,39 +9,6 @@ public class DealService : IDealService
 		_productEndpoint=productEndpoint; 
 	}
 
-	//private async ValueTask<IEnumerable<Product>> GetDeals()
-	//{
-	//	var products = await _dataService.ReadFileAsync<ProductData[]>(_serializer, ProductEndpoint.ProductDataFile);
-
-	//	// repeating products so there is enough for pagination
-	//	if (products is not null)
-	//	{
-	//		products =
-	//			(
-	//				from i in Enumerable.Range(0, 10)
-	//				from x in products
-	//				select x with
-	//				{
-	//					Name = i > 0 ? $"{x.Name} (+{i})" : x.Name,
-	//					LongName = x.LongName != null && i > 1 ? $"{x.LongName} (+{i})" : x.LongName,
-	//				}
-	//			)
-	//			.Select((x, i) => x with { ProductId = i })
-	//			.ToArray();
-	//	}
-
-	//	var deals = products
-	//		?.Where(p => !string.IsNullOrWhiteSpace(p.Discount))
-	//		.Select(data => new Product(data, isFavorite: /* TODO */ false));
-
-	//	return deals ?? Enumerable.Empty<Product>();
-	//}
-
-	//public async ValueTask<IImmutableList<Product>> GetAll(CancellationToken ct)
-	//{
-	//	return (await GetDeals()).ToImmutableList();
-	//}
-
 	public async ValueTask<IImmutableList<Product>> GetPaginated(CancellationToken ct, int from, int size)
 	{
 		var deals = await _productEndpoint.ProductsAsync(ct, from, size);

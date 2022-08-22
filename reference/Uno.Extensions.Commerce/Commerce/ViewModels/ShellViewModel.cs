@@ -1,70 +1,70 @@
 ﻿
+using Uno.Extensions.Authentication;
+
 namespace Commerce.ViewModels;
 
 public class ShellViewModel
 {
-	private readonly INavigator _navigator;
+    private readonly INavigator _navigator;
+    private readonly ITokenCache _tokenCache;
 
-	private IWritableOptions<Credentials> CredentialsSettings { get; }
 
-	public ShellViewModel(
-		ILogger<ShellViewModel> logger,
-		INavigator navigator,
-		IOptions<HostConfiguration> configuration,
-		IWritableOptions<Credentials> credentials)
-	{
-		_navigator = navigator;
-		CredentialsSettings = credentials;
+    public ShellViewModel(
+        ILogger<ShellViewModel> logger,
+        INavigator navigator,
+        IOptions<HostConfiguration> configuration,
+        ITokenCache tokenCache)
+    {
+        _navigator = navigator;
+        _tokenCache = tokenCache;
 
-		if (logger.IsEnabled(LogLevel.Information)) logger.LogInformation($"Launch url '{configuration.Value?.LaunchUrl}'");
-		// TODO: Fix launch URL
-		var initialRoute = default(Route); // configuration.Value?.LaunchRoute();
+        if (logger.IsEnabled(LogLevel.Information)) logger.LogInformation($"Launch url '{configuration.Value?.LaunchUrl}'");
+        var initialRoute = configuration.Value?.LaunchUrl;
 
-		// Go to the login page on app startup
+        // Go to the login page on app startup
 #pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
-		Start(initialRoute);
+        Start(initialRoute);
 #pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
-	}
 
-	public async Task Start(Route? initialRoute = null)
-	{
-		var currentCredentials = CredentialsSettings.Value;
+        tokenCache.Cleared += TokenCacheCleared;
+    }
 
-		if (currentCredentials?.UserName is { Length: > 0 })
-		{
-			if (initialRoute is not null)
-			// TODO: Check for empty route
-			//&& !initialRoute.IsEmpty())
-			{
-				var initialResponse = await _navigator.NavigateRouteForResultAsync<object>(this, initialRoute);
-				if (initialResponse is not null)
-				{
-					_ = await initialResponse.Result;
-				}
-			}
-			else
-			{
-				var homeResponse = await _navigator.NavigateDataAsync(this, currentCredentials, Qualifiers.ClearBackStack);
-			}
-		}
-		else
-		{
-			// Navigate to Login page, requesting Credentials
-			var response = await _navigator.NavigateForResultAsync<Credentials>(this, Qualifiers.ClearBackStack);
+    private async void TokenCacheCleared(object? sender, EventArgs e)
+    {
+        await Start();
+    }
 
-			if (response?.Result is null)
-			{
-				_ = Start();
-				return;
-			}
+    public async Task Start(string? initialRoute = default)
+    {
 
-			var loginResult = await response.Result;
-			if (loginResult.IsSome(out var creds) && creds?.UserName is { Length: > 0 })
-			{
-				await CredentialsSettings.UpdateAsync(c => creds);
+        if (await _tokenCache.HasTokenAsync(CancellationToken.None))
+        {
+            if (initialRoute is not null && 
+                !string.IsNullOrWhiteSpace(initialRoute))
+            {
+                var initialResponse = await _navigator.NavigateRouteForResultAsync<object>(this, initialRoute);
+                if (initialResponse is not null)
+                {
+                    _ = await initialResponse.Result;
+                }
+            }
+            else
+            {
+                var homeResponse = await _navigator.NavigateViewModelAsync<HomeViewModel>(this, Qualifiers.ClearBackStack);
+            }
+        }
+        else
+        {
+            // Navigate to Login page, requesting Credentials
+            var response = await _navigator.GetDataAsync<Credentials>(this, qualifier: Qualifiers.ClearBackStack);
 
-				_ = Start();
-			}
-		}
-	}
+            if (response is not null)
+            {
+                _ = Start();
+                return;
+            }
+        }
+    }
 }
+
+public class HomeViewModel { }
