@@ -6,9 +6,9 @@
 		<UseWPF>true</UseWPF>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Uno.WinUI.Skia.Wpf" Version="4.3.8" />
-		<PackageReference Include="Uno.WinUI.RemoteControl" Version="4.3.8" Condition="'$(Configuration)'=='Debug'" />
-		<PackageReference Include="Uno.UI.Adapter.Microsoft.Extensions.Logging" Version="4.3.8" />
+		<PackageReference Include="Uno.WinUI.Skia.Wpf" Version="4.5.0-dev.562" />
+		<PackageReference Include="Uno.WinUI.RemoteControl" Version="4.5.0-dev.562" Condition="'$(Configuration)'=='Debug'" />
+		<PackageReference Include="Uno.UI.Adapter.Microsoft.Extensions.Logging" Version="4.5.0-dev.562" />
 	</ItemGroup>
 	<ItemGroup>
 		<Content Include="Assets\Fonts\uno-fluentui-assets.ttf" />
@@ -16,4 +16,13 @@
 	<ItemGroup>
 		<ProjectReference Include="..\Commerce.Skia.WPF\Commerce.Skia.WPF.csproj" />
 	</ItemGroup>
+	<Target Name="RemoveDuplicateAnalyzers" BeforeTargets="CoreCompile">
+		<!-- Work around https://github.com/dotnet/wpf/issues/6792 -->
+
+		<ItemGroup>
+			<FilteredAnalyzer Include="@(Analyzer-&gt;Distinct())" />
+			<Analyzer Remove="@(Analyzer)" />
+			<Analyzer Include="@(FilteredAnalyzer)" />
+		</ItemGroup>
+	</Target>
 </Project>

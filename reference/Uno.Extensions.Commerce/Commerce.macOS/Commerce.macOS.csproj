@@ -11,6 +11,7 @@
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <TargetFrameworkIdentifier>Xamarin.Mac</TargetFrameworkIdentifier>
     <MonoMacResourcePrefix>Resources</MonoMacResourcePrefix>
+    <IncludeWinUIExtensions>true</IncludeWinUIExtensions>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhoneSimulator' ">
     <DebugSymbols>true</DebugSymbols>
@@ -72,18 +73,17 @@
     <DefineConstants>$(DefineConstants);WINUI</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Uno.WinUI" Version="4.3.8" />
-    <PackageReference Include="Uno.WinUI.RemoteControl" Version="4.3.8" Condition="'$(Configuration)'=='Debug'" />
-    <PackageReference Include="Uno.UI.Adapter.Microsoft.Extensions.Logging" Version="4.3.8" />
+    <PackageReference Include="Uno.WinUI" Version="4.5.0-dev.562" />
+    <PackageReference Include="Uno.WinUI.RemoteControl" Version="4.5.0-dev.562" Condition="'$(Configuration)'=='Debug'" />
+    <PackageReference Include="Uno.UI.Adapter.Microsoft.Extensions.Logging" Version="4.5.0-dev.562" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="6.0.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="6.0.0" />
-    <PackageReference Include="Uno.Toolkit.WinUI" Version="2.1.0-dev.5" />
-    <PackageReference Include="Uno.Toolkit.WinUI.Material" Version="2.1.0-dev.5" />
+    <PackageReference Include="Uno.Toolkit.WinUI" Version="2.3.0-dev.7" />
+    <PackageReference Include="Uno.Toolkit.WinUI.Material" Version="2.3.0-dev.7" />
     <PackageReference Include="Uno.Core" Version="4.0.1" />
-    <PackageReference Include="Uno.Material.WinUI" Version="2.1.0-dev.31" />
-    <PackageReference Include="Uno.SourceGenerationTasks" Version="4.0.2" />
+    <PackageReference Include="Uno.Material.WinUI" Version="2.3.0-dev.6" />
+    <PackageReference Include="Uno.SourceGenerationTasks" Version="4.1.0" />
   </ItemGroup>
-  <Import Project="..\Extensions.winui.props" />
   <ItemGroup>
     <ProjectReference Include="..\Commerce\Commerce.csproj">
       <Project>{DE9101A1-60C4-422A-9D85-E396309B1522}</Project>
