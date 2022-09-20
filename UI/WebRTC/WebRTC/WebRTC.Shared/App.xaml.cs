@@ -124,6 +124,10 @@ namespace WebRTC
 		/// </summary>
 		private static void InitializeLogging()
 		{
+#if HAS_UNO
+			global::Uno.UI.Adapter.Microsoft.Extensions.Logging.LoggingAdapter.Initialize();
+#endif
+
 			var factory = LoggerFactory.Create(builder =>
 			{
 #if __WASM__
