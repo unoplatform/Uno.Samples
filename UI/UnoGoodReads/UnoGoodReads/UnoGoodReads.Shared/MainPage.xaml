@@ -1,0 +1,32 @@
+﻿<Page
+    x:Class="UnoGoodReads.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:UnoGoodReads"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+	<NavigationView SelectionFollowsFocus="Enabled"
+					IsBackButtonVisible="Collapsed"
+					SelectionChanged="NavigationView_SelectionChanged"
+					ItemInvoked="NavigationView_ItemInvoked">
+		<NavigationView.MenuItems>
+			<NavigationViewItem Icon="Home"
+								Content="Home"
+								Tag="Home" 
+								x:Name="Home"/>
+			<NavigationViewItem Icon="People"
+								Content="Author Profile"
+								Tag="Author" 
+								x:Name="Author"/>
+			<NavigationViewItem Icon="Document"
+								Content="Book Details"
+								Tag="Book" 
+								x:Name="Document"/>
+		</NavigationView.MenuItems>
+		<Frame x:Name="contentFrame" />
+
+	</NavigationView>
+</Page>
