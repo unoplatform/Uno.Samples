@@ -30,24 +30,27 @@ jobs:
   - powershell: |
       Set-PSDebug -Trace 1
 
-      $SolutionsToBuild = Get-ChildItem -Path **\*.sln -Recurse
+      $SolutionsToBuild =  Get-ChildItem -Path **\*.sln -Recurse  | Where-Object {$_.FullName -notmatch "\\ArchivedProjects\\"}
 
       foreach ($SolutionName in $SolutionsToBuild) {
+
            $solutionPath=[System.IO.Path]::GetDirectoryName($SolutionName);
+          
            git diff --quiet HEAD "origin/$(System.PullRequest.TargetBranch)" -- "$solutionPath"
 
            # Only build if there a change in the solution path for the current PR, if we're in a PR
            if( ('$(System.PullRequest.PullRequestId)' -eq '') -or ($global:LASTEXITCODE -ne 0)) {
 
-               & $env:msbuildpath $SolutionName /r /p:Configuration=Release /p:AotAssemblies=false /p:WasmShellILLinkerEnabled=false /ds ;
+                & $env:msbuildpath $SolutionName /r /p:Configuration=Release /p:AotAssemblies=false /p:WasmShellILLinkerEnabled=false /ds ;
 
-               if (($lastexitcode -ne 0)) {
+                if (($lastexitcode -ne 0)) {
                     exit $lastexitcode
-               }
+                }
 
-               # Clean the whole tree after every build to avoid disk space issues
-               git clean -fdx
+                # Clean the whole tree after every build to avoid disk space issues
+                git clean -fdx
            }
+          
       }
 
     displayName: Build samples
