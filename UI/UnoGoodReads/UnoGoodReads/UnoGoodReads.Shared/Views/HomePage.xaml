@@ -1,16 +1,17 @@
-﻿<Page
-    x:Class="UnoGoodReads.Views.HomePage"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:UnoGoodReads.Views"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	xmlns:utu="using:Uno.Toolkit.UI"
-	mc:Ignorable="d"
-	xmlns:vm="using:UnoGoodReads.ViewModels"
-	xmlns:converters="using:UnoGoodReads.Converters"
-	xmlns:models="using:UnoGoodReads.Models"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+﻿<Page x:Class="UnoGoodReads.Views.HomePage"
+	  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	  xmlns:local="using:UnoGoodReads.Views"
+	  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	  xmlns:utu="using:Uno.Toolkit.UI"
+	  mc:Ignorable="d"
+	  Padding="0,50"
+	  xmlns:vm="using:UnoGoodReads.ViewModels"
+	  xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+	  xmlns:converters="using:UnoGoodReads.Converters"
+	  xmlns:models="using:UnoGoodReads.Models"
+	  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
 	<Page.DataContext>
 		<vm:HomeViewModel />
@@ -21,9 +22,202 @@
 		<converters:StateConverter x:Name="StateConverter" />
 	</Page.Resources>
 
-	<Grid>		
+	<Grid>
 
 		<utu:AutoLayout Background="{ThemeResource BackgroundBrush}">
+			<utu:AutoLayout.Resources>
+				<x:String x:Key="Icon_Arrow_Drop_Down">F1 M 0 0 L 5 5 L 10 0 L 0 0 Z</x:String>
+				<x:String x:Key="Icon_Camera_Alt">F1 M 13.199804306030273 10.000048637390137 C 13.199804306030273 11.767359733581543 11.767115592956543 13.200048446655273 9.999804496765137 13.200048446655273 C 8.23249340057373 13.200048446655273 6.7998046875 11.767359733581543 6.7998046875 10.000048637390137 C 6.7998046875 8.23273754119873 8.23249340057373 6.800048828125 9.999804496765137 6.800048828125 C 11.767115592956543 6.800048828125 13.199804306030273 8.23273754119873 13.199804306030273 10.000048637390137 Z M 5.170000076293945 2 L 7 0 L 13 0 L 14.829999923706055 2 L 18 2 C 19.100000381469727 2 20 2.9000000953674316 20 4 L 20 16 C 20 17.100000381469727 19.100000381469727 18 18 18 L 2 18 C 0.8999999761581421 18 0 17.100000381469727 0 16 L 0 4 C 0 2.9000000953674316 0.8999999761581421 2 2 2 L 5.170000076293945 2 Z M 5 10 C 5 12.760000228881836 7.239999771118164 15 10 15 C 12.760000228881836 15 15 12.760000228881836 15 10 C 15 7.239999771118164 12.760000228881836 5 10 5 C 7.239999771118164 5 5 7.239999771118164 5 10 Z</x:String>
+				<x:String x:Key="Icon_Favorite">F1 M 10 18.350000381469727 L 8.550000190734863 17.030000686645508 C 3.4000000953674316 12.360000610351562 0 9.27999997138977 0 5.5 C 0 2.4200000762939453 2.4200000762939453 0 5.5 0 C 7.240000009536743 0 8.909999966621399 0.8100001811981201 10 2.0900001525878906 C 11.090000033378601 0.8100001811981201 12.759999990463257 0 14.5 0 C 17.579999923706055 0 20 2.4200000762939453 20 5.5 C 20 9.27999997138977 16.59999990463257 12.36000108718872 11.449999809265137 17.040000915527344 L 10 18.350000381469727 Z</x:String>
+				<x:String x:Key="Icon_Notifications_None">F1 M 8 19.5 C 9.100000023841858 19.5 10 18.600000023841858 10 17.5 L 6 17.5 C 6 18.600000023841858 6.899999976158142 19.5 8 19.5 Z M 14 13.5 L 14 8.5 C 14 5.430000066757202 12.369999885559082 2.8599998354911804 9.5 2.179999828338623 L 9.5 1.5 C 9.5 0.6700000166893005 8.8299999833107 0 8 0 C 7.1700000166893005 0 6.5 0.6700000166893005 6.5 1.5 L 6.5 2.179999828338623 C 3.640000104904175 2.8599998354911804 2 5.420000076293945 2 8.5 L 2 13.5 L 0 15.5 L 0 16.5 L 16 16.5 L 16 15.5 L 14 13.5 Z M 12 14.5 L 4 14.5 L 4 8.5 C 4 6.019999980926514 5.509999990463257 4 8 4 C 10.490000009536743 4 12 6.019999980926514 12 8.5 L 12 14.5 Z</x:String>
+				<x:String x:Key="Icon_Search">F1 M 12.5 11 L 11.710000038146973 11 L 11.430000305175781 10.729999542236328 C 12.410000324249268 9.589999556541443 13 8.110000014305115 13 6.5 C 13 2.9100000858306885 10.089999914169312 0 6.5 0 C 2.9100000858306885 0 0 2.9100000858306885 0 6.5 C 0 10.089999914169312 2.9100000858306885 13 6.5 13 C 8.110000014305115 13 9.589999556541443 12.410000324249268 10.729999542236328 11.430000305175781 L 11 11.710000038146973 L 11 12.5 L 16 17.489999771118164 L 17.489999771118164 16 L 12.5 11 L 12.5 11 Z M 6.5 11 C 4.009999990463257 11 2 8.990000009536743 2 6.5 C 2 4.009999990463257 4.009999990463257 2 6.5 2 C 8.990000009536743 2 11 4.009999990463257 11 6.5 C 11 8.990000009536743 8.990000009536743 11 6.5 11 Z</x:String>
+			</utu:AutoLayout.Resources>
+			<ScrollViewer utu:AutoLayout.CounterAlignment="Stretch"
+						  utu:AutoLayout.PrimaryAlignment="Stretch">
+				<utu:AutoLayout Spacing="8"
+								Padding="8">
+					<utu:AutoLayout Spacing="5"
+									Orientation="Horizontal"
+									utu:AutoLayout.CounterAlignment="Start"
+									utu:AutoLayout.PrimaryAlignment="Stretch"
+									utu:AutoLayout.CounterLength="390">
+						<utu:AutoLayout Background="{ThemeResource SurfaceBrush}"
+										Spacing="16"
+										Padding="16,8"
+										CornerRadius="4"
+										Orientation="Horizontal"
+										utu:AutoLayout.CounterAlignment="Start"
+										utu:AutoLayout.PrimaryLength="324"
+										BorderBrush="{ThemeResource OnSurfaceBrush}"
+										BorderThickness="1">
+							<PathIcon Data="{StaticResource Icon_Search}"
+									  Foreground="{ThemeResource OnSurfaceBrush}"
+									  utu:AutoLayout.CounterAlignment="Center" />
+							<utu:AutoLayout PrimaryAxisAlignment="Center"
+											utu:AutoLayout.CounterAlignment="Center"
+											utu:AutoLayout.PrimaryAlignment="Stretch">
+								<utu:AutoLayout Spacing="4"
+												Orientation="Horizontal">
+									<TextBlock Foreground="{ThemeResource OnSurfaceBrush}"
+											   Text="Title, author or ISBN"
+											   utu:AutoLayout.CounterAlignment="Center"
+											   Style="{StaticResource BodyLarge}" />
+									<Rectangle Fill="{ThemeResource OnSecondaryBrush}"
+											   Width="1"
+											   utu:AutoLayout.CounterAlignment="Center"
+											   utu:AutoLayout.PrimaryLength="1"
+											   utu:AutoLayout.CounterLength="17" />
+								</utu:AutoLayout>
+							</utu:AutoLayout>
+							<PathIcon Data="{StaticResource Icon_Camera_Alt}"
+									  Foreground="{ThemeResource OnSurfaceBrush}"
+									  utu:AutoLayout.CounterAlignment="Center" />
+						</utu:AutoLayout>
+						<utu:AutoLayout Spacing="10"
+										Padding="8"
+										PrimaryAxisAlignment="Center"
+										utu:AutoLayout.CounterAlignment="Start"
+										utu:AutoLayout.PrimaryLength="40"
+										utu:AutoLayout.CounterLength="40">
+							<Ellipse Fill="{ThemeResource PrimaryDraggedBrush}"
+									 Width="40"
+									 Height="40"
+									 utu:AutoLayout.CounterAlignment="Start"
+									 utu:AutoLayout.PrimaryLength="40"
+									 utu:AutoLayout.CounterLength="40" />
+							<PathIcon Data="{StaticResource Icon_Notifications_None}"
+									  Foreground="{ThemeResource OnSurfaceMediumBrush}"
+									  utu:AutoLayout.CounterAlignment="Start" />
+						</utu:AutoLayout>
+					</utu:AutoLayout>
+					<utu:AutoLayout Spacing="8"
+									PrimaryAxisAlignment="Center"
+									utu:AutoLayout.CounterLength="434"
+									BorderBrush="{ThemeResource OnSurfaceLowBrush}"
+									BorderThickness="1">
+						<ListView ItemsSource="{Binding Books}"
+								  ScrollViewer.VerticalScrollBarVisibility="Auto"
+								  utu:AutoLayout.PrimaryAlignment="Stretch">
+							<ListView.ItemsPanel>
+								<ItemsPanelTemplate>
+									<ItemsStackPanel Orientation="Vertical" />
+								</ItemsPanelTemplate>
+							</ListView.ItemsPanel>
+							<ListView.ItemTemplate>
+								<DataTemplate>
+									<utu:CardContentControl utu:AutoLayout.CounterAlignment="Start"
+															utu:AutoLayout.CounterLength="374"
+															Style="{StaticResource ElevatedCardContentControlStyle}">
+										<utu:AutoLayout Background="{ThemeResource SurfaceBrush}"
+														Padding="10,10,10,10"
+														CornerRadius="12">
+											<utu:AutoLayout>
+												<TextBlock Text="{Binding Genre, Converter={StaticResource GenreConverters}}"
+														   utu:AutoLayout.CounterAlignment="Start" />
+											</utu:AutoLayout>
+											<utu:AutoLayout Spacing="10"
+															Orientation="Horizontal"
+															utu:AutoLayout.PrimaryAlignment="Stretch">
+												<Image Source="{Binding Url}"
+													   Stretch="UniformToFill"
+													   utu:AutoLayout.PrimaryLength="112" />
+												<utu:AutoLayout Spacing="10"
+																Padding="5,5,5,5"
+																utu:AutoLayout.PrimaryAlignment="Stretch">
+													<utu:AutoLayout>
+														<TextBlock Foreground="{ThemeResource OnSurfaceBrush}"
+																   Text="{Binding Title}"
+																   utu:AutoLayout.CounterAlignment="Start" />
+													</utu:AutoLayout>
+													<utu:AutoLayout>
+														<TextBlock Foreground="{ThemeResource OnSurfaceBrush}"
+																   Text="{Binding Author, Converter={StaticResource AuthorConverter}}"
+																   utu:AutoLayout.CounterAlignment="Start"
+																   Style="{StaticResource BodySmall}" />
+													</utu:AutoLayout>
+													<utu:AutoLayout utu:AutoLayout.PrimaryLength="56">
+														<utu:AutoLayout>
+															<utu:AutoLayout>
+																<utu:AutoLayout Background="{ThemeResource SecondaryBrush}"
+																				Spacing="16"
+																				Padding="16,8,16,8"
+																				CornerRadius="4"
+																				Orientation="Horizontal"
+																				utu:AutoLayout.CounterAlignment="Start"
+																				utu:AutoLayout.PrimaryLength="40">
+																	<utu:AutoLayout PrimaryAxisAlignment="Center"
+																					utu:AutoLayout.CounterAlignment="Center">
+																		<TextBlock Foreground="{ThemeResource SurfaceBrush}"
+																				   Text="{Binding State, Converter={StaticResource StateConverter}}"
+																				   utu:AutoLayout.CounterAlignment="Start"
+																				   Style="{StaticResource BodyLarge}" />
+																	</utu:AutoLayout>
+																	<PathIcon Data="{StaticResource Icon_Arrow_Drop_Down}"
+																			  Foreground="{ThemeResource SurfaceBrush}"
+																			  utu:AutoLayout.CounterAlignment="Center" />
+																</utu:AutoLayout>
+															</utu:AutoLayout>
+														</utu:AutoLayout>
+													</utu:AutoLayout>
+													<utu:AutoLayout Spacing="0"
+																	Orientation="Horizontal">
+														<TextBlock Foreground="{ThemeResource OnSurfaceBrush}"
+																   Text="Rate this book:"
+																   utu:AutoLayout.CounterAlignment="Center"
+																   Style="{StaticResource BodySmall}" />
+														<utu:AutoLayout Orientation="Horizontal"
+																		utu:AutoLayout.CounterAlignment="Center">
+															<muxc:RatingControl Value="{Binding AverageRating}"
+																				utu:AutoLayout.CounterAlignment="Start"
+																			   MaxRating="5" />
+														</utu:AutoLayout>
+													</utu:AutoLayout>
+												</utu:AutoLayout>
+											</utu:AutoLayout>
+										</utu:AutoLayout>
+									</utu:CardContentControl>
+								</DataTemplate>
+							</ListView.ItemTemplate>
+						</ListView>
+					</utu:AutoLayout>
+				</utu:AutoLayout>
+			</ScrollViewer>
+			<utu:TabBar utu:AutoLayout.CounterAlignment="Start"
+						utu:AutoLayout.CounterLength="390"
+						Style="{StaticResource BottomTabBarStyle}">
+				<utu:TabBarItem IsSelectable="True"
+								Content="Favorites"
+								Style="{StaticResource BottomTabBarItemStyle}">
+					<utu:TabBarItem.Icon>
+						<PathIcon Data="{StaticResource Icon_Favorite}" />
+					</utu:TabBarItem.Icon>
+				</utu:TabBarItem>
+				<utu:TabBarItem IsSelectable="True"
+								Content="Favorites"
+								Style="{StaticResource BottomTabBarItemStyle}">
+					<utu:TabBarItem.Icon>
+						<PathIcon Data="{StaticResource Icon_Favorite}" />
+					</utu:TabBarItem.Icon>
+				</utu:TabBarItem>
+				<utu:TabBarItem IsSelectable="True"
+								Content="Favorites"
+								Style="{StaticResource BottomTabBarItemStyle}">
+					<utu:TabBarItem.Icon>
+						<PathIcon Data="{StaticResource Icon_Favorite}" />
+					</utu:TabBarItem.Icon>
+				</utu:TabBarItem>
+				<utu:TabBarItem IsSelectable="True"
+								Content="Favorites"
+								Style="{StaticResource BottomTabBarItemStyle}">
+					<utu:TabBarItem.Icon>
+						<PathIcon Data="{StaticResource Icon_Favorite}" />
+					</utu:TabBarItem.Icon>
+				</utu:TabBarItem>
+			</utu:TabBar>
+		</utu:AutoLayout>
+
+
+		<!--<utu:AutoLayout Background="{ThemeResource BackgroundBrush}">
 			<utu:AutoLayout.Resources>
 				<x:String x:Key="Icon_Arrow_Drop_Down">F1 M 0 0 L 5 5 L 10 0 L 0 0 Z</x:String>
 				<x:String x:Key="Icon_Camera_Alt">F1 M 13.199804306030273 10.000048637390137 C 13.199804306030273 11.767359733581543 11.767115592956543 13.200048446655273 9.999804496765137 13.200048446655273 C 8.23249340057373 13.200048446655273 6.7998046875 11.767359733581543 6.7998046875 10.000048637390137 C 6.7998046875 8.23273754119873 8.23249340057373 6.800048828125 9.999804496765137 6.800048828125 C 11.767115592956543 6.800048828125 13.199804306030273 8.23273754119873 13.199804306030273 10.000048637390137 Z M 5.170000076293945 2 L 7 0 L 13 0 L 14.829999923706055 2 L 18 2 C 19.100000381469727 2 20 2.9000000953674316 20 4 L 20 16 C 20 17.100000381469727 19.100000381469727 18 18 18 L 2 18 C 0.8999999761581421 18 0 17.100000381469727 0 16 L 0 4 C 0 2.9000000953674316 0.8999999761581421 2 2 2 L 5.170000076293945 2 Z M 5 10 C 5 12.760000228881836 7.239999771118164 15 10 15 C 12.760000228881836 15 15 12.760000228881836 15 10 C 15 7.239999771118164 12.760000228881836 5 10 5 C 7.239999771118164 5 5 7.239999771118164 5 10 Z</x:String>
@@ -51,8 +245,7 @@
 								<utu:AutoLayout Orientation="Horizontal">
 									<TextBox Foreground="{ThemeResource OnSurfaceBrush}"
 											 PlaceholderText="Title, author or ISBN"
-											 utu:AutoLayout.CounterAlignment="Center"
-											 Style="{StaticResource BodyLarge}" />
+											 utu:AutoLayout.CounterAlignment="Center" />
 								</utu:AutoLayout>
 							</utu:AutoLayout>
 							<PathIcon Data="{StaticResource Icon_Camera_Alt}"
@@ -211,6 +404,6 @@
 					</utu:TabBarItem.Icon>
 				</utu:TabBarItem>
 			</utu:TabBar>
-		</utu:AutoLayout>
+		</utu:AutoLayout>-->
 	</Grid>
 </Page>
