@@ -27,11 +27,12 @@ namespace Authentication.OidcDemo.Droid
 		public Application(IntPtr javaReference, JniHandleOwnership transfer)
 			: base(() => new App(), javaReference, transfer)
 		{
-			ConfigureUniversalImageLoader();
+            ConfigureUniversalImageLoader();
 
-			ApiExtensibility.Register(
+            ApiExtensibility.Register(
 				typeof(IWebAuthenticationBrokerProvider),
 				_ => new ChromeCustomTabsProvider());
+
 		}
 
 		private void ConfigureUniversalImageLoader()
