@@ -1,5 +1,4 @@
-﻿using Microsoft.Toolkit.Uwp.UI.Extensions;
-using Microsoft.Xaml.Interactivity;
+﻿using Microsoft.Xaml.Interactivity;
 using Prism.DryIoc;
 using Prism.Ioc;
 using System;
