@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>6279c845-92f8-4333-ab99-3d213163593c</ProjectGuid>
+    <MinimumVisualStudioVersion>14.0</MinimumVisualStudioVersion>
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\CodeSharing\Microsoft.CodeSharing.Common.Default.props" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\CodeSharing\Microsoft.CodeSharing.Common.props" />
+  <PropertyGroup />
+  <Import Project="UnoGoodReads.Shared.projitems" Label="Shared" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\CodeSharing\Microsoft.CodeSharing.CSharp.targets" />
+  <ItemGroup>
+    <_Globbed_Compile Remove="Converters\GenreConverters.cs" />
+    <_Globbed_Compile Remove="Models\Author.cs" />
+    <_Globbed_Compile Remove="Models\Book.cs" />
+    <_Globbed_Compile Remove="Models\Enums.cs" />
+    <_Globbed_Compile Remove="Models\SeedData.cs" />
+    <_Globbed_Compile Remove="ViewModels\BookViewModel.cs" />
+    <_Globbed_Compile Remove="ViewModels\HomeViewModel.cs" />
+    <_Globbed_Compile Remove="Views\AuthorPage.xaml.cs" />
+    <_Globbed_Compile Remove="Views\BookPage.xaml.cs" />
+    <_Globbed_Compile Remove="Views\HomePage.xaml.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <_Globbled_Page Remove="Styles\MainDictionary.xaml" />
+    <_Globbled_Page Remove="Views\AuthorPage.xaml" />
+    <_Globbled_Page Remove="Views\BookPage.xaml" />
+    <_Globbled_Page Remove="Views\HomePage.xaml" />
+  </ItemGroup>
+</Project>
