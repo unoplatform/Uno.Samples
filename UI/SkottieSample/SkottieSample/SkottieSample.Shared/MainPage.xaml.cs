@@ -79,7 +79,7 @@ namespace SkottieSample
             {
                 _animation.SeekFrameTime((float)_watch.Elapsed.TotalSeconds, null);
 
-                if (_watch.Elapsed.TotalSeconds > _animation.Duration)
+                if (_watch.Elapsed > _animation.Duration)
                 {
                     _watch.Restart();
                 }
