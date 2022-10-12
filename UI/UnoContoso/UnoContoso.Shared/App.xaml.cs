@@ -192,12 +192,7 @@ namespace UnoContoso
 						// { "Windows.UI.Xaml.Controls.BufferViewCache", LogLevel.Debug }, //Android
 						// { "Windows.UI.Xaml.Controls.VirtualizingPanelGenerator", LogLevel.Debug }, //WASM
 					}
-				)
-#if DEBUG
-				.AddConsole(LogLevel.Debug);
-#else
-				.AddConsole(LogLevel.Information);
-#endif
+				);
 		}
 
 		/// <summary>
