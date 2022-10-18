@@ -3,13 +3,32 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:UnoGoodReads"
+	xmlns:winui="using:Microsoft.UI.Xaml.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
+	<winui:TabView x:Name="tabView"
+                    Margin="0,35"
+                    Style="{StaticResource TabViewStyle}">
+		<winui:TabView.TabItems>
+			<winui:TabViewItem Icon="Home"
+					  x:Name="Home"
+					  Header="Home">
+				<winui:TabViewItem.Content>
+					
+
+				</winui:TabViewItem.Content>
+
+			</winui:TabViewItem>
+
+		</winui:TabView.TabItems>
+
+	</winui:TabView>
+
 	<NavigationView SelectionFollowsFocus="Enabled"
-					SelectionChanged="NavigationView_SelectionChanged"
+				 SelectionChanged="NavigationView_SelectionChanged"
 					ItemInvoked="NavigationView_ItemInvoked">
 		<NavigationView.MenuItems>
 			<NavigationViewItem Icon="Home"

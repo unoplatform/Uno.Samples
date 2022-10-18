@@ -3,6 +3,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:UnoGoodReads.Views"
+	xmlns:um="using:Uno.Material"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:utu="using:Uno.Toolkit.UI"
@@ -12,7 +13,7 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
-		<utu:AutoLayout Background="{ThemeResource BackgroundBrush}">
+        <!--<utu:AutoLayout Background="{ThemeResource BackgroundBrush}">
 			<utu:AutoLayout.Resources>
 				<x:String x:Key="Icon_Arrow_Drop_Down">F1 M 0 0 L 5 5 L 10 0 L 0 0 Z</x:String>
 				<x:String x:Key="Icon_Favorite">F1 M 10 18.350000381469727 L 8.550000190734863 17.030000686645508 C 3.4000000953674316 12.360000610351562 0 9.27999997138977 0 5.5 C 0 2.4200000762939453 2.4200000762939453 0 5.5 0 C 7.240000009536743 0 8.909999966621399 0.8100001811981201 10 2.0900001525878906 C 11.090000033378601 0.8100001811981201 12.759999990463257 0 14.5 0 C 17.579999923706055 0 20 2.4200000762939453 20 5.5 C 20 9.27999997138977 16.59999990463257 12.36000108718872 11.449999809265137 17.040000915527344 L 10 18.350000381469727 Z</x:String>
@@ -377,7 +378,152 @@
 					</utu:TabBarItem.Icon>
 				</utu:TabBarItem>
 			</utu:TabBar>
-		</utu:AutoLayout>
+		</utu:AutoLayout>-->
 
-	</Grid>
+         <utu:AutoLayout Background="{ThemeResource SurfaceBrush}">
+    <utu:AutoLayout.Resources>
+      <x:String x:Key="Icon_Arrow_Back_Ios">F1 M 11.670000076293945 1.7699999809265137 L 9.899999618530273 0 L 0 9.899999618530273 L 9.899999618530273 19.799999237060547 L 11.670000076293945 18.029998779296875 L 3.5399999618530273 9.899999618530273 L 11.670000076293945 1.7699999809265137 Z</x:String>
+      <x:String x:Key="Icon_Arrow_Drop_Down">F1 M 0 0 L 3.75 3.75 L 7.5 0 L 0 0 Z</x:String>
+      <x:String x:Key="Icon_Assistant_Navigation">F1 M 11 0 C 4.929999828338623 0 0 4.929999828338623 0 11 C 0 17.070000171661377 4.929999828338623 22 11 22 C 17.070000171661377 22 22 17.070000171661377 22 11 C 22 4.929999828338623 17.070000171661377 0 11 0 Z M 14.569999694824219 16 L 11 14.420000076293945 L 7.430000305175781 16 L 7.060000419616699 15.629999160766602 L 11 6 L 14.949999809265137 15.629999160766602 L 14.569999694824219 16 L 14.569999694824219 16 Z</x:String>
+      <x:String x:Key="Icon_Bookmarks">F1 M 16 17 L 18 18 L 18 2 C 18 0.8999999761581421 17.100000023841858 0 16 0 L 5.989999771118164 0 C 4.889999747276306 0 4 0.8999999761581421 4 2 L 14 2 C 15.100000023841858 2 16 2.899999976158142 16 4 L 16 17 Z M 12 4 L 2 4 C 0.8999999761581421 4 0 4.899999976158142 0 6 L 0 22 L 7 19 L 14 22 L 14 6 C 14 4.899999976158142 13.100000023841858 4 12 4 Z</x:String>
+      <x:String x:Key="Icon_House">F1 M 17 6.300000190734863 L 17 1 L 14 1 L 14 3.5999999046325684 L 10 0 L 0 9 L 3 9 L 3 17 L 8 17 L 8 11 L 12 11 L 12 17 L 17 17 L 17 9 L 20 9 L 17 6.300000190734863 Z M 8 7 C 8 5.899999976158142 8.899999976158142 5 10 5 C 11.100000023841858 5 12 5.899999976158142 12 7 L 8 7 Z</x:String>
+      <x:String x:Key="Icon_Menu">F1 M 0 12 L 18 12 L 18 10 L 0 10 L 0 12 Z M 0 7 L 18 7 L 18 5 L 0 5 L 0 7 Z M 0 0 L 0 2 L 18 2 L 18 0 L 0 0 Z</x:String>
+      <x:String x:Key="Icon_Search">F1 M 12.5 11 L 11.710000038146973 11 L 11.430000305175781 10.729999542236328 C 12.410000324249268 9.589999556541443 13 8.110000014305115 13 6.5 C 13 2.9100000858306885 10.089999914169312 0 6.5 0 C 2.9100000858306885 0 0 2.9100000858306885 0 6.5 C 0 10.089999914169312 2.9100000858306885 13 6.5 13 C 8.110000014305115 13 9.589999556541443 12.410000324249268 10.729999542236328 11.430000305175781 L 11 11.710000038146973 L 11 12.5 L 16 17.489999771118164 L 17.489999771118164 16 L 12.5 11 L 12.5 11 Z M 6.5 11 C 4.009999990463257 11 2 8.990000009536743 2 6.5 C 2 4.009999990463257 4.009999990463257 2 6.5 2 C 8.990000009536743 2 11 4.009999990463257 11 6.5 C 11 8.990000009536743 8.990000009536743 11 6.5 11 Z</x:String>
+    </utu:AutoLayout.Resources>
+    <utu:AutoLayout utu:AutoLayout.PrimaryAlignment="Stretch">
+      <utu:AutoLayout Background="{ThemeResource SecondaryBrush}" Padding="10,0">
+        <utu:AutoLayout Spacing="90" PrimaryAxisAlignment="Center" Orientation="Horizontal" utu:AutoLayout.CounterAlignment="Start" Width="255">
+          <Button Foreground="{ThemeResource OnBackgroundBrush}" utu:AutoLayout.CounterAlignment="Center" Style="{StaticResource IconButtonStyle}">
+            <PathIcon Data="{StaticResource Icon_Arrow_Back_Ios}" Foreground="{ThemeResource OnBackgroundBrush}" />
+          </Button>
+          <TextBlock TextAlignment="Center" Text="Author Profile" utu:AutoLayout.CounterAlignment="Center" Style="{StaticResource TitleMedium}" />
+        </utu:AutoLayout>
+      </utu:AutoLayout>
+      <ScrollViewer utu:AutoLayout.PrimaryAlignment="Stretch">
+        <utu:AutoLayout Spacing="8" Padding="8">
+          <utu:AutoLayout Background="{ThemeResource OnPrimaryBrush}" CornerRadius="12" Height="200">
+            <utu:AutoLayout Spacing="22" Padding="6" Orientation="Horizontal" utu:AutoLayout.CounterAlignment="Start">
+              <Border CornerRadius="100" utu:AutoLayout.CounterAlignment="Start" Width="103.64958" Height="100">
+                <Image Source="https://picsum.photos/103/100" Stretch="UniformToFill" />
+              </Border>
+              <utu:AutoLayout Spacing="14" utu:AutoLayout.CounterAlignment="Start">
+                <utu:AutoLayout utu:AutoLayout.CounterAlignment="Start">
+                  <TextBlock TextAlignment="Center" Text="Josef Albers" utu:AutoLayout.CounterAlignment="Start" Style="{StaticResource TitleMedium}" />
+                  <TextBlock Foreground="{ThemeResource OnSecondaryContainerBrush}" TextAlignment="Center" Text="75 Followes" utu:AutoLayout.CounterAlignment="Start" Style="{StaticResource TitleSmall}" />
+                </utu:AutoLayout>
+                <utu:AutoLayout Spacing="10" Orientation="Horizontal" utu:AutoLayout.CounterAlignment="Start">
+                  <Button Foreground="{ThemeResource OnPrimaryBrush}" Background="{ThemeResource SecondaryVariantLightBrush}" Content="Follow Author" utu:AutoLayout.CounterAlignment="Start" CornerRadius="4" Style="{StaticResource ElevatedButtonStyle}" />
+                  <Button Foreground="{ThemeResource OnSecondaryContainerBrush}" Background="{ThemeResource SecondaryBrush}" utu:AutoLayout.CounterAlignment="Start" Width="40" CornerRadius="4" Style="{StaticResource ElevatedButtonStyle}" />
+                </utu:AutoLayout>
+              </utu:AutoLayout>
+            </utu:AutoLayout>
+            <utu:AutoLayout Padding="0,10,10,10" Orientation="Horizontal" utu:AutoLayout.CounterAlignment="Start" Width="224">
+              <TextBlock Text="Josef Albers was born a German-born American artist&#xA;and educator whose work, both in Europe and in the&#xA;United States, formed the basis of modern art education" utu:AutoLayout.CounterAlignment="Start" Style="{StaticResource LabelMedium}" />
+            </utu:AutoLayout>
+          </utu:AutoLayout>
+          <utu:AutoLayout Background="{ThemeResource OnPrimaryBrush}" CornerRadius="4" PrimaryAxisAlignment="Center">
+            <utu:AutoLayout Spacing="7" Padding="6,4" Orientation="Horizontal" utu:AutoLayout.CounterAlignment="Start">
+              <Image Source="https://picsum.photos/82/101" Stretch="UniformToFill" utu:AutoLayout.CounterAlignment="Start" Width="82.186264" Height="101" />
+              <utu:AutoLayout Spacing="6" utu:AutoLayout.CounterAlignment="Start">
+                <utu:AutoLayout utu:AutoLayout.CounterAlignment="Start">
+                  <TextBlock Text="Interaction of Color" utu:AutoLayout.CounterAlignment="Start" Style="{StaticResource TitleMedium}" />
+                  <TextBlock Foreground="{ThemeResource OnSurfaceVariantBrush}" Text="by Josef Albers, Nicholas Fox Weber" utu:AutoLayout.CounterAlignment="Start" Style="{StaticResource LabelMedium}" />
+                  <muxc:RatingControl Caption="9,5558 ratings" MaxRating="5" utu:AutoLayout.CounterAlignment="Start" Style="{StaticResource RatingControlStyle}" />
+                  <TextBlock Foreground="{ThemeResource OnSurfaceVariantBrush}" Text="Published 15 May 2006" utu:AutoLayout.CounterAlignment="Start" Style="{StaticResource LabelMedium}" />
+                </utu:AutoLayout>
+                <Button Foreground="{ThemeResource OnPrimaryBrush}" Background="{ThemeResource SecondaryVariantDarkBrush}" Content="Enabled" utu:AutoLayout.CounterAlignment="Start" Width="141" Height="40" CornerRadius="4" Style="{StaticResource ElevatedButtonStyle}">
+                  <um:ControlExtensions.Icon>
+                    <PathIcon Data="{StaticResource Icon_Arrow_Drop_Down}" Foreground="{ThemeResource OnPrimaryBrush}" />
+                  </um:ControlExtensions.Icon>
+                </Button>
+              </utu:AutoLayout>
+            </utu:AutoLayout>
+          </utu:AutoLayout>
+          <utu:AutoLayout Background="{ThemeResource OnPrimaryBrush}" CornerRadius="4">
+            <utu:AutoLayout Spacing="7" Padding="6,4" Orientation="Horizontal" utu:AutoLayout.CounterAlignment="Start">
+              <Image Source="https://picsum.photos/82/101" Stretch="UniformToFill" utu:AutoLayout.CounterAlignment="Start" Width="82.186264" Height="101" />
+              <utu:AutoLayout Spacing="6" utu:AutoLayout.CounterAlignment="Start">
+                <utu:AutoLayout utu:AutoLayout.CounterAlignment="Start">
+                  <TextBlock Text="Interaction of Color" utu:AutoLayout.CounterAlignment="Start" Style="{StaticResource TitleMedium}" />
+                  <TextBlock Foreground="{ThemeResource OnSurfaceVariantBrush}" Text="by Josef Albers, Nicholas Fox Weber" utu:AutoLayout.CounterAlignment="Start" Style="{StaticResource LabelMedium}" />
+                  <muxc:RatingControl Caption="9,5558 ratings" MaxRating="5" utu:AutoLayout.CounterAlignment="Start" Style="{StaticResource RatingControlStyle}" />
+                  <TextBlock Foreground="{ThemeResource OnSurfaceVariantBrush}" Text="Published 15 May 2006" utu:AutoLayout.CounterAlignment="Start" Style="{StaticResource LabelMedium}" />
+                </utu:AutoLayout>
+                <Button Foreground="{ThemeResource OnPrimaryBrush}" Background="{ThemeResource SecondaryVariantDarkBrush}" Content="Enabled" utu:AutoLayout.CounterAlignment="Start" Width="141" Height="40" CornerRadius="4" Style="{StaticResource ElevatedButtonStyle}">
+                  <um:ControlExtensions.Icon>
+                    <PathIcon Data="{StaticResource Icon_Arrow_Drop_Down}" Foreground="{ThemeResource OnPrimaryBrush}" />
+                  </um:ControlExtensions.Icon>
+                </Button>
+              </utu:AutoLayout>
+            </utu:AutoLayout>
+          </utu:AutoLayout>
+          <utu:AutoLayout Background="{ThemeResource OnPrimaryBrush}" CornerRadius="4">
+            <utu:AutoLayout Spacing="7" Padding="6,4" Orientation="Horizontal" utu:AutoLayout.CounterAlignment="Start">
+              <Image Source="https://picsum.photos/82/101" Stretch="UniformToFill" utu:AutoLayout.CounterAlignment="Start" Width="82.186264" Height="101" />
+              <utu:AutoLayout Spacing="6" utu:AutoLayout.CounterAlignment="Start">
+                <utu:AutoLayout utu:AutoLayout.CounterAlignment="Start">
+                  <TextBlock Text="Interaction of Color" utu:AutoLayout.CounterAlignment="Start" Style="{StaticResource TitleMedium}" />
+                  <TextBlock Foreground="{ThemeResource OnSurfaceVariantBrush}" Text="by Josef Albers, Nicholas Fox Weber" utu:AutoLayout.CounterAlignment="Start" Style="{StaticResource LabelMedium}" />
+                  <muxc:RatingControl Caption="9,5558 ratings" MaxRating="5" utu:AutoLayout.CounterAlignment="Start" Style="{StaticResource RatingControlStyle}" />
+                  <TextBlock Foreground="{ThemeResource OnSurfaceVariantBrush}" Text="Published 15 May 2006" utu:AutoLayout.CounterAlignment="Start" Style="{StaticResource LabelMedium}" />
+                </utu:AutoLayout>
+                <Button Foreground="{ThemeResource OnPrimaryBrush}" Background="{ThemeResource SecondaryVariantDarkBrush}" Content="Enabled" utu:AutoLayout.CounterAlignment="Start" Width="141" Height="40" CornerRadius="4" Style="{StaticResource ElevatedButtonStyle}">
+                  <um:ControlExtensions.Icon>
+                    <PathIcon Data="{StaticResource Icon_Arrow_Drop_Down}" Foreground="{ThemeResource OnPrimaryBrush}" />
+                  </um:ControlExtensions.Icon>
+                </Button>
+              </utu:AutoLayout>
+            </utu:AutoLayout>
+          </utu:AutoLayout>
+          <utu:AutoLayout Background="{ThemeResource OnPrimaryBrush}" CornerRadius="4">
+            <utu:AutoLayout Spacing="7" Padding="6,4" Orientation="Horizontal" utu:AutoLayout.CounterAlignment="Start">
+              <Image Source="https://picsum.photos/82/101" Stretch="UniformToFill" utu:AutoLayout.CounterAlignment="Start" Width="82.186264" Height="101" />
+              <utu:AutoLayout Spacing="6" utu:AutoLayout.CounterAlignment="Start">
+                <utu:AutoLayout utu:AutoLayout.CounterAlignment="Start">
+                  <TextBlock Text="Interaction of Color" utu:AutoLayout.CounterAlignment="Start" Style="{StaticResource TitleMedium}" />
+                  <TextBlock Foreground="{ThemeResource OnSurfaceVariantBrush}" Text="by Josef Albers, Nicholas Fox Weber" utu:AutoLayout.CounterAlignment="Start" Style="{StaticResource LabelMedium}" />
+                  <muxc:RatingControl Caption="9,5558 ratings" MaxRating="5" utu:AutoLayout.CounterAlignment="Start" Style="{StaticResource RatingControlStyle}" />
+                  <TextBlock Foreground="{ThemeResource OnSurfaceVariantBrush}" Text="Published 15 May 2006" utu:AutoLayout.CounterAlignment="Start" Style="{StaticResource LabelMedium}" />
+                </utu:AutoLayout>
+                <Button Foreground="{ThemeResource OnPrimaryBrush}" Background="{ThemeResource SecondaryVariantDarkBrush}" Content="Enabled" utu:AutoLayout.CounterAlignment="Start" Width="141" Height="40" CornerRadius="4" Style="{StaticResource ElevatedButtonStyle}">
+                  <um:ControlExtensions.Icon>
+                    <PathIcon Data="{StaticResource Icon_Arrow_Drop_Down}" Foreground="{ThemeResource OnPrimaryBrush}" />
+                  </um:ControlExtensions.Icon>
+                </Button>
+              </utu:AutoLayout>
+            </utu:AutoLayout>
+          </utu:AutoLayout>
+        </utu:AutoLayout>
+      </ScrollViewer>
+    </utu:AutoLayout>
+    <utu:TabBar Style="{StaticResource BottomTabBarStyle}">
+      <utu:TabBarItem IsSelectable="True" Content="Home" Style="{StaticResource BottomTabBarItemStyle}">
+        <utu:TabBarItem.Icon>
+          <PathIcon Data="{StaticResource Icon_House}" />
+        </utu:TabBarItem.Icon>
+      </utu:TabBarItem>
+      <utu:TabBarItem IsSelectable="True" Content="My Books" Style="{StaticResource BottomTabBarItemStyle}">
+        <utu:TabBarItem.Icon>
+          <PathIcon Data="{StaticResource Icon_Bookmarks}" />
+        </utu:TabBarItem.Icon>
+      </utu:TabBarItem>
+      <utu:TabBarItem IsSelectable="True" Content="Discover" Style="{StaticResource BottomTabBarItemStyle}">
+        <utu:TabBarItem.Icon>
+          <PathIcon Data="{StaticResource Icon_Assistant_Navigation}" />
+        </utu:TabBarItem.Icon>
+      </utu:TabBarItem>
+      <utu:TabBarItem IsSelectable="True" Content="Search" Style="{StaticResource BottomTabBarItemStyle}">
+        <utu:TabBarItem.Icon>
+          <PathIcon Data="{StaticResource Icon_Search}" />
+        </utu:TabBarItem.Icon>
+      </utu:TabBarItem>
+      <utu:TabBarItem IsSelectable="True" Content="More" Style="{StaticResource BottomTabBarItemStyle}">
+        <utu:TabBarItem.Icon>
+          <PathIcon Data="{StaticResource Icon_Menu}" />
+        </utu:TabBarItem.Icon>
+      </utu:TabBarItem>
+    </utu:TabBar>
+  </utu:AutoLayout>
+
+    </Grid>
 </Page>

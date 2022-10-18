@@ -13,7 +13,7 @@ namespace UnoGoodReads.Converters
         public object Convert(object value, Type targetType, object parameter, string language)
         {
             var genre = (Genre)value;
-            return $"Popular on Goodreads in {genre.ToStringFormat()}";
+            return $" {genre.ToStringFormat()}";
 
         }
 
