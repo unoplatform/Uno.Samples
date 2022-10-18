@@ -18,7 +18,7 @@ namespace UnoGoodReads
         public MainPage()
         {
             this.InitializeComponent();
-            contentFrame.Navigate(typeof(HomePage), null);
+            //contentFrame.Navigate(typeof(HomePage), null);
             
         }
 
@@ -44,7 +44,7 @@ namespace UnoGoodReads
             {
                 pageType = typeof(BookPage);
             }
-            contentFrame.Navigate(pageType, null);
+            //contentFrame.Navigate(pageType, null);
         }
     }
 }
