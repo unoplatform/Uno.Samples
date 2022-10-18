@@ -10,7 +10,6 @@
 	xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
 	xmlns:vm="using:UnoGoodReads.ViewModels"
 	xmlns:converters="using:UnoGoodReads.Converters"
-	Padding="0,50"
 	mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
@@ -22,6 +21,7 @@
         <converters:AuthorConverter x:Name="AuthorConverter" />
         <converters:StateConverter x:Name="StateConverter" />
         <converters:BookRatingsConverter x:Name="BookRatingsConverter" />
+        <converters:AverageRatingConverters x:Name="AverageRatingConverters"/>
     </Page.Resources>
 
     <Grid DataContext="{Binding Book}">
@@ -39,60 +39,71 @@
                 <x:String x:Key="Icon_Search">F1 M 12.5 11 L 11.710000038146973 11 L 11.430000305175781 10.729999542236328 C 12.410000324249268 9.589999556541443 13 8.110000014305115 13 6.5 C 13 2.9100000858306885 10.089999914169312 0 6.5 0 C 2.9100000858306885 0 0 2.9100000858306885 0 6.5 C 0 10.089999914169312 2.9100000858306885 13 6.5 13 C 8.110000014305115 13 9.589999556541443 12.410000324249268 10.729999542236328 11.430000305175781 L 11 11.710000038146973 L 11 12.5 L 16 17.489999771118164 L 17.489999771118164 16 L 12.5 11 L 12.5 11 Z M 6.5 11 C 4.009999990463257 11 2 8.990000009536743 2 6.5 C 2 4.009999990463257 4.009999990463257 2 6.5 2 C 8.990000009536743 2 11 4.009999990463257 11 6.5 C 11 8.990000009536743 8.990000009536743 11 6.5 11 Z</x:String>
             </utu:AutoLayout.Resources>
             <utu:AutoLayout utu:AutoLayout.PrimaryAlignment="Stretch">
-                <utu:AutoLayout Background="{ThemeResource OnSurfaceVariantBrush}" Spacing="300" PrimaryAxisAlignment="Center" Orientation="Horizontal" Height="213">
-                    <Button Foreground="{ThemeResource SurfaceVariantBrush}" utu:AutoLayout.CounterAlignment="Start" Style="{StaticResource IconButtonStyle}">
-                        <PathIcon Data="{StaticResource Icon_Arrow_Back_Ios}" Foreground="{ThemeResource SurfaceVariantBrush}" />
-                    </Button>
-                    <Button Foreground="{ThemeResource SurfaceVariantBrush}" utu:AutoLayout.CounterAlignment="Start" Style="{StaticResource IconButtonStyle}">
-                        <PathIcon Data="{StaticResource Icon_Ios_Share}" Foreground="{ThemeResource SurfaceVariantBrush}" />
-                    </Button>
+                <utu:AutoLayout Background="{ThemeResource OnSurfaceVariantBrush}" Height="222">
+                    <utu:AutoLayout Background="{ThemeResource OnSurfaceVariantBrush}" Spacing="300" PrimaryAxisAlignment="Center" Orientation="Horizontal" Height="213">
+                        <Button Foreground="{ThemeResource SurfaceVariantBrush}" utu:AutoLayout.CounterAlignment="Start" Style="{StaticResource IconButtonStyle}">
+                            <PathIcon Data="{StaticResource Icon_Arrow_Back_Ios}" Foreground="{ThemeResource SurfaceVariantBrush}" />
+                        </Button>
+                        <Button Foreground="{ThemeResource SurfaceVariantBrush}" utu:AutoLayout.CounterAlignment="Start" Style="{StaticResource IconButtonStyle}">
+                            <PathIcon Data="{StaticResource Icon_Ios_Share}" Foreground="{ThemeResource SurfaceVariantBrush}" />
+                        </Button>
+                    </utu:AutoLayout>
                 </utu:AutoLayout>
                 <ScrollViewer utu:AutoLayout.PrimaryAlignment="Stretch">
-                    <utu:AutoLayout Background="{ThemeResource OnPrimaryBrush}" Spacing="8" Padding="8">
-                        <utu:AutoLayout Padding="30,0">
-                            <utu:AutoLayout>
-                                <TextBlock Foreground="{ThemeResource OnBackgroundBrush}" TextAlignment="Center" Text="Interaction of Color" utu:AutoLayout.CounterAlignment="Center" Style="{StaticResource HeadlineSmall}" />
-                                <TextBlock Foreground="{ThemeResource OnBackgroundBrush}" TextAlignment="Center" Text="by Josef Albers, Nicholad Fox Weber " utu:AutoLayout.CounterAlignment="Center" Style="{StaticResource TitleSmall}" />
-                            </utu:AutoLayout>
-                        </utu:AutoLayout>
-                        <utu:AutoLayout Padding="30,5" PrimaryAxisAlignment="Center">
-                            <utu:AutoLayout Spacing="37" Padding="0,5" PrimaryAxisAlignment="Center" Orientation="Horizontal" BorderBrush="{ThemeResource OnSurfaceVariantBrush}" BorderThickness="0,1">
-                                <muxc:RatingControl Caption="4.07" MaxRating="5" utu:AutoLayout.CounterAlignment="Center" Style="{StaticResource RatingControlStyle}" />
-                                <TextBlock Foreground="{ThemeResource OnSurfaceVariantBrush}" TextAlignment="Center" Text="9,558 ratings - 197 reviews" utu:AutoLayout.CounterAlignment="Center" Style="{StaticResource TitleSmall}" />
-                            </utu:AutoLayout>
-                        </utu:AutoLayout>
-                        <utu:AutoLayout Padding="30,20" PrimaryAxisAlignment="Center">
-                            <utu:AutoLayout Spacing="20" utu:AutoLayout.CounterAlignment="Center">
-                                <Button Foreground="{ThemeResource OnPrimaryBrush}" Background="{ThemeResource SecondaryVariantDarkBrush}" Content="Want to Read" utu:AutoLayout.CounterAlignment="Center" CornerRadius="4" Style="{StaticResource ElevatedButtonStyle}">
-                                    <um:ControlExtensions.Icon>
-                                        <PathIcon Data="{StaticResource Icon_Arrow_Drop_Down}" Foreground="{ThemeResource OnPrimaryBrush}" />
-                                    </um:ControlExtensions.Icon>
-                                </Button>
+                    <utu:AutoLayout Background="{ThemeResource OnPrimaryBrush}" Padding="0,8">
+                        <utu:AutoLayout Spacing="8" Padding="8,0" PrimaryAxisAlignment="Center">
+                            <utu:AutoLayout Padding="30,10" PrimaryAxisAlignment="Center">
                                 <utu:AutoLayout utu:AutoLayout.CounterAlignment="Center">
-                                    <TextBlock Foreground="{ThemeResource OnSurfaceVariantBrush}" TextAlignment="Center" Text="Rate this book:" utu:AutoLayout.CounterAlignment="Center" Style="{StaticResource TitleSmall}" />
-                                    <muxc:RatingControl MaxRating="5" utu:AutoLayout.CounterAlignment="Center" Style="{StaticResource RatingControlStyle}" />
+                                    <TextBlock Foreground="{ThemeResource OnBackgroundBrush}" TextAlignment="Center" Text="{Binding Title}" utu:AutoLayout.CounterAlignment="Center" Style="{StaticResource HeadlineSmall}" />
+                                    <TextBlock Foreground="{ThemeResource OnBackgroundBrush}" TextAlignment="Center" Text="{Binding Author, Converter={StaticResource AuthorConverter}}" utu:AutoLayout.CounterAlignment="Center" Style="{StaticResource TitleSmall}" />
+                                </utu:AutoLayout>
+                            </utu:AutoLayout>
+                            <utu:AutoLayout Spacing="35" PrimaryAxisAlignment="Center" Orientation="Horizontal" BorderBrush="{ThemeResource OnSurfaceVariantBrush}" BorderThickness="0,1">
+                                <muxc:RatingControl Caption="{Binding AverageRating, Converter={StaticResource AverageRatingConverters}}"
+                                                    MaxRating="5"
+                                                    utu:AutoLayout.CounterAlignment="Center"
+                                                    utu:AutoLayout.PrimaryAlignment="Stretch"
+                                                    Style="{StaticResource RatingControlStyle}"/>
+                                <TextBlock Foreground="{ThemeResource OnSurfaceVariantBrush}"
+                                           TextAlignment="Center"
+                                           TextWrapping="Wrap" 
+                                           Text="{Binding RatingsCount, Converter={StaticResource BookRatingsConverter}}"
+                                           utu:AutoLayout.CounterAlignment="Center"
+                                           utu:AutoLayout.PrimaryAlignment="Stretch"
+                                           Style="{StaticResource TitleSmall}" />
+                            </utu:AutoLayout>
+                            <utu:AutoLayout Padding="30,20" PrimaryAxisAlignment="Center">
+                                <utu:AutoLayout Spacing="20" utu:AutoLayout.CounterAlignment="Center">
+                                    <Button Foreground="{ThemeResource OnPrimaryBrush}" Background="{ThemeResource SecondaryVariantDarkBrush}" Content="{Binding State, Converter={StaticResource StateConverter}}" utu:AutoLayout.CounterAlignment="Center" CornerRadius="4" Style="{StaticResource ElevatedButtonStyle}">
+                                        <um:ControlExtensions.Icon>
+                                            <PathIcon Data="{StaticResource Icon_Arrow_Drop_Down}" Foreground="{ThemeResource OnPrimaryBrush}" />
+                                        </um:ControlExtensions.Icon>
+                                    </Button>
+                                    <utu:AutoLayout utu:AutoLayout.CounterAlignment="Center">
+                                        <TextBlock Foreground="{ThemeResource OnSurfaceVariantBrush}" TextAlignment="Center" Text="Rate this book:" utu:AutoLayout.CounterAlignment="Center" Style="{StaticResource TitleSmall}" />
+                                        <muxc:RatingControl MaxRating="5" utu:AutoLayout.CounterAlignment="Center" Style="{StaticResource RatingControlStyle}" />
+                                    </utu:AutoLayout>
                                 </utu:AutoLayout>
                             </utu:AutoLayout>
                         </utu:AutoLayout>
-                        <utu:AutoLayout Padding="0,0,0,10" PrimaryAxisAlignment="Center" BorderBrush="{ThemeResource OnSurfaceVariantBrush}" BorderThickness="0,1,0,0">
-                            <utu:AutoLayout Orientation="Horizontal" BorderBrush="{ThemeResource OnSurfaceVariantBrush}" BorderThickness="0,1,0,0">
-                                <utu:AutoLayout utu:AutoLayout.CounterAlignment="End" utu:AutoLayout.PrimaryAlignment="Stretch">
+                        <utu:Divider Style="{StaticResource DividerStyle}" />
+                        <utu:AutoLayout PrimaryAxisAlignment="Center">
+                            <utu:AutoLayout Padding="0,12" PrimaryAxisAlignment="Center" Orientation="Horizontal">
+                                <utu:AutoLayout PrimaryAxisAlignment="Center" utu:AutoLayout.CounterAlignment="Center" utu:AutoLayout.PrimaryAlignment="Stretch">
                                     <Button utu:AutoLayout.CounterAlignment="Center" Style="{StaticResource IconButtonStyle}">
                                         <PathIcon Data="{StaticResource Icon_Info}" />
                                     </Button>
                                     <TextBlock Foreground="{ThemeResource OnSurfaceVariantBrush}" TextAlignment="Center" Text="Book Details" utu:AutoLayout.CounterAlignment="Center" Style="{StaticResource TitleMedium}" />
                                 </utu:AutoLayout>
-                                <utu:AutoLayout utu:AutoLayout.CounterAlignment="End" utu:AutoLayout.PrimaryAlignment="Stretch">
+                                <utu:AutoLayout PrimaryAxisAlignment="Center" utu:AutoLayout.CounterAlignment="Center" utu:AutoLayout.PrimaryAlignment="Stretch">
                                     <Button utu:AutoLayout.CounterAlignment="Center" Style="{StaticResource IconButtonStyle}">
                                         <PathIcon Data="{StaticResource Icon_Screen_Share}" />
                                     </Button>
                                     <TextBlock Foreground="{ThemeResource OnSurfaceVariantBrush}" TextAlignment="Center" Text="Share" utu:AutoLayout.CounterAlignment="Center" Style="{StaticResource TitleMedium}" />
                                 </utu:AutoLayout>
                             </utu:AutoLayout>
-                        </utu:AutoLayout>
-                        <utu:AutoLayout>
-                            <utu:AutoLayout Padding="10,0" PrimaryAxisAlignment="Center" Orientation="Horizontal">
-                                <TextBlock Foreground="{ThemeResource OnSurfaceBrush}" Text="Josef Albers' Interaction of Color is a masterowrk in twentieth&#xA;century art education. Conceived as a handbook and teching &#xA;aid for artists, instructors and students, this timeless book&#xA;presents Albers' unique ideas of color experimentation in a&#xA;way that is valuable to specialist as well as to a larger&#xA;audience. Originally published by Yale University Press in 1963&#xA;as a limited silkscreen edition with 150 color plates. Interaction&#xA;of Color first appeared in paperback in 1971, featuring ten &#xA;representative color studies chosen by Albers" utu:AutoLayout.CounterAlignment="Center" Style="{StaticResource LabelMedium}" />
+                            <utu:AutoLayout Padding="10,0" PrimaryAxisAlignment="Center" Orientation="Horizontal" Height="144">
+                                <TextBlock Foreground="{ThemeResource OnSurfaceBrush}" TextWrapping="Wrap" Text="{Binding Description}" utu:AutoLayout.CounterAlignment="Center" utu:AutoLayout.PrimaryAlignment="Stretch" Style="{StaticResource LabelMedium}" />
                             </utu:AutoLayout>
                         </utu:AutoLayout>
                     </utu:AutoLayout>
