@@ -18,34 +18,8 @@ namespace UnoGoodReads
         public MainPage()
         {
             this.InitializeComponent();
-            contentFrame.Navigate(typeof(HomePage), null);
-            
         }
 
-        private void NavigationView_ItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
-        {
-            var item = args.InvokedItem as NavigationViewItem;
-            
-        }
-
-        private void NavigationView_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
-        {
-            var item = sender.SelectedItem as NavigationViewItem;
-            Type pageType = typeof(HomePage);
-            if (item.Tag.Equals("Home"))
-            {
-                pageType = typeof(HomePage);
-            }
-            else if (item.Tag.Equals("Author"))
-            {
-                pageType = typeof(AuthorPage);
-            }
-            else if (item.Tag.Equals("Book"))
-            {
-                pageType = typeof(BookPage);
-            }
-            contentFrame.Navigate(pageType, null);
-        }
     }
 }
 
