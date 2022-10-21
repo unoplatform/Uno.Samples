@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<OutputType Condition="'$(Configuration)'=='Release'">WinExe</OutputType>
+		<OutputType Condition="'$(Configuration)'=='Debug'">Exe</OutputType>
+		<TargetFramework>net6.0-windows</TargetFramework>
+		<UseWPF>true</UseWPF>
+		<ApplicationManifest>app.manifest</ApplicationManifest>
+		<DefineConstants>$(DefinedConstants);WINUI</DefineConstants>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Uno.WinUI.Skia.Wpf" Version="4.4.13" />
+		<PackageReference Include="Uno.WinUI.RemoteControl" Version="4.4.13" Condition="'$(Configuration)'=='Debug'" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\SimpleCalculator\SimpleCalculator.csproj" />
+	</ItemGroup>
+	<Import Project="..\Extensions.props" />
+	<Import Project="..\SimpleCalculator.UI\SimpleCalculator.UI.projitems" Label="Shared" />
+
+	<ItemGroup>
+	  <Content Include="Assets\Fonts\Material\Roboto-Light.ttf" />
+	  <Content Include="Assets\Fonts\Material\Roboto-Medium.ttf" />
+	  <Content Include="Assets\Fonts\Material\Roboto-Regular.ttf" />
+	  <Content Include="Assets\Fonts\uno-fluentui-assets.ttf" />
+	</ItemGroup>
+</Project>

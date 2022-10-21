@@ -1,0 +1,32 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<OutputType Condition="'$(Configuration)'=='Release'">WinExe</OutputType>
+		<OutputType Condition="'$(Configuration)'=='Debug'">Exe</OutputType>
+		<TargetFramework>net6.0</TargetFramework>
+		<ApplicationManifest>app.manifest</ApplicationManifest>
+		<DefineConstants>$(DefinedConstants);WINUI</DefineConstants>
+	</PropertyGroup>
+	<ItemGroup Condition="exists('..\SimpleCalculator.Windows')">
+		<EmbeddedResource Include="..\SimpleCalculator.Windows\Package.appxmanifest" LogicalName="Package.appxmanifest" />
+		<Content Include="..\SimpleCalculator.Windows\Images\StoreLogo.png" Link="Assets\StoreLogo.png" />
+	</ItemGroup>
+	<ItemGroup>
+		<UpToDateCheckInput Include="..\SimpleCalculator.UI\**\*.xaml" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Content Include="Assets\Fonts\uno-fluentui-assets.ttf" />
+		<Content Include="Assets\Fonts\Roboto-Light.ttf" />
+		<Content Include="Assets\Fonts\Roboto-Medium.ttf" />
+		<Content Include="Assets\Fonts\Roboto-Regular.ttf" />
+	</ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Uno.WinUI.Skia.Gtk" Version="4.4.13" />
+		<PackageReference Include="Uno.WinUI.RemoteControl" Version="4.4.13" Condition="'$(Configuration)'=='Debug'" />
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\SimpleCalculator\SimpleCalculator.csproj" />
+	</ItemGroup>
+	<Import Project="..\Extensions.props" />
+	<Import Project="..\SimpleCalculator.UI\SimpleCalculator.UI.projitems" Label="Shared" />
+</Project>
