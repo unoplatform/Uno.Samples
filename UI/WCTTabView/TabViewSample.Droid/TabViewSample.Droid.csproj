@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net6.0-android</TargetFramework>
+    <SupportedOSPlatformVersion>21</SupportedOSPlatformVersion>
+    <OutputType>Exe</OutputType>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <ApplicationId>com.companyname.TabViewSample.Droid</ApplicationId>
+    <ApplicationVersion>1</ApplicationVersion>
+    <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Remove="Resources\values\Styles.xml" />
+  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Uno.Microsoft.Toolkit.Uwp.UI.Controls">
+			<Version>7.1.11</Version>
+		</PackageReference>
+		<PackageReference Include="Uno.UI" Version="4.5.12" />
+		<PackageReference Include="Uno.UI.RemoteControl" Version="4.5.12" Condition="'$(Configuration)'=='Debug'" />
+		<PackageReference Include="Uno.UI.Adapter.Microsoft.Extensions.Logging" Version="4.5.12" />
+		<PackageReference Include="Uno.UniversalImageLoader" Version="1.9.36" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Console" Version="5.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Logging" Version="5.0.0" />
+	</ItemGroup>
+</Project>
