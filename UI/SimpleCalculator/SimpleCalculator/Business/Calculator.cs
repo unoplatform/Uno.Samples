@@ -13,19 +13,19 @@ namespace SimpleCalculator.Business
         private double? Number1 { get; init; }
         private double? Number2 { get; init; }
         private bool IsNumber2Percentage { get; init; }
+        private double? Result { get; init; }
+        private bool HasOperator => !string.IsNullOrEmpty(Operator);
+        private bool HasNumber => !string.IsNullOrEmpty(Number);
+        private bool HasNumber1 => Number1 != null;
+        private bool HasNumber2 => Number2 != null;
 
         public string OutPut => $"{(Result != null ? Result.Value : HasNumber ? Number : "0")}";
         public string? Equation => $"{Number1} {Operator} {Number2}{(IsNumber2Percentage ? "%" : string.Empty)}{(Result != null ? " =" : string.Empty)}";
-        private double? Result { get; init; }
-        bool HasOperator => !string.IsNullOrEmpty(Operator);
-        bool HasNumber => !string.IsNullOrEmpty(Number);
-        bool HasNumber1 => Number1 != null;
-        bool HasNumber2 => Number2 != null;
-
+        
         public Calculator Input(string key)
             => Input(this, key);
 
-        private static Calculator Input(Calculator calculator, string key)
+        private Calculator Input(Calculator calculator, string key)
         {
             if (calculator.Result != null)
             {
@@ -89,15 +89,7 @@ namespace SimpleCalculator.Business
             }
             else if (key == "C")
             {
-                calculator = calculator with
-                {
-                    Number = null,
-                    Number1 = null,
-                    Number2 = null,
-                    Operator = null,
-                    IsNumber2Percentage = false,
-                    Result = null
-                };
+                calculator = new();
             }
             else if (key == "=")
             {
@@ -185,7 +177,7 @@ namespace SimpleCalculator.Business
             return calculator;
         }
 
-        static double? GetNumber(string? number)
+        double? GetNumber(string? number)
         {
             return Convert.ToDouble(number);
         }

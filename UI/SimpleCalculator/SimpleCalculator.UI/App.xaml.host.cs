@@ -20,9 +20,13 @@ public sealed partial class App : Application
 					logBuilder
 							.SetMinimumLevel(
 								context.HostingEnvironment.IsDevelopment() ?
-									LogLevel.Information :
+									LogLevel.Debug :
 									LogLevel.Warning);
-				})
+                    logBuilder.AddFilter("Uno.UI.RemoteControl", LogLevel.Debug);
+                    logBuilder.AddFilter("Uno", LogLevel.Warning);
+                    logBuilder.AddFilter("Windows", LogLevel.Warning);
+                    logBuilder.AddFilter("Microsoft", LogLevel.Warning);
+                })
 
 				.UseConfiguration(configure: configBuilder =>
 					configBuilder
