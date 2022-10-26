@@ -18,8 +18,8 @@
 		<SupportedOSPlatformVersion Condition="'$(TargetFramework)'=='net6.0-macos'">10.14</SupportedOSPlatformVersion>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Uno.WinUI" Version="4.4.13" />
-		<PackageReference Include="Uno.WinUI.RemoteControl" Version="4.4.13" Condition="'$(Configuration)'=='Debug'" />
+		<PackageReference Include="Uno.WinUI" Version="4.5.14" />
+		<PackageReference Include="Uno.WinUI.RemoteControl" Version="4.5.14" Condition="'$(Configuration)'=='Debug'" />
 	</ItemGroup>
 	<Choose>
 		<When Condition="'$(TargetFramework)'=='net6.0-android'">
@@ -63,6 +63,12 @@
 	</Choose>
 	<ItemGroup>
 		<ProjectReference Include="..\SimpleCalculator\SimpleCalculator.csproj" />
+	</ItemGroup>
+	<ItemGroup>
+	  <PackageReference Update="Uno.Material.WinUI" Version="2.3.0" />
+	  <PackageReference Update="Uno.Toolkit.WinUI" Version="2.3.0" />
+	  <PackageReference Update="Uno.Toolkit.WinUI.Material" Version="2.3.0" />
+	  <PackageReference Update="Uno.UI.Adapter.Microsoft.Extensions.Logging" Version="4.5.14" />
 	</ItemGroup>
 	<Import Project="..\Extensions.props" />
 	<Import Project="..\SimpleCalculator.UI\SimpleCalculator.UI.projitems" Label="Shared" />
