@@ -1,15 +1,5 @@
-﻿using AppKit;
+using WCTDataTreeTabSample.macOS;
 
-namespace WCTDataTreeTabSample.macOS
-{
-	static class MainClass
-	{
-		static void Main(string[] args)
-		{
-			NSApplication.Init();
-			NSApplication.SharedApplication.Delegate = new App();
-			NSApplication.Main(args);  
-		}
-	}
-}
-
+// This is the main entry point of the application.
+NSApplication.Init();
+NSApplication.Main(args);

@@ -12,7 +12,7 @@ namespace WCTDataTreeTabSample
 	/// <summary>
 	/// Provides application-specific behavior to supplement the default Application class.
 	/// </summary>
-	public sealed partial class App : Application
+	public sealed partial class App : Windows.UI.Xaml.Application
 	{
 		internal static Frame NavigationFrame { get; set; }
 		internal static Microsoft.UI.Xaml.Controls.NavigationView NavigationView { get; set; }
