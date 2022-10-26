@@ -36,7 +36,7 @@ public class ShellViewModel
 			// TODO: Check for empty route
 			//&& !initialRoute.IsEmpty())
 			{
-				var initialResponse = await _navigator.NavigateRouteForResultAsync<object>(this, initialRoute);
+				var initialResponse = await _navigator.NavigateRouteForResultAsync<object>(this, initialRoute.ToString());
 				if (initialResponse is not null)
 				{
 					_ = await initialResponse.Result;
