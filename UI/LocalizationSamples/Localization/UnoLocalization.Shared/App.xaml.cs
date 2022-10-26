@@ -145,7 +145,7 @@ namespace UnoLocalization
 #elif __IOS__
                 builder.AddProvider(new global::Uno.Extensions.Logging.OSLogLoggerProvider());
 #elif NETFX_CORE
-                builder.AddDebug();
+                builder.AddConsole();
 #else
 				builder.AddConsole();
 #endif
@@ -185,8 +185,6 @@ namespace UnoLocalization
 				// Debug JS interop
 				// builder.AddFilter("Uno.Foundation.WebAssemblyRuntime", LogLevel.Debug );
 			});
-
-			global::Uno.Extensions.LogExtensionPoint.AmbientLoggerFactory = factory;
 
 #if HAS_UNO
 			global::Uno.UI.Adapter.Microsoft.Extensions.Logging.LoggingAdapter.Initialize();
