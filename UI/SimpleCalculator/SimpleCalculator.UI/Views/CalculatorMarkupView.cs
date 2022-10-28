@@ -23,10 +23,12 @@ namespace SimpleCalculator.Views
                         .Background(ResourceTheme("SurfaceBrush"))
                         .Children
                         (
+                            // Header
                             new ToggleSwitch()
                                 .Margin(8)
-                                .AutoLayout(counterAlignment: AutoLayoutAlignment.Center)
-                            ,
+                                .AutoLayout(counterAlignment: AutoLayoutAlignment.Center),
+
+                            // Output zone
                             new AutoLayout()
                                 .AutoLayout(primaryAlignment: AutoLayoutPrimaryAlignment.Stretch)
                                 .Spacing(8)
@@ -44,8 +46,38 @@ namespace SimpleCalculator.Views
                                         .AutoLayout(counterAlignment: AutoLayoutAlignment.End)
                                         .Foreground(ResourceTheme("OnSecondaryContainerBrush"))
                                         .Style(Resource.Static<Style>("DisplayLarge"))
+                                ),
+                            
+                            // Keypad
+                            new Grid()
+                                .RowSpacing(8)
+                                .ColumnSpacing(8)
+                                .Padding(8)
+                                .Height(500)
+                                .RowDefinitions("*", "*", "*", "*", "*")
+                                .ColumnDefinitions("*", "*", "*", "*")
+                                .Children
+                                (
+                                    // Row 0
+                                    RenderButton("C", "SecondaryBrush", "OnSecondaryBrush").Grid(row: 0, column: 0),
+                                    RenderButton("+/-", "SecondaryBrush", "OnSecondaryBrush", "+-").Grid(row: 0, column: 1),
+                                    RenderButton("%", "SecondaryBrush", "OnSecondaryBrush").Grid(row: 0, column: 2),
+                                    RenderButton("÷", "TertiaryBrush", "OnTertiaryBrush").Grid(row: 0, column: 3),
+
+                                    // Row 1
+                                    RenderButton("7", "PrimaryBrush").Grid(row: 1, column: 0),
+                                    RenderButton("8", "PrimaryBrush").Grid(row: 1, column: 1),
+                                    RenderButton("9", "PrimaryBrush").Grid(row: 1, column: 2),
+                                    RenderButton("×", "TertiaryBrush", "OnTertiaryBrush").Grid(row: 1, column: 3),
+
+                                    // Row 2
+                                    RenderButton("4", "PrimaryBrush"),
+                                    RenderButton("5", "PrimaryBrush"),
+                                    RenderButton("6", "PrimaryBrush"),
+                                    RenderButton("-", "TertiaryBrush", "OnTertiaryBrush")
                                 )
-                            ,
+
+                            // Keypad
                             new AutoLayout()
                                 .Spacing(5)
                                 .Padding(8)
@@ -108,15 +140,15 @@ namespace SimpleCalculator.Views
             .CommandParameter(parameter ?? content)
             .Background(ResourceTheme(background))
             .Content(content)
-            .AutoLayout(primaryAlignment: AutoLayoutPrimaryAlignment.Stretch)
+            //.AutoLayout(primaryAlignment: AutoLayoutPrimaryAlignment.Stretch)
             .Foreground(ResourceTheme(foreground));
 
-        private AutoLayout RenderAutoLayout()
-            => new AutoLayout()
-            .AutoLayout(primaryAlignment: AutoLayoutPrimaryAlignment.Stretch)
-            .Spacing(8)
-            .Padding(10)
-            .Orientation(Orientation.Horizontal);
+        // private AutoLayout RenderAutoLayout()
+        //     => new AutoLayout()
+        //     .AutoLayout(primaryAlignment: AutoLayoutPrimaryAlignment.Stretch)
+        //     .Spacing(8)
+        //     .Padding(10)
+        //     .Orientation(Orientation.Horizontal);
 
         private Action<IDependencyPropertyBuilder<Brush>> ResourceTheme(string name) 
             => Resource.Theme<Brush>(name);
