@@ -54,8 +54,8 @@ namespace SimpleCalculator.Views
                                     .ColumnSpacing(12)
                                     .Padding(12)
                                     .Height(500)
-                                    .RowDefinitions("*", "*", "*", "*", "*")
-                                    .ColumnDefinitions("*", "*", "*", "*")
+                                    //.RowDefinitions("*", "*", "*", "*", "*")
+                                    //.ColumnDefinitions("*", "*", "*", "*")
                                     .Children
                                     (
                                         // Row 0
