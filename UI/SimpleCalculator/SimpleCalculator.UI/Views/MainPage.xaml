@@ -13,7 +13,7 @@
       keyboard:KeyboardBehavior.KeyUpCommand="{Binding KeyboardInput}">
 
     <utu:AutoLayout utu:SafeArea.Insets="VisibleBounds" Background="{ThemeResource SurfaceBrush}">
-        <ToggleSwitch Margin="8" utu:AutoLayout.CounterAlignment="Center" />
+		<ToggleSwitch Margin="8" utu:AutoLayout.CounterAlignment="Center" IsOn="{Binding IsDark, Mode=TwoWay}" />
         <utu:AutoLayout Spacing="8" Padding="8" PrimaryAxisAlignment="End" utu:AutoLayout.PrimaryAlignment="Stretch">
             <TextBlock Text="{Binding Calculator.Equation}" utu:AutoLayout.CounterAlignment="End" Foreground="{ThemeResource OnSecondaryContainerBrush}" />
             <TextBlock Text="{Binding Calculator.OutPut}" utu:AutoLayout.CounterAlignment="End" Foreground="{ThemeResource OnSecondaryContainerBrush}" Style="{StaticResource DisplayLarge}" />

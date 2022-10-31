@@ -43,8 +43,7 @@ public sealed partial class App : Application
 				// Register services for the application
 				.ConfigureServices(services =>
 				{
-					// TODO: Register your services
-					//services.AddSingleton<IMyService, MyService>();
+					services.AddSingleton<IAppThemeService, AppThemeService>();
 				})
 
 
