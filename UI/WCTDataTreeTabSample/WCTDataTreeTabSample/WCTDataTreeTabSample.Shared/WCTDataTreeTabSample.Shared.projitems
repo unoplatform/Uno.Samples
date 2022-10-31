@@ -20,63 +20,32 @@
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)DataGrid\LocationDataItem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DataGrid\LocationDataSource.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Helpers\SystemThemeHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DataGrid\MountainDataItem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DataGrid\MountainDataSource.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Entities\ExplorerItem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\StreamHelperEx.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\SystemThemeHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MainPage.xaml.cs">
+      <DependentUpon>MainPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Pages\DataGrid\LocationsPage.xaml.cs">
       <DependentUpon>LocationsPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Pages\ExpanderPage.xaml.cs">
-      <DependentUpon>ExpanderPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Pages\MasterDetailsPage.xaml.cs">
-      <DependentUpon>MasterDetailsPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Pages\DataGrid\MountainsPage.xaml.cs">
       <DependentUpon>MountainsPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Pages\TabViewPage.xaml.cs">
-      <DependentUpon>TabViewPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Pages\TwoPaneViewPage.xaml.cs">
-      <DependentUpon>TwoPaneViewPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Shell.xaml.cs">
-      <DependentUpon>Shell.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Helpers\StreamHelperEx.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)TemplateSelectors\ExplorerItemTemplateSelector.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Pages\TreeViewPage.xaml.cs">
-      <DependentUpon>TreeViewPage.xaml</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="$(MSBuildThisFileDirectory)MainPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="$(MSBuildThisFileDirectory)Pages\DataGrid\LocationsPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="$(MSBuildThisFileDirectory)Pages\ExpanderPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="$(MSBuildThisFileDirectory)Pages\MasterDetailsPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="$(MSBuildThisFileDirectory)Pages\DataGrid\MountainsPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="$(MSBuildThisFileDirectory)Pages\TabViewPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="$(MSBuildThisFileDirectory)Pages\TwoPaneViewPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="$(MSBuildThisFileDirectory)Shell.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -96,20 +65,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="$(MSBuildThisFileDirectory)Pages\TreeViewPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
   </ItemGroup>
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)Assets\SharedAssets.md" />
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)MountainSampleData.csv" />
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)LocationSampleData.csv" />
   </ItemGroup>
   <ItemGroup>
     <PRIResource Include="$(MSBuildThisFileDirectory)Strings\en\Resources.resw" />
   </ItemGroup>
   <ItemGroup>
+    <!--
+		 Add files present in the shared project folder, excluding the ones
+		 explicitly included in the projitem, so files can be added from vscode
+		 without manipulating the projitem file.
+	-->
     <Content Include="$(MSBuildThisFileDirectory)Assets\art_01.jpg" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\art_02.jpg" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\art_03.jpg" />
@@ -118,8 +86,24 @@
     <Content Include="$(MSBuildThisFileDirectory)Assets\Logo.scale-150.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Logo.scale-200.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Logo.scale-400.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="$(MSBuildThisFileDirectory)Pages\DataGrid\" />
+    <_Globbled_Page Include="$(MSBuildThisFileDirectory)**/*.xaml" Exclude="@(Page);@(ApplicationDefinition)">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </_Globbled_Page>
+    <Page Include="@(_Globbled_Page)" />
+    <_Globbed_Compile Include="$(MSBuildThisFileDirectory)**/*.xaml.cs" Exclude="@(Compile)">
+      <DependentUpon>%(Filename)</DependentUpon>
+    </_Globbed_Compile>
+    <_Globbed_Compile Include="$(MSBuildThisFileDirectory)**/*.cs" Exclude="@(Compile);@(_Globbed_Compile)" />
+    <Compile Include="@(_Globbed_Compile)" />
+    <_Globbed_PRIResource Include="$(MSBuildThisFileDirectory)**/*.resw" Exclude="@(PRIResource)" />
+    <PRIResource Include="@(_Globbed_PRIResource)" />
+    <_Globbed_Content Include="$(MSBuildThisFileDirectory)Assets/**/*.*" Exclude="@(Content)" />
+    <Content Include="@(_Globbed_Content)" />
+    <!-- Mark the files from this folder as being part of WinUI -->
+    <Page Update="$(MSBuildThisFileDirectory)**/*.xaml" XamlRuntime="WinUI" />
+    <ApplicationDefinition Update="$(MSBuildThisFileDirectory)**/*.xaml" XamlRuntime="WinUI" />
+    <!-- Make sure XAML files force reevaluation of up-to-date checks -->
+    <UpToDateCheckInput Include="$(MSBuildThisFileDirectory)**/*.xaml" />
   </ItemGroup>
 </Project>
