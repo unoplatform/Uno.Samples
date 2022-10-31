@@ -1,0 +1,48 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<OutputType Condition="'$(Configuration)'=='Release'">WinExe</OutputType>
+		<OutputType Condition="'$(Configuration)'=='Debug'">Exe</OutputType>
+		<TargetFramework>net6.0</TargetFramework>
+		<ApplicationManifest>app.manifest</ApplicationManifest>
+		<DefineConstants>$(DefinedConstants);WINUI</DefineConstants>
+	</PropertyGroup>
+	<ItemGroup Condition="exists('..\SimpleCalculator.Windows')">
+		<EmbeddedResource Include="..\SimpleCalculator.Windows\Package.appxmanifest" LogicalName="Package.appxmanifest" />
+		<Content Include="..\SimpleCalculator.Windows\Images\StoreLogo.png" Link="Assets\StoreLogo.png" />
+	</ItemGroup>
+	<ItemGroup>
+		<UpToDateCheckInput Include="..\SimpleCalculator.UI\**\*.xaml" />
+	</ItemGroup>
+	<ItemGroup>
+	  <None Remove="Assets\Fonts\Material\Roboto-Light.ttf" />
+	  <None Remove="Assets\Fonts\Material\Roboto-Medium.ttf" />
+	  <None Remove="Assets\Fonts\Material\Roboto-Regular.ttf" />
+	  <None Remove="Assets\Fonts\Material\uno-fluentui-assets.ttf" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Content Include="Assets\Fonts\Material\Roboto-Light.ttf" />
+		<Content Include="Assets\Fonts\Material\Roboto-Medium.ttf" />
+		<Content Include="Assets\Fonts\Material\Roboto-Regular.ttf" />
+		<Content Include="Assets\Fonts\Material\uno-fluentui-assets.ttf" />
+	</ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Uno.Toolkit.WinUI.Material.Markup" Version="0.1.0-dev.105" />
+		<PackageReference Include="Uno.WinUI.Markup" Version="0.1.0-dev.105" />
+		<PackageReference Include="Uno.WinUI.Skia.Gtk" Version="4.6.18" />
+		<PackageReference Include="Uno.WinUI.RemoteControl" Version="4.6.18" Condition="'$(Configuration)'=='Debug'" />
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\SimpleCalculator\SimpleCalculator.csproj" />
+	</ItemGroup>
+	<ItemGroup>
+	  <PackageReference Update="Uno.Material.WinUI" Version="2.3.0" />
+	  <PackageReference Update="Uno.Toolkit.WinUI" Version="2.3.0" />
+	  <PackageReference Update="Uno.Toolkit.WinUI.Material" Version="2.3.0" />
+	  <PackageReference Update="Uno.UI.Adapter.Microsoft.Extensions.Logging" Version="4.6.18" />
+	  <PackageReference Include="SkiaSharp.Views.Uno.WinUI" Version="2.88.3" />
+	  <PackageReference Include="SkiaSharp.Skottie" Version="2.88.3" />
+	</ItemGroup>
+	<Import Project="..\Extensions.props" />
+	<Import Project="..\SimpleCalculator.UI\SimpleCalculator.UI.projitems" Label="Shared" />
+</Project>
