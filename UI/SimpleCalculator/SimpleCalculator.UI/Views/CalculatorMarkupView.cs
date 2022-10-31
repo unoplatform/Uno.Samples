@@ -1,6 +1,7 @@
 ﻿using Uno.Toolkit.UI;
 using Button = Microsoft.UI.Xaml.Controls.Button;
 using Microsoft.UI.Xaml.MarkupHelpers;
+using static Uno.Toolkit.UI.SafeArea;
 
 namespace SimpleCalculator.Views
 {
@@ -18,6 +19,7 @@ namespace SimpleCalculator.Views
                         .Content
                         (
                             new AutoLayout()
+                            .SafeArea(InsetMask.VisibleBounds)
                             .Background(ThemeResource.Get<Brush>("SurfaceBrush"))
                             .Children
                             (
