@@ -1,10 +1,7 @@
 ﻿using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using Uno.Extensions.Reactive;
 

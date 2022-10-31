@@ -61,7 +61,7 @@ public sealed partial class App : Application
 	{
 		views.Register(
 			new ViewMap<ShellControl, ShellViewModel>(),
-			new ViewMap<CalculatorMarkupView, MainViewModel>()
+			new ViewMap<MainPage, MainViewModel>()
 			);
 
 		routes
