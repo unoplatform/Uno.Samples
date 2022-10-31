@@ -13,7 +13,7 @@ public class DealService : IDealService
 
 	private async ValueTask<IEnumerable<Product>> GetDeals()
 	{
-		var products = await _dataService.ReadFileAsync<ProductData[]>(_serializer, ProductEndpoint.ProductDataFile);
+		var products = await _dataService.ReadPackageFileAsync<ProductData[]>(_serializer, ProductEndpoint.ProductDataFile);
 
 		// repeating products so there is enough for pagination
 		if (products is not null)

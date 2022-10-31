@@ -1,10 +1,11 @@
 ﻿
+using Application = Microsoft.UI.Xaml.Application;
+
 namespace Commerce;
 
 public sealed partial class App : Application
 {
 	private Window? _window;
-	public Window? Window => _window;
 
 	public App()
 	{
@@ -25,18 +26,18 @@ public sealed partial class App : Application
 		}
 #endif
 
-#if NET5_0 && WINDOWS
+#if NET5_0_OR_GREATER && WINDOWS
             _window = new Window();
-            _window.Activate();
 #else
-		_window = Window.Current;
+		_window = Microsoft.UI.Xaml.Window.Current;
 #endif
 
-		var notif = _host.Services.GetRequiredService<IRouteNotifier>();
+        var notif = _host.Services.GetRequiredService<IRouteNotifier>();
 		notif.RouteChanged += RouteUpdated;
 
-
-		_window.AttachNavigation(_host.Services);
+#pragma warning disable CS0618
+        _window.AttachNavigation(_host.Services);
+#pragma warning restore CS0618
 		_window.Activate();
 
 		await Task.Run(() => _host.StartAsync());
@@ -53,15 +54,6 @@ public sealed partial class App : Application
 		{
 			var rootRegion = e.Region.Root();
 			var route = rootRegion.GetRoute();
-
-
-#if !__WASM__ && !WINUI
-			CoreApplication.MainView?.DispatcherQueue.TryEnqueue(() =>
-			{
-				var appTitle = ApplicationView.GetForCurrentView();
-				appTitle.Title = "Commerce: " + (route + "").Replace("+", "/");
-			});
-#endif
 
 		}
 		catch (Exception ex)

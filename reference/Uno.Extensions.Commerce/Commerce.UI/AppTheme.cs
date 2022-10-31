@@ -11,7 +11,7 @@ public class AppTheme : IAppTheme
 		_window = window;
 		_dispatcher = dispatcher;
 	}
-	public bool IsDark => SystemThemeHelper.IsRootInDarkMode(_window.Content.XamlRoot);
+	public bool IsDark => SystemThemeHelper.IsRootInDarkMode(_window.Content.XamlRoot!);
 
 	public async Task SetThemeAsync(bool darkMode)
 	{

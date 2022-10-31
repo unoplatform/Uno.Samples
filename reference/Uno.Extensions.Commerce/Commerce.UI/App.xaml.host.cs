@@ -1,4 +1,5 @@
 ﻿
+using Application = Microsoft.UI.Xaml.Application;
 using CommunityToolkit.Mvvm.Messaging;
 
 namespace Commerce;
