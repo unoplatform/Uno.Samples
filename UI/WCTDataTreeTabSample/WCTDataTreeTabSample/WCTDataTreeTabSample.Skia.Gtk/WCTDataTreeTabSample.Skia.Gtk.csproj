@@ -1,35 +1,21 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType Condition="'$(Configuration)'=='Release'">WinExe</OutputType>
     <OutputType Condition="'$(Configuration)'=='Debug'">Exe</OutputType>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
   </PropertyGroup>
-  <ItemGroup Condition="exists('..\WCTDataTreeTabSample.UWP')">
-    <EmbeddedResource Include="..\WCTDataTreeTabSample.UWP\Package.appxmanifest" LogicalName="Package.appxmanifest" />
-    <Content Include="..\WCTDataTreeTabSample.UWP\Assets\StoreLogo.png" Link="Assets\StoreLogo.png" />
+  <ItemGroup Condition="exists('..\WCTDataTreeTabSample.Windows')">
+    <EmbeddedResource Include="..\WCTDataTreeTabSample.Windows\Package.appxmanifest" LogicalName="Package.appxmanifest" />
+    <Content Include="..\WCTDataTreeTabSample.Windows\Images\StoreLogo.png" Link="Assets\StoreLogo.png" />
     <Content Include="Assets\Fonts\uno-fluentui-assets.ttf" />
   </ItemGroup>
   <ItemGroup>
     <UpToDateCheckInput Include="..\WCTDataTreeTabSample.Shared\**\*.xaml" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="HarfBuzzSharp" Version="2.8.2.3" />
-    <PackageReference Include="HarfBuzzSharp.NativeAssets.Linux" Version="2.8.2.3" />
-    <PackageReference Include="HarfBuzzSharp.NativeAssets.macOS" Version="2.8.2.3" />
-    <PackageReference Include="SkiaSharp.HarfBuzz" Version="2.88.3" />
-    <PackageReference Include="SkiaSharp.Skottie" Version="2.88.3" />
-    <PackageReference Include="Uno.Material" Version="2.3.0" />
-    <PackageReference Include="Uno.Toolkit.UI" Version="2.3.0" />
-  	<PackageReference Include="Uno.Toolkit.UI.Material" Version="2.3.0" />
-    <PackageReference Include="Uno.Microsoft.Toolkit.Uwp.UI.Controls" Version="7.1.11" />
-    <PackageReference Include="Uno.Microsoft.Toolkit.Uwp.UI.Controls.DataGrid" Version="7.1.11" />
-    <PackageReference Include="Microsoft.Extensions.Logging" Version="6.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="6.0.0" />
-    <PackageReference Include="Uno.UI.Skia.Gtk" Version="4.5.12" />
-    <PackageReference Include="Uno.UI.RemoteControl" Version="4.5.12" Condition="'$(Configuration)'=='Debug'" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="5.0.0" />
+    <PackageReference Include="Uno.WinUI.Skia.Gtk" Version="4.5.12" />
+    <PackageReference Include="Uno.WinUI.RemoteControl" Version="4.5.12" Condition="'$(Configuration)'=='Debug'" />
     <PackageReference Include="Uno.UI.Adapter.Microsoft.Extensions.Logging" Version="4.5.12" />
-	  <PackageReference Include="SkiaSharp.Views.Uno" Version="2.88.3" />
   </ItemGroup>
-  <Import Project="..\WCTDataTreeTabSample.Shared\WCTDataTreeTabSample.Shared.projitems" Label="Shared" />
 </Project>

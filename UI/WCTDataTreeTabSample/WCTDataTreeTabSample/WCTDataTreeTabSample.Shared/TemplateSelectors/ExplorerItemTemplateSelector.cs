@@ -1,6 +1,7 @@
 ﻿using WCTDataTreeTabSample.Entities;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml;
 
 namespace WCTDataTreeTabSample.TemplateSelectors
 {
