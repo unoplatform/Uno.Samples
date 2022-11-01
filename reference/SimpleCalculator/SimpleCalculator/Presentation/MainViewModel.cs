@@ -25,7 +25,7 @@ public partial class MainViewModel
     public MainViewModel(IAppThemeService theme)
     {
         _theme = theme;
-        IsDark.ForEachAsync(theme.SetThemeAsync);
+        IsDark.ForEachAsync((dark, ct)=> theme.SetThemeAsync(dark, ct));
 
     }
 

@@ -45,7 +45,7 @@ public sealed partial class App : Application
 				// Register services for the application
 				.ConfigureServices(services =>
 				{
-                    services.AddSingleton<IAppThemeService, AppThemeService>();
+                    services.AddScoped<IAppThemeService, AppThemeService>();
                 })
 
 

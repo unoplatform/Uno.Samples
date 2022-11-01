@@ -21,7 +21,7 @@ namespace SimpleCalculator
 
         public async ValueTask SetThemeAsync(bool darkMode, CancellationToken ct)
         {
-            var tcs = new TaskCompletionSource<object>();
+            var tcs = new TaskCompletionSource<object?>();
             await using var _ = ct.Register(() => tcs.TrySetCanceled());
             _window.DispatcherQueue.TryEnqueue(() =>
             {
@@ -30,7 +30,7 @@ namespace SimpleCalculator
                     SystemThemeHelper.SetRootTheme(_window.Content.XamlRoot, darkMode);
                 }
 
-                var tcs = new TaskCompletionSource<object?>();
+                tcs.TrySetResult(default);
             });
 
             await tcs.Task;
