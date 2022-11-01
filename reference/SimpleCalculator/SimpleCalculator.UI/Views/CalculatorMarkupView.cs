@@ -14,7 +14,7 @@ namespace SimpleCalculator.Views
 
 		private void InitMarkupView()
 		{
-			this.DataContext<MainViewModel.BindableMainViewModel>((page, vm)
+			this.DataContext<MainModel.MainViewModel>((page, vm)
 				=> page.Background(ThemeResource.Get<Brush>("BackgroundBrush"))
 						.Content
 						(
