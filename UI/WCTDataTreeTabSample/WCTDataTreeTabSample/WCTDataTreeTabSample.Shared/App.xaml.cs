@@ -3,6 +3,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
 using System;
+using System.Linq;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 
@@ -14,6 +15,8 @@ namespace WCTDataTreeTabSample
     public sealed partial class App : Application
     {
         private Window _window;
+        internal static Frame NavigationFrame { get; set; }
+        internal static Microsoft.UI.Xaml.Controls.NavigationView NavigationView { get; set; }
 
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
@@ -109,6 +112,50 @@ namespace WCTDataTreeTabSample
             var deferral = e.SuspendingOperation.GetDeferral();
             //TODO: Save application state and stop any background activity
             deferral.Complete();
+        }
+
+
+        internal static void NavigateTo(Type targetPageType)
+        {
+            App.NavigationFrame.Navigate(targetPageType);
+
+            switch (targetPageType.Name)
+            {
+                case nameof(TreeViewPage):
+                    App.NavigationView.Header = "TreeView Sample";
+                    break;
+
+                case nameof(MountainsPage):
+                    App.NavigationView.Header = "DataGrid Sample (Mountains)";
+                    break;
+
+                case nameof(LocationsPage):
+                    App.NavigationView.Header = "DataGrid Sample (Locations)";
+                    break;
+
+                case nameof(TabViewPage):
+                    App.NavigationView.Header = "TabView Sample";
+                    break;
+
+                case nameof(MasterDetailsPage):
+                    App.NavigationView.Header = "Master-Details Sample";
+                    break;
+
+                case nameof(TwoPaneViewPage):
+                    App.NavigationView.Header = "TwoPaneView Sample";
+                    break;
+
+                case nameof(ExpanderPage):
+                    App.NavigationView.Header = "Expander Sample";
+                    break;
+            }
+
+            App.NavigationView.SelectedItem =
+                App.NavigationView
+                    .MenuItems
+                    .Cast<Microsoft.UI.Xaml.Controls.NavigationViewItem>()
+                    .Where(item => item.Tag != null)
+                    .FirstOrDefault(item => item.Tag.ToString().Equals(targetPageType.Name, StringComparison.OrdinalIgnoreCase));
         }
 
         /// <summary>
