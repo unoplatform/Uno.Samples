@@ -30,7 +30,7 @@ namespace SimpleCalculator
                     SystemThemeHelper.SetRootTheme(_window.Content.XamlRoot, darkMode);
                 }
 
-               // tcs.TrySetResult(default);
+                var tcs = new TaskCompletionSource<object?>();
             });
 
             await tcs.Task;
