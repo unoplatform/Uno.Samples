@@ -1,4 +1,6 @@
 
+using Microsoft.Extensions.DependencyInjection;
+
 namespace SimpleCalculator;
 
 public sealed partial class App : Application
@@ -43,9 +45,8 @@ public sealed partial class App : Application
 				// Register services for the application
 				.ConfigureServices(services =>
 				{
-					// TODO: Register your services
-					//services.AddSingleton<IMyService, MyService>();
-				})
+                    services.AddScoped<IAppThemeService, AppThemeService>();
+                })
 
 
 				// Enable navigation, including registering views and viewmodels
