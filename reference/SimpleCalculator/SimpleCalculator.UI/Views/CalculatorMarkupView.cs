@@ -15,12 +15,12 @@ namespace SimpleCalculator.Views
         private void InitMarkupView()
         {
             this.DataContext<MainViewModel.BindableMainViewModel>((page, vm)
-                => page.Background(ThemeResource.Get<Brush>("BackgroundBrush"))
+                => page.Background(ThemeResource.Get<Brush>("SurfaceBrush"))
                         .Content
                         (
                             new AutoLayout()
+                            .MaxWidth(700)
                             .SafeArea(InsetMask.VisibleBounds)
-                            .Background(ThemeResource.Get<Brush>("SurfaceBrush"))
                             .Children
                             (
                                 // Header
@@ -53,9 +53,9 @@ namespace SimpleCalculator.Views
                                     .RowSpacing(12)
                                     .ColumnSpacing(12)
                                     .Padding(12)
-                                    .Height(500)
-                                    //.RowDefinitions("*", "*", "*", "*", "*")
-                                    //.ColumnDefinitions("*", "*", "*", "*")
+                                    .MaxHeight(500)
+                                    .RowDefinitions("*", "*", "*", "*", "*")
+                                    .ColumnDefinitions("*", "*", "*", "*")
                                     .Children
                                     (
                                         // Row 0

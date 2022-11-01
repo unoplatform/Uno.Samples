@@ -11,13 +11,13 @@
 	  xmlns:not_skia="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	  Background="{ThemeResource BackgroundBrush}">
 
-    <utu:AutoLayout utu:SafeArea.Insets="VisibleBounds" Background="{ThemeResource SurfaceBrush}">
+    <utu:AutoLayout MaxWidth="700" utu:SafeArea.Insets="VisibleBounds" Background="{ThemeResource SurfaceBrush}">
         <ToggleSwitch Margin="8" utu:AutoLayout.CounterAlignment="Center" />
         <utu:AutoLayout Spacing="8" Padding="8" PrimaryAxisAlignment="End" utu:AutoLayout.PrimaryAlignment="Stretch">
             <TextBlock Text="{Binding Calculator.Equation}" utu:AutoLayout.CounterAlignment="End" Foreground="{ThemeResource OnSecondaryContainerBrush}" />
             <TextBlock Text="{Binding Calculator.OutPut}" utu:AutoLayout.CounterAlignment="End" Foreground="{ThemeResource OnSecondaryContainerBrush}" Style="{StaticResource DisplayLarge}" />
         </utu:AutoLayout>
-        <utu:AutoLayout Spacing="5" Padding="8" Height="500">
+        <utu:AutoLayout MaxHeight="500" Spacing="5" Padding="8" >
             <utu:AutoLayout Spacing="8" Padding="10" Orientation="Horizontal" utu:AutoLayout.PrimaryAlignment="Stretch">
                 <Button Command="{Binding Input}" CommandParameter="C" Background="{ThemeResource SecondaryBrush}" Content="C" utu:AutoLayout.PrimaryAlignment="Stretch" Foreground="{ThemeResource OnSecondaryBrush}" />
                 <Button Command="{Binding Input}" CommandParameter="+-" Background="{ThemeResource SecondaryBrush}" Content="+/-" utu:AutoLayout.PrimaryAlignment="Stretch" Foreground="{ThemeResource OnSecondaryBrush}" />
