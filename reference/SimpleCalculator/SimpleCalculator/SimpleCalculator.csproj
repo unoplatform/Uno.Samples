@@ -2,17 +2,18 @@
 	<PropertyGroup>
 		<TargetFramework>net6.0</TargetFramework>
 	</PropertyGroup>
-	<Import Project="..\Extensions.props" />
 	<ItemGroup>
-		<SourceGeneratorInput Remove="Business\StatefulViewModel.cs" />
+		<PackageReference Include="Uno.Extensions.Configuration" />
+		<PackageReference Include="Uno.Extensions.Core" />
+		<PackageReference Include="Uno.Extensions.Hosting" />
+		<PackageReference Include="Uno.Extensions.Http" />
+		<PackageReference Include="Uno.Extensions.Http.Refit" />
+		<PackageReference Include="Uno.Extensions.Logging.Serilog" />
+		<PackageReference Include="Uno.Extensions.Navigation" />
+		<PackageReference Include="Uno.Extensions.Serialization" />
+		<PackageReference Include="Uno.Extensions.Serialization.Http" />
+		<PackageReference Include="Uno.Extensions.Serialization.Refit" />
+		<PackageReference Include="Uno.Extensions.Reactive" />
+		<PackageReference Include="Uno.Extensions.Reactive.WinUI" />
 	</ItemGroup>
-	<ItemGroup>
-
-		<!-- Required until https://github.com/unoplatform/uno/issues/10302 is fixed -->
-		<PackageReference Include="Uno.WinUI" Version="4.6.18" ExcludeAssets="All" />
-	</ItemGroup>
-	<ItemGroup>
-		<SourceGeneratorInput Remove="Business\KeyValues.cs" />
-	</ItemGroup>
-
 </Project>

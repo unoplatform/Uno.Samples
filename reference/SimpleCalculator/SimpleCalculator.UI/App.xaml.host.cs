@@ -5,7 +5,7 @@ namespace SimpleCalculator;
 
 public sealed partial class App : Application
 {
-	private IHost Host { get; } = BuildAppHost();
+	private IHost? Host { get; set; }
 
 	private static IHost BuildAppHost()
 	{
@@ -65,8 +65,8 @@ public sealed partial class App : Application
 	private static void RegisterRoutes(IViewRegistry views, IRouteRegistry routes)
 	{
 		views.Register(
-			new ViewMap<ShellControl, ShellViewModel>(),
-			new ViewMap<MainPage, MainModel>()
+			new ViewMap( ViewModel: typeof(ShellViewModel)),
+			new ViewMap<MainPage, MainViewModel>()
 			);
 
 		routes
