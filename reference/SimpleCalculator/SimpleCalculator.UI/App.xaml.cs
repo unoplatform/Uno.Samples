@@ -29,7 +29,9 @@ public sealed partial class App : Application
 		_window = Microsoft.UI.Xaml.Window.Current;
 #endif
 
+#pragma warning disable
 		_window.AttachNavigation(Host.Services);
+#pragma warning restore
 		_window.Activate();
 
 		await Task.Run(() => Host.StartAsync());

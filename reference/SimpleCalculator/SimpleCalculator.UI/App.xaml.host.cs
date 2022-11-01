@@ -24,11 +24,15 @@ public sealed partial class App : Application
 								context.HostingEnvironment.IsDevelopment() ?
 									LogLevel.Debug :
 									LogLevel.Warning);
-                    logBuilder.AddFilter("Uno.UI.RemoteControl", LogLevel.Debug);
-                    logBuilder.AddFilter("Uno", LogLevel.Warning);
-                    logBuilder.AddFilter("Windows", LogLevel.Warning);
-                    logBuilder.AddFilter("Microsoft", LogLevel.Warning);
-                })
+					logBuilder.AddFilter("Uno.UI.RemoteControl", LogLevel.Debug);
+					logBuilder.AddFilter("Uno", LogLevel.Warning);
+					logBuilder.AddFilter("Windows", LogLevel.Warning);
+					logBuilder.AddFilter("Microsoft", LogLevel.Warning);
+
+#if !__WASM__
+					logBuilder.AddConsole(); 
+#endif
+				})
 
 				.UseConfiguration(configure: configBuilder =>
 					configBuilder
@@ -45,8 +49,8 @@ public sealed partial class App : Application
 				// Register services for the application
 				.ConfigureServices(services =>
 				{
-                    services.AddScoped<IAppThemeService, AppThemeService>();
-                })
+					services.AddScoped<IAppThemeService, AppThemeService>();
+				})
 
 
 				// Enable navigation, including registering views and viewmodels
