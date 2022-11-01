@@ -17,6 +17,6 @@ public class ShellViewModel
 
 	public async Task Start()
 	{
-		await Navigator.NavigateViewModelAsync<MainViewModel>(this);
+		await Navigator.NavigateViewModelAsync<MainModel>(this);
 	}
 }

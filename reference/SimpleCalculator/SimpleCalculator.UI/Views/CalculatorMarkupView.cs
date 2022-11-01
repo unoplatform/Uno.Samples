@@ -14,7 +14,7 @@ namespace SimpleCalculator.Views
 
 		private void InitMarkupView()
 		{
-			this.DataContext<MainViewModel.BindableMainViewModel>((page, vm)
+			this.DataContext<MainModel.MainViewModel>((page, vm)
 				=> page.Background(ThemeResource.Get<Brush>("BackgroundBrush"))
 						.Content
 						(
@@ -96,7 +96,7 @@ namespace SimpleCalculator.Views
 			);
 		}
 
-		private Button RenderButton(MainViewModel.BindableMainViewModel vm, int gridRow, int gridColumn, string content, string background, string foreground = "OnPrimaryBrush", string? parameter = null)
+		private Button RenderButton(MainModel.MainViewModel vm, int gridRow, int gridColumn, string content, string background, string foreground = "OnPrimaryBrush", string? parameter = null)
 			=> new Button()
 			.Command(() => vm.Input)
 			.CommandParameter(parameter ?? content)

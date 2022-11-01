@@ -66,7 +66,7 @@ public sealed partial class App : Application
 	{
 		views.Register(
 			new ViewMap<ShellControl, ShellViewModel>(),
-			new ViewMap<MainPage, MainViewModel>()
+			new ViewMap<MainPage, MainModel>()
 			);
 
 		routes
@@ -74,7 +74,7 @@ public sealed partial class App : Application
 				new RouteMap("", View: views.FindByViewModel<ShellViewModel>(),
 						Nested: new RouteMap[]
 						{
-										new RouteMap("Main", View: views.FindByViewModel<MainViewModel>()),
+										new RouteMap("Main", View: views.FindByViewModel<MainModel>()),
 						}));
 	}
 }
