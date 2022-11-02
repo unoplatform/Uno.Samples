@@ -57,14 +57,14 @@ namespace SimpleCalculator.Views
                                     (
                                         new TextBlock()
                                             .Text(() => vm.Calculator.Equation)
-                                            .FontFamily("Roboto")
+                                            .FontFamily(new FontFamily("Roboto"))
                                             .FontSize(36)
                                             .AutoLayout(counterAlignment: AutoLayoutAlignment.End)
                                             .Foreground(ThemeResource.Get<Brush>("OnSecondaryContainerBrush"))
                                         ,
                                         new TextBlock()
                                             .Text(() => vm.Calculator.OutPut)
-                                            .FontFamily("Roboto")
+                                            .FontFamily(new FontFamily("Roboto"))
                                             .FontSize(57)
                                             .AutoLayout(counterAlignment: AutoLayoutAlignment.End)
                                             .Foreground(ThemeResource.Get<Brush>("OnSecondaryContainerBrush"))
@@ -77,8 +77,21 @@ namespace SimpleCalculator.Views
                                     .ColumnSpacing(12)
                                     .Padding(12)
                                     .MaxHeight(500)
-                                    .RowDefinitions("*", "*", "*", "*", "*")
-                                    .ColumnDefinitions("*", "*", "*", "*")
+                                    //.RowDefinitions("*", "*", "*", "*", "*")
+                                    //.ColumnDefinitions("*", "*", "*", "*")
+                                    .ColumnDefinitions(
+                                        new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) },
+                                        new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) },
+                                        new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) },
+                                        new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) }
+                                    )
+                                    .RowDefinitions(
+                                        new RowDefinition { Height = new GridLength(1, GridUnitType.Star) },
+                                        new RowDefinition { Height = new GridLength(1, GridUnitType.Star) },
+                                        new RowDefinition { Height = new GridLength(1, GridUnitType.Star) },
+                                        new RowDefinition { Height = new GridLength(1, GridUnitType.Star) },
+                                        new RowDefinition { Height = new GridLength(1, GridUnitType.Star) }
+                                    )
                                     .Children
                                     (
                                         // Row 0
@@ -108,7 +121,7 @@ namespace SimpleCalculator.Views
                                         //Row 4
                                         RenderButton(vm, 4, 0, ".", "PrimaryBrush"),
                                         RenderButton(vm, 4, 1, "0", "PrimaryBrush"),
-#if __SKIA__
+#if HAS_UNO_SKIA
                                         RenderButton(vm, 4, 2, "<", "PrimaryBrush", parameter: "back"),
 #else
                                         RenderButton(vm, 4, 2, "⌫", "PrimaryBrush", parameter: "back"),
@@ -126,7 +139,7 @@ namespace SimpleCalculator.Views
             .CommandParameter(parameter ?? content)
             .Background(ThemeResource.Get<Brush>(background))
             .Content(content)
-            .FontFamily("Roboto")
+            .FontFamily(new FontFamily("Roboto"))
             .FontSize(32)
             .Foreground(ThemeResource.Get<Brush>(foreground))
             .Grid(row: gridRow, column: gridColumn)

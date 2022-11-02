@@ -62,14 +62,14 @@ public sealed partial class App : Application
 		views.Register(
 			new ViewMap<ShellControl, ShellViewModel>(),
 			new ViewMap<CalculatorMarkupView, MainViewModel>()
-			);
+		);
 
 		routes
 			.Register(
 				new RouteMap("", View: views.FindByViewModel<ShellViewModel>(),
 						Nested: new RouteMap[]
 						{
-										new RouteMap("Main", View: views.FindByViewModel<MainViewModel>()),
+							new RouteMap("Main", View: views.FindByViewModel<MainViewModel>()),
 						}));
 	}
 }
