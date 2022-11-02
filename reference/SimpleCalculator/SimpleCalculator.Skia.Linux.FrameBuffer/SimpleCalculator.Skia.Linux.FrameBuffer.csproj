@@ -3,7 +3,6 @@
 		<OutputType Condition="'$(Configuration)'=='Release'">WinExe</OutputType>
 		<OutputType Condition="'$(Configuration)'=='Debug'">Exe</OutputType>
 		<TargetFramework>net6.0</TargetFramework>
-		<DefineConstants>$(DefinedConstants);WINUI</DefineConstants>
 	</PropertyGroup>
 	<ItemGroup Condition="exists('..\SimpleCalculator.Windows')">
 		<EmbeddedResource Include="..\SimpleCalculator.Windows\Package.appxmanifest" LogicalName="Package.appxmanifest" />
@@ -14,22 +13,40 @@
 		<UpToDateCheckInput Include="..\SimpleCalculator.UI\**\*.xaml" />
 	</ItemGroup>
 	<ItemGroup>
-		<PackageReference Include="Uno.Toolkit.WinUI.Material.Markup" Version="0.1.0-dev.105" />
-		<PackageReference Include="Uno.WinUI.Markup" Version="4.6.0-dev.10" />
-		<PackageReference Include="Uno.WinUI.Skia.Linux.FrameBuffer" Version="4.6.18" />
-		<PackageReference Include="Uno.WinUI.RemoteControl" Version="4.6.18" Condition="'$(Configuration)'=='Debug'" />
+		<PackageReference Include="Uno.WinUI.Markup" />
+		<PackageReference Include="Uno.Toolkit.WinUI.Material.Markup" />
+		<PackageReference Include="Uno.WinUI.Skia.Linux.FrameBuffer" />
+		<PackageReference Include="Uno.WinUI.RemoteControl" Condition="'$(Configuration)'=='Debug'" />
+		<PackageReference Include="SkiaSharp.Views.Uno.WinUI" />
+		<PackageReference Include="SkiaSharp.Skottie" />
+		<PackageReference Include="Uno.UI.Adapter.Microsoft.Extensions.Logging" />
+		<PackageReference Include="Uno.Material.WinUI" />
+		<PackageReference Include="Uno.Toolkit.WinUI.Material" />
+		<PackageReference Include="Uno.Toolkit.WinUI" />
+		<PackageReference Include="Uno.Extensions.Authentication.WinUI" />
+		<PackageReference Include="Uno.Extensions.Hosting.WinUI" />
+		<PackageReference Include="Uno.Extensions.Localization.WinUI" />
+		<PackageReference Include="Uno.Extensions.Logging.WinUI" />
+		<PackageReference Include="Uno.Extensions.Navigation.Toolkit.WinUI" />
+		<PackageReference Include="Uno.Extensions.Navigation.WinUI" />
+		<PackageReference Include="Uno.Extensions.Authentication" />
+		<PackageReference Include="Uno.Extensions.Configuration" />
+		<PackageReference Include="Uno.Extensions.Core" />
+		<PackageReference Include="Uno.Extensions.Hosting" />
+		<PackageReference Include="Uno.Extensions.Http" />
+		<PackageReference Include="Uno.Extensions.Http.Refit" />
+		<PackageReference Include="Uno.Extensions.Localization" />
+		<PackageReference Include="Uno.Extensions.Logging.Serilog" />
+		<PackageReference Include="Uno.Extensions.Navigation" />
+		<PackageReference Include="Uno.Extensions.Serialization" />
+		<PackageReference Include="Uno.Extensions.Serialization.Http" />
+		<PackageReference Include="Uno.Extensions.Serialization.Refit" />
+		<PackageReference Include="Uno.Extensions.Reactive" />
+		<PackageReference Include="Uno.Extensions.Reactive.WinUI" />
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\SimpleCalculator\SimpleCalculator.csproj" />
 	</ItemGroup>
-	<ItemGroup>
-	  <PackageReference Update="Uno.Material.WinUI" Version="2.3.0" />
-	  <PackageReference Update="Uno.Toolkit.WinUI" Version="2.3.0" />
-	  <PackageReference Update="Uno.Toolkit.WinUI.Material" Version="2.3.0" />
-	  <PackageReference Update="Uno.UI.Adapter.Microsoft.Extensions.Logging" Version="4.6.18" />
-	  <PackageReference Include="SkiaSharp.Views.Uno.WinUI" Version="2.88.3" />
-	  <PackageReference Include="SkiaSharp.Skottie" Version="2.88.3" />
-	</ItemGroup>
-	<Import Project="..\Extensions.props" />
+
 	<Import Project="..\SimpleCalculator.UI\SimpleCalculator.UI.projitems" Label="Shared" />
 </Project>

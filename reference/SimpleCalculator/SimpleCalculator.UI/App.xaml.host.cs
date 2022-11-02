@@ -1,9 +1,11 @@
 
+using Microsoft.Extensions.DependencyInjection;
+
 namespace SimpleCalculator;
 
 public sealed partial class App : Application
 {
-	private IHost Host { get; } = BuildAppHost();
+	private IHost? Host { get; set; }
 
 	private static IHost BuildAppHost()
 	{
@@ -22,11 +24,15 @@ public sealed partial class App : Application
 								context.HostingEnvironment.IsDevelopment() ?
 									LogLevel.Debug :
 									LogLevel.Warning);
-                    logBuilder.AddFilter("Uno.UI.RemoteControl", LogLevel.Debug);
-                    logBuilder.AddFilter("Uno", LogLevel.Warning);
-                    logBuilder.AddFilter("Windows", LogLevel.Warning);
-                    logBuilder.AddFilter("Microsoft", LogLevel.Warning);
-                })
+					logBuilder.AddFilter("Uno.UI.RemoteControl", LogLevel.Debug);
+					logBuilder.AddFilter("Uno", LogLevel.Warning);
+					logBuilder.AddFilter("Windows", LogLevel.Warning);
+					logBuilder.AddFilter("Microsoft", LogLevel.Warning);
+
+#if !__WASM__
+					logBuilder.AddConsole(); 
+#endif
+				})
 
 				.UseConfiguration(configure: configBuilder =>
 					configBuilder
@@ -43,8 +49,7 @@ public sealed partial class App : Application
 				// Register services for the application
 				.ConfigureServices(services =>
 				{
-					// TODO: Register your services
-					//services.AddSingleton<IMyService, MyService>();
+					services.AddScoped<IAppThemeService, AppThemeService>();
 				})
 
 
@@ -60,16 +65,16 @@ public sealed partial class App : Application
 	private static void RegisterRoutes(IViewRegistry views, IRouteRegistry routes)
 	{
 		views.Register(
-			new ViewMap<ShellControl, ShellViewModel>(),
-			new ViewMap<CalculatorMarkupView, MainViewModel>()
-		);
+			new ViewMap( ViewModel: typeof(ShellViewModel)),
+			new ViewMap<CalculatorMarkupView, MainModel>()
+			);
 
 		routes
 			.Register(
 				new RouteMap("", View: views.FindByViewModel<ShellViewModel>(),
 						Nested: new RouteMap[]
 						{
-							new RouteMap("Main", View: views.FindByViewModel<MainViewModel>()),
+										new RouteMap("Main", View: views.FindByViewModel<MainModel>()),
 						}));
 	}
 }

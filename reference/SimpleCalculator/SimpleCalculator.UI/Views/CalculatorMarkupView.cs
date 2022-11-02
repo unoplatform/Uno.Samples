@@ -7,16 +7,16 @@ using Button = Microsoft.UI.Xaml.Controls.Button; //Needed for Android
 
 namespace SimpleCalculator.Views
 {
-    public sealed partial class CalculatorMarkupView : Page
-    {
-        public CalculatorMarkupView()
-        {
-            InitMarkupView();
-        }
+	public sealed partial class CalculatorMarkupView : Page
+	{
+		public CalculatorMarkupView()
+		{
+			InitMarkupView();
+		}
 
         private void InitMarkupView()
         {
-            this.DataContext<MainViewModel.BindableMainViewModel>((page, vm)
+            this.DataContext<MainModel.MainViewModel>((page, vm)
                 => page
                         .Resources(r => r
                             .Add("Icon_Brightness", "F1 M 3 0 C 1.9500000476837158 0 0.949999988079071 0.1600000262260437 0 0.46000003814697266 C 4.059999942779541 1.7300000190734863 7 5.519999980926514 7 10 C 7 14.480000019073486 4.059999942779541 18.27000093460083 0 19.540000915527344 C 0.949999988079071 19.840000927448273 1.9500000476837158 20 3 20 C 8.519999980926514 20 13 15.519999980926514 13 10 C 13 4.480000019073486 8.519999980926514 0 3 0 Z")
@@ -100,11 +100,11 @@ namespace SimpleCalculator.Views
                                         RenderButton(vm, 0, 2, "%", "SecondaryBrush", "OnSecondaryBrush"),
                                         RenderButton(vm, 0, 3, "÷", "TertiaryBrush", "OnTertiaryBrush"),
 
-                                        // Row 1
-                                        RenderButton(vm, 1, 0, "7", "PrimaryBrush"),
-                                        RenderButton(vm, 1, 1, "8", "PrimaryBrush"),
-                                        RenderButton(vm, 1, 2, "9", "PrimaryBrush"),
-                                        RenderButton(vm, 1, 3, "×", "TertiaryBrush", "OnTertiaryBrush"),
+										// Row 1
+										RenderButton(vm, 1, 0, "7", "PrimaryBrush"),
+										RenderButton(vm, 1, 1, "8", "PrimaryBrush"),
+										RenderButton(vm, 1, 2, "9", "PrimaryBrush"),
+										RenderButton(vm, 1, 3, "×", "TertiaryBrush", "OnTertiaryBrush"),
 
                                         // Row 2
                                         RenderButton(vm, 2, 0, "4", "PrimaryBrush"),
@@ -112,11 +112,11 @@ namespace SimpleCalculator.Views
                                         RenderButton(vm, 2, 2, "6", "PrimaryBrush"),
                                         RenderButton(vm, 2, 3, "–", "TertiaryBrush", "OnTertiaryBrush", parameter: "-"),
 
-                                        //Row 3
-                                        RenderButton(vm, 3, 0, "1", "PrimaryBrush"),
-                                        RenderButton(vm, 3, 1, "2", "PrimaryBrush"),
-                                        RenderButton(vm, 3, 2, "3", "PrimaryBrush"),
-                                        RenderButton(vm, 3, 3, "+", "TertiaryBrush", "OnTertiaryBrush"),
+										//Row 3
+										RenderButton(vm, 3, 0, "1", "PrimaryBrush"),
+										RenderButton(vm, 3, 1, "2", "PrimaryBrush"),
+										RenderButton(vm, 3, 2, "3", "PrimaryBrush"),
+										RenderButton(vm, 3, 3, "+", "TertiaryBrush", "OnTertiaryBrush"),
 
                                         //Row 4
                                         RenderButton(vm, 4, 0, ".", "PrimaryBrush"),
@@ -133,7 +133,7 @@ namespace SimpleCalculator.Views
             );
         }
 
-        private Button RenderButton(MainViewModel.BindableMainViewModel vm, int gridRow, int gridColumn, string content, string background, string foreground = "OnPrimaryBrush", string? parameter = null)
+        private Button RenderButton(MainModel.MainViewModel vm, int gridRow, int gridColumn, string content, string background, string foreground = "OnPrimaryBrush", string? parameter = null)
             => new Button()
             .Command(() => vm.Input)
             .CommandParameter(parameter ?? content)
