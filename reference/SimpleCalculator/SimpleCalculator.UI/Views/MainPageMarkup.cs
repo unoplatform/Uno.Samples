@@ -128,24 +128,24 @@ namespace SimpleCalculator.Views
             );
         }
 
-        private ToggleButton Header
-           => new ToggleButton()
-           .Margin(8)
-           .AutoLayout(counterAlignment: AutoLayoutAlignment.Center)
-           .Style(StaticResource.Get<Style>("IconToggleButtonStyle"))
-           .ControlExtensions
-           (
-               alternateContent:
-                   new PathIcon()
-                       .Data(StaticResource.Get<Geometry>("Icon_Wb_Sunny"))
-                       .Foreground(ThemeResource.Get<Brush>("TertiaryBrush"))
-           )
-           .Content
-           (
-               new PathIcon()
-                   .Data(StaticResource.Get<Geometry>("Icon_Brightness"))
-                   .Foreground(ThemeResource.Get<Brush>("TertiaryBrush"))
-           );
+        //private ToggleButton Header
+        //   => new ToggleButton()
+        //   .Margin(8)
+        //   .AutoLayout(counterAlignment: AutoLayoutAlignment.Center)
+        //   .Style(StaticResource.Get<Style>("IconToggleButtonStyle"))
+        //   .ControlExtensions
+        //   (
+        //       alternateContent:
+        //           new PathIcon()
+        //               .Data(StaticResource.Get<Geometry>("Icon_Wb_Sunny"))
+        //               .Foreground(ThemeResource.Get<Brush>("TertiaryBrush"))
+        //   )
+        //   .Content
+        //   (
+        //       new PathIcon()
+        //           .Data(StaticResource.Get<Geometry>("Icon_Brightness"))
+        //           .Foreground(ThemeResource.Get<Brush>("TertiaryBrush"))
+        //   );
 
         private TextBlock Equation(MainModel.MainViewModel vm)
             => new TextBlock()
