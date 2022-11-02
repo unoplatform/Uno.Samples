@@ -24,6 +24,9 @@ steps:
     summaryFile: '$(Build.ArtifactStagingDirectory)/Summary.md'
     resultFile: '$(Build.ArtifactStagingDirectory)/Results.json'
 
+- powershell: |
+    dotnet tool uninstall nventive.nuget.updater.tool --tool-path $(Agent.TempDirectory)
+
 - task: nventiveCanaryUpdater@5
   inputs:
     solution: Uno.Samples.generated.sln
