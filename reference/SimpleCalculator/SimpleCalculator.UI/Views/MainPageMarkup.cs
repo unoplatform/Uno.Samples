@@ -92,7 +92,7 @@ namespace SimpleCalculator.Views
                         (
                             // Row 0
                             KeyPadButton(vm, 0, 0, "C", "SecondaryBrush", "OnSecondaryBrush"),
-                            KeyPadButton(vm, 0, 1, "+/-", "SecondaryBrush", "OnSecondaryBrush", "+-"),
+                            KeyPadButton(vm, 0, 1, "±", "SecondaryBrush", "OnSecondaryBrush", "+-"),
                             KeyPadButton(vm, 0, 2, "%", "SecondaryBrush", "OnSecondaryBrush"),
                             KeyPadButton(vm, 0, 3, "÷", "TertiaryBrush", "OnTertiaryBrush"),
 
@@ -118,7 +118,7 @@ namespace SimpleCalculator.Views
                             KeyPadButton(vm, 4, 0, ".", "PrimaryBrush"),
                             KeyPadButton(vm, 4, 1, "0", "PrimaryBrush"),
 #if HAS_UNO_SKIA
-                            KeyPadButton(vm, 4, 2, "<", "PrimaryBrush", parameter: "back"),
+                            KeyPadButton(vm, 4, 2, "<-", "PrimaryBrush", parameter: "back"),
 #else
                             KeyPadButton(vm, 4, 2, "⌫", "PrimaryBrush", parameter: "back"),
 #endif
@@ -128,6 +128,64 @@ namespace SimpleCalculator.Views
                 )
             );
         }
+
+        private ToggleButton Header
+           => new ToggleButton()
+           .Margin(8)
+           .AutoLayout(counterAlignment: AutoLayoutAlignment.Center)
+           .Style(StaticResource.Get<Style>("IconToggleButtonStyle"))
+           .ControlExtensions
+           (
+               alternateContent:
+                   new PathIcon()
+                       .Data(StaticResource.Get<Geometry>("Icon_Wb_Sunny"))
+                       .Foreground(ThemeResource.Get<Brush>("TertiaryBrush"))
+           )
+           .Content
+           (
+               new PathIcon()
+                   .Data(StaticResource.Get<Geometry>("Icon_Brightness"))
+                   .Foreground(ThemeResource.Get<Brush>("TertiaryBrush"))
+           );
+
+        private TextBlock Equation(MainModel.MainViewModel vm)
+            => new TextBlock()
+            .Text(() => vm.Calculator.Equation)
+            .FontFamily(new FontFamily("Roboto"))
+            .FontSize(36)
+            .AutoLayout(counterAlignment: AutoLayoutAlignment.End)
+            .Foreground(ThemeResource.Get<Brush>("OnSecondaryContainerBrush"));
+
+        private TextBlock Result(MainModel.MainViewModel vm)
+            => new TextBlock()
+            .Text(() => vm.Calculator.OutPut)
+            .FontFamily(new FontFamily("Roboto"))
+            .FontSize(57)
+            .AutoLayout(counterAlignment: AutoLayoutAlignment.End)
+            .Foreground(ThemeResource.Get<Brush>("OnSecondaryContainerBrush"))
+            .Style(StaticResource.Get<Style>("DisplayLarge"));
+
+        private Grid KeyPad
+            => new Grid()
+            .RowSpacing(12)
+            .ColumnSpacing(12)
+            .Padding(12)
+            .MaxHeight(500)
+            .ColumnDefinitions
+            (
+                new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) },
+                new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) },
+                new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) },
+                new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) }
+            )
+            .RowDefinitions
+            (
+                new RowDefinition { Height = new GridLength(1, GridUnitType.Star) },
+                new RowDefinition { Height = new GridLength(1, GridUnitType.Star) },
+                new RowDefinition { Height = new GridLength(1, GridUnitType.Star) },
+                new RowDefinition { Height = new GridLength(1, GridUnitType.Star) },
+                new RowDefinition { Height = new GridLength(1, GridUnitType.Star) }
+            );
 
         private Button KeyPadButton(MainModel.MainViewModel vm, int gridRow, int gridColumn, string content, string background, string foreground = "OnPrimaryBrush", string? parameter = null)
             => new Button()

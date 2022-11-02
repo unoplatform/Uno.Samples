@@ -5,7 +5,8 @@
       xmlns:keyboard="using:SimpleCalculator.Keyboard"
 	  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	  mc:Ignorable="d"
+      xmlns:skia="http://uno.ui/skia"
+	  mc:Ignorable="d skia"
 	  xmlns:uen="using:Uno.Extensions.Navigation.UI"
 	  xmlns:utu="using:Uno.Toolkit.UI"
 	  xmlns:not_skia="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -21,7 +22,7 @@
         <utu:AutoLayout MaxHeight="500" Spacing="5" Padding="8" >
             <utu:AutoLayout Spacing="8" Padding="10" Orientation="Horizontal" utu:AutoLayout.PrimaryAlignment="Stretch">
                 <Button Command="{Binding Input}" FontFamily="Roboto" FontSize="32" CommandParameter="C" Background="{ThemeResource SecondaryBrush}" Content="C" utu:AutoLayout.PrimaryAlignment="Stretch" Foreground="{ThemeResource OnSecondaryBrush}" />
-                <Button Command="{Binding Input}" FontFamily="Roboto" FontSize="32" CommandParameter="+-" Background="{ThemeResource SecondaryBrush}" Content="+/-" utu:AutoLayout.PrimaryAlignment="Stretch" Foreground="{ThemeResource OnSecondaryBrush}" />
+                <Button Command="{Binding Input}" FontFamily="Roboto" FontSize="32" CommandParameter="+-" Background="{ThemeResource SecondaryBrush}" Content="±" utu:AutoLayout.PrimaryAlignment="Stretch" Foreground="{ThemeResource OnSecondaryBrush}" />
                 <Button Command="{Binding Input}" FontFamily="Roboto" FontSize="32" CommandParameter="%" Background="{ThemeResource SecondaryBrush}" Content="%" utu:AutoLayout.PrimaryAlignment="Stretch" Foreground="{ThemeResource OnSecondaryBrush}" />
                 <Button Command="{Binding Input}" FontFamily="Roboto" FontSize="32" CommandParameter="÷" Background="{ThemeResource TertiaryBrush}" Content="÷" utu:AutoLayout.PrimaryAlignment="Stretch" Foreground="{ThemeResource OnTertiaryBrush}" />
             </utu:AutoLayout>
@@ -35,7 +36,7 @@
                 <Button Command="{Binding Input}" FontFamily="Roboto" FontSize="32" CommandParameter="4" Background="{ThemeResource PrimaryBrush}" Content="4" utu:AutoLayout.PrimaryAlignment="Stretch" />
                 <Button Command="{Binding Input}" FontFamily="Roboto" FontSize="32" CommandParameter="5" Background="{ThemeResource PrimaryBrush}" Content="5" utu:AutoLayout.PrimaryAlignment="Stretch" />
                 <Button Command="{Binding Input}" FontFamily="Roboto" FontSize="32" CommandParameter="6" Background="{ThemeResource PrimaryBrush}" Content="6" utu:AutoLayout.PrimaryAlignment="Stretch" />
-                <Button Command="{Binding Input}" FontFamily="Roboto" FontSize="32" CommandParameter="-" Background="{ThemeResource TertiaryBrush}" Content="-" utu:AutoLayout.PrimaryAlignment="Stretch" Foreground="{ThemeResource OnTertiaryBrush}" />
+                <Button Command="{Binding Input}" FontFamily="Roboto" FontSize="32" CommandParameter="-" Background="{ThemeResource TertiaryBrush}" Content="−" utu:AutoLayout.PrimaryAlignment="Stretch" Foreground="{ThemeResource OnTertiaryBrush}" />
             </utu:AutoLayout>
             <utu:AutoLayout Spacing="8" Padding="10" Orientation="Horizontal" utu:AutoLayout.PrimaryAlignment="Stretch">
                 <Button Command="{Binding Input}" FontFamily="Roboto" FontSize="32" CommandParameter="1" Background="{ThemeResource PrimaryBrush}" Content="1" utu:AutoLayout.PrimaryAlignment="Stretch" />
@@ -46,7 +47,7 @@
             <utu:AutoLayout Spacing="8" Padding="10" Orientation="Horizontal" utu:AutoLayout.PrimaryAlignment="Stretch">
                 <Button Command="{Binding Input}" FontFamily="Roboto" FontSize="32" CommandParameter="." Background="{ThemeResource PrimaryBrush}" Content="." utu:AutoLayout.PrimaryAlignment="Stretch" />
                 <Button Command="{Binding Input}" FontFamily="Roboto" FontSize="32" CommandParameter="0" Background="{ThemeResource PrimaryBrush}" Content="0" utu:AutoLayout.PrimaryAlignment="Stretch" />
-                <Button Command="{Binding Input}" FontFamily="Roboto" FontSize="32" CommandParameter="back" Background="{ThemeResource PrimaryBrush}" Content="⌫" utu:AutoLayout.PrimaryAlignment="Stretch" />
+                <Button Command="{Binding Input}" FontFamily="Roboto" FontSize="32" CommandParameter="back" Background="{ThemeResource PrimaryBrush}" not_skia:Content="⌫" skia:Content="&lt;-" utu:AutoLayout.PrimaryAlignment="Stretch" />
                 <Button Command="{Binding Input}" FontFamily="Roboto" FontSize="32" CommandParameter="=" Background="{ThemeResource TertiaryBrush}" Content="=" utu:AutoLayout.PrimaryAlignment="Stretch" Foreground="{ThemeResource OnTertiaryBrush}" />
             </utu:AutoLayout>
         </utu:AutoLayout>
