@@ -4,14 +4,20 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 
-		<TreatWarningsAsErrors>True</TreatWarningsAsErrors>
-	  	<NoWarn>$(NoWarn);Uno0001;CS1998;CA1416</NoWarn>
-		  <SynthesizeLinkMetadata>true</SynthesizeLinkMetadata> 
-	</PropertyGroup>
-
-	<PropertyGroup>
 		<DebugType>portable</DebugType>
 		<DebugSymbols>True</DebugSymbols>
+		<SynthesizeLinkMetadata>true</SynthesizeLinkMetadata>
+
+		<ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+		<!-- Workaround for CPM with multi-target projects https://github.com/dotnet/sdk/issues/27840 -->
+		<DisableImplicitLibraryPacksFolder>true</DisableImplicitLibraryPacksFolder>
+
+		<TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+	  	<NoWarn>$(NoWarn);Uno0001;CS1998;CA1416;NU1507</NoWarn>
 	</PropertyGroup>
 
+	<ItemGroup>
+		<!--This override is used to validate the use of specific version of the C# Compiler-->
+		<PackageReference Include="Microsoft.Net.Compilers.Toolset" PrivateAssets="all" />
+	</ItemGroup>
 </Project>
