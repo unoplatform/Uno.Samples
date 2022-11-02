@@ -1,4 +1,9 @@
 <Project ToolsVersion="15.0">
+  <PropertyGroup>
+    <UnoExtensionsVersion>2.3.0-dev.254</UnoExtensionsVersion>
+    <UnoToolkitVersion>2.4.0-dev.109</UnoToolkitVersion>
+    <UnoMaterialVersion>2.4.0-dev.53</UnoMaterialVersion>
+  </PropertyGroup>
   <ItemGroup>
     <PackageVersion Include="coverlet.collector" Version="3.1.0" />
     <PackageVersion Include="FluentAssertions" Version="6.7.0" />
@@ -14,39 +19,41 @@
     <PackageVersion Include="SkiaSharp.Skottie" Version="2.88.2" />
     <PackageVersion Include="SkiaSharp.Views.Uno.WinUI" Version="2.88.2" />
     <PackageVersion Include="Uno.Core.Extensions.Logging.Singleton" Version="4.0.1" />
-    <PackageVersion Include="Uno.Extensions.Authentication" Version="2.3.0-dev.254" />
-    <PackageVersion Include="Uno.Extensions.Authentication.WinUI" Version="2.3.0-dev.254" />
-    <PackageVersion Include="Uno.Extensions.Configuration" Version="2.3.0-dev.254" />
-    <PackageVersion Include="Uno.Extensions.Core" Version="2.3.0-dev.254" />
-    <PackageVersion Include="Uno.Extensions.Hosting" Version="2.3.0-dev.254" />
-    <PackageVersion Include="Uno.Extensions.Hosting.WinUI" Version="2.3.0-dev.254" />
-    <PackageVersion Include="Uno.Extensions.Http" Version="2.3.0-dev.254" />
-    <PackageVersion Include="Uno.Extensions.Http.Refit" Version="2.3.0-dev.254" />
-    <PackageVersion Include="Uno.Extensions.Localization" Version="2.3.0-dev.254" />
-    <PackageVersion Include="Uno.Extensions.Localization.WinUI" Version="2.3.0-dev.254" />
+    <PackageVersion Include="Uno.Extensions.Authentication" Version="$(UnoExtensionsVersion)" />
+    <PackageVersion Include="Uno.Extensions.Authentication.WinUI" Version="$(UnoExtensionsVersion)" />
+    <PackageVersion Include="Uno.Extensions.Configuration" Version="$(UnoExtensionsVersion)" />
+    <PackageVersion Include="Uno.Extensions.Core" Version="$(UnoExtensionsVersion)" />
+    <PackageVersion Include="Uno.Extensions.Hosting" Version="$(UnoExtensionsVersion)" />
+    <PackageVersion Include="Uno.Extensions.Hosting.WinUI" Version="$(UnoExtensionsVersion)" />
+    <PackageVersion Include="Uno.Extensions.Http" Version="$(UnoExtensionsVersion)" />
+    <PackageVersion Include="Uno.Extensions.Http.Refit" Version="$(UnoExtensionsVersion)" />
+    <PackageVersion Include="Uno.Extensions.Localization" Version="$(UnoExtensionsVersion)" />
+    <PackageVersion Include="Uno.Extensions.Localization.WinUI" Version="$(UnoExtensionsVersion)" />
     <PackageVersion Include="Uno.Extensions.Logging.OSLog" Version="1.4.0" />
-    <PackageVersion Include="Uno.Extensions.Logging.Serilog" Version="2.3.0-dev.254" />
+    <PackageVersion Include="Uno.Extensions.Logging.Serilog" Version="$(UnoExtensionsVersion)" />
     <PackageVersion Include="Uno.Extensions.Logging.WebAssembly.Console" Version="1.4.0" />
-    <PackageVersion Include="Uno.Extensions.Logging.WinUI" Version="2.3.0-dev.254" />
-    <PackageVersion Include="Uno.Extensions.Navigation" Version="2.3.0-dev.254" />
-    <PackageVersion Include="Uno.Extensions.Navigation.Toolkit.WinUI" Version="2.3.0-dev.254" />
-    <PackageVersion Include="Uno.Extensions.Navigation.WinUI" Version="2.3.0-dev.254" />
-    <PackageVersion Include="Uno.Extensions.Reactive" Version="2.3.0-dev.254" />
-    <PackageVersion Include="Uno.Extensions.Reactive.WinUI" Version="2.3.0-dev.254" />
-    <PackageVersion Include="Uno.Extensions.Serialization" Version="2.3.0-dev.254" />
-    <PackageVersion Include="Uno.Extensions.Serialization.Http" Version="2.3.0-dev.254" />
-    <PackageVersion Include="Uno.Extensions.Serialization.Refit" Version="2.3.0-dev.254" />
-    <PackageVersion Include="Uno.Material.WinUI" Version="2.4.0-dev.46" />
-    <PackageVersion Include="Uno.Toolkit.WinUI" Version="2.4.0-dev.103" />
-    <PackageVersion Include="Uno.Toolkit.WinUI.Material" Version=" 2.4.0-dev.103" />
-    <PackageVersion Include="Uno.Toolkit.WinUI.Markup" Version="2.4.0-dev.103" />
+    <PackageVersion Include="Uno.Extensions.Logging.WinUI" Version="$(UnoExtensionsVersion)" />
+    <PackageVersion Include="Uno.Extensions.Navigation" Version="$(UnoExtensionsVersion)" />
+    <PackageVersion Include="Uno.Extensions.Navigation.Toolkit.WinUI" Version="$(UnoExtensionsVersion)" />
+    <PackageVersion Include="Uno.Extensions.Navigation.WinUI" Version="$(UnoExtensionsVersion)" />
+    <PackageVersion Include="Uno.Extensions.Reactive" Version="$(UnoExtensionsVersion)" />
+    <PackageVersion Include="Uno.Extensions.Reactive.WinUI" Version="$(UnoExtensionsVersion)" />
+    <PackageVersion Include="Uno.Extensions.Serialization" Version="$(UnoExtensionsVersion)" />
+    <PackageVersion Include="Uno.Extensions.Serialization.Http" Version="$(UnoExtensionsVersion)" />
+    <PackageVersion Include="Uno.Extensions.Serialization.Refit" Version="$(UnoExtensionsVersion)" />
+    <PackageVersion Include="Uno.Extensions.Markup.WinUI" Version="1.0.0-dev.120" />
+    <PackageVersion Include="Uno.Material.WinUI" Version="$(UnoMaterialVersion)" />
+    <PackageVersion Include="Uno.Toolkit.WinUI" Version="$(UnoToolkitVersion)" />
+		<!-- <PackageVersion Include="Uno.Toolkit.WinUI.Material.Markup" /> -->
+    <PackageVersion Include="Uno.Toolkit.WinUI.Material" Version="$(UnoToolkitVersion)" />
+    <PackageVersion Include="Uno.Toolkit.WinUI.Markup" Version="$(UnoToolkitVersion)" />
     <PackageVersion Include="Uno.UI.Adapter.Microsoft.Extensions.Logging" Version="4.6.18" />
     <PackageVersion Include="Uno.UITest.Helpers" Version="1.1.0-dev.32" />
     <PackageVersion Include="Uno.UniversalImageLoader" Version="1.9.36" />
     <PackageVersion Include="Uno.Wasm.Bootstrap" Version="3.3.1" />
     <PackageVersion Include="Uno.Wasm.Bootstrap.DevServer" Version="3.3.1" />
-    <PackageVersion Include="Uno.WinUI" Version="4.6.18" />
-    <PackageVersion Include="Uno.WinUI.Markup" Version="4.6.0-dev.10" />
+    <PackageVersion Include="Uno.WinUI" Version="4.6.19" />
+    <PackageVersion Include="Uno.WinUI.Markup" Version="4.6.0-dev.11" />
     <PackageVersion Include="Uno.WinUI.RemoteControl" Version="4.6.18" />
     <PackageVersion Include="Uno.WinUI.Skia.Gtk" Version="4.6.18" />
     <PackageVersion Include="Uno.WinUI.Skia.Linux.FrameBuffer" Version="4.6.18" />

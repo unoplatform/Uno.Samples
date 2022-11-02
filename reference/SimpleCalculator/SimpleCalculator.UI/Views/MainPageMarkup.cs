@@ -1,8 +1,7 @@
-﻿using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Uno.Material;
 using Uno.Toolkit.UI;
-using static Uno.Toolkit.UI.SafeArea;
 using Button = Microsoft.UI.Xaml.Controls.Button; //Needed for Android
 
 namespace SimpleCalculator.Views
@@ -22,7 +21,7 @@ namespace SimpleCalculator.Views
                 (
                     new AutoLayout()
                     .MaxWidth(700)
-                    .SafeArea(InsetMask.VisibleBounds)
+                    .SafeArea(SafeArea.InsetMask.VisibleBounds)
                     .Children
                     (
                         //new ToggleButton()

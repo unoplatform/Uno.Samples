@@ -1,8 +1,4 @@
-
 using System.Runtime.InteropServices;
-using Microsoft.UI.Xaml.Generator;
-
-[assembly: GenerateMarkupForAssembly(typeof(global::Uno.Toolkit.UI.ToolkitResources))]
 
 namespace SimpleCalculator;
 
