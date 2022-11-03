@@ -24,23 +24,7 @@ namespace SimpleCalculator.Views
                     .SafeArea(SafeArea.InsetMask.VisibleBounds)
                     .Children
                     (
-                        //new ToggleButton()
-                        //    .Margin(8)
-                        //    .AutoLayout(counterAlignment: AutoLayoutAlignment.Center)
-                        //    .Style(StaticResource.Get<Style>("IconToggleButtonStyle"))
-                        //    .ControlExtensions
-                        //    (
-                        //        alternateContent:
-                        //            new PathIcon()
-                        //                .Data(StaticResource.Get<Geometry>("Icon_Wb_Sunny"))
-                        //                .Foreground(ThemeResource.Get<Brush>("TertiaryBrush"))
-                        //    )
-                        //    .Content
-                        //    (
-                        //        new PathIcon()
-                        //            .Data(StaticResource.Get<Geometry>("Icon_Brightness"))
-                        //            .Foreground(ThemeResource.Get<Brush>("TertiaryBrush"))
-                        //    ),
+                        Header,
 
                         // Output zone
                         new AutoLayout()
@@ -50,102 +34,37 @@ namespace SimpleCalculator.Views
                             .PrimaryAxisAlignment(AutoLayoutAlignment.End)
                             .Children
                             (
-                               new TextBlock()
-                                .Text(() => vm.Calculator.Equation)
-                                .FontFamily(new FontFamily("Roboto"))
-                                .FontSize(36)
-                                .AutoLayout(counterAlignment: AutoLayoutAlignment.End)
-                                .Foreground(ThemeResource.Get<Brush>("OnSecondaryContainerBrush"))
+                               Equation(vm)
                                 ,
-                               new TextBlock()
-                                .Text(() => vm.Calculator.OutPut)
-                                .FontFamily(new FontFamily("Roboto"))
-                                .FontSize(57)
-                                .AutoLayout(counterAlignment: AutoLayoutAlignment.End)
-                                .Foreground(ThemeResource.Get<Brush>("OnSecondaryContainerBrush"))
-                                .Style(StaticResource.Get<Style>("DisplayLarge"))
+                               Result(vm)
                             ),
 
                         // Keypad
-                        new Grid()
-                        .RowSpacing(12)
-                        .ColumnSpacing(12)
-                        .Padding(12)
-                        .MaxHeight(500)
-                        .ColumnDefinitions
-                        (
-                            new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) },
-                            new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) },
-                            new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) },
-                            new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) }
-                        )
-                        .RowDefinitions
-                        (
-                            new RowDefinition { Height = new GridLength(1, GridUnitType.Star) },
-                            new RowDefinition { Height = new GridLength(1, GridUnitType.Star) },
-                            new RowDefinition { Height = new GridLength(1, GridUnitType.Star) },
-                            new RowDefinition { Height = new GridLength(1, GridUnitType.Star) },
-                            new RowDefinition { Height = new GridLength(1, GridUnitType.Star) }
-                        )
-                        .Children
-                        (
-                            // Row 0
-                            KeyPadButton(vm, 0, 0, "C", "SecondaryBrush", "OnSecondaryBrush"),
-                            KeyPadButton(vm, 0, 1, "±", "SecondaryBrush", "OnSecondaryBrush", "+-"),
-                            KeyPadButton(vm, 0, 2, "%", "SecondaryBrush", "OnSecondaryBrush"),
-                            KeyPadButton(vm, 0, 3, "÷", "TertiaryBrush", "OnTertiaryBrush"),
-
-                            // Row 1
-                            KeyPadButton(vm, 1, 0, "7", "PrimaryBrush"),
-                            KeyPadButton(vm, 1, 1, "8", "PrimaryBrush"),
-                            KeyPadButton(vm, 1, 2, "9", "PrimaryBrush"),
-                            KeyPadButton(vm, 1, 3, "×", "TertiaryBrush", "OnTertiaryBrush"),
-
-                            // Row 2
-                            KeyPadButton(vm, 2, 0, "4", "PrimaryBrush"),
-                            KeyPadButton(vm, 2, 1, "5", "PrimaryBrush"),
-                            KeyPadButton(vm, 2, 2, "6", "PrimaryBrush"),
-                            KeyPadButton(vm, 2, 3, "–", "TertiaryBrush", "OnTertiaryBrush", parameter: "-"),
-
-                            //Row 3
-                            KeyPadButton(vm, 3, 0, "1", "PrimaryBrush"),
-                            KeyPadButton(vm, 3, 1, "2", "PrimaryBrush"),
-                            KeyPadButton(vm, 3, 2, "3", "PrimaryBrush"),
-                            KeyPadButton(vm, 3, 3, "+", "TertiaryBrush", "OnTertiaryBrush"),
-
-                            //Row 4
-                            KeyPadButton(vm, 4, 0, ".", "PrimaryBrush"),
-                            KeyPadButton(vm, 4, 1, "0", "PrimaryBrush"),
-#if HAS_UNO_SKIA
-                            KeyPadButton(vm, 4, 2, "<-", "PrimaryBrush", parameter: "back"),
-#else
-                            KeyPadButton(vm, 4, 2, "⌫", "PrimaryBrush", parameter: "back"),
-#endif
-                            KeyPadButton(vm, 4, 3, "=", "TertiaryBrush", "OnTertiaryBrush")
-                        )
+                        KeyPad(vm)
                     )
                 )
             );
         }
 
-        //private ToggleButton Header
-        //   => new ToggleButton()
-        //   .Margin(8)
-        //   .AutoLayout(counterAlignment: AutoLayoutAlignment.Center)
-        //   .Style(StaticResource.Get<Style>("IconToggleButtonStyle"))
-        //   .ControlExtensions
-        //   (
-        //       alternateContent:
-        //           new PathIcon()
-        //               .Data(StaticResource.Get<Geometry>("Icon_Wb_Sunny"))
-        //               .Foreground(ThemeResource.Get<Brush>("TertiaryBrush"))
-        //   )
-        //   .Content
-        //   (
-        //       new PathIcon()
-        //           .Data(StaticResource.Get<Geometry>("Icon_Brightness"))
-        //           .Foreground(ThemeResource.Get<Brush>("TertiaryBrush"))
-        //   );
+        private ToggleButton Header
+           => new ToggleButton()
+           .Margin(8)
+           .AutoLayout(counterAlignment: AutoLayoutAlignment.Center)
+           .Style(StaticResource.Get<Style>("IconToggleButtonStyle"))
+           //.ControlExtensions
+           //(
+           //    alternateContent:
+           //        new PathIcon()
+           //            .Data(StaticResource.Get<Geometry>("Icon_Wb_Sunny"))
+           //            .Foreground(ThemeResource.Get<Brush>("TertiaryBrush"))
+           //)
+           //.Content
+           //(
+           //    new PathIcon()
+           //        .Data(StaticResource.Get<Geometry>("Icon_Brightness"))
+           //        .Foreground(ThemeResource.Get<Brush>("TertiaryBrush"))
+           //)
+            ;
 
         private TextBlock Equation(MainModel.MainViewModel vm)
             => new TextBlock()
@@ -164,7 +83,7 @@ namespace SimpleCalculator.Views
             .Foreground(ThemeResource.Get<Brush>("OnSecondaryContainerBrush"))
             .Style(StaticResource.Get<Style>("DisplayLarge"));
 
-        private Grid KeyPad
+        private Grid KeyPad(MainModel.MainViewModel vm)
             => new Grid()
             .RowSpacing(12)
             .ColumnSpacing(12)
@@ -184,6 +103,42 @@ namespace SimpleCalculator.Views
                 new RowDefinition { Height = new GridLength(1, GridUnitType.Star) },
                 new RowDefinition { Height = new GridLength(1, GridUnitType.Star) },
                 new RowDefinition { Height = new GridLength(1, GridUnitType.Star) }
+            )
+            .Children
+            (
+                // Row 0
+                KeyPadButton(vm, 0, 0, "C", "SecondaryBrush", "OnSecondaryBrush"),
+                KeyPadButton(vm, 0, 1, "±", "SecondaryBrush", "OnSecondaryBrush", "+-"),
+                KeyPadButton(vm, 0, 2, "%", "SecondaryBrush", "OnSecondaryBrush"),
+                KeyPadButton(vm, 0, 3, "÷", "TertiaryBrush", "OnTertiaryBrush"),
+
+                // Row 1
+                KeyPadButton(vm, 1, 0, "7", "PrimaryBrush"),
+                KeyPadButton(vm, 1, 1, "8", "PrimaryBrush"),
+                KeyPadButton(vm, 1, 2, "9", "PrimaryBrush"),
+                KeyPadButton(vm, 1, 3, "×", "TertiaryBrush", "OnTertiaryBrush"),
+
+                // Row 2
+                KeyPadButton(vm, 2, 0, "4", "PrimaryBrush"),
+                KeyPadButton(vm, 2, 1, "5", "PrimaryBrush"),
+                KeyPadButton(vm, 2, 2, "6", "PrimaryBrush"),
+                KeyPadButton(vm, 2, 3, "–", "TertiaryBrush", "OnTertiaryBrush", parameter: "-"),
+
+                //Row 3
+                KeyPadButton(vm, 3, 0, "1", "PrimaryBrush"),
+                KeyPadButton(vm, 3, 1, "2", "PrimaryBrush"),
+                KeyPadButton(vm, 3, 2, "3", "PrimaryBrush"),
+                KeyPadButton(vm, 3, 3, "+", "TertiaryBrush", "OnTertiaryBrush"),
+
+                //Row 4
+                KeyPadButton(vm, 4, 0, ".", "PrimaryBrush"),
+                KeyPadButton(vm, 4, 1, "0", "PrimaryBrush"),
+#if HAS_UNO_SKIA
+                KeyPadButton(vm, 4, 2, "<-", "PrimaryBrush", parameter: "back"),
+#else
+                KeyPadButton(vm, 4, 2, "⌫", "PrimaryBrush", parameter: "back"),
+#endif
+                KeyPadButton(vm, 4, 3, "=", "TertiaryBrush", "OnTertiaryBrush")
             );
 
         private Button KeyPadButton(MainModel.MainViewModel vm, int gridRow, int gridColumn, string content, string background, string foreground = "OnPrimaryBrush", string? parameter = null)
