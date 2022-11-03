@@ -154,6 +154,7 @@ namespace SimpleCalculator.Views
             .Foreground(ThemeResource.Get<Brush>(foreground))
             .Grid(row: gridRow, column: gridColumn)
             .HorizontalAlignment(HorizontalAlignment.Stretch)
-            .VerticalAlignment(VerticalAlignment.Stretch);
+            .VerticalAlignment(VerticalAlignment.Stretch)
+            .Height(72);
     }
 }
