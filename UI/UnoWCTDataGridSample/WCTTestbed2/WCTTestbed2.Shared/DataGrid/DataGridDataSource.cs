@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 using WCTTestbed2;
 using Windows.Storage;
 using Windows.Storage.Streams;
-using Microsoft.UI.Xaml.Data;
+using Windows.UI.Xaml.Data;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.Data
 {

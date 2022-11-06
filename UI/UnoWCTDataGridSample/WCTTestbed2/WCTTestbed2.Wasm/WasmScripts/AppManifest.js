@@ -1,7 +1,7 @@
 ﻿var UnoAppManifest = {
 
-    splashScreenImage: "Assets/SplashScreen.png",
-    splashScreenColor: "transparent",
+    splashScreenImage: "Assets/SplashScreen.scale-200.png",
+    splashScreenColor: "#00f",
     displayName: "WCTTestbed2"
 
 }
