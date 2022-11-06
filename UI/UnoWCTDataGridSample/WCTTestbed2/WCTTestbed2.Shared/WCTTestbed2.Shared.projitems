@@ -6,7 +6,7 @@
     <SharedGUID>6279c845-92f8-4333-ab99-3d213163593c</SharedGUID>
   </PropertyGroup>
   <PropertyGroup Label="Configuration">
-    <Import_RootNamespace>WCTTestbed2.Shared</Import_RootNamespace>
+    <Import_RootNamespace>WCTTestbed2</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
     <ApplicationDefinition Include="$(MSBuildThisFileDirectory)App.xaml">
@@ -32,17 +32,19 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="$(MSBuildThisFileDirectory)Assets\LockScreenLogo.scale-200.png" />
-    <Content Include="$(MSBuildThisFileDirectory)Assets\SplashScreen.scale-200.png" />
-    <Content Include="$(MSBuildThisFileDirectory)Assets\Square150x150Logo.scale-200.png" />
-    <Content Include="$(MSBuildThisFileDirectory)Assets\Square44x44Logo.scale-200.png" />
-    <Content Include="$(MSBuildThisFileDirectory)Assets\StoreLogo.png" />
-    <Content Include="$(MSBuildThisFileDirectory)Assets\Wide310x150Logo.scale-200.png" />
+    <None Include="$(MSBuildThisFileDirectory)Assets\SharedAssets.md" />
+    <None Include="$(MSBuildThisFileDirectory)mtns.csv" />
   </ItemGroup>
   <ItemGroup>
     <PRIResource Include="$(MSBuildThisFileDirectory)Strings\en\Resources.resw" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)mtns.csv" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\lockscreenlogo.scale-200.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\splashscreen.scale-200.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\square150x150logo.scale-200.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\square44x44logo.scale-200.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\storelogo.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\wide310x150logo.scale-200.png" />
   </ItemGroup>
+  <Import Project="WCTTestbed2.Shared.globs.props" Condition="'$(IsCodeSharingProject)'!='true'" />
 </Project>
