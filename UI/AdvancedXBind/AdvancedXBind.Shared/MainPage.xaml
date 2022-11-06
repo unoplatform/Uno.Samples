@@ -12,7 +12,7 @@
     <Page.Resources>
         <converters:DoubleToStringConverter x:Key="DoubleToStringConverter"/>
     </Page.Resources>
-    <Grid DataContext="{x:Bind vm:PlanetViewModel.Create('Jupiter')}" Margin="100" RowSpacing="20" HorizontalAlignment="Stretch" VerticalAlignment="Top">
+    <Grid DataContext="{x:Bind vm:PlanetViewModel.Create('Jupiter')}" Margin="80" RowSpacing="20" ColumnSpacing="10" HorizontalAlignment="Stretch" VerticalAlignment="Top">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="*"/>
@@ -29,7 +29,7 @@
         <TextBox Grid.Row="1" Grid.Column="1" x:Name="tb" />
         <TextBlock Grid.Row="2" HorizontalAlignment="Right" FontWeight="Bold">Your weight on Jupiter:</TextBlock>
         <TextBlock Text="{x:Bind ViewModel.WeightOnPlanet(tb.Text), Mode=OneWay}" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2"/>
-        <Button Grid.Row="3" HorizontalAlignment="Right" Content="Display Planet Information" Click="{x:Bind DisplayPlanetSync()}"/>
+        <Button Grid.Row="3" HorizontalAlignment="Right" Content="Display Planet Information" Click="{x:Bind DisplayPlanetSync}"/>
         <TextBlock Grid.Row="3" Grid.Column="1" Text="{x:Bind GetResultOfAsyncMethod()}"/>
         <TextBlock Grid.Row="4" HorizontalAlignment="Right" FontWeight="Bold" Text="Approx Planet Density (KG/M3):"/>
         <TextBlock Grid.Row="4" Grid.Column="1" Text="{x:Bind ViewModel.CalculateDensity(ViewModel.Planet.Mass, ViewModel.Planet.Diameter)}"/>
