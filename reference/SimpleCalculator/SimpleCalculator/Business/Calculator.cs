@@ -19,7 +19,7 @@ namespace SimpleCalculator.Business
         private bool HasNumber1 => Number1 != null;
         private bool HasNumber2 => Number2 != null;
 
-        public string OutPut => $"{(Result != null ? Result.Value : HasNumber ? Number : "0")}";
+        public string Output => $"{(Result != null ? Result.Value : HasNumber ? Number : "0")}";
         public string? Equation => $"{Number1} {Operator} {Number2}{(IsNumber2Percentage ? "%" : string.Empty)}{(Result != null ? " =" : string.Empty)}";
         
         public Calculator Input(string key)

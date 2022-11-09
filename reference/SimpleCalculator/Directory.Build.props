@@ -8,16 +8,19 @@
 		<DebugSymbols>True</DebugSymbols>
 		<SynthesizeLinkMetadata>true</SynthesizeLinkMetadata>
 
-		<ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
-		<!-- Workaround for CPM with multi-target projects https://github.com/dotnet/sdk/issues/27840 -->
-		<DisableImplicitLibraryPacksFolder>true</DisableImplicitLibraryPacksFolder>
-
 		<TreatWarningsAsErrors>True</TreatWarningsAsErrors>
 	  	<NoWarn>$(NoWarn);Uno0001;CS1998;CA1416;NU1507</NoWarn>
 	</PropertyGroup>
 
+	<PropertyGroup>
+		<UnoVersion>4.7.0-dev.73</UnoVersion>
+		<UnoExtensionsVersion>2.3.0-dev.263</UnoExtensionsVersion>
+		<UnoToolkitVersion>2.4.0-dev.110</UnoToolkitVersion>
+		<UnoMaterialVersion>2.4.0-dev.57</UnoMaterialVersion>
+	</PropertyGroup>
+	
 	<ItemGroup>
 		<!--This override is used to validate the use of specific version of the C# Compiler-->
-		<PackageReference Include="Microsoft.Net.Compilers.Toolset" PrivateAssets="all" />
+		<PackageReference Include="Microsoft.Net.Compilers.Toolset" Version="4.2.0" PrivateAssets="all" />
 	</ItemGroup>
 </Project>

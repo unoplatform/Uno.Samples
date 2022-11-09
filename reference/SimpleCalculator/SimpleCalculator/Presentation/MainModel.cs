@@ -5,7 +5,7 @@ using Uno.Extensions.Reactive;
 
 namespace SimpleCalculator.Presentation;
 
-public partial class MainModel
+public partial record MainModel
 {
     public IState<bool> IsDark => State.Value(this, () => _theme.IsDark);
 

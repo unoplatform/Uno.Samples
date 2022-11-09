@@ -37,7 +37,7 @@ jobs:
       foreach ($SolutionName in $SolutionsToBuild) {
 
            $solutionPath=[System.IO.Path]::GetDirectoryName($SolutionName);
-           git diff --quiet HEAD "origin/$TargetBranch)" -- "$solutionPath"
+           git diff --quiet HEAD "origin/$TargetBranch" -- "$solutionPath"
 
            # Only build if there a change in the solution path for the current PR, if we're not in a PR
            if( ('$env:System_PullRequest_PullRequestId)' -eq '') -or ($global:LASTEXITCODE -ne 0)) {

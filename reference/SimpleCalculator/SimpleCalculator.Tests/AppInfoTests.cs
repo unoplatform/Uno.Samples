@@ -19,7 +19,7 @@ public class AppInfoTests
 			 .Input("4")
 			 .Input("=");
 
-		Assert.AreEqual("44", c.OutPut);
+		Assert.AreEqual("44", c.Output);
         Assert.AreEqual("11 × 4 =", c.Equation);
     }
 
@@ -35,7 +35,7 @@ public class AppInfoTests
              .Input("9")
              .Input("=");
 
-        Assert.AreEqual("729", c.OutPut);
+        Assert.AreEqual("729", c.Output);
         Assert.AreEqual("6561 ÷ 9 =", c.Equation);
     }
 
@@ -54,7 +54,7 @@ public class AppInfoTests
              .Input("1")
              .Input("=");
 
-        Assert.AreEqual("10811", c.OutPut);
+        Assert.AreEqual("10811", c.Output);
         Assert.AreEqual("1290 + 9521 =", c.Equation);
     }
 
@@ -72,7 +72,7 @@ public class AppInfoTests
              .Input("0")
              .Input("=");
 
-        Assert.AreEqual("-1", c.OutPut);
+        Assert.AreEqual("-1", c.Output);
         Assert.AreEqual("999 - 1000 =", c.Equation);
     }
 
@@ -94,7 +94,7 @@ public class AppInfoTests
              .Input("3")
              .Input("=");
 
-        Assert.AreEqual("3", c.OutPut);
+        Assert.AreEqual("3", c.Output);
         Assert.AreEqual("9 ÷ 3 =", c.Equation);
     }
 }
