@@ -25,7 +25,7 @@ namespace SimpleCalculator
         public MainPage()
         {
             this.InitializeComponent();
-            DataContext = new MainModel();
+            DataContext = new MainModel.MainViewModel();
         }
     }
 }
