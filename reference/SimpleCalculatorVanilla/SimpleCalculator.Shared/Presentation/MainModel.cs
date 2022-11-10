@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
 using Uno.Extensions.Reactive;
+using SimpleCalculator.ThemeService;
 
 namespace SimpleCalculator.Presentation
 {
@@ -15,7 +16,10 @@ namespace SimpleCalculator.Presentation
         public IState<Calculator> Calculator => State.Value(this, () => new Calculator());
         public async ValueTask Input(string key, CancellationToken ct)
                 => await Calculator.Update(c => c?.Input(key), ct);
-        public MainModel()
+        public MainModel
+            (
+            //IAppThemeService theme
+            )
         {
             //_theme = theme;
             //IsDark.ForEachAsync((dark, ct) => theme.SetThemeAsync(dark, ct));
