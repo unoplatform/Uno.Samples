@@ -3,6 +3,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:SimpleCalculator"
+    xmlns:keyboard="using:SimpleCalculator.Keyboard"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:skia="http://uno.ui/skia"
@@ -11,7 +12,8 @@
     xmlns:not_skia="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:utu="using:Uno.Toolkit.UI"
     xmlns:um="using:Uno.Material"
-    Background="{ThemeResource BackgroundBrush}">
+    Background="{ThemeResource BackgroundBrush}"
+    keyboard:KeyboardBehavior.KeyUpCommand="{Binding Input}">
 
     <Page.Resources>
         <x:String x:Key="Icon_Brightness_3">F1 M 3 0 C 1.9500000476837158 0 0.949999988079071 0.1600000262260437 0 0.46000003814697266 C 4.059999942779541 1.7300000190734863 7 5.519999980926514 7 10 C 7 14.480000019073486 4.059999942779541 18.27000093460083 0 19.540000915527344 C 0.949999988079071 19.840000927448273 1.9500000476837158 20 3 20 C 8.519999980926514 20 13 15.519999980926514 13 10 C 13 4.480000019073486 8.519999980926514 0 3 0 Z</x:String>
