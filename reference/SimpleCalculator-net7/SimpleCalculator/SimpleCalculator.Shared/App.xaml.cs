@@ -5,6 +5,7 @@ using Microsoft.UI.Xaml.Navigation;
 using System;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
+using XamlWindow = Microsoft.UI.Xaml.Window;
 
 namespace SimpleCalculator;
 /// <summary>
@@ -12,7 +13,7 @@ namespace SimpleCalculator;
 /// </summary>
 public sealed partial class App : Application
 {
-	private Window _window;
+	public XamlWindow Window { get; private set; }
 
 	/// <summary>
 	/// Initializes the singleton application object.  This is the first line of authored code
@@ -44,13 +45,13 @@ public sealed partial class App : Application
 #endif
 
 #if NET6_0_OR_GREATER && WINDOWS && !HAS_UNO
-            _window = new Window();
-            _window.Activate();
+        Window = new Window();
+        Window.Activate();
 #else
-		_window = Microsoft.UI.Xaml.Window.Current;
+		Window = Microsoft.UI.Xaml.Window.Current;
 #endif
 
-		var rootFrame = _window.Content as Frame;
+		var rootFrame = Window.Content as Frame;
 
 		// Do not repeat app initialization when the Window already has content,
 		// just ensure that the window is active
@@ -67,7 +68,7 @@ public sealed partial class App : Application
 			}
 
 			// Place the frame in the current Window
-			_window.Content = rootFrame;
+			Window.Content = rootFrame;
 		}
 
 #if !(NET6_0_OR_GREATER && WINDOWS)
@@ -82,7 +83,7 @@ public sealed partial class App : Application
 				rootFrame.Navigate(typeof(MainPage), args.Arguments);
 			}
 			// Ensure the current window is active
-			_window.Activate();
+			Window.Activate();
 		}
 	}
 

@@ -17,7 +17,7 @@ namespace SimpleCalculator
     {
         public MainPageMarkup()
         {
-            DataContext = new MainModel.MainViewModel(new ThemeService.AppThemeService());
+            DataContext = new MainModel.MainViewModel(new ThemeService.AppThemeService(((App)App.Current).Window));
 
             this.DataContext<MainModel.MainViewModel>((page, vm)
                 => page
