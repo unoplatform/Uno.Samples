@@ -12,9 +12,9 @@ namespace SimpleCalculator.ThemeService
     {
         private readonly Window _window;
 
-        public AppThemeService(Window window)
+        public AppThemeService()
         {
-            _window = window;
+            _window = ((App)App.Current).Window;
         }
 
         public bool IsDark => SystemThemeHelper.IsRootInDarkMode(_window.Content.XamlRoot!);

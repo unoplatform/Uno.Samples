@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Text;
 using Uno.Material;
 using Uno.Toolkit.UI;
+using SimpleCalculator.ThemeService;
 
 namespace SimpleCalculator
 {
@@ -17,7 +18,7 @@ namespace SimpleCalculator
     {
         public MainPageMarkup()
         {
-            DataContext = new MainModel.MainViewModel(new ThemeService.AppThemeService(((App)App.Current).Window));
+            DataContext = new MainModel.MainViewModel(new AppThemeService());
 
             this.DataContext<MainModel.MainViewModel>((page, vm)
                 => page
@@ -59,7 +60,7 @@ namespace SimpleCalculator
                .Margin(8)
                .AutoLayout(counterAlignment: AutoLayoutAlignment.Center)
                .Style(StaticResource.Get<Style>("IconToggleButtonStyle"))
-               //.IsChecked(x => x.Bind(() => vm.IsDark).Mode(BindingMode.TwoWay))
+               .IsChecked(x => x.Bind(() => vm.IsDark).Mode(BindingMode.TwoWay))
                .Content
                (
                    new PathIcon()
