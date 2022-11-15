@@ -13,6 +13,7 @@ using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using SimpleCalculator.Presentation;
+using SimpleCalculator.ThemeService;
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
 namespace SimpleCalculator
@@ -25,7 +26,7 @@ namespace SimpleCalculator
         public MainPage()
         {
             this.InitializeComponent();
-            DataContext = new MainModel.MainViewModel();
+            DataContext = new MainModel.MainViewModel(new AppThemeService());
         }
     }
 }

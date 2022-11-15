@@ -4,6 +4,7 @@ using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Media;
 using SimpleCalculator.Presentation;
+using SimpleCalculator.ThemeService;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -17,7 +18,7 @@ namespace SimpleCalculator
     {
         public MainPageMarkup()
         {
-            DataContext = new MainModel.MainViewModel();
+            DataContext = new MainModel.MainViewModel(new AppThemeService());
 
             this.DataContext<MainModel.MainViewModel>((page, vm)
                 => page
@@ -59,7 +60,7 @@ namespace SimpleCalculator
                .Margin(8)
                .AutoLayout(counterAlignment: AutoLayoutAlignment.Center)
                .Style(StaticResource.Get<Style>("IconToggleButtonStyle"))
-               //.IsChecked(x => x.Bind(() => vm.IsDark).Mode(BindingMode.TwoWay))
+               .IsChecked(x => x.Bind(() => vm.IsDark).Mode(BindingMode.TwoWay))
                .Content
                (
                    new PathIcon()
