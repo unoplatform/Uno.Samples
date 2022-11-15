@@ -30,7 +30,7 @@ jobs:
   - powershell: |
       Set-PSDebug -Trace 1
 
-      $SolutionsToBuild =  Get-ChildItem -Path **\*.sln -Recurse  | Where-Object {$_.FullName -notmatch "\\ArchivedProjects\\"}
+      $SolutionsToBuild =  Get-ChildItem -Path **\SimpleCalculator.sln -Recurse  | Where-Object {$_.FullName -notmatch "\\ArchivedProjects\\"}
 
       if($env:System_PullRequest_TargetBranch -eq $null) { $TargetBranch = "master" } else { $TargetBranch = $env:System_PullRequest_TargetBranch; }
 
