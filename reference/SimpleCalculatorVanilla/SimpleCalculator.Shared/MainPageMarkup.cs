@@ -151,7 +151,7 @@ namespace SimpleCalculator
                 KeyPadButton(vm, 4, 3, "=", "TertiaryBrush", "OnTertiaryBrush")
             );
 
-        private Button KeyPadButton(MainModel.MainViewModel vm, int gridRow, int gridColumn, string content, string background, string foreground = "OnPrimaryBrush", string? parameter = null)
+        private Button KeyPadButton(MainModel.MainViewModel vm, int gridRow, int gridColumn, string content, string background, string foreground = "OnPrimaryBrush", string parameter = null)
             => new Button()
             .Command(() => vm.Input)
             .CommandParameter(parameter ?? content)

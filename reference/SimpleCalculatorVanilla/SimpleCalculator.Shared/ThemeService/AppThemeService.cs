@@ -21,7 +21,7 @@ namespace SimpleCalculator.ThemeService
 
         public async ValueTask SetThemeAsync(bool darkMode, CancellationToken ct)
         {
-            var tcs = new TaskCompletionSource<object?>();
+            var tcs = new TaskCompletionSource<object>();
             await using var _ = ct.Register(() => tcs.TrySetCanceled());
             _window.DispatcherQueue.TryEnqueue(() =>
             {
