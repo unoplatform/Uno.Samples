@@ -5,6 +5,7 @@ using Windows.ApplicationModel.Activation;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
+using XamlWindow = Microsoft.UI.Xaml.Window;
 
 namespace SimpleCalculator
 {
@@ -13,7 +14,7 @@ namespace SimpleCalculator
     /// </summary>
     public sealed partial class App : Application
     {
-        private Window _window;
+        public XamlWindow Window { get; private set; }
 
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
@@ -45,13 +46,13 @@ namespace SimpleCalculator
 #endif
 
 #if NET6_0_OR_GREATER && WINDOWS && !HAS_UNO
-            _window = new Window();
-            _window.Activate();
+            Window = new Window();
+            Window.Activate();
 #else
-            _window = Microsoft.UI.Xaml.Window.Current;
+            Window = Microsoft.UI.Xaml.Window.Current;
 #endif
 
-            var rootFrame = _window.Content as Frame;
+            var rootFrame = Window.Content as Frame;
 
             // Do not repeat app initialization when the Window already has content,
             // just ensure that the window is active
@@ -68,7 +69,7 @@ namespace SimpleCalculator
                 }
 
                 // Place the frame in the current Window
-                _window.Content = rootFrame;
+                Window.Content = rootFrame;
             }
 
 #if !(NET6_0_OR_GREATER && WINDOWS)
@@ -82,12 +83,12 @@ namespace SimpleCalculator
                     // parameter
 
                     //Switch between XAML and Markup version
-                    var page = typeof(MainPage);
-                    //var page = typeof(MainPageMarkup);
+                    //var page = typeof(MainPage);
+                    var page = typeof(MainPageMarkup);
                     rootFrame.Navigate(page, args.Arguments);
                 }
                 // Ensure the current window is active
-                _window.Activate();
+                Window.Activate();
             }
         }
 
