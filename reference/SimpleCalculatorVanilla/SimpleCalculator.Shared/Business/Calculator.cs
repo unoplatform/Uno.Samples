@@ -175,7 +175,7 @@ namespace SimpleCalculator.Business
             return calculator;
         }
 
-        double? GetNumber(string? number)
+        double? GetNumber(string number)
         {
             return Convert.ToDouble(number);
         }
