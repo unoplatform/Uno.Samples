@@ -1,8 +1,8 @@
 ﻿using System;
 using TimeEntryUno.Shared.Helpers;
 using TimeEntryUno.Shared.Services;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
 
 // The Content Dialog item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
