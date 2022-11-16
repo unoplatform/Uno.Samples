@@ -7,10 +7,10 @@
 	  xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
 	  mc:Ignorable="d">
 
-	<Page.Resources>
-		<!-- BulletPoint ContentTemplate -->
-		<DataTemplate x:Key="BulletPointContentTemplate">
-			<TextBlock Margin="0,5"
+    <Page.Resources>
+        <!-- BulletPoint ContentTemplate -->
+        <DataTemplate x:Key="BulletPointContentTemplate">
+            <TextBlock Margin="0,5"
 					   FontSize="14"
 					   TextWrapping="Wrap"
 					   FontWeight="Bold"
@@ -19,56 +19,56 @@
 				<Run Text="• "
 					 Foreground="#67E5AD" />
 				<Run Text="{Binding}" />
-			</TextBlock>
-		</DataTemplate>
-	</Page.Resources>
+            </TextBlock>
+        </DataTemplate>
+    </Page.Resources>
 
-	<Grid x:Name="MainRoot">
-		<Grid.RowDefinitions>
-			<RowDefinition Height="*" />
-			<RowDefinition Height="400" />
-		</Grid.RowDefinitions>
+    <Grid x:Name="MainRoot">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="400" />
+        </Grid.RowDefinitions>
 
-		<muxc:TwoPaneView Grid.RowSpan="2"
+        <muxc:TwoPaneView Grid.RowSpan="2"
 						  Pane1Length="*"
 						  Pane2Length="*"
 						  PanePriority="Pane1"
 						  WideModeConfiguration="LeftRight"
 						  TallModeConfiguration="SinglePane">
-			<muxc:TwoPaneView.Resources>
-				<Storyboard x:Name="CarStoryboard">
-					<!-- SketchCar bouncing animation -->
-					<DoubleAnimationUsingKeyFrames RepeatBehavior="Forever"
+            <muxc:TwoPaneView.Resources>
+                <Storyboard x:Name="CarStoryboard">
+                    <!-- SketchCar bouncing animation -->
+                    <DoubleAnimationUsingKeyFrames RepeatBehavior="Forever"
 												   Storyboard.TargetName="SketchCar"
 												   Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.Y)">
-						<EasingDoubleKeyFrame Value="2"
+                        <EasingDoubleKeyFrame Value="2"
 											  KeyTime="00:00:02">
-							<EasingDoubleKeyFrame.EasingFunction>
-								<BounceEase Bounces="4"
+                            <EasingDoubleKeyFrame.EasingFunction>
+                                <BounceEase Bounces="4"
 											EasingMode="EaseIn"
 											Bounciness="1.8" />
-							</EasingDoubleKeyFrame.EasingFunction>
-						</EasingDoubleKeyFrame>
+                            </EasingDoubleKeyFrame.EasingFunction>
+                        </EasingDoubleKeyFrame>
 
-						<EasingDoubleKeyFrame Value="0"
+                        <EasingDoubleKeyFrame Value="0"
 											  KeyTime="00:00:04">
-							<EasingDoubleKeyFrame.EasingFunction>
-								<BounceEase Bounces="4"
+                            <EasingDoubleKeyFrame.EasingFunction>
+                                <BounceEase Bounces="4"
 											EasingMode="EaseOut"
 											Bounciness="1.8" />
-							</EasingDoubleKeyFrame.EasingFunction>
-						</EasingDoubleKeyFrame>
-					</DoubleAnimationUsingKeyFrames>
+                            </EasingDoubleKeyFrame.EasingFunction>
+                        </EasingDoubleKeyFrame>
+                    </DoubleAnimationUsingKeyFrames>
 
-					<!-- Rotating wheels animations -->
-					<DoubleAnimation From="0"
+                    <!-- Rotating wheels animations -->
+                    <DoubleAnimation From="0"
 									 To="360"
 									 Duration="0:0:0.5"
 									 RepeatBehavior="Forever"
 									 Storyboard.TargetName="BackWheel"
 									 Storyboard.TargetProperty="(UIElement.RenderTransform).(RotateTransform.Angle)" />
 
-					<DoubleAnimation From="0"
+                    <DoubleAnimation From="0"
 									 To="360"
 									 Duration="0:0:0.5"
 									 RepeatBehavior="Forever"
@@ -76,76 +76,76 @@
 									 Storyboard.TargetProperty="(UIElement.RenderTransform).(RotateTransform.Angle)" />
 
 
-					<!-- Car features panel animation -->
-					<DoubleAnimation From="0"
+                    <!-- Car features panel animation -->
+                    <DoubleAnimation From="0"
 									 To="1"
 									 Duration="0:0:2"
 									 Storyboard.TargetName="FeaturesPanel"
 									 Storyboard.TargetProperty="Opacity" />
-				</Storyboard>
+                </Storyboard>
 
-				<Storyboard x:Name="SceneStoryboard">
-					<!-- Trees animation -->
-					<DoubleAnimation From="0"
+                <Storyboard x:Name="SceneStoryboard">
+                    <!-- Trees animation -->
+                    <DoubleAnimation From="0"
 									 To="-800"
 									 Duration="0:0:5"
 									 RepeatBehavior="Forever"
 									 Storyboard.TargetName="Trees"
 									 Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)" />
 
-					<!-- Clouds animation -->
-					<DoubleAnimation From="0"
+                    <!-- Clouds animation -->
+                    <DoubleAnimation From="0"
 									 To="-800"
 									 Duration="0:3:0"
 									 RepeatBehavior="Forever"
 									 Storyboard.TargetName="Clouds"
 									 Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)" />
 
-					<!-- Uno Air Balloon animation -->
-					<DoubleAnimation From="0"
+                    <!-- Uno Air Balloon animation -->
+                    <DoubleAnimation From="0"
 									 To="-500"
 									 Duration="0:1:0"
 									 Storyboard.TargetName="UnoAirBalloon"
 									 Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.Y)" />
-				</Storyboard>
-			</muxc:TwoPaneView.Resources>
+                </Storyboard>
+            </muxc:TwoPaneView.Resources>
 
-			<muxc:TwoPaneView.Pane1>
-				<Grid Background="#159BFF">
-					<Grid.RowDefinitions>
-						<RowDefinition Height="Auto" />
-						<RowDefinition Height="*" />
-						<RowDefinition Height="400" />
-					</Grid.RowDefinitions>
+            <muxc:TwoPaneView.Pane1>
+                <Grid Background="#159BFF">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="400" />
+                    </Grid.RowDefinitions>
 
-					<!-- Left NavBar -->
-					<Image Name="LeftNavBar"
+                    <!-- Left NavBar -->
+                    <Image Name="LeftNavBar"
 						   Stretch="Uniform"
 						   VerticalAlignment="Top"
 						   HorizontalAlignment="Stretch"
 						   Source="ms-appx:///Assets/left-navbar-transparent.png" />
 
-					<!-- Left main content -->
-					<Grid Grid.Row="1"
+                    <!-- Left main content -->
+                    <Grid Grid.Row="1"
 						  Grid.RowSpan="2">
-						<Grid.ColumnDefinitions>
-							<ColumnDefinition Width="Auto" />
-							<ColumnDefinition Width="Auto" />
-						</Grid.ColumnDefinitions>
-						<Grid.RowDefinitions>
-							<RowDefinition Height="Auto" />
-							<RowDefinition Height="Auto" />
-							<RowDefinition Height="*" />
-							<RowDefinition Height="Auto" />
-							<RowDefinition Height="Auto" />
-						</Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
 
-						<!-- Number pane -->
-						<Grid Margin="0,20,10,0">
-							<Rectangle Fill="#121111"
+                        <!-- Number pane -->
+                        <Grid Margin="0,20,10,0">
+                            <Rectangle Fill="#121111"
 									   Height="125"
 									   Width="129" />
-							<TextBlock Text="1."
+                            <TextBlock Text="1."
 									   FontSize="96"
 									   Opacity="0.9"
 									   Margin="0,0,0,30"
@@ -154,46 +154,46 @@
 									   VerticalAlignment="Bottom"
 									   HorizontalAlignment="Center"
 									   FontFamily="{StaticResource RalewayFontFamily}" />
-						</Grid>
+                        </Grid>
 
-						<!-- Toy car description -->
-						<StackPanel Grid.Row="1"
+                        <!-- Toy car description -->
+                        <StackPanel Grid.Row="1"
 									Grid.Column="1"
 									HorizontalAlignment="Left"
 									VerticalAlignment="Center">
-							<TextBlock Text="Retro metal frame toy car"
+                            <TextBlock Text="Retro metal frame toy car"
 									   Margin="10,0,0,10"
 									   FontSize="24"
 									   Foreground="#F1F1F1"
 									   FontWeight="Bold"
 									   FontFamily="{StaticResource QuicksandFontFamily}" />
 
-							<ContentControl Content="ToyCar animation with hinge angle"
+                            <ContentControl Content="ToyCar animation with hinge angle"
 											ContentTemplate="{StaticResource BulletPointContentTemplate}" />
 
-							<ContentControl x:Name="SensorStatus"
+                            <ContentControl x:Name="SensorStatus"
 											x:DefaultBindMode="TwoWay"
 											ContentTemplate="{StaticResource BulletPointContentTemplate}" />
 
-							<ContentControl x:Name="AngleValue"
+                            <ContentControl x:Name="AngleValue"
 											x:DefaultBindMode="TwoWay"
 											ContentTemplate="{StaticResource BulletPointContentTemplate}" />
-						</StackPanel>
+                        </StackPanel>
 
-						<!-- Toy car price -->
-						<StackPanel Grid.Row="3"
+                        <!-- Toy car price -->
+                        <StackPanel Grid.Row="3"
 									Grid.Column="1"
 									Margin="0,0,0,10"
 									Orientation="Horizontal"
 									HorizontalAlignment="Left">
-							<TextBlock Text="Retail"
+                            <TextBlock Text="Retail"
 									   FontSize="14"
 									   FontWeight="ExtraBold"
 									   Foreground="#F1F1F1"
 									   VerticalAlignment="Bottom"
 									   FontFamily="{StaticResource QuicksandFontFamily}" />
 
-							<TextBlock FontWeight="ExtraBold"
+                            <TextBlock FontWeight="ExtraBold"
 									   Margin="8,0,0,0"
 									   Foreground="#67E5AD"
 									   VerticalAlignment="Bottom"
@@ -201,81 +201,81 @@
 								<Run Text="$16"
 									 FontSize="18" /><Run Text=".95"
 														  FontSize="14" />
-							</TextBlock>
-						</StackPanel>
+                            </TextBlock>
+                        </StackPanel>
 
-						<!-- View details area -->
-						<Grid Grid.Row="4"
+                        <!-- View details area -->
+                        <Grid Grid.Row="4"
 							  Grid.Column="1"
 							  Margin="0,0,0,40"
 							  HorizontalAlignment="Left">
-							<Rectangle Fill="#121111"
+                            <Rectangle Fill="#121111"
 									   Height="40"
 									   Width="180" />
-							<StackPanel Orientation="Horizontal"
+                            <StackPanel Orientation="Horizontal"
 										VerticalAlignment="Center"
 										HorizontalAlignment="Center">
-								<TextBlock Text="VIEW DETAILS"
+                                <TextBlock Text="VIEW DETAILS"
 										   FontSize="14"
 										   Margin="0,0,4,0"
 										   FontWeight="Bold"
 										   Foreground="#F8F8F8"
 										   FontFamily="{StaticResource QuicksandFontFamily}" />
 
-								<!-- Right Arrow -->
-								<Path Data="M484.14,226.886L306.46,49.202c-5.072-5.072-11.832-7.856-19.04-7.856c-7.216,0-13.972,2.788-19.044,7.856l-16.132,16.136c-5.068,5.064-7.86,11.828-7.86,19.04c0,7.208,2.792,14.2,7.86,19.264L355.9,207.526H26.58C11.732,207.526,0,219.15,0,234.002v22.812c0,14.852,11.732,27.648,26.58,27.648h330.496L252.248,388.926c-5.068,5.072-7.86,11.652-7.86,18.864c0,7.204,2.792,13.88,7.86,18.948l16.132,16.084c5.072,5.072,11.828,7.836,19.044,7.836c7.208,0,13.968-2.8,19.04-7.872l177.68-177.68c5.084-5.088,7.88-11.88,7.86-19.1C492.02,238.762,489.228,231.966,484.14,226.886z"
+                                <!-- Right Arrow -->
+                                <Path Data="M484.14,226.886L306.46,49.202c-5.072-5.072-11.832-7.856-19.04-7.856c-7.216,0-13.972,2.788-19.044,7.856l-16.132,16.136c-5.068,5.064-7.86,11.828-7.86,19.04c0,7.208,2.792,14.2,7.86,19.264L355.9,207.526H26.58C11.732,207.526,0,219.15,0,234.002v22.812c0,14.852,11.732,27.648,26.58,27.648h330.496L252.248,388.926c-5.068,5.072-7.86,11.652-7.86,18.864c0,7.204,2.792,13.88,7.86,18.948l16.132,16.084c5.072,5.072,11.828,7.836,19.044,7.836c7.208,0,13.968-2.8,19.04-7.872l177.68-177.68c5.084-5.088,7.88-11.88,7.86-19.1C492.02,238.762,489.228,231.966,484.14,226.886z"
 									  HorizontalAlignment="Center"
 									  VerticalAlignment="Bottom"
 									  Stretch="Uniform"
 									  Margin="4,0,0,4"
 									  Fill="#F8F8F8"
 									  Width="9" />
-							</StackPanel>
-						</Grid>
-					</Grid>
+                            </StackPanel>
+                        </Grid>
+                    </Grid>
 
-					<!-- ToyCar -->
-					<Grid Name="DragLeftCar"
+                    <!-- ToyCar -->
+                    <Grid Name="DragLeftCar"
 						  Grid.Row="2"
 						  Width="220"
 						  Height="120"
 						  VerticalAlignment="Center"
 						  HorizontalAlignment="Left">
-						<Image Width="220"
+                        <Image Width="220"
 							   Height="120"
 							   Stretch="Fill"
 							   HorizontalAlignment="Left"
 							   Source="ms-appx:///Assets/BlueCar.png" />
 
-						<Image Width="25"
+                        <Image Width="25"
 							   Height="25"
 							   Stretch="Fill"
 							   Margin="110,0,0,36"
 							   VerticalAlignment="Bottom"
 							   HorizontalAlignment="Left"
 							   Source="ms-appx:///Assets/UnoLogoSmall.png" />
-					</Grid>
-				</Grid>
-			</muxc:TwoPaneView.Pane1>
-			<muxc:TwoPaneView.Pane2>
-				<Grid Background="White">
-					<Grid.RowDefinitions>
-						<RowDefinition Height="Auto" />
-						<RowDefinition Height="Auto" />
-						<RowDefinition Height="*" />
-						<RowDefinition Height="Auto" />
-						<RowDefinition Height="400" />
-					</Grid.RowDefinitions>
+                    </Grid>
+                </Grid>
+            </muxc:TwoPaneView.Pane1>
+            <muxc:TwoPaneView.Pane2>
+                <Grid Background="White">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="400" />
+                    </Grid.RowDefinitions>
 
-					<!-- Right NavBar -->
-					<Image Name="RightNavBar"
+                    <!-- Right NavBar -->
+                    <Image Name="RightNavBar"
 						   Stretch="Uniform"
 						   VerticalAlignment="Top"
 						   HorizontalAlignment="Stretch"
 						   Source="ms-appx:///Assets/right-navbar.png" />
 
-					<!-- Right Title -->
-					<TextBlock Grid.Row="1"
+                    <!-- Right Title -->
+                    <TextBlock Grid.Row="1"
 							   Text="Our thrilling toy cars put kids in the driver's seat."
 							   Margin="72,5,0,0"
 							   FontSize="24"
@@ -286,8 +286,8 @@
 							   HorizontalAlignment="Left"
 							   FontFamily="{StaticResource QuicksandFontFamily}" />
 
-					<!-- Uno Air Balloon -->
-					<Image Name="UnoAirBalloon"
+                    <!-- Uno Air Balloon -->
+                    <Image Name="UnoAirBalloon"
 						   Grid.Row="3"
 						   Width="70"
 						   Margin="220,0,0,20"
@@ -295,74 +295,74 @@
 						   HorizontalAlignment="Center"
 						   VerticalAlignment="Bottom"
 						   Source="ms-appx:///Assets/uno-air-balloon.png">
-						<Image.RenderTransform>
-							<TranslateTransform />
-						</Image.RenderTransform>
-					</Image>
+                        <Image.RenderTransform>
+                            <TranslateTransform />
+                        </Image.RenderTransform>
+                    </Image>
 
-					<!-- Mountains -->
-					<Path Grid.Row="3"
+                    <!-- Mountains -->
+                    <Path Grid.Row="3"
 						  Data="M69 93C47.6255 96.1128 11.5 82 0 74V161H737.5V74C705 74 623 127.5 556 127.5C489 127.5 357.5 0.5 286.5 0.5C215.5 0.5 120.5 85.5 69 93Z"
 						  VerticalAlignment="Bottom"
 						  Margin="0,0,0,20"
 						  Stretch="Uniform"
 						  Fill="#F8F8F8" />
 
-					<!-- Trees -->
-					<Grid x:Name="Trees"
+                    <!-- Trees -->
+                    <Grid x:Name="Trees"
 						  Grid.Row="3"
 						  Width="500"
 						  VerticalAlignment="Bottom">
-						<Grid.RenderTransform>
-							<TranslateTransform />
-						</Grid.RenderTransform>
+                        <Grid.RenderTransform>
+                            <TranslateTransform />
+                        </Grid.RenderTransform>
 
-						<Image Name="LeftTree"
+                        <Image Name="LeftTree"
 							   Width="32"
 							   Stretch="Uniform"
 							   HorizontalAlignment="Left"
 							   Source="ms-appx:///Assets/tree-left.png" />
 
-						<Image Name="LeftMiddle"
+                        <Image Name="LeftMiddle"
 							   Width="28"
 							   Margin="100,0,0,0"
 							   Stretch="Uniform"
 							   HorizontalAlignment="Left"
 							   Source="ms-appx:///Assets/tree-middle.png" />
 
-						<Image Name="LeftRight"
+                        <Image Name="LeftRight"
 							   Width="32"
 							   Stretch="Uniform"
 							   HorizontalAlignment="Right"
 							   Source="ms-appx:///Assets/tree-right.png" />
-					</Grid>
+                    </Grid>
 
-					<!-- Clouds -->
-					<Grid x:Name="Clouds"
+                    <!-- Clouds -->
+                    <Grid x:Name="Clouds"
 						  Grid.Row="3"
 						  Width="500"
 						  VerticalAlignment="Top"
 						  HorizontalAlignment="Left">
-						<Grid.RenderTransform>
-							<TranslateTransform />
-						</Grid.RenderTransform>
+                        <Grid.RenderTransform>
+                            <TranslateTransform />
+                        </Grid.RenderTransform>
 
-						<Image Name="BigCloud"
+                        <Image Name="BigCloud"
 							   Width="46"
 							   Margin="40,0,0,0"
 							   HorizontalAlignment="Left"
 							   Source="ms-appx:///Assets/cloud-big.png" />
 
-						<Image Name="SmallCloud"
+                        <Image Name="SmallCloud"
 							   Width="28"
 							   Margin="150,0,0,0"
 							   Stretch="Uniform"
 							   HorizontalAlignment="Left"
 							   Source="ms-appx:///Assets/cloud.png" />
-					</Grid>
+                    </Grid>
 
-					<!-- Sun -->
-					<Image Name="Sun"
+                    <!-- Sun -->
+                    <Image Name="Sun"
 						   Grid.Row="3"
 						   Height="22"
 						   Margin="0,0,100,0"
@@ -371,37 +371,37 @@
 						   HorizontalAlignment="Right"
 						   Source="ms-appx:///Assets/Sun.png" />
 
-					<!-- SketchCar -->
-					<Grid x:Name="DragRightCar"
+                    <!-- SketchCar -->
+                    <Grid x:Name="DragRightCar"
 						  Grid.Row="4"
 						  Width="220"
 						  Height="120"
 						  VerticalAlignment="Center"
 						  HorizontalAlignment="Left">
-						<Grid x:Name="SketchCar"
+                        <Grid x:Name="SketchCar"
 							  Width="220"
 							  Height="120"
 							  HorizontalAlignment="Left">
-							<Grid.RenderTransform>
-								<TranslateTransform />
-							</Grid.RenderTransform>
+                            <Grid.RenderTransform>
+                                <TranslateTransform />
+                            </Grid.RenderTransform>
 
-							<Image Width="220"
+                            <Image Width="220"
 								   Height="120"
 								   Stretch="Fill"
 								   HorizontalAlignment="Left"
 								   Source="ms-appx:///Assets/SketchCarWithoutWheels.png" />
 
-							<Image Width="25"
+                            <Image Width="25"
 								   Height="25"
 								   Stretch="Fill"
 								   Margin="110,0,0,36"
 								   VerticalAlignment="Bottom"
 								   HorizontalAlignment="Left"
 								   Source="ms-appx:///Assets/UnoLogoSmallMonochrome.png" />
-						</Grid>
+                        </Grid>
 
-						<Image Name="BackWheel"
+                        <Image Name="BackWheel"
 							   Width="50"
 							   Height="50"
 							   Stretch="Fill"
@@ -410,12 +410,12 @@
 							   HorizontalAlignment="Left"
 							   RenderTransformOrigin="0.5,0.5"
 							   Source="ms-appx:///Assets/BackWheel.png">
-							<Image.RenderTransform>
-								<RotateTransform />
-							</Image.RenderTransform>
-						</Image>
+                            <Image.RenderTransform>
+                                <RotateTransform />
+                            </Image.RenderTransform>
+                        </Image>
 
-						<Image Name="FrontWheel"
+                        <Image Name="FrontWheel"
 							   Width="50"
 							   Height="50"
 							   Stretch="Fill"
@@ -424,21 +424,21 @@
 							   VerticalAlignment="Bottom"
 							   HorizontalAlignment="Right"
 							   Source="ms-appx:///Assets/FrontWheel.png">
-							<Image.RenderTransform>
-								<RotateTransform />
-							</Image.RenderTransform>
-						</Image>
-					</Grid>
+                            <Image.RenderTransform>
+                                <RotateTransform />
+                            </Image.RenderTransform>
+                        </Image>
+                    </Grid>
 
-					<!-- Sketch car features panel -->
-					<Grid x:Name="FeaturesPanel"
+                    <!-- Sketch car features panel -->
+                    <Grid x:Name="FeaturesPanel"
 						  Grid.Row="4"
 						  Opacity="0"
 						  Width="398"
 						  Height="242"
 						  HorizontalAlignment="Left">
-						<!-- Headlamp feature details -->
-						<Image x:Name="VectorHeadlamp"
+                        <!-- Headlamp feature details -->
+                        <Image x:Name="VectorHeadlamp"
 							   Width="184"
 							   Margin="0,12,0,0"
 							   Stretch="Uniform"
@@ -446,7 +446,7 @@
 							   HorizontalAlignment="Right"
 							   Source="ms-appx:///Assets/new-vector-headlamp.png" />
 
-						<Image x:Name="FeatureHeadlamp"
+                        <Image x:Name="FeatureHeadlamp"
 							   Width="93"
 							   Margin="110,0,0,0"
 							   Stretch="Uniform"
@@ -454,15 +454,15 @@
 							   HorizontalAlignment="Left"
 							   Source="ms-appx:///Assets/new-feature-card-headlamp.png" />
 
-						<Ellipse Fill="#F85977"
+                        <Ellipse Fill="#F85977"
 								 Height="5"
 								 Width="5"
 								 Margin="0,113,0,0"
 								 VerticalAlignment="Top"
 								 HorizontalAlignment="Right" />
 
-						<!-- Window feature details -->
-						<Image x:Name="VectorWindow"
+                        <!-- Window feature details -->
+                        <Image x:Name="VectorWindow"
 							   Width="160"
 							   Margin="150,70,0,0"
 							   Stretch="Uniform"
@@ -470,7 +470,7 @@
 							   HorizontalAlignment="Left"
 							   Source="ms-appx:///Assets/new-vector-window.png" />
 
-						<Image x:Name="FeatureWindow"
+                        <Image x:Name="FeatureWindow"
 							   Width="131"
 							   Margin="0,60,0,0"
 							   Stretch="Uniform"
@@ -478,15 +478,15 @@
 							   HorizontalAlignment="Left"
 							   Source="ms-appx:///Assets/new-feature-card-window.png" />
 
-						<Ellipse Fill="#67E5AD"
+                        <Ellipse Fill="#67E5AD"
 								 Height="5"
 								 Width="5"
 								 Margin="239,88,0,0"
 								 VerticalAlignment="Top"
 								 HorizontalAlignment="Left" />
 
-						<!-- Battery feature details -->
-						<Image x:Name="VectorBattery"
+                        <!-- Battery feature details -->
+                        <Image x:Name="VectorBattery"
 							   Width="121"
 							   Margin="165,0,0,20"
 							   Stretch="Uniform"
@@ -494,7 +494,7 @@
 							   HorizontalAlignment="Left"
 							   Source="ms-appx:///Assets/new-vector-battery.png" />
 
-						<Image x:Name="FeatureBattery"
+                        <Image x:Name="FeatureBattery"
 							   Width="122"
 							   Margin="30,0,0,10"
 							   Stretch="Uniform"
@@ -502,28 +502,28 @@
 							   HorizontalAlignment="Left"
 							   Source="ms-appx:///Assets/new-feature-card-battery.png" />
 
-						<Ellipse Fill="#7A67F8"
+                        <Ellipse Fill="#7A67F8"
 								 Height="5"
 								 Width="5"
 								 Margin="284,0,0,98"
 								 VerticalAlignment="Bottom"
 								 HorizontalAlignment="Left" />
-					</Grid>
+                    </Grid>
 
-					<!-- Social network area -->
-					<Image Name="SocialNetWorks"
+                    <!-- Social network area -->
+                    <Image Name="SocialNetWorks"
 						   Grid.RowSpan="5"
 						   Width="38"
 						   Stretch="Uniform"
 						   VerticalAlignment="Center"
 						   HorizontalAlignment="Right"
 						   Source="ms-appx:///Assets/SocialNetworks.png" />
-				</Grid>
-			</muxc:TwoPaneView.Pane2>
-		</muxc:TwoPaneView>
+                </Grid>
+            </muxc:TwoPaneView.Pane2>
+        </muxc:TwoPaneView>
 
-		<!-- Rectangle used for ManipulationDelta event -->
-		<Rectangle Name="TouchRectangle"
+        <!-- Rectangle used for ManipulationDelta event -->
+        <Rectangle Name="TouchRectangle"
 				   Grid.Row="1"
 				   Width="220"
 				   Height="120"
@@ -531,5 +531,5 @@
 				   ManipulationMode="All"
 				   VerticalAlignment="Center"
 				   HorizontalAlignment="Left" />
-	</Grid>
+    </Grid>
 </Page>
