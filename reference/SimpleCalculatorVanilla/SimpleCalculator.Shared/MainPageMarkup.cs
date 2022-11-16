@@ -58,40 +58,37 @@ namespace SimpleCalculator
         private ToggleButton Header(MainModel.MainViewModel vm)
            => new ToggleButton()
                .Margin(8)
+               .CornerRadius(new CornerRadius(20))
                .AutoLayout(counterAlignment: AutoLayoutAlignment.Center)
+               .Background(StaticResource.Get<Brush>("SecondaryContainerBrush"))
                .Style(StaticResource.Get<Style>("IconToggleButtonStyle"))
                .IsChecked(x => x.Bind(() => vm.IsDark).Mode(BindingMode.TwoWay))
                .Content
                (
                    new PathIcon()
                        .Data(StaticResource.Get<Geometry>("Icon_Wb_Sunny"))
-                       .Foreground(ThemeResource.Get<Brush>("TertiaryBrush"))
+                       .Foreground(ThemeResource.Get<Brush>("PrimaryVariantDarkBrush"))
                )
                .ControlExtensions
                (
                    alternateContent:
                    new PathIcon()
                        .Data(StaticResource.Get<Geometry>("Icon_Brightness"))
-                       .Foreground(ThemeResource.Get<Brush>("TertiaryBrush"))
+                       .Foreground(ThemeResource.Get<Brush>("PrimaryVariantDarkBrush"))
                );
 
         private TextBlock Equation(MainModel.MainViewModel vm)
             => new TextBlock()
             .Text(() => vm.Calculator.Equation)
-            .FontFamily(new FontFamily("Roboto"))
-            .FontSize(36)
             .AutoLayout(counterAlignment: AutoLayoutAlignment.End)
             .Foreground(ThemeResource.Get<Brush>("OnSecondaryContainerBrush"))
-            .Opacity(0.4)
             .Style(StaticResource.Get<Style>("DisplaySmall"));
 
         private TextBlock Result(MainModel.MainViewModel vm)
             => new TextBlock()
             .Text(() => vm.Calculator.Output)
-            .FontFamily(new FontFamily("Roboto"))
-            .FontSize(57)
             .AutoLayout(counterAlignment: AutoLayoutAlignment.End)
-            .Foreground(ThemeResource.Get<Brush>("OnSecondaryContainerBrush"))
+            .Foreground(ThemeResource.Get<Brush>("OnBackgroundBrush"))
             .Style(StaticResource.Get<Style>("DisplayLarge"));
 
         private Grid KeyPad(MainModel.MainViewModel vm)
@@ -118,47 +115,46 @@ namespace SimpleCalculator
             .Children
             (
                 // Row 0
-                KeyPadButton(vm, 0, 0, "C", "SecondaryBrush", "OnSecondaryContainerBrush"),
-                KeyPadButton(vm, 0, 1, "±", "SecondaryBrush", "OnSecondaryContainerBrush", "+-"),
-                KeyPadButton(vm, 0, 2, "%", "SecondaryBrush", "OnSecondaryContainerBrush"),
-                KeyPadButton(vm, 0, 3, "÷", "TertiaryBrush", "OnTertiaryBrush"),
+                KeyPadButton(vm, 0, 0, "C", "PrimaryContainerBrush", "OnSecondaryContainerBrush"),
+                KeyPadButton(vm, 0, 1, "±", "PrimaryContainerBrush", "OnSecondaryContainerBrush", "+-"),
+                KeyPadButton(vm, 0, 2, "%", "PrimaryContainerBrush", "OnSecondaryContainerBrush"),
+                KeyPadButton(vm, 0, 3, "÷", "PrimaryVariantDarkBrush", "OnTertiaryBrush"),
 
                 // Row 1
-                KeyPadButton(vm, 1, 0, "7", "SurfaceBrush", "OnSurfaceBrush"),
-                KeyPadButton(vm, 1, 1, "8", "SurfaceBrush", "OnSurfaceBrush"),
-                KeyPadButton(vm, 1, 2, "9", "SurfaceBrush", "OnSurfaceBrush"),
-                KeyPadButton(vm, 1, 3, "×", "TertiaryBrush", "OnTertiaryBrush"),
+                KeyPadButton(vm, 1, 0, "7"),
+                KeyPadButton(vm, 1, 1, "8"),
+                KeyPadButton(vm, 1, 2, "9"),
+                KeyPadButton(vm, 1, 3, "×", "PrimaryVariantDarkBrush", "OnTertiaryBrush"),
 
                 // Row 2
-                KeyPadButton(vm, 2, 0, "4", "SurfaceBrush", "OnSurfaceBrush"),
-                KeyPadButton(vm, 2, 1, "5", "SurfaceBrush", "OnSurfaceBrush"),
-                KeyPadButton(vm, 2, 2, "6", "SurfaceBrush", "OnSurfaceBrush"),
-                KeyPadButton(vm, 2, 3, "–", "TertiaryBrush", "OnTertiaryBrush", parameter: "-"),
+                KeyPadButton(vm, 2, 0, "4"),
+                KeyPadButton(vm, 2, 1, "5"),
+                KeyPadButton(vm, 2, 2, "6"),
+                KeyPadButton(vm, 2, 3, "–", "PrimaryVariantDarkBrush", "OnTertiaryBrush", parameter: "-"),
 
                 //Row 3
-                KeyPadButton(vm, 3, 0, "1", "SurfaceBrush", "OnSurfaceBrush"),
-                KeyPadButton(vm, 3, 1, "2", "SurfaceBrush", "OnSurfaceBrush"),
-                KeyPadButton(vm, 3, 2, "3", "SurfaceBrush", "OnSurfaceBrush"),
-                KeyPadButton(vm, 3, 3, "+", "TertiaryBrush", "OnTertiaryBrush"),
+                KeyPadButton(vm, 3, 0, "1"),
+                KeyPadButton(vm, 3, 1, "2"),
+                KeyPadButton(vm, 3, 2, "3"),
+                KeyPadButton(vm, 3, 3, "+", "PrimaryVariantDarkBrush", "OnTertiaryBrush"),
 
                 //Row 4
-                KeyPadButton(vm, 4, 0, ".", "SurfaceBrush", "OnSurfaceBrush"),
-                KeyPadButton(vm, 4, 1, "0", "SurfaceBrush", "OnSurfaceBrush"),
+                KeyPadButton(vm, 4, 0, "."),
+                KeyPadButton(vm, 4, 1, "0"),
 #if HAS_UNO_SKIA
-                KeyPadButton(vm, 4, 2, "<-", "SurfaceBrush", "OnSurfaceBrush", parameter: "back"),
+                KeyPadButton(vm, 4, 2, "<-", parameter: "back"),
 #else
-                KeyPadButton(vm, 4, 2, "⌫", "SurfaceBrush", "OnSurfaceBrush", parameter: "back"),
+                KeyPadButton(vm, 4, 2, "⌫", parameter: "back"),
 #endif
-                KeyPadButton(vm, 4, 3, "=", "TertiaryBrush", "OnTertiaryBrush")
+                KeyPadButton(vm, 4, 3, "=", "PrimaryVariantDarkBrush", "OnTertiaryBrush")
             );
 
-        private Button KeyPadButton(MainModel.MainViewModel vm, int gridRow, int gridColumn, string content, string background, string foreground = "OnPrimaryBrush", string parameter = null)
+        private Button KeyPadButton(MainModel.MainViewModel vm, int gridRow, int gridColumn, string content, string background = "SecondaryContainerBrush", string foreground = "OnSurfaceBrush", string parameter = null)
             => new Button()
             .Command(() => vm.Input)
             .CommandParameter(parameter ?? content)
             .Background(ThemeResource.Get<Brush>(background))
             .Content(content)
-            .FontFamily(new FontFamily("Roboto"))
             .FontSize(32)
             .Foreground(ThemeResource.Get<Brush>(foreground))
             .Grid(row: gridRow, column: gridColumn)
