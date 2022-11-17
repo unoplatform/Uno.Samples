@@ -45,7 +45,7 @@ namespace SimpleCalculator
         private ToggleButton Header(MainModel.MainViewModel vm)
            => new ToggleButton()
                .Margin(8)
-               .CornerRadius(new CornerRadius(20))
+               .CornerRadius(20)
                .AutoLayout(counterAlignment: AutoLayoutAlignment.Center)
                .Background(StaticResource.Get<Brush>("SecondaryContainerBrush"))
                .Style(StaticResource.Get<Style>("IconToggleButtonStyle"))
@@ -96,21 +96,8 @@ namespace SimpleCalculator
             .ColumnSpacing(16)
             .Padding(16)
             .MaxHeight(500)
-            .ColumnDefinitions
-            (
-                new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) },
-                new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) },
-                new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) },
-                new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) }
-            )
-            .RowDefinitions
-            (
-                new RowDefinition { Height = new GridLength(1, GridUnitType.Star) },
-                new RowDefinition { Height = new GridLength(1, GridUnitType.Star) },
-                new RowDefinition { Height = new GridLength(1, GridUnitType.Star) },
-                new RowDefinition { Height = new GridLength(1, GridUnitType.Star) },
-                new RowDefinition { Height = new GridLength(1, GridUnitType.Star) }
-            )
+            .ColumnDefinitions<Grid>("*,*,*,*")
+            .RowDefinitions<Grid>("*,*,*,*,*")
             .Children
             (
                 // Row 0
