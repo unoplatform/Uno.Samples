@@ -1,13 +1,17 @@
-namespace SimpleCalculator.Wasm;
+using System;
+using Microsoft.UI.Xaml;
 
-public class Program
+namespace SimpleCalculator.Wasm
 {
-	private static App? _app;
-
-	static int Main(string[] args)
+	public class Program
 	{
-		Microsoft.UI.Xaml.Application.Start(_ => _app = new App());
+		private static App _app;
 
-		return 0;
+		static int Main(string[] args)
+		{
+			Microsoft.UI.Xaml.Application.Start(_ => _app = new App());
+
+			return 0;
+		}
 	}
 }
