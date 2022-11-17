@@ -10,6 +10,18 @@ public class AppInfoTests
 	}
 
     [Test]
+    public void Test1()
+    {
+        Calculator c = new();
+        c = c.Input("1")
+             .Input("+")
+             .Input("2")
+             .Input("=");
+
+        Assert.AreEqual("4", c.Output);
+    }
+
+    [Test]
     public void MultiplicationTest()
     {
 		Calculator c = new();
