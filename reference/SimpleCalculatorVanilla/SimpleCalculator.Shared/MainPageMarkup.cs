@@ -35,20 +35,7 @@ namespace SimpleCalculator
                     .Children
                     (
                         Header(vm),
-
-                        // Output zone
-                        new AutoLayout()
-                            .AutoLayout(primaryAlignment: AutoLayoutPrimaryAlignment.Stretch)
-                            .Spacing(16)
-                            .Padding(16, 8)
-                            .PrimaryAxisAlignment(AutoLayoutAlignment.End)
-                            .Children
-                            (
-                               Equation(vm),
-                               Result(vm)
-                            ),
-
-                        // Keypad
+                        Output(vm),
                         KeyPad(vm)
                     )
                 )
@@ -77,6 +64,18 @@ namespace SimpleCalculator
                        .Foreground(ThemeResource.Get<Brush>("PrimaryVariantDarkBrush"))
                );
 
+        private AutoLayout Output(MainModel.MainViewModel vm)
+            => new AutoLayout()
+            .AutoLayout(primaryAlignment: AutoLayoutPrimaryAlignment.Stretch)
+            .Spacing(16)
+            .Padding(16, 8)
+            .PrimaryAxisAlignment(AutoLayoutAlignment.End)
+            .Children
+            (
+                Equation(vm),
+                Result(vm)
+            );
+        
         private TextBlock Equation(MainModel.MainViewModel vm)
             => new TextBlock()
             .Text(() => vm.Calculator.Equation)
