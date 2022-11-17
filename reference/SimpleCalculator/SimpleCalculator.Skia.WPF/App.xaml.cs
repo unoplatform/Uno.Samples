@@ -1,7 +1,17 @@
-using WpfApp = System.Windows.Application;
+using System;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Windows;
 
-namespace SimpleCalculator.WPF;
-
-public partial class App : WpfApp
+namespace SimpleCalculator.WPF
 {
+	/// <summary>
+	/// Interaction logic for App.xaml
+	/// </summary>
+	public partial class App : Application
+	{
+	}
 }
