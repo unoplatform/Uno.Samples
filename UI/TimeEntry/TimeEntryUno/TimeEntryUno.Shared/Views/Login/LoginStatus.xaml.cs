@@ -19,7 +19,7 @@ namespace TimeEntryUno.Shared.Views.Login
             this.InitializeComponent();
             AuthenticationService.Instance.LoggedIn += Instance_LoggedIn;
             AuthenticationService.Instance.LoggedOut += Instance_LoggedOut;
-            var resourceLoader = ResourceLoader.GetForCurrentView();
+            var resourceLoader = ResourceLoader.GetForViewIndependentUse();
             _welcomeText = resourceLoader.GetString("WelcomeText");
             this.UpdateLoginState();
         }
@@ -37,6 +37,9 @@ namespace TimeEntryUno.Shared.Views.Login
         private void LoginButton_Click(object sender, RoutedEventArgs e)
         {
             var loginForm = new LoginForm();
+#if WINDOWS
+		loginForm.XamlRoot = this.XamlRoot;
+#endif
             _ = loginForm.ShowOneAtATimeAsync();
         }
 

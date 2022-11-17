@@ -4,7 +4,7 @@ namespace TimeEntryUno.Shared.Helpers
 {
     public static class ErrorMessageHelper
     {
-        private static ResourceLoader _resourceLoader = ResourceLoader.GetForCurrentView("ErrorMessages");
+        private static ResourceLoader _resourceLoader = ResourceLoader.GetForViewIndependentUse("ErrorMessages");
 
         public static string GetErrorMessageResource(string name)
         {

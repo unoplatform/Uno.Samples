@@ -10,6 +10,7 @@
 		<PublishProfile>win10-$(Platform).pubxml</PublishProfile>
 		<UseWinUI>true</UseWinUI>
 		<EnablePreviewMsixTooling>true</EnablePreviewMsixTooling>
+		<DefaultLanguage>en</DefaultLanguage>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -24,8 +25,8 @@
 
 	<ItemGroup>
 		<PackageReference Include="IdentityModel" Version="6.0.0" />
-		<PackageReference Include="Microsoft.WindowsAppSDK" Version="1.1.3" />
-		<PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22000.196" />
+		<PackageReference Include="Microsoft.WindowsAppSDK" Version="1.2.221109.1" />
+		<PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.755" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Console" Version="5.0.0" />
 		<PackageReference Include="Uno.Core.Extensions.Logging.Singleton" Version="4.0.1" />
 
@@ -39,18 +40,5 @@
 		<ProjectCapability Include="Msix" />
 	</ItemGroup>
 	
-	<ItemGroup>
-		<!--
-		If you encounter this error message:
-		
-			error NETSDK1148: A referenced assembly was compiled using a newer version of Microsoft.Windows.SDK.NET.dll. Please update to a newer .NET SDK in order to reference this assembly.
-
-		This means that the two packages below must be aligned with the "build" version number of
-		the "Microsoft.Windows.SDK.BuildTools" package above, and the "revision" version number
-		must be the highest found in https://www.nuget.org/packages/Microsoft.Windows.SDK.NET.Ref.
-		-->
-		<FrameworkReference Update="Microsoft.Windows.SDK.NET.Ref" RuntimeFrameworkVersion="10.0.22000.25" />
-		<FrameworkReference Update="Microsoft.Windows.SDK.NET.Ref" TargetingPackVersion="10.0.22000.25" />
-	</ItemGroup>	
 	<Import Project="..\TimeEntryUno.Shared\TimeEntryUno.Shared.projitems" Label="Shared" />
 </Project>

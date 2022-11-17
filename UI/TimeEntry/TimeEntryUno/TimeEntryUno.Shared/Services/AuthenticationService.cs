@@ -46,8 +46,9 @@ namespace TimeEntryUno.Shared.Services
             catch (Exception e)
             {
                 this.Log().LogError(e.Message);
+                LoginFailed?.Invoke(this, EventArgs.Empty);
             }
-                
+
             return result;
         }
 

@@ -72,15 +72,10 @@ namespace TimeEntryUno.Shared.Views.Login
             args.Cancel = true;
         }
 
-        public Visibility IsBusyVisible()
-        {
-            return IsBusy ? Visibility.Visible : Visibility.Collapsed;
-        }
+        public Visibility IsBusyVisible=>IsBusy ? Visibility.Visible : Visibility.Collapsed;
 
-        public Visibility IsErrorMessageVisible()
-        {
-            return string.IsNullOrWhiteSpace(ErrorMessage) ? Visibility.Collapsed : Visibility.Visible;
-        }
+        public Visibility IsErrorMessageVisible=>
+            string.IsNullOrWhiteSpace(ErrorMessage) ? Visibility.Collapsed : Visibility.Visible;
 
         private void ContentDialog_SecondaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
