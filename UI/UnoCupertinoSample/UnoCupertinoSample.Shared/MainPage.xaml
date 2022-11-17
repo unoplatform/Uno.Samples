@@ -13,19 +13,21 @@
             <StackPanel Margin="16,0"
 						Spacing="8">
                 <!-- controls with material styles -->
+				<!-- These work-->
                 <TextBlock Text="Hello, Cupertino!"
 						   Style="{StaticResource CupertinoHeadline}" />
-                <TextBlock Text="text"
+				<TextBlock Text="text"
 						   Style="{StaticResource CupertinoBody}" />
                 <Button Content="button"
 						Style="{StaticResource CupertinoContainedButtonStyle}" />
-                <ComboBox ItemsSource="asd"
+				<!-- These Don't work -->
+				<ComboBox ItemsSource="asd"
 						  Style="{StaticResource CupertinoComboBoxStyle}" />
                 <DatePicker Style="{StaticResource CupertinoDatePickerStyle}" />
-                <TextBox Text="input"
+				<TextBox Text="input"
 						 Style="{StaticResource CupertinoTextBoxStyle}" />
 
-            </StackPanel>
+			</StackPanel>
         </ScrollViewer>
     </Grid>
 </Page>
