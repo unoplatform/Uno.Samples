@@ -116,28 +116,28 @@ namespace SimpleCalculator
             .Children
             (
                 // Row 0
-                KeyPadButton(vm, 0, 0, "C", Theme.Brushes.Primary.Container.Default, Theme.Brushes.OnSecondary.Container.Default),
-                KeyPadButton(vm, 0, 1, "±", Theme.Brushes.Primary.Container.Default, Theme.Brushes.OnSecondary.Container.Default, "+-"),
-                KeyPadButton(vm, 0, 2, "%", Theme.Brushes.Primary.Container.Default, Theme.Brushes.OnSecondary.Container.Default),
-                KeyPadButton(vm, 0, 3, "÷", Theme.Brushes.Primary.VariantDark.Default, Theme.Brushes.OnTertiary.Default),
+                KeyPadButton(vm, 0, 0, "C", "PrimaryContainerBrush", "OnSecondaryContainerBrush"),
+                KeyPadButton(vm, 0, 1, "±", "PrimaryContainerBrush", "OnSecondaryContainerBrush", "+-"),
+                KeyPadButton(vm, 0, 2, "%", "PrimaryContainerBrush", "OnSecondaryContainerBrush"),
+                KeyPadButton(vm, 0, 3, "÷", "PrimaryVariantDarkBrush", "OnTertiaryBrush"),
 
                 // Row 1
                 KeyPadButton(vm, 1, 0, "7"),
                 KeyPadButton(vm, 1, 1, "8"),
                 KeyPadButton(vm, 1, 2, "9"),
-                KeyPadButton(vm, 1, 3, "×", Theme.Brushes.Primary.VariantDark.Default, Theme.Brushes.OnTertiary.Default),
+                KeyPadButton(vm, 1, 3, "×", "PrimaryVariantDarkBrush", "OnTertiaryBrush"),
 
                 // Row 2
                 KeyPadButton(vm, 2, 0, "4"),
                 KeyPadButton(vm, 2, 1, "5"),
                 KeyPadButton(vm, 2, 2, "6"),
-                KeyPadButton(vm, 2, 3, "–", Theme.Brushes.Primary.VariantDark.Default, Theme.Brushes.OnTertiary.Default, parameter: "-"),
+                KeyPadButton(vm, 2, 3, "–", "PrimaryVariantDarkBrush", "OnTertiaryBrush", parameter: "-"),
 
                 //Row 3
                 KeyPadButton(vm, 3, 0, "1"),
                 KeyPadButton(vm, 3, 1, "2"),
                 KeyPadButton(vm, 3, 2, "3"),
-                KeyPadButton(vm, 3, 3, "+", Theme.Brushes.Primary.VariantDark.Default, Theme.Brushes.OnTertiary.Default),
+                KeyPadButton(vm, 3, 3, "+", "PrimaryVariantDarkBrush", "OnTertiaryBrush"),
 
                 //Row 4
                 KeyPadButton(vm, 4, 0, "."),
@@ -147,17 +147,17 @@ namespace SimpleCalculator
 #else
                 KeyPadButton(vm, 4, 2, "⌫", parameter: "back"),
 #endif
-                KeyPadButton(vm, 4, 3, "=", Theme.Brushes.Primary.VariantDark.Default, Theme.Brushes.OnTertiary.Default)
+                KeyPadButton(vm, 4, 3, "=", "PrimaryVariantDarkBrush", "OnTertiaryBrush")
             );
 
-        private Button KeyPadButton(MainModel.MainViewModel vm, int gridRow, int gridColumn, string content, BrushBuilder background = null, BrushBuilder foreground = null, string parameter = null)
+        private Button KeyPadButton(MainModel.MainViewModel vm, int gridRow, int gridColumn, string content, string background = "SecondaryContainerBrush", string foreground = "OnSurfaceBrush", string parameter = null)
             => new Button()
             .Command(() => vm.Input)
             .CommandParameter(parameter ?? content)
-            .Background(background ?? Theme.Brushes.Secondary.Container.Default)
+            .Background(ThemeResource.Get<Brush>(background))
             .Content(content)
             .FontSize(32)
-            .Foreground(foreground ?? Theme.Brushes.OnSurface.Default)
+            .Foreground(ThemeResource.Get<Brush>(foreground))
             .Grid(row: gridRow, column: gridColumn)
             .HorizontalAlignment(HorizontalAlignment.Stretch)
             .VerticalAlignment(VerticalAlignment.Stretch)
