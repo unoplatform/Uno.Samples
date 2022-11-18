@@ -26,7 +26,7 @@ namespace SimpleCalculator
         public MainPage()
         {
             this.InitializeComponent();
-            DataContext = new MainModel.MainViewModel(new AppThemeService());
+            DataContext = new BindableMainModel(new AppThemeService());
         }
     }
 }
