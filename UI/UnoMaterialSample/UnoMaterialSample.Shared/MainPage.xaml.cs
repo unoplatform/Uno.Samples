@@ -22,6 +22,7 @@ namespace UnoMaterialSample
     /// </summary>
     public sealed partial class MainPage : Page
     {
+        public List<int> Items => Enumerable.Range(0, 10).ToList();
         public MainPage()
         {
             this.InitializeComponent();
