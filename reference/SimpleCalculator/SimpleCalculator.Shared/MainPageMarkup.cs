@@ -15,7 +15,7 @@ namespace SimpleCalculator
     {
         public MainPageMarkup()
         {
-            this.DataContext(new MainModel.MainViewModel(new AppThemeService()), (page, vm)
+            this.DataContext(new BindableMainModel(new AppThemeService()), (page, vm)
                 => page
                 .Resources(r => r
                     .Add("Icon_Brightness", "F1 M 3 0 C 1.9500000476837158 0 0.949999988079071 0.1600000262260437 0 0.46000003814697266 C 4.059999942779541 1.7300000190734863 7 5.519999980926514 7 10 C 7 14.480000019073486 4.059999942779541 18.27000093460083 0 19.540000915527344 C 0.949999988079071 19.840000927448273 1.9500000476837158 20 3 20 C 8.519999980926514 20 13 15.519999980926514 13 10 C 13 4.480000019073486 8.519999980926514 0 3 0 Z")
@@ -37,7 +37,7 @@ namespace SimpleCalculator
             );
         }
 
-        private ToggleButton Header(MainModel.MainViewModel vm)
+        private ToggleButton Header(BindableMainModel vm)
            => new ToggleButton()
                .Margin(8)
                .CornerRadius(20)
@@ -59,7 +59,7 @@ namespace SimpleCalculator
                        .Foreground(Theme.Brushes.Primary.VariantDark.Default)
                );
 
-        private AutoLayout Output(MainModel.MainViewModel vm)
+        private AutoLayout Output(BindableMainModel vm)
             => new AutoLayout()
             .AutoLayout(primaryAlignment: AutoLayoutPrimaryAlignment.Stretch)
             .Spacing(16)
@@ -71,21 +71,21 @@ namespace SimpleCalculator
                 Result(vm)
             );
         
-        private TextBlock Equation(MainModel.MainViewModel vm)
+        private TextBlock Equation(BindableMainModel vm)
             => new TextBlock()
             .Text(() => vm.Calculator.Equation)
             .AutoLayout(counterAlignment: AutoLayoutAlignment.End)
             .Foreground(Theme.Brushes.OnSecondary.Container.Default)
             .Style(Theme.Styles.TextBlock.DisplaySmall);
 
-        private TextBlock Result(MainModel.MainViewModel vm)
+        private TextBlock Result(BindableMainModel vm)
             => new TextBlock()
             .Text(() => vm.Calculator.Output)
             .AutoLayout(counterAlignment: AutoLayoutAlignment.End)
             .Foreground(Theme.Brushes.OnBackground.Default)
             .Style(Theme.Styles.TextBlock.DisplayLarge);
 
-        private Grid KeyPad(MainModel.MainViewModel vm)
+        private Grid KeyPad(BindableMainModel vm)
             => new Grid()
             .RowSpacing(16)
             .ColumnSpacing(16)
@@ -130,7 +130,7 @@ namespace SimpleCalculator
                 KeyPadButton(vm, 4, 3, "=", "PrimaryVariantDarkBrush", "OnTertiaryBrush")
             );
 
-        private Button KeyPadButton(MainModel.MainViewModel vm, int gridRow, int gridColumn, string content, string background = "SecondaryContainerBrush", string foreground = "OnSurfaceBrush", string parameter = null)
+        private Button KeyPadButton(BindableMainModel vm, int gridRow, int gridColumn, string content, string background = "SecondaryContainerBrush", string foreground = "OnSurfaceBrush", string parameter = null)
             => new Button()
             .Command(() => vm.Input)
             .CommandParameter(parameter ?? content)
