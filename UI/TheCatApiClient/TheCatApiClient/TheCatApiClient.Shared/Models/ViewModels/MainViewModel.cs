@@ -10,7 +10,7 @@ namespace TheCatApiClient.Shared.Models.ViewModels
     {
         // Insert member variables below here
         private bool _isBusy;
-        private string _searchTerm;
+        private string _searchTerm = string.Empty;
         private ObservableCollection<Breed> _searchResults = new ObservableCollection<Breed>();
         private BreedSearchApi _breedSearchApi = new BreedSearchApi();
 

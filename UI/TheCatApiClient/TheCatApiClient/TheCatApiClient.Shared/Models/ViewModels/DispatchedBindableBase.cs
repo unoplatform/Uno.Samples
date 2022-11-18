@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.UI.Dispatching;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -12,7 +13,7 @@ namespace TheCatApiClient.Shared.Models.ViewModels
     {
         // Insert the event and property below here
         public event PropertyChangedEventHandler PropertyChanged;
-        protected CoreDispatcher Dispatcher => CoreApplication.MainView.Dispatcher;
+        protected DispatcherQueue Dispatcher { get; } = DispatcherQueue.GetForCurrentThread();
 
 
         // Insert SetProperty below here
@@ -35,7 +36,7 @@ namespace TheCatApiClient.Shared.Models.ViewModels
         }
 
         // Insert Dispatch below here
-        protected async Task DispatchAsync(DispatchedHandler callback)
+        protected async Task DispatchAsync(DispatcherQueueHandler callback)
         {
             // As WASM is currently single-threaded, and Dispatcher.HasThreadAccess always returns false for broader compatibility reasons
             // the following code ensures the local code always directly invokes the callback on WASM.
@@ -52,7 +53,13 @@ namespace TheCatApiClient.Shared.Models.ViewModels
             }
             else
             {
-                await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, callback);
+                var completion = new TaskCompletionSource();
+                Dispatcher.TryEnqueue(()=>
+                {
+                    callback();
+                    completion.SetResult();
+                });
+                await completion.Task; 
             }
         }
     }
