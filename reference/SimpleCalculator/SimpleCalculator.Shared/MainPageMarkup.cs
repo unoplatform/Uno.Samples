@@ -11,7 +11,6 @@ using System.Text;
 using Uno.Material;
 using Uno.Themes.Markup;
 using Uno.Toolkit.UI;
-using BrushBuilder = System.Action<Microsoft.UI.Xaml.MarkupHelpers.IDependencyPropertyBuilder<Microsoft.UI.Xaml.Media.Brush>>;
 
 namespace SimpleCalculator
 {
