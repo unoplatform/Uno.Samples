@@ -10,9 +10,12 @@
         <ScrollViewer>
             <StackPanel Margin="16,0" Spacing="8">
                 <!-- controls with material styles -->
-                <TextBlock Text="Hello, Material!" Style="{StaticResource MaterialHeadline2}" />
-                <TextBlock Text="text" Style="{StaticResource MaterialBody1}" />
-                <Button Content="button" Style="{StaticResource MaterialContainedButtonStyle}" />
+				<TextBlock Text="Hello, Material!"
+						   Style="{StaticResource MaterialHeadlineLarge}" />
+				<TextBlock Text="text"
+						   Style="{StaticResource MaterialBodyLarge}" />
+				<Button Content="button"
+						Style="{StaticResource MaterialFilledButtonStyle}" />
                 <ComboBox ItemsSource="asd" Style="{StaticResource MaterialComboBoxStyle}" />
                 <DatePicker Style="{StaticResource MaterialDatePickerStyle}" />
                 <TextBox Text="input" Style="{StaticResource MaterialFilledTextBoxStyle}" />
@@ -24,19 +27,27 @@
 					   Style="{StaticResource MaterialOutlinedCardStyle}">
                     <utu:Card.HeaderContentTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding}" Margin="16,14,16,0" Style="{ThemeResource MaterialHeadline6}" />
+							<TextBlock Text="{Binding}"
+									   Margin="16,14,16,0"
+									   Style="{ThemeResource MaterialTitleLarge}" />
                         </DataTemplate>
                     </utu:Card.HeaderContentTemplate>
                     <utu:Card.SupportingContentTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding}" Margin="16,0,16,14" Style="{ThemeResource MaterialBody2}" />
+							<TextBlock Text="{Binding}"
+									   Margin="16,0,16,14"
+									   Style="{ThemeResource MaterialBodyMedium}" />
                         </DataTemplate>
                     </utu:Card.SupportingContentTemplate>
                 </utu:Card>
-                <utu:ChipGroup SelectionMode="Multiple" Style="{StaticResource MaterialFilledInputChipGroupStyle}">
-                    <utu:Chip Content="Uno" Style="{StaticResource MaterialFilledInputChipStyle}" />
-                    <utu:Chip Content="Material" Style="{StaticResource MaterialFilledInputChipStyle}" />
-                    <utu:Chip Content="Controls" Style="{StaticResource MaterialFilledInputChipStyle}" />
+				<utu:ChipGroup SelectionMode="Multiple"
+							   Style="{StaticResource FilterChipGroupStyle}">
+					<utu:Chip Content="Uno"
+							  Style="{StaticResource FilterChipStyle}" />
+					<utu:Chip Content="Material"
+							  Style="{StaticResource FilterChipStyle}" />
+					<utu:Chip Content="Controls"
+							  Style="{StaticResource FilterChipStyle}" />
                 </utu:ChipGroup>
             </StackPanel>
         </ScrollViewer>
