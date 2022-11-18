@@ -10,6 +10,7 @@
 		<PublishProfile>win10-$(Platform).pubxml</PublishProfile>
 		<UseWinUI>true</UseWinUI>
 		<EnablePreviewMsixTooling>true</EnablePreviewMsixTooling>
+		<DefaultLanguage>en</DefaultLanguage>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -31,8 +32,6 @@
 		<PackageReference Include="Microsoft.Windows.Compatibility" Version="7.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Logging" Version="7.0.0" />
 		<PackageReference Include="Uno.Extensions" Version="2.2.0" />
-		<PackageReference Include="Uno.WinUI.RemoteControl" Version="4.6.19" Condition="'$(Configuration)'=='Debug'" />		
-		<PackageReference Include="Uno.WinUI.Lottie" Version="4.6.19" />
 		<PackageReference Include="Uno.WinUI" Version="4.6.19" />
 
 		<Manifest Include="$(ApplicationManifest)" />
@@ -55,8 +54,8 @@
 		the "Microsoft.Windows.SDK.BuildTools" package above, and the "revision" version number
 		must be the highest found in https://www.nuget.org/packages/Microsoft.Windows.SDK.NET.Ref.
 		-->
-		<FrameworkReference Update="Microsoft.Windows.SDK.NET.Ref" RuntimeFrameworkVersion="10.0.22000.27" />
-		<FrameworkReference Update="Microsoft.Windows.SDK.NET.Ref" TargetingPackVersion="10.0.22000.27" />
+		<FrameworkReference Update="Microsoft.Windows.SDK.NET.Ref" RuntimeFrameworkVersion="10.0.22621.28" />
+		<FrameworkReference Update="Microsoft.Windows.SDK.NET.Ref" TargetingPackVersion="10.0.22621.28" />
 	</ItemGroup>
 	
 	<Import Project="..\TheCatApiClient.Shared\TheCatApiClient.Shared.projitems" Label="Shared" />	
