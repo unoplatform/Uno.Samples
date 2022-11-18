@@ -5,23 +5,17 @@ using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Media;
 using SimpleCalculator.Presentation;
 using SimpleCalculator.ThemeService;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using Uno.Material;
 using Uno.Themes.Markup;
 using Uno.Toolkit.UI;
 
 namespace SimpleCalculator
 {
-    [Bindable]
     public sealed partial class MainPageMarkup : Page
     {
         public MainPageMarkup()
         {
-            DataContext = new MainModel.MainViewModel(new AppThemeService());
-
-            this.DataContext<MainModel.MainViewModel>((page, vm)
+            this.DataContext(new MainModel.MainViewModel(new AppThemeService()), (page, vm)
                 => page
                 .Resources(r => r
                     .Add("Icon_Brightness", "F1 M 3 0 C 1.9500000476837158 0 0.949999988079071 0.1600000262260437 0 0.46000003814697266 C 4.059999942779541 1.7300000190734863 7 5.519999980926514 7 10 C 7 14.480000019073486 4.059999942779541 18.27000093460083 0 19.540000915527344 C 0.949999988079071 19.840000927448273 1.9500000476837158 20 3 20 C 8.519999980926514 20 13 15.519999980926514 13 10 C 13 4.480000019073486 8.519999980926514 0 3 0 Z")
@@ -46,7 +40,7 @@ namespace SimpleCalculator
         private ToggleButton Header(MainModel.MainViewModel vm)
            => new ToggleButton()
                .Margin(8)
-               .CornerRadius(new CornerRadius(20))
+               .CornerRadius(20)
                .AutoLayout(counterAlignment: AutoLayoutAlignment.Center)
                .Background(Theme.Brushes.Secondary.Container.Default)
                .Style(Theme.Styles.ToggleButton.Icon)
@@ -97,21 +91,8 @@ namespace SimpleCalculator
             .ColumnSpacing(16)
             .Padding(16)
             .MaxHeight(500)
-            .ColumnDefinitions
-            (
-                new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) },
-                new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) },
-                new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) },
-                new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) }
-            )
-            .RowDefinitions
-            (
-                new RowDefinition { Height = new GridLength(1, GridUnitType.Star) },
-                new RowDefinition { Height = new GridLength(1, GridUnitType.Star) },
-                new RowDefinition { Height = new GridLength(1, GridUnitType.Star) },
-                new RowDefinition { Height = new GridLength(1, GridUnitType.Star) },
-                new RowDefinition { Height = new GridLength(1, GridUnitType.Star) }
-            )
+            .ColumnDefinitions<Grid>("*,*,*,*")
+            .RowDefinitions<Grid>("*,*,*,*,*")
             .Children
             (
                 // Row 0
