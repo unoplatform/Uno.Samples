@@ -59,3 +59,8 @@ jobs:
   - task: PublishBuildArtifacts@1
     inputs:
       pathtoPublish: $(Build.ArtifactStagingDirectory)
+
+  - task: CmdLine@2
+    displayName: 'Run unit tests'
+    inputs:
+      script: 'dotnet test reference\SimpleCalculator\SimpleCalculator.Tests\SimpleCalculator.Tests.csproj -c Release --collect "XPlat code coverage" --logger trx'
