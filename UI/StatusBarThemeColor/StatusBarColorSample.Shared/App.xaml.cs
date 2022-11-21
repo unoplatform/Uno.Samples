@@ -17,8 +17,9 @@ namespace StatusBarColorSample
     {
         private Window _window;
         private UISettings _uiSettings;
+#if __ANDROID__
         private bool? _wasDarkMode = null;
-
+#endif
 
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
