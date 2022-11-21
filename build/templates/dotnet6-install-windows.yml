@@ -2,6 +2,7 @@ parameters:
   DotNetVersion: '6.0.401'
   UnoCheck_Version: '1.5.4'
   UnoCheck_Manifest: 'https://raw.githubusercontent.com/unoplatform/uno.check/34b1a60f5c1c51604b47362781969dde46979fd5/manifests/uno.ui.manifest.json'
+  buildConfiguration: 'Release'
 
 steps:
 
@@ -32,3 +33,9 @@ steps:
     errorActionPreference: continue
     ignoreLASTEXITCODE: true
     retryCountOnTaskFailure: 3
+
+
+  - task: CmdLine@2
+    displayName: 'Run unit tests'
+    inputs:
+      script: 'dotnet test ../../reference/SimpleCalculator/SimpleCalculator.Tests/SimpleCalculator.Tests.csproj -c Release --collect "XPlat code coverage" --logger trx'
