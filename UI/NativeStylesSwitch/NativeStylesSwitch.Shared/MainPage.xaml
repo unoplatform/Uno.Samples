@@ -8,26 +8,26 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d xamarin">
 
-	<xamarin:Page.Resources>
-		<local:StyleSwitch x:Key="sliderSwitch"
+    <xamarin:Page.Resources>
+        <local:StyleSwitch x:Key="sliderSwitch"
 						   Native="{StaticResource NativeDefaultSlider}"
 						   WinUI="{StaticResource XamlDefaultSlider}" />
-		<local:StyleSwitch x:Key="buttonSwitch"
+        <local:StyleSwitch x:Key="buttonSwitch"
 						   Native="{StaticResource NativeDefaultButton}"
 						   WinUI="{StaticResource XamlDefaultButton}" />
-		<local:StyleSwitch x:Key="toggleSwitchSwitch"
+        <local:StyleSwitch x:Key="toggleSwitchSwitch"
 						   Native="{StaticResource NativeDefaultToggleSwitch}"
 						   WinUI="{StaticResource XamlDefaultToggleSwitch}" />
-	</xamarin:Page.Resources>
+    </xamarin:Page.Resources>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Padding="50">
-		<StackPanel>
-			<CheckBox x:Name="useNative" Content="Use native styles" />
-			<Slider xamarin:Style="{Binding IsChecked, ElementName=useNative, Converter={StaticResource sliderSwitch}}" />
-			<Button Content="Click me!" 
+        <StackPanel>
+            <CheckBox x:Name="useNative" Content="Use native styles" />
+            <Slider xamarin:Style="{Binding IsChecked, ElementName=useNative, Converter={StaticResource sliderSwitch}}" />
+            <Button Content="Click me!" 
 					xamarin:Style="{Binding IsChecked, ElementName=useNative, Converter={StaticResource buttonSwitch}}" />
-			<ToggleSwitch Header="Toggle me!"
+            <ToggleSwitch Header="Toggle me!"
 					xamarin:Style="{Binding IsChecked, ElementName=useNative, Converter={StaticResource toggleSwitchSwitch}}" />
-		</StackPanel>
+        </StackPanel>
     </Grid>
 </Page>
