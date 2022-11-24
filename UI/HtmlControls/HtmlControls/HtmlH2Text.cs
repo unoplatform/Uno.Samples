@@ -35,7 +35,7 @@ namespace HtmlControls
 
         protected override Size MeasureOverride(Size availableSize)
         {
-            // Delegate measurement to Html <progress> element
+            // Delegate measurement to Html <h2> element
             return this.MeasureHtmlView(availableSize, false);
         }
     }
