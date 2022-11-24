@@ -1,10 +1,10 @@
 ﻿using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using Windows.Foundation;
-using Windows.UI;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Markup;
-using Windows.UI.Xaml.Media;
+using Microsoft.UI;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Markup;
+using Microsoft.UI.Xaml.Media;
 using Uno.UI.Runtime.WebAssembly;
 using System;
 using Uno.Extensions;
@@ -84,28 +84,29 @@ namespace HtmlControls
 
         private void OnOptionsChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            switch(e.Action)
-            {
-                case NotifyCollectionChangedAction.Add:
-                    {
-                        var index = e.NewStartingIndex;
-                        foreach(var newItem in e.NewItems)
-                        {
-                            AddChild(newItem as UIElement, index++);
-                        }
-                        break;
-                    }
-                case NotifyCollectionChangedAction.Remove:
-                    {
-                        foreach (var removedItem in e.OldItems)
-                        {
-                            RemoveChild(removedItem as UIElement);
-                        }
-                        break;
-                    }
-                default:
-                    throw new NotSupportedException($"CollectionChanged Action \"{e.Action}\" not supported yet.");
-            }
+            // TODO: Need a fix for calling AddChild/RemoveChild
+            //switch(e.Action)
+            //{
+            //    case NotifyCollectionChangedAction.Add:
+            //        {
+            //            var index = e.NewStartingIndex;
+            //            foreach(var newItem in e.NewItems)
+            //            {
+            //                AddChild(newItem as UIElement, index++);
+            //            }
+            //            break;
+            //        }
+            //    case NotifyCollectionChangedAction.Remove:
+            //        {
+            //            foreach (var removedItem in e.OldItems)
+            //            {
+            //                RemoveChild(removedItem as UIElement);
+            //            }
+            //            break;
+            //        }
+            //    default:
+            //        throw new NotSupportedException($"CollectionChanged Action \"{e.Action}\" not supported yet.");
+            //}
         }
 
         protected override Size MeasureOverride(Size availableSize)

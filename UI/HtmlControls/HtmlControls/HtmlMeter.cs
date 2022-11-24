@@ -2,9 +2,9 @@
 using System.Globalization;
 using System.Runtime.CompilerServices;
 using Windows.Foundation;
-using Windows.UI;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Media;
+using Microsoft.UI;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Media;
 using Uno.Extensions;
 using Uno.UI.Runtime.WebAssembly;
 
@@ -13,12 +13,6 @@ namespace HtmlControls
     [HtmlElement("meter")]
     public partial class HtmlMeter : FrameworkElement
     {
-        public HtmlMeter()
-        {
-            // Set a background to ensure pointer events are allowed
-            Background = new SolidColorBrush(Colors.Transparent);
-        }
-
         public static readonly DependencyProperty MinProperty = DependencyProperty.Register(
             "Min", typeof(double), typeof(HtmlMeter), new PropertyMetadata(0d, propertyChangedCallback: OnMinChanged));
 
@@ -32,7 +26,7 @@ namespace HtmlControls
         {
             if (o is HtmlMeter meter && args.NewValue is double min)
             {
-                meter.SetHtmlAttribute("min", min.ToStringInvariant());
+                meter.SetHtmlAttribute("min", min.ToString());
             }
         }
 
@@ -49,7 +43,7 @@ namespace HtmlControls
         {
             if (o is HtmlMeter meter && args.NewValue is double max)
             {
-                meter.SetHtmlAttribute("max", max.ToStringInvariant());
+                meter.SetHtmlAttribute("max", max.ToString());
             }
         }
 
@@ -66,7 +60,7 @@ namespace HtmlControls
         {
             if (o is HtmlMeter meter && args.NewValue is double value)
             {
-                meter.SetHtmlAttribute("value", value.ToStringInvariant());
+                meter.SetHtmlAttribute("value", value.ToString());
             }
         }
 

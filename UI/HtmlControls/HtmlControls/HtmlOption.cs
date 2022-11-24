@@ -1,5 +1,5 @@
-﻿using Windows.UI.Xaml;
-using Windows.UI.Xaml.Markup;
+﻿using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Markup;
 using Uno.UI.Runtime.WebAssembly;
 
 namespace HtmlControls
@@ -23,7 +23,8 @@ namespace HtmlControls
             {
                 if (args.NewValue is string str)
                 {
-                    option.ClearChildren();
+                    // TODO: Clearchildren no longer accessible
+                    //option.ClearChildren();
                     option.SetHtmlContent(str);
                 }
             }
