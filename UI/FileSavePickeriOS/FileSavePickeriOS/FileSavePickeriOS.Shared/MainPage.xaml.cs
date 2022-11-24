@@ -1,47 +1,30 @@
-﻿using System;
+﻿using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls.Primitives;
+using Microsoft.UI.Xaml.Data;
+using Microsoft.UI.Xaml.Input;
+using Microsoft.UI.Xaml.Media;
+using Microsoft.UI.Xaml.Navigation;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
-using System.Threading;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
-using Windows.Storage;
-using Windows.Storage.Pickers;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
+
+// The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
 namespace FileSavePickeriOS
 {
+    /// <summary>
+    /// An empty page that can be used on its own or navigated to within a Frame.
+    /// </summary>
     public sealed partial class MainPage : Page
     {
         public MainPage()
         {
             this.InitializeComponent();
-        }
-
-        public async void SaveFile_Click(object sender, RoutedEventArgs e)
-        {
-            var savePicker = new FileSavePicker();
-            savePicker.SuggestedStartLocation = PickerLocationId.ComputerFolder;
-            savePicker.FileTypeChoices.Add("Images", new[]
-            {
-                    ".jpg",
-                    ".gif"
-                });
-            savePicker.FileTypeChoices.Add("Text", new[]
-            {
-                    ".txt",
-                    ".docs"
-                });
-
-            var file = await savePicker.PickSaveFileAsync();
-            await FileIO.WriteTextAsync(file, "Hello, world!");
         }
     }
 }
