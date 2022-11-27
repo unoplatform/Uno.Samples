@@ -1,18 +1,7 @@
-﻿using SQLite;
+﻿using Microsoft.UI.Xaml.Controls;
+using SQLiteSample.Data;
 using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
-using Microsoft.UI.Xaml.Data;
-using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Media;
-using Microsoft.UI.Xaml.Navigation;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -35,70 +24,77 @@ namespace SQLiteSample
             // Ensure that the storage subsystem is initialized on webassembly
             await Windows.Storage.StorageFolder.GetFolderFromPathAsync(Windows.Storage.ApplicationData.Current.LocalFolder.Path);
 
-            using (var db = TryCreateDatabase())
-            {
-                UpdateList(db);
-            }
+            UpdateList();
         }
 
         public void OnClickMe()
         {
-            using (var db = TryCreateDatabase())
-            {
-                AddStock(db, stockSymbol.Text);
+            AddStock(stockSymbol.Text);
 
-                UpdateList(db);
+            UpdateList();
+        }
+
+        private void UpdateList()
+        {
+            if (SqlLiteContext.Stocks.Count() > 0)
+            {
+                symbolsList.ItemsSource = SqlLiteContext.Stocks.Select(s => s.Symbol).ToList();
             }
         }
 
-        private static SQLiteConnection TryCreateDatabase()
-        {
-            // Get an absolute path to the database file
-            var databasePath = Path.Combine(Windows.Storage.ApplicationData.Current.LocalFolder.Path, "MyData.db");
-
-            var exists = File.Exists(databasePath);
-
-            var db = new SQLiteConnection(databasePath);
-
-            if (!exists)
-            {
-                db.CreateTable<Stock>();
-                db.CreateTable<Valuation>();
-            }
-
-            return db;
-        }
-
-        private void UpdateList(SQLiteConnection db)
-        {
-            symbolsList.ItemsSource = db.Table<Stock>().Select(s => s.Symbol).ToList();
-        }
-
-        public static void AddStock(SQLiteConnection db, string symbol)
+        public static void AddStock(string symbol)
         {
             var stock = new Stock()
             {
                 Symbol = symbol
             };
-            db.Insert(stock);
+
+            SqlLiteContext.Stocks.Add(stock);
+            SqlLiteContext.SaveChanges();
             Console.WriteLine("{0} == {1}", stock.Symbol, stock.Id);
         }
+
+        private static DataContext SqlLiteContext => sqlLiteContext ??= new();
+        private static DataContext sqlLiteContext;
     }
 
-    public class Stock
+    public record Stock
     {
-        [PrimaryKey, AutoIncrement]
+        public Stock()
+        {
+        }
+
+        public Stock(int id, string symbol)
+        {
+        }
+
+        [System.ComponentModel.DataAnnotations.Schema.NotMapped]
         public int Id { get; set; }
+
+        [System.ComponentModel.DataAnnotations.Schema.NotMapped]
         public string Symbol { get; set; }
     }
 
-    public class Valuation
+    public record Valuation
     {
-        [PrimaryKey, AutoIncrement]
+        public Valuation()
+        {
+        }
+
+        public Valuation(int id, int stockId, DateTime time, decimal price)
+        {
+        }
+
+        [System.ComponentModel.DataAnnotations.Schema.NotMapped]
         public int Id { get; set; }
-        [Indexed]
+
+        [System.ComponentModel.DataAnnotations.Schema.NotMapped]
         public int StockId { get; set; }
+
+        [System.ComponentModel.DataAnnotations.Schema.NotMapped]
         public DateTime Time { get; set; }
+
+        [System.ComponentModel.DataAnnotations.Schema.NotMapped]
         public decimal Price { get; set; }
     }
 }
