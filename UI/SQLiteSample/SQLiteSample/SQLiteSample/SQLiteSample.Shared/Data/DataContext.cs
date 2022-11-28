@@ -15,8 +15,7 @@ namespace SQLiteSample.Data
         {
             var databasePath = Path.Combine(Windows.Storage.ApplicationData.Current.LocalFolder.Path, "MyData.db");
 
-            optionsBuilder.UseSqlite($"Data Source={databasePath}");
-            optionsBuilder.UseLoggerFactory(MyLoggerFactory);
+            optionsBuilder.UseSqlite($"Data Source={databasePath}");            
             base.OnConfiguring(optionsBuilder);
         }
 
@@ -33,8 +32,5 @@ namespace SQLiteSample.Data
         [System.ComponentModel.DataAnnotations.Schema.NotMapped]
         public virtual DbSet<Valuation> Valuations { get; set; }
 
-
-        public static readonly ILoggerFactory MyLoggerFactory
-    = LoggerFactory.Create(builder => { builder.AddConsole(); });
     }
 }
