@@ -1,8 +1,10 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Custom.Pickers;
+using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
 using System;
+using Uno.Foundation.Extensibility;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 
@@ -42,6 +44,10 @@ namespace FileSavePickeriOS
             {
                 // this.DebugSettings.EnableFrameRateCounter = true;
             }
+#endif
+
+#if __IOS__
+            ApiExtensibility.Register(typeof(Uno.Extensions.Storage.Pickers.IFileSavePickerExtension), (picker) => new FolderSavePickerExtension(picker));
 #endif
 
 #if NET6_0_OR_GREATER && WINDOWS && !HAS_UNO
