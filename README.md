@@ -81,6 +81,12 @@ A working implementation of a folder-based save file picker for iOS. See [the 'i
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/FileSavePickeriOS)
 
+### Entity Framework Core Demo
+
+An example of Entity Framework Core 7 with a SQLite storage for WebAssembly, WinAppSDK, iOS and Android.
+
+[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/EFCoreSQLiteSample)
+
 ### HtmlControls
 
 This is a WASM-only sample. It is creating _native_ HTML elements that can be used directly in XAML.
