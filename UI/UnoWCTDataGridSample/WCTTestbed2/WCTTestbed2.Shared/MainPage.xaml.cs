@@ -1,4 +1,5 @@
-﻿using Microsoft.UI.Xaml;
+﻿using Microsoft.Toolkit.Uwp.SampleApp.Data;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Data;
@@ -22,9 +23,18 @@ namespace WCTTestbed2
     /// </summary>
     public sealed partial class MainPage : Page
     {
+        private DataGridDataSource viewModel = new DataGridDataSource();
+
         public MainPage()
         {
             this.InitializeComponent();
+
+            Loading += MainPage_Loading;
+        }
+
+        private async void MainPage_Loading(object sender, object args)
+        {
+            dataGrid.ItemsSource = await viewModel.GetDataAsync();
         }
     }
 }
