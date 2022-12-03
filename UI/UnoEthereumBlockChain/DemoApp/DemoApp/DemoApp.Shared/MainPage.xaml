@@ -6,8 +6,8 @@
     xmlns:vm="using:DemoApp.ViewModels"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:toolkit="using:Uno.UI.Toolkit"
-    xmlns:material="using:Uno.Material.Controls"
+    xmlns:toolkit="using:Uno.WinUI.Toolkit"
+    xmlns:material="using:Uno.Material.WinUI.Controls"
     mc:Ignorable="d">
 
     <Page.DataContext>
@@ -24,7 +24,7 @@
                                                 TintColor="{ThemeResource SystemAccentColor}"
                                                 FallbackColor="{ThemeResource SystemAccentColor}"
                                                 BackgroundSource="Backdrop"
-                                                xmlns:media="using:Windows.UI.Xaml.Media" />
+                                                xmlns:media="using:Microsoft.UI.Xaml.Media" />
         </StackPanel.BorderBrush>
         <StackPanel.Background>
             <media:AcrylicBrush TintOpacity="0.7"
@@ -32,7 +32,7 @@
                                                 TintColor="{ThemeResource SystemAccentColor}"
                                                 FallbackColor="{ThemeResource SystemAccentColor}"
                                                 BackgroundSource="Backdrop"
-                             xmlns:media="using:Windows.UI.Xaml.Media" />
+                             xmlns:media="using:Microsoft.UI.Xaml.Media" />
         </StackPanel.Background>
         <Grid BorderBrush="{StaticResource SystemAccentColorDark1}"
               BorderThickness="1">
@@ -41,7 +41,7 @@
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
-                <RowDefinition Height="3*"/>                
+                <RowDefinition Height="3*"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
@@ -102,7 +102,7 @@
                      BorderBrush="{StaticResource SystemAccentColorDark1}"
                      Text="{Binding Migrations, Mode=TwoWay}"/>
 
-            
+
 
             <StackPanel Grid.Row="4" 
                             Grid.Column="1" 
