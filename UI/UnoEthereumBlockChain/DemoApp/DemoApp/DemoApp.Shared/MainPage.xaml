@@ -8,6 +8,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:toolkit="using:Uno.WinUI.Toolkit"
     xmlns:material="using:Uno.Material.WinUI.Controls"
+    xmlns:media="using:Microsoft.UI.Xaml.Media" 
     mc:Ignorable="d">
 
     <Page.DataContext>
@@ -17,23 +18,9 @@
     <StackPanel CornerRadius="5"
                 Padding="1"
                 BorderThickness="1"
-                Margin="0">
-        <StackPanel.BorderBrush>
-            <media:AcrylicBrush TintOpacity="0.1"
-                                                TintLuminosityOpacity="0.9"
-                                                TintColor="{ThemeResource SystemAccentColor}"
-                                                FallbackColor="{ThemeResource SystemAccentColor}"
-                                                BackgroundSource="Backdrop"
-                                                xmlns:media="using:Windows.UI.Xaml.Media" />
-        </StackPanel.BorderBrush>
-        <StackPanel.Background>
-            <media:AcrylicBrush TintOpacity="0.7"
-                                                TintLuminosityOpacity="0.9"
-                                                TintColor="{ThemeResource SystemAccentColor}"
-                                                FallbackColor="{ThemeResource SystemAccentColor}"
-                                                BackgroundSource="Backdrop"
-                             xmlns:media="using:Windows.UI.Xaml.Media" />
-        </StackPanel.Background>
+                Margin="0"
+                BorderBrush="{StaticResource Backdrop}">        
+     
         <Grid BorderBrush="{StaticResource SystemAccentColorDark1}"
               BorderThickness="1">
             <Grid.RowDefinitions>
@@ -110,7 +97,7 @@
                             VerticalAlignment="Stretch">
                 <TextBox x:Name="keyOne"  
                          CornerRadius="5"                         
-                         Margin="0,2"
+                         Margin="0,2"                         
                          Background="{StaticResource SystemAccentColorLight1}"
                          Style="{StaticResource MaterialOutlinedTextBoxStyle}"
                          BorderBrush="{StaticResource SystemAccentColorDark1}" 
@@ -141,11 +128,11 @@
                 FontWeight="Bold"
                 Content="Setup Network and Accounts" 
                 HorizontalAlignment="Stretch" 
+                Foreground="Black"
                 VerticalAlignment="Center" 
                 Padding="15"
                 FontSize="14"
-                Background="Transparent"
-                
+                Background="Transparent"                
                 BorderBrush="{StaticResource SystemColorWindowTextColor}"
                 BorderThickness="5"
                 Margin="5,2"

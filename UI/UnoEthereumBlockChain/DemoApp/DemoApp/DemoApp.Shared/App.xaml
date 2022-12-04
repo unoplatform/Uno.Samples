@@ -10,18 +10,18 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary>
                     <Style TargetType="Page">
-                        <Setter Property="Background" Value="Black"/>
+                        <Setter Property="Background" Value="Black" />
                     </Style>
                     <Style TargetType="TextBlock">
-                        <Setter Property="Foreground" Value="Black"/>
+                        <Setter Property="Foreground" Value="Black" />
                     </Style>
                     <Style TargetType="TextBox">
-                        <Setter Property="Foreground" Value="Black"/>
-                        <Setter Property="PlaceholderForeground" Value="Black"/>
+                        <Setter Property="Foreground" Value="Black" />
+                        <Setter Property="PlaceholderForeground" Value="Black" />
                     </Style>
                     <Style TargetType="Button">
-                        <Setter Property="Foreground" Value="Black"/>
-                        <Setter Property="BorderBrush" Value="Black"/>
+                        <Setter Property="Foreground" Value="Black" />
+                        <Setter Property="BorderBrush" Value="Black" />
                     </Style>
                 </ResourceDictionary>
 
@@ -37,9 +37,15 @@
                 <!-- Application's custom styles -->
                 <!-- other ResourceDictionaries -->
 
-
+                <ResourceDictionary x:Key="Light">
+                    <AcrylicBrush x:Key="Backdrop"
+                        TintColor="{ThemeResource SystemAccentColor}"
+                        TintOpacity="0.1"
+                        TintLuminosityOpacity="0.9"
+                        FallbackColor="{ThemeResource SystemAccentColor}" 
+                    />            
+                </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>
-
 </Application>

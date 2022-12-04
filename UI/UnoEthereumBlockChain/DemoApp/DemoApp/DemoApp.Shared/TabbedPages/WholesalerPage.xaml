@@ -6,7 +6,7 @@
     xmlns:vm="using:DemoApp.ViewModels"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:toolkit="using:Uno.WinUI.Toolkit"
+    xmlns:toolkit="using:Uno.UI.Toolkit"
     xmlns:material="using:Uno.Material.Controls"
     mc:Ignorable="d">
 
@@ -40,23 +40,8 @@
                     <StackPanel CornerRadius="5"
 								Margin="5"
 								BorderThickness="1"
-                                Padding="10">
-                        <StackPanel.BorderBrush>
-                            <media:AcrylicBrush TintOpacity="0.1"
-                                                TintLuminosityOpacity="0.9"
-                                                TintColor="{ThemeResource SystemAccentColor}"
-                                                FallbackColor="{ThemeResource SystemAccentColor}"
-                                                BackgroundSource="Backdrop"
-                                                xmlns:media="using:Windows.UI.Xaml.Media" />
-                        </StackPanel.BorderBrush>
-                        <StackPanel.Background>
-                            <media:AcrylicBrush TintOpacity="0.7"
-                                                TintLuminosityOpacity="0.9"
-                                                TintColor="{ThemeResource SystemAccentColor}"
-                                                FallbackColor="{ThemeResource SystemAccentColor}"
-                                                BackgroundSource="Backdrop"
-                             xmlns:media="using:Windows.UI.Xaml.Media" />
-                        </StackPanel.Background>
+                                Padding="10"
+                                BorderBrush="{StaticResource Backdrop}">                        
                         <TextBlock Text="ACCOUNT DETAILS"
                                Padding="20,10"
                                FontWeight="Bold"
@@ -107,23 +92,8 @@
                     <StackPanel CornerRadius="5"
 								Margin="5"
 								BorderThickness="1"
-                                Padding="5">
-                        <StackPanel.BorderBrush>
-                            <media:AcrylicBrush TintOpacity="0.1"
-                                                TintLuminosityOpacity="0.9"
-                                                TintColor="{ThemeResource SystemAccentColor}"
-                                                FallbackColor="{ThemeResource SystemAccentColor}"
-                                                BackgroundSource="Backdrop"
-                                                xmlns:media="using:Windows.UI.Xaml.Media" />
-                        </StackPanel.BorderBrush>
-                        <StackPanel.Background>
-                            <media:AcrylicBrush TintOpacity="0.7"
-                                                TintLuminosityOpacity="0.9"
-                                                TintColor="{ThemeResource SystemAccentColor}"
-                                                FallbackColor="{ThemeResource SystemAccentColor}"
-                                                BackgroundSource="Backdrop"
-                             xmlns:media="using:Windows.UI.Xaml.Media" />
-                        </StackPanel.Background>
+                                Padding="5"
+                                BorderBrush="{StaticResource Backdrop}">                        
                         <TextBlock Text="DEPLOY CONTRACT"
                                    Padding="20,10"
                                    Style="{ThemeResource MaterialHeadline4}" 
@@ -184,24 +154,8 @@
                     <StackPanel CornerRadius="5"
 								Margin="5"
 								BorderThickness="1"
-                                Padding="5">
-                        <StackPanel.BorderBrush>
-                            <media:AcrylicBrush TintOpacity="0.1"
-                                                TintLuminosityOpacity="0.9"
-                                                TintColor="{ThemeResource SystemAccentColor}"
-                                                FallbackColor="{ThemeResource SystemAccentColor}"
-                                                BackgroundSource="Backdrop"
-                                                xmlns:media="using:Windows.UI.Xaml.Media" />
-                        </StackPanel.BorderBrush>
-                        <StackPanel.Background>
-                            <media:AcrylicBrush TintOpacity="0.7"
-                                                TintLuminosityOpacity="0.9"
-                                                TintColor="{ThemeResource SystemAccentColor}"
-                                                FallbackColor="{ThemeResource SystemAccentColor}"
-                                                BackgroundSource="Backdrop"
-                             xmlns:media="using:Windows.UI.Xaml.Media" />
-                        </StackPanel.Background>
-
+                                Padding="5"
+                                BorderBrush="{StaticResource Backdrop}">
                         <TextBlock Text="DISPATCH DRUG SHIPMENT"
                                    Padding="20,10"
                                    FontWeight="Bold"
@@ -312,23 +266,8 @@
                     <StackPanel CornerRadius="5"
                                 Margin="5"
                                 BorderThickness="1" MinHeight="{Binding ActualHeight, ElementName=listViewItem, Mode=OneWay}" 
-                                MinWidth="{Binding ActualWidth, ElementName=listViewItem, Mode=OneWay}">
-                        <StackPanel.BorderBrush>
-                            <media:AcrylicBrush TintOpacity="0.1"
-                                                TintLuminosityOpacity="0.9"
-                                                TintColor="{ThemeResource SystemAccentColor}"
-                                                FallbackColor="{ThemeResource SystemAccentColor}"
-                                                BackgroundSource="Backdrop"
-                                                xmlns:media="using:Windows.UI.Xaml.Media" />
-                        </StackPanel.BorderBrush>
-                        <StackPanel.Background>
-                            <media:AcrylicBrush TintOpacity="0.7"
-                                                TintLuminosityOpacity="0.9"
-                                                TintColor="{ThemeResource SystemAccentColor}"
-                                                FallbackColor="{ThemeResource SystemAccentColor}"
-                                                BackgroundSource="Backdrop"
-                             xmlns:media="using:Windows.UI.Xaml.Media" />
-                        </StackPanel.Background>
+                                MinWidth="{Binding ActualWidth, ElementName=listViewItem, Mode=OneWay}"
+                                BorderBrush="{StaticResource Backdrop}">                        
                         <TextBlock Text="OWNERSHIP MAPPING"
                                     Margin="2,5"
                                     Padding="20,10"
