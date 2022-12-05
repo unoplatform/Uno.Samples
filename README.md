@@ -25,7 +25,17 @@ Visit [our documentation](https://platform.uno/docs/articles/intro.html) for mor
 
 ## Samples
 
+### Commerce App
+
+The The Commercial App Sample with Cart, products and so on.
+
+[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/reference/Commerce)
+
+
 ### Advanced XBind
+
+The {x:Bind} markup extension—new for Windows 10—is an alternative to {Binding}. {x:Bind} 
+runs in less time and less memory than {Binding} and supports better debugging.
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/AdvancedXBind)
 
