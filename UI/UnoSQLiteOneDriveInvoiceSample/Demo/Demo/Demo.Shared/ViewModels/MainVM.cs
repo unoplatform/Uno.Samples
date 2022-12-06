@@ -81,10 +81,11 @@ namespace Demo.ViewModels
         #region DB Services
 
         private void InitializeDatabase()
-        {
+        {   
             var dbExists = File.Exists(databasePath);
             if (!dbExists)
             {
+                //It failing on WASM platform  - Issue - https://github.com/unoplatform/Uno.Samples/issues/258
                 using (var connection = new SQLiteConnection(databasePath))
                 {
                     connection.CreateTable<Account>();
