@@ -91,7 +91,7 @@ namespace WCTDataTreeTabSample
                     //Because the  Microsoft.UI.Xaml.Window.Current always null on WinUI
                     //--> https://learn.microsoft.com/en-us/windows/windows-app-sdk/api/winrt/microsoft.ui.xaml.window.current?view=windows-app-sdk-1.2
                     //passes the _window intance to ShellPage as parameter
-                    rootFrame.Navigate(typeof(Shell), _window);
+                    rootFrame.Navigate(typeof(Shell));
                 }
                 // Ensure the current window is active
                 _window.Activate();
