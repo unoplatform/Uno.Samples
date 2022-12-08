@@ -14,6 +14,7 @@ namespace WCTDataTreeTabSample.TemplateSelectors
 		{
 			var explorerItem = (ExplorerItem)item;
 
+			
 			if (explorerItem == null)
 			{
 				return FolderTemplate;
