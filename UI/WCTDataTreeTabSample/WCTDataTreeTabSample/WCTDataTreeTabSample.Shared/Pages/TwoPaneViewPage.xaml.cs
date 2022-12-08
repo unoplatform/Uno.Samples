@@ -1,12 +1,9 @@
-﻿using Microsoft.UI.Xaml.Controls;
+﻿namespace WCTDataTreeTabSample;
 
-namespace WCTDataTreeTabSample
+public sealed partial class TwoPaneViewPage : Page
 {
-	public sealed partial class TwoPaneViewPage : Page
+	public TwoPaneViewPage()
 	{
-		public TwoPaneViewPage()
-		{
-			this.InitializeComponent();
-		}
+		this.InitializeComponent();
 	}
 }

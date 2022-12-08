@@ -1,12 +1,9 @@
-﻿using Microsoft.UI.Xaml.Controls;
+﻿namespace WCTDataTreeTabSample;
 
-namespace WCTDataTreeTabSample
+public sealed partial class ExpanderPage : Page
 {
-	public sealed partial class ExpanderPage : Page
+	public ExpanderPage()
 	{
-		public ExpanderPage()
-		{
-			this.InitializeComponent();
-		}
+		this.InitializeComponent();
 	}
 }
