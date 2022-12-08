@@ -1,11 +1,15 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using CommunityToolkit.WinUI;
+using Microsoft.Extensions.Logging;
+using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
+using Windows.UI.Core;
 
 namespace WCTDataTreeTabSample
 {
@@ -40,6 +44,7 @@ namespace WCTDataTreeTabSample
         /// <param name="args">Details about the launch request and process.</param>
         protected override void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs args)
         {
+            InitializeMaterialStyles();
 #if DEBUG
             if (System.Diagnostics.Debugger.IsAttached)
             {
@@ -49,13 +54,13 @@ namespace WCTDataTreeTabSample
 
 #if NET6_0_OR_GREATER && WINDOWS && !HAS_UNO
             _window = new Window();
-            _window.Activate();
+            _window.Activate();            
 #else
             _window = Microsoft.UI.Xaml.Window.Current;
 #endif
 
             var rootFrame = _window.Content as Frame;
-
+            
             // Do not repeat app initialization when the Window already has content,
             // just ensure that the window is active
             if (rootFrame == null)
@@ -83,7 +88,10 @@ namespace WCTDataTreeTabSample
                     // When the navigation stack isn't restored navigate to the first page,
                     // configuring the new page by passing required information as a navigation
                     // parameter
-                    rootFrame.Navigate(typeof(Shell), args.Arguments);
+                    //Because the  Microsoft.UI.Xaml.Window.Current always null on WinUI
+                    //--> https://learn.microsoft.com/en-us/windows/windows-app-sdk/api/winrt/microsoft.ui.xaml.window.current?view=windows-app-sdk-1.2
+                    //passes the _window intance to ShellPage as parameter
+                    rootFrame.Navigate(typeof(Shell), _window);
                 }
                 // Ensure the current window is active
                 _window.Activate();
@@ -226,5 +234,18 @@ namespace WCTDataTreeTabSample
 #endif
 #endif
         }
+
+        private void InitializeMaterialStyles()
+        {
+            // Set a default palette to make sure all colors used by MaterialResources exist
+            // this.Resources.MergedDictionaries.Add(new global::Uno.Material.MaterialColorPalette());
+
+            // Overlap the default colors with the application's colors palette. 
+            this.Resources.MergedDictionaries.Add(new ResourceDictionary() { Source = new Uri("ms-appx:///Styles/ColorPaletteOverride.xaml") });
+
+            // Add all the material resources. Those resources depend on the colors above, which is why this one must be added last.
+            this.Resources.MergedDictionaries.Add(new global::Uno.Material.MaterialResources());
+        }
+
     }
 }
