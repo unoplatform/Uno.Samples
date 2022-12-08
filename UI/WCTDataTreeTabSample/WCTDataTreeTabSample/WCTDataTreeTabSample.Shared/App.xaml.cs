@@ -44,7 +44,6 @@ namespace WCTDataTreeTabSample
         /// <param name="args">Details about the launch request and process.</param>
         protected override void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs args)
         {
-            InitializeMaterialStyles();
 #if DEBUG
             if (System.Diagnostics.Debugger.IsAttached)
             {
@@ -235,17 +234,6 @@ namespace WCTDataTreeTabSample
 #endif
         }
 
-        private void InitializeMaterialStyles()
-        {
-            // Set a default palette to make sure all colors used by MaterialResources exist
-            // this.Resources.MergedDictionaries.Add(new global::Uno.Material.MaterialColorPalette());
-
-            // Overlap the default colors with the application's colors palette. 
-            this.Resources.MergedDictionaries.Add(new ResourceDictionary() { Source = new Uri("ms-appx:///Styles/ColorPaletteOverride.xaml") });
-
-            // Add all the material resources. Those resources depend on the colors above, which is why this one must be added last.
-            this.Resources.MergedDictionaries.Add(new global::Uno.Material.MaterialResources());
-        }
 
     }
 }
