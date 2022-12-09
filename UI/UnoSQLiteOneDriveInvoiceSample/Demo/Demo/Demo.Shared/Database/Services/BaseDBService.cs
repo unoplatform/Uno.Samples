@@ -17,9 +17,8 @@ namespace Demo.Database.Services
         #region Properties
 
         public string TypeName { get; set; }
-        protected string databasePath = 
-            //Path.Combine(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Demo.db"));
-        Path.Combine(Windows.Storage.ApplicationData.Current.LocalFolder.Path, "Demo.db");
+        protected string databasePath = Path.Combine(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Demo.db")); 
+        //Path.Combine(Windows.Storage.ApplicationData.Current.LocalFolder.Path, "Demo.db");
 
         #endregion
 

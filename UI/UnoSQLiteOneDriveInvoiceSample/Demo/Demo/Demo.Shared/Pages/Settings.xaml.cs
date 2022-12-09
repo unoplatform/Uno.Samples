@@ -14,7 +14,7 @@ namespace Demo.Pages
     /// </summary>
     public sealed partial class Settings : Page
     {
-        public SettingsVM ViewModel { get; set; }
+        public SettingsVM ViewModel { get; set; } = new SettingsVM();
         
         public Settings()
         {
@@ -33,8 +33,6 @@ namespace Demo.Pages
         private async void ToggleSwitch_Toggled(object sender, RoutedEventArgs e)
         {
             ViewModel = DataContext as SettingsVM;
-            if (ViewModel == null) { return; }
-
             var toggleSwitch = sender as ToggleSwitch;
 
             if (toggleSwitch?.IsOn == true)
@@ -53,7 +51,7 @@ namespace Demo.Pages
             {
                 ViewModel = DataContext as SettingsVM;
             }
-            if (ViewModel == null) { return; }
+
             await ViewModel.BackUp();
         }
 
@@ -64,7 +62,7 @@ namespace Demo.Pages
             {
                 ViewModel = DataContext as SettingsVM;
             }
-            if (ViewModel == null) { return; }
+
             await ViewModel.Restore();
         }
 
@@ -74,7 +72,7 @@ namespace Demo.Pages
             {
                 ViewModel = DataContext as SettingsVM;
             }
-            if (ViewModel == null) { return; }
+
             await ViewModel.SaveAccount(ViewModel.UserAccount);
         }
 
@@ -84,7 +82,7 @@ namespace Demo.Pages
             {
                 ViewModel = DataContext as SettingsVM;
             }
-            if (ViewModel == null) { return; }
+
             await ViewModel.SaveAddress(ViewModel.UserAddress);
         }
 
@@ -94,7 +92,9 @@ namespace Demo.Pages
             {
                 ViewModel = DataContext as SettingsVM;
             }
+#if NETFX_CORE
             if(ViewModel == null) { return; }
+#endif
             ViewModel.UserAddress.Type = AddressType.Billing;
         }
 
@@ -104,7 +104,9 @@ namespace Demo.Pages
             {
                 ViewModel = DataContext as SettingsVM;
             }
+#if NETFX_CORE
             if (ViewModel == null) { return; }
+#endif
             ViewModel.UserAddress.Type = AddressType.Shipping;
         }
 
@@ -114,7 +116,9 @@ namespace Demo.Pages
             {
                 ViewModel = DataContext as SettingsVM;
             }
+#if NETFX_CORE
             if (ViewModel == null) { return; }
+#endif
             ViewModel.UserAddress.Type = AddressType.Both;
         }
     }
