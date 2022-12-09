@@ -36,8 +36,9 @@ namespace Demo.ViewModels
 
         public ObservableCollection<Invoice> Invoices { get; set; }
 
-        private readonly string databasePath = 
-            Path.Combine(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Demo.db"));
+        private readonly string databasePath =
+                    //Path.Combine(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Demo.db"));
+                    Path.Combine(Windows.Storage.ApplicationData.Current.LocalFolder.Path, "Demo.db");
 
 
         #endregion
