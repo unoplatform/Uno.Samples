@@ -30,6 +30,7 @@ namespace StatusBarColorSample
             InitializeLogging();
 
             this.InitializeComponent();
+            
 
 #if __IOS__ || __ANDROID__
 			// Enable native frame navigation.
@@ -88,6 +89,8 @@ namespace StatusBarColorSample
             {
                 if (rootFrame.Content == null)
                 {
+                    ConfigureStatusBar();
+
                     // When the navigation stack isn't restored navigate to the first page,
                     // configuring the new page by passing required information as a navigation
                     // parameter
@@ -141,7 +144,7 @@ namespace StatusBarColorSample
                 UpdateStatusBar();
             };
 
-#if __IOS__
+#if __IOS__ || __WASM__
 			// Force an update when the app is launched.
 			UpdateStatusBar();
 #endif
