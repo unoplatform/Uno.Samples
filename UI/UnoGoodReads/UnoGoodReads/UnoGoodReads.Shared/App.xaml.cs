@@ -24,7 +24,7 @@ namespace UnoGoodReads
         public App()
         {
             DataSeeder = new SeedData();
-
+            
             InitializeLogging();
 
             this.InitializeComponent();

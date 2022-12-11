@@ -24,6 +24,7 @@ namespace UnoGoodReads.Views
     {
         public HomePage()
         {
+            
             this.InitializeComponent();
         }
     }
