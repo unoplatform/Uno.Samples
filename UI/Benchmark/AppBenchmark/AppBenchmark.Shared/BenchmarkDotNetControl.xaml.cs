@@ -1,32 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-using Windows.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
-using Microsoft.UI.Xaml.Data;
-using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Media;
-using Microsoft.UI.Xaml.Navigation;
-using BenchmarkDotNet.Configs;
-using BenchmarkDotNet.Exporters;
+﻿using BenchmarkDotNet.Configs;
 using BenchmarkDotNet.Jobs;
 using BenchmarkDotNet.Loggers;
 using BenchmarkDotNet.Running;
-using BenchmarkDotNet.Toolchains.InProcess;
-using BenchmarkDotNet.Toolchains.InProcess.NoEmit;
-using BenchmarkDotNet.Toolchains;
-using Microsoft.UI.Xaml.Documents;
-using Microsoft.UI;
-using System.Reflection;
-using System.Threading.Tasks;
-using Windows.UI.Core;
 using BenchmarkDotNet.Toolchains.InProcess.Emit;
+using Microsoft.UI;
+using Microsoft.UI.Dispatching;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Documents;
+using Microsoft.UI.Xaml.Media;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -143,7 +131,7 @@ namespace AppBenchmark
 
             public void Write(LogKind logKind, string text)
             {
-                _target.Inlines.Add(new Run { Text = text, Foreground = GetLogKindColor(logKind) });
+                this.ExecuteAction(() => _target.Inlines.Add(new Run { Text = text, Foreground = GetLogKindColor(logKind) }));
             }
 
             public static Brush GetLogKindColor(LogKind logKind)
@@ -156,14 +144,29 @@ namespace AppBenchmark
                 return brush;
             }
 
-            public void WriteLine() => _target.Inlines.Add(new LineBreak());
+            public void WriteLine() => this.ExecuteAction(() => _target.Inlines.Add(new LineBreak()));
 
             public void WriteLine(LogKind logKind, string text)
             {
-                Write(logKind, text);
-                WriteLine();
+                this.ExecuteAction(() =>
+                {
+                    Write(logKind, text);
+                    WriteLine();
+                });
             }
-        }
 
+            private void ExecuteAction(Action action)
+            {
+#if WINDOWS
+
+                DispatcherQueue.TryEnqueue(DispatcherQueuePriority.Low, () => action.Invoke());
+#else
+                action?.Invoke();
+#endif
+            }
+
+            private DispatcherQueue DispatcherQueue => dispatcherQueue ??= DispatcherQueue.GetForCurrentThread();
+            private DispatcherQueue dispatcherQueue;
+        }
     }
 }
