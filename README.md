@@ -34,7 +34,7 @@ The The Commercial App Sample with Cart, products and so on.
 
 ### Advanced XBind
 
-The {x:Bind} markup extension—new for Windows 10—is an alternative to {Binding}. {x:Bind} 
+The {x:Bind} markup extensionï¿½new for Windows 10ï¿½is an alternative to {Binding}. {x:Bind} 
 runs in less time and less memory than {Binding} and supports better debugging.
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/AdvancedXBind)
@@ -151,6 +151,10 @@ An example that demonstrates the use of package assets and how to read them from
 Note that for WebAssembly assets are downloaded on demand, as can be seen in the browser's network tab.
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/PackageResources)
+
+### Pet Adopt
+
+[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/PetAdopUI)
 
 ### SQLite  
 This is a simple standalone app demonstrating the use of SQLite in an Uno application, including WebAssembly. It uses Erik Sink's [SQLitePCLRaw](https://github.com/ericsink/SQLitePCL.raw), and Frank Krueger's [sqlite-net](https://github.com/praeclarum/sqlite-net) libraries.
