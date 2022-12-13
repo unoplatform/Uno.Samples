@@ -1,8 +1,8 @@
 ﻿using System;
 using TimeEntryUno.Shared.Helpers;
 using TimeEntryUno.Shared.Services;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
 
 // The Content Dialog item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -72,15 +72,10 @@ namespace TimeEntryUno.Shared.Views.Login
             args.Cancel = true;
         }
 
-        public Visibility IsBusyVisible()
-        {
-            return IsBusy ? Visibility.Visible : Visibility.Collapsed;
-        }
+        public Visibility IsBusyVisible=>IsBusy ? Visibility.Visible : Visibility.Collapsed;
 
-        public Visibility IsErrorMessageVisible()
-        {
-            return string.IsNullOrWhiteSpace(ErrorMessage) ? Visibility.Collapsed : Visibility.Visible;
-        }
+        public Visibility IsErrorMessageVisible=>
+            string.IsNullOrWhiteSpace(ErrorMessage) ? Visibility.Collapsed : Visibility.Visible;
 
         private void ContentDialog_SecondaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {

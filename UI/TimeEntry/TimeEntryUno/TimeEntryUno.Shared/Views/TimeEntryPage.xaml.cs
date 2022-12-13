@@ -4,7 +4,7 @@ using TimeEntryUno.Shared.Models;
 using TimeEntryUno.Shared.Services;
 using TimeEntryUno.Shared.WebServices;
 using Uno.Extensions;
-using Windows.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 

@@ -6,36 +6,33 @@
 		<!-- Light Theme -->
 		<ResourceDictionary x:Key="Light">
 			<Color x:Key="Color01">Black	</Color>
+			<Color x:Key="BackgroundColor">#FFFFFF</Color>
+			<Color x:Key="OnSurfaceColor">#000000</Color>
 		</ResourceDictionary>
 
 		<!-- Dark Theme -->
 		<ResourceDictionary x:Key="Dark">
 			<Color x:Key="Color01">White</Color>
+			<Color x:Key="BackgroundColor">#121212</Color>
+			<Color x:Key="OnSurfaceColor">#DEFFFFFF</Color>
 		</ResourceDictionary>
 		
 	</ResourceDictionary.ThemeDictionaries>
 
-	<!-- 
-		note: beside theme color overrides, any resource referencing material colors
-		SHOULD NOT be declared in a ResourceDictionary imported directly from App.xaml.
-		Since they will be loaded before material color palette, and have a transparent color instead.
-
-		ex: <SolidColorBrush x:Key="..." Color="{ThemeResource Material...}" />
-	-->
 
 	<SolidColorBrush x:Key="Color01Brush"
 					 Color="{ThemeResource Color01}" />
 
 	<SolidColorBrush x:Key="DividerBrush"
-					 Color="{ThemeResource MaterialOnSurfaceColor}"
+					 Color="{ThemeResource OnSurfaceColor}"
 					 Opacity="0.13" />
 
 	<SolidColorBrush x:Key="SampleSecondBackgroundBrush"
-					 Color="{ThemeResource MaterialOnSurfaceColor}"
+					 Color="{ThemeResource OnSurfaceColor}"
 					 Opacity="0.05" />
 
 	<SolidColorBrush x:Key="ApplicationPageBackgroundThemeBrush"
-					 Color="{ThemeResource MaterialBackgroundColor}" />
+					 Color="{ThemeResource BackgroundColor}" />
 
 	<Color x:Key="UnoBlueColor">#FF229DFC</Color>
 	<Color x:Key="UnoPurpleColor">#FF7A69F5</Color>

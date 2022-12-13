@@ -1,0 +1,23 @@
+﻿<linker>
+	<assembly fullname="EFCoreSQLiteSample.Wasm" />
+	<assembly fullname="Microsoft.Extensions.Options" />
+
+	<!-- EFCore support -->
+	<!--<assembly fullname="Microsoft.EntityFrameworkCore" />
+	<assembly fullname="System.Data" />
+	<assembly fullname="System.Private.CoreLib" />
+
+	--><!-- Needed by https://github.com/aspnet/EntityFrameworkCore/blob/2e1115f0f7ba318e1696841fe49993499cb9d8ae/src/EFCore.Relational/Storage/TypedRelationalValueBufferFactoryFactory.cs#L43 --><!--
+	<assembly fullname="Microsoft.EntityFrameworkCore.Relational" />
+	<assembly fullname="Microsoft.EntityFrameworkCore.Abstractions" />
+	<assembly fullname="Microsoft.EntityFrameworkCore.Sqlite" />
+	<assembly fullname="Microsoft.Extensions.Caching.Abstractions" />
+	<assembly fullname="Microsoft.Extensions.Caching.Memory" />
+	<assembly fullname="Microsoft.Extensions.Options" />
+	<assembly fullname="Microsoft.Extensions.Primitives" />
+
+	<assembly fullname="System.Core">
+		<type fullname="System.Linq.Queryable*" />
+		--><!-- https://github.com/aspnet/EntityFrameworkCore/blob/2313de8e3a7d5d191b642f41db2755b048ba7845/src/EFCore/EntityFrameworkQueryableExtensions.cs#L30 --><!--
+	</assembly>-->
+</linker>

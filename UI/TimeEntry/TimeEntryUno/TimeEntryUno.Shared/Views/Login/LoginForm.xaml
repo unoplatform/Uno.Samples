@@ -16,7 +16,7 @@
     <Grid>
         <StackPanel>
             <Border Background="Red" Margin="4" Padding="4" 
-                    Visibility="{x:Bind IsErrorMessageVisible(), Mode=OneWay}">
+                    Visibility="{x:Bind IsErrorMessageVisible, Mode=OneWay}">
                 <TextBlock Foreground="White" 
                            Text="{x:Bind ErrorMessage, Mode=TwoWay}"/>
             </Border>
@@ -28,7 +28,7 @@
                       IsChecked="{x:Bind StaySignedIn, Mode=TwoWay}"/>
         </StackPanel>
         <ProgressRing IsActive="{x:Bind IsBusy, Mode=TwoWay}" 
-                      Visibility="{x:Bind IsBusyVisible(), Mode=OneWay}" 
+                      Visibility="{x:Bind IsBusyVisible, Mode=OneWay}" 
                       VerticalAlignment="Center" HorizontalAlignment="Center" />
     </Grid>
 </ContentDialog>

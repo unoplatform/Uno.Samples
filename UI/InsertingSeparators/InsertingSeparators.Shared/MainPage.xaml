@@ -1,0 +1,51 @@
+﻿<Page
+    x:Class="InsertingSeparators.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:InsertingSeparators"
+    xmlns:uno="clr-namespace:Uno.UI.Samples.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"    
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Page.Resources>
+        <DataTemplate x:Key="MenuItemTemplate">
+            <MenuFlyoutItem Text="{Binding CommonName}">
+                <MenuFlyoutItem.Icon>
+                    <FontIcon Glyph="&#x0001F426;" FontFamily="Segoe UI Emoji"/>
+                </MenuFlyoutItem.Icon>
+            </MenuFlyoutItem>
+        </DataTemplate>
+    </Page.Resources>
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <MenuBar>
+            <MenuBarItem Title="File">
+                <MenuFlyoutItem Text="New"/>
+                <MenuFlyoutItem Text="Open..."/>
+                <MenuFlyoutItem Text="Save"/>
+                <MenuFlyoutItem Text="Exit"/>
+            </MenuBarItem>
+
+            <MenuBarItem Title="Edit">
+                <MenuFlyoutItem Text="Undo"/>
+                <MenuFlyoutItem Text="Cut"/>
+                <MenuFlyoutItem Text="Copy"/>
+                <MenuFlyoutItem Text="Paste"/>
+            </MenuBarItem>
+            
+            <!-- We've named these menus so that we can refer to them from code-behind -->
+            <MenuBarItem Title="Nested" x:Name="GroupedMenu"/>
+            <MenuBarItem Title="Separated" x:Name="SeparatedMenu"/>
+            
+            <MenuBarItem Title="Help">
+                <MenuFlyoutItem Text="About"/>
+            </MenuBarItem>
+        </MenuBar>
+        <TextBlock Grid.Row="1" Text="Hello, world!" Margin="20" FontSize="30" />
+    </Grid>
+</Page>

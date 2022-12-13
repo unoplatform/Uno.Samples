@@ -1,31 +1,50 @@
-﻿<Page
-    x:Class="UnoGoodReads.MainPage"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:UnoGoodReads"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+﻿<Page x:Class="UnoGoodReads.MainPage"
+	  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	  xmlns:local="using:UnoGoodReads"
+	  xmlns:winui="using:Microsoft.UI.Xaml.Controls"
+	  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	  xmlns:pages="using:UnoGoodReads.Views"
+	  xmlns:vm="using:UnoGoodReads.ViewModels"
+	  mc:Ignorable="d"
+	  xmlns:utu="using:Uno.Toolkit.UI"
+	  xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+	  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-	<NavigationView SelectionFollowsFocus="Enabled"
-					SelectionChanged="NavigationView_SelectionChanged"
-					ItemInvoked="NavigationView_ItemInvoked">
-		<NavigationView.MenuItems>
-			<NavigationViewItem Icon="Home"
-								Content="Home"
-								Tag="Home" 
-								x:Name="Home"/>
-			<NavigationViewItem Icon="People"
-								Content="Author Profile"
-								Tag="Author" 
-								x:Name="Author"/>
-			<NavigationViewItem Icon="Document"
-								Content="Book Details"
-								Tag="Book" 
-								x:Name="Document"/>
-		</NavigationView.MenuItems>
-		<Frame x:Name="contentFrame" />
+    <muxc:TabView x:Name="tabView"
+				  Margin="0,35">
+        <muxc:TabView.TabItems>
+            <muxc:TabViewItem Header="Home">
+                <muxc:TabViewItem.IconSource>
+                    <muxc:SymbolIconSource Symbol="Home" />
+                </muxc:TabViewItem.IconSource>
 
-	</NavigationView>
+                <muxc:TabViewItem.Content>
+                    <pages:HomePage/>
+                </muxc:TabViewItem.Content>
+            </muxc:TabViewItem>
+
+            <muxc:TabViewItem Header="Author">
+                <muxc:TabViewItem.IconSource>
+                    <muxc:SymbolIconSource Symbol="Contact" />
+                </muxc:TabViewItem.IconSource>
+
+                <muxc:TabViewItem.Content>
+                    <pages:AuthorPage />
+                </muxc:TabViewItem.Content>
+            </muxc:TabViewItem>
+
+            <muxc:TabViewItem Header="Book">
+                <muxc:TabViewItem.IconSource>
+                    <muxc:SymbolIconSource Symbol="Document" />
+                </muxc:TabViewItem.IconSource>
+
+                <muxc:TabViewItem.Content>
+                    <pages:BookPage/>
+                </muxc:TabViewItem.Content>
+            </muxc:TabViewItem>
+        </muxc:TabView.TabItems>
+    </muxc:TabView>
+
 </Page>
