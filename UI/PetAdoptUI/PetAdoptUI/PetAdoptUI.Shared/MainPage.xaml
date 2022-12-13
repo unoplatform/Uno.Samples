@@ -22,9 +22,21 @@
                     Margin="0,0,0,10">
         <ScrollViewer utu:AutoLayout.PrimaryAlignment="Stretch">
             <utu:AutoLayout Spacing="8">
-                <Image Source="https://picsum.photos/390/360"
-                       Stretch="UniformToFill"
-                       Height="360" />
+                <!--Pet Images-->
+
+                <FlipView x:Name="FlipViewPetImages"
+                          utu:SelectorExtensions.PipsPager="{Binding ElementName=pipsPager}"
+                          ItemsSource="{x:Bind PetImages}">
+                    <FlipView.ItemTemplate>
+                        <DataTemplate>
+                            <Image Source="{Binding}"
+                                   Stretch="UniformToFill"
+                                   Height="360" />
+                        </DataTemplate>
+                    </FlipView.ItemTemplate>
+                </FlipView>
+
+
                 <utu:AutoLayout Padding="8,92"
                                 Height="432">
                     <utu:AutoLayout Spacing="16"
@@ -32,7 +44,6 @@
                                     PrimaryAxisAlignment="Center"
                                     Orientation="Horizontal"
                                     Height="82">
-                        <!--Pet Images-->
                         <Border utu:AutoLayout.CounterAlignment="Start"
                                 Width="60"
                                 Height="60"
@@ -40,6 +51,7 @@
                             <Image Source="https://picsum.photos/60/60"
                                    Stretch="UniformToFill" />
                         </Border>
+
                         <utu:AutoLayout utu:AutoLayout.CounterAlignment="Center"
                                         utu:AutoLayout.PrimaryAlignment="Stretch">
                             <utu:AutoLayout PrimaryAxisAlignment="Center">
@@ -114,9 +126,20 @@
                                    Style="{StaticResource TitleMedium}" />
                     </utu:AutoLayout>
                 </utu:AutoLayout>
+                <muxc:PipsPager x:Name="pipsPager"
+                                VerticalAlignment="Top"
+                                Background="#80FFFFFF"
+                                utu:AutoLayout.IsIndependentLayout="True"
+                                utu:AutoLayout.CounterAlignment="Center"
+                                utu:AutoLayout.PrimaryAlignment="Stretch"
+                                NumberOfPages="{x:Bind PetImages.Count}"
+                                HorizontalAlignment="Center"
+                                MaxHeight="10"
+                                Margin="0,0,0,0"
+                                MaxVisiblePips="10" />
             </utu:AutoLayout>
         </ScrollViewer>
-        <!-- Buttons --> 
+        <!-- Buttons -->
         <utu:AutoLayout Spacing="39"
                         Padding="0,10"
                         PrimaryAxisAlignment="Center"
