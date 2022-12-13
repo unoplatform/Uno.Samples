@@ -21,6 +21,9 @@ namespace SQLiteSample
 
         private async void InitializeDatabase()
         {
+#if __WASM__
+            SQLitePCL.raw.SetProvider(new SQLitePCL.SQLite3Provider_sqlite3());
+#endif
             // Ensure that the storage subsystem is initialized on webassembly
             await Windows.Storage.StorageFolder.GetFolderFromPathAsync(Windows.Storage.ApplicationData.Current.LocalFolder.Path);
 

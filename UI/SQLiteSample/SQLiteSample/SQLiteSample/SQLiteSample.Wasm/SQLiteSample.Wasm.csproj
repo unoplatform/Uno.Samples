@@ -41,9 +41,6 @@
     <None Include="wwwroot\web.config" />
   </ItemGroup>
   <ItemGroup>
-	<PackageReference Include="Microsoft.Data.Sqlite.Core" Version="7.0.0" />
-	<PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.0" />
-	<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.0" />	  	
 	<PackageReference Include="Microsoft.Extensions.Logging" Version="7.0.0" />    
     <PackageReference Include="Uno.Extensions.Logging.WebAssembly.Console" Version="1.4.0" />
     <PackageReference Include="Uno.WinUI.WebAssembly" Version="4.6.19" />
@@ -52,6 +49,14 @@
     <PackageReference Include="Uno.Wasm.Bootstrap" Version="7.0.3" />
     <PackageReference Include="Uno.Wasm.Bootstrap.DevServer" Version="7.0.3" />
     <PackageReference Include="Uno.WinUI.Lottie" Version="4.6.19" />
+
+	  <PackageReference Include="SQLitePCLRaw.bundle_sqlite3" Version="2.1.2" />
+	  <PackageReference Include="SQLitePCLRaw.provider.sqlite3" Version="2.1.2" />
+	  <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.0" />
+	  <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="7.0.0" />
+	  <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite.Core" Version="7.0.0" />
+
+	  <PackageReference Include="Uno.sqlite-wasm" Version="3.40.0.1" />
   </ItemGroup>
   <Import Project="..\SQLiteSample.Shared\SQLiteSample.Shared.projitems" Label="Shared" Condition="Exists('..\SQLiteSample.Shared\SQLiteSample.Shared.projitems')" />
 </Project>
