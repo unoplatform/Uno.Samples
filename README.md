@@ -78,6 +78,11 @@ An example of creating a custom control library and calling a control from your 
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/ControlLibrary)
 
+### Custom Sorting
+Sample app to accompany "Adding Custom Sorting Logic" blog post.
+
+[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/CustomSorting)
+
 ### Dual-Screen
 A simple example using the `TwoPaneView` control spanned across dual screens (such as Neo or Duo dual-screen devices for example). 
 
