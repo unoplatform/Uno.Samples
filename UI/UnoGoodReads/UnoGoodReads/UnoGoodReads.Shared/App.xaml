@@ -11,9 +11,13 @@
             <ResourceDictionary.MergedDictionaries>
                
                 <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
-
-                <!-- Load Uno.Material resources -->
-                <MaterialColors xmlns="using:Uno.Material" />
+				
+				<!-- Add resource dictionaries here -->
+				<ResourceDictionary Source="ms-appx:///Styles/MainDictionary.xaml" />
+				
+				<!-- Load Uno.Material resources -->
+				<MaterialColors xmlns="using:Uno.Material" 
+    				OverrideSource="ms-appx:///Styles/MainDictionary.xaml" />
                 <MaterialFonts xmlns="using:Uno.Material" />
                 <MaterialResources xmlns="using:Uno.Material" />
 
@@ -21,9 +25,7 @@
                 <ToolkitResources xmlns="using:Uno.Toolkit.UI" />
                 <MaterialToolkitResources xmlns="using:Uno.Toolkit.UI.Material" />
 
-                <!-- Add resource dictionaries here -->
-                <ResourceDictionary Source="ms-appx:///Styles/MainDictionary.xaml" />
-            </ResourceDictionary.MergedDictionaries>
+			</ResourceDictionary.MergedDictionaries>
             <!-- Add resources here -->
         </ResourceDictionary>
     </Application.Resources>
