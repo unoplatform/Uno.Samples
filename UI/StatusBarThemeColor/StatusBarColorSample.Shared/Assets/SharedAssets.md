@@ -1,4 +1,4 @@
-See documentation about assets here : https://github.com/unoplatform/uno/blob/master/doc/articles/features/working-with-assets.md
+See the documentation about assets here: https://platform.uno/docs/articles/features/working-with-assets.html
 
 # Here is a cheat sheet:
 
@@ -15,7 +15,7 @@ See documentation about assets here : https://github.com/unoplatform/uno/blob/ma
 
 \Assets\Images\scale-100\logo.png
 \Assets\Images\scale-200\logo.png
-\Assets\Images\scale\400\logo.png
+\Assets\Images\scale-400\logo.png
 ```
 
 ## Table of scales
