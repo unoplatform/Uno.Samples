@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace SimpleCalculator.Business
 {
@@ -30,7 +28,7 @@ namespace SimpleCalculator.Business
             return key switch
             {
                 "÷" or "×" or "-" or "+" => OperatorKey(calculator, key),
-                "back" => BackKey(calculator),
+                "back"  => BackKey(calculator),
                 "."     => DotKey(calculator),
                 "0"     => ZeroKey(calculator),
                 "C"     => new(),
