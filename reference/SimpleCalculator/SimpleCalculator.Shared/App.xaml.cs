@@ -52,11 +52,9 @@ namespace SimpleCalculator
             Window = Microsoft.UI.Xaml.Window.Current;
 #endif
 
-            var rootFrame = Window.Content as Frame;
-
             // Do not repeat app initialization when the Window already has content,
             // just ensure that the window is active
-            if (rootFrame == null)
+            if (Window.Content is not Frame rootFrame)
             {
                 // Create a Frame to act as the navigation context and navigate to the first page
                 rootFrame = new Frame();
@@ -133,7 +131,7 @@ namespace SimpleCalculator
             {
 #if __WASM__
                 builder.AddProvider(new global::Uno.Extensions.Logging.WebAssembly.WebAssemblyConsoleLoggerProvider());
-#elif __IOS__
+#elif __IOS__ || MACCATALYST
                 builder.AddProvider(new global::Uno.Extensions.Logging.OSLogLoggerProvider());
 #elif NETFX_CORE
                 builder.AddDebug();

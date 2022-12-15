@@ -8,6 +8,7 @@ using SimpleCalculator.ThemeService;
 using Uno.Material;
 using Uno.Themes.Markup;
 using Uno.Toolkit.UI;
+using BrushBuilder = System.Action<Microsoft.UI.Xaml.MarkupHelpers.IDependencyPropertyBuilder<Microsoft.UI.Xaml.Media.Brush>>;
 
 namespace SimpleCalculator
 {
@@ -70,7 +71,7 @@ namespace SimpleCalculator
                 Equation(vm),
                 Result(vm)
             );
-        
+
         private TextBlock Equation(BindableMainModel vm)
             => new TextBlock()
             .Text(() => vm.Calculator.Equation)
@@ -96,28 +97,28 @@ namespace SimpleCalculator
             .Children
             (
                 // Row 0
-                KeyPadButton(vm, 0, 0, "C", "PrimaryContainerBrush", "OnSecondaryContainerBrush"),
-                KeyPadButton(vm, 0, 1, "±", "PrimaryContainerBrush", "OnSecondaryContainerBrush", "+-"),
-                KeyPadButton(vm, 0, 2, "%", "PrimaryContainerBrush", "OnSecondaryContainerBrush"),
-                KeyPadButton(vm, 0, 3, "÷", "PrimaryVariantDarkBrush", "OnTertiaryBrush"),
+                KeyPadButton(vm, 0, 0, "C", Theme.Brushes.Primary.Container.Default, Theme.Brushes.OnSecondary.Container.Default),
+                KeyPadButton(vm, 0, 1, "±", Theme.Brushes.Primary.Container.Default, Theme.Brushes.OnSecondary.Container.Default, "+-"),
+                KeyPadButton(vm, 0, 2, "%", Theme.Brushes.Primary.Container.Default, Theme.Brushes.OnSecondary.Container.Default),
+                KeyPadButton(vm, 0, 3, "÷", Theme.Brushes.Primary.VariantDark.Default, Theme.Brushes.OnTertiary.Default),
 
                 // Row 1
                 KeyPadButton(vm, 1, 0, "7"),
                 KeyPadButton(vm, 1, 1, "8"),
                 KeyPadButton(vm, 1, 2, "9"),
-                KeyPadButton(vm, 1, 3, "×", "PrimaryVariantDarkBrush", "OnTertiaryBrush"),
+                KeyPadButton(vm, 1, 3, "×", Theme.Brushes.Primary.VariantDark.Default, Theme.Brushes.OnTertiary.Default),
 
                 // Row 2
                 KeyPadButton(vm, 2, 0, "4"),
                 KeyPadButton(vm, 2, 1, "5"),
                 KeyPadButton(vm, 2, 2, "6"),
-                KeyPadButton(vm, 2, 3, "–", "PrimaryVariantDarkBrush", "OnTertiaryBrush", parameter: "-"),
+                KeyPadButton(vm, 2, 3, "–", Theme.Brushes.Primary.VariantDark.Default, Theme.Brushes.OnTertiary.Default, parameter: "-"),
 
                 //Row 3
                 KeyPadButton(vm, 3, 0, "1"),
                 KeyPadButton(vm, 3, 1, "2"),
                 KeyPadButton(vm, 3, 2, "3"),
-                KeyPadButton(vm, 3, 3, "+", "PrimaryVariantDarkBrush", "OnTertiaryBrush"),
+                KeyPadButton(vm, 3, 3, "+", Theme.Brushes.Primary.VariantDark.Default, Theme.Brushes.OnTertiary.Default),
 
                 //Row 4
                 KeyPadButton(vm, 4, 0, "."),
@@ -127,17 +128,17 @@ namespace SimpleCalculator
 #else
                 KeyPadButton(vm, 4, 2, "⌫", parameter: "back"),
 #endif
-                KeyPadButton(vm, 4, 3, "=", "PrimaryVariantDarkBrush", "OnTertiaryBrush")
+                KeyPadButton(vm, 4, 3, "=", Theme.Brushes.Primary.VariantDark.Default, Theme.Brushes.OnTertiary.Default)
             );
 
-        private Button KeyPadButton(BindableMainModel vm, int gridRow, int gridColumn, string content, string background = "SecondaryContainerBrush", string foreground = "OnSurfaceBrush", string parameter = null)
+        private Button KeyPadButton(BindableMainModel vm, int gridRow, int gridColumn, string content, BrushBuilder background = null, BrushBuilder foreground = null, string parameter = null)
             => new Button()
             .Command(() => vm.Input)
             .CommandParameter(parameter ?? content)
-            .Background(ThemeResource.Get<Brush>(background))
+            .Background(background ?? Theme.Brushes.Secondary.Container.Default)
             .Content(content)
             .FontSize(32)
-            .Foreground(ThemeResource.Get<Brush>(foreground))
+            .Foreground(foreground ?? Theme.Brushes.OnSurface.Default)
             .Grid(row: gridRow, column: gridColumn)
             .HorizontalAlignment(HorizontalAlignment.Stretch)
             .VerticalAlignment(VerticalAlignment.Stretch)
