@@ -119,22 +119,15 @@ namespace SimpleCalculator.Business
             if (calculator.HasOperator && calculator.HasNumber1)
             {
                 double? number2 = calculator.HasNumber ? GetNumber(calculator.Number) : 0.0;
-                double? result = null;
-                switch (calculator.Operator)
+
+                double result = calculator.Operator switch
                 {
-                    case "÷":
-                        result = calculator.Number1!.Value / number2!.Value;
-                        break;
-                    case "×":
-                        result = calculator.Number1!.Value * number2!.Value;
-                        break;
-                    case "+":
-                        result = calculator.Number1!.Value + number2!.Value;
-                        break;
-                    case "-":
-                        result = calculator.Number1!.Value - number2!.Value;
-                        break;
-                }
+                    "÷" => calculator.Number1!.Value / number2!.Value,
+                    "×" => calculator.Number1!.Value * number2!.Value,
+                    "+" => calculator.Number1!.Value + number2!.Value,
+                    "-" => calculator.Number1!.Value - number2!.Value,
+                    _   => throw new InvalidOperationException()
+                };
 
                 calculator = calculator with
                 {
@@ -151,22 +144,15 @@ namespace SimpleCalculator.Business
             if (calculator.HasOperator && calculator.HasNumber1)
             {
                 double? number2 = calculator.HasNumber ? GetNumber(calculator.Number) : 0.0;
-                double? result = null;
-                switch (calculator.Operator)
+
+                double result = calculator.Operator switch
                 {
-                    case "÷":
-                        result = calculator.Number1!.Value / (number2!.Value / 100) * calculator.Number1!.Value;
-                        break;
-                    case "×":
-                        result = calculator.Number1!.Value * (number2!.Value / 100) * calculator.Number1!.Value;
-                        break;
-                    case "+":
-                        result = calculator.Number1!.Value + (number2!.Value / 100) * calculator.Number1!.Value;
-                        break;
-                    case "-":
-                        result = calculator.Number1!.Value - (number2!.Value / 100) * calculator.Number1!.Value;
-                        break;
-                }
+                    "÷" => calculator.Number1!.Value / (number2!.Value / 100) * calculator.Number1!.Value,
+                    "×" => calculator.Number1!.Value * (number2!.Value / 100) * calculator.Number1!.Value,
+                    "+" => calculator.Number1!.Value + (number2!.Value / 100) * calculator.Number1!.Value,
+                    "-" => calculator.Number1!.Value - (number2!.Value / 100) * calculator.Number1!.Value,
+                    _   => throw new InvalidOperationException()
+                };
 
                 calculator = calculator with
                 {
@@ -204,8 +190,6 @@ namespace SimpleCalculator.Business
         }
 
         double? GetNumber (string number)
-        {
-            return Convert.ToDouble(number);
-        }
+            => Convert.ToDouble(number);
     }
 }
