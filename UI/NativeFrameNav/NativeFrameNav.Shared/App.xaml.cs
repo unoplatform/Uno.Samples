@@ -23,6 +23,9 @@ namespace NativeFrameNav
         {
             InitializeLogging();
 
+#if __IOS__ || __ANDROID__
+			Uno.UI.FeatureConfiguration.Style.ConfigureNativeFrameNavigation();
+#endif
             this.InitializeComponent();
 
 #if HAS_UNO || NETFX_CORE
@@ -91,20 +94,18 @@ namespace NativeFrameNav
 
         private void ConfigureNavigation()
         {
+#if __ANDROID__ || __WASM__
             var frame = (Frame)_window.Content;
             var manager = Windows.UI.Core.SystemNavigationManager.GetForCurrentView();
 
-#if WINDOWS_UWP || __WASM__
-			// Toggle the visibility of back button based on if the frame can navigate back.
-			// Setting it to visible has the follow effect on the platform:
-			// - uwp: show a `<-` back button on the title bar
-			// - wasm: add a dummy entry in the browser back stack
-			frame.Navigated += (s, e) => manager.AppViewBackButtonVisibility = frame.CanGoBack
+            // Toggle the visibility of back button based on if the frame can navigate back.
+            // Setting it to visible has the follow effect on the platform:
+            // - uwp: show a `<-` back button on the title bar
+            // - wasm: add a dummy entry in the browser back stack
+            frame.Navigated += (s, e) => manager.AppViewBackButtonVisibility = frame.CanGoBack
 				? Windows.UI.Core.AppViewBackButtonVisibility.Visible
 				: Windows.UI.Core.AppViewBackButtonVisibility.Collapsed;
-#endif
 
-#if WINDOWS_UWP || __ANDROID__ || __WASM__
 			// On some platforms, the back navigation request needs to be hooked up to the back navigation of the Frame.
 			// These requests can come from:
 			// - uwp: title bar back button
