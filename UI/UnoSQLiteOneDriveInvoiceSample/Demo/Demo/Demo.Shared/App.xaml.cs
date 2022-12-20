@@ -27,6 +27,7 @@ using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using LogLevel = Microsoft.Extensions.Logging.LogLevel;
+using System.Threading.Tasks;
 
 namespace Demo
 {
@@ -104,6 +105,9 @@ namespace Demo
             {
                 if (rootFrame.Content == null)
                 {
+#if __WASM__
+                    _ = Windows.Storage.StorageFolder.GetFolderFromPathAsync(Windows.Storage.ApplicationData.Current.LocalFolder.Path);
+#endif
                     // When the navigation stack isn't restored navigate to the first page,
                     // configuring the new page by passing required information as a navigation
                     // parameter

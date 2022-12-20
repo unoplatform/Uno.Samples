@@ -81,35 +81,35 @@ namespace Demo.Database.Entities
 
         #region ForeignKey(s)
 
-        /// <summary>
-        /// Account Id attached to the Address record.
-        /// </summary>
-        [Column("account_id")]
-        [ForeignKey(typeof(Account))]
-        public Guid AccountId { get; set; }
+        ///// <summary>
+        ///// Account Id attached to the Address record.
+        ///// </summary>
+        //[Column("account_id")]
+        //[ForeignKey(typeof(Account))]
+        //public Guid AccountId { get; set; }
 
-        /// <summary>
-        /// Client Id attached to a Address record.
-        /// </summary>
-        [Column("client_id")]
-        [ForeignKey(typeof(Client))]
-        public Guid ClientId { get; set; }
+        ///// <summary>
+        ///// Client Id attached to a Address record.
+        ///// </summary>
+        //[Column("client_id")]
+        //[ForeignKey(typeof(Client))]
+        //public Guid ClientId { get; set; }
 
         #endregion
 
         #region OneToOne Linking(s)
 
-        /// <summary>
-        /// Account record attached to this Address record.
-        /// </summary>
-        [OneToOne(ReadOnly = true)]
-        public Account Account { get; set; }
+        ///// <summary>
+        ///// Account record attached to this Address record.
+        ///// </summary>
+        //[OneToOne(ReadOnly = true)]
+        //public Account Account { get; set; }
 
-        /// <summary>
-        /// Client record attached to this Address record.
-        /// </summary>
-        [OneToOne(ReadOnly = true)]
-        public Client Client { get; set; }
+        ///// <summary>
+        ///// Client record attached to this Address record.
+        ///// </summary>
+        //[OneToOne(ReadOnly = true)]
+        //public Client Client { get; set; }
 
         #endregion
     }
