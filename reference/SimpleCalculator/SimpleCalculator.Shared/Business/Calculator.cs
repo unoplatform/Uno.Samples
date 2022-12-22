@@ -25,7 +25,7 @@ public record Calculator
     public const string AdditionKey = "+";
     public const string BackKey = "back";
     public const string DotKey = ".";
-    public const string CleanKey = "C";
+    public const string ClearKey = "C";
     public const string EqualsKey = "=";
     public const string PercentageKey = "%";
     public const string PlusMinusKey = "+-";
@@ -42,7 +42,7 @@ public record Calculator
 
     private readonly string[] AllKeys = new[]
     {
-        MultiplicationKey, DivisionKey, SubtractionKey, AdditionKey, BackKey, DotKey, ZeroKey, CleanKey, EqualsKey, PercentageKey, PlusMinusKey, OneKey, TwoKey, ThreeKey, FourKey, FiveKey, SixKey, SevenKey, EightKey, NineKey
+        MultiplicationKey, DivisionKey, SubtractionKey, AdditionKey, BackKey, DotKey, ZeroKey, ClearKey, EqualsKey, PercentageKey, PlusMinusKey, OneKey, TwoKey, ThreeKey, FourKey, FiveKey, SixKey, SevenKey, EightKey, NineKey
     };
     
     private readonly string[] OperationKeys = new[]
@@ -66,7 +66,7 @@ public record Calculator
             BackKey => ProcessBackKey(calculator),
             DotKey => ProcessDotKey(calculator),
             ZeroKey when !calculator.HasNumber => calculator,
-            CleanKey => new(),
+            ClearKey => new(),
             EqualsKey => ProcessEqualsKey(calculator),
             PercentageKey => ProcessPercentageKey(calculator),
             PlusMinusKey => ProcessPlusMinusKey(calculator),

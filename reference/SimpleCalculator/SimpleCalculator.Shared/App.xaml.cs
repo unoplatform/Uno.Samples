@@ -81,8 +81,8 @@ public sealed partial class App : Application
                 // parameter
 
                 //Switch between XAML and Markup version
-                var page = typeof(MainPage);
-                //var page = typeof(MainPageMarkup);
+                //var page = typeof(MainPage);
+                var page = typeof(MainPageMarkup);
                 rootFrame.Navigate(page, args.Arguments);
             }
             // Ensure the current window is active

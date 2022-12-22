@@ -98,7 +98,7 @@ public sealed partial class MainPageMarkup : Page
         .Children
         (
             // Row 0
-            KeyPadButton(vm, 0, 0, Calculator.CleanKey, Theme.Brushes.Primary.Container.Default, Theme.Brushes.OnSecondary.Container.Default),
+            KeyPadButton(vm, 0, 0, Calculator.ClearKey, Theme.Brushes.Primary.Container.Default, Theme.Brushes.OnSecondary.Container.Default),
             KeyPadButton(vm, 0, 1, "±", Theme.Brushes.Primary.Container.Default, Theme.Brushes.OnSecondary.Container.Default, Calculator.PlusMinusKey),
             KeyPadButton(vm, 0, 2, Calculator.PercentageKey, Theme.Brushes.Primary.Container.Default, Theme.Brushes.OnSecondary.Container.Default),
             KeyPadButton(vm, 0, 3, Calculator.DivisionKey, Theme.Brushes.Primary.VariantDark.Default, Theme.Brushes.OnTertiary.Default),
