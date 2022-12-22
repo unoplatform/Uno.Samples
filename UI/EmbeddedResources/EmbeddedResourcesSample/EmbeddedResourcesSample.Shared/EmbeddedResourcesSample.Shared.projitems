@@ -36,7 +36,10 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\my-textfile.txt" />
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\my-textfile2.txt" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\Nested\my-textfile2.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)Resources\Nested\" />
   </ItemGroup>
   <Import Project="EmbeddedResourcesSample.Shared.globs.props" Condition="'$(IsCodeSharingProject)'!='true'" />
 </Project>
