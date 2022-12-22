@@ -99,7 +99,7 @@ public sealed partial class MainPageMarkup : Page
         (
             // Row 0
             KeyPadButton(vm, 0, 0, Calculator.ClearKey, Theme.Brushes.Primary.Container.Default, Theme.Brushes.OnSecondary.Container.Default),
-            KeyPadButton(vm, 0, 1, "±", Theme.Brushes.Primary.Container.Default, Theme.Brushes.OnSecondary.Container.Default, Calculator.PlusMinusKey),
+            KeyPadButton(vm, 0, 1, Calculator.PlusMinusKey, Theme.Brushes.Primary.Container.Default, Theme.Brushes.OnSecondary.Container.Default),
             KeyPadButton(vm, 0, 2, Calculator.PercentageKey, Theme.Brushes.Primary.Container.Default, Theme.Brushes.OnSecondary.Container.Default),
             KeyPadButton(vm, 0, 3, Calculator.DivisionKey, Theme.Brushes.Primary.VariantDark.Default, Theme.Brushes.OnTertiary.Default),
 
@@ -113,7 +113,7 @@ public sealed partial class MainPageMarkup : Page
             KeyPadButton(vm, 2, 0, Calculator.FourKey),
             KeyPadButton(vm, 2, 1, Calculator.FiveKey),
             KeyPadButton(vm, 2, 2, Calculator.SixKey),
-            KeyPadButton(vm, 2, 3, "–", Theme.Brushes.Primary.VariantDark.Default, Theme.Brushes.OnTertiary.Default, parameter: Calculator.SubtractionKey),
+            KeyPadButton(vm, 2, 3, Calculator.SubtractionKey, Theme.Brushes.Primary.VariantDark.Default, Theme.Brushes.OnTertiary.Default),
 
             //Row 3
             KeyPadButton(vm, 3, 0, Calculator.OneKey),
@@ -124,11 +124,7 @@ public sealed partial class MainPageMarkup : Page
             //Row 4
             KeyPadButton(vm, 4, 0, Calculator.DotKey),
             KeyPadButton(vm, 4, 1, Calculator.ZeroKey),
-#if HAS_UNO_SKIA
-            KeyPadButton(vm, 4, 2, "<-", parameter: Calculator.BackKey),
-#else
-            KeyPadButton(vm, 4, 2, "⌫", parameter: Calculator.BackKey),
-#endif
+            KeyPadButton(vm, 4, 2, Calculator.BackKey),
             KeyPadButton(vm, 4, 3, Calculator.EqualsKey, Theme.Brushes.Primary.VariantDark.Default, Theme.Brushes.OnTertiary.Default)
         );
 

@@ -5,30 +5,21 @@ namespace SimpleCalculator.Business;
 
 public record Calculator
 {
-    private string Number { get; init; }
-    private string Operator { get; init; }
-    private double? Number1 { get; init; }
-    private double? Number2 { get; init; }
-    private bool IsNumber2Percentage { get; init; }
-    private double? Result { get; init; }
-    private bool HasOperator => !string.IsNullOrEmpty(Operator);
-    private bool HasNumber => !string.IsNullOrEmpty(Number);
-    private bool HasNumber1 => Number1 != null;
-    private bool HasNumber2 => Number2 != null;
-
-    public string Output => $"{(Result != null ? Result.Value : HasNumber ? Number : ZeroKey)}";
-    public string Equation => $"{Number1} {Operator} {Number2}{(IsNumber2Percentage ? PercentageKey : string.Empty)}{(Result != null ? $" {EqualsKey}" : string.Empty)}";
-
-    public const string MultiplicationKey = "×";
-    public const string DivisionKey = "÷";
-    public const string SubtractionKey = "-";
+    #region Keys Definition
+    public const string MultiplicationKey = "\x00D7";
+    public const string DivisionKey = "\x00F7";
+    public const string SubtractionKey = "\x2212";
     public const string AdditionKey = "+";
-    public const string BackKey = "back";
+#if HAS_UNO_SKIA
+    public const string BackKey = "<-";
+#else
+    public const string BackKey = "\x232B";
+#endif
     public const string DotKey = ".";
     public const string ClearKey = "C";
     public const string EqualsKey = "=";
     public const string PercentageKey = "%";
-    public const string PlusMinusKey = "+-";
+    public const string PlusMinusKey = "\x00B1";
     public const string ZeroKey = "0";
     public const string OneKey = "1";
     public const string TwoKey = "2";
@@ -44,11 +35,26 @@ public record Calculator
     {
         MultiplicationKey, DivisionKey, SubtractionKey, AdditionKey, BackKey, DotKey, ZeroKey, ClearKey, EqualsKey, PercentageKey, PlusMinusKey, OneKey, TwoKey, ThreeKey, FourKey, FiveKey, SixKey, SevenKey, EightKey, NineKey
     };
-    
+
     private readonly string[] OperationKeys = new[]
     {
         MultiplicationKey, DivisionKey, SubtractionKey, AdditionKey
     };
+#endregion
+
+    private string Number { get; init; }
+    private string Operator { get; init; }
+    private double? Number1 { get; init; }
+    private double? Number2 { get; init; }
+    private bool IsNumber2Percentage { get; init; }
+    private double? Result { get; init; }
+    private bool HasOperator => !string.IsNullOrEmpty(Operator);
+    private bool HasNumber => !string.IsNullOrEmpty(Number);
+    private bool HasNumber1 => Number1 != null;
+    private bool HasNumber2 => Number2 != null;
+
+    public string Output => $"{(Result != null ? Result.Value : HasNumber ? Number : ZeroKey)}";
+    public string Equation => $"{Number1} {Operator} {Number2}{(IsNumber2Percentage ? PercentageKey : string.Empty)}{(Result != null ? $" {EqualsKey}" : string.Empty)}";
 
     public Calculator Input (string key)
         => Input(this, key);
@@ -191,7 +197,7 @@ public record Calculator
     {
         if (calculator.HasNumber)
         {
-            calculator = calculator with { Number = calculator.Number?.StartsWith(SubtractionKey) == true ? calculator.Number?.Substring(1) : SubtractionKey + calculator.Number };
+            calculator = calculator with { Number = calculator.Number?.StartsWith("-") == true ? calculator.Number?.Substring(1) : "-" + calculator.Number };
         }
         return calculator;
     }
