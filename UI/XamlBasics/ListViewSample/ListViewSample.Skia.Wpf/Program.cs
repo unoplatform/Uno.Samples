@@ -1,3 +1,0 @@
-﻿namespace ListViewSample.Skia.Gtk
-{
-}

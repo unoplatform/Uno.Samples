@@ -1,34 +1,73 @@
-﻿<Page
-    x:Class="ListViewSample.MainPage"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:ListViewSample"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d"    
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-
+<Page
+	x:Class="ListViewSample.MainPage"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:local="using:ListViewSample"
+	xmlns:vm="using:ListViewSample.ViewModels"
+	xmlns:m="using:ListViewSample.Models"
+	xmlns:Interactivity="using:Microsoft.Xaml.Interactivity"
+	xmlns:core="using:Microsoft.Xaml.Interactions.Core"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	mc:Ignorable="d"
+	Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+	
+	<Page.DataContext>
+		<vm:MainPageViewModel/>
+	</Page.DataContext>
+	
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="Auto"/>
 			<RowDefinition Height="*"/>
 		</Grid.RowDefinitions>
-		<TextBlock Margin="12" FontSize="22" Text="My Connections" FontWeight="SemiBold"/>
-		<ListView Grid.Row="1" ContainerContentChanging="ListView_ContainerContentChanging" ItemsSource="{x:Bind Friends}">
+		<StackPanel Spacing="12" Margin="12" Orientation="Horizontal">
+			<TextBlock FontSize="22" Text="My Connections" FontWeight="SemiBold"/>
+			<Button Command="{x:Bind addFriendCommand}">
+				<Button.Content>
+					<StackPanel Spacing="4" Orientation="Horizontal">
+						<FontIcon Glyph="&#xe710;"/>
+						<TextBlock Text="New connection"/>
+					</StackPanel>
+				</Button.Content>
+			</Button>
+		</StackPanel>
+		<Grid Grid.Row="1" BorderThickness="0,0,0,1" BorderBrush="{ThemeResource LayerFillColorDefaultBrush}" ColumnSpacing="12" Padding="12,4">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="*"/>
+				<ColumnDefinition Width="*"/>
+				<ColumnDefinition Width="*"/>
+			</Grid.ColumnDefinitions>
+			<TextBlock FontWeight="SemiBold" FontSize="18" TextTrimming="CharacterEllipsis" Grid.Column="0" Text="Name"/>
+			<TextBlock FontWeight="SemiBold" FontSize="18" TextTrimming="CharacterEllipsis" Grid.Column="1" Text="Occupation"/>
+			<TextBlock FontWeight="SemiBold" FontSize="18" TextTrimming="CharacterEllipsis" Grid.Column="2" Text="Id"/>
+		</Grid>
+		<ListView x:Name="friendsList" Grid.Row="2" ContainerContentChanging="ListView_ContainerContentChanging" ItemsSource="{Binding Friends}">
+			<ListView.Resources>
+				<StaticResource x:Key="ListViewItemBackgroundSelected" ResourceKey="AccentFillColorDefaultBrush" />
+				<StaticResource x:Key="ListViewItemBackgroundSelectedPointerOver" ResourceKey="AccentFillColorDefaultBrush" />
+				<StaticResource x:Key="ListViewItemBackgroundSelectedPressed" ResourceKey="AccentFillColorDefaultBrush" />
+			</ListView.Resources>
 			<ListView.ItemTemplate>
-				<DataTemplate x:DataType="local:WorkplaceFriend">
-					<Grid>
+				<DataTemplate x:DataType="m:WorkplaceFriend">
+					<Grid ColumnSpacing="12" Margin="2">
 						<Grid.ColumnDefinitions>
 							<ColumnDefinition Width="*"/>
 							<ColumnDefinition Width="*"/>
 							<ColumnDefinition Width="*"/>
 						</Grid.ColumnDefinitions>
-						<TextBlock Grid.Column="0" Text="{x:Bind Name}"/>
-						<TextBlock Grid.Column="1" Text="{x:Bind Occupation}"/>
-						<TextBlock Grid.Column="2" Text="{x:Bind Id}"/>
+						<TextBlock TextTrimming="CharacterEllipsis" Grid.Column="0" Text="{x:Bind Name}"/>
+						<TextBlock TextTrimming="CharacterEllipsis" Grid.Column="1" Text="{x:Bind Occupation}"/>
+						<TextBlock TextTrimming="CharacterEllipsis" Grid.Column="2" Text="{x:Bind Id}"/>
 					</Grid>
 				</DataTemplate>
 			</ListView.ItemTemplate>
+			<ListView.ItemContainerStyle>
+				<Style BasedOn="{StaticResource ListViewItemExpanded}" TargetType="ListViewItem">
+					<Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+				</Style>
+			</ListView.ItemContainerStyle>
 		</ListView>
-    </Grid>
+	</Grid>
 </Page>
