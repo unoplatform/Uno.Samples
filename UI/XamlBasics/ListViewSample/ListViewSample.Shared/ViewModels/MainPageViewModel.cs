@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using ListViewSample.Models;
@@ -12,11 +13,11 @@ namespace ListViewSample.ViewModels
 {
     public class MainPageViewModel
     {
-        public List<WorkplaceFriend> Friends { get; set; }
+        public ObservableCollection<WorkplaceFriend> Friends { get; set; }
 
         public MainPageViewModel()
         {
-            Friends = new List<WorkplaceFriend>();
+            Friends = new ObservableCollection<WorkplaceFriend>();
             Initialize();
         }
 
@@ -33,7 +34,7 @@ namespace ListViewSample.ViewModels
             {
                 try
                 {
-                    Friends.AddRange(JsonSerializer.Deserialize<List<WorkplaceFriend>>(friendsJson));
+                    JsonSerializer.Deserialize<IList<WorkplaceFriend>>(friendsJson).ToList().ForEach(f => Friends.Add(f));
                 }
                 catch (System.Text.Json.JsonException)
                 {
@@ -46,7 +47,7 @@ namespace ListViewSample.ViewModels
         {
             StorageFile file = await ApplicationData.Current.LocalFolder.CreateFileAsync("friends.json", CreationCollisionOption.OpenIfExists);
 
-            var friendsJson = JsonSerializer.Serialize<List<WorkplaceFriend>>(Friends);
+            var friendsJson = JsonSerializer.Serialize<IList<WorkplaceFriend>>(Friends);
             await FileIO.WriteTextAsync(file, friendsJson);
         }
 
