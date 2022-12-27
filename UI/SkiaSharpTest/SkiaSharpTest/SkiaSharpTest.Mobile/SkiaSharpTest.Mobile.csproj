@@ -14,17 +14,17 @@
     <RuntimeIdentifier Condition="'$(TargetFramework)' == 'net6.0-macos'">osx-x64</RuntimeIdentifier>
   </PropertyGroup>
   <ItemGroup>
+	<!--<PackageReference Include="SkiaSharp.Views" Version="2.88.3" />-->
 	<PackageReference Include="SkiaSharp.Views.Uno.WinUI" Version="2.88.3" />
     <PackageReference Include="Uno.WinUI" Version="4.6.19" />
     <PackageReference Include="Uno.WinUI.RemoteControl" Version="4.6.19" Condition="'$(Configuration)'=='Debug'" />
     <PackageReference Include="Uno.UI.Adapter.Microsoft.Extensions.Logging" Version="4.6.19" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="5.0.0" />
-    <PackageReference Include="Uno.WinUI.Lottie" Version="4.6.19" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="7.0.0" />
+    <!--<PackageReference Include="Uno.WinUI.Lottie" Version="4.6.19" />-->
   </ItemGroup>
   <Choose>
     <When Condition="'$(TargetFramework)'=='net6.0-android'">
       <ItemGroup>
-        <PackageReference Include="Xamarin.Google.Android.Material" Version="1.4.0.4" />
         <PackageReference Include="Uno.UniversalImageLoader" Version="1.9.36" />
       </ItemGroup>
       <ItemGroup>

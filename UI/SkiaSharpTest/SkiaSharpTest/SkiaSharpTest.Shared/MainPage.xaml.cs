@@ -55,7 +55,7 @@ namespace SkiaSharpTest
         {
             _currentPosition = e.GetCurrentPoint(panelGrid).Position;
             currentPositionText.Text = _currentPosition.ToString();
-
+            
             if (hwAcceleration.IsChecked ?? false)
             {
                 swapChain.Invalidate();

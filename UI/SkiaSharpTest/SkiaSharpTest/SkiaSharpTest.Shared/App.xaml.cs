@@ -82,6 +82,7 @@ namespace SkiaSharpTest
                     // parameter
                     rootFrame.Navigate(typeof(MainPage), args.Arguments);
                 }
+
                 // Ensure the current window is active
                 _window.Activate();
             }
