@@ -21,12 +21,16 @@
     <Compile Include="$(MSBuildThisFileDirectory)CanvasObjects\Node.xaml.cs">
       <DependentUpon>Node.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)DrugShipment\ContractDefinition\DrugShipmentDefinition.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DrugShipment\DrugShipmentService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)HomePage.xaml.cs">
       <DependentUpon>HomePage.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Pharmacy\ContractDefinition\PharmacyDefinition.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Pharmacy\PharmacyService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)TabbedPages\ManufacturerPage.xaml.cs">
       <DependentUpon>ManufacturerPage.xaml</DependentUpon>
     </Compile>
@@ -49,6 +53,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\PatientVM.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\PharmacyVM.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\WholesalerVM.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Wholesaler\ContractDefinition\WholesalerDefinition.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Wholesaler\WholesalerService.cs" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="$(MSBuildThisFileDirectory)CanvasObjects\Node.xaml">
@@ -90,4 +96,5 @@
   <ItemGroup>
     <PRIResource Include="$(MSBuildThisFileDirectory)Strings\en\Resources.resw" />
   </ItemGroup>
+  <Import Project="DemoApp.Shared.globs.props" Condition="'$(IsCodeSharingProject)'!='true'" />
 </Project>

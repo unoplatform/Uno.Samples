@@ -22,7 +22,7 @@ namespace DemoApp.ViewModels
     }
 
     public class AccountKeys
-    {
+    {   
         public string one { get; set; }
         public string two { get; set; }
         public string three { get; set; }
@@ -92,14 +92,14 @@ namespace DemoApp.ViewModels
             Accounts.one = new Account(AccountKeys.one);
             Accounts.two = new Account(AccountKeys.two);
             Accounts.three = new Account(AccountKeys.three);
-            Accounts.four = new Account(AccountKeys.four);           
+            Accounts.four = new Account(AccountKeys.four);
 
             Web3s.one = new Web3(Accounts.one, Url);
             Web3s.two = new Web3(Accounts.two, Url);
             Web3s.three = new Web3(Accounts.three, Url);
             Web3s.four = new Web3(Accounts.four, Url);
-            
-            return new SetUp { Accounts = Accounts, DrugShipment = DrugShipment,  Migrations = Migrations, Web3s = Web3s };
+
+            return new SetUp { Accounts = Accounts, DrugShipment = DrugShipment, Migrations = Migrations, Web3s = Web3s };
         }
 
     }
