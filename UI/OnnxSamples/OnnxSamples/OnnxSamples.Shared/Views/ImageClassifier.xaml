@@ -1,0 +1,47 @@
+﻿<Page x:Class="OnnxSamples.Views.ImageClassifier"
+	  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	  xmlns:local="using:OnnxSamples.Views"
+	  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	  xmlns:utu="using:Uno.Toolkit.UI"
+	  mc:Ignorable="d"
+	  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="*" />
+			<RowDefinition Height="4*" />
+			<RowDefinition Height="*" />
+			<RowDefinition Height="4*" />
+			<RowDefinition Height="*" />
+		</Grid.RowDefinitions>
+
+		<TextBlock Text="Image Classification"
+				   HorizontalTextAlignment="Center"
+				   FontSize="18" />
+		<Image x:Name="PreloadedImage1"
+			   Grid.Row="1"
+			   HorizontalAlignment="Stretch"
+			   VerticalAlignment="Stretch"
+			   Source="ms-appx:///Content/Onnx/dog.jpg" />
+		<Button x:Name="RunButton"
+				Grid.Row="2"
+				Content="Predict Image Above"
+				HorizontalAlignment="Stretch"
+				VerticalAlignment="Center"
+				Click="RunButton_Click" />
+
+		<Image x:Name="PreLoadImage2"
+			   Grid.Row="3"
+			   HorizontalAlignment="Center"
+			   VerticalAlignment="Center"
+			   Source="ms-appx:///Content/Onnx/chicken.jpg" />
+		<Button x:Name="LoadButton"
+				Grid.Row="4"
+				HorizontalAlignment="Stretch"
+				VerticalAlignment="Center"
+				Content="Predict Image Above"
+				Click="LoadButton_Click" />
+	</Grid>
+</Page>
