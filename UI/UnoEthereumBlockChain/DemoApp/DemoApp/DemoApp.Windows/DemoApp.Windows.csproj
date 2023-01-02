@@ -9,7 +9,7 @@
 		<RuntimeIdentifiers>win10-x86;win10-x64;win10-arm64</RuntimeIdentifiers>
 		<PublishProfile>win10-$(Platform).pubxml</PublishProfile>
 		<UseWinUI>true</UseWinUI>
-		<EnablePreviewMsixTooling>true</EnablePreviewMsixTooling>
+		<EnableMsixTooling>true</EnableMsixTooling>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -27,7 +27,7 @@
 		<PackageReference Include="Nethereum.JsonRpc.Client" Version="4.11.0" />
 		<PackageReference Include="Nethereum.JsonRpc.RpcClient" Version="4.11.0" />
 		<PackageReference Include="Nethereum.Web3" Version="4.11.0" />
-		<PackageReference Include="Microsoft.WindowsAppSDK" Version="1.2.221116.1" />
+		<PackageReference Include="Microsoft.WindowsAppSDK" Version="1.2.221109.1" />
 		<PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.755" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Console" Version="7.0.0" />
 		<PackageReference Include="Uno.Core.Extensions.Logging.Singleton" Version="4.0.1" />
@@ -40,7 +40,7 @@
 	<!-- Defining the "Msix" ProjectCapability here allows the Single-project MSIX Packaging
        Tools extension to be activated for this project even if the Windows App SDK Nuget
        package has not yet been restored -->
-	<ItemGroup Condition="'$(DisableMsixProjectCapabilityAddedByProject)'!='true' and '$(EnablePreviewMsixTooling)'=='true'">
+	<ItemGroup Condition="'$(DisableMsixProjectCapabilityAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
 		<ProjectCapability Include="Msix" />
 	</ItemGroup>
 	
