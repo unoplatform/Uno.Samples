@@ -14,7 +14,7 @@ public partial record MainModel
     public IState<bool> IsDark => State.Value(this, () => _theme.IsDark);
 
     public IState<Calculator> Calculator => State.Value(this, () => new Calculator());
-    public async ValueTask Input(string key, CancellationToken ct)
+    public async ValueTask Input(KeyInput key, CancellationToken ct)
             => await Calculator.Update(c => c?.Input(key), ct);
     public MainModel (IAppThemeService theme )
     {

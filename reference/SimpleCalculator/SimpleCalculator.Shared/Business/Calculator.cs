@@ -1,46 +1,34 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace SimpleCalculator.Business;
 
 public record Calculator
 {
-    #region Keys Definition
-    public const string MultiplicationKey = "\x00D7";
-    public const string DivisionKey = "\x00F7";
-    public const string SubtractionKey = "\x2212";
-    public const string AdditionKey = "+";
-#if HAS_UNO_SKIA
-    public const string BackKey = "<-";
-#else
-    public const string BackKey = "\x232B";
-#endif
-    public const string DotKey = ".";
-    public const string ClearKey = "C";
-    public const string EqualsKey = "=";
-    public const string PercentageKey = "%";
-    public const string PlusMinusKey = "\x00B1";
-    public const string ZeroKey = "0";
-    public const string OneKey = "1";
-    public const string TwoKey = "2";
-    public const string ThreeKey = "3";
-    public const string FourKey = "4";
-    public const string FiveKey = "5";
-    public const string SixKey = "6";
-    public const string SevenKey = "7";
-    public const string EightKey = "8";
-    public const string NineKey = "9";
-
-    private readonly string[] AllKeys = new[]
+    public static Dictionary<KeyInput, string> KeyTranslator = new()
     {
-        MultiplicationKey, DivisionKey, SubtractionKey, AdditionKey, BackKey, DotKey, ZeroKey, ClearKey, EqualsKey, PercentageKey, PlusMinusKey, OneKey, TwoKey, ThreeKey, FourKey, FiveKey, SixKey, SevenKey, EightKey, NineKey
+        { KeyInput.Multiplication, "×" },
+        { KeyInput.Division, "÷" },
+        { KeyInput.Subtraction, "−" },
+        { KeyInput.Addition, "+" },
+        { KeyInput.Back, "⌫" },
+        { KeyInput.Dot, "." },
+        { KeyInput.Clear, "C" },
+        { KeyInput.Equal, "=" },
+        { KeyInput.Percentage, "%" },
+        { KeyInput.PlusMinus, "±" },
+        { KeyInput.Zero, "0" },
+        { KeyInput.One, "1" },
+        { KeyInput.Two, "2" },
+        { KeyInput.Three, "3" },
+        { KeyInput.Four, "4" },
+        { KeyInput.Five, "5" },
+        { KeyInput.Six, "6" },
+        { KeyInput.Seven, "7" },
+        { KeyInput.Eight, "8" },
+        { KeyInput.Nine, "9" }
     };
-
-    private readonly string[] OperationKeys = new[]
-    {
-        MultiplicationKey, DivisionKey, SubtractionKey, AdditionKey
-    };
-#endregion
 
     private string Number { get; init; }
     private string Operator { get; init; }
@@ -53,39 +41,43 @@ public record Calculator
     private bool HasNumber1 => Number1 != null;
     private bool HasNumber2 => Number2 != null;
 
-    public string Output => $"{(Result != null ? Result.Value : HasNumber ? Number : ZeroKey)}";
-    public string Equation => $"{Number1} {Operator} {Number2}{(IsNumber2Percentage ? PercentageKey : string.Empty)}{(Result != null ? $" {EqualsKey}" : string.Empty)}";
+    public string Output => $"{(Result != null ? Result.Value : HasNumber ? Number : "0")}";
+    public string Equation => $"{Number1} {Operator} {Number2}{(IsNumber2Percentage ? "%" : string.Empty)}{(Result != null ? $" =" : string.Empty)}";
 
-    public Calculator Input (string key)
+    public Calculator Input (KeyInput key)
         => Input(this, key);
 
-    private Calculator Input (Calculator calculator, string key)
+    private Calculator Input (Calculator calculator, KeyInput key)
     {
-        if (!AllKeys.Any(x => x == key))
-            throw new InvalidOperationException("Inputed key is not valid.");
-
-        calculator = RestartOrClear(calculator, key);
-
-        return key switch
+        if (KeyTranslator.TryGetValue(key, out var keyValue))
         {
-            DivisionKey or MultiplicationKey or SubtractionKey or AdditionKey => ProcessOperatorKey(calculator, key),
-            BackKey => ProcessBackKey(calculator),
-            DotKey => ProcessDotKey(calculator),
-            ZeroKey when !calculator.HasNumber => calculator,
-            ClearKey => new(),
-            EqualsKey => ProcessEqualsKey(calculator),
-            PercentageKey => ProcessPercentageKey(calculator),
-            PlusMinusKey => ProcessPlusMinusKey(calculator),
+            calculator = RestartOrClear(calculator, keyValue);
 
-            _       => calculator with { Number = calculator.Number + key }
-        };
+            return key switch
+            {
+                KeyInput.Division or KeyInput.Multiplication or KeyInput.Subtraction or KeyInput.Addition => ProcessOperatorKey(calculator, keyValue),
+                KeyInput.Back => ProcessBackKey(calculator),
+                KeyInput.Dot => ProcessDotKey(calculator),
+                KeyInput.Zero when !calculator.HasNumber => calculator,
+                KeyInput.Clear => new(),
+                KeyInput.Equal => ProcessEqualsKey(calculator),
+                KeyInput.Percentage => ProcessPercentageKey(calculator),
+                KeyInput.PlusMinus => ProcessPlusMinusKey(calculator),
+
+                _ => calculator with { Number = calculator.Number + keyValue }
+            };
+        }
+        else
+        {
+            throw new InvalidOperationException("Inputed key is not valid.");
+        }
     }
 
     private Calculator RestartOrClear(Calculator calculator, string key)
     {
         if (calculator.Result != null)
         {
-            if (OperationKeys.Any(x => x == key))
+            if (key == "÷" || key == "×" || key == "+" || key == "-")
             {
                 calculator = calculator with
                 {
@@ -123,11 +115,11 @@ public record Calculator
     {
         if (calculator.HasNumber)
         {
-            if (calculator.Number?.Contains(DotKey) == false)
+            if (calculator.Number?.Contains(".") == false)
             {
                 calculator = calculator with
                 {
-                    Number = calculator.Number + DotKey
+                    Number = calculator.Number + "."
                 };
             }
         }
@@ -135,7 +127,7 @@ public record Calculator
         {
             calculator = calculator with
             {
-                Number = ZeroKey + DotKey
+                Number = "0" + "."
             };
         }
 
@@ -150,10 +142,10 @@ public record Calculator
 
             double result = calculator.Operator switch
             {
-                DivisionKey => calculator.Number1!.Value / number2!.Value,
-                MultiplicationKey => calculator.Number1!.Value * number2!.Value,
-                AdditionKey => calculator.Number1!.Value + number2!.Value,
-                SubtractionKey => calculator.Number1!.Value - number2!.Value,
+                "÷" => calculator.Number1!.Value / number2!.Value,
+                "×" => calculator.Number1!.Value * number2!.Value,
+                "+" => calculator.Number1!.Value + number2!.Value,
+                "−" => calculator.Number1!.Value - number2!.Value,
                 _   => throw new InvalidOperationException()
             };
 
@@ -175,10 +167,10 @@ public record Calculator
 
             double result = calculator.Operator switch
             {
-                DivisionKey => calculator.Number1!.Value / (number2!.Value / 100) * calculator.Number1!.Value,
-                MultiplicationKey => calculator.Number1!.Value * (number2!.Value / 100) * calculator.Number1!.Value,
-                AdditionKey => calculator.Number1!.Value + (number2!.Value / 100) * calculator.Number1!.Value,
-                SubtractionKey => calculator.Number1!.Value - (number2!.Value / 100) * calculator.Number1!.Value,
+                "÷" => calculator.Number1!.Value / (number2!.Value / 100) * calculator.Number1!.Value,
+                "×" => calculator.Number1!.Value * (number2!.Value / 100) * calculator.Number1!.Value,
+                "+" => calculator.Number1!.Value + (number2!.Value / 100) * calculator.Number1!.Value,
+                "−" => calculator.Number1!.Value - (number2!.Value / 100) * calculator.Number1!.Value,
                 _   => throw new InvalidOperationException()
             };
 
@@ -219,4 +211,28 @@ public record Calculator
 
     double? GetNumber (string number)
         => Convert.ToDouble(number);
+}
+
+public enum KeyInput
+{
+    Multiplication,
+    Division,
+    Subtraction,
+    Addition,
+    Back,
+    Dot,
+    Clear,
+    Equal,
+    Percentage,
+    PlusMinus,
+    Zero,
+    One,
+    Two,
+    Three,
+    Four,
+    Five,
+    Six,
+    Seven,
+    Eight,
+    Nine
 }
