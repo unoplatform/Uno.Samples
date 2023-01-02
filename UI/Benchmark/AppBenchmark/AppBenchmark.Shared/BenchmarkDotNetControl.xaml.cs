@@ -69,7 +69,7 @@ namespace AppBenchmark
         private async Task SetStatus(string status)
         {
             runStatus.Text = status;
-            await Task.Yield();
+            await Task.Delay(50);
         }
 
         private IEnumerable<Type> EnumerateBenchmarks(IConfig config)
@@ -131,6 +131,7 @@ namespace AppBenchmark
 
             public void Write(LogKind logKind, string text)
             {
+                if (string.IsNullOrWhiteSpace(text)) return;
                 this.ExecuteAction(() => _target.Inlines.Add(new Run { Text = text, Foreground = GetLogKindColor(logKind) }));
             }
 
@@ -157,16 +158,17 @@ namespace AppBenchmark
 
             private void ExecuteAction(Action action)
             {
-#if WINDOWS
-
-                DispatcherQueue.TryEnqueue(DispatcherQueuePriority.Low, () => action.Invoke());
-#else
-                action?.Invoke();
-#endif
+                if (!DispatcherQueue.HasThreadAccess)
+                {
+                    DispatcherQueue.TryEnqueue(DispatcherQueuePriority.Low, () => action.Invoke());
+                }
+                else
+                {
+                    action?.Invoke();
+                }
             }
 
-            private DispatcherQueue DispatcherQueue => dispatcherQueue ??= DispatcherQueue.GetForCurrentThread();
-            private DispatcherQueue dispatcherQueue;
+            private DispatcherQueue DispatcherQueue { get; } = DispatcherQueue.GetForCurrentThread();
         }
     }
 }
