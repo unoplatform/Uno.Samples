@@ -8,25 +8,50 @@
     xmlns:html="using:HtmlControls"
     mc:Ignorable="d">
 
-    <StackPanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Margin="20" Spacing="6">
-        <TextBlock FontSize="20">HtmlTimePicker <Span FontWeight="Bold">&lt;input type='time' /&gt;</Span></TextBlock>
-        <html:HtmlTimePicker HorizontalAlignment="Left" x:Name="time1" />
-        <html:HtmlTimePicker HorizontalAlignment="Left" x:Name="time2" Time="{Binding Time, ElementName=time1, Mode=TwoWay}" />
+    <ScrollViewer>
+        <StackPanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Margin="20" Spacing="6">
+            <TextBlock FontSize="20">HtmlTimePicker <Span FontWeight="Bold">&lt;input type='time' /&gt;</Span></TextBlock>
+            <html:HtmlTimePicker HorizontalAlignment="Left" x:Name="time1" />
+            <html:HtmlTimePicker HorizontalAlignment="Left" x:Name="time2" Time="{Binding Time, ElementName=time1, Mode=TwoWay}" />
 
-        <TextBlock FontSize="20">HtmlDatePicker <Span FontWeight="Bold">&lt;input type='date' /&gt;</Span></TextBlock>
-        <html:HtmlDatePicker HorizontalAlignment="Left" x:Name="date1" />
-        <html:HtmlDatePicker HorizontalAlignment="Left" x:Name="date2" Date="{Binding Date, ElementName=date1, Mode=TwoWay}" />
+            <TextBlock FontSize="20">HtmlDatePicker <Span FontWeight="Bold">&lt;input type='date' /&gt;</Span></TextBlock>
+            <html:HtmlDatePicker HorizontalAlignment="Left" x:Name="date1" />
+            <html:HtmlDatePicker HorizontalAlignment="Left" x:Name="date2" Date="{Binding Date, ElementName=date1, Mode=TwoWay}" />
 
-        <TextBlock FontSize="20">HtmlNumberInput <Span FontWeight="Bold">&lt;input type='number' /&gt;</Span></TextBlock>
-        <html:HtmlNumberInput HorizontalAlignment="Left" x:Name="number1" />
-        <html:HtmlNumberInput HorizontalAlignment="Left" x:Name="number2" Value="{Binding Value, ElementName=number1, Mode=TwoWay}" />
+            <TextBlock FontSize="20">HtmlNumberInput <Span FontWeight="Bold">&lt;input type='number' /&gt;</Span></TextBlock>
+            <html:HtmlNumberInput HorizontalAlignment="Left" x:Name="number1" />
+            <html:HtmlNumberInput HorizontalAlignment="Left" x:Name="number2" Value="{Binding Value, ElementName=number1, Mode=TwoWay}" />
 
-        <TextBlock FontSize="20">HtmlColorPicker <Span FontWeight="Bold">&lt;input type='color' /&gt;</Span></TextBlock>
-        <html:HtmlColorPicker HorizontalAlignment="Left" x:Name="color1" />
-        <html:HtmlColorPicker HorizontalAlignment="Left" x:Name="color2" Color="{Binding Color, ElementName=color1, Mode=TwoWay}" />
+            <TextBlock FontSize="20">HtmlColorPicker <Span FontWeight="Bold">&lt;input type='color' /&gt;</Span></TextBlock>
+            <html:HtmlColorPicker HorizontalAlignment="Left" x:Name="color1" />
+            <html:HtmlColorPicker HorizontalAlignment="Left" x:Name="color2" Color="{Binding Color, ElementName=color1, Mode=TwoWay}" />
 
-        <TextBlock FontSize="20">HtmlRangeInput <Span FontWeight="Bold">&lt;input type='range' /&gt;</Span></TextBlock>
-        <html:HtmlRangeInput HorizontalAlignment="Left" x:Name="range1" />
-        <html:HtmlRangeInput HorizontalAlignment="Left" x:Name="range2" Value="{Binding Value, ElementName=range1, Mode=TwoWay}" />
-    </StackPanel>
+            <TextBlock FontSize="20">HtmlRangeInput <Span FontWeight="Bold">&lt;input type='range' /&gt;</Span></TextBlock>
+            <html:HtmlRangeInput HorizontalAlignment="Left" x:Name="range1" Value="25" />
+            <html:HtmlRangeInput HorizontalAlignment="Left" x:Name="range2" Value="{Binding Value, ElementName=range1, Mode=TwoWay}" />
+
+            <TextBlock FontSize="20">HtmlProgress <Span FontWeight="Bold">&lt;progress/&gt;</Span></TextBlock>
+            <html:HtmlProgress HorizontalAlignment="Left" x:Name="progress1" Max="100" Value="{Binding Value, ElementName=range1}" />
+
+            <TextBlock FontSize="20">HtmlMeter <Span FontWeight="Bold">&lt;meter/&gt;</Span></TextBlock>
+            <html:HtmlMeter HorizontalAlignment="Left" x:Name="meter1" Max="100" Value="{Binding Value, ElementName=range1}" />
+        
+            <TextBlock FontSize="20">HtmlHxText <Span FontWeight="Bold">&lt;h1 /&gt;, &lt;h2 /&gt;, &lt;h3 /&gt;, &lt;h4 /&gt;</Span></TextBlock>
+            <TextBox x:Name="text" Text="Sample text you can change..." />
+            <html:HtmlH1Text HorizontalAlignment="Left" x:Name="h1" Text="{Binding Text, ElementName=text}" />
+            <html:HtmlH2Text HorizontalAlignment="Left" x:Name="h2" Text="{Binding Text, ElementName=text}" />
+            <html:HtmlH3Text HorizontalAlignment="Left" x:Name="h3" Text="{Binding Text, ElementName=text}" />
+            <html:HtmlH4Text HorizontalAlignment="Left" x:Name="h4" Text="{Binding Text, ElementName=text}" />
+            
+            <TextBlock FontSize="20">HtmlSelect / HtmlOption <Span FontWeight="Bold">&lt;select /&gt;, &lt;option /&gt;</Span></TextBlock>
+            <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
+                <html:HtmlSelect x:Name="select1">
+                    <html:HtmlOption Value="o1">Option 1</html:HtmlOption>
+                    <html:HtmlOption Value="o2">Option 2</html:HtmlOption>
+                    <html:HtmlOption Value="o3">Option 3</html:HtmlOption>
+                </html:HtmlSelect>
+                <TextBlock Text="{Binding SelectedIndex, ElementName=select1}"/>
+            </StackPanel>
+        </StackPanel>
+    </ScrollViewer>
 </Page>
