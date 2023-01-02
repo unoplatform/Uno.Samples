@@ -1,7 +1,9 @@
 ﻿using BenchmarkDotNet.Configs;
+using BenchmarkDotNet.Exporters;
 using BenchmarkDotNet.Jobs;
 using BenchmarkDotNet.Loggers;
 using BenchmarkDotNet.Running;
+using BenchmarkDotNet.Toolchains.InProcess;
 using BenchmarkDotNet.Toolchains.InProcess.Emit;
 using Microsoft.UI;
 using Microsoft.UI.Dispatching;
@@ -84,18 +86,18 @@ namespace AppBenchmark
         {
             public CoreConfig(ILogger logger)
             {
-                AddLogger(logger);
+                Add(logger);
 
 #if __WASM__
-                AddExporter(AsciiDocExporter.Default);
+                Add(AsciiDocExporter.Default);
 #endif
 
-                AddJob(
+                Add(
                     Job.InProcess
                     .WithLaunchCount(1)
                     .WithWarmupCount(1)
                     .WithIterationCount(5)
-                    .WithToolchain(InProcessEmitToolchain.Instance)
+                    .With(InProcessToolchain.Synchronous)
                     .WithId("InProcess")
                 );
 
@@ -117,10 +119,6 @@ namespace AppBenchmark
                     { LogKind.Error, new SolidColorBrush(Colors.Red) },
                     { LogKind.Hint, new SolidColorBrush(Colors.DarkCyan) }
                };
-
-            string ILogger.Id => "TextBlockLogger";
-
-            int ILogger.Priority => 1;
 
             private readonly TextBlock _target;
 
