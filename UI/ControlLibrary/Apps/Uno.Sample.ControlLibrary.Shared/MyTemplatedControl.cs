@@ -8,7 +8,7 @@ namespace XamlControlLibrary
     {
 		public MyTemplatedControl()
 		{
-			DefaultStyleKey = typeof(MyTemplatedControl);
+			DefaultStyleKey = typeof(MyTemplatedControl);			
 		}
 
 		public int MyProperty
