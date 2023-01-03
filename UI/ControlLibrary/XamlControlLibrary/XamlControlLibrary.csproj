@@ -1,24 +1,36 @@
-<Project Sdk="MSBuild.Sdk.Extras/2.0.54">
+﻿<Project Sdk="MSBuild.Sdk.Extras/3.0.23">
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;xamarinios10;MonoAndroid12.0;uap10.0</TargetFrameworks>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(TargetFramework)' == 'uap10.0' ">
+    <TargetFrameworks>net6.0-windows10.0.18362;netstandard2.0;net6.0-ios;net6.0-maccatalyst;net6.0-android</TargetFrameworks>
     <!-- Ensures the .xr.xml files are generated in a proper layout folder -->
     <GenerateLibraryLayout>true</GenerateLibraryLayout>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' ">
-    <DefineConstants>$(DefineConstants);__WASM__</DefineConstants>
-  </PropertyGroup>
-  <ItemGroup>
-    <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform" Version="6.2.14" />
-    <PackageReference Include="Uno.UI" Version="4.5.12" />
+	<EnableDefaultPageItems>false</EnableDefaultPageItems>
+</PropertyGroup>
+  <ItemGroup Condition="'$(TargetFramework)'=='net6.0-windows10.0.18362'">
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.2.221209.1" />
+    <FrameworkReference Update="Microsoft.Windows.SDK.NET.Ref" RuntimeFrameworkVersion="10.0.22621.28" />
+    <FrameworkReference Update="Microsoft.Windows.SDK.NET.Ref" TargetingPackVersion="10.0.22621.28" />
   </ItemGroup>
-  <ItemGroup Condition=" '$(TargetFramework)' == 'uap10.0' ">
-    <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform " Version="6.0.8" />
+  <ItemGroup>    
+    <PackageReference Include="Uno.WinUI" Version="4.6.39" Condition="'$(TargetFramework)'!='net6.0-windows10.0.18362'" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)'!='net6.0-windows10.0.18362'">
+    <Content Include="Assets\**" />
+    <Page Include="**\*.xaml" Exclude="bin\**\*.xaml;obj\**\*.xaml" />
+    <Compile Update="**\*.xaml.cs">
+      <DependentUpon>%(Filename)</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <UpToDateCheckInput Include="**\*.xaml" Exclude="bin\**\*.xaml;obj\**\*.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Themes\Generic.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Themes\Generic.xaml" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="Themes\Generic.xaml">
-      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
