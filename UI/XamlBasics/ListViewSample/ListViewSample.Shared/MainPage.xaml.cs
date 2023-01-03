@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Media;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Media;
 
 namespace ListViewSample
 {
