@@ -18,7 +18,7 @@ namespace XamlControlLibrary
     {
         public MyTemplatedControl()
         {
-            //this.DefaultStyleKey = typeof(MyTemplatedControl);
+            this.DefaultStyleKey = typeof(MyTemplatedControl);
         }
 
 
@@ -42,7 +42,7 @@ namespace XamlControlLibrary
 
         private void OnMyPropertyChanged(DependencyPropertyChangedEventArgs e)
         {
-            // System.Diagnostics.Debug.WriteLine($"MyProperty Changed from [{e.OldValue}] to [{e.NewValue}]");
+             System.Diagnostics.Debug.WriteLine($"MyProperty Changed from [{e.OldValue}] to [{e.NewValue}]");
         }
     }
 }

@@ -8,7 +8,10 @@
             <Setter.Value>
                 <ControlTemplate TargetType="local:MyTemplatedControl">
                     <Grid>
-                        <TextBlock Text="My templated control !" />
+                        <TextBlock>
+							<Run Text="MyProperty:" />
+							<Run Text="{Binding MyProperty, RelativeSource={RelativeSource TemplatedParent}}" />
+                        </TextBlock>
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
