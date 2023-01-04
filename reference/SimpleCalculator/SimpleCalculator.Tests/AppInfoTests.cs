@@ -9,11 +9,11 @@ public class AppInfoTests
     [TestCase("1290+9521=", "10811", "1290 + 9521 =")]
     [TestCase("999-1000=", "-1", "999 - 1000 =")]
     [TestCase("1+4=×2=-1=÷3=", "3", "9 ÷ 3 =")]
-    public void OperationTest(string input,string output, string equation)
+    public void OperationTest(string input, string output, string equation)
     {
         Calculator c = new();
 
-        foreach(var value in input)
+        foreach (var value in input)
             c = c.Input(value.ToString());
 
         Assert.AreEqual(output, c.Output);
