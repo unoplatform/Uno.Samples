@@ -6,7 +6,7 @@
     <SharedGUID>6279c845-92f8-4333-ab99-3d213163593c</SharedGUID>
   </PropertyGroup>
   <PropertyGroup Label="Configuration">
-    <Import_RootNamespace>PackageResourcesSample.Shared</Import_RootNamespace>
+    <Import_RootNamespace>PackageResourcesSample</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
     <ApplicationDefinition Include="$(MSBuildThisFileDirectory)App.xaml">
@@ -37,4 +37,5 @@
   <ItemGroup>
     <Content Include="$(MSBuildThisFileDirectory)Assets\MyPackageAsset.txt" />
   </ItemGroup>
+  <Import Project="PackageResourcesSample.Shared.globs.props" Condition="'$(IsCodeSharingProject)'!='true'" />
 </Project>
