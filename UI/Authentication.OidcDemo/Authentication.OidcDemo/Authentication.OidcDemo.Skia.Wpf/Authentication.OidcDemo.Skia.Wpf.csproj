@@ -1,7 +1,9 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <OutputType Condition="'$(Configuration)'=='Release'">WinExe</OutputType>
+    <OutputType Condition="'$(Configuration)'=='Debug'">Exe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
   </PropertyGroup>
   <ItemGroup> 
     <PackageReference Include="IdentityModel.OidcClient" Version="3.1.2" />
@@ -20,6 +22,9 @@
   </ItemGroup>
   <ItemGroup>
     <UpToDateCheckInput Include="..\Authentication.OidcDemo.Shared\**\*.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Assets\Fonts\uno-fluentui-assets.ttf" />
   </ItemGroup>
   <Import Project="..\Authentication.OidcDemo.Shared\Authentication.OidcDemo.Shared.projitems" Label="Shared" />
 </Project>
