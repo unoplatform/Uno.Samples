@@ -2,9 +2,10 @@
 using System.Globalization;
 using System.Runtime.CompilerServices;
 using Windows.Foundation;
+using Microsoft.UI;
 using Windows.UI;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Media;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Media;
 using Uno.Extensions;
 using Uno.UI.Runtime.WebAssembly;
 
