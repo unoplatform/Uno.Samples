@@ -29,5 +29,19 @@ namespace PackageResourcesSample
                 output.Text = e.ToString();
             }
         }
+
+        private async void LoadNestedPackageFile()
+        {
+            try
+            {
+                var file = await Windows.Storage.StorageFile.GetFileFromApplicationUriAsync(new Uri(nestedAssetFileName.Text));
+
+                output.Text = await FileIO.ReadTextAsync(file);
+            }
+            catch (Exception e)
+            {
+                output.Text = e.ToString();
+            }
+        }
     }
 }
