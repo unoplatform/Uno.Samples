@@ -43,6 +43,7 @@ jobs:
            if( ('$env:System_PullRequest_PullRequestId)' -eq '') -or ($global:LASTEXITCODE -ne 0)) {
 
                 & $env:msbuildpath $SolutionName /r /p:Configuration=Release /p:AotAssemblies=false /p:WasmShellILLinkerEnabled=false /ds ;
+                & dotnet test $SolutionName -c Release --collect "XPlat code coverage" --logger trx --no-build --no-restore;
 
                 if (($lastexitcode -ne 0)) {
                     exit $lastexitcode
@@ -59,32 +60,3 @@ jobs:
   - task: PublishBuildArtifacts@1
     inputs:
       pathtoPublish: $(Build.ArtifactStagingDirectory)
-
-  - powershell: |
-      Set-PSDebug -Trace 1
-
-      $TestsToRun =  Get-ChildItem -Path **\*.Tests.csproj -Recurse  | Where-Object {$_.FullName -notmatch "\\ArchivedProjects\\"}
-
-      if($env:System_PullRequest_TargetBranch -eq $null) { $TargetBranch = "master" } else { $TargetBranch = $env:System_PullRequest_TargetBranch; }
-
-      foreach ($SolutionName in $TestsToRun) {
-
-           $solutionPath=[System.IO.Path]::GetDirectoryName($SolutionName);
-           git diff --quiet HEAD "origin/$TargetBranch" -- "$solutionPath"
-
-           # Only build if there a change in the solution path for the current PR, if we're not in a PR
-           if( ('$env:System_PullRequest_PullRequestId)' -eq '') -or ($global:LASTEXITCODE -ne 0)) {
-
-                & dotnet test $SolutionName -c Release --collect "XPlat code coverage" --logger trx ;
-
-                if (($lastexitcode -ne 0)) {
-                    exit $lastexitcode
-                }
-
-                # Clean the whole tree after every build to avoid disk space issues
-                git clean -fdx
-           }
-          
-      }
-
-    displayName: Build tests
