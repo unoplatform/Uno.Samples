@@ -26,7 +26,8 @@ namespace UnoMaterialSample
         {
             this.InitializeComponent();
 
-            Test();
+            var result = Test();
+            result--;
         }
 
         public int Test()
