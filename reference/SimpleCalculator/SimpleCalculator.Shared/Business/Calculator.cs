@@ -1,35 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace SimpleCalculator.Business;
 
 public record Calculator
 {
-    public static Dictionary<KeyInput, string> KeyTranslator = new()
-    {
-        { KeyInput.Multiplication, "×" },
-        { KeyInput.Division, "÷" },
-        { KeyInput.Subtraction, "−" },
-        { KeyInput.Addition, "+" },
-        { KeyInput.Back, "⌫" },
-        { KeyInput.Dot, "." },
-        { KeyInput.Clear, "C" },
-        { KeyInput.Equal, "=" },
-        { KeyInput.Percentage, "%" },
-        { KeyInput.PlusMinus, "±" },
-        { KeyInput.Zero, "0" },
-        { KeyInput.One, "1" },
-        { KeyInput.Two, "2" },
-        { KeyInput.Three, "3" },
-        { KeyInput.Four, "4" },
-        { KeyInput.Five, "5" },
-        { KeyInput.Six, "6" },
-        { KeyInput.Seven, "7" },
-        { KeyInput.Eight, "8" },
-        { KeyInput.Nine, "9" }
-    };
-
     private string Number { get; init; }
     private string Operator { get; init; }
     private double? Number1 { get; init; }
@@ -49,35 +23,31 @@ public record Calculator
 
     private Calculator Input (Calculator calculator, KeyInput key)
     {
-        if (KeyTranslator.TryGetValue(key, out var keyValue))
-        {
-            calculator = RestartOrClear(calculator, keyValue);
+        calculator = RestartOrClear(calculator, key);
 
-            return key switch
-            {
-                KeyInput.Division or KeyInput.Multiplication or KeyInput.Subtraction or KeyInput.Addition => ProcessOperatorKey(calculator, keyValue),
-                KeyInput.Back => ProcessBackKey(calculator),
-                KeyInput.Dot => ProcessDotKey(calculator),
-                KeyInput.Zero when !calculator.HasNumber => calculator,
-                KeyInput.Clear => new(),
-                KeyInput.Equal => ProcessEqualsKey(calculator),
-                KeyInput.Percentage => ProcessPercentageKey(calculator),
-                KeyInput.PlusMinus => ProcessPlusMinusKey(calculator),
-
-                _ => calculator with { Number = calculator.Number + keyValue }
-            };
-        }
-        else
+        return key switch
         {
-            throw new InvalidOperationException("Inputed key is not valid.");
-        }
+            KeyInput.Division or KeyInput.Multiplication or KeyInput.Subtraction or KeyInput.Addition => ProcessOperatorKey(calculator, key),
+            KeyInput.Back => ProcessBackKey(calculator),
+            KeyInput.Dot => ProcessDotKey(calculator),
+            KeyInput.Zero when !calculator.HasNumber => calculator,
+            KeyInput.Clear => new(),
+            KeyInput.Equal => ProcessEqualsKey(calculator),
+            KeyInput.Percentage => ProcessPercentageKey(calculator),
+            KeyInput.PlusMinus => ProcessPlusMinusKey(calculator),
+
+            _ => calculator with { Number = calculator.Number + (int)key }
+        };
     }
 
-    private Calculator RestartOrClear(Calculator calculator, string key)
+    private Calculator RestartOrClear(Calculator calculator, KeyInput key)
     {
         if (calculator.Result != null)
         {
-            if (key == "÷" || key == "×" || key == "+" || key == "-")
+            if (key == KeyInput.Division 
+                || key == KeyInput.Multiplication 
+                || key == KeyInput.Addition 
+                || key == KeyInput.Subtraction)
             {
                 calculator = calculator with
                 {
@@ -85,7 +55,7 @@ public record Calculator
                     Result = null,
                     Number2 = null,
                     Number = null,
-                    Operator = key,
+                    Operator = GetOperator(key),
                     IsNumber2Percentage = false
                 };
             }
@@ -127,7 +97,7 @@ public record Calculator
         {
             calculator = calculator with
             {
-                Number = "0" + "."
+                Number = "0."
             };
         }
 
@@ -194,13 +164,13 @@ public record Calculator
         return calculator;
     }
 
-    private Calculator ProcessOperatorKey(Calculator calculator, string key)
+    private Calculator ProcessOperatorKey(Calculator calculator, KeyInput key)
     {
         if (calculator.HasNumber && !calculator.HasOperator)
         {
             calculator = calculator with
             {
-                Operator = key,
+                Operator = GetOperator(key),
                 Number1 = GetNumber(calculator.Number),
                 Number = null
             };
@@ -211,10 +181,30 @@ public record Calculator
 
     double? GetNumber (string number)
         => Convert.ToDouble(number);
+
+    string GetOperator (KeyInput op) => op switch
+    {
+        KeyInput.Division       => "÷",
+        KeyInput.Multiplication => "×",
+        KeyInput.Addition       => "+",
+        KeyInput.Subtraction    => "−",
+
+        _ => throw new InvalidOperationException()
+    };
 }
 
 public enum KeyInput
 {
+    Zero = 0,
+    One = 1,
+    Two = 2,
+    Three = 3,
+    Four = 4,
+    Five = 5,
+    Six = 6,
+    Seven = 7,
+    Eight = 8,
+    Nine = 9,
     Multiplication,
     Division,
     Subtraction,
@@ -224,15 +214,5 @@ public enum KeyInput
     Clear,
     Equal,
     Percentage,
-    PlusMinus,
-    Zero,
-    One,
-    Two,
-    Three,
-    Four,
-    Five,
-    Six,
-    Seven,
-    Eight,
-    Nine
+    PlusMinus
 }
