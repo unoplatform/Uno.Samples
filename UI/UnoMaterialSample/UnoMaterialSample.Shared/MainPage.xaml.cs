@@ -25,14 +25,6 @@ namespace UnoMaterialSample
         public MainPage()
         {
             this.InitializeComponent();
-
-            Test();
-        }
-
-        public int Test()
-        {
-            var result = 3 + 3;
-            return result++;
         }
     }
 }
