@@ -6,34 +6,33 @@ using System.Threading;
 using Uno.Toolkit.UI;
 using Microsoft.UI.Xaml;
 
-namespace SimpleCalculator.ThemeService
+namespace SimpleCalculator.ThemeService;
+
+public class AppThemeService : IAppThemeService
 {
-    public class AppThemeService : IAppThemeService
+    private readonly Window _window;
+
+    public AppThemeService()
     {
-        private readonly Window _window;
+        _window = ((App)App.Current).Window;
+    }
 
-        public AppThemeService()
+    public bool IsDark => SystemThemeHelper.IsRootInDarkMode(_window.Content.XamlRoot!);
+
+    public async ValueTask SetThemeAsync(bool darkMode, CancellationToken ct)
+    {
+        var tcs = new TaskCompletionSource<object>();
+        await using var _ = ct.Register(() => tcs.TrySetCanceled());
+        _window.DispatcherQueue.TryEnqueue(() =>
         {
-            _window = ((App)App.Current).Window;
-        }
-
-        public bool IsDark => SystemThemeHelper.IsRootInDarkMode(_window.Content.XamlRoot!);
-
-        public async ValueTask SetThemeAsync(bool darkMode, CancellationToken ct)
-        {
-            var tcs = new TaskCompletionSource<object>();
-            await using var _ = ct.Register(() => tcs.TrySetCanceled());
-            _window.DispatcherQueue.TryEnqueue(() =>
+            if (!ct.IsCancellationRequested)
             {
-                if (!ct.IsCancellationRequested)
-                {
-                    SystemThemeHelper.SetRootTheme(_window.Content.XamlRoot, darkMode);
-                }
+                SystemThemeHelper.SetRootTheme(_window.Content.XamlRoot, darkMode);
+            }
 
-                tcs.TrySetResult(default);
-            });
+            tcs.TrySetResult(default);
+        });
 
-            await tcs.Task;
-        }
+        await tcs.Task;
     }
 }

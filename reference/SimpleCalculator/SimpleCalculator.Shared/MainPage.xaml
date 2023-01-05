@@ -12,6 +12,7 @@
     xmlns:not_skia="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:utu="using:Uno.Toolkit.UI"
     xmlns:um="using:Uno.Material"
+    xmlns:calc="using:SimpleCalculator.Business"
     Background="{ThemeResource BackgroundBrush}"
     keyboard:KeyboardBehavior.KeyUpCommand="{Binding Input}">
 
@@ -35,34 +36,34 @@
         </utu:AutoLayout>
         <utu:AutoLayout MaxHeight="500" Spacing="16" Padding="16,0">
             <utu:AutoLayout Spacing="16" Orientation="Horizontal" Height="72">
-                <Button Command="{Binding Input}" FontSize="32" CommandParameter="C" Background="{ThemeResource PrimaryContainerBrush}" Content="C" utu:AutoLayout.PrimaryAlignment="Stretch" Foreground="{ThemeResource OnSecondaryContainerBrush}" />
-                <Button Command="{Binding Input}" FontSize="32" CommandParameter="+-" Background="{ThemeResource PrimaryContainerBrush}" Content="±" utu:AutoLayout.PrimaryAlignment="Stretch" Foreground="{ThemeResource OnSecondaryContainerBrush}" />
-                <Button Command="{Binding Input}" FontSize="32" CommandParameter="%" Background="{ThemeResource PrimaryContainerBrush}" Content="%" utu:AutoLayout.PrimaryAlignment="Stretch" Foreground="{ThemeResource OnSecondaryContainerBrush}" />
-                <Button Command="{Binding Input}" FontSize="32" CommandParameter="÷" Background="{ThemeResource PrimaryVariantDarkBrush}" Content="÷" utu:AutoLayout.PrimaryAlignment="Stretch" Foreground="{ThemeResource OnTertiaryBrush}" />
+                <Button Command="{Binding Input}" FontSize="32" CommandParameter="{x:Bind calc:KeyInput.Clear}" Background="{ThemeResource PrimaryContainerBrush}" Content="C" utu:AutoLayout.PrimaryAlignment="Stretch" Foreground="{ThemeResource OnSecondaryContainerBrush}" />
+                <Button Command="{Binding Input}" FontSize="32" CommandParameter="{x:Bind calc:KeyInput.PlusMinus}" Background="{ThemeResource PrimaryContainerBrush}" Content="±" utu:AutoLayout.PrimaryAlignment="Stretch" Foreground="{ThemeResource OnSecondaryContainerBrush}" />
+                <Button Command="{Binding Input}" FontSize="32" CommandParameter="{x:Bind calc:KeyInput.Percentage}" Background="{ThemeResource PrimaryContainerBrush}" Content="%" utu:AutoLayout.PrimaryAlignment="Stretch" Foreground="{ThemeResource OnSecondaryContainerBrush}" />
+                <Button Command="{Binding Input}" FontSize="32" CommandParameter="{x:Bind calc:KeyInput.Division}" Background="{ThemeResource PrimaryVariantDarkBrush}" Content="÷" utu:AutoLayout.PrimaryAlignment="Stretch" Foreground="{ThemeResource OnTertiaryBrush}" />
             </utu:AutoLayout>
             <utu:AutoLayout Spacing="16" Orientation="Horizontal" Height="72">
-                <Button Command="{Binding Input}" FontSize="32" CommandParameter="7" Background="{ThemeResource SecondaryContainerBrush}" Content="7" utu:AutoLayout.PrimaryAlignment="Stretch" Foreground="{ThemeResource OnSurfaceBrush}" />
-                <Button Command="{Binding Input}" FontSize="32" CommandParameter="8" Background="{ThemeResource SecondaryContainerBrush}" Content="8" utu:AutoLayout.PrimaryAlignment="Stretch" Foreground="{ThemeResource OnSurfaceBrush}" />
-                <Button Command="{Binding Input}" FontSize="32" CommandParameter="9" Background="{ThemeResource SecondaryContainerBrush}" Content="9" utu:AutoLayout.PrimaryAlignment="Stretch" Foreground="{ThemeResource OnSurfaceBrush}" />
-                <Button Command="{Binding Input}" FontSize="32" CommandParameter="×" Background="{ThemeResource PrimaryVariantDarkBrush}" Content="×" utu:AutoLayout.PrimaryAlignment="Stretch" Foreground="{ThemeResource OnTertiaryBrush}" />
+                <Button Command="{Binding Input}" FontSize="32" CommandParameter="{x:Bind calc:KeyInput.Seven}" Background="{ThemeResource SecondaryContainerBrush}" Content="7" utu:AutoLayout.PrimaryAlignment="Stretch" Foreground="{ThemeResource OnSurfaceBrush}" />
+                <Button Command="{Binding Input}" FontSize="32" CommandParameter="{x:Bind calc:KeyInput.Eight}" Background="{ThemeResource SecondaryContainerBrush}" Content="8" utu:AutoLayout.PrimaryAlignment="Stretch" Foreground="{ThemeResource OnSurfaceBrush}" />
+                <Button Command="{Binding Input}" FontSize="32" CommandParameter="{x:Bind calc:KeyInput.Nine}" Background="{ThemeResource SecondaryContainerBrush}" Content="9" utu:AutoLayout.PrimaryAlignment="Stretch" Foreground="{ThemeResource OnSurfaceBrush}" />
+                <Button Command="{Binding Input}" FontSize="32" CommandParameter="{x:Bind calc:KeyInput.Multiplication}" Background="{ThemeResource PrimaryVariantDarkBrush}" Content="×" utu:AutoLayout.PrimaryAlignment="Stretch" Foreground="{ThemeResource OnTertiaryBrush}" />
             </utu:AutoLayout>
             <utu:AutoLayout Spacing="16" Orientation="Horizontal" Height="72">
-                <Button Command="{Binding Input}" FontSize="32" CommandParameter="4" Background="{ThemeResource SecondaryContainerBrush}" Content="4" utu:AutoLayout.PrimaryAlignment="Stretch" Foreground="{ThemeResource OnSurfaceBrush}" />
-                <Button Command="{Binding Input}" FontSize="32" CommandParameter="5" Background="{ThemeResource SecondaryContainerBrush}" Content="5" utu:AutoLayout.PrimaryAlignment="Stretch" Foreground="{ThemeResource OnSurfaceBrush}" />
-                <Button Command="{Binding Input}" FontSize="32" CommandParameter="6" Background="{ThemeResource SecondaryContainerBrush}" Content="6" utu:AutoLayout.PrimaryAlignment="Stretch" Foreground="{ThemeResource OnSurfaceBrush}" />
-                <Button Command="{Binding Input}" FontSize="32" CommandParameter="-" Background="{ThemeResource PrimaryVariantDarkBrush}" Content="−" utu:AutoLayout.PrimaryAlignment="Stretch" Foreground="{ThemeResource OnTertiaryBrush}" />
+                <Button Command="{Binding Input}" FontSize="32" CommandParameter="{x:Bind calc:KeyInput.Four}" Background="{ThemeResource SecondaryContainerBrush}" Content="4" utu:AutoLayout.PrimaryAlignment="Stretch" Foreground="{ThemeResource OnSurfaceBrush}" />
+                <Button Command="{Binding Input}" FontSize="32" CommandParameter="{x:Bind calc:KeyInput.Five}" Background="{ThemeResource SecondaryContainerBrush}" Content="5" utu:AutoLayout.PrimaryAlignment="Stretch" Foreground="{ThemeResource OnSurfaceBrush}" />
+                <Button Command="{Binding Input}" FontSize="32" CommandParameter="{x:Bind calc:KeyInput.Six}" Background="{ThemeResource SecondaryContainerBrush}" Content="6" utu:AutoLayout.PrimaryAlignment="Stretch" Foreground="{ThemeResource OnSurfaceBrush}" />
+                <Button Command="{Binding Input}" FontSize="32" CommandParameter="{x:Bind calc:KeyInput.Subtraction}" Background="{ThemeResource PrimaryVariantDarkBrush}" Content="−" utu:AutoLayout.PrimaryAlignment="Stretch" Foreground="{ThemeResource OnTertiaryBrush}" />
             </utu:AutoLayout>
             <utu:AutoLayout Spacing="16" Orientation="Horizontal" Height="72">
-                <Button Command="{Binding Input}" FontSize="32" CommandParameter="1" Background="{ThemeResource SecondaryContainerBrush}" Content="1" utu:AutoLayout.PrimaryAlignment="Stretch" Foreground="{ThemeResource OnSurfaceBrush}" />
-                <Button Command="{Binding Input}" FontSize="32" CommandParameter="2" Background="{ThemeResource SecondaryContainerBrush}" Content="2" utu:AutoLayout.PrimaryAlignment="Stretch" Foreground="{ThemeResource OnSurfaceBrush}" />
-                <Button Command="{Binding Input}" FontSize="32" CommandParameter="3" Background="{ThemeResource SecondaryContainerBrush}" Content="3" utu:AutoLayout.PrimaryAlignment="Stretch" Foreground="{ThemeResource OnSurfaceBrush}" />
-                <Button Command="{Binding Input}" FontSize="32" CommandParameter="+" Background="{ThemeResource PrimaryVariantDarkBrush}" Content="+" utu:AutoLayout.PrimaryAlignment="Stretch" Foreground="{ThemeResource OnTertiaryBrush}" />
+                <Button Command="{Binding Input}" FontSize="32" CommandParameter="{x:Bind calc:KeyInput.One}" Background="{ThemeResource SecondaryContainerBrush}" Content="1" utu:AutoLayout.PrimaryAlignment="Stretch" Foreground="{ThemeResource OnSurfaceBrush}" />
+                <Button Command="{Binding Input}" FontSize="32" CommandParameter="{x:Bind calc:KeyInput.Two}" Background="{ThemeResource SecondaryContainerBrush}" Content="2" utu:AutoLayout.PrimaryAlignment="Stretch" Foreground="{ThemeResource OnSurfaceBrush}" />
+                <Button Command="{Binding Input}" FontSize="32" CommandParameter="{x:Bind calc:KeyInput.Three}" Background="{ThemeResource SecondaryContainerBrush}" Content="3" utu:AutoLayout.PrimaryAlignment="Stretch" Foreground="{ThemeResource OnSurfaceBrush}" />
+                <Button Command="{Binding Input}" FontSize="32" CommandParameter="{x:Bind calc:KeyInput.Addition}" Background="{ThemeResource PrimaryVariantDarkBrush}" Content="+" utu:AutoLayout.PrimaryAlignment="Stretch" Foreground="{ThemeResource OnTertiaryBrush}" />
             </utu:AutoLayout>
             <utu:AutoLayout Spacing="16" Orientation="Horizontal" Height="72">
-                <Button Command="{Binding Input}" FontSize="32" CommandParameter="." Background="{ThemeResource SecondaryContainerBrush}" Content="." utu:AutoLayout.PrimaryAlignment="Stretch" Foreground="{ThemeResource OnSurfaceBrush}" />
-                <Button Command="{Binding Input}" FontSize="32" CommandParameter="0" Background="{ThemeResource SecondaryContainerBrush}" Content="0" utu:AutoLayout.PrimaryAlignment="Stretch" Foreground="{ThemeResource OnSurfaceBrush}" />
-                <Button Command="{Binding Input}" FontSize="32" CommandParameter="back" Background="{ThemeResource SecondaryContainerBrush}" not_skia:Content="⌫" skia:Content="&lt;-" utu:AutoLayout.PrimaryAlignment="Stretch" Foreground="{ThemeResource OnSurfaceBrush}" />
-                <Button Command="{Binding Input}" FontSize="32" CommandParameter="=" Background="{ThemeResource PrimaryVariantDarkBrush}" Content="=" utu:AutoLayout.PrimaryAlignment="Stretch" Foreground="{ThemeResource OnTertiaryBrush}" />
+                <Button Command="{Binding Input}" FontSize="32" CommandParameter="{x:Bind calc:KeyInput.Dot}" Background="{ThemeResource SecondaryContainerBrush}" Content="." utu:AutoLayout.PrimaryAlignment="Stretch" Foreground="{ThemeResource OnSurfaceBrush}" />
+                <Button Command="{Binding Input}" FontSize="32" CommandParameter="{x:Bind calc:KeyInput.Zero}" Background="{ThemeResource SecondaryContainerBrush}" Content="0" utu:AutoLayout.PrimaryAlignment="Stretch" Foreground="{ThemeResource OnSurfaceBrush}" />
+                <Button Command="{Binding Input}" FontSize="32" CommandParameter="{x:Bind calc:KeyInput.Back}" Background="{ThemeResource SecondaryContainerBrush}" Content="&lt;-" utu:AutoLayout.PrimaryAlignment="Stretch" Foreground="{ThemeResource OnSurfaceBrush}" />
+                <Button Command="{Binding Input}" FontSize="32" CommandParameter="{x:Bind calc:KeyInput.Equal}" Background="{ThemeResource PrimaryVariantDarkBrush}" Content="=" utu:AutoLayout.PrimaryAlignment="Stretch" Foreground="{ThemeResource OnTertiaryBrush}" />
             </utu:AutoLayout>
         </utu:AutoLayout>
     </utu:AutoLayout>

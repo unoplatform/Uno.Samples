@@ -1,183 +1,218 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace SimpleCalculator.Business
+namespace SimpleCalculator.Business;
+
+public record Calculator
 {
-    public record Calculator
+    private string Number { get; init; }
+    private string Operator { get; init; }
+    private double? Number1 { get; init; }
+    private double? Number2 { get; init; }
+    private bool IsNumber2Percentage { get; init; }
+    private double? Result { get; init; }
+    private bool HasOperator => !string.IsNullOrEmpty(Operator);
+    private bool HasNumber => !string.IsNullOrEmpty(Number);
+    private bool HasNumber1 => Number1 != null;
+    private bool HasNumber2 => Number2 != null;
+
+    public string Output => $"{(Result != null ? Result.Value : HasNumber ? Number : "0")}";
+    public string Equation => $"{Number1} {Operator} {Number2}{(IsNumber2Percentage ? "%" : string.Empty)}{(Result != null ? $" =" : string.Empty)}";
+
+    public Calculator Input (KeyInput key)
+        => Input(this, key);
+
+    private Calculator Input (Calculator calculator, KeyInput key)
     {
-        private string Number { get; init; }
-        private string Operator { get; init; }
-        private double? Number1 { get; init; }
-        private double? Number2 { get; init; }
-        private bool IsNumber2Percentage { get; init; }
-        private double? Result { get; init; }
-        private bool HasOperator => !string.IsNullOrEmpty(Operator);
-        private bool HasNumber => !string.IsNullOrEmpty(Number);
-        private bool HasNumber1 => Number1 != null;
-        private bool HasNumber2 => Number2 != null;
+        calculator = RestartOrClear(calculator, key);
 
-        public string Output => $"{(Result != null ? Result.Value : HasNumber ? Number : "0")}";
-        public string Equation => $"{Number1} {Operator} {Number2}{(IsNumber2Percentage ? "%" : string.Empty)}{(Result != null ? " =" : string.Empty)}";
-
-        public Calculator Input(string key)
-            => Input(this, key);
-
-        private Calculator Input(Calculator calculator, string key)
+        return key switch
         {
-            if (calculator.Result != null)
-            {
-                if (key == "÷" || key == "×" || key == "+" || key == "-")
-                {
-                    calculator = calculator with
-                    {
-                        Number1 = calculator.Result,
-                        Result = null,
-                        Number2 = null,
-                        Number = null,
-                        Operator = key,
-                        IsNumber2Percentage = false
-                    };
-                }
-                else
-                {
-                    calculator = new();
-                }
-            }
+            KeyInput.Division or KeyInput.Multiplication or KeyInput.Subtraction or KeyInput.Addition => ProcessOperatorKey(calculator, key),
+            KeyInput.Back => ProcessBackKey(calculator),
+            KeyInput.Dot => ProcessDotKey(calculator),
+            KeyInput.Zero when !calculator.HasNumber => calculator,
+            KeyInput.Clear => new(),
+            KeyInput.Equal => ProcessEqualsKey(calculator),
+            KeyInput.Percentage => ProcessPercentageKey(calculator),
+            KeyInput.PlusMinus => ProcessPlusMinusKey(calculator),
 
-            if (key == "back")
-            {
-                if (calculator.HasNumber)
-                {
-                    calculator = calculator with
-                    {
-                        Number = calculator.Number?.Substring(0, calculator.Number.Length - 1)
-                    };
-                }
-            }
-            else if (key == ".")
-            {
-                if (calculator.HasNumber)
-                {
-                    if (calculator.Number?.Contains(".") == false)
-                    {
-                        calculator = calculator with
-                        {
-                            Number = calculator.Number + key
-                        };
-                    }
-                }
-                else
-                {
-                    calculator = calculator with
-                    {
-                        Number = "0" + key
-                    };
-                }
-            }
-            else if (key == "0")
-            {
-                if (calculator.HasNumber)
-                {
-                    calculator = calculator with
-                    {
-                        Number = calculator.Number + key
-                    };
-                }
-            }
-            else if (key == "C")
-            {
-                calculator = new();
-            }
-            else if (key == "=")
-            {
-                if (calculator.HasOperator && calculator.HasNumber1)
-                {
-                    double? number2 = calculator.HasNumber ? GetNumber(calculator.Number) : 0.0;
-                    double? result = null;
-                    switch (calculator.Operator)
-                    {
-                        case "÷":
-                            result = calculator.Number1!.Value / number2!.Value;
-                            break;
-                        case "×":
-                            result = calculator.Number1!.Value * number2!.Value;
-                            break;
-                        case "+":
-                            result = calculator.Number1!.Value + number2!.Value;
-                            break;
-                        case "-":
-                            result = calculator.Number1!.Value - number2!.Value;
-                            break;
-                    }
+            _ => calculator with { Number = calculator.Number + (int)key }
+        };
+    }
 
-                    calculator = calculator with
-                    {
-                        Number2 = number2,
-                        Result = result
-                    };
-                }
-            }
-            else if (key == "%")
+    private Calculator RestartOrClear(Calculator calculator, KeyInput key)
+    {
+        if (calculator.Result != null)
+        {
+            if (key == KeyInput.Division 
+                || key == KeyInput.Multiplication 
+                || key == KeyInput.Addition 
+                || key == KeyInput.Subtraction)
             {
-                if (calculator.HasOperator && calculator.HasNumber1)
+                calculator = calculator with
                 {
-                    double? number2 = calculator.HasNumber ? GetNumber(calculator.Number) : 0.0;
-                    double? result = null;
-                    switch (calculator.Operator)
-                    {
-                        case "÷":
-                            result = calculator.Number1!.Value / (number2!.Value / 100) * calculator.Number1!.Value;
-                            break;
-                        case "×":
-                            result = calculator.Number1!.Value * (number2!.Value / 100) * calculator.Number1!.Value;
-                            break;
-                        case "+":
-                            result = calculator.Number1!.Value + (number2!.Value / 100) * calculator.Number1!.Value;
-                            break;
-                        case "-":
-                            result = calculator.Number1!.Value - (number2!.Value / 100) * calculator.Number1!.Value;
-                            break;
-                    }
-
-                    calculator = calculator with
-                    {
-                        Number2 = number2,
-                        Result = result,
-                        IsNumber2Percentage = true
-                    };
-                }
-            }
-            else if (key == "+-")
-            {
-                if (calculator.HasNumber)
-                {
-                    calculator = calculator with { Number = calculator.Number?.StartsWith("-") == true ? calculator.Number?.Substring(1) : "-" + calculator.Number };
-                }
-            }
-            else if (key == "÷" || key == "×" || key == "+" || key == "-")
-            {
-                if (calculator.HasNumber && !calculator.HasOperator)
-                {
-                    calculator = calculator with
-                    {
-                        Operator = key,
-                        Number1 = GetNumber(calculator.Number),
-                        Number = null
-                    };
-                }
+                    Number1 = calculator.Result,
+                    Result = null,
+                    Number2 = null,
+                    Number = null,
+                    Operator = GetOperator(key),
+                    IsNumber2Percentage = false
+                };
             }
             else
             {
-                calculator = calculator with { Number = calculator.Number + key };
+                calculator = new();
             }
-
-            return calculator;
         }
 
-        double? GetNumber(string number)
-        {
-            return Convert.ToDouble(number);
-        }
+        return calculator;
     }
+
+    private Calculator ProcessBackKey(Calculator calculator)
+    {
+        if (calculator.HasNumber)
+        {
+            calculator = calculator with
+            {
+                Number = calculator.Number?.Substring(0, calculator.Number.Length - 1)
+            };
+        }
+
+        return calculator;
+    }
+
+    private Calculator ProcessDotKey(Calculator calculator)
+    {
+        if (calculator.HasNumber)
+        {
+            if (calculator.Number?.Contains(".") == false)
+            {
+                calculator = calculator with
+                {
+                    Number = calculator.Number + "."
+                };
+            }
+        }
+        else
+        {
+            calculator = calculator with
+            {
+                Number = "0."
+            };
+        }
+
+        return calculator;
+    }
+    
+    private Calculator ProcessEqualsKey(Calculator calculator)
+    {
+        if (calculator.HasOperator && calculator.HasNumber1)
+        {
+            double? number2 = calculator.HasNumber ? GetNumber(calculator.Number) : 0.0;
+
+            double result = calculator.Operator switch
+            {
+                "÷" => calculator.Number1!.Value / number2!.Value,
+                "×" => calculator.Number1!.Value * number2!.Value,
+                "+" => calculator.Number1!.Value + number2!.Value,
+                "−" => calculator.Number1!.Value - number2!.Value,
+                _   => throw new InvalidOperationException()
+            };
+
+            calculator = calculator with
+            {
+                Number2 = number2,
+                Result = result
+            };
+        }
+
+        return calculator;
+    }
+
+    private Calculator ProcessPercentageKey(Calculator calculator)
+    {
+        if (calculator.HasOperator && calculator.HasNumber1)
+        {
+            double? number2 = calculator.HasNumber ? GetNumber(calculator.Number) : 0.0;
+
+            double result = calculator.Operator switch
+            {
+                "÷" => calculator.Number1!.Value / (number2!.Value / 100) * calculator.Number1!.Value,
+                "×" => calculator.Number1!.Value * (number2!.Value / 100) * calculator.Number1!.Value,
+                "+" => calculator.Number1!.Value + (number2!.Value / 100) * calculator.Number1!.Value,
+                "−" => calculator.Number1!.Value - (number2!.Value / 100) * calculator.Number1!.Value,
+                _   => throw new InvalidOperationException()
+            };
+
+            calculator = calculator with
+            {
+                Number2 = number2,
+                Result = result,
+                IsNumber2Percentage = true
+            };
+        }
+
+        return calculator;
+    }
+
+    private Calculator ProcessPlusMinusKey(Calculator calculator)
+    {
+        if (calculator.HasNumber)
+        {
+            calculator = calculator with { Number = calculator.Number?.StartsWith("-") == true ? calculator.Number?.Substring(1) : "-" + calculator.Number };
+        }
+        return calculator;
+    }
+
+    private Calculator ProcessOperatorKey(Calculator calculator, KeyInput key)
+    {
+        if (calculator.HasNumber && !calculator.HasOperator)
+        {
+            calculator = calculator with
+            {
+                Operator = GetOperator(key),
+                Number1 = GetNumber(calculator.Number),
+                Number = null
+            };
+        }
+
+        return calculator;
+    }
+
+    double? GetNumber (string number)
+        => Convert.ToDouble(number);
+
+    string GetOperator (KeyInput op) => op switch
+    {
+        KeyInput.Division       => "÷",
+        KeyInput.Multiplication => "×",
+        KeyInput.Addition       => "+",
+        KeyInput.Subtraction    => "−",
+
+        _ => throw new InvalidOperationException()
+    };
+}
+
+public enum KeyInput
+{
+    Zero = 0,
+    One = 1,
+    Two = 2,
+    Three = 3,
+    Four = 4,
+    Five = 5,
+    Six = 6,
+    Seven = 7,
+    Eight = 8,
+    Nine = 9,
+    Multiplication,
+    Division,
+    Subtraction,
+    Addition,
+    Back,
+    Dot,
+    Clear,
+    Equal,
+    Percentage,
+    PlusMinus
 }
