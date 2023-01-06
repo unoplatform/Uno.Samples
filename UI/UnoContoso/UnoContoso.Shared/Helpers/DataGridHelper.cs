@@ -26,7 +26,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using Microsoft.Toolkit.Uwp.UI.Controls;
+using CommunityToolkit.WinUI.UI.Controls;
 using Uno.Extensions;
 
 namespace UnoContoso.Helpers

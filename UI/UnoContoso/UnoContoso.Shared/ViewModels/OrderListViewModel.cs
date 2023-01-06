@@ -1,5 +1,4 @@
-﻿using Microsoft.Toolkit.Uwp.Helpers;
-using Prism.Commands;
+﻿using Prism.Commands;
 using Prism.Ioc;
 using Prism.Regions;
 using Prism.Services.Dialogs;
@@ -14,6 +13,7 @@ using Uno.Extensions;
 using UnoContoso.Model;
 using UnoContoso.Models;
 using UnoContoso.Repository;
+using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.Email;
 using Windows.UI.Core;
 
@@ -63,7 +63,7 @@ namespace UnoContoso.ViewModels
         private async void LoadCustomer(Guid customerId)
         {
             var customer = await _contosoRepository.Customers.GetAsync(customerId);
-            await DispatcherHelper.ExecuteOnUIThreadAsync(
+            await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal,
                 () =>
                 {
                     SelectedCustomer = customer;
@@ -264,7 +264,7 @@ namespace UnoContoso.ViewModels
             SelectedOrder = null;
             SelectedCustomer = null;
 
-            await DispatcherHelper.ExecuteOnUIThreadAsync(
+            await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal,
                 async () =>
                 {
                     var orders = await _contosoRepository.Orders.GetAsync();

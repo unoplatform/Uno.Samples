@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using Windows.System.Profile;
 using Windows.UI.ViewManagement;
-using Windows.UI.Xaml;
+using Microsoft.UI.Xaml;
 
 namespace UnoContoso.StateTriggers
 {
@@ -16,12 +16,12 @@ namespace UnoContoso.StateTriggers
 
         public MobileScreenTrigger()
         {
-            Windows.UI.Xaml.Window.Current.SizeChanged += Window_SizeChanged;
+            Microsoft.UI.Xaml.Window.Current.SizeChanged += Window_SizeChanged;
 
             Windows.Foundation.Size size = new Windows.Foundation.Size()
             {
-                Width = Windows.UI.Xaml.Window.Current.Bounds.Width,
-                Height = Windows.UI.Xaml.Window.Current.Bounds.Height
+                Width = Microsoft.UI.Xaml.Window.Current.Bounds.Width,
+                Height = Microsoft.UI.Xaml.Window.Current.Bounds.Height
             };
             UpdateTrigger(size);
         }

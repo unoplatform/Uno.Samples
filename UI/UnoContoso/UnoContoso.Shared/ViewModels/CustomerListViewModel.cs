@@ -1,5 +1,4 @@
-﻿using Microsoft.Toolkit.Uwp.Helpers;
-using Prism.Commands;
+﻿using Prism.Commands;
 using Prism.Ioc;
 using Prism.Regions;
 using System;

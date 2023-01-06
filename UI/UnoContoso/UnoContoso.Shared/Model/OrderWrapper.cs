@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnoContoso.Models;
 using UnoContoso.Repository;
+using Windows.ApplicationModel.Core;
 
 namespace UnoContoso.Model
 {
@@ -55,7 +56,7 @@ namespace UnoContoso.Model
         private async void LoadCustomer(Guid customerId)
         {
             var customer = await _contosoRepository.Customers.GetAsync(customerId);
-            await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
+            await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
             {
                 Customer = customer;
             });
