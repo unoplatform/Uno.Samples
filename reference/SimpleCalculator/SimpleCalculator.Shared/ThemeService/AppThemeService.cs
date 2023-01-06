@@ -17,7 +17,7 @@ public class AppThemeService : IAppThemeService
         new AppThemeService(window);
     
     private readonly Window _window;
-    
+
     private AppThemeService(Window window)
     {
         _instance = this;
@@ -25,7 +25,7 @@ public class AppThemeService : IAppThemeService
     }
 
     public bool IsDark => SystemThemeHelper.IsRootInDarkMode(_window.Content.XamlRoot!);
-    
+
     public async ValueTask SetThemeAsync(bool darkMode, CancellationToken ct)
     {
         var tcs = new TaskCompletionSource();
