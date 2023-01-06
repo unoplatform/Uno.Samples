@@ -1,4 +1,5 @@
 ﻿using System;
+using Windows.System;
 
 namespace SimpleCalculator.Business;
 
@@ -21,8 +22,38 @@ public record Calculator
     public Calculator Input (KeyInput key)
         => Input(this, key);
 
+    public Calculator Input (VirtualKey key)
+    {
+        return key switch
+        {
+            VirtualKey.Divide => Input(KeyInput.Division),
+            VirtualKey.Multiply or VirtualKey.X => Input(KeyInput.Multiplication),
+            VirtualKey.Add => Input(KeyInput.Addition),
+            VirtualKey.Subtract => Input(KeyInput.Subtraction),
+            VirtualKey.Back or VirtualKey.Delete => Input(KeyInput.Back),
+            VirtualKey.Decimal => Input(KeyInput.Dot),
+            VirtualKey.C => Input(KeyInput.Clear),
+            VirtualKey.Enter => Input(KeyInput.Equal),
+            VirtualKey.Number0 or VirtualKey.NumberPad0 => Input(KeyInput.Zero),
+            VirtualKey.Number1 or VirtualKey.NumberPad1 => Input(KeyInput.One),
+            VirtualKey.Number2 or VirtualKey.NumberPad2 => Input(KeyInput.Two),
+            VirtualKey.Number3 or VirtualKey.NumberPad3 => Input(KeyInput.Three),
+            VirtualKey.Number4 or VirtualKey.NumberPad4 => Input(KeyInput.Four),
+            VirtualKey.Number5 or VirtualKey.NumberPad5 => Input(KeyInput.Five),
+            VirtualKey.Number6 or VirtualKey.NumberPad6 => Input(KeyInput.Six),
+            VirtualKey.Number7 or VirtualKey.NumberPad7 => Input(KeyInput.Seven),
+            VirtualKey.Number8 or VirtualKey.NumberPad8 => Input(KeyInput.Eight),
+            VirtualKey.Number9 or VirtualKey.NumberPad9 => Input(KeyInput.Nine),
+
+            _ => Input(KeyInput.None)
+        }; 
+    }
+
     private Calculator Input (Calculator calculator, KeyInput key)
     {
+        if (key == KeyInput.None)
+            return calculator;
+
         calculator = RestartOrClear(calculator, key);
 
         return key switch
@@ -214,5 +245,6 @@ public enum KeyInput
     Clear,
     Equal,
     Percentage,
-    PlusMinus
+    PlusMinus,
+    None
 }

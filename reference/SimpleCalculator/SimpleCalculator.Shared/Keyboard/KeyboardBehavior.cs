@@ -33,10 +33,9 @@ public static class KeyboardBehavior
     private static void OnKeyUp(object snd, KeyRoutedEventArgs e)
     {
         if (snd is UIElement elt && GetKeyUpCommand(elt) is { } command
-            && KeyValues.Keys.TryGetValue(e.Key.ToString(), out var key)
-            && command.CanExecute(key))
+            && command.CanExecute(e.Key))
         {
-            command.Execute(key);
+            command.Execute(e.Key);
         }
     }
     #endregion
