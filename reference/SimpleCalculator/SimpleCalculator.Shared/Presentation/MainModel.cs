@@ -16,11 +16,10 @@ public partial record MainModel
     public IState<Calculator> Calculator => State.Value(this, () => new Calculator());
     public async ValueTask Input(KeyInput key, CancellationToken ct)
             => await Calculator.Update(c => c?.Input(key), ct);
-    public MainModel (IAppThemeService theme )
+    public MainModel()
     {
-        _theme = theme;
-        IsDark.ForEachAsync((dark, ct) => theme.SetThemeAsync(dark, ct));
+        IsDark.ForEachAsync((dark, ct) => _theme.SetThemeAsync(dark, ct));
     }
 
-    private readonly IAppThemeService _theme;
+    private IAppThemeService _theme => AppThemeService.Instance;
 }

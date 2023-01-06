@@ -7,7 +7,9 @@ namespace SimpleCalculator.Keyboard;
 
 public static class KeyValues
 {
-    public static Dictionary<string, KeyInput> Keys = new()
+    public static IReadOnlyDictionary<string, KeyInput> Keys => _keys;
+
+    private static Dictionary<string, KeyInput> _keys = new()
     {
         { "Number0", KeyInput.Zero },
         { "NumberPad0", KeyInput.Zero },

@@ -6,6 +6,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
 using XamlWindow = Microsoft.UI.Xaml.Window;
+using SimpleCalculator.ThemeService;
 
 namespace SimpleCalculator;
 
@@ -51,6 +52,8 @@ public sealed partial class App : Application
 #else
         Window = Microsoft.UI.Xaml.Window.Current;
 #endif
+
+        AppThemeService.Init(Window);
 
         // Do not repeat app initialization when the Window already has content,
         // just ensure that the window is active
