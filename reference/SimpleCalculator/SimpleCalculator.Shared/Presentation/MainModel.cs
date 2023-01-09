@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Threading;
 using Uno.Extensions.Reactive;
 using SimpleCalculator.ThemeService;
+using Windows.System;
 
 namespace SimpleCalculator.Presentation;
 
@@ -15,6 +16,9 @@ public partial record MainModel
 
     public IState<Calculator> Calculator => State.Value(this, () => new Calculator());
     public async ValueTask Input(KeyInput key, CancellationToken ct)
+            => await Calculator.Update(c => c?.Input(key), ct);
+    
+    public async ValueTask InputVirtualKey(VirtualKey key, CancellationToken ct)
             => await Calculator.Update(c => c?.Input(key), ct);
     public MainModel()
     {
