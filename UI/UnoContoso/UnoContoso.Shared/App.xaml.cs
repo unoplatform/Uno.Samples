@@ -3,6 +3,10 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
 using System;
+using UnoContoso.Repository.Rest;
+using UnoContoso.Repository.Sql;
+using UnoContoso.Repository;
+using UnoContoso.Views;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 
@@ -109,6 +113,77 @@ namespace UnoContoso
             var deferral = e.SuspendingOperation.GetDeferral();
             //TODO: Save application state and stop any background activity
             deferral.Complete();
+        }
+
+        protected override UIElement CreateShell()
+        {
+            return Container.Resolve<Shell>();
+        }
+
+        protected override void RegisterTypes(Prism.Ioc.IContainerRegistry containerRegistry)
+        {
+            //var regionManager = Container.Resolve<IRegionManager>();
+            //var contentRegion = regionManager.Regions[Regions.CONTENT_REGION];
+            //containerRegistry.RegisterInstance<IRegionNavigationService>(contentRegion.NavigationService);
+
+            containerRegistry.Register<IContosoRepository, RestContosoRepository>("Rest");
+            containerRegistry.Register<IContosoRepository, SqlContosoRepository>("Sql");
+            //containerRegistry.Register<IContosoRepository, SqlContosoRepository>();
+
+            // Load the database.
+            if (ApplicationData.Current.LocalSettings.Values.TryGetValue(
+                "data_source", out object dataSource))
+            {
+                switch (dataSource.ToString())
+                {
+                    case "Rest": UseRest(containerRegistry); break;
+                    default: UseSqlite(containerRegistry); break;
+                }
+            }
+            else
+            {
+                //UseSqlite(containerRegistry);
+                UseRest(containerRegistry);
+            }
+
+            containerRegistry.RegisterForNavigation<HomeView>();
+            containerRegistry.RegisterForNavigation<CustomerListView>();
+            containerRegistry.RegisterForNavigation<CustomerDetailView>();
+            containerRegistry.RegisterForNavigation<OrderListView>();
+            containerRegistry.RegisterForNavigation<OrderDetailView>();
+
+            containerRegistry.RegisterDialog<MessageControl, MessageViewModel>();
+            containerRegistry.RegisterDialog<ConfirmControl, ConfirmViewModel>();
+        }
+
+        protected override void ConfigureViewModelLocator()
+        {
+            base.ConfigureViewModelLocator();
+            ViewModelLocationProvider.SetDefaultViewTypeToViewModelTypeResolver((viewType) =>
+            {
+                string viewName = viewType.FullName;
+                if (viewName == null)
+                {
+                    return null;
+                }
+
+                if (viewName.EndsWith("View"))
+                {
+                    viewName = viewName.Substring(0, viewName.Length - 4);
+                }
+
+                if (viewName.EndsWith("Control"))
+                {
+                    viewName = viewName.Substring(0, viewName.Length - 7);
+                }
+
+                viewName = viewName.Replace(".Views.", ".ViewModels.");
+                viewName = viewName.Replace(".Controls.", ".ControlViewModels.");
+                string viewAssemblyName = viewType.GetTypeInfo().Assembly.FullName;
+                string viewModelName = $"{viewName}ViewModel, {viewAssemblyName}";
+                return Type.GetType(viewModelName);
+            });
+
         }
 
         /// <summary>
