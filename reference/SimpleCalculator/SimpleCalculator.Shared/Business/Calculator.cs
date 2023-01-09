@@ -45,15 +45,12 @@ public record Calculator
             VirtualKey.Number8 or VirtualKey.NumberPad8 => Input(KeyInput.Eight),
             VirtualKey.Number9 or VirtualKey.NumberPad9 => Input(KeyInput.Nine),
 
-            _ => Input(KeyInput.None)
+            _ => this
         }; 
     }
 
     private Calculator Input (Calculator calculator, KeyInput key)
     {
-        if (key == KeyInput.None)
-            return calculator;
-
         calculator = RestartOrClear(calculator, key);
 
         return key switch
@@ -245,6 +242,5 @@ public enum KeyInput
     Clear,
     Equal,
     Percentage,
-    PlusMinus,
-    None
+    PlusMinus
 }
