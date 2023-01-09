@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Uno.AuthenticationBroker;
 using Uno.UI;
 using Windows.Security.Authentication.Web;
-
 namespace Authentication.OidcDemo.Droid
 {
 	public class ChromeCustomTabsProvider : WebAuthenticationBrokerProvider

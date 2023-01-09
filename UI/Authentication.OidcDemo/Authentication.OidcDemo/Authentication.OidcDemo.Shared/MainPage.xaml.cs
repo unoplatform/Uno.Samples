@@ -23,6 +23,7 @@ namespace Authentication.OidcDemo
 
         private async void PrepareClient()
         {
+            
             var redirectUri = WebAuthenticationBroker.GetCurrentApplicationCallbackUri().OriginalString;
 
             // Create options for endpoint discovery

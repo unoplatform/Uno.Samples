@@ -17,11 +17,12 @@
     <Compile Remove="Android\ChromeCustomTabsProvider.cs" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Uno" Version="2.0.2" />
     <PackageReference Include="Uno.WinUI" Version="4.6.39" />
     <PackageReference Include="Uno.WinUI.RemoteControl" Version="4.6.39" Condition="'$(Configuration)'=='Debug'" />
     <PackageReference Include="Uno.UI.Adapter.Microsoft.Extensions.Logging" Version="4.6.39" />
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="5.0.0" />
-    <PackageReference Include="Uno.WinUI.Lottie" Version="4.6.39" />
+    <!--<PackageReference Include="Uno.WinUI.Lottie" Version="4.6.39" />-->
 	<PackageReference Include="IdentityModel.OidcClient" Version="3.1.2" />    
   </ItemGroup>
   <Choose>
@@ -29,9 +30,9 @@
       <ItemGroup>
         <PackageReference Include="Xamarin.Google.Android.Material" Version="1.4.0.4" />
         <PackageReference Include="Uno.UniversalImageLoader" Version="1.9.36" />
-		<PackageReference Include="Xamarin.Android.Support.CustomTabs" Version="28.0.0.3" />
+		<!--<PackageReference Include="Xamarin.Android.Support.CustomTabs" Version="28.0.0.3" />
 		<PackageReference Include="Xamarin.AndroidX.Lifecycle.LiveData" Version="2.1.0" />
-		<PackageReference Include="Xamarin.AndroidX.Browser" Version="1.0.0" />  
+		<PackageReference Include="Xamarin.AndroidX.Browser" Version="1.0.0" />-->  
       </ItemGroup>
       <ItemGroup>
         <AndroidEnvironment Include="Android/environment.conf" />
