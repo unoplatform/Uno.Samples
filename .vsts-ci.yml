@@ -44,7 +44,7 @@ jobs:
 
                 & $env:msbuildpath $SolutionName /r /p:Configuration=Release /p:AotAssemblies=false /p:WasmShellILLinkerEnabled=false /ds ;
                 if (!((Get-ChildItem -Path **\*.Tests.csproj -Recurse) -eq $null)) {
-                    & dotnet test $SolutionName -c Release --collect "XPlat code coverage" --logger trx --no-build --no-restore;
+                    & dotnet test $SolutionName -c Release --collect "XPlat code coverage" --logger trx;
                 }
 
                 if (($lastexitcode -ne 0)) {

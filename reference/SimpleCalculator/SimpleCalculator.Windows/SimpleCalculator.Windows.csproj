@@ -1,5 +1,4 @@
 <Project Sdk="Microsoft.NET.Sdk">
-	
 	<PropertyGroup>
 		<OutputType>WinExe</OutputType>
 		<TargetFramework>net6.0-windows10.0.19041.0</TargetFramework>
@@ -12,14 +11,12 @@
 		<UseWinUI>true</UseWinUI>
 		<EnablePreviewMsixTooling>true</EnablePreviewMsixTooling>
 	</PropertyGroup>
-	
 	<PropertyGroup>
 		<!-- Bundles the WinAppSDK binaries (Uncomment for unpackaged builds) -->
 		<!-- <WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained> -->
 		<!-- This bundles the .NET Core libraries (Uncomment for packaged builds)  -->
 		<SelfContained>true</SelfContained>
 	</PropertyGroup>
-
 	<ItemGroup>
 		<Content Include="Images\SplashScreen.scale-200.png" />
 		<Content Include="Images\LockScreenLogo.scale-200.png" />
@@ -29,7 +26,6 @@
 		<Content Include="Images\StoreLogo.png" />
 		<Content Include="Images\Wide310x150Logo.scale-200.png" />
 	</ItemGroup>
-
 	<ItemGroup>
 		<PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="7.0.0" />
 		<PackageReference Include="Microsoft.WindowsAppSDK" Version="1.1.5" />
@@ -43,7 +39,6 @@
 		<PackageReference Include="Uno.Themes.WinUI.Markup" Version="2.4.0-dev.64" />
 		<PackageReference Include="Uno.Toolkit.WinUI.Material" Version="2.4.0-dev.115" />
 		<PackageReference Include="Uno.WinUI.Markup" Version="4.6.0-dev.13" />
-
 		<Manifest Include="$(ApplicationManifest)" />
 	</ItemGroup>
 
@@ -53,7 +48,6 @@
 	<ItemGroup Condition="'$(DisableMsixProjectCapabilityAddedByProject)'!='true' and '$(EnablePreviewMsixTooling)'=='true'">
 		<ProjectCapability Include="Msix" />
 	</ItemGroup>
-
 	<ItemGroup>
 		<!--
 		If you encounter this error message:
