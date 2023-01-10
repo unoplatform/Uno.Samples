@@ -3,10 +3,11 @@ using Windows.System;
 
 namespace SimpleCalculator.Business;
 
+#nullable enable
 public record Calculator
 {
-    private string Number { get; init; }
-    private string Operator { get; init; }
+    private string? Number { get; init; }
+    private string? Operator { get; init; }
     private double? Number1 { get; init; }
     private double? Number2 { get; init; }
     private bool IsNumber2Percentage { get; init; }
@@ -14,13 +15,9 @@ public record Calculator
     private bool HasOperator => !string.IsNullOrEmpty(Operator);
     private bool HasNumber => !string.IsNullOrEmpty(Number);
     private bool HasNumber1 => Number1 != null;
-    private bool HasNumber2 => Number2 != null;
 
     public string Output => $"{(Result != null ? Result.Value : HasNumber ? Number : "0")}";
     public string Equation => $"{Number1} {Operator} {Number2}{(IsNumber2Percentage ? "%" : string.Empty)}{(Result != null ? $" =" : string.Empty)}";
-
-    public Calculator Input (KeyInput key)
-        => Input(this, key);
 
     public Calculator Input (VirtualKey key)
     {
@@ -49,9 +46,9 @@ public record Calculator
         }; 
     }
 
-    private Calculator Input (Calculator calculator, KeyInput key)
+    public Calculator Input (KeyInput key)
     {
-        calculator = RestartOrClear(calculator, key);
+        var calculator = RestartOrClear(key);
 
         return key switch
         {
@@ -68,18 +65,18 @@ public record Calculator
         };
     }
 
-    private Calculator RestartOrClear(Calculator calculator, KeyInput key)
+    private Calculator RestartOrClear(KeyInput key)
     {
-        if (calculator.Result != null)
+        if (Result != null)
         {
             if (key == KeyInput.Division 
                 || key == KeyInput.Multiplication 
                 || key == KeyInput.Addition 
                 || key == KeyInput.Subtraction)
             {
-                calculator = calculator with
+                return this with
                 {
-                    Number1 = calculator.Result,
+                    Number1 = Result,
                     Result = null,
                     Number2 = null,
                     Number = null,
@@ -89,14 +86,14 @@ public record Calculator
             }
             else
             {
-                calculator = new();
+                return new();
             }
         }
 
-        return calculator;
+        return this;
     }
 
-    private Calculator ProcessBackKey(Calculator calculator)
+    private static Calculator ProcessBackKey(Calculator calculator)
     {
         if (calculator.HasNumber)
         {
@@ -109,7 +106,7 @@ public record Calculator
         return calculator;
     }
 
-    private Calculator ProcessDotKey(Calculator calculator)
+    private static Calculator ProcessDotKey(Calculator calculator)
     {
         if (calculator.HasNumber)
         {
@@ -132,7 +129,7 @@ public record Calculator
         return calculator;
     }
     
-    private Calculator ProcessEqualsKey(Calculator calculator)
+    private static Calculator ProcessEqualsKey(Calculator calculator)
     {
         if (calculator.HasOperator && calculator.HasNumber1)
         {
@@ -157,7 +154,7 @@ public record Calculator
         return calculator;
     }
 
-    private Calculator ProcessPercentageKey(Calculator calculator)
+    private static Calculator ProcessPercentageKey(Calculator calculator)
     {
         if (calculator.HasOperator && calculator.HasNumber1)
         {
@@ -183,7 +180,7 @@ public record Calculator
         return calculator;
     }
 
-    private Calculator ProcessPlusMinusKey(Calculator calculator)
+    private static Calculator ProcessPlusMinusKey(Calculator calculator)
     {
         if (calculator.HasNumber)
         {
@@ -192,7 +189,7 @@ public record Calculator
         return calculator;
     }
 
-    private Calculator ProcessOperatorKey(Calculator calculator, KeyInput key)
+    private static Calculator ProcessOperatorKey(Calculator calculator, KeyInput key)
     {
         if (calculator.HasNumber && !calculator.HasOperator)
         {
@@ -207,10 +204,10 @@ public record Calculator
         return calculator;
     }
 
-    double? GetNumber (string number)
+    private static double? GetNumber (string? number)
         => Convert.ToDouble(number);
 
-    string GetOperator (KeyInput op) => op switch
+    private static string GetOperator (KeyInput op) => op switch
     {
         KeyInput.Division       => "÷",
         KeyInput.Multiplication => "×",
