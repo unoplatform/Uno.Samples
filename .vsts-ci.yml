@@ -43,7 +43,9 @@ jobs:
            if( ('$env:System_PullRequest_PullRequestId)' -eq '') -or ($global:LASTEXITCODE -ne 0)) {
 
                 & $env:msbuildpath $SolutionName /r /p:Configuration=Release /p:AotAssemblies=false /p:WasmShellILLinkerEnabled=false /ds ;
-                & dotnet test $SolutionName -c Release --collect "XPlat code coverage" --logger trx --no-build --no-restore;
+                if (!((Get-ChildItem -Path **\*.Tests.csproj -Recurse) -eq $null)) {
+                    & dotnet test $SolutionName -c Release --collect "XPlat code coverage" --logger trx --no-build --no-restore;
+                }
 
                 if (($lastexitcode -ne 0)) {
                     exit $lastexitcode
