@@ -25,5 +25,5 @@ public partial record MainModel
         IsDark.ForEachAsync((dark, ct) => _theme.SetThemeAsync(dark, ct));
     }
 
-    private IAppThemeService _theme => AppThemeService.Instance;
+    private IAppThemeService _theme { get; } = AppThemeService.Instance;
 }
