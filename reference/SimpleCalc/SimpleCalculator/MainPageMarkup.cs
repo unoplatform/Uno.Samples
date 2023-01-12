@@ -135,6 +135,7 @@ public sealed partial class MainPageMarkup : Page
         .Background(background ?? Theme.Brushes.Secondary.Container.Default)
         .Content(content)
         .FontSize(32)
+        .FontFamily(new FontFamily("Roboto"))
         .Foreground(foreground ?? Theme.Brushes.OnSurface.Default)
         .Grid(row: gridRow, column: gridColumn)
         .HorizontalAlignment(HorizontalAlignment.Stretch)
