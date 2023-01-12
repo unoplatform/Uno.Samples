@@ -85,16 +85,18 @@ namespace OnnxSamples.Models
             await InitAsync();
 
             var bertInput = PreProcessInput(question, context);
-
+            
             var inputIdsTensor = GetInputTensor(bertInput.InputIds, bertInput.InputIds.Length);
             var attentionMaskTensor = GetInputTensor(bertInput.AttentionMask, bertInput.AttentionMask.Length);
             var typeIdsTensor = GetInputTensor(bertInput.TypeIds, bertInput.TypeIds.Length);
 
+            var inputnames = _session.InputMetadata.Keys.ToList();
+                        
             var inputData = new List<NamedOnnxValue>
             { 
-                NamedOnnxValue.CreateFromTensor("input_ids", inputIdsTensor),
-                NamedOnnxValue.CreateFromTensor("input_mask", attentionMaskTensor),
-                NamedOnnxValue.CreateFromTensor("segment_ids", typeIdsTensor),
+                NamedOnnxValue.CreateFromTensor(inputnames[0], inputIdsTensor),
+                NamedOnnxValue.CreateFromTensor(inputnames[1], attentionMaskTensor),
+                NamedOnnxValue.CreateFromTensor(inputnames[2], typeIdsTensor),
             };
 
             var output = _session.Run(inputData);

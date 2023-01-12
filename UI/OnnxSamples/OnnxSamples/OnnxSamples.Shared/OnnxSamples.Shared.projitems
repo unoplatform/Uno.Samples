@@ -50,6 +50,7 @@
     <None Include="$(MSBuildThisFileDirectory)Assets\SharedAssets.md" />
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Content\Onnx\mobilenetv2-7.onnx" />
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Content\Tensorflow\mnist_model.onnx" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Content\Pytorch\bert_QnA.onnx" />
     <None Include="$(MSBuildThisFileDirectory)Models\BertInput.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -63,9 +64,6 @@
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Content\Onnx\imagenet_classes.txt" />
     <Content Include="$(MSBuildThisFileDirectory)Content\Tensorflow\handwritten.jpeg" />
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Content\Tensorflow\handwrittenn.jpeg" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="$(MSBuildThisFileDirectory)Content\Pytorch\" />
   </ItemGroup>
   <Import Project="OnnxSamples.Shared.globs.props" Condition="'$(IsCodeSharingProject)'!='true'" />
 </Project>
