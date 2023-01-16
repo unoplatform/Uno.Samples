@@ -1,0 +1,81 @@
+﻿<Page
+    x:Class="CardViewMigration.ControlTemplatePage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:CardViewMigration"
+    xmlns:controls="using:CardViewMigration.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Page.Resources>
+        <ResourceDictionary>
+            <ControlTemplate x:Key="CardViewCompressed" TargetType="controls:CardView">
+                <Grid RowSpacing="10" ColumnSpacing="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="100" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Rectangle Fill="{TemplateBinding IconBackgroundBrush}"/>
+                    <Image Source="{TemplateBinding IconImageSource}"
+                           Width="100"
+                           Height="100" 
+                           Stretch="Uniform"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center" />
+                    <StackPanel Grid.Column="1">
+                        <TextBlock Text="{TemplateBinding CardTitle}"
+                               FontWeight="Bold" />
+                        <TextBlock Text="{TemplateBinding CardDescription}" TextWrapping="WrapWholeWords" />
+                    </StackPanel>
+                </Grid>
+            </ControlTemplate>
+        </ResourceDictionary>
+    </Page.Resources>
+
+    <StackPanel Spacing="20" Padding="20">
+        <Button x:Name="BackButton"
+                Click="{x:Bind GoBack}"
+                Style="{StaticResource NavigationBackButtonNormalStyle}"
+                VerticalAlignment="Top"
+                IsEnabled="{x:Bind Frame.CanGoBack, Mode=OneWay}" 
+                ToolTipService.ToolTip="Back"/>
+        
+        <TextBlock Text="A standard CardView control is suitable for grid layouts:"
+              TextWrapping="WrapWholeWords"
+               Foreground="Red"
+               Margin="0,0,0,10" />
+        <controls:CardView BorderBrush="DarkGray"
+                           CardTitle="Slavko Vlasic"
+                           CardDescription="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla elit dolor, convallis non interdum."
+                           IconBackgroundBrush="SlateGray"
+                           IconImageSource="ms-appx:///Assets/user.png"/>
+        <TextBlock Text="A ControlTemplate overrides the standard view, creating a more compact view suitable for lists:"
+               FontStyle="Italic"
+               Foreground="Red"
+               TextWrapping="WrapWholeWords"
+               Margin="0,0,0,10" />
+        <controls:CardView BorderBrush="DarkGray"
+                           CardTitle="Carolina Pena"
+                           CardDescription="Phasellus eu convallis mi. In tempus augue eu dignissim fermentum. Morbi ut lacus vitae eros lacinia."
+                           IconBackgroundBrush="SlateGray"
+                           IconImageSource="ms-appx:///Assets/user.png"
+                           Template="{StaticResource CardViewCompressed}" />
+        <controls:CardView BorderBrush="DarkGray"
+                           CardTitle="Wade Blanks"
+                           CardDescription="Aliquam sagittis, odio lacinia fermentum dictum, mi erat scelerisque erat, quis aliquet arcu."
+                           IconBackgroundBrush="SlateGray"
+                           IconImageSource="ms-appx:///Assets/user.png"
+                           Template="{StaticResource CardViewCompressed}" />
+        <controls:CardView BorderBrush="DarkGray"
+                           CardTitle="Colette Quint"
+                           CardDescription="In pellentesque odio eget augue elementum lobortis. Sed augue massa, rhoncus eu nisi vitae, egestas."
+                           IconBackgroundBrush="SlateGray"
+                           IconImageSource="ms-appx:///Assets/user.png"
+                           Template="{StaticResource CardViewCompressed}" />
+    </StackPanel>
+</Page>

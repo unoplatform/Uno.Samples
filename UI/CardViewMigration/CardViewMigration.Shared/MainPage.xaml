@@ -1,0 +1,27 @@
+﻿<Page
+    x:Class="CardViewMigration.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:CardViewMigration"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"    
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid HorizontalAlignment="Center" MinWidth="200">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Button Grid.Row="0" Content="CardView XAML&#x0d;&#x0a;Create CardView items with XAML."
+                          Command="{Binding NavigateCommand}"
+                          CommandParameter="CardViewMigration.CardViewXamlPage" />
+        <Button Grid.Row="1" Content="CardView Code&#x0d;&#x0a;Create CardView items with code."
+                          Command="{Binding NavigateCommand}"
+                          CommandParameter="CardViewMigration.CardViewCodePage" />
+        <Button Grid.Row="2" Content="CardView ControlTemplate&#x0d;&#x0a;Use a ControlTemplate to change control appearance."
+                          Command="{Binding NavigateCommand}"
+                          CommandParameter="CardViewMigration.ControlTemplatePage" />
+    </Grid>
+</Page>

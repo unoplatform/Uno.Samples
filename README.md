@@ -53,6 +53,11 @@ A cross-platform implementation of the UWP `CameraCaptureUI` class that allows t
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/CameraCaptureUI)
 
+### CardView Migration
+An Uno conversion of the Xamarin `CardView` sample showing how to migrate a custom control. 
+
+[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/CardViewMigration)
+
 ### Chat SignalR
 
 Demonstrates the use of [SignalR](https://docs.microsoft.com/en-us/aspnet/core/signalr/introduction?view=aspnetcore-3.1) in an Uno Platform application. 
