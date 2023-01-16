@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>6279c845-92f8-4333-ab99-3d213163593c</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>OnnxSamples</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="$(MSBuildThisFileDirectory)App.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </ApplicationDefinition>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)MainPage.xaml.cs">
+      <DependentUpon>MainPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Models\OnnxImageClassifier.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\PytorchBertQnA.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\TensorflowMNISTClassifier.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Views\ImageClassifier.xaml.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Views\MNISTClassifier.xaml.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Views\BertQnA.xaml.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="$(MSBuildThisFileDirectory)MainPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Views\ImageClassifier.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Views\MNISTClassifier.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Views\BertQnA.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)Assets\SharedAssets.md" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Content\Onnx\mobilenetv2-7.onnx" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Content\Tensorflow\mnist_model.onnx" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Content\Pytorch\bert_QnA.onnx" />
+    <None Include="$(MSBuildThisFileDirectory)Models\BertInput.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <PRIResource Include="$(MSBuildThisFileDirectory)Strings\en\Resources.resw" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="$(MSBuildThisFileDirectory)Content\Onnx\chicken.jpg" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Content\Onnx\chickenn.jpg" />
+    <Content Include="$(MSBuildThisFileDirectory)Content\Onnx\dog.jpg" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Content\Onnx\dogg.jpg" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Content\Onnx\imagenet_classes.txt" />
+    <Content Include="$(MSBuildThisFileDirectory)Content\Tensorflow\handwritten.jpeg" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Content\Tensorflow\handwrittenn.jpeg" />
+  </ItemGroup>
+  <Import Project="OnnxSamples.Shared.globs.props" Condition="'$(IsCodeSharingProject)'!='true'" />
+</Project>
