@@ -1,0 +1,44 @@
+<Project ToolsVersion="15.0">
+	<PropertyGroup>
+		<LangVersion>10</LangVersion>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+
+		<DebugType>portable</DebugType>
+		<DebugSymbols>True</DebugSymbols>
+		<SynthesizeLinkMetadata>true</SynthesizeLinkMetadata>
+
+		<TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+		<NoWarn>$(NoWarn);Uno0001;CS1998;CA1416;NU1507</NoWarn>
+
+		<DefaultLanguage>en</DefaultLanguage>
+
+		<IsAndroid>false</IsAndroid>
+		<IsAndroid Condition="$(TargetFramework) != 'net6.0' AND $(TargetFramework) != 'netstandard2.1' AND $([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">true</IsAndroid>
+		<IsIOS>false</IsIOS>
+		<IsIOS Condition="$(TargetFramework) != 'net6.0' AND $(TargetFramework) != 'netstandard2.1' AND $([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">true</IsIOS>
+		<IsMac>false</IsMac>
+		<IsMac Condition="$(TargetFramework) != 'net6.0' AND $(TargetFramework) != 'netstandard2.1' AND $([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'macos'">true</IsMac>
+		<IsMacCatalyst>false</IsMacCatalyst>
+		<IsMacCatalyst Condition="$(TargetFramework) != 'net6.0' AND $(TargetFramework) != 'netstandard2.1' AND $([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">true</IsMacCatalyst>
+		<IsWinAppSdk>false</IsWinAppSdk>
+		<IsWinAppSdk Condition="$(TargetFramework.Contains('windows10'))">true</IsWinAppSdk>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<RuntimeIdentifier Condition="$(IsIOS)">iossimulator-x64</RuntimeIdentifier>
+		<RuntimeIdentifier Condition="$(IsMacCatalyst)">maccatalyst-x64</RuntimeIdentifier>
+		<RuntimeIdentifier Condition="$(IsMac)">osx-x64</RuntimeIdentifier>
+		<SupportedOSPlatformVersion Condition="$(IsIOS)">14.2</SupportedOSPlatformVersion>
+		<SupportedOSPlatformVersion Condition="$(IsMacCatalyst)">14.0</SupportedOSPlatformVersion>
+		<SupportedOSPlatformVersion Condition="$(IsAndroid)">21.0</SupportedOSPlatformVersion>
+		<SupportedOSPlatformVersion Condition="$(IsMac)">10.14</SupportedOSPlatformVersion>
+		<SupportedOSPlatformVersion Condition="$(IsWinAppSdk)">10.0.18362.0</SupportedOSPlatformVersion>
+		<TargetPlatformMinVersion Condition="$(IsWinAppSdk)">10.0.18362.0</TargetPlatformMinVersion>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<!--This override is used to validate the use of specific version of the C# Compiler-->
+		<PackageReference Include="Microsoft.Net.Compilers.Toolset" Version="4.2.0"  PrivateAssets="all" />
+	</ItemGroup>
+</Project>
