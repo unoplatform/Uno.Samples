@@ -16,11 +16,7 @@
 	<ItemGroup>
 		<PackageReference Include="Uno.Extensions.Reactive.WinUI" Version="2.3.0-dev.497" />
 		<PackageReference Include="Uno.Material.WinUI" Version="2.5.0-dev.6" />
-		<PackageReference Include="Uno.Material.WinUI.Markup" Version="2.5.0-dev.6" />
-		<PackageReference Include="Uno.Toolkit.WinUI.Markup" Version="2.5.0-dev.8" />
 		<PackageReference Include="Uno.Toolkit.WinUI.Material" Version="2.5.0-dev.8" />
-		<PackageReference Include="Uno.WinUI.Markup" Version="4.6.0-dev.16" />
-		<PackageReference Include="Uno.Themes.WinUI.Markup" Version="2.5.0-dev.6" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Console" Version="7.0.0" />
 	</ItemGroup>
 
@@ -67,19 +63,12 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <None Remove="MainPage.xaml" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <UpToDateCheckInput Remove="MainPage.xaml" />
-	</ItemGroup>
-
-	<ItemGroup>
 	  <Compile Include="..\..\..\resources\AppThemeService.cs" Link="ThemeService\AppThemeService.cs" />
 	  <Compile Include="..\..\..\resources\Calculator.cs" Link="Business\Calculator.cs" />
 	  <Compile Include="..\..\..\resources\IAppThemeService.cs" Link="ThemeService\IAppThemeService.cs" />
 	  <Compile Include="..\..\..\resources\KeyboardBehavior.cs" Link="Keyboard\KeyboardBehavior.cs" />
 	  <Compile Include="..\..\..\resources\KeyInput.cs" Link="Business\KeyInput.cs" />
+	  <Compile Include="..\..\..\resources\MainPage.xaml.cs" Link="MainPage.xaml.cs" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -94,10 +83,10 @@
 	    <Generator>MSBuild:Compile</Generator>
 	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
 	  </Page>
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Page Update="MainPage.xaml">
+	  <Page Include="..\..\..\resources\MainPage.xaml" Link="MainPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </Page>
+	  <Page Include="..\..\..\resources\MaterialFontsOverride.xaml" Link="Styles\MaterialFontsOverride.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </Page>
 	</ItemGroup>

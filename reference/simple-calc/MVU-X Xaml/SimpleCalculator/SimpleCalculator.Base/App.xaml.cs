@@ -30,8 +30,6 @@ public sealed partial class App : global::Microsoft.UI.Xaml.Application
 		}
 #endif
 
-		this.Resources(r => r.Merged(new XamlControlsResources()));
-
 #if NET6_0_OR_GREATER && WINDOWS && !HAS_UNO
 		_window = new Window();
 		_window.Activate();
