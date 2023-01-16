@@ -38,7 +38,7 @@ public sealed partial class MainPageMarkup : Page
         );
     }
 
-    private ToggleButton Header(BindableMainModel vm)
+    private ToggleButton Header(DataContextClass vm)
         => new ToggleButton()
             .Margin(8)
             .CornerRadius(20)
@@ -60,7 +60,7 @@ public sealed partial class MainPageMarkup : Page
                     .Foreground(Theme.Brushes.Primary.VariantDark.Default)
             );
 
-    private AutoLayout Output(BindableMainModel vm)
+    private AutoLayout Output(DataContextClass vm)
         => new AutoLayout()
         .AutoLayout(primaryAlignment: AutoLayoutPrimaryAlignment.Stretch)
         .Spacing(16)
@@ -72,21 +72,21 @@ public sealed partial class MainPageMarkup : Page
             Result(vm)
         );
 
-    private TextBlock Equation(BindableMainModel vm)
+    private TextBlock Equation(DataContextClass vm)
         => new TextBlock()
         .Text(() => vm.Calculator.Equation)
         .AutoLayout(counterAlignment: AutoLayoutAlignment.End)
         .Foreground(Theme.Brushes.OnSecondary.Container.Default)
         .Style(Theme.Styles.TextBlock.DisplaySmall);
 
-    private TextBlock Result(BindableMainModel vm)
+    private TextBlock Result(DataContextClass vm)
         => new TextBlock()
         .Text(() => vm.Calculator.Output)
         .AutoLayout(counterAlignment: AutoLayoutAlignment.End)
         .Foreground(Theme.Brushes.OnBackground.Default)
         .Style(Theme.Styles.TextBlock.DisplayLarge);
 
-    private Grid KeyPad(BindableMainModel vm)
+    private Grid KeyPad(DataContextClass vm)
         => new Grid()
         .RowSpacing(16)
         .ColumnSpacing(16)
@@ -127,9 +127,9 @@ public sealed partial class MainPageMarkup : Page
             KeyPadButton(vm, 4, 3, "=", KeyInput.Equal, Theme.Brushes.Primary.VariantDark.Default, Theme.Brushes.OnTertiary.Default)
         );
 
-    private Button KeyPadButton(BindableMainModel vm, int gridRow, int gridColumn, string content, KeyInput parameter, BrushBuilder? background = null, BrushBuilder? foreground = null)
+    private Button KeyPadButton(DataContextClass vm, int gridRow, int gridColumn, string content, KeyInput parameter, BrushBuilder? background = null, BrushBuilder? foreground = null)
         => new Button()
-        .Command(() => vm.Input)
+        .Command(() => vm.InputCommand)
         .CommandParameter(parameter)
         .Background(background ?? Theme.Brushes.Secondary.Container.Default)
         .Content(content)
