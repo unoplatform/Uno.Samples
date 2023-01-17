@@ -1,4 +1,6 @@
 using SimpleCalculator.ThemeService;
+using Uno.Material;
+using Uno.Toolkit.UI;
 
 namespace SimpleCalculator;
 
@@ -30,13 +32,16 @@ public sealed partial class App : global::Microsoft.UI.Xaml.Application
 		}
 #endif
 
-		this.Resources(r => r.Merged(new XamlControlsResources()));
+        this.Resources(r => r.Merged(
+                    new XamlControlsResources(),
+                    new ToolkitResources()));
+        this.UseMaterial(colorOverride: new Styles.ColorPaletteOverride());
 
 #if NET6_0_OR_GREATER && WINDOWS && !HAS_UNO
 		_window = new Window();
 		_window.Activate();
 #else
-		_window = Microsoft.UI.Xaml.Window.Current;
+        _window = Microsoft.UI.Xaml.Window.Current;
 #endif
 
         AppThemeService.Init(_window);

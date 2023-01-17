@@ -1,3 +1,5 @@
+using Uno.Themes.Markup;
+
 namespace SimpleCalculator.Styles;
 
 public sealed class ColorPaletteOverride : ResourceDictionary

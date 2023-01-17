@@ -134,8 +134,6 @@ public sealed partial class MainPageMarkup : Page
         .Background(background ?? Theme.Brushes.Secondary.Container.Default)
         .Content(content)
         .FontSize(32)
-        .FontFamily(ThemeResource.Get<FontFamily>("MaterialMediumFontFamily"))
-        .CornerRadius(20)
         .Foreground(foreground ?? Theme.Brushes.OnSurface.Default)
         .Grid(row: gridRow, column: gridColumn)
         .HorizontalAlignment(HorizontalAlignment.Stretch)
