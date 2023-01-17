@@ -14,8 +14,10 @@ namespace TheCatApiClient.Shared.WebServices
         // Insert static constructor below here
         static WebApiBase()
         {
-#if __WASM__
-            var innerHandler = new Uno.UI.Wasm.WasmHttpHandler();
+#if __IOS__
+            var innerHandler = new NSUrlSessionHandler();
+#elif __ANDROID__
+	    	var innerHandler =	new Xamarin.Android.Net.AndroidMessageHandler();
 #else
             var innerHandler = new HttpClientHandler();
 #endif

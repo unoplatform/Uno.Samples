@@ -4,7 +4,7 @@ using System.Text;
 
 using UnoGoodReads.Models;
 
-using Windows.UI.Xaml.Data;
+using Microsoft.UI.Xaml.Data;
 
 namespace UnoGoodReads.Converters
 {
@@ -13,7 +13,23 @@ namespace UnoGoodReads.Converters
         public object Convert(object value, Type targetType, object parameter, string language)
         {
             var genre = (Genre)value;
-            return $"Popular on Goodreads in {genre.ToStringFormat()}";
+            return $" {genre.ToStringFormat()}";
+
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, string language)
+        {
+            return null;
+        }
+    }
+
+    public class AverageRatingConverters : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, string language)
+        {
+            var genre = System.Convert.ToInt32(value);
+            
+            return $"{genre}";
 
         }
 
@@ -56,7 +72,7 @@ namespace UnoGoodReads.Converters
         public object Convert(object value, Type targetType, object parameter, string language)
         {
             var rating = (int)value;
-            return $"{rating} ratings. {new Random().Next(1000)} reviewes";
+            return $"{rating} ratings - {new Random().Next(1000)} reviewes";
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)

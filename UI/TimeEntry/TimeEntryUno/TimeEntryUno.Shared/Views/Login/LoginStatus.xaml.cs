@@ -3,8 +3,8 @@ using TimeEntryUno.Shared.Helpers;
 using TimeEntryUno.Shared.Models;
 using TimeEntryUno.Shared.Services;
 using Windows.ApplicationModel.Resources;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -19,7 +19,7 @@ namespace TimeEntryUno.Shared.Views.Login
             this.InitializeComponent();
             AuthenticationService.Instance.LoggedIn += Instance_LoggedIn;
             AuthenticationService.Instance.LoggedOut += Instance_LoggedOut;
-            var resourceLoader = ResourceLoader.GetForCurrentView();
+            var resourceLoader = ResourceLoader.GetForViewIndependentUse();
             _welcomeText = resourceLoader.GetString("WelcomeText");
             this.UpdateLoginState();
         }
@@ -37,6 +37,9 @@ namespace TimeEntryUno.Shared.Views.Login
         private void LoginButton_Click(object sender, RoutedEventArgs e)
         {
             var loginForm = new LoginForm();
+#if WINDOWS
+		loginForm.XamlRoot = this.XamlRoot;
+#endif
             _ = loginForm.ShowOneAtATimeAsync();
         }
 

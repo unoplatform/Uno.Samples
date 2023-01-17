@@ -8,14 +8,14 @@
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-		<Grid.RowDefinitions>
-			<RowDefinition Height="auto"/>
-			<RowDefinition Height="*"/>
-		</Grid.RowDefinitions>
-		<StackPanel Grid.Row="0">
-			<TextBox PlaceholderText="Enter a stock symbol" x:Name="stockSymbol" />
-			<Button Click="{x:Bind OnClickMe}" Content="Add Symbol" />
-		</StackPanel>
-		<ListView Grid.Row="1" x:Name="symbolsList" />
-	</Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0">
+            <TextBox PlaceholderText="Enter a stock symbol" x:Name="stockSymbol" />
+            <Button Click="{x:Bind OnClickMe}" Content="Add Symbol" />
+        </StackPanel>
+        <ListView Grid.Row="1" x:Name="symbolsList" />
+    </Grid>
 </Page>

@@ -25,6 +25,20 @@ Visit [our documentation](https://platform.uno/docs/articles/intro.html) for mor
 
 ## Samples
 
+### Commerce App
+
+The The Commercial App Sample with Cart, products and so on.
+
+[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/reference/Commerce)
+
+
+### Advanced XBind
+
+The {x:Bind} markup extension�new for Windows 10�is an alternative to {Binding}. {x:Bind} 
+runs in less time and less memory than {Binding} and supports better debugging.
+
+[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/AdvancedXBind)
+
 ### Android Custom Camera  
 An Android-specific sample that shows how to start a camera capture intent, and display the result in an `Image` control.
 
@@ -69,10 +83,21 @@ An example of creating a custom control library and calling a control from your 
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/ControlLibrary)
 
+### Custom Sorting
+Sample app to accompany "Adding Custom Sorting Logic" blog post.
+
+[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/CustomSorting)
+
 ### Dual-Screen
 A simple example using the `TwoPaneView` control spanned across dual screens (such as Neo or Duo dual-screen devices for example). 
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/DualScreenSample)
+
+### Entity Framework Core Demo
+
+An example of Entity Framework Core 7 with a SQLite storage for WebAssembly, WinAppSDK, iOS and Android.
+
+[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/EFCoreSQLiteSample)
 
 ### EmbeddedResources
 An example that demonstrates the use of embedded resources and how to read them from your app.
@@ -86,11 +111,23 @@ A working implementation of a folder-based save file picker for iOS. See [the 'i
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/FileSavePickeriOS)
 
+### Food Delivery
+
+[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/FoodDeliveryUI)
+
 ### HtmlControls
 
 This is a WASM-only sample. It is creating _native_ HTML elements that can be used directly in XAML.
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/HtmlControls)
+
+### Inserting Separators
+
+[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/InsertingSeparators)
+
+### LiteDB
+
+[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/LiteDB)
 
 ### Localization Samples
 A pair of samples related to localization:
@@ -125,6 +162,10 @@ Note that for WebAssembly assets are downloaded on demand, as can be seen in the
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/PackageResources)
 
+### Pet Adopt
+
+[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/PetAdoptUI)
+
 ### SQLite  
 This is a simple standalone app demonstrating the use of SQLite in an Uno application, including WebAssembly. It uses Erik Sink's [SQLitePCLRaw](https://github.com/ericsink/SQLitePCL.raw), and Frank Krueger's [sqlite-net](https://github.com/praeclarum/sqlite-net) libraries.
 
@@ -157,14 +198,14 @@ An example showing how to adjust the `StatusBar` and `CommandBar` dynamically ba
 
 [Follow the tutorial](https://platform.uno/docs/articles/guides/status-bar-theme-color.html)
 
-### TheCatApiClient
+### The Cat Api Client
 An example demonstrating an approach to consuming REST web services in Uno using HttpClient.
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/TheCatApiClient)
 
 [Follow the tutorial](https://platform.uno/docs/articles/howto-consume-webservices.html)
 
-### TimeEntry
+### Time Entry
 
 Code for the Silverlight migration tutorial.
 
@@ -172,18 +213,18 @@ Code for the Silverlight migration tutorial.
 
 [Follow the tutorial](https://platform.uno/docs/articles/silverlight-migration-landing.html)
 
-### ToyCar
+### Toy Car
 A proof of concept of a car animation using the `TwoPaneView` control spanned across dual screens (such as Neo or Duo dual-screen devices for example).
 Inspiration from Justin Liu's [demo app](https://twitter.com/justinxinliu/status/1281123335410049027).
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/ToyCar)
 
-### UnoContoso
+### Uno Contoso
 A port of Microsoft's Contoso Enterprise UWP app to Uno Platform, using Prism.
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/UnoContoso)
 
-### Uno.Cupertino Sample
+### Uno.Cupertino
 
 An example showing how to set up the [`Uno.Cupertino`](https://github.com/unoplatform/Uno.Themes) library.  
 
@@ -191,11 +232,19 @@ An example showing how to set up the [`Uno.Cupertino`](https://github.com/unopla
 
 [Follow the tutorial](https://platform.uno/docs/articles/guides/uno-cupertino-walkthrough.html)
 
-### Uno+Ethereum+Blockchain sample
+### Uno+Ethereum+Blockchain
 
 A sample showing how to integrate smart contracts on the Ethereum blockchain with a multi-targeted Uno Platform application.
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/UnoEthereumBlockChain)
+
+### Uno Good Reads
+
+[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/UnoGoodReads)
+
+### Uno Islands
+
+[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/UnoIslandsSampleApp)
 
 ### Uno.Material Sample
 An example showing how to set up the [`Uno.Material`](https://github.com/unoplatform/Uno.Themes) library.  
@@ -203,6 +252,14 @@ An example showing how to set up the [`Uno.Material`](https://github.com/unoplat
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/UnoMaterialSample)
 
 [Follow the tutorial](https://platform.uno/docs/articles/guides/uno-material-walkthrough.html)
+
+### Uno Onnx
+
+[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/UnoOnnxSamples)
+
+### Uno SQlite One Drive Invoice
+
+[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/UnoSQLiteOneDriveInvoiceSample)
 
 ### WCT DataGrid  
 A dynamic grid view ported from the Windows Community Toolkit that allows for x:Bind. 
@@ -217,16 +274,16 @@ A combined Windows Community Toolkit sample showing the DataGrid, TreeView, and 
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/WCTDataTreeTabSample)
 
-### WCT TabView
-Ported from the Windows Community Toolkit, this sample shows an implementation of a `TabViewItem` in a shared container.
-
-[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/WCTTabView)
-
 ### WebRTC
 
 Demo of the usage of WebRTC in Uno WebAssembly. This sample establishes a direct WebRTC connection between 2 browsers and uses it to send messages between peers.
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/WebRTC)
+
+### XAML Basics : ListView
+
+[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/XamlBasics/ListViewSample)
+
 
 =======
 

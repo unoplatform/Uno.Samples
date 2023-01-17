@@ -17,7 +17,7 @@ namespace UnoGoodReads.Models
         public string Description { get; set; }
         public Genre Genre { get; set; }
         public decimal Price { get; set; }
-        public Rating AverageRating { get; set; }
+        public double AverageRating { get; set; }
         public int RatingsCount { get; set; }
         public State State { get; set; }
     }

@@ -1,12 +1,9 @@
-﻿using Windows.UI.Xaml.Controls;
+﻿namespace WCTDataTreeTabSample;
 
-namespace WCTDataTreeTabSample
+public sealed partial class TabViewPage : Page
 {
-	public sealed partial class TabViewPage : Page
+	public TabViewPage()
 	{
-		public TabViewPage()
-		{
-			this.InitializeComponent();
-		}
+		this.InitializeComponent();
 	}
 }

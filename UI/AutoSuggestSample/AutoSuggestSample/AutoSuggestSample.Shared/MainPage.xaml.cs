@@ -1,19 +1,11 @@
-﻿using System;
+﻿using Microsoft.UI.Xaml.Controls;
+using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Reflection;
+using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-using Windows.UI;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
+
+using Microsoft.UI;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -24,69 +16,66 @@ namespace AutoSuggestSample
     /// </summary>
     public sealed partial class MainPage : Page
     {
-		string[] _colors;
 
+        string[] _colors;
         public MainPage()
         {
             this.InitializeComponent();
+        }
 
+        private void OnTextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
+        {
+            if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
+            {
+                var suggestions = new List<string>();
 
-		}
+                if (sender.Text.Length >= 3)
+                {
+                    foreach (var color in GetColors())
+                    {
+                        if (color.IndexOf(sender.Text, StringComparison.OrdinalIgnoreCase) != -1)
+                        {
+                            suggestions.Add(color);
+                        }
+                    }
 
-		private void OnTextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
-		{
-			if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
-			{
-				var suggestions = new List<string>();
+                    if (suggestions.Count > 0)
+                    {
+                        suggestBox.ItemsSource = suggestions.OrderBy(s => s).Take(10).ToList();
+                    }
+                    else
+                    {
+                        suggestBox.ItemsSource = new string[] { "No results found" };
+                    }
+                }
+                else
+                {
+                    suggestBox.ItemsSource = new string[0];
+                }
+            }
+        }
 
-				if (sender.Text.Length >= 3)
-				{
-					foreach (var color in GetColors())
-					{
-						if (color.IndexOf(sender.Text, StringComparison.OrdinalIgnoreCase) != -1)
-						{
-							suggestions.Add(color);
-						}
-					}
+        private void OnQuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
+        {
+            query.Text = args.QueryText;
+        }
 
-					if (suggestions.Count > 0)
-					{
-						suggestBox.ItemsSource = suggestions.OrderBy(s => s).Take(10).ToList();
-					}
-					else
-					{
-						suggestBox.ItemsSource = new string[] { "No results found" };
-					}
-				}
-				else
-				{
-					suggestBox.ItemsSource = new string[0];
-				}
-			}
-		}
+        private void OnSuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
+        {
+            query.Text = args.SelectedItem.ToString();
+        }
 
-		private void OnQuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
-		{
-			query.Text = args.QueryText;
-		}
+        private string[] GetColors()
+        {
+            if (_colors == null)
+            {
+                var fields = typeof(Colors).GetTypeInfo().DeclaredFields.Select(f => f.Name);
+                var properties = typeof(Colors).GetTypeInfo().DeclaredProperties.Select(f => f.Name);
 
-		private void OnSuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
-		{
-			query.Text = args.SelectedItem.ToString();
-		}
+                _colors = properties.Concat(fields).ToArray();
+            }
 
-		private string[] GetColors()
-		{
-			if (_colors == null)
-			{
-				var fields = typeof(Colors).GetTypeInfo().DeclaredFields.Select(f => f.Name);
-				var properties = typeof(Colors).GetTypeInfo().DeclaredProperties.Select(f => f.Name);
-
-				_colors = properties.Concat(fields).ToArray();
-			}
-
-			return _colors;
-		}
-
-	}
+            return _colors;
+        }
+    }
 }

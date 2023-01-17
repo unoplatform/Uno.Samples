@@ -1,6 +1,6 @@
 jobs:
 - job: VS_Latest
-  timeoutInMinutes: 120
+  timeoutInMinutes: 240
 
   pool:
     vmImage: windows-2022
@@ -32,14 +32,15 @@ jobs:
 
       $SolutionsToBuild =  Get-ChildItem -Path **\*.sln -Recurse  | Where-Object {$_.FullName -notmatch "\\ArchivedProjects\\"}
 
+      if($env:System_PullRequest_TargetBranch -eq $null) { $TargetBranch = "master" } else { $TargetBranch = $env:System_PullRequest_TargetBranch; }
+
       foreach ($SolutionName in $SolutionsToBuild) {
 
            $solutionPath=[System.IO.Path]::GetDirectoryName($SolutionName);
-          
-           git diff --quiet HEAD "origin/$(System.PullRequest.TargetBranch)" -- "$solutionPath"
+           git diff --quiet HEAD "origin/$TargetBranch" -- "$solutionPath"
 
-           # Only build if there a change in the solution path for the current PR, if we're in a PR
-           if( ('$(System.PullRequest.PullRequestId)' -eq '') -or ($global:LASTEXITCODE -ne 0)) {
+           # Only build if there a change in the solution path for the current PR, if we're not in a PR
+           if( ('$env:System_PullRequest_PullRequestId)' -eq '') -or ($global:LASTEXITCODE -ne 0)) {
 
                 & $env:msbuildpath $SolutionName /r /p:Configuration=Release /p:AotAssemblies=false /p:WasmShellILLinkerEnabled=false /ds ;
 

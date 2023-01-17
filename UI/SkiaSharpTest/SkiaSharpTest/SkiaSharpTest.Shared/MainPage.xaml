@@ -6,7 +6,7 @@
     xmlns:local="using:SkiaSharpTest"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:skia="using:SkiaSharp.Views.UWP"
+    xmlns:sk="using:SkiaSharp.Views.UWP"
     mc:Ignorable="d xamarin"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
@@ -20,13 +20,13 @@
 			<TextBlock x:Name="currentPositionText" />
 		</StackPanel>
 		<Grid x:Name="panelGrid" Grid.Row="1">
-			<skia:SKSwapChainPanel
+			<sk:SKSwapChainPanel
 				x:Name="swapChain"
 				PaintSurface="OnPaintSwapChain"
 				PointerMoved="{x:Bind OnSurfacePointerMoved}"
 				xamarin:Background="Transparent"
 				Visibility="{x:Bind hwAcceleration.IsChecked, Mode=OneWay}" />
-			<skia:SKXamlCanvas 
+			<sk:SKXamlCanvas 
 				x:Name="canvas" 
 				PaintSurface="OnPaintSurface"
 				PointerMoved="{x:Bind OnSurfacePointerMoved}"
