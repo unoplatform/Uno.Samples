@@ -1,7 +1,6 @@
 ﻿using SimpleCalculator.Business;
 using Uno.Extensions.Reactive;
 using SimpleCalculator.ThemeService;
-using Windows.System;
 
 namespace SimpleCalculator.Presentation;
 

@@ -1,6 +1,4 @@
-﻿using SimpleCalculator.Business;
-using SimpleCalculator.Presentation;
-using Uno.Extensions.Markup;
+﻿using Uno.Extensions.Markup;
 using Uno.Material;
 using Uno.Themes.Markup;
 using Uno.Toolkit.UI;
@@ -25,14 +23,23 @@ public sealed partial class MainPageMarkup : Page
             .Background(Theme.Brushes.Background.Default)
             .Content
             (
-                new AutoLayout()
+                new Grid()
+                .RowDefinitions<Grid>("Auto,*")
                 .MaxWidth(700)
+                .Background(Theme.Brushes.Background.Default)
+                .VerticalAlignment(VerticalAlignment.Stretch)
                 .SafeArea(SafeArea.InsetMask.VisibleBounds)
                 .Children
                 (
                     Header(vm),
-                    Output(vm),
-                    KeyPad(vm)
+                    new StackPanel()
+                    .Grid(row: 1)
+                    .VerticalAlignment(VerticalAlignment.Bottom)
+                    .Children
+                    (
+                        Output(vm),
+                        KeyPad(vm)
+                    )
                 )
             )
         );
@@ -40,9 +47,10 @@ public sealed partial class MainPageMarkup : Page
 
     private ToggleButton Header(DataContextClass vm)
         => new ToggleButton()
+            .Grid(row: 0)
             .Margin(8)
             .CornerRadius(20)
-            .AutoLayout(counterAlignment: AutoLayoutAlignment.Center)
+            .HorizontalAlignment(HorizontalAlignment.Center)
             .Background(Theme.Brushes.Secondary.Container.Default)
             .Style(Theme.Styles.ToggleButton.Icon)
             .IsChecked(x => x.Bind(() => vm.IsDark).Mode(BindingMode.TwoWay))
@@ -60,12 +68,12 @@ public sealed partial class MainPageMarkup : Page
                     .Foreground(Theme.Brushes.Primary.VariantDark.Default)
             );
 
-    private AutoLayout Output(DataContextClass vm)
-        => new AutoLayout()
-        .AutoLayout(primaryAlignment: AutoLayoutPrimaryAlignment.Stretch)
+    private StackPanel Output(DataContextClass vm)
+        => new StackPanel()
         .Spacing(16)
         .Padding(16, 8)
-        .PrimaryAxisAlignment(AutoLayoutAlignment.End)
+        .HorizontalAlignment(HorizontalAlignment.Stretch)
+        .VerticalAlignment(VerticalAlignment.Bottom)
         .Children
         (
             Equation(vm),
@@ -75,14 +83,14 @@ public sealed partial class MainPageMarkup : Page
     private TextBlock Equation(DataContextClass vm)
         => new TextBlock()
         .Text(() => vm.Calculator.Equation)
-        .AutoLayout(counterAlignment: AutoLayoutAlignment.End)
+        .HorizontalAlignment(HorizontalAlignment.Right)
         .Foreground(Theme.Brushes.OnSecondary.Container.Default)
         .Style(Theme.Styles.TextBlock.DisplaySmall);
 
     private TextBlock Result(DataContextClass vm)
         => new TextBlock()
         .Text(() => vm.Calculator.Output)
-        .AutoLayout(counterAlignment: AutoLayoutAlignment.End)
+        .HorizontalAlignment(HorizontalAlignment.Right)
         .Foreground(Theme.Brushes.OnBackground.Default)
         .Style(Theme.Styles.TextBlock.DisplayLarge);
 
