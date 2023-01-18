@@ -97,40 +97,40 @@ public sealed partial class MainPageMarkup : Page
         .Children
         (
             // Row 0
-            KeyPadButton(vm, 0, 0, "C", KeyInput.Clear, Theme.Brushes.Primary.Container.Default, Theme.Brushes.OnSecondary.Container.Default),
-            KeyPadButton(vm, 0, 1, "±", KeyInput.PlusMinus, Theme.Brushes.Primary.Container.Default, Theme.Brushes.OnSecondary.Container.Default),
-            KeyPadButton(vm, 0, 2, "%", KeyInput.Percentage, Theme.Brushes.Primary.Container.Default, Theme.Brushes.OnSecondary.Container.Default),
-            KeyPadButton(vm, 0, 3, "÷", KeyInput.Division, Theme.Brushes.Primary.VariantDark.Default, Theme.Brushes.OnTertiary.Default),
+            KeyPadButton(vm, 0, 0, "C", Theme.Brushes.Primary.Container.Default, Theme.Brushes.OnSecondary.Container.Default),
+            KeyPadButton(vm, 0, 1, "±", Theme.Brushes.Primary.Container.Default, Theme.Brushes.OnSecondary.Container.Default),
+            KeyPadButton(vm, 0, 2, "%", Theme.Brushes.Primary.Container.Default, Theme.Brushes.OnSecondary.Container.Default),
+            KeyPadButton(vm, 0, 3, "÷", Theme.Brushes.Primary.VariantDark.Default, Theme.Brushes.OnTertiary.Default),
 
             // Row 1
-            KeyPadButton(vm, 1, 0, "7", KeyInput.Seven),
-            KeyPadButton(vm, 1, 1, "8", KeyInput.Eight),
-            KeyPadButton(vm, 1, 2, "9", KeyInput.Nine),
-            KeyPadButton(vm, 1, 3, "×", KeyInput.Multiplication, Theme.Brushes.Primary.VariantDark.Default, Theme.Brushes.OnTertiary.Default),
+            KeyPadButton(vm, 1, 0, "7"),
+            KeyPadButton(vm, 1, 1, "8"),
+            KeyPadButton(vm, 1, 2, "9"),
+            KeyPadButton(vm, 1, 3, "×", Theme.Brushes.Primary.VariantDark.Default, Theme.Brushes.OnTertiary.Default),
 
             // Row 2
-            KeyPadButton(vm, 2, 0, "4", KeyInput.Four),
-            KeyPadButton(vm, 2, 1, "5", KeyInput.Five),
-            KeyPadButton(vm, 2, 2, "6", KeyInput.Six),
-            KeyPadButton(vm, 2, 3, "−", KeyInput.Subtraction, Theme.Brushes.Primary.VariantDark.Default, Theme.Brushes.OnTertiary.Default),
+            KeyPadButton(vm, 2, 0, "4"),
+            KeyPadButton(vm, 2, 1, "5"),
+            KeyPadButton(vm, 2, 2, "6"),
+            KeyPadButton(vm, 2, 3, "−", Theme.Brushes.Primary.VariantDark.Default, Theme.Brushes.OnTertiary.Default),
 
             //Row 3
-            KeyPadButton(vm, 3, 0, "1", KeyInput.One),
-            KeyPadButton(vm, 3, 1, "2", KeyInput.Two),
-            KeyPadButton(vm, 3, 2, "3", KeyInput.Three),
-            KeyPadButton(vm, 3, 3, "+", KeyInput.Addition, Theme.Brushes.Primary.VariantDark.Default, Theme.Brushes.OnTertiary.Default),
+            KeyPadButton(vm, 3, 0, "1"),
+            KeyPadButton(vm, 3, 1, "2"),
+            KeyPadButton(vm, 3, 2, "3"),
+            KeyPadButton(vm, 3, 3, "+", Theme.Brushes.Primary.VariantDark.Default, Theme.Brushes.OnTertiary.Default),
 
             //Row 4
-            KeyPadButton(vm, 4, 0, ".", KeyInput.Dot),
-            KeyPadButton(vm, 4, 1, "0", KeyInput.Zero),
-            KeyPadButton(vm, 4, 2, "<-", KeyInput.Back),
-            KeyPadButton(vm, 4, 3, "=", KeyInput.Equal, Theme.Brushes.Primary.VariantDark.Default, Theme.Brushes.OnTertiary.Default)
+            KeyPadButton(vm, 4, 0, "."),
+            KeyPadButton(vm, 4, 1, "0"),
+            KeyPadButton(vm, 4, 2, "<-"),
+            KeyPadButton(vm, 4, 3, "=", Theme.Brushes.Primary.VariantDark.Default, Theme.Brushes.OnTertiary.Default)
         );
 
-    private Button KeyPadButton(DataContextClass vm, int gridRow, int gridColumn, string content, KeyInput parameter, BrushBuilder? background = null, BrushBuilder? foreground = null)
+    private Button KeyPadButton(DataContextClass vm, int gridRow, int gridColumn, string content, BrushBuilder? background = null, BrushBuilder? foreground = null)
         => new Button()
         .Command(() => vm.InputCommand)
-        .CommandParameter(parameter)
+        .CommandParameter(content)
         .Background(background ?? Theme.Brushes.Secondary.Container.Default)
         .Content(content)
         .FontSize(32)

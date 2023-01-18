@@ -11,11 +11,9 @@ public partial record MainModel
 
     public IState<Calculator> Calculator { get; }
 
-    public async ValueTask InputCommand (KeyInput key, CancellationToken ct)
+    public async ValueTask InputCommand (string key, CancellationToken ct)
             => await Calculator.Update(c => c?.Input(key), ct);
 
-    public async ValueTask InputVkeyCommand(VirtualKey key, CancellationToken ct)
-            => await Calculator.Update(c => c?.Input(key), ct);
     public MainModel()
     {
         Calculator = State.Value(this, () => new Calculator());

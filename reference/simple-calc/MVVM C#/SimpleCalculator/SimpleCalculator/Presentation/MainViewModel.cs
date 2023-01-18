@@ -26,11 +26,6 @@ public partial class MainViewModel : ObservableObject
     private Calculator _calculator = new();
 
     [RelayCommand]
-    private void Input (KeyInput key)
+    private void Input (string key)
         => Calculator = Calculator.Input(key);
-    
-    [RelayCommand]
-    private void InputVkey (VirtualKey key)
-        => Calculator = Calculator.Input(key);
-    
 }
