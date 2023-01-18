@@ -1,7 +1,4 @@
-﻿using System;
-using Windows.System;
-
-namespace SimpleCalculator.Business;
+﻿namespace SimpleCalculator.Business;
 
 #nullable enable
 public record Calculator

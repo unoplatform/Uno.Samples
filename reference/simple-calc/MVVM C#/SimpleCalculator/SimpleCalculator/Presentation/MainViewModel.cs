@@ -2,8 +2,6 @@
 using CommunityToolkit.Mvvm.Input;
 using SimpleCalculator.Business;
 using SimpleCalculator.ThemeService;
-using Windows.System;
-using System.Linq;
 
 namespace SimpleCalculator.Presentation;
 

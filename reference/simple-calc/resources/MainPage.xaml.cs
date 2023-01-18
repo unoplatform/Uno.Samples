@@ -1,5 +1,4 @@
-﻿using SimpleCalculator.Presentation;
-#if MVU
+﻿#if MVU
 using DataContextClass = SimpleCalculator.Presentation.BindableMainModel;
 #else
 using DataContextClass = SimpleCalculator.Presentation.MainViewModel;

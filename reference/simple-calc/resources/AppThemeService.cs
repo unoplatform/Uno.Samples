@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-using System.Threading;
-using Uno.Toolkit.UI;
-using Microsoft.UI.Xaml;
+﻿using Uno.Toolkit.UI;
 
 namespace SimpleCalculator.ThemeService;
 public class AppThemeService : IAppThemeService
