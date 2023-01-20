@@ -1,6 +1,7 @@
 ﻿using SimpleCalculator.Business;
 using Uno.Extensions.Reactive;
 using SimpleCalculator.ThemeService;
+using Uno.Extensions.Toolkit;
 
 namespace SimpleCalculator.Presentation;
 
@@ -8,18 +9,20 @@ public partial record MainModel
 {
     public IState<bool> IsDark { get; }
 
+    private IThemeService _themeService;
+
     public IState<Calculator> Calculator { get; }
 
     public async ValueTask InputCommand(string key, CancellationToken ct)
             => await Calculator.Update(c => c?.Input(key), ct);
 
-    public MainModel()
+    public MainModel(IThemeService themeService)
     {
+        _themeService = themeService;
+
         Calculator = State.Value(this, () => new Calculator());
-        IsDark = State.Value(this, () => _theme.IsDark);
+        IsDark = State.Value(this, () => _themeService.IsDark);
 
-        IsDark.ForEachAsync((dark, ct) => _theme.SetThemeAsync(dark, ct));
+        IsDark.ForEachAsync(async (dark, ct) => await _themeService.SetThemeAsync(dark ? AppTheme.Dark : AppTheme.Light));
     }
-
-    private IAppThemeService _theme => AppThemeService.Instance;
 }

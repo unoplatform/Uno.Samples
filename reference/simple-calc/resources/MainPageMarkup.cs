@@ -1,4 +1,5 @@
-﻿using Uno.Extensions.Markup;
+﻿using SimpleCalculator.ThemeService;
+using Uno.Extensions.Markup;
 using Uno.Material;
 using Uno.Themes.Markup;
 using Uno.Toolkit.UI;
@@ -14,7 +15,7 @@ public sealed partial class MainPageMarkup : Page
 {
     public MainPageMarkup()
     {
-        this.DataContext(new DataContextClass(), (page, vm)
+        this.DataContext(new DataContextClass(new AppThemeService(this)), (page, vm)
             => page
             .Resources(r => r
                 .Add(AppIcons.Dark)

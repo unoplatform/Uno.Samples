@@ -1,13 +1,15 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using SimpleCalculator.Business;
-using SimpleCalculator.ThemeService;
+using Uno.Extensions.Toolkit;
 
 namespace SimpleCalculator.Presentation;
 
 public partial class MainViewModel : ObservableObject
 {
-    private bool _isDark = AppThemeService.Instance.IsDark;
+    private IThemeService _themeService;
+
+    private bool _isDark;
     public bool IsDark
     {
         get => _isDark;
@@ -15,9 +17,15 @@ public partial class MainViewModel : ObservableObject
         { 
             if(SetProperty(ref _isDark, value))
             {
-                AppThemeService.Instance.SetThemeAsync(value, default);
+                _themeService.SetThemeAsync(value ? AppTheme.Dark : AppTheme.Light);
             }
         }
+    }
+
+    public MainViewModel(IThemeService themeService)
+    {
+        _themeService= themeService;
+        _isDark = _themeService.IsDark;
     }
 
     [ObservableProperty]

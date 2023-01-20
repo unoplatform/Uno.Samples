@@ -1,37 +1,32 @@
-﻿using Uno.Toolkit.UI;
+﻿using Uno.Extensions.Toolkit;
+using Uno.Toolkit.UI;
 
 namespace SimpleCalculator.ThemeService;
-public class AppThemeService : IAppThemeService
-{
-    private static IAppThemeService? _instance;
-    
-    public static IAppThemeService Instance => _instance ?? throw new Exception("You must call 'AppThemeService.Init(window)' prior to getting the current instance.");
-    
-    public static IAppThemeService Init(Window window) =>
-        new AppThemeService(window);
-    
-    private readonly Window _window;
+public class AppThemeService : IThemeService
+{   
+    private readonly UIElement _element;
 
-    private AppThemeService(Window window)
+    public AppThemeService(UIElement element)
     {
-        _instance = this;
-        _window = window;
+        _element = element;
     }
 
-    public bool IsDark => SystemThemeHelper.IsRootInDarkMode(_window.Content.XamlRoot!);
+    public bool IsDark => SystemThemeHelper.IsRootInDarkMode(_element.XamlRoot!);
 
-    public async ValueTask SetThemeAsync(bool darkMode, CancellationToken ct)
+    public async Task SetThemeAsync(AppTheme theme)
     {
         var tcs = new TaskCompletionSource<object?>();
-        await using var _ = ct.Register(() => tcs.TrySetCanceled());
-        _window.DispatcherQueue.TryEnqueue(() =>
+        _element.DispatcherQueue.TryEnqueue(() =>
         {
-            if (!ct.IsCancellationRequested)
-            {
-                SystemThemeHelper.SetRootTheme(_window.Content.XamlRoot, darkMode);
-            }
+            SystemThemeHelper.SetRootTheme(_element.XamlRoot, theme == AppTheme.Dark);
+            DesiredThemeChanged?.Invoke(this, theme);
+#nullable disable
             tcs.TrySetResult(default);
+#nullable restore
         });
-        await tcs.Task;
+            await tcs.Task;
     }
+    public AppTheme Theme => IsDark ? AppTheme.Dark : AppTheme.Light;
+
+    public event EventHandler<AppTheme>? DesiredThemeChanged;
 }

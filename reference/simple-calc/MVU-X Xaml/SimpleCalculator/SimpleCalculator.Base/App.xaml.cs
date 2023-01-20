@@ -37,8 +37,6 @@ public sealed partial class App : global::Microsoft.UI.Xaml.Application
 		_window = Microsoft.UI.Xaml.Window.Current;
 #endif
 
-        AppThemeService.Init(_window);
-
         // Do not repeat app initialization when the Window already has content,
         // just ensure that the window is active
         if (_window.Content is not Frame rootFrame)
