@@ -4,7 +4,7 @@
 	  xmlns:local="using:MapControlSample"
 	  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	  xmlns:maps="using:Windows.UI.Xaml.Controls.Maps"
+	  xmlns:maps="using:Mapsui.UI.WinUI"
 	  mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
@@ -22,8 +22,8 @@
 					x:Name="zoomSlider"
 					Value="12" />
         </StackPanel>
-        <maps:MapControl x:Name="MapControl"
-						 Grid.Row="1"
-						 ZoomLevel="{Binding ElementName=zoomSlider, Path=Value, Mode=TwoWay}" />
+
+        <maps:MapControl Grid.Row="1" x:Name="MapControl" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
+    
     </Grid>
 </Page>
