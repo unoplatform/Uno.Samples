@@ -159,7 +159,7 @@ Note that for WebAssembly assets are downloaded on demand, as can be seen in the
 
 ### Pet Adopt
 
-[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/PetAdopUI)
+[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/PetAdoptUI)
 
 ### SQLite  
 This is a simple standalone app demonstrating the use of SQLite in an Uno application, including WebAssembly. It uses Erik Sink's [SQLitePCLRaw](https://github.com/ericsink/SQLitePCL.raw), and Frank Krueger's [sqlite-net](https://github.com/praeclarum/sqlite-net) libraries.

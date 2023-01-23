@@ -1,4 +1,5 @@
-﻿using Nethereum.Contracts;
+﻿using Microsoft.UI.Xaml.Controls;
+using Nethereum.Contracts;
 using Nethereum.RPC.Eth.DTOs;
 
 
@@ -10,8 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-using Windows.UI.Text;
-using Windows.UI.Xaml.Controls;
+using Microsoft.UI.Text;
 
 namespace DemoApp.ViewModels
 {

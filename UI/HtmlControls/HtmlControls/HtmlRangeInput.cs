@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Globalization;
 using Windows.Foundation;
-using Windows.UI;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Media;
+using Microsoft.UI;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Media;
 using Uno.Extensions;
 using Uno.UI.Runtime.WebAssembly;
 

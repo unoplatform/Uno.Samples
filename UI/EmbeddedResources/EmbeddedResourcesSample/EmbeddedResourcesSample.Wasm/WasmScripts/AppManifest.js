@@ -1,7 +1,7 @@
 ﻿var UnoAppManifest = {
 
     splashScreenImage: "Assets/SplashScreen.png",
-    splashScreenColor: "#0078D7",
+    splashScreenColor: "transparent",
     displayName: "EmbeddedResourcesSample"
 
 }
