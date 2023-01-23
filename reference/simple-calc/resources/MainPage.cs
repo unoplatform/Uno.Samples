@@ -30,7 +30,7 @@ public sealed partial class MainPage : Page
             .Content
             (
                 new Grid()
-                .RowDefinitions<Grid>("*,Auto,Auto")
+                .RowDefinitions<Grid>("Auto,*,Auto,Auto")
                 .MaxWidth(700)
                 .Background(Theme.Brushes.Background.Default)
                 .VerticalAlignment(VerticalAlignment.Stretch)
@@ -48,7 +48,7 @@ public sealed partial class MainPage : Page
     private ToggleButton Header(DataContextClass vm)
         => new ToggleButton()
             .Grid(row: 0)
-            .Margin(8)
+            .Margin(8,24,8,0)
             .CornerRadius(20)
             .VerticalAlignment(VerticalAlignment.Center)
             .HorizontalAlignment(HorizontalAlignment.Center)
@@ -71,11 +71,10 @@ public sealed partial class MainPage : Page
 
     private StackPanel Output(DataContextClass vm) => 
         new StackPanel()
-        .Grid(row: 1)
+        .Grid(row: 2)
         .Spacing(16)
         .Padding(16, 8)
         .HorizontalAlignment(HorizontalAlignment.Stretch)
-        .VerticalAlignment(VerticalAlignment.Bottom)
         .Children
         (
             Equation(vm),
@@ -98,7 +97,7 @@ public sealed partial class MainPage : Page
 
     private Grid KeyPad(DataContextClass vm)
         => new Grid()
-        .Grid(row: 2)
+        .Grid(row: 3)
         .RowSpacing(16)
         .ColumnSpacing(16)
         .Padding(16)
@@ -143,14 +142,16 @@ public sealed partial class MainPage : Page
             int gridRow,
             int gridColumn,
             string content) =>
-        KeyPadButton(vm, gridRow, gridColumn, content, Theme.Brushes.Primary.Container.Default, Theme.Brushes.OnSecondary.Container.Default);
+        KeyPadButton(vm, gridRow, gridColumn, content, 
+                    Theme.Brushes.Primary.Container.Default, Theme.Brushes.OnSecondary.Container.Default);
     
     private Button KeyPadSecondaryButton(
             DataContextClass vm,
             int gridRow,
             int gridColumn,
             string content) =>
-        KeyPadButton(vm, gridRow, gridColumn, content, Theme.Brushes.Primary.VariantDark.Default, Theme.Brushes.OnTertiary.Default);
+        KeyPadButton(vm, gridRow, gridColumn, content, 
+                    Theme.Brushes.Primary.VariantDark.Default, Theme.Brushes.OnTertiary.Default);
 
     private Button KeyPadButton(
             DataContextClass vm,

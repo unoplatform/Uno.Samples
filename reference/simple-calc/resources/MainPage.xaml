@@ -16,13 +16,15 @@
         <x:String x:Key="SunIcon">F1 M 5.760000228881836 4.289999961853027 L 3.9600000381469727 2.5 L 2.549999952316284 3.9100000858306885 L 4.340000152587891 5.699999809265137 L 5.760000228881836 4.289999961853027 Z M 3 9.949999809265137 L 0 9.949999809265137 L 0 11.949999809265137 L 3 11.949999809265137 L 3 9.949999809265137 Z M 12 0 L 10 0 L 10 2.950000047683716 L 12 2.950000047683716 L 12 0 L 12 0 Z M 19.450000762939453 3.9100000858306885 L 18.040000915527344 2.5 L 16.25 4.289999961853027 L 17.65999984741211 5.699999809265137 L 19.450000762939453 3.9100000858306885 Z M 16.239999771118164 17.610000610351562 L 18.030000686645508 19.40999984741211 L 19.440000534057617 18 L 17.639999389648438 16.21000099182129 L 16.239999771118164 17.610000610351562 Z M 19 9.949999809265137 L 19 11.949999809265137 L 22 11.949999809265137 L 22 9.949999809265137 L 19 9.949999809265137 Z M 11 4.949999809265137 C 7.690000057220459 4.949999809265137 5 7.639999866485596 5 10.949999809265137 C 5 14.259999752044678 7.690000057220459 16.950000762939453 11 16.950000762939453 C 14.309999942779541 16.950000762939453 17 14.259999752044678 17 10.949999809265137 C 17 7.639999866485596 14.309999942779541 4.949999809265137 11 4.949999809265137 Z M 10 21.900001525878906 L 12 21.900001525878906 L 12 18.950000762939453 L 10 18.950000762939453 L 10 21.900001525878906 Z M 2.549999952316284 17.990001678466797 L 3.9600000381469727 19.400001525878906 L 5.75 17.600000381469727 L 4.340000152587891 16.190000534057617 L 2.549999952316284 17.990001678466797 Z</x:String>
     </Page.Resources>
 
-    <Grid utu:SafeArea.Insets="VisibleBounds" MaxWidth="700" Background="{ThemeResource BackgroundBrush}">
+    <Grid utu:SafeArea.Insets="VisibleBounds" MaxWidth="700" Background="{ThemeResource BackgroundBrush}" VerticalAlignment="Stretch">
         <Grid.RowDefinitions>
             <RowDefinition Height="AUTO"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="AUTO"/>
+            <RowDefinition Height="AUTO"/>
         </Grid.RowDefinitions>
         <!--Header-->
-        <ToggleButton Grid.Row="0" Background="{ThemeResource SecondaryContainerBrush}" Margin="8" HorizontalAlignment="Center" Style="{StaticResource IconToggleButtonStyle}" IsChecked="{Binding IsDark, Mode=TwoWay}" CornerRadius="20">
+        <ToggleButton Grid.Row="0" Background="{ThemeResource SecondaryContainerBrush}" Margin="8,24,8,0" HorizontalAlignment="Center" Style="{StaticResource IconToggleButtonStyle}" IsChecked="{Binding IsDark, Mode=TwoWay}" CornerRadius="20">
             <ToggleButton.Content>
                 <PathIcon Data="{StaticResource SunIcon}" Foreground="{ThemeResource PrimaryVariantDarkBrush}" />
             </ToggleButton.Content>
@@ -31,59 +33,57 @@
             </um:ControlExtensions.AlternateContent>
         </ToggleButton>
 
-        <StackPanel VerticalAlignment="Bottom" Grid.Row="1">
-            <!--Output-->
-            <StackPanel Spacing="16" Padding="16,8" HorizontalAlignment="Stretch">
-                <TextBlock Text="{Binding Calculator.Equation}" HorizontalAlignment="Right" Foreground="{ThemeResource OnSecondaryContainerBrush}" Style="{StaticResource DisplaySmall}" />
-                <TextBlock Text="{Binding Calculator.Output}" HorizontalAlignment="Right" Foreground="{ThemeResource OnBackgroundBrush}" Style="{StaticResource DisplayLarge}" />
-            </StackPanel>
-
-            <!--Keypad-->
-            <Grid RowSpacing="16" ColumnSpacing="16" Padding="16" MaxHeight="500">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="*" />
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-
-                <!--Row 0-->
-                <Button Grid.Row="0" Grid.Column="0" Command="{Binding InputCommand}" FontSize="32" CommandParameter="C" Background="{ThemeResource PrimaryContainerBrush}" Content="C" HorizontalAlignment="Stretch" Height="72" VerticalAlignment="Stretch" Foreground="{ThemeResource OnSecondaryContainerBrush}" />
-                <Button Grid.Row="0" Grid.Column="1" Command="{Binding InputCommand}" FontSize="32" CommandParameter="±" Background="{ThemeResource PrimaryContainerBrush}" Content="±" HorizontalAlignment="Stretch" Height="72" VerticalAlignment="Stretch" Foreground="{ThemeResource OnSecondaryContainerBrush}" />
-                <Button Grid.Row="0" Grid.Column="2" Command="{Binding InputCommand}" FontSize="32" CommandParameter="%" Background="{ThemeResource PrimaryContainerBrush}" Content="%" HorizontalAlignment="Stretch" Height="72" VerticalAlignment="Stretch" Foreground="{ThemeResource OnSecondaryContainerBrush}" />
-                <Button Grid.Row="0" Grid.Column="3" Command="{Binding InputCommand}" FontSize="32" CommandParameter="÷" Background="{ThemeResource PrimaryVariantDarkBrush}" Content="÷" HorizontalAlignment="Stretch" Height="72" VerticalAlignment="Stretch" Foreground="{ThemeResource OnTertiaryBrush}" />
-
-                <!--Row 1-->
-                <Button Grid.Row="1" Grid.Column="0" Command="{Binding InputCommand}" FontSize="32" CommandParameter="7" Background="{ThemeResource SecondaryContainerBrush}" Content="7" HorizontalAlignment="Stretch" Height="72" VerticalAlignment="Stretch" Foreground="{ThemeResource OnSurfaceBrush}" />
-                <Button Grid.Row="1" Grid.Column="1" Command="{Binding InputCommand}" FontSize="32" CommandParameter="8" Background="{ThemeResource SecondaryContainerBrush}" Content="8" HorizontalAlignment="Stretch" Height="72" VerticalAlignment="Stretch" Foreground="{ThemeResource OnSurfaceBrush}" />
-                <Button Grid.Row="1" Grid.Column="2" Command="{Binding InputCommand}" FontSize="32" CommandParameter="9" Background="{ThemeResource SecondaryContainerBrush}" Content="9" HorizontalAlignment="Stretch" Height="72" VerticalAlignment="Stretch" Foreground="{ThemeResource OnSurfaceBrush}" />
-                <Button Grid.Row="1" Grid.Column="3" Command="{Binding InputCommand}" FontSize="32" CommandParameter="×" Background="{ThemeResource PrimaryVariantDarkBrush}" Content="×" HorizontalAlignment="Stretch" Height="72" VerticalAlignment="Stretch" Foreground="{ThemeResource OnTertiaryBrush}" />
-
-                <!--Row 2-->
-                <Button Grid.Row="2" Grid.Column="0" Command="{Binding InputCommand}" FontSize="32" CommandParameter="4" Background="{ThemeResource SecondaryContainerBrush}" Content="4" HorizontalAlignment="Stretch" Height="72" VerticalAlignment="Stretch" Foreground="{ThemeResource OnSurfaceBrush}" />
-                <Button Grid.Row="2" Grid.Column="1" Command="{Binding InputCommand}" FontSize="32" CommandParameter="5" Background="{ThemeResource SecondaryContainerBrush}" Content="5" HorizontalAlignment="Stretch" Height="72" VerticalAlignment="Stretch" Foreground="{ThemeResource OnSurfaceBrush}" />
-                <Button Grid.Row="2" Grid.Column="2" Command="{Binding InputCommand}" FontSize="32" CommandParameter="6" Background="{ThemeResource SecondaryContainerBrush}" Content="6" HorizontalAlignment="Stretch" Height="72" VerticalAlignment="Stretch" Foreground="{ThemeResource OnSurfaceBrush}" />
-                <Button Grid.Row="2" Grid.Column="3" Command="{Binding InputCommand}" FontSize="32" CommandParameter="−" Background="{ThemeResource PrimaryVariantDarkBrush}" Content="−" HorizontalAlignment="Stretch" Height="72" VerticalAlignment="Stretch" Foreground="{ThemeResource OnTertiaryBrush}" />
-
-                <!--Row 3-->
-                <Button Grid.Row="3" Grid.Column="0" Command="{Binding InputCommand}" FontSize="32" CommandParameter="1" Background="{ThemeResource SecondaryContainerBrush}" Content="1" HorizontalAlignment="Stretch" Height="72" VerticalAlignment="Stretch" Foreground="{ThemeResource OnSurfaceBrush}" />
-                <Button Grid.Row="3" Grid.Column="1" Command="{Binding InputCommand}" FontSize="32" CommandParameter="2" Background="{ThemeResource SecondaryContainerBrush}" Content="2" HorizontalAlignment="Stretch" Height="72" VerticalAlignment="Stretch" Foreground="{ThemeResource OnSurfaceBrush}" />
-                <Button Grid.Row="3" Grid.Column="2" Command="{Binding InputCommand}" FontSize="32" CommandParameter="3" Background="{ThemeResource SecondaryContainerBrush}" Content="3" HorizontalAlignment="Stretch" Height="72" VerticalAlignment="Stretch" Foreground="{ThemeResource OnSurfaceBrush}" />
-                <Button Grid.Row="3" Grid.Column="3" Command="{Binding InputCommand}" FontSize="32" CommandParameter="+" Background="{ThemeResource PrimaryVariantDarkBrush}" Content="+" HorizontalAlignment="Stretch" Height="72" VerticalAlignment="Stretch" Foreground="{ThemeResource OnTertiaryBrush}" />
-
-                <!--Row 4-->
-                <Button Grid.Row="4" Grid.Column="0" Command="{Binding InputCommand}" FontSize="32" CommandParameter="." Background="{ThemeResource SecondaryContainerBrush}" Content="." HorizontalAlignment="Stretch" Height="72" VerticalAlignment="Stretch" Foreground="{ThemeResource OnSurfaceBrush}" />
-                <Button Grid.Row="4" Grid.Column="1" Command="{Binding InputCommand}" FontSize="32" CommandParameter="0" Background="{ThemeResource SecondaryContainerBrush}" Content="0" HorizontalAlignment="Stretch" Height="72" VerticalAlignment="Stretch" Foreground="{ThemeResource OnSurfaceBrush}" />
-                <Button Grid.Row="4" Grid.Column="2" Command="{Binding InputCommand}" FontSize="32" CommandParameter="&lt;-" Background="{ThemeResource SecondaryContainerBrush}" Content="&lt;-" HorizontalAlignment="Stretch" Height="72" VerticalAlignment="Stretch" Foreground="{ThemeResource OnSurfaceBrush}" />
-                <Button Grid.Row="4" Grid.Column="3" Command="{Binding InputCommand}" FontSize="32" CommandParameter="=" Background="{ThemeResource PrimaryVariantDarkBrush}" Content="=" HorizontalAlignment="Stretch" Height="72" VerticalAlignment="Stretch" Foreground="{ThemeResource OnTertiaryBrush}" />
-            </Grid>
+        <!--Output-->
+        <StackPanel Grid.Row="2" Spacing="16" Padding="16,8" HorizontalAlignment="Stretch">
+            <TextBlock Text="{Binding Calculator.Equation}" HorizontalAlignment="Right" Foreground="{ThemeResource OnSecondaryContainerBrush}" Style="{StaticResource DisplaySmall}" />
+            <TextBlock Text="{Binding Calculator.Output}" HorizontalAlignment="Right" Foreground="{ThemeResource OnBackgroundBrush}" Style="{StaticResource DisplayLarge}" />
         </StackPanel>
+
+        <!--Keypad-->
+        <Grid Grid.Row="3" RowSpacing="16" ColumnSpacing="16" Padding="16" MaxHeight="500">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <!--Row 0-->
+            <Button Grid.Row="0" Grid.Column="0" Command="{Binding InputCommand}" FontSize="32" CommandParameter="C" Background="{ThemeResource PrimaryContainerBrush}" Content="C" HorizontalAlignment="Stretch" Height="72" VerticalAlignment="Stretch" Foreground="{ThemeResource OnSecondaryContainerBrush}" />
+            <Button Grid.Row="0" Grid.Column="1" Command="{Binding InputCommand}" FontSize="32" CommandParameter="±" Background="{ThemeResource PrimaryContainerBrush}" Content="±" HorizontalAlignment="Stretch" Height="72" VerticalAlignment="Stretch" Foreground="{ThemeResource OnSecondaryContainerBrush}" />
+            <Button Grid.Row="0" Grid.Column="2" Command="{Binding InputCommand}" FontSize="32" CommandParameter="%" Background="{ThemeResource PrimaryContainerBrush}" Content="%" HorizontalAlignment="Stretch" Height="72" VerticalAlignment="Stretch" Foreground="{ThemeResource OnSecondaryContainerBrush}" />
+            <Button Grid.Row="0" Grid.Column="3" Command="{Binding InputCommand}" FontSize="32" CommandParameter="÷" Background="{ThemeResource PrimaryVariantDarkBrush}" Content="÷" HorizontalAlignment="Stretch" Height="72" VerticalAlignment="Stretch" Foreground="{ThemeResource OnTertiaryBrush}" />
+
+            <!--Row 1-->
+            <Button Grid.Row="1" Grid.Column="0" Command="{Binding InputCommand}" FontSize="32" CommandParameter="7" Background="{ThemeResource SecondaryContainerBrush}" Content="7" HorizontalAlignment="Stretch" Height="72" VerticalAlignment="Stretch" Foreground="{ThemeResource OnSurfaceBrush}" />
+            <Button Grid.Row="1" Grid.Column="1" Command="{Binding InputCommand}" FontSize="32" CommandParameter="8" Background="{ThemeResource SecondaryContainerBrush}" Content="8" HorizontalAlignment="Stretch" Height="72" VerticalAlignment="Stretch" Foreground="{ThemeResource OnSurfaceBrush}" />
+            <Button Grid.Row="1" Grid.Column="2" Command="{Binding InputCommand}" FontSize="32" CommandParameter="9" Background="{ThemeResource SecondaryContainerBrush}" Content="9" HorizontalAlignment="Stretch" Height="72" VerticalAlignment="Stretch" Foreground="{ThemeResource OnSurfaceBrush}" />
+            <Button Grid.Row="1" Grid.Column="3" Command="{Binding InputCommand}" FontSize="32" CommandParameter="×" Background="{ThemeResource PrimaryVariantDarkBrush}" Content="×" HorizontalAlignment="Stretch" Height="72" VerticalAlignment="Stretch" Foreground="{ThemeResource OnTertiaryBrush}" />
+
+            <!--Row 2-->
+            <Button Grid.Row="2" Grid.Column="0" Command="{Binding InputCommand}" FontSize="32" CommandParameter="4" Background="{ThemeResource SecondaryContainerBrush}" Content="4" HorizontalAlignment="Stretch" Height="72" VerticalAlignment="Stretch" Foreground="{ThemeResource OnSurfaceBrush}" />
+            <Button Grid.Row="2" Grid.Column="1" Command="{Binding InputCommand}" FontSize="32" CommandParameter="5" Background="{ThemeResource SecondaryContainerBrush}" Content="5" HorizontalAlignment="Stretch" Height="72" VerticalAlignment="Stretch" Foreground="{ThemeResource OnSurfaceBrush}" />
+            <Button Grid.Row="2" Grid.Column="2" Command="{Binding InputCommand}" FontSize="32" CommandParameter="6" Background="{ThemeResource SecondaryContainerBrush}" Content="6" HorizontalAlignment="Stretch" Height="72" VerticalAlignment="Stretch" Foreground="{ThemeResource OnSurfaceBrush}" />
+            <Button Grid.Row="2" Grid.Column="3" Command="{Binding InputCommand}" FontSize="32" CommandParameter="−" Background="{ThemeResource PrimaryVariantDarkBrush}" Content="−" HorizontalAlignment="Stretch" Height="72" VerticalAlignment="Stretch" Foreground="{ThemeResource OnTertiaryBrush}" />
+
+            <!--Row 3-->
+            <Button Grid.Row="3" Grid.Column="0" Command="{Binding InputCommand}" FontSize="32" CommandParameter="1" Background="{ThemeResource SecondaryContainerBrush}" Content="1" HorizontalAlignment="Stretch" Height="72" VerticalAlignment="Stretch" Foreground="{ThemeResource OnSurfaceBrush}" />
+            <Button Grid.Row="3" Grid.Column="1" Command="{Binding InputCommand}" FontSize="32" CommandParameter="2" Background="{ThemeResource SecondaryContainerBrush}" Content="2" HorizontalAlignment="Stretch" Height="72" VerticalAlignment="Stretch" Foreground="{ThemeResource OnSurfaceBrush}" />
+            <Button Grid.Row="3" Grid.Column="2" Command="{Binding InputCommand}" FontSize="32" CommandParameter="3" Background="{ThemeResource SecondaryContainerBrush}" Content="3" HorizontalAlignment="Stretch" Height="72" VerticalAlignment="Stretch" Foreground="{ThemeResource OnSurfaceBrush}" />
+            <Button Grid.Row="3" Grid.Column="3" Command="{Binding InputCommand}" FontSize="32" CommandParameter="+" Background="{ThemeResource PrimaryVariantDarkBrush}" Content="+" HorizontalAlignment="Stretch" Height="72" VerticalAlignment="Stretch" Foreground="{ThemeResource OnTertiaryBrush}" />
+
+            <!--Row 4-->
+            <Button Grid.Row="4" Grid.Column="0" Command="{Binding InputCommand}" FontSize="32" CommandParameter="." Background="{ThemeResource SecondaryContainerBrush}" Content="." HorizontalAlignment="Stretch" Height="72" VerticalAlignment="Stretch" Foreground="{ThemeResource OnSurfaceBrush}" />
+            <Button Grid.Row="4" Grid.Column="1" Command="{Binding InputCommand}" FontSize="32" CommandParameter="0" Background="{ThemeResource SecondaryContainerBrush}" Content="0" HorizontalAlignment="Stretch" Height="72" VerticalAlignment="Stretch" Foreground="{ThemeResource OnSurfaceBrush}" />
+            <Button Grid.Row="4" Grid.Column="2" Command="{Binding InputCommand}" FontSize="32" CommandParameter="&lt;-" Background="{ThemeResource SecondaryContainerBrush}" Content="&lt;-" HorizontalAlignment="Stretch" Height="72" VerticalAlignment="Stretch" Foreground="{ThemeResource OnSurfaceBrush}" />
+            <Button Grid.Row="4" Grid.Column="3" Command="{Binding InputCommand}" FontSize="32" CommandParameter="=" Background="{ThemeResource PrimaryVariantDarkBrush}" Content="=" HorizontalAlignment="Stretch" Height="72" VerticalAlignment="Stretch" Foreground="{ThemeResource OnTertiaryBrush}" />
+        </Grid>
     </Grid>
 </Page>
