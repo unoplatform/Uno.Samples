@@ -4,7 +4,11 @@
 		<OutputType Condition="'$(Configuration)'=='Debug'">Exe</OutputType>
 		<TargetFramework>net6.0-windows</TargetFramework>
 		<UseWPF>true</UseWPF>
+		<ApplicationIcon>Images\logo.ico</ApplicationIcon>
 	</PropertyGroup>
+	<ItemGroup>
+	  <None Remove="Images\logo.ico" />
+	</ItemGroup>
 	<ItemGroup Label="AssemblyInfo">
 		<AssemblyAttribute Include="System.Runtime.InteropServices.ComVisibleAttribute">
 			<_Parameter1>false</_Parameter1>
@@ -34,7 +38,16 @@
 		<ApplicationDefinition Include="Wpf\App.xaml" XamlRuntime="Wpf" />
 	</ItemGroup>
 	<ItemGroup>
+		<Content Include="Images\logo.ico" />
+	</ItemGroup>
+	<ItemGroup>
 		<ProjectReference Include="..\SimpleCalculator\SimpleCalculator.csproj" />
 	</ItemGroup>
+	<ItemGroup>
+	  <Folder Include="Images\" />
+	</ItemGroup>
 	<Import Project="../SimpleCalculator.Base/base.props" />
+	<ItemGroup>
+	  <SourceGeneratorInput Remove="Images\logo.ico" />
+	</ItemGroup>
 </Project>

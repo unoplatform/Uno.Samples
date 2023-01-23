@@ -54,7 +54,6 @@
 			<ItemGroup>
 				<Content Include="Assets\**" />
 				<Page Include="**\*.xaml" Exclude="bin\**\*.xaml;obj\**\*.xaml" />
-				<ApplicationDefinition Include="App.xaml" Condition="exists('App.xaml')" />
 				<Compile Update="**\*.xaml.cs">
 					<DependentUpon>%(Filename)</DependentUpon>
 				</Compile>
@@ -72,7 +71,9 @@
 	  <Compile Include="..\..\..\resources\Calculator.cs" Link="Business\Calculator.cs" />
 	  <Compile Include="..\..\..\resources\ColorPaletteOverride.cs" Link="Styles\ColorPaletteOverride.cs" />
 	  <Compile Include="..\..\..\resources\MainModel.cs" Link="Presentation\MainModel.cs" />
-	  <Compile Include="..\..\..\resources\MainPageMarkup.cs" Link="MainPageMarkup.cs" />
+	  <Compile Include="..\..\..\resources\MainPage.cs" Link="MainPage.cs" />
+	  <Compile Include="..\..\..\resources\AppStart.markup.cs" Link="AppStart.cs" />
+	  <Compile Include="..\SimpleCalculator.Base\IsExternalInit.cs" Visible="false" />
 	</ItemGroup>
 
 	<ItemGroup>

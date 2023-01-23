@@ -3,10 +3,11 @@
 		<OutputType Condition="'$(Configuration)'=='Release'">WinExe</OutputType>
 		<OutputType Condition="'$(Configuration)'=='Debug'">Exe</OutputType>
 		<TargetFramework>net6.0</TargetFramework>
+		<ApplicationIcon>Images\logo.ico</ApplicationIcon>
 	</PropertyGroup>
 	<ItemGroup Condition="exists('Platforms\Windows')">
 		<EmbeddedResource Include="Platforms\Windows\Package.appxmanifest" LogicalName="Package.appxmanifest" />
-		<Content Include="Platforms\Windows\Images\StoreLogo.png" />
+		<Content Include="Images\logo.ico" />
 	</ItemGroup>
 	<ItemGroup>
 		<PackageReference Include="Uno.Extensions.Reactive.WinUI" Version="2.3.0-dev.536" />
