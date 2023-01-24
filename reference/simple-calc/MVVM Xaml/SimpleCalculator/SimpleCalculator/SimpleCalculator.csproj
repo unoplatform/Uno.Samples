@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
 		<TargetFrameworks>netstandard2.1</TargetFrameworks>
 		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net6.0-windows10.0.19041</TargetFrameworks>
@@ -13,7 +13,7 @@
 	</PropertyGroup>
 	<ItemGroup>
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.0.0" />
-		<PackageReference Include="Uno.Extensions.Toolkit.WinUI" Version="2.3.0-dev.536" />
+		<PackageReference Include="Uno.Extensions.Toolkit.WinUI" Version="2.3.0-dev.544" />
 		<PackageReference Include="Uno.Material.WinUI" Version="2.5.0-dev.14" />
 		<PackageReference Include="Uno.Toolkit.WinUI.Material" Version="2.5.0-dev.15" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Console" Version="7.0.0" />
@@ -61,7 +61,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Compile Include="..\..\..\resources\AppThemeService.cs" Link="ThemeService\AppThemeService.cs" />
 	  <Compile Include="..\..\..\resources\Calculator.cs" Link="Business\Calculator.cs" />
 	  <Compile Include="..\..\..\resources\MainPage.xaml.cs" Link="MainPage.xaml.cs" />
 	  <Compile Include="..\..\..\resources\MainViewModel.cs" Link="Presentation\MainViewModel.cs" />
@@ -81,7 +80,6 @@
 	<ItemGroup>
 	  <Folder Include="Business\" />
 	  <Folder Include="Presentation\" />
-	  <Folder Include="ThemeService\" />
 	  <Folder Include="Styles\" />
 	</ItemGroup>
 </Project>

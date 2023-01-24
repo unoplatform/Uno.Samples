@@ -1,6 +1,5 @@
 ﻿using SimpleCalculator.Business;
 using Uno.Extensions.Reactive;
-using SimpleCalculator.ThemeService;
 using Uno.Extensions.Toolkit;
 
 namespace SimpleCalculator.Presentation;

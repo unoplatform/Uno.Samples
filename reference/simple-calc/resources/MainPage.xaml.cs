@@ -1,8 +1,7 @@
-﻿#if MVU
-using SimpleCalculator.ThemeService;
+﻿using Uno.Extensions;
+#if MVU
 using DataContextClass = SimpleCalculator.Presentation.BindableMainModel;
 #else
-using SimpleCalculator.ThemeService;
 using DataContextClass = SimpleCalculator.Presentation.MainViewModel;
 #endif
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
@@ -17,6 +16,6 @@ public sealed partial class MainPage : Page
     public MainPage()
     {
         this.InitializeComponent();
-        DataContext = new DataContextClass(new AppThemeService(this));
+        DataContext = new DataContextClass(this.GetThemeService());
     }
 }

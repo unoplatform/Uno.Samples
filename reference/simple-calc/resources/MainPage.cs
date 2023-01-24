@@ -1,4 +1,4 @@
-﻿using SimpleCalculator.ThemeService;
+﻿using Uno.Extensions;
 using Uno.Extensions.Markup;
 using Uno.Material;
 using Uno.Themes.Markup;
@@ -15,7 +15,7 @@ public sealed partial class MainPage : Page
 {
     public MainPage()
     {
-        this.DataContext(new DataContextClass(new AppThemeService(this)), (page, vm)
+        this.DataContext(new DataContextClass(this.GetThemeService()), (page, vm)
             => page
             .Resources(r => r
             //TODO: Dan is looking into this on Windows

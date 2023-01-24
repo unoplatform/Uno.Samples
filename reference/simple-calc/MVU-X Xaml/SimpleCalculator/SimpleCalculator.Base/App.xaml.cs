@@ -1,7 +1,3 @@
-using SimpleCalculator.ThemeService;
-using Uno.Material;
-using Uno.Toolkit.UI;
-
 namespace SimpleCalculator;
 
 public sealed partial class App : global::Microsoft.UI.Xaml.Application
