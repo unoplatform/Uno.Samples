@@ -133,7 +133,7 @@ public sealed partial class MainPage : Page
             //Row 4
             KeyPadButton(vm, 4, 0, "."),
             KeyPadButton(vm, 4, 1, "0"),
-            KeyPadButton(vm, 4, 2, "<-"),
+            KeyPadButton(vm, 4, 2, new FontIcon().Glyph("\uE926"), parameter: "back"),
             KeyPadSecondaryButton(vm, 4, 3, "=")
         );
 
@@ -141,7 +141,7 @@ public sealed partial class MainPage : Page
             DataContextClass vm,
             int gridRow,
             int gridColumn,
-            string content) =>
+            object content) =>
         KeyPadButton(vm, gridRow, gridColumn, content, 
                     Theme.Brushes.Primary.Container.Default, Theme.Brushes.OnSecondary.Container.Default);
     
@@ -149,7 +149,7 @@ public sealed partial class MainPage : Page
             DataContextClass vm,
             int gridRow,
             int gridColumn,
-            string content) =>
+            object content) =>
         KeyPadButton(vm, gridRow, gridColumn, content, 
                     Theme.Brushes.Primary.VariantDark.Default, Theme.Brushes.OnTertiary.Default);
 
@@ -157,12 +157,13 @@ public sealed partial class MainPage : Page
             DataContextClass vm,
             int gridRow, 
             int gridColumn,
-            string content,
+            object content,
             BrushBuilder? background = null,
-            BrushBuilder? foreground = null) => 
+            BrushBuilder? foreground = null,
+            string? parameter = null) => 
         new Button()
         .Command(() => vm.InputCommand)
-        .CommandParameter(content)
+        .CommandParameter(parameter ?? content)
         .Background(background ?? Theme.Brushes.Secondary.Container.Default)
         .Content(content)
         .FontSize(32)

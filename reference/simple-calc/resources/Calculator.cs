@@ -23,7 +23,7 @@ public record Calculator
         return key switch
         {
             "÷" or "×" or "+" or "−" => OperatorKey(calculator, key),
-            "<-" => BackKey(calculator),
+            "back" => BackKey(calculator),
             "." => DotKey(calculator),
             "0" when !calculator.HasNumber => calculator,
             "C" => new(),

@@ -82,7 +82,11 @@
             <!--Row 4-->
             <Button Grid.Row="4" Grid.Column="0" Command="{Binding InputCommand}" FontSize="32" CommandParameter="." Background="{ThemeResource SecondaryContainerBrush}" Content="." HorizontalAlignment="Stretch" Height="72" VerticalAlignment="Stretch" Foreground="{ThemeResource OnSurfaceBrush}" />
             <Button Grid.Row="4" Grid.Column="1" Command="{Binding InputCommand}" FontSize="32" CommandParameter="0" Background="{ThemeResource SecondaryContainerBrush}" Content="0" HorizontalAlignment="Stretch" Height="72" VerticalAlignment="Stretch" Foreground="{ThemeResource OnSurfaceBrush}" />
-            <Button Grid.Row="4" Grid.Column="2" Command="{Binding InputCommand}" FontSize="32" CommandParameter="&lt;-" Background="{ThemeResource SecondaryContainerBrush}" Content="&lt;-" HorizontalAlignment="Stretch" Height="72" VerticalAlignment="Stretch" Foreground="{ThemeResource OnSurfaceBrush}" />
+            <Button Grid.Row="4" Grid.Column="2" Command="{Binding InputCommand}" FontSize="32" CommandParameter="back" Background="{ThemeResource SecondaryContainerBrush}" HorizontalAlignment="Stretch" Height="72" VerticalAlignment="Stretch" Foreground="{ThemeResource OnSurfaceBrush}">
+                <Button.Content>
+                    <FontIcon Glyph="&#xE926;" />
+                </Button.Content>
+            </Button>
             <Button Grid.Row="4" Grid.Column="3" Command="{Binding InputCommand}" FontSize="32" CommandParameter="=" Background="{ThemeResource PrimaryVariantDarkBrush}" Content="=" HorizontalAlignment="Stretch" Height="72" VerticalAlignment="Stretch" Foreground="{ThemeResource OnTertiaryBrush}" />
         </Grid>
     </Grid>
