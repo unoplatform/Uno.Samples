@@ -98,7 +98,7 @@ public sealed partial class App : Application
     }
 
     /// <summary>
-    /// Invoked when application execution is being suspended.  Application state is saved
+    /// Invoked when application execution is being suspended. The application state is saved
     /// without knowing whether the application will be terminated or resumed with the contents
     /// of memory still intact.
     /// </summary>
