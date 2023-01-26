@@ -1,4 +1,6 @@
-﻿namespace SimpleCalculator.Business;
+﻿using System.Globalization;
+
+namespace SimpleCalculator.Business;
 
 #nullable enable
 public record Calculator
@@ -19,12 +21,11 @@ public record Calculator
     public Calculator Input(string key)
     {
         var calculator = RestartOrClear(key);
-
         return key switch
         {
             "÷" or "×" or "+" or "−" => OperatorKey(calculator, key),
             "back" => BackKey(calculator),
-            "." => DotKey(calculator),
+            "." or "," => DotKey(calculator),
             "0" when !calculator.HasNumber => calculator,
             "C" => new(),
             "=" => EqualsKey(calculator),
@@ -77,11 +78,11 @@ public record Calculator
     {
         if (calculator.HasNumber)
         {
-            if (calculator.Number?.Contains(".") == false)
+            if (calculator.Number?.Contains(NumberDecimalSeparator) == false)
             {
                 calculator = calculator with
                 {
-                    Number = calculator.Number + "."
+                    Number = calculator.Number + NumberDecimalSeparator
                 };
             }
         }
@@ -89,7 +90,7 @@ public record Calculator
         {
             calculator = calculator with
             {
-                Number = "0."
+                Number = "0" + NumberDecimalSeparator
             };
         }
 
@@ -173,4 +174,6 @@ public record Calculator
 
     private static double? GetNumber(string? number)
         => Convert.ToDouble(number);
+
+    public static readonly string NumberDecimalSeparator = CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator;
 }

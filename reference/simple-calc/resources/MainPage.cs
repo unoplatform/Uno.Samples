@@ -1,4 +1,6 @@
-﻿using Uno.Extensions;
+﻿using SimpleCalculator.Business;
+using System.Globalization;
+using Uno.Extensions;
 using Uno.Extensions.Markup;
 using Uno.Material;
 using Uno.Themes.Markup;
@@ -131,7 +133,7 @@ public sealed partial class MainPage : Page
             KeyPadSecondaryButton(vm, 3, 3, "+"),
 
             //Row 4
-            KeyPadButton(vm, 4, 0, "."),
+            KeyPadButton(vm, 4, 0, Calculator.NumberDecimalSeparator),
             KeyPadButton(vm, 4, 1, "0"),
             KeyPadButton(vm, 4, 2, new FontIcon().Glyph("\uE926"), parameter: "back"),
             KeyPadSecondaryButton(vm, 4, 3, "=")
