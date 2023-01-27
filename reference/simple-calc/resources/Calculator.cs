@@ -20,12 +20,13 @@ public record Calculator
 
     public Calculator Input(string key)
     {
+        CultureInfo.CurrentCulture = CultureInfo.InvariantCulture;
         var calculator = RestartOrClear(key);
         return key switch
         {
             "÷" or "×" or "+" or "−" => OperatorKey(calculator, key),
             "back" => BackKey(calculator),
-            "." or "," => DotKey(calculator),
+            "." => DotKey(calculator),
             "0" when !calculator.HasNumber => calculator,
             "C" => new(),
             "=" => EqualsKey(calculator),
@@ -78,11 +79,11 @@ public record Calculator
     {
         if (calculator.HasNumber)
         {
-            if (calculator.Number?.Contains(NumberDecimalSeparator) == false)
+            if (calculator.Number?.Contains(".") == false)
             {
                 calculator = calculator with
                 {
-                    Number = calculator.Number + NumberDecimalSeparator
+                    Number = calculator.Number + "."
                 };
             }
         }
@@ -90,7 +91,7 @@ public record Calculator
         {
             calculator = calculator with
             {
-                Number = "0" + NumberDecimalSeparator
+                Number = "0."
             };
         }
 
@@ -174,6 +175,4 @@ public record Calculator
 
     private static double? GetNumber(string? number)
         => Convert.ToDouble(number);
-
-    public static readonly string NumberDecimalSeparator = CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator;
 }

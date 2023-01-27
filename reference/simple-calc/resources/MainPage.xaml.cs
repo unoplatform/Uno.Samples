@@ -1,4 +1,5 @@
-﻿using Uno.Extensions;
+﻿using System.Globalization;
+using Uno.Extensions;
 #if MVU
 using DataContextClass = SimpleCalculator.Presentation.BindableMainModel;
 #else

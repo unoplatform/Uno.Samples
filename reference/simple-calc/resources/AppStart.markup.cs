@@ -9,6 +9,8 @@ using Windows.ApplicationModel;
 using static Uno.Themes.Markup.Theme;
 using Application = Microsoft.UI.Xaml.Application;
 using ApplicationExecutionState = Windows.ApplicationModel.Activation.ApplicationExecutionState;
+using System.Globalization;
+
 namespace SimpleCalculator;
 public class AppStart
 {
