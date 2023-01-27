@@ -15,12 +15,11 @@ public record Calculator
     private bool HasNumber => !string.IsNullOrEmpty(Number);
     private bool HasNumber1 => Number1 != null;
 
-    public string Output => $"{(Result != null ? Result.Value : HasNumber ? Number : "0")}";
-    public string Equation => $"{Number1} {Operator} {Number2}{(IsNumber2Percentage ? "%" : string.Empty)}{(Result != null ? $" =" : string.Empty)}";
+    public string Output => $"{(Result != null ? Result.Value.ToString(CultureInfo.InvariantCulture) : HasNumber ? Number : "0")}";
+    public string Equation => $"{Number1?.ToString(CultureInfo.InvariantCulture)} {Operator} {Number2?.ToString(CultureInfo.InvariantCulture)}{(IsNumber2Percentage ? "%" : string.Empty)}{(Result != null ? $" =" : string.Empty)}";
 
     public Calculator Input(string key)
     {
-        CultureInfo.CurrentCulture = CultureInfo.InvariantCulture;
         var calculator = RestartOrClear(key);
         return key switch
         {
@@ -174,5 +173,5 @@ public record Calculator
     }
 
     private static double? GetNumber(string? number)
-        => Convert.ToDouble(number);
+        => Convert.ToDouble(number, CultureInfo.InvariantCulture);
 }
