@@ -70,8 +70,7 @@ namespace SkiaSharpTest
         private void Render(SKCanvas canvas, Size size, SKColor color, string text)
         {
             // get the screen density for scaling
-            var display = DisplayInformation.GetForCurrentView();
-            var scale = display.LogicalDpi / 96.0f;
+            var scale = (float)this.RasterizationScale;
             var scaledSize = new SKSize((float)size.Width / scale, (float)size.Height / scale);
 
             // handle the device screen density
