@@ -19,7 +19,7 @@ public sealed class ColorPaletteOverride : ResourceDictionary
 			.Add<Color>(Theme.Colors.Secondary.Default.Key, "#D2D3DA", "#5C5659")
 			.Add<Color>(Theme.Colors.OnSecondary.Default.Key, "#FFFFFF", "#003823")
 			.Add<Color>(Theme.Colors.Secondary.Container.Key, "#FFFFFF", "#2E2F38")
-			.Add<Color>(Theme.Colors.OnSecondary.Container.Key, "#281B192C", "#28FFFFFF")
+			.Add<Color>(Theme.Colors.OnSecondary.Container.Key, "#661B192C", "#66FFFFFF")
 			.Add<Color>(Theme.Colors.Surface.Default.Key, "#E5E5EA", "#777274")
 			.Add<Color>(Theme.Colors.OnSurface.Default.Key, "#1C1B1F", "#E6E1E5")
 			.Add<Color>(Theme.Colors.Surface.Inverse.Key, "#313033", "#E6E1E5")
