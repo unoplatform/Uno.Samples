@@ -34,12 +34,13 @@ namespace SkiaSharpTest
 
         private Visibility Not(bool? value) => (!value ?? false) ? Visibility.Visible : Visibility.Collapsed;
 
-        private void OnPaintSwapChain(object sender, SKPaintGLSurfaceEventArgs e)
+        private void OnPaintSwapChain(object sender, SKPaintSurfaceEventArgs e)
         {
             // the the canvas and properties
             var canvas = e.Surface.Canvas;
+            var info = e.Info;
 
-            Render(canvas, new Size(e.BackendRenderTarget.Width, e.BackendRenderTarget.Height), SKColors.Green, "SkiaSharp Hardware Rendering");
+            Render(canvas, new Size(info.Width, info.Height), SKColors.Green, "SkiaSharp Hardware Rendering");
         }
 
         private void OnPaintSurface(object sender, SKPaintSurfaceEventArgs e)
