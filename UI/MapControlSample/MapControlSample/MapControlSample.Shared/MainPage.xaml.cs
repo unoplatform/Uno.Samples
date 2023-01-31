@@ -41,6 +41,10 @@ namespace MapControlSample
 
         private void ZoomSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
         {
+            if(_currentPoint is null)
+            {
+                return;
+            }
             var mousePosition = new MPoint(_currentPoint.Position.X, _currentPoint.Position.Y);
 
             if (MapControl.Map == null)
