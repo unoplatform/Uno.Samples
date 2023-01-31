@@ -2,7 +2,7 @@
 	<PropertyGroup>
 		<OutputType Condition="'$(Configuration)'=='Release'">WinExe</OutputType>
 		<OutputType Condition="'$(Configuration)'=='Debug'">Exe</OutputType>
-		<TargetFramework>net6.0</TargetFramework>
+		<TargetFramework>net7.0</TargetFramework>
 		<ApplicationIcon>Images\logo.ico</ApplicationIcon>
 	</PropertyGroup>
 	<ItemGroup Condition="exists('Platforms\Windows')">
@@ -25,6 +25,9 @@
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\SimpleCalculator\SimpleCalculator.csproj" />
+	</ItemGroup>
+	<ItemGroup>
+	  <PackageReference Update="Microsoft.Net.Compilers.Toolset" Version="4.4.0" />
 	</ItemGroup>
 	<Import Project="../SimpleCalculator.Base/base.props" />
 </Project>

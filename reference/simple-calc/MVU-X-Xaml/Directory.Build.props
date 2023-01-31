@@ -14,13 +14,13 @@
 		<DefaultLanguage>en</DefaultLanguage>
 
 		<IsAndroid>false</IsAndroid>
-		<IsAndroid Condition="$(TargetFramework) != 'net6.0' AND $(TargetFramework) != 'netstandard2.1' AND $([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">true</IsAndroid>
+		<IsAndroid Condition="$(TargetFramework) != 'net7.0' AND $(TargetFramework) != 'netstandard2.1' AND $([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">true</IsAndroid>
 		<IsIOS>false</IsIOS>
-		<IsIOS Condition="$(TargetFramework) != 'net6.0' AND $(TargetFramework) != 'netstandard2.1' AND $([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">true</IsIOS>
+		<IsIOS Condition="$(TargetFramework) != 'net7.0' AND $(TargetFramework) != 'netstandard2.1' AND $([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">true</IsIOS>
 		<IsMac>false</IsMac>
-		<IsMac Condition="$(TargetFramework) != 'net6.0' AND $(TargetFramework) != 'netstandard2.1' AND $([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'macos'">true</IsMac>
+		<IsMac Condition="$(TargetFramework) != 'net7.0' AND $(TargetFramework) != 'netstandard2.1' AND $([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'macos'">true</IsMac>
 		<IsMacCatalyst>false</IsMacCatalyst>
-		<IsMacCatalyst Condition="$(TargetFramework) != 'net6.0' AND $(TargetFramework) != 'netstandard2.1' AND $([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">true</IsMacCatalyst>
+		<IsMacCatalyst Condition="$(TargetFramework) != 'net7.0' AND $(TargetFramework) != 'netstandard2.1' AND $([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">true</IsMacCatalyst>
 		<IsWinAppSdk>false</IsWinAppSdk>
 		<IsWinAppSdk Condition="$(TargetFramework.Contains('windows10'))">true</IsWinAppSdk>
 	</PropertyGroup>

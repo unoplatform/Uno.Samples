@@ -2,7 +2,7 @@
 	<PropertyGroup>
 		<OutputType Condition="'$(Configuration)'=='Release'">WinExe</OutputType>
 		<OutputType Condition="'$(Configuration)'=='Debug'">Exe</OutputType>
-		<TargetFramework>net6.0-windows</TargetFramework>
+		<TargetFramework>net7.0-windows</TargetFramework>
 		<UseWPF>true</UseWPF>
 		<ApplicationIcon>Images\logo.ico</ApplicationIcon>
 	</PropertyGroup>
@@ -18,7 +18,7 @@
 		</AssemblyAttribute>
 	</ItemGroup>
 	<ItemGroup>
-		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.0.0" />
+		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.1.0" />
 		<PackageReference Include="Uno.Extensions.Markup.WinUI" Version="1.0.0-dev.169" />
 		<PackageReference Include="Uno.Extensions.Toolkit.WinUI" Version="2.3.0-dev.628" />
 		<PackageReference Include="Uno.Material.WinUI" Version="2.5.0-dev.15" />
@@ -40,5 +40,10 @@
 	<ItemGroup>
 		<ProjectReference Include="..\SimpleCalculator\SimpleCalculator.csproj" />
 	</ItemGroup>
+
+	<ItemGroup>
+	  <PackageReference Update="Microsoft.Net.Compilers.Toolset" Version="4.4.0" />
+	</ItemGroup>
+	
 	<Import Project="../SimpleCalculator.Base/base.props" />
 </Project>

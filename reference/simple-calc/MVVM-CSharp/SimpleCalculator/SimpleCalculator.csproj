@@ -1,9 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-		<TargetFrameworks>netstandard2.1;net6.0-android;net6.0-ios;net6.0-maccatalyst</TargetFrameworks>
-		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows')) or '$(EnableWindowsTargeting)' == 'true'">$(TargetFrameworks);net6.0-windows10.0.19041</TargetFrameworks>
+		<TargetFrameworks>netstandard2.1;net7.0-android;net7.0-ios;net7.0-maccatalyst</TargetFrameworks>
+		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows')) or '$(EnableWindowsTargeting)' == 'true'">$(TargetFrameworks);net7.0-windows10.0.19041</TargetFrameworks>
 		<!-- Disabled because of https://github.com/xamarin/xamarin-macios/issues/16401-->
-		<!--<TargetFrameworks>$(TargetFrameworks);net6.0-macos</TargetFrameworks>-->
+		<!--<TargetFrameworks>$(TargetFrameworks);net7.0-macos</TargetFrameworks>-->
 
 		<!-- Ensures the .xr.xml files are generated in a proper layout folder -->
 		<GenerateLibraryLayout>true</GenerateLibraryLayout>
@@ -24,7 +24,7 @@
 	<Choose>
 		<When Condition="$(IsWinAppSdk)">
 			<ItemGroup>
-				<PackageReference Include="Microsoft.WindowsAppSDK" Version="1.2.221209.1" />
+				<PackageReference Include="Microsoft.WindowsAppSDK" Version="1.2.230118.102" />
 				<PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.755" />
 			</ItemGroup>
 
@@ -68,4 +68,8 @@
 
 	<Import Project="..\..\resources\shared-resources.targets"
 			Condition="Exists('..\..\resources\shared-resources.targets')" />
+			
+	<ItemGroup>
+		<PackageReference Update="Microsoft.Net.Compilers.Toolset" Version="4.4.0" />
+	</ItemGroup>
 </Project>

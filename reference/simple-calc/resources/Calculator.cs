@@ -173,5 +173,5 @@ public record Calculator
     }
 
     private static double? GetNumber(string? number)
-        => Convert.ToDouble(number, CultureInfo.InvariantCulture);
+        => Convert.ToDouble(number);
 }

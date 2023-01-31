@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 	<PropertyGroup>
 		<OutputType>Exe</OutputType>
-		<TargetFramework>net6.0</TargetFramework>
+		<TargetFramework>net7.0</TargetFramework>
 		<NoWarn>$(NoWarn);NU1504;NU1505;NU1701</NoWarn>
 		<!-- Disabled due to issue with Central Package Management with implicit using -->
 		<ImplicitUsings>disable</ImplicitUsings>
@@ -61,6 +61,9 @@
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\SimpleCalculator\SimpleCalculator.csproj" />
+	</ItemGroup>
+	<ItemGroup>
+		<PackageReference Update="Microsoft.Net.Compilers.Toolset" Version="4.4.0" />
 	</ItemGroup>
 	<Import Project="../SimpleCalculator.Base/base.props" />
 </Project>
