@@ -10,6 +10,9 @@
 		<PublishProfile>win10-$(Platform).pubxml</PublishProfile>
 		<UseWinUI>true</UseWinUI>
 		<EnablePreviewMsixTooling>true</EnablePreviewMsixTooling>
+		<WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
+		<AutoGenerateBindingRedirects>false</AutoGenerateBindingRedirects>
+		<!--<GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>-->
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -23,17 +26,25 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="7.0.0" />
-		<PackageReference Include="Microsoft.WindowsAppSDK" Version="1.2.221116.1" />
+		<PackageReference Include="CommunityToolkit.WinUI.Lottie" Version="7.1.2" />
+		<PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="7.0.2" />
+		<!--<PackageReference Include="Microsoft.Extensions.Logging.Console" Version="7.0.0" />-->
+		<PackageReference Include="Microsoft.WindowsAppSDK" Version="1.2.230118.102" />
 		<PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.755" />
-		<PackageReference Include="Microsoft.Extensions.Logging.Console" Version="7.0.0" />
+		
+
+		<!--<PackageReference Include="Microsoft.Extensions.Logging.Console" Version="7.0.0" />-->
 		<PackageReference Include="MVx.Observable" Version="5.1.18" />
 		<PackageReference Include="System.Reactive" Version="5.0.0" />
-		<PackageReference Include="Uno.Core.Extensions.Logging.Singleton" Version="4.0.1" />
+		<!--<PackageReference Include="Uno.Core.Extensions.Logging" Version="4.0.1" />-->
+		<!--<PackageReference Include="Uno.Core.Extensions.Logging.Singleton" Version="4.0.1" />-->
 		<PackageReference Include="Uno.Extensions" Version="2.2.0" />
-		<PackageReference Include="Uno.Extensions.Core" Version="2.2.0" />			
-		<PackageReference Include="Uno.WinUI" Version="4.6.19" />
-		<PackageReference Include="Uno.WinUI.Lottie" Version="4.6.19" />
+		<!--<PackageReference Include="Uno.Extensions.Core" Version="2.2.0" />-->
+		<PackageReference Include="Uno.Extensions.Logging.WinUI" Version="2.2.0" />
+		<!--<PackageReference Include="Uno.Foundation.Logging" Version="4.7.30" />-->
+		<PackageReference Include="Uno.WinUI" Version="4.7.37" />
+		<PackageReference Include="Uno.UI" Version="4.7.37" />
+		<PackageReference Include="Uno.WinUI.Lottie" Version="4.7.37" />
 
 		<Manifest Include="$(ApplicationManifest)" />
 	</ItemGroup>

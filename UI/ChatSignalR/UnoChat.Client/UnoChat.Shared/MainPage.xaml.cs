@@ -11,6 +11,7 @@ namespace UnoChat
     {
         public MainPage()
         {
+            
             this.InitializeComponent();
         }
     }
