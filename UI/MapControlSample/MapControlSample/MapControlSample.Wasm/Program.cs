@@ -1,15 +1,17 @@
-﻿using System;
-using Windows.UI.Xaml;
+﻿using Microsoft.UI.Xaml;
+using System;
 
 namespace MapControlSample.Wasm
 {
-	public class Program
-	{
-		private static App _app;
+    public class Program
+    {
+        private static App _app;
 
-		static void Main(string[] args)
-		{
-			Windows.UI.Xaml.Application.Start(_ => _app = new App());
-		}
-	}
+        static int Main(string[] args)
+        {
+            Microsoft.UI.Xaml.Application.Start(_ => _app = new App());
+
+            return 0;
+        }
+    }
 }
