@@ -35,7 +35,7 @@ public partial class AppStart
             Window.Content = rootFrame;
         }
 #if !(NETSTANDARD && WINDOWS)
-        if (args.UWPLaunchActivatedEventArgs.PrelaunchActivated == false)
+        //if (args.UWPLaunchActivatedEventArgs.PrelaunchActivated == false)
 #endif
         {
             if (rootFrame.Content == null)

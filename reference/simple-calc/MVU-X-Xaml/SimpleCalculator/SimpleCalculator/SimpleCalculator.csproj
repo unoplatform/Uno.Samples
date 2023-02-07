@@ -10,9 +10,15 @@
 
 		<!-- Ensures the .xr.xml files are generated in a proper layout folder -->
 		<GenerateLibraryLayout>true</GenerateLibraryLayout>
+		<DefineConstants>$(DefineConstants);MVU</DefineConstants>
 	</PropertyGroup>
+
+	<PropertyGroup>
+		<UnoXamlResourcesTrimming>true</UnoXamlResourcesTrimming>
+	</PropertyGroup>
+	
 	<ItemGroup>
-		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.0.0" />
+		<PackageReference Include="Uno.Extensions.Reactive.WinUI" Version="2.3.0-dev.544" />
 		<PackageReference Include="Uno.Extensions.Toolkit.WinUI" Version="2.3.0-dev.544" />
 		<PackageReference Include="Uno.Material.WinUI" Version="2.5.0-dev.14" />
 		<PackageReference Include="Uno.Toolkit.WinUI.Material" Version="2.5.0-dev.15" />
@@ -62,24 +68,25 @@
 
 	<ItemGroup>
 	  <Compile Include="..\..\..\resources\Calculator.cs" Link="Business\Calculator.cs" />
+	  <Compile Include="..\..\..\resources\MainModel.cs" Link="Presentation\MainModel.cs" />
 	  <Compile Include="..\..\..\resources\MainPage.xaml.cs" Link="MainPage.xaml.cs" />
-	  <Compile Include="..\..\..\resources\MainViewModel.cs" Link="Presentation\MainViewModel.cs" />
 	  <Compile Include="..\..\..\resources\AppStart.xaml.cs" Link="AppStart.cs" />
 	  <Compile Include="..\SimpleCalculator.Base\IsExternalInit.cs" Visible="false" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Page Include="..\..\..\resources\ColorPaletteOverride.xaml" Link="Styles\ColorPaletteOverride.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </Page>
-	  <Page Include="..\..\..\resources\MainPage.xaml" Link="MainPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </Page>
 	</ItemGroup>
 
 	<ItemGroup>
 	  <Folder Include="Business\" />
 	  <Folder Include="Presentation\" />
 	  <Folder Include="Styles\" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Page Include="..\..\..\resources\ColorPaletteOverride.xaml" Link="Styles\ColorPaletteOverride.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </Page>
+	  <Page Include="..\..\..\resources\MainPage.xaml" Link="MainPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </Page>
 	</ItemGroup>
 </Project>
