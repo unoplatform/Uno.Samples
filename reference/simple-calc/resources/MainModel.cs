@@ -8,8 +8,6 @@ public partial record MainModel
 {
     public IState<bool> IsDark { get; }
 
-    private IThemeService _themeService;
-
     public IState<Calculator> Calculator { get; }
 
     public async ValueTask InputCommand(string key, CancellationToken ct)
@@ -17,11 +15,15 @@ public partial record MainModel
 
     public MainModel(IThemeService themeService)
     {
-        _themeService = themeService;
-
         Calculator = State.Value(this, () => new Calculator());
-        IsDark = State.Value(this, () => _themeService.IsDark);
+        IsDark = State.Value(this, () => themeService.IsDark);
 
-        IsDark.ForEachAsync(async (dark, ct) => await _themeService.SetThemeAsync(dark ? AppTheme.Dark : AppTheme.Light));
+        themeService.ThemeChanged += async (_, _) =>
+            await IsDark.Update(_ => themeService.IsDark, CancellationToken.None);
+
+        IsDark.ForEachAsync(async (dark, ct) => await themeService.SetThemeAsync(dark ? AppTheme.Dark : AppTheme.Light));
+
+        
     }
 }
+

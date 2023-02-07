@@ -8,10 +8,15 @@ using Uno.Toolkit.UI;
 using Windows.ApplicationModel;
 using Application = Microsoft.UI.Xaml.Application;
 using ApplicationExecutionState = Windows.ApplicationModel.Activation.ApplicationExecutionState;
+using Uno.Extensions;
+using Uno.Extensions.Toolkit;
+
 namespace SimpleCalculator;
 public partial class AppStart
 {
     public static Window? Window { get; private set; }
+    public static IThemeService? ThemeService { get; private set; }
+
     public static void OnLaunched(Application app, LaunchActivatedEventArgs args)
     {
 #if NET6_0_OR_GREATER && WINDOWS && !HAS_UNO
@@ -33,9 +38,14 @@ public partial class AppStart
             }
             // Place the frame in the current Window
             Window.Content = rootFrame;
+            ThemeService = Window.GetThemeService();
         }
-#if !(NETSTANDARD && WINDOWS)
-        //if (args.UWPLaunchActivatedEventArgs.PrelaunchActivated == false)
+
+
+        //Comment to test on windows as this conditional crashes the app       
+        //#if !(NETSTANDARD && WINDOWS)
+#if !(NET6_0_OR_GREATER && WINDOWS)
+        if (args.UWPLaunchActivatedEventArgs.PrelaunchActivated == false)
 #endif
         {
             if (rootFrame.Content == null)

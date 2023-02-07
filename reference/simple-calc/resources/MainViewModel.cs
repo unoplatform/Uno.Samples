@@ -13,9 +13,9 @@ public partial class MainViewModel : ObservableObject
     public bool IsDark
     {
         get => _isDark;
-        set 
-        { 
-            if(SetProperty(ref _isDark, value))
+        set
+        {
+            if (SetProperty(ref _isDark, value))
             {
                 _themeService.SetThemeAsync(value ? AppTheme.Dark : AppTheme.Light);
             }
@@ -24,14 +24,19 @@ public partial class MainViewModel : ObservableObject
 
     public MainViewModel(IThemeService themeService)
     {
-        _themeService= themeService;
-        _isDark = _themeService.IsDark;
+        _themeService = themeService;
+        _isDark = themeService.IsDark;
+
+        themeService.ThemeChanged += (_, _) =>
+        {
+            IsDark = themeService.IsDark;
+        };
     }
 
     [ObservableProperty]
     private Calculator _calculator = new();
 
     [RelayCommand]
-    private void Input (string key)
-        => Calculator = Calculator.Input(key);    
+    private void Input(string key)
+        => Calculator = Calculator.Input(key);
 }
