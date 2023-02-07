@@ -14,7 +14,7 @@ public class Program
 			expArgs.ExitApplication = true;
 		};
 
-		var host = new GtkHost(() => new App(), args);
+		var host = new GtkHost(() => new AppHead(), args);
 
 		host.Run();
 	}

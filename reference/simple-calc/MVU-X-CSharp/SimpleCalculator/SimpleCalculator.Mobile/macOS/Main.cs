@@ -7,7 +7,7 @@ public static class MainClass
 	public static void Main(string[] args)
 	{
 		NSApplication.Init();
-		NSApplication.SharedApplication.Delegate = new App();
+		NSApplication.SharedApplication.Delegate = new AppHead();
 		NSApplication.Main(args);
 	}
 }

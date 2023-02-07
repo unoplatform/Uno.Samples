@@ -47,7 +47,7 @@
 		</When>
 		<Otherwise>
 			<ItemGroup>
-				<PackageReference Include="Uno.WinUI" Version="4.8.0-dev.6" />
+				<PackageReference Include="Uno.WinUI" Version="4.7.37" />
 			</ItemGroup>
 
 			<ItemGroup>
@@ -69,7 +69,7 @@
 	  <Compile Include="..\..\..\resources\Calculator.cs" Link="Business\Calculator.cs" />
 	  <Compile Include="..\..\..\resources\MainPage.xaml.cs" Link="MainPage.xaml.cs" />
 	  <Compile Include="..\..\..\resources\MainViewModel.cs" Link="Presentation\MainViewModel.cs" />
-	  <Compile Include="..\..\..\resources\AppStart.xaml.cs" Link="AppStart.cs" />
+	  <Compile Include="..\..\..\resources\App.xaml.cs" Link="App.cs" />
 	  <Compile Include="..\SimpleCalculator.Base\IsExternalInit.cs" Visible="false" />
 	</ItemGroup>
 
@@ -78,6 +78,9 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </Page>
 	  <Page Include="..\..\..\resources\MainPage.xaml" Link="MainPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </Page>
+		  <Page Include="..\..\..\resources\AppResources.xaml" Link="AppResources.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </Page>
 	</ItemGroup>
