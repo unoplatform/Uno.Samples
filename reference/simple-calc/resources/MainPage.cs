@@ -1,15 +1,12 @@
-﻿using SimpleCalculator.Business;
-using System.Globalization;
-using Uno.Extensions;
-using Uno.Extensions.Markup;
+﻿using Uno.Extensions.Markup;
 using Uno.Material;
 using Uno.Themes.Markup;
 using Uno.Toolkit.UI;
 using BrushBuilder = System.Action<Uno.Extensions.Markup.IDependencyPropertyBuilder<Microsoft.UI.Xaml.Media.Brush>>;
 #if MVU
-using DataContextClass = SimpleCalculator.Presentation.BindableMainModel;
+using Model = SimpleCalculator.Presentation.BindableMainModel;
 #else
-using DataContextClass = SimpleCalculator.Presentation.MainViewModel;
+using Model = SimpleCalculator.Presentation.MainViewModel;
 #endif
 namespace SimpleCalculator;
 
@@ -17,7 +14,7 @@ public sealed partial class MainPage : Page
 {
     public MainPage()
     {
-        this.DataContext(new DataContextClass(AppStart.ThemeService!), (page, vm)
+        this.DataContext(new Model(AppStart.ThemeService!), (page, vm)
             => page
             .Resources(r => r
                 .Add(AppIcons.Dark)
@@ -42,7 +39,7 @@ public sealed partial class MainPage : Page
         );
     }
 
-    private ToggleButton Header(DataContextClass vm)
+    private ToggleButton Header(Model vm)
         => new ToggleButton()
             .Grid(row: 0)
             .Margin(8,24,8,0)
@@ -66,7 +63,7 @@ public sealed partial class MainPage : Page
                     .Foreground(Theme.Brushes.Primary.VariantDark.Default)
             );
 
-    private StackPanel Output(DataContextClass vm) => 
+    private StackPanel Output(Model vm) => 
         new StackPanel()
         .Grid(row: 2)
         .Spacing(16)
@@ -78,21 +75,21 @@ public sealed partial class MainPage : Page
             Result(vm)
         );
 
-    private TextBlock Equation(DataContextClass vm) => 
+    private TextBlock Equation(Model vm) => 
         new TextBlock()
         .Text(() => vm.Calculator.Equation)
         .HorizontalAlignment(HorizontalAlignment.Right)
         .Foreground(Theme.Brushes.OnSecondary.Container.Default)
         .Style(Theme.Styles.TextBlock.DisplaySmall);
 
-    private TextBlock Result(DataContextClass vm) => 
+    private TextBlock Result(Model vm) => 
         new TextBlock()
         .Text(() => vm.Calculator.Output)
         .HorizontalAlignment(HorizontalAlignment.Right)
         .Foreground(Theme.Brushes.OnBackground.Default)
         .Style(Theme.Styles.TextBlock.DisplayLarge);
 
-    private Grid KeyPad(DataContextClass vm)
+    private Grid KeyPad(Model vm)
         => new Grid()
         .Grid(row: 3)
         .RowSpacing(16)
@@ -135,7 +132,7 @@ public sealed partial class MainPage : Page
         );
 
     private Button KeyPadPrimaryButton(
-            DataContextClass vm,
+            Model vm,
             int gridRow,
             int gridColumn,
             object content) =>
@@ -143,7 +140,7 @@ public sealed partial class MainPage : Page
                     Theme.Brushes.Primary.Container.Default, Theme.Brushes.OnSecondary.Container.Default);
     
     private Button KeyPadSecondaryButton(
-            DataContextClass vm,
+            Model vm,
             int gridRow,
             int gridColumn,
             object content) =>
@@ -151,7 +148,7 @@ public sealed partial class MainPage : Page
                     Theme.Brushes.Primary.VariantDark.Default, Theme.Brushes.OnTertiary.Default);
 
     private Button KeyPadButton(
-            DataContextClass vm,
+            Model vm,
             int gridRow, 
             int gridColumn,
             object content,
