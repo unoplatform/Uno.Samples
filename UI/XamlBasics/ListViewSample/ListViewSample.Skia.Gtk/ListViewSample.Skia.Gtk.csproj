@@ -4,9 +4,9 @@
     <OutputType Condition="'$(Configuration)'=='Debug'">Exe</OutputType>
     <TargetFramework>net6.0</TargetFramework>
   </PropertyGroup>
-  <ItemGroup Condition="exists('..\ListViewSample.UWP')">
-    <EmbeddedResource Include="..\ListViewSample.UWP\Package.appxmanifest" LogicalName="Package.appxmanifest" />
-    <Content Include="..\ListViewSample.UWP\Assets\StoreLogo.png" Link="Assets\StoreLogo.png" />
+  <ItemGroup Condition="exists('..\ListViewSample.Windows')">
+    <EmbeddedResource Include="..\ListViewSample.Windows\Package.appxmanifest" LogicalName="Package.appxmanifest" />
+    <Content Include="..\ListViewSample.Windows\Images\StoreLogo.png" Link="Assets\StoreLogo.png" />
     <Content Include="Assets\Fonts\uno-fluentui-assets.ttf" />
   </ItemGroup>
   <ItemGroup>
