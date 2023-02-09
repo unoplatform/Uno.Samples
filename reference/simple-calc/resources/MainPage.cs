@@ -14,7 +14,7 @@ public sealed partial class MainPage : Page
 {
     public MainPage()
     {
-        this.DataContext(new Model(AppStart.ThemeService!), (page, vm)
+        this.DataContext(new Model(App.ThemeService!), (page, vm)
             => page
             .Resources(r => r
                 .Add(AppIcons.Dark)

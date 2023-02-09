@@ -9,7 +9,6 @@ public class App : Application
     public static Window? _window;
     public static IThemeService? ThemeService { get; private set; }
 
-
     protected override void OnLaunched(LaunchActivatedEventArgs args)
     {
 #if NET6_0_OR_GREATER && WINDOWS && !HAS_UNO

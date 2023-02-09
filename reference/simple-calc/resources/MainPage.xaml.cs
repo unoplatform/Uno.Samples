@@ -15,6 +15,6 @@ public sealed partial class MainPage : Page
     public MainPage()
     {
         this.InitializeComponent();
-        DataContext = new Model(AppStart.ThemeService!);
+        DataContext = new Model(App.ThemeService!);
     }
 }
