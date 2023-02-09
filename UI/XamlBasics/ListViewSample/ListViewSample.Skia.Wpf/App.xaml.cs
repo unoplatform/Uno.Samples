@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace ListViewSample.WPF.Host
+namespace ListViewSample.WPF
 {
     /// <summary>
     /// Interaction logic for App.xaml
