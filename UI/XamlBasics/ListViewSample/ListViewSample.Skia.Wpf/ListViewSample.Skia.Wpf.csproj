@@ -25,19 +25,11 @@
     <PackageReference Include="SkiaSharp.Skottie" Version="2.88.3" />
     <PackageReference Include="SkiaSharp.Views.Uno.WinUI" Version="2.88.3" />
   </ItemGroup>
-  <!--<ItemGroup>
-    <UpToDateCheckInput Include="..\ListViewSample.Shared\**\*.xaml" />
-  </ItemGroup>-->
   <ItemGroup>
-    <Page Remove="App.xaml" />
+    <UpToDateCheckInput Include="..\ListViewSample.Shared\**\*.xaml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\Fonts\uno-fluentui-assets.ttf" />
   </ItemGroup>
   <Import Project="..\ListViewSample.Shared\ListViewSample.Shared.projitems" Label="Shared" />
-  <ItemGroup>
-    <ApplicationDefinition Include="App.xaml">
-      <Generator></Generator>
-    </ApplicationDefinition>
-  </ItemGroup>
 </Project>
