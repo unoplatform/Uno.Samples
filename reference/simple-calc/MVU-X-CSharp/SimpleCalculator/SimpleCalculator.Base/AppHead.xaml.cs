@@ -6,11 +6,9 @@ namespace SimpleCalculator;
 
 public sealed partial class AppHead : App
 {
-#if (useBlankAppTemplate)
 	static AppHead() =>
 		InitializeLogging();
 
-#endif
     /// <summary>
     /// Initializes the singleton application object. This is the first line of authored code
     /// executed, and as such is the logical equivalent of main() or WinMain().
@@ -39,7 +37,6 @@ public sealed partial class AppHead : App
     /// </summary>
     private static void InitializeLogging()
     {
-        //-:cnd:noEmit
 #if DEBUG
         // Logging is disabled by default for release builds, as it incurs a significant
         // initialization cost from Microsoft.Extensions.Logging setup. If startup performance
@@ -67,41 +64,9 @@ public sealed partial class AppHead : App
             builder.AddFilter("Uno", LogLevel.Warning);
             builder.AddFilter("Windows", LogLevel.Warning);
             builder.AddFilter("Microsoft", LogLevel.Warning);
-
-            // Generic Xaml events
-            // builder.AddFilter("Microsoft.UI.Xaml", LogLevel.Debug );
-            // builder.AddFilter("Microsoft.UI.Xaml.VisualStateGroup", LogLevel.Debug );
-            // builder.AddFilter("Microsoft.UI.Xaml.StateTriggerBase", LogLevel.Debug );
-            // builder.AddFilter("Microsoft.UI.Xaml.UIElement", LogLevel.Debug );
-            // builder.AddFilter("Microsoft.UI.Xaml.FrameworkElement", LogLevel.Trace );
-
-            // Layouter specific messages
-            // builder.AddFilter("Microsoft.UI.Xaml.Controls", LogLevel.Debug );
-            // builder.AddFilter("Microsoft.UI.Xaml.Controls.Layouter", LogLevel.Debug );
-            // builder.AddFilter("Microsoft.UI.Xaml.Controls.Panel", LogLevel.Debug );
-
-            // builder.AddFilter("Windows.Storage", LogLevel.Debug );
-
-            // Binding related messages
-            // builder.AddFilter("Microsoft.UI.Xaml.Data", LogLevel.Debug );
-            // builder.AddFilter("Microsoft.UI.Xaml.Data", LogLevel.Debug );
-
-            // Binder memory references tracking
-            // builder.AddFilter("Uno.UI.DataBinding.BinderReferenceHolder", LogLevel.Debug );
-
-            // RemoteControl and HotReload related
-            // builder.AddFilter("Uno.UI.RemoteControl", LogLevel.Information);
-
-            // Debug JS interop
-            // builder.AddFilter("Uno.Foundation.WebAssemblyRuntime", LogLevel.Debug );
         });
 
         global::Uno.Extensions.LogExtensionPoint.AmbientLoggerFactory = factory;
-
-#if HAS_UNO
-        global::Uno.UI.Adapter.Microsoft.Extensions.Logging.LoggingAdapter.Initialize();
 #endif
-#endif
-        //+:cnd:noEmit
     }
 }
