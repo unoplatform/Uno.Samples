@@ -1,9 +1,4 @@
-﻿#if MVU
-using Model = SimpleCalculator.Presentation.BindableMainModel;
-#else
-using Model = SimpleCalculator.Presentation.MainViewModel;
-#endif
-// The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
+﻿using SimpleCalculator.Presentation;
 
 namespace SimpleCalculator;
 
@@ -15,6 +10,6 @@ public sealed partial class MainPage : Page
     public MainPage()
     {
         this.InitializeComponent();
-        DataContext = new Model(App.ThemeService!);
+        DataContext = new $ModelName$(App.ThemeService!);
     }
 }

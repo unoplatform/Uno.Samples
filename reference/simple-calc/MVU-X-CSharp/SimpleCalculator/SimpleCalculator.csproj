@@ -1,16 +1,14 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-		<TargetFrameworks>netstandard2.1</TargetFrameworks>
-		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net6.0-windows10.0.19041</TargetFrameworks>
-		<TargetFrameworks>$(TargetFrameworks);net6.0-android</TargetFrameworks>
-		<TargetFrameworks>$(TargetFrameworks);net6.0-ios</TargetFrameworks>
-		<TargetFrameworks>$(TargetFrameworks);net6.0-maccatalyst</TargetFrameworks>
+		<TargetFrameworks>netstandard2.1;net6.0-android;net6.0-ios;net6.0-maccatalyst</TargetFrameworks>
+		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows')) or '$(EnableWindowsTargeting)' == 'true'">$(TargetFrameworks);net6.0-windows10.0.19041</TargetFrameworks>
 		<!-- Disabled because of https://github.com/xamarin/xamarin-macios/issues/16401-->
 		<!--<TargetFrameworks>$(TargetFrameworks);net6.0-macos</TargetFrameworks>-->
 
 		<!-- Ensures the .xr.xml files are generated in a proper layout folder -->
 		<GenerateLibraryLayout>true</GenerateLibraryLayout>
 		<DefineConstants>$(DefineConstants);MVU</DefineConstants>
+		<UseCSharpMarkup>true</UseCSharpMarkup>
 	</PropertyGroup>
 	
 	<ItemGroup>
@@ -67,17 +65,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Compile Include="..\..\resources\Calculator.cs" Link="Business\Calculator.cs" />
-	  <Compile Include="..\..\resources\ColorPaletteOverride.cs" Link="Styles\ColorPaletteOverride.cs" />
-	  <Compile Include="..\..\resources\MainModel.cs" Link="Presentation\MainModel.cs" />
-	  <Compile Include="..\..\resources\MainPage.cs" Link="MainPage.cs" />
-	  <Compile Include="..\..\resources\App.cs" Link="App.cs" />
-	  <Compile Include="..\..\resources\AppResources.cs" Link="AppResources.cs" />
 	  <Compile Include="..\SimpleCalculator.Base\IsExternalInit.cs" Visible="false" />
 	</ItemGroup>
 
-	<ItemGroup>
-	  <Folder Include="Business\" />
-	  <Folder Include="Presentation\" />
-	</ItemGroup>
+	<Import Project="..\..\resources\shared-resources.targets"
+			Condition="Exists('..\..\resources\shared-resources.targets')" />
 </Project>

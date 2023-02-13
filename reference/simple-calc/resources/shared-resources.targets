@@ -1,0 +1,92 @@
+<Project>
+
+  <PropertyGroup>
+    <IsMvu>$(DefineConstants.Contains('MVU'))</IsMvu>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <SimpleCalcTemplateFile Include="$(MSBuildThisFileDirectory)App.cs"
+                            LogicalPath="%(Filename)%(Extension)" />
+    <SimpleCalcTemplateFile Include="$(MSBuildThisFileDirectory)AppResources.cs"
+                            LogicalPath="%(Filename)%(Extension)"
+                            Condition="$(UseCSharpMarkup) == 'true'" />
+    <SimpleCalcTemplateFile Include="$(MSBuildThisFileDirectory)AppResources.xaml"
+                            LogicalPath="%(Filename)%(Extension)"
+                            Condition="$(UseCSharpMarkup) != 'true'" />
+    <SimpleCalcTemplateFile Include="$(MSBuildThisFileDirectory)Calculator.cs"
+                            LogicalPath="Business\%(Filename)%(Extension)" />
+    <SimpleCalcTemplateFile Include="$(MSBuildThisFileDirectory)ColorPaletteOverride.cs"
+                            LogicalPath="Styles\%(Filename)%(Extension)"
+                            Condition="$(UseCSharpMarkup) == 'true'" />
+    <SimpleCalcTemplateFile Include="$(MSBuildThisFileDirectory)ColorPaletteOverride.xaml"
+                            LogicalPath="Styles\%(Filename)%(Extension)"
+                            Condition="$(UseCSharpMarkup) != 'true'" />
+    <SimpleCalcTemplateFile Include="$(MSBuildThisFileDirectory)MainPage.cs"
+                            LogicalPath="%(Filename)%(Extension)"
+                            Condition="$(UseCSharpMarkup) == 'true'" />
+    <SimpleCalcTemplateFile Include="$(MSBuildThisFileDirectory)MainPage.xaml"
+                            LogicalPath="%(Filename)%(Extension)"
+                            Condition="$(UseCSharpMarkup) != 'true'" />
+    <SimpleCalcTemplateFile Include="$(MSBuildThisFileDirectory)MainPage.xaml.cs"
+                            LogicalPath="%(Filename)%(Extension)"
+                            Condition="$(UseCSharpMarkup) != 'true'" />
+
+    <SimpleCalcTemplateFile Include="$(MSBuildThisFileDirectory)MainViewModel.cs"
+                            LogicalPath="Presentation\%(Filename)%(Extension)"
+                            Condition="!$(IsMvu)" />
+    <SimpleCalcTemplateFile Include="$(MSBuildThisFileDirectory)MainModel.cs"
+                            LogicalPath="Presentation\%(Filename)%(Extension)"
+                            Condition="$(IsMvu)" />
+  </ItemGroup>
+
+  <Target Name="CopyResources" BeforeTargets="Build;CoreBuild;UpdateResources">
+    <Copy SourceFiles="@(SimpleCalcTemplateFile)" 
+          DestinationFiles="@(SimpleCalcTemplateFile->'%(LogicalPath)')"
+          SkipUnchangedFiles="true"
+          ContinueOnError="false"
+          Retries="3" />
+  </Target>
+
+  <Target Name="UpdateResources"
+          AfterTargets="CopyResources"
+          BeforeTargets="CoreCompile">
+    <ItemGroup>
+      <_TemplateFile Include="MainPage*.cs" />
+    </ItemGroup>
+
+    <ReplaceFileText Filename="%(_TemplateFile.Identity)"
+                     MatchExpression="$ModelName$"
+                     ReplacementText="BindableMainModel"
+                     Condition="$(IsMvu)" />
+
+    <ReplaceFileText Filename="%(_TemplateFile.Identity)"
+                     MatchExpression="$ModelName$"
+                     ReplacementText="MainViewModel"
+                     Condition="!$(IsMvu)" />
+
+  </Target>
+
+  <!-- Using Regex Replace prevents XmlPoke from replacing Tabs with Spaces -->
+	<UsingTask TaskName="ReplaceFileText"
+			TaskFactory="RoslynCodeTaskFactory"
+			AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.Core.dll">
+		<ParameterGroup>
+			<Filename ParameterType="System.String" Required="true" />
+			<MatchExpression ParameterType="System.String" Required="true" />
+			<ReplacementText ParameterType="System.String" Required="true" />
+		</ParameterGroup>
+		<Task>
+			<Using Namespace="System" />
+			<Using Namespace="System.IO" />
+			<Using Namespace="System.Text.RegularExpressions" />
+			<Code Type="Fragment" Language="cs">
+				<![CDATA[
+					File.WriteAllText(
+						Filename,
+						Regex.Replace(File.ReadAllText(Filename), Regex.Escape(MatchExpression), ReplacementText)
+						);
+				]]>
+			</Code>
+		</Task>
+	</UsingTask>
+</Project>

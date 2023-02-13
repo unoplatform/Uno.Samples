@@ -1,20 +1,17 @@
-﻿using Uno.Extensions.Markup;
+﻿using SimpleCalculator.Presentation;
+using Uno.Extensions.Markup;
 using Uno.Material;
 using Uno.Themes.Markup;
 using Uno.Toolkit.UI;
 using BrushBuilder = System.Action<Uno.Extensions.Markup.IDependencyPropertyBuilder<Microsoft.UI.Xaml.Media.Brush>>;
-#if MVU
-using Model = SimpleCalculator.Presentation.BindableMainModel;
-#else
-using Model = SimpleCalculator.Presentation.MainViewModel;
-#endif
+
 namespace SimpleCalculator;
 
 public sealed partial class MainPage : Page
 {
     public MainPage()
     {
-        this.DataContext(new Model(App.ThemeService!), (page, vm)
+        this.DataContext(new $ModelName$(App.ThemeService!), (page, vm)
             => page
             .Resources(r => r
                 .Add(AppIcons.Dark)
@@ -39,7 +36,7 @@ public sealed partial class MainPage : Page
         );
     }
 
-    private ToggleButton Header(Model vm)
+    private ToggleButton Header($ModelName$ vm)
         => new ToggleButton()
             .Grid(row: 0)
             .Margin(8,24,8,0)
@@ -63,7 +60,7 @@ public sealed partial class MainPage : Page
                     .Foreground(Theme.Brushes.Primary.VariantDark.Default)
             );
 
-    private StackPanel Output(Model vm) => 
+    private StackPanel Output($ModelName$ vm) => 
         new StackPanel()
         .Grid(row: 2)
         .Spacing(16)
@@ -75,21 +72,21 @@ public sealed partial class MainPage : Page
             Result(vm)
         );
 
-    private TextBlock Equation(Model vm) => 
+    private TextBlock Equation($ModelName$ vm) => 
         new TextBlock()
         .Text(() => vm.Calculator.Equation)
         .HorizontalAlignment(HorizontalAlignment.Right)
         .Foreground(Theme.Brushes.OnSecondary.Container.Default)
         .Style(Theme.Styles.TextBlock.DisplaySmall);
 
-    private TextBlock Result(Model vm) => 
+    private TextBlock Result($ModelName$ vm) => 
         new TextBlock()
         .Text(() => vm.Calculator.Output)
         .HorizontalAlignment(HorizontalAlignment.Right)
         .Foreground(Theme.Brushes.OnBackground.Default)
         .Style(Theme.Styles.TextBlock.DisplayLarge);
 
-    private Grid KeyPad(Model vm)
+    private Grid KeyPad($ModelName$ vm)
         => new Grid()
         .Grid(row: 3)
         .RowSpacing(16)
@@ -132,7 +129,7 @@ public sealed partial class MainPage : Page
         );
 
     private Button KeyPadPrimaryButton(
-            Model vm,
+            $ModelName$ vm,
             int gridRow,
             int gridColumn,
             object content) =>
@@ -140,7 +137,7 @@ public sealed partial class MainPage : Page
                     Theme.Brushes.Primary.Container.Default, Theme.Brushes.OnSecondary.Container.Default);
     
     private Button KeyPadSecondaryButton(
-            Model vm,
+            $ModelName$ vm,
             int gridRow,
             int gridColumn,
             object content) =>
@@ -148,7 +145,7 @@ public sealed partial class MainPage : Page
                     Theme.Brushes.Primary.VariantDark.Default, Theme.Brushes.OnTertiary.Default);
 
     private Button KeyPadButton(
-            Model vm,
+            $ModelName$ vm,
             int gridRow, 
             int gridColumn,
             object content,

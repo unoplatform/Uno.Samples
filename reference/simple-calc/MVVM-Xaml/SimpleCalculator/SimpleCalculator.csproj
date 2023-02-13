@@ -1,10 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-		<TargetFrameworks>netstandard2.1</TargetFrameworks>
-		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net6.0-windows10.0.19041</TargetFrameworks>
-		<TargetFrameworks>$(TargetFrameworks);net6.0-android</TargetFrameworks>
-		<TargetFrameworks>$(TargetFrameworks);net6.0-ios</TargetFrameworks>
-		<TargetFrameworks>$(TargetFrameworks);net6.0-maccatalyst</TargetFrameworks>
+		<TargetFrameworks>netstandard2.1;net6.0-android;net6.0-ios;net6.0-maccatalyst</TargetFrameworks>
+		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows')) or '$(EnableWindowsTargeting)' == 'true'">$(TargetFrameworks);net6.0-windows10.0.19041</TargetFrameworks>
 		<!-- Disabled because of https://github.com/xamarin/xamarin-macios/issues/16401-->
 		<!--<TargetFrameworks>$(TargetFrameworks);net6.0-macos</TargetFrameworks>-->
 
@@ -65,28 +62,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Compile Include="..\..\resources\Calculator.cs" Link="Business\Calculator.cs" />
-	  <Compile Include="..\..\resources\MainPage.xaml.cs" Link="MainPage.xaml.cs" />
-	  <Compile Include="..\..\resources\MainViewModel.cs" Link="Presentation\MainViewModel.cs" />
-	  <Compile Include="..\..\resources\App.cs" Link="App.cs" />
 	  <Compile Include="..\SimpleCalculator.Base\IsExternalInit.cs" Visible="false" />
 	</ItemGroup>
 
-	<ItemGroup>
-	  <Page Include="..\..\resources\ColorPaletteOverride.xaml" Link="Styles\ColorPaletteOverride.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </Page>
-	  <Page Include="..\..\resources\MainPage.xaml" Link="MainPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </Page>
-		  <Page Include="..\..\resources\AppResources.xaml" Link="AppResources.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </Page>
-	</ItemGroup>
-
-	<!--<ItemGroup>
-	  <Folder Include="Business\" />
-	  <Folder Include="Presentation\" />
-	  <Folder Include="Styles\" />
-	</ItemGroup>-->
+	<Import Project="..\..\resources\shared-resources.targets"
+			Condition="Exists('..\..\resources\shared-resources.targets')" />
 </Project>
