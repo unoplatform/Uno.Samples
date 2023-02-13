@@ -1,72 +1,77 @@
 <Project>
 
-  <PropertyGroup>
-    <IsMvu>$(DefineConstants.Contains('MVU'))</IsMvu>
-  </PropertyGroup>
+	<PropertyGroup>
+		<IsMvu>$(DefineConstants.Contains('MVU'))</IsMvu>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <SimpleCalcTemplateFile Include="$(MSBuildThisFileDirectory)App.cs"
-                            LogicalPath="%(Filename)%(Extension)" />
-    <SimpleCalcTemplateFile Include="$(MSBuildThisFileDirectory)AppResources.cs"
-                            LogicalPath="%(Filename)%(Extension)"
-                            Condition="$(UseCSharpMarkup) == 'true'" />
-    <SimpleCalcTemplateFile Include="$(MSBuildThisFileDirectory)AppResources.xaml"
-                            LogicalPath="%(Filename)%(Extension)"
-                            Condition="$(UseCSharpMarkup) != 'true'" />
-    <SimpleCalcTemplateFile Include="$(MSBuildThisFileDirectory)Calculator.cs"
-                            LogicalPath="Business\%(Filename)%(Extension)" />
-    <SimpleCalcTemplateFile Include="$(MSBuildThisFileDirectory)ColorPaletteOverride.cs"
-                            LogicalPath="Styles\%(Filename)%(Extension)"
-                            Condition="$(UseCSharpMarkup) == 'true'" />
-    <SimpleCalcTemplateFile Include="$(MSBuildThisFileDirectory)ColorPaletteOverride.xaml"
-                            LogicalPath="Styles\%(Filename)%(Extension)"
-                            Condition="$(UseCSharpMarkup) != 'true'" />
-    <SimpleCalcTemplateFile Include="$(MSBuildThisFileDirectory)MainPage.cs"
-                            LogicalPath="%(Filename)%(Extension)"
-                            Condition="$(UseCSharpMarkup) == 'true'" />
-    <SimpleCalcTemplateFile Include="$(MSBuildThisFileDirectory)MainPage.xaml"
-                            LogicalPath="%(Filename)%(Extension)"
-                            Condition="$(UseCSharpMarkup) != 'true'" />
-    <SimpleCalcTemplateFile Include="$(MSBuildThisFileDirectory)MainPage.xaml.cs"
-                            LogicalPath="%(Filename)%(Extension)"
-                            Condition="$(UseCSharpMarkup) != 'true'" />
+	<ItemGroup>
+		<SimpleCalcTemplateFile Include="$(MSBuildThisFileDirectory)App.cs"
+														LogicalPath="%(Filename)%(Extension)" />
+		<SimpleCalcTemplateFile Include="$(MSBuildThisFileDirectory)AppResources.cs"
+														LogicalPath="%(Filename)%(Extension)"
+														Condition="$(UseCSharpMarkup) == 'true'" />
+		<SimpleCalcTemplateFile Include="$(MSBuildThisFileDirectory)AppResources.xaml"
+														LogicalPath="%(Filename)%(Extension)"
+														Condition="$(UseCSharpMarkup) != 'true'" />
+		<SimpleCalcTemplateFile Include="$(MSBuildThisFileDirectory)Calculator.cs"
+														LogicalPath="Business\%(Filename)%(Extension)" />
+		<SimpleCalcTemplateFile Include="$(MSBuildThisFileDirectory)ColorPaletteOverride.cs"
+														LogicalPath="Styles\%(Filename)%(Extension)"
+														Condition="$(UseCSharpMarkup) == 'true'" />
+		<SimpleCalcTemplateFile Include="$(MSBuildThisFileDirectory)ColorPaletteOverride.xaml"
+														LogicalPath="Styles\%(Filename)%(Extension)"
+														Condition="$(UseCSharpMarkup) != 'true'" />
+		<SimpleCalcTemplateFile Include="$(MSBuildThisFileDirectory)MainPage.cs"
+														LogicalPath="%(Filename)%(Extension)"
+														Condition="$(UseCSharpMarkup) == 'true'" />
+		<SimpleCalcTemplateFile Include="$(MSBuildThisFileDirectory)MainPage.xaml"
+														LogicalPath="%(Filename)%(Extension)"
+														Condition="$(UseCSharpMarkup) != 'true'" />
+		<SimpleCalcTemplateFile Include="$(MSBuildThisFileDirectory)MainPage.xaml.cs"
+														LogicalPath="%(Filename)%(Extension)"
+														Condition="$(UseCSharpMarkup) != 'true'" />
 
-    <SimpleCalcTemplateFile Include="$(MSBuildThisFileDirectory)MainViewModel.cs"
-                            LogicalPath="Presentation\%(Filename)%(Extension)"
-                            Condition="!$(IsMvu)" />
-    <SimpleCalcTemplateFile Include="$(MSBuildThisFileDirectory)MainModel.cs"
-                            LogicalPath="Presentation\%(Filename)%(Extension)"
-                            Condition="$(IsMvu)" />
-  </ItemGroup>
+		<SimpleCalcTemplateFile Include="$(MSBuildThisFileDirectory)MainViewModel.cs"
+														LogicalPath="Presentation\%(Filename)%(Extension)"
+														Condition="!$(IsMvu)" />
+		<SimpleCalcTemplateFile Include="$(MSBuildThisFileDirectory)MainModel.cs"
+														LogicalPath="Presentation\%(Filename)%(Extension)"
+														Condition="$(IsMvu)" />
+	</ItemGroup>
 
-  <Target Name="CopyResources" BeforeTargets="Build;CoreBuild;UpdateResources">
-    <Copy SourceFiles="@(SimpleCalcTemplateFile)" 
-          DestinationFiles="@(SimpleCalcTemplateFile->'%(LogicalPath)')"
-          SkipUnchangedFiles="true"
-          ContinueOnError="false"
-          Retries="3" />
-  </Target>
+	<Target Name="CopyResources" BeforeTargets="Build;CoreBuild;UpdateResources">
+		<Copy SourceFiles="@(SimpleCalcTemplateFile)" 
+					DestinationFiles="@(SimpleCalcTemplateFile->'%(LogicalPath)')"
+					SkipUnchangedFiles="true"
+					ContinueOnError="false"
+					Retries="3" />
+	</Target>
 
-  <Target Name="UpdateResources"
-          AfterTargets="CopyResources"
-          BeforeTargets="CoreCompile">
-    <ItemGroup>
-      <_TemplateFile Include="MainPage*.cs" />
-    </ItemGroup>
+	<Target Name="UpdateResources"
+					AfterTargets="CopyResources"
+					BeforeTargets="CoreCompile">
+		<ItemGroup>
+			<_TemplateFile Include="MainPage*.cs" />
+		</ItemGroup>
 
-    <ReplaceFileText Filename="%(_TemplateFile.Identity)"
-                     MatchExpression="$ModelName$"
-                     ReplacementText="BindableMainModel"
-                     Condition="$(IsMvu)" />
+		<ReplaceFileText Filename="%(_TemplateFile.Identity)"
+										 MatchExpression="$ModelName$"
+										 ReplacementText="BindableMainModel"
+										 Condition="$(IsMvu)" />
 
-    <ReplaceFileText Filename="%(_TemplateFile.Identity)"
-                     MatchExpression="$ModelName$"
-                     ReplacementText="MainViewModel"
-                     Condition="!$(IsMvu)" />
+		<ReplaceFileText Filename="%(_TemplateFile.Identity)"
+										 MatchExpression="$ModelName$"
+										 ReplacementText="MainViewModel"
+										 Condition="!$(IsMvu)" />
 
-  </Target>
+	</Target>
 
-  <!-- Using Regex Replace prevents XmlPoke from replacing Tabs with Spaces -->
+	<Target Name="ValidateNoUntrackedChanges"
+					BeforeTargets="UpdateResources"
+					Condition="$(IsCI) == 'true'">
+		<ValidateNoUntrackedChanges />
+	</Target>
+
 	<UsingTask TaskName="ReplaceFileText"
 			TaskFactory="RoslynCodeTaskFactory"
 			AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.Core.dll">
@@ -85,6 +90,33 @@
 						Filename,
 						Regex.Replace(File.ReadAllText(Filename), Regex.Escape(MatchExpression), ReplacementText)
 						);
+				]]>
+			</Code>
+		</Task>
+	</UsingTask>
+
+	<UsingTask TaskName="ValidateNoUntrackedChanges"
+			TaskFactory="RoslynCodeTaskFactory"
+			AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.Core.dll">
+		<Task>
+			<Using Namespace="System" />
+			<Using Namespace="System.Diagnostics" />
+			<Code Type="Fragment" Language="cs">
+				<![CDATA[
+					using var process = new Process();
+					process.StartInfo = new ProcessStartInfo("git", "status --porcelain")
+					{
+						RedirectStandardOutput = true,
+						UseShellExecute = false,
+						CreateNoWindow = true
+					};
+					process.Start();
+					var output = process.StandardOutput.ReadToEnd();
+					process.WaitForExit();
+					if(output.Contains("reference/simple-calc"))
+					{
+						Log.LogError("There are changes from the reference/simple-calc/resources folder. Be sure to commit the changes for this project.");
+					}
 				]]>
 			</Code>
 		</Task>
