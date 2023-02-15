@@ -19,9 +19,5 @@ public sealed class AppResources : ResourceDictionary
 		// Load Uno.UI.Toolkit Resources
 		this.Build(r => r.Merged(
 			new ToolkitResources()));
-
-		// Load Uno.UI.Toolkit Resources
-		this.Build(r => r.Merged(
-			new ToolkitResources()));
     }
 }

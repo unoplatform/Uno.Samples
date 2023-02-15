@@ -22,8 +22,6 @@ public partial record MainModel
             await IsDark.Update(_ => themeService.IsDark, CancellationToken.None);
 
         IsDark.ForEachAsync(async (dark, ct) => await themeService.SetThemeAsync(dark ? AppTheme.Dark : AppTheme.Light));
-
-        
     }
 }
 
