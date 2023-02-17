@@ -4,7 +4,7 @@ using System.Text;
 
 using UnoGoodReads.Models;
 
-using Windows.UI.Xaml.Data;
+using Microsoft.UI.Xaml.Data;
 
 namespace UnoGoodReads.Converters
 {
@@ -27,7 +27,8 @@ namespace UnoGoodReads.Converters
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            var genre = (int)value;
+            var genre = System.Convert.ToInt32(value);
+            
             return $"{genre}";
 
         }

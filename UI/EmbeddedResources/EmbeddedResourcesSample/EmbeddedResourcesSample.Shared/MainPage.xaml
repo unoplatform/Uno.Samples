@@ -1,19 +1,22 @@
-﻿<Page
-    x:Class="EmbeddedResourcesSample.MainPage"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:EmbeddedResourcesSample"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d">
+﻿<Page x:Class="EmbeddedResourcesSample.MainPage"
+	  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	  xmlns:local="using:EmbeddedResourcesSample"
+	  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	  mc:Ignorable="d">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-		<Grid.ColumnDefinitions>
-			<ColumnDefinition />
-			<ColumnDefinition />
-		</Grid.ColumnDefinitions>
-		<ListView ItemsSource="{x:Bind EmbeddedResources}" SelectedItem="{x:Bind CurrentFile, Mode=TwoWay}">
+	<Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+		<Grid.RowDefinitions>
+			<RowDefinition  Height="Auto" />
+			<RowDefinition />
+		</Grid.RowDefinitions>
+		<ListView ItemsSource="{x:Bind EmbeddedResources}"
+				  SelectedItem="{x:Bind CurrentFile, Mode=TwoWay}">
 		</ListView>
-		<TextBlock Grid.Column="1" x:Name="content" />
+		<ScrollViewer Grid.Row="1">
+			<TextBlock 
+					   x:Name="content" />
+		</ScrollViewer>
 	</Grid>
 </Page>

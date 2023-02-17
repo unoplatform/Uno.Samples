@@ -1,6 +1,7 @@
 ﻿using WCTDataTreeTabSample.Entities;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml;
 
 namespace WCTDataTreeTabSample.TemplateSelectors
 {
@@ -13,6 +14,7 @@ namespace WCTDataTreeTabSample.TemplateSelectors
 		{
 			var explorerItem = (ExplorerItem)item;
 
+			
 			if (explorerItem == null)
 			{
 				return FolderTemplate;

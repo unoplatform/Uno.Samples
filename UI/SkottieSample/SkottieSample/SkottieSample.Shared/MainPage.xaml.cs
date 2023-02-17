@@ -62,7 +62,9 @@ namespace SkottieSample
             _timer = DispatcherQueue.CreateTimer();
             _timer.Interval = TimeSpan.FromSeconds(Math.Max(1 / 60.0, 1 / _animation.Fps));
             _timer.Tick += (s, e) => {
-                canvas.Invalidate();
+                // TODO: Work out why canvas can't be resolved for Mobile and Wasm targets
+                // canvas.Invalidate();
+                (this.skiaCanvas.Children.First() as SKXamlCanvas).Invalidate();
             };
             _timer.Start();
             _watch.Start();

@@ -28,7 +28,7 @@ namespace UnoGoodReads.Models
             .RuleFor(b => b.Description, f => f.Lorem.Paragraph())
             .RuleFor(b => b.Genre, f => f.PickRandom<Genre>())
             .RuleFor(b => b.Price, f => f.Random.Number(1, 100))
-            .RuleFor(b => b.AverageRating, f => f.PickRandom<Rating>())
+            .RuleFor(b => b.AverageRating, f => f.Random.Number(0, 5))
             .RuleFor(b => b.RatingsCount, f => f.Random.Number(1, 1000));
 
         public List<Book> FakeBooks { get; set; }
@@ -36,7 +36,7 @@ namespace UnoGoodReads.Models
         public SeedData()
         {
             FakeAuthors = authorFaker.Generate(10);
-            FakeBooks = bookFaker.Generate(100);
+            FakeBooks = bookFaker.Generate(10);
 
             foreach(Book book in FakeBooks)
             {
