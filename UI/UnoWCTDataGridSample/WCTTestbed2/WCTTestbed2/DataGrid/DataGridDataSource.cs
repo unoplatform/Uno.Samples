@@ -30,6 +30,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Data
         {
             using (var stream = await StreamHelperEx.GetEmbeddedFileStreamAsync(GetType(), "mtns.csv"))
             {
+                await Console.Out.WriteLineAsync("Loading");
                 var list = new List<DataGridDataItem>();
 
                 using (var sr = new StreamReader(stream))
@@ -61,6 +62,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Data
 //                    .Take(5)
 //#endif
                 );
+                await Console.Out.WriteLineAsync("loaded");
                 return _items;
             }
         }
