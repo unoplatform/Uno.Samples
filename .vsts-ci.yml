@@ -40,7 +40,7 @@ jobs:
            git diff --quiet HEAD "origin/$TargetBranch" -- "$solutionPath"
 
            # Only build if there a change in the solution path for the current PR, if we're not in a PR
-           if( ('$env:System_PullRequest_PullRequestId)' -eq '') -or ($global:LASTEXITCODE -ne 0)) {
+           if( ('$env:System_PullRequest_PullRequestId' -eq '') -or ($global:LASTEXITCODE -ne 0)) {
 
                 echo "Building $solutionPath / $SolutionName"
                 & $env:msbuildpath $SolutionName /r /p:Configuration=Release /p:AotAssemblies=false /p:PublishTrimmed=false /p:WasmShellILLinkerEnabled=false /ds ;
