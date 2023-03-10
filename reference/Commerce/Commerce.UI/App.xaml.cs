@@ -35,9 +35,7 @@ public sealed partial class App : Application
         var notif = _host.Services.GetRequiredService<IRouteNotifier>();
 		notif.RouteChanged += RouteUpdated;
 
-#pragma warning disable CS0618
-        _window.AttachNavigation(_host.Services);
-#pragma warning restore CS0618
+        await _window.AttachServicesAsync(_host.Services);
 		_window.Activate();
 
 		await Task.Run(() => _host.StartAsync());
