@@ -2,16 +2,15 @@
 
 public partial record WeatherInfo(int Temperature);
 
-public class WeatherService
+public interface IWeatherService
 {
-	public async ValueTask<WeatherInfo> GetCurrentWeatherAsync(CancellationToken ct)
-	{
-		// fake delay to simulate requesting data from a remote server
-		await Task.Delay(TimeSpan.FromSeconds(2), ct);
-
-		// assign a random number ranged -40 to 40.
-		var temperature = new Random().Next(-40, 40);
-
-		return new WeatherInfo(temperature);
-	}
+    ValueTask<WeatherInfo> GetCurrentWeather(CancellationToken ct);
+}
+public class WeatherService : IWeatherService
+{
+    public async ValueTask<WeatherInfo> GetCurrentWeather(CancellationToken ct)
+    {
+        await Task.Delay(TimeSpan.FromSeconds(1), ct);
+        return new WeatherInfo(new Random().Next(-40, 40));
+    }
 }

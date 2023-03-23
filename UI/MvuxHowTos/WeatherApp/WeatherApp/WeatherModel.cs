@@ -2,7 +2,7 @@
 
 using Uno.Extensions.Reactive;
 
-public partial record WeatherModel(WeatherService WeatherService)
+public partial record WeatherModel(IWeatherService WeatherService)
 {
-	public IFeed<WeatherInfo> CurrentWeather => Feed.Async(WeatherService.GetCurrentWeatherAsync);
+	public IFeed<WeatherInfo> CurrentWeather => Feed.Async(WeatherService.GetCurrentWeather);
 }
