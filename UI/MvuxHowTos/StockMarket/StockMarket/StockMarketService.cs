@@ -4,7 +4,12 @@ namespace StockMarket;
 
 public partial record Stock(string Name, double Value);
 
-public class StockMarketService
+public interface IStockMarketService
+{
+    IAsyncEnumerable<IImmutableList<Stock>> GetCurrentMarket(CancellationToken ct);
+}
+
+public class StockMarketService : IStockMarketService
 {
     public async IAsyncEnumerable<IImmutableList<Stock>> GetCurrentMarket(
         [EnumeratorCancellation] CancellationToken ct)

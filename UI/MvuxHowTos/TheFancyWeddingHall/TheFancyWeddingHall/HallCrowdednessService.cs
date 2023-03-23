@@ -1,26 +1,32 @@
-﻿namespace TheFancyWeddingHall;
+﻿    namespace TheFancyWeddingHall;
 
-public partial record HallCrowdedness(int NumberOfPeopleInHall);
+    public partial record HallCrowdedness(int NumberOfPeopleInHall);
 
-public class HallCrowdednessService
-{
-    // a service is normally stateless
-    // the local field is for the purpose of this demo 
-    private int _numberOfPeopleInHall = 5;
-
-    public ValueTask<HallCrowdedness> GetHallCrowdednessAsync(CancellationToken ct)
+    public interface IHallCrowdednessService
     {
-        // fake "loading from server"
-        var result = new HallCrowdedness(_numberOfPeopleInHall);
-
-        return ValueTask.FromResult(result);
+        ValueTask<HallCrowdedness> GetHallCrowdedness(CancellationToken ct);
+        ValueTask SetHallCrowdedness(HallCrowdedness crowdedness, CancellationToken ct);
     }
 
-    public ValueTask SetHallCrowdednessAsync(HallCrowdedness crowdedness, CancellationToken ct)
+    public class HallCrowdednessService : IHallCrowdednessService
     {
-        // fake "updating server"
-        _numberOfPeopleInHall = crowdedness.NumberOfPeopleInHall;        
+        // a service is normally stateless
+        // the local field is for the purpose of this demo 
+        private int _numberOfPeopleInHall = 5;
 
-        return ValueTask.CompletedTask;
+        public ValueTask<HallCrowdedness> GetHallCrowdedness(CancellationToken ct)
+        {
+            // fake "loading from server"
+            var result = new HallCrowdedness(_numberOfPeopleInHall);
+
+            return ValueTask.FromResult(result);
+        }
+
+        public ValueTask SetHallCrowdedness(HallCrowdedness crowdedness, CancellationToken ct)
+        {
+            // fake "updating server"
+            _numberOfPeopleInHall = crowdedness.NumberOfPeopleInHall;        
+
+            return ValueTask.CompletedTask;
+        }
     }
-}
