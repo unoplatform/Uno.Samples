@@ -4,8 +4,8 @@ public sealed partial class MainPage : Page
 {
     public MainPage()
     {
-        this.InitializeComponent();
+        InitializeComponent();
 
-        this.DataContext = new BindableHallCrowdednessModel(new HallCrowdednessService());
+        DataContext = new BindableHallCrowdednessModel(new HallCrowdednessService());
     }
 }
