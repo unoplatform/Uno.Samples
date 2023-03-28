@@ -7,7 +7,9 @@ public sealed partial class App : Application
 {
 	private Window? _window;
 
-	public App()
+    private IHost? _host;
+
+    public App()
 	{
 		this.InitializeComponent();
 	}
@@ -26,21 +28,22 @@ public sealed partial class App : Application
 		}
 #endif
 
+        var appBuilder = this.CreateBuilder(args)
+            .ConfigureApp()
+            .UseToolkitNavigation();
+
+        _window = appBuilder.Window;
 #if NET5_0_OR_GREATER && WINDOWS
-            _window = new Window();
-#else
-		_window = Microsoft.UI.Xaml.Window.Current;
+		_window.Activate();
 #endif
 
-        var notif = _host.Services.GetRequiredService<IRouteNotifier>();
-		notif.RouteChanged += RouteUpdated;
+        //await Task.Run(() => _host.StartAsync());
+        _host = await _window.InitializeNavigationAsync(async () => appBuilder.Build());
 
-        await _window.AttachServicesAsync(_host.Services);
-		_window.Activate();
+        var notif = _host!.Services.GetRequiredService<IRouteNotifier>();
+        notif.RouteChanged += RouteUpdated;
 
-		await Task.Run(() => _host.StartAsync());
-
-		var appSettings = _host.Services.GetRequiredService<IWritableOptions<CommerceApp>>();
+        var appSettings = _host.Services.GetRequiredService<IWritableOptions<CommerceApp>>();
 		var isDark = appSettings.Value?.IsDark ?? false;
 		SystemThemeHelper.SetRootTheme(_window.Content.XamlRoot, isDark);
 
