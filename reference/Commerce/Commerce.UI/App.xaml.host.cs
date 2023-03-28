@@ -4,17 +4,15 @@ using CommunityToolkit.Mvvm.Messaging;
 
 namespace Commerce;
 
-public sealed partial class App : Application
+public static class AppBuilder 
 {
-	private readonly IHost _host = BuildAppHost();
 
-	private static IHost BuildAppHost()
-	{
-		return UnoHost
-				.CreateDefaultBuilder()
+    public static IApplicationBuilder ConfigureApp(this IApplicationBuilder builder)
+    {
+        return builder.Configure(host => host
 #if DEBUG
-				// Switch to Development environment when running in DEBUG
-				.UseEnvironment(Environments.Development)
+                // Switch to Development environment when running in DEBUG
+                .UseEnvironment(Environments.Development)
 #endif
 
 
@@ -67,9 +65,7 @@ public sealed partial class App : Application
 				.UseToolkitNavigation()
 
 				// Add localization support
-				.UseLocalization()
-
-				.Build(enableUnoLogging: true);
+				.UseLocalization());
 
 
 	}
