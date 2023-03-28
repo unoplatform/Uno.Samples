@@ -43,7 +43,7 @@ jobs:
            if( ("$env:System_PullRequest_PullRequestId" -eq '') -or ($global:LASTEXITCODE -ne 0)) {
 
                 echo "Building $solutionPath / $SolutionName"
-                & $env:msbuildpath $SolutionName /r /p:Configuration=Release /p:AotAssemblies=false /p:PublishTrimmed=false /p:WasmShellILLinkerEnabled=false /ds ;
+                & $env:msbuildpath $SolutionName /r /p:Configuration=Release /p:WasmShellMonoRuntimeExecutionMode=Interpreter /p:AotAssemblies=false /p:PublishTrimmed=false /p:WasmShellILLinkerEnabled=false /ds ;
 
                 if (($lastexitcode -ne 0)) {
                     exit $lastexitcode
