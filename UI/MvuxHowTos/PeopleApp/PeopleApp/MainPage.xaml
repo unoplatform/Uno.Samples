@@ -1,0 +1,28 @@
+<Page 
+    x:Class="PeopleApp.MainPage"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mvux="using:Uno.Extensions.Reactive.UI">
+
+    <mvux:FeedView Source="{Binding People}">
+        <DataTemplate>
+            <ListView ItemsSource="{Binding Data}">
+                
+                <ListView.Header>
+                    <Button Content="Refresh" Command="{Binding Refresh}" />
+                </ListView.Header>
+    
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal" Spacing="5">
+                            <TextBlock Text="{Binding FirstName}"/>
+                            <TextBlock Text="{Binding LastName}"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+                
+            </ListView>
+        </DataTemplate>
+    </mvux:FeedView>
+    
+</Page>
