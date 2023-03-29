@@ -1,0 +1,21 @@
+<Page 
+    x:Class="SliderApp.MainPage"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:SliderApp">
+    <Page.DataContext>
+        <local:BindableSliderModel />
+    </Page.DataContext>
+
+    <StackPanel>
+        <StackPanel Orientation="Horizontal" Spacing="5">
+            <TextBlock Text="Current state value:"/>
+            <TextBlock Text="{Binding SliderValue}"/>
+        </StackPanel>
+
+        <Border Height="1" Background="DarkGray" />
+
+        <TextBlock Text="Set state value:"/>
+        <Slider Value="{Binding SliderValue, Mode=TwoWay}" />
+    </StackPanel>
+</Page>
