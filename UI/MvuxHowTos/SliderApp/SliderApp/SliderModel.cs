@@ -1,6 +1,4 @@
-﻿using System.Collections.Immutable;
-using Uno.Extensions.Reactive;
-using Windows.Security.Cryptography.Core;
+﻿using Uno.Extensions.Reactive;
 
 namespace SliderApp;
 
@@ -15,11 +13,11 @@ public partial record SliderModel
 
     public async ValueTask IncrementSlider(CancellationToken ct = default)
     {
-        static double incrementValue(double currentValue) =>
+        static double IncrementValue(double currentValue) =>
             currentValue <= 99
             ? currentValue + 1
             : 1;
 
-        await SliderValue.Update(updater: incrementValue, ct);
+        await SliderValue.Update(updater: IncrementValue, ct);
     }
 }
