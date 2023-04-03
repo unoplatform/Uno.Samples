@@ -51,7 +51,7 @@ public class PeopleService : IPeopleService
     /// <summary>
     /// Get the following Person ID to be assigned.
     /// </summary>
-    private int GenerateNewId() => _people.Max(person => person.Id) + 1;
+    private int GenerateNewId() => _people.DefaultIfEmpty().Max(person => person?.Id ?? default) + 1;
 
     // this is just for demonstration purposes,
     // ideally a service just passes on information

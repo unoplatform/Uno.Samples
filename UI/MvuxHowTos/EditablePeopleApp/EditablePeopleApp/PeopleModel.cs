@@ -13,7 +13,7 @@ public partial record PeopleModel(PeopleService DataStore)
 
     // This is a placeholder for a new person to be added.
     // Again MVUX will generate a bindable object for this property.
-    public IState<Person> NewPerson => State<Person>.Empty(this);
+    public IState<Person> NewPerson => State<Person>.Value(this, EmptyPerson);
 
     // MVUX will generate an async command for each public task.
     // In this case MVUX generates an AddPerson command.
@@ -32,8 +32,7 @@ public partial record PeopleModel(PeopleService DataStore)
         await People.AddAsync(newPerson with { Id = newId }, ct);
 
         // clear the NewPerson placeholder
-        var emptyPerson = new Person(Id: 0, FirstName: string.Empty, LastName: string.Empty);
-        await NewPerson.Update(current => emptyPerson, ct);
+        await NewPerson.Update(current => EmptyPerson(), ct);
     }
 
     // A RemovePerson command is generated.
@@ -47,4 +46,7 @@ public partial record PeopleModel(PeopleService DataStore)
         // remove person from UI
         await People.RemoveAllAsync(p => p.Id == personId, ct);
     }
+
+    private static Person EmptyPerson() =>
+        new Person(Id: default, FirstName: string.Empty, LastName: string.Empty);
 }
