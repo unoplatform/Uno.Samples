@@ -1,6 +1,6 @@
 using UIKit;
 
-namespace WeatherApp.iOS
+namespace WeatherApp.MacCatalyst
 {
     public class EntryPoint
     {

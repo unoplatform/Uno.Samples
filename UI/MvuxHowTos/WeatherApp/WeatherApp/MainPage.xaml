@@ -1,20 +1,14 @@
-<Page
-	x:Class="WeatherApp.MainPage"
+<Page x:Class="WeatherApp.MainPage"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-	xmlns:mvux="using:Uno.Extensions.Reactive.UI">
+	xmlns:local="using:WeatherApp"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	mc:Ignorable="d"
+	Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-	<mvux:FeedView Source="{Binding CurrentWeather}">
-		<DataTemplate>
-			<StackPanel>
-				<TextBlock DataContext="{Binding Data}" Text="{Binding Temperature}" />
-				<Button Content="Refresh" Command="{Binding Refresh}" />
-			</StackPanel>
-		</DataTemplate>
-		<mvux:FeedView.ProgressTemplate>
-			<DataTemplate>
-				<TextBlock Text="Requesting temperature..."/>
-			</DataTemplate>
-		</mvux:FeedView.ProgressTemplate>
-	</mvux:FeedView>
+	<StackPanel HorizontalAlignment="Center"
+				VerticalAlignment="Center">
+		<TextBlock Text="Hello Uno Platform" />
+	</StackPanel>
 </Page>

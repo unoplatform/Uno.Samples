@@ -1,13 +1,13 @@
 <Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-		<TargetFrameworks>net7.0-ios;net7.0-android</TargetFrameworks>
+		<TargetFrameworks>net7.0-ios;net7.0-android;net7.0-maccatalyst</TargetFrameworks>
 		<SingleProject>true</SingleProject>
 		<OutputType>Exe</OutputType>
 		<!-- Display name -->
 		<ApplicationTitle>WeatherApp</ApplicationTitle>
 		<!-- App Identifier -->
 		<ApplicationId>com.companyname.WeatherApp</ApplicationId>
-		<ApplicationIdGuid>9EAACBA5-1258-4FE7-8BDB-15644C8B5557</ApplicationIdGuid>
+		<ApplicationIdGuid>3496B68C-790D-4C67-8D69-CBE206699251</ApplicationIdGuid>
 		<!-- Versions -->
 		<ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
 		<ApplicationVersion>1</ApplicationVersion>
@@ -47,6 +47,18 @@
 				<MtouchExtraArgs>$(MtouchExtraArgs) --registrar:static</MtouchExtraArgs>
 				<!-- https://github.com/xamarin/xamarin-macios/issues/14812 -->
 				<MtouchExtraArgs>$(MtouchExtraArgs) --marshal-objectivec-exceptions:disable</MtouchExtraArgs>
+			</PropertyGroup>
+		</When>
+		<When Condition="$(IsMacCatalyst)">
+			<PropertyGroup>
+				<!-- Configure the GC -->
+				<MtouchExtraArgs>$(MtouchExtraArgs) --setenv=MONO_GC_PARAMS=soft-heap-limit=512m,nursery-size=64m,evacuation-threshold=66,major=marksweep,concurrent-sweep</MtouchExtraArgs>
+				<!-- Required for unknown crash as of .NET 6 Mobile Preview 13 -->
+				<MtouchExtraArgs>$(MtouchExtraArgs) --registrar:static</MtouchExtraArgs>
+				<!-- https://github.com/xamarin/xamarin-macios/issues/14812 -->
+				<MtouchExtraArgs>$(MtouchExtraArgs) --marshal-objectivec-exceptions:disable</MtouchExtraArgs>
+				<!-- Full globalization is required for Uno -->
+				<InvariantGlobalization>false</InvariantGlobalization>
 			</PropertyGroup>
 		</When>
 	</Choose>
