@@ -10,6 +10,8 @@ jobs:
   pool:
     vmImage: windows-2022
 
+  - template: .azure-pipelines.BuildMatrix.yml
+
   steps:
   - checkout: self
     clean: true
@@ -35,11 +37,11 @@ jobs:
   - powershell: |
       Set-PSDebug -Trace 1
 
-      $SolutionsToBuild =  Get-ChildItem -Path **\${{ parameters.arguments }} -Recurse  | Where-Object {$_.FullName -notmatch "\\ArchivedProjects\\"}
+      $SolutionsToBuild =  Get-ChildItem -Path **\*.sln -Recurse  | Where-Object {$_.FullName -notmatch "\\ArchivedProjects\\"}
 
       if($env:System_PullRequest_TargetBranch -eq $null) { $TargetBranch = "master" } else { $TargetBranch = $env:System_PullRequest_TargetBranch; }
 
-      if (!($SolutionsToBuild -eq $null)) {
+      foreach ($SolutionName in $SolutionsToBuild) {
 
           $SolutionName = $SolutionsToBuild[0];
 
@@ -59,7 +61,7 @@ jobs:
                 # Clean the whole tree after every build to avoid disk space issues
                 git clean -fdx
            }
-        }    
+      }
       
 
     displayName: Build samples

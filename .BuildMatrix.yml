@@ -1,0 +1,20 @@
+parameters:
+- name: arguments
+  type: string
+  default: ''
+
+jobs:
+- job: Build
+
+  pool:
+    vmImage: 'windows-2022'
+
+  - powershell: |
+      $SolutionsToBuild =  Get-ChildItem -Path ${{ parameters.arguments }} -Recurse  | Where-Object {$_.FullName -notmatch "\\ArchivedProjects\\"}
+      
+      if (!($SolutionsToBuild -eq $null)) {
+        $SolutionName = $SolutionsToBuild[0];
+        & $env:msbuildpath $SolutionName /r /p:Configuration=Release /p:WasmShellMonoRuntimeExecutionMode=Interpreter /p:AotAssemblies=false /p:PublishTrimmed=false /p:WasmShellILLinkerEnabled=false /ds ;
+      }
+      
+    displayName: Build Matrix Samples
