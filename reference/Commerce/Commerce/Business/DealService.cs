@@ -44,7 +44,8 @@ public class DealService : IDealService
 
 	public async ValueTask<IImmutableList<Product>> GetAll(CancellationToken ct)
 	{
-		return (await GetDeals()).ToImmutableList();
+		var list = (await GetDeals()).ToImmutableList();
+		return list;
 	}
 
 	public async ValueTask<IImmutableList<Product>> GetPaginated(CancellationToken ct, int from, int size)
