@@ -1,3 +1,8 @@
+parameters:
+- name: arguments
+  type: string
+  default: ''
+
 jobs:
 - job: VS_Latest
   timeoutInMinutes: 600
@@ -30,11 +35,13 @@ jobs:
   - powershell: |
       Set-PSDebug -Trace 1
 
-      $SolutionsToBuild =  Get-ChildItem -Path **\*.sln -Recurse  | Where-Object {$_.FullName -notmatch "\\ArchivedProjects\\"}
+      $SolutionsToBuild =  Get-ChildItem -Path **\${{ parameters.arguments }} -Recurse  | Where-Object {$_.FullName -notmatch "\\ArchivedProjects\\"}
 
       if($env:System_PullRequest_TargetBranch -eq $null) { $TargetBranch = "master" } else { $TargetBranch = $env:System_PullRequest_TargetBranch; }
 
-      foreach ($SolutionName in $SolutionsToBuild) {
+      if (!($SolutionsToBuild -eq $null)) {
+
+          $SolutionName = $SolutionsToBuild[0];
 
            $solutionPath=[System.IO.Path]::GetDirectoryName($SolutionName);
            git diff --quiet HEAD "origin/$TargetBranch" -- "$solutionPath"
@@ -52,8 +59,8 @@ jobs:
                 # Clean the whole tree after every build to avoid disk space issues
                 git clean -fdx
            }
-          
-      }
+        }    
+      
 
     displayName: Build samples
 
