@@ -1,10 +1,11 @@
-namespace WeatherApp
+namespace WeatherApp;
+
+public sealed partial class MainPage : Page
 {
-    public sealed partial class MainPage : Page
+    public MainPage()
     {
-        public MainPage()
-        {
-            this.InitializeComponent();
-        }
+        this.InitializeComponent();
+
+        this.DataContext = new BindableWeatherModel(new WeatherService());
     }
 }
