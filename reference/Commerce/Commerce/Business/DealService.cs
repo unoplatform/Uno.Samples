@@ -36,7 +36,10 @@ public class DealService : IDealService
 			?.Where(p => !string.IsNullOrWhiteSpace(p.Discount))
 			.Select(data => new Product(data, isFavorite: /* TODO */ false));
 
-		return deals ?? Enumerable.Empty<Product>();
+		if (deals != null)
+			return deals;
+		else
+			return Enumerable.Empty<Product>();
 	}
 
 	public async ValueTask<IImmutableList<Product>> GetAll(CancellationToken ct)
