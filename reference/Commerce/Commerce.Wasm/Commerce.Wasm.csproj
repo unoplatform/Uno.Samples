@@ -8,7 +8,6 @@
 		<WasmShellWebAppBasePath>/</WasmShellWebAppBasePath>
 		<RootNamespace>Commerce</RootNamespace>
 	</PropertyGroup>
-
 	<PropertyGroup Condition="'$(Configuration)'=='Debug'">
 		<MonoRuntimeDebuggerEnabled>true</MonoRuntimeDebuggerEnabled>
 		<DefineConstants>$(DefineConstants);TRACE;DEBUG</DefineConstants>
@@ -20,11 +19,9 @@
 		-->
 		<WasmShellILLinkerEnabled>false</WasmShellILLinkerEnabled>
 	</PropertyGroup>
-
 	<PropertyGroup>
 		<UseWebAssemblyAOT Condition="'$(Configuration)'=='Release' and '$(BUILD_REASON)'!='PullRequest'">true</UseWebAssemblyAOT>
 	</PropertyGroup>
-
 	<Choose>
 		<When Condition="'$(UseWebAssemblyAOT)'=='true'">
 			<PropertyGroup>
@@ -85,7 +82,6 @@
 		<PackageReference Include="Uno.Material.WinUI" Version="2.5.3" />
 		<PackageReference Include="Uno.Toolkit.WinUI.Material" Version="2.5.4"/>
 		<PackageReference Include="Uno.Toolkit.WinUI" Version="2.5.4"/>
-		
 		<PackageReference Include="Uno.Extensions.Authentication" Version="2.3.0" />
 		<PackageReference Include="Uno.Extensions.Authentication.WinUI" Version="2.3.0" />
 		<PackageReference Include="Uno.Extensions.Configuration" Version="2.3.0" />
@@ -106,12 +102,9 @@
 		<PackageReference Include="Uno.Extensions.Serialization" Version="2.3.0" />
 		<PackageReference Include="Uno.Extensions.Serialization.Http" Version="2.3.0" />
 		<PackageReference Include="Uno.Extensions.Serialization.Refit" Version="2.3.0" />
-
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\Commerce\Commerce.csproj" />
 	</ItemGroup>
-
 	<Import Project="..\Commerce.UI\Commerce.UI.projitems" Label="Shared" Condition="Exists('..\Commerce.UI\Commerce.UI.projitems')" />
-
 </Project>
