@@ -28,34 +28,23 @@ jobs:
     displayName: Set MSBUILDPATH
 
   - powershell: |
-      Set-PSDebug -Trace 1
+      #$SolutionsJson = Get-ChildItem -Path **\*.sln -Recurse | Where-Object {$_.FullName -notmatch "\\ArchivedProjects\\"} | Select-Object -Property FullName | ConvertTo-Json
+      
+      $items = Get-ChildItem -Path **\*.sln -Recurse | Where-Object {$_.FullName -notmatch "\\ArchivedProjects\\"}
+      $name1 = $items[0].Name
+      $fullName1 = $items[0].FullName
 
-      $SolutionsToBuild =  Get-ChildItem -Path **\*.sln -Recurse  | Where-Object {$_.FullName -notmatch "\\ArchivedProjects\\"}
+      $name2 = $items[1].Name
+      $fullName2 = $items[1].FullName
+      
+      $SolutionsJson = "{ ""$($name1)"": { ""solutionname"": ""$($fullName1)"" },  ""$($name2)"": { ""solutionname"": ""$($fullName2)"" } }"
+      
+      Write-Host $SolutionsJson
+      Write-Host "##vso[task.setvariable variable=samplesJson;isOutput=true]$SolutionsJson"
+    name: generateJson
+    displayName: Generate Json of Samples
 
-      if($env:System_PullRequest_TargetBranch -eq $null) { $TargetBranch = "master" } else { $TargetBranch = $env:System_PullRequest_TargetBranch; }
-
-      foreach ($SolutionName in $SolutionsToBuild) {
-
-           $solutionPath=[System.IO.Path]::GetDirectoryName($SolutionName);
-           git diff --quiet HEAD "origin/$TargetBranch" -- "$solutionPath"
-
-           # Only build if there a change in the solution path for the current PR, if we're not in a PR
-           if( ("$env:System_PullRequest_PullRequestId" -eq '') -or ($global:LASTEXITCODE -ne 0)) {
-
-                echo "Building $solutionPath / $SolutionName"
-                & $env:msbuildpath $SolutionName /r /p:Configuration=Release /p:WasmShellMonoRuntimeExecutionMode=Interpreter /p:AotAssemblies=false /p:PublishTrimmed=false /p:WasmShellILLinkerEnabled=false /ds ;
-
-                if (($lastexitcode -ne 0)) {
-                    exit $lastexitcode
-                }
-
-                # Clean the whole tree after every build to avoid disk space issues
-                git clean -fdx
-           }
-          
-      }
-
-    displayName: Build samples
+  - template: .azure-pipelines.BuildMatrix.yml
 
   - task: PublishBuildArtifacts@1
     inputs:
