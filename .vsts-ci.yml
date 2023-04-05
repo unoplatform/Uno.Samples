@@ -43,8 +43,6 @@ jobs:
 
       foreach ($SolutionName in $SolutionsToBuild) {
 
-          $SolutionName = $SolutionsToBuild[0];
-
            $solutionPath=[System.IO.Path]::GetDirectoryName($SolutionName);
            git diff --quiet HEAD "origin/$TargetBranch" -- "$solutionPath"
 
