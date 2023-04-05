@@ -1,8 +1,3 @@
-parameters:
-- name: arguments
-  type: string
-  default: ''
-
 jobs:
 - job: VS_Latest
   timeoutInMinutes: 600
@@ -59,8 +54,8 @@ jobs:
                 # Clean the whole tree after every build to avoid disk space issues
                 git clean -fdx
            }
+
       }
-      
 
     displayName: Build samples
 
