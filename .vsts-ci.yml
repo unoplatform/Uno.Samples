@@ -27,22 +27,23 @@ jobs:
   #       echo "##vso[task.setvariable variable=msbuildpath]$msbuildpath"
   #   displayName: Set MSBUILDPATH
 
-  # - powershell: |
-  #     #$SolutionsJson = Get-ChildItem -Path **\*.sln -Recurse | Where-Object {$_.FullName -notmatch "\\ArchivedProjects\\"} | Select-Object -Property FullName | ConvertTo-Json
-      
-  #     $items = Get-ChildItem -Path **\*.sln -Recurse | Where-Object {$_.FullName -notmatch "\\ArchivedProjects\\"}
-  #     $name1 = $items[0].Name
-  #     $fullName1 = $items[0].FullName
+  - powershell: |
+      $dict = New-Object 'System.Collections.Generic.Dictionary[String,System.Collections.Generic.Dictionary[String,String]]'
+      $samples = Get-ChildItem -Path **\*.sln -Recurse | Where-Object {$_.FullName -notmatch "\\ArchivedProjects\\"}
+      foreach($sample in $samples){
+        $item = New-Object 'System.Collections.Generic.Dictionary[String,String]'
+        $item.Add("solutionname", $sample.FullName)
+        if(!$dict.ContainsKey($sample.Name)){
+          $dict.Add($sample.Name, $item)
+        }
+      }
 
-  #     $name2 = $items[1].Name
-  #     $fullName2 = $items[1].FullName
+      $SolutionsJson = $dict | ConvertTo-Json
       
-  #     $SolutionsJson = "{ ""$($name1)"": { ""solutionname"": ""$($fullName1)"" },  ""$($name2)"": { ""solutionname"": ""$($fullName2)"" } }"
-      
-  #     Write-Host $SolutionsJson
-  #     Write-Host "##vso[task.setvariable variable=samplesJson;isOutput=true]$SolutionsJson"
-  #   name: generateJson
-  #   displayName: Generate Json of Samples
+      Write-Host $SolutionsJson
+      Write-Host "##vso[task.setvariable variable=samplesJson;isOutput=true]$SolutionsJson"
+    name: generateJson
+    displayName: Generate Json of Samples
 
 - template: .azure-pipelines.BuildMatrix.yml
 
