@@ -1,9 +1,8 @@
 steps:
-  - task: Matrix Task
-    strategy:
-      matrix: $[ dependencies.VS_Latest.outputs['generateJson.samplesJson'] ]
+  strategy:
+    matrix: $[ dependencies.VS_Latest.outputs['generateJson.samplesJson'] ]
 
-    steps:
-    - template: .BuildMatrix.yml
-      parameters:
-        solutionname: ${{ parameters.solutionname }}
+  steps:
+  - template: .BuildMatrix.yml
+    parameters:
+      solutionname: ${{ parameters.solutionname }}
