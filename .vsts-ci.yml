@@ -29,7 +29,7 @@ jobs:
 
   - powershell: |
       $dict = New-Object 'System.Collections.Generic.Dictionary[String,System.Collections.Generic.Dictionary[String,String]]'
-      $samples = Get-ChildItem -Path **\*.sln -Recurse | Where-Object {$_.FullName -notmatch "\\ArchivedProjects\\"}
+      $samples = Get-ChildItem -Path **\Commerce.sln -Recurse | Where-Object {$_.FullName -notmatch "\\ArchivedProjects\\"}
       foreach($sample in $samples){
         $item = New-Object 'System.Collections.Generic.Dictionary[String,String]'
         $item.Add("solutionname", $sample.FullName)
