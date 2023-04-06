@@ -1,10 +1,12 @@
-jobs:
-- job: Strategy
-  dependsOn: VS_Latest
-  strategy:
-    matrix: $[ dependencies.VS_Latest.outputs['generateJson.samplesJson'] ]
+stages:
+- stage: Build
+  jobs:
+  - job: Strategy
+    dependsOn: VS_Latest
+    strategy:
+      matrix: $[ dependencies.VS_Latest.outputs['generateJson.samplesJson'] ]
 
-  steps:
-  - template: .BuildMatrix.yml
-    parameters:
-      solutionname: ${{ parameters.solutionname }}
+    steps:
+    - template: .BuildMatrix.yml
+      parameters:
+        solutionname: ${{ parameters.solutionname }}
