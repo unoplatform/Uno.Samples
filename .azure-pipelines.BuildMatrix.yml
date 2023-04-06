@@ -1,8 +1,9 @@
 jobs:
 - job: Strategy
-  dependsOn: Build
+  dependsOn: VS_Latest
   strategy:
-    matrix: $[ dependencies.VS_Latest.outputs['generateJson.samplesJson'] ]
+      matrix: { "Commerce" : { "solutionname": " D:\\a\\1\s\\reference\\Commerce\\Commerce.sln"} }
+    # matrix: $[ dependencies.VS_Latest.outputs['generateJson.samplesJson'] ]
 
   steps:
   - template: .BuildMatrix.yml

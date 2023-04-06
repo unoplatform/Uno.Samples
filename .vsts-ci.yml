@@ -1,56 +1,51 @@
-stages:
-  - stage: FirstStage
-    jobs:
-    - job: VS_Latest
-      timeoutInMinutes: 600
+jobs:
+- job: VS_Latest
+  timeoutInMinutes: 600
 
-      pool:
-        vmImage: windows-2022
+  pool:
+    vmImage: windows-2022
 
-      steps:
-      - checkout: self
-        clean: true
+  steps:
+  - checkout: self
+    clean: true
+  
+  - ${{ if startsWith(variables['Build.SourceBranch'], 'refs/heads/canaries') }}:
+    - template: .vsts-ci.canaries.yml
+
+  # Restore nuget.org to the list of existing sources, .NET 6 Pre 2 may somehow remove it
+  # - powershell: |
+  #     dotnet nuget add source https://api.nuget.org/v3/index.json -n nuget.org | Out-Null
+  #     $global:LASTEXITCODE = 0
+  #   displayName: Adjust nuget.org source
+
+  # - template: build/templates/dotnet-install-windows.yml
+
+  # - powershell: |
+  #       & choco install vswhere
+  #       $msbuildpath=(vswhere -latest -requires Microsoft.Component.MSBuild -find MSBuild\**\Bin\MSBuild.exe -nologo)
+
+  #       echo "##vso[task.setvariable variable=msbuildpath]$msbuildpath"
+  #   displayName: Set MSBUILDPATH
+
+  # - powershell: |
+  #     #$SolutionsJson = Get-ChildItem -Path **\*.sln -Recurse | Where-Object {$_.FullName -notmatch "\\ArchivedProjects\\"} | Select-Object -Property FullName | ConvertTo-Json
       
-      - ${{ if startsWith(variables['Build.SourceBranch'], 'refs/heads/canaries') }}:
-        - template: .vsts-ci.canaries.yml
+  #     $items = Get-ChildItem -Path **\*.sln -Recurse | Where-Object {$_.FullName -notmatch "\\ArchivedProjects\\"}
+  #     $name1 = $items[0].Name
+  #     $fullName1 = $items[0].FullName
 
-      # Restore nuget.org to the list of existing sources, .NET 6 Pre 2 may somehow remove it
-      - powershell: |
-          dotnet nuget add source https://api.nuget.org/v3/index.json -n nuget.org | Out-Null
-          $global:LASTEXITCODE = 0
-        displayName: Adjust nuget.org source
+  #     $name2 = $items[1].Name
+  #     $fullName2 = $items[1].FullName
+      
+  #     $SolutionsJson = "{ ""$($name1)"": { ""solutionname"": ""$($fullName1)"" },  ""$($name2)"": { ""solutionname"": ""$($fullName2)"" } }"
+      
+  #     Write-Host $SolutionsJson
+  #     Write-Host "##vso[task.setvariable variable=samplesJson;isOutput=true]$SolutionsJson"
+  #   name: generateJson
+  #   displayName: Generate Json of Samples
 
-      - template: build/templates/dotnet-install-windows.yml
+- template: .azure-pipelines.BuildMatrix.yml
 
-      - powershell: |
-            & choco install vswhere
-            $msbuildpath=(vswhere -latest -requires Microsoft.Component.MSBuild -find MSBuild\**\Bin\MSBuild.exe -nologo)
-
-            echo "##vso[task.setvariable variable=msbuildpath]$msbuildpath"
-        displayName: Set MSBUILDPATH
-
-  - stage: SecondStage
-    jobs:
-    - job: Build
-      - powershell: |
-          #$SolutionsJson = Get-ChildItem -Path **\*.sln -Recurse | Where-Object {$_.FullName -notmatch "\\ArchivedProjects\\"} | Select-Object -Property FullName | ConvertTo-Json
-          
-          $items = Get-ChildItem -Path **\*.sln -Recurse | Where-Object {$_.FullName -notmatch "\\ArchivedProjects\\"}
-          $name1 = $items[0].Name
-          $fullName1 = $items[0].FullName
-
-          $name2 = $items[1].Name
-          $fullName2 = $items[1].FullName
-          
-          $SolutionsJson = "{ ""$($name1)"": { ""solutionname"": ""$($fullName1)"" },  ""$($name2)"": { ""solutionname"": ""$($fullName2)"" } }"
-          
-          Write-Host $SolutionsJson
-          Write-Host "##vso[task.setvariable variable=samplesJson;isOutput=true]$SolutionsJson"
-        name: generateJson
-        displayName: Generate Json of Samples
-
-        - template: .azure-pipelines.BuildMatrix.yml
-
-        - task: PublishBuildArtifacts@1
-          inputs:
-            pathtoPublish: $(Build.ArtifactStagingDirectory)
+  # - task: PublishBuildArtifacts@1
+  #   inputs:
+  #     pathtoPublish: $(Build.ArtifactStagingDirectory)
