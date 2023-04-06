@@ -1,7 +1,8 @@
-strategy:
-  matrix: $[ dependencies.VS_Latest.outputs['generateJson.samplesJson'] ]
+- job: Build Matrix
+  strategy:
+    matrix: $[ dependencies.VS_Latest.outputs['generateJson.samplesJson'] ]
 
-steps:
-- template: .BuildMatrix.yml
-  parameters:
-    solutionname: ${{ parameters.solutionname }}
+  steps:
+  - template: .BuildMatrix.yml
+    parameters:
+      solutionname: ${{ parameters.solutionname }}
