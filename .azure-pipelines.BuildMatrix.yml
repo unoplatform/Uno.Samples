@@ -1,7 +1,4 @@
-- job: Build Matrix
-  
-  dependsOn: VS_Latest
-
+steps:
   strategy:
     matrix: $[ dependencies.VS_Latest.outputs['generateJson.samplesJson'] ]
 
