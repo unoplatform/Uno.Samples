@@ -12,19 +12,22 @@ steps:
 
       $solutionname = "D:/a/1/s/reference/Commerce/Commerce.sln"
 
-      if($env:System_PullRequest_TargetBranch -eq $null) { $TargetBranch = "master" } else { $TargetBranch = $env:System_PullRequest_TargetBranch; }
-      git diff --quiet HEAD "origin/$TargetBranch" -- "$solutionname"
-      
-      # Only build if there a change in the solution path for the current PR, if we're not in a PR
-      if( ("$env:System_PullRequest_PullRequestId" -eq '') -or ($global:LASTEXITCODE -ne 0)) {
-        
-        & $env:msbuildpath $solutionname /r /p:Configuration=Release /p:WasmShellMonoRuntimeExecutionMode=Interpreter /p:AotAssemblies=false /p:PublishTrimmed=false /p:WasmShellILLinkerEnabled=false /ds ;
-        
-        if (($lastexitcode -ne 0)) {
-          exit $lastexitcode
-        }
+      & $env:msbuildpath $solutionname /r /p:Configuration=Release /p:WasmShellMonoRuntimeExecutionMode=Interpreter /p:AotAssemblies=false /p:PublishTrimmed=false /p:WasmShellILLinkerEnabled=false /ds ;
 
-        # Clean the whole tree after every build to avoid disk space issues
-        git clean -fdx
-      }    
+
+      # if($env:System_PullRequest_TargetBranch -eq $null) { $TargetBranch = "master" } else { $TargetBranch = $env:System_PullRequest_TargetBranch; }
+      # git diff --quiet HEAD "origin/$TargetBranch" -- "$solutionname"
+      
+      # # Only build if there a change in the solution path for the current PR, if we're not in a PR
+      # if( ("$env:System_PullRequest_PullRequestId" -eq '') -or ($global:LASTEXITCODE -ne 0)) {
+        
+      #   & $env:msbuildpath $solutionname /r /p:Configuration=Release /p:WasmShellMonoRuntimeExecutionMode=Interpreter /p:AotAssemblies=false /p:PublishTrimmed=false /p:WasmShellILLinkerEnabled=false /ds ;
+        
+      #   if (($lastexitcode -ne 0)) {
+      #     exit $lastexitcode
+      #   }
+
+      #   # Clean the whole tree after every build to avoid disk space issues
+      #   git clean -fdx
+      # }    
   displayName: Build Matrix Samples
