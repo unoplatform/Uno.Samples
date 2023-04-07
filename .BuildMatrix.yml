@@ -4,6 +4,9 @@ parameters:
   default: ''
 
 steps:
+- checkout: self
+  clean: 'true'
+
 - powershell: |
       Set-PSDebug -Trace 1
       
