@@ -5,7 +5,7 @@ parameters:
 
 steps:
 - powershell: |
-      echo ${{ parameters.solutionname }}
+      echo 'Success'
       # Set-PSDebug -Trace 1
       
       # if($env:System_PullRequest_TargetBranch -eq $null) { $TargetBranch = "master" } else { $TargetBranch = $env:System_PullRequest_TargetBranch; }
