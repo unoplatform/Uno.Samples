@@ -41,7 +41,7 @@ jobs:
 
       $SolutionsJson = $dict | ConvertTo-Json
       
-      Write-Host $SolutionsJson
+      # Write-Host $SolutionsJson
       Write-Host "##vso[task.setvariable variable=samplesJson;isOutput=true]$SolutionsJson"
     name: generateJson
     displayName: Generate Json of Samples
