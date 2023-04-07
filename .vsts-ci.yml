@@ -28,17 +28,19 @@ jobs:
   #   displayName: Set MSBUILDPATH
 
   - powershell: |
-      $dict = New-Object 'System.Collections.Generic.Dictionary[String,System.Collections.Generic.Dictionary[String,String]]'
-      $samples = Get-ChildItem -Path **\*.sln -Recurse | Where-Object {$_.FullName -notmatch "\\ArchivedProjects\\"}
-      foreach($sample in $samples){
-        $item = New-Object 'System.Collections.Generic.Dictionary[String,String]'
-        $item.Add("solutionname", $sample.FullName)
-        if(!$dict.ContainsKey($sample.Name)){
-          $dict.Add($sample.Name, $item)
-        }
-      }
+      # $dict = New-Object 'System.Collections.Generic.Dictionary[String,System.Collections.Generic.Dictionary[String,String]]'
+      # $samples = Get-ChildItem -Path **\*.sln -Recurse | Where-Object {$_.FullName -notmatch "\\ArchivedProjects\\"}
+      # foreach($sample in $samples){
+      #   $item = New-Object 'System.Collections.Generic.Dictionary[String,String]'
+      #   $item.Add("solutionname", $sample.FullName)
+      #   if(!$dict.ContainsKey($sample.Name)){
+      #     $dict.Add($sample.Name, $item)
+      #   }
+      # }
 
-      $SolutionsJson = $dict | ConvertTo-Json
+      # $SolutionsJson = $dict | ConvertTo-Json
+
+      $SolutionsJson = "{ ""Commerce"": { ""solutionname"": ""D:/a/1/s/reference/Commerce/Commerce.sln""} }"
       
       Write-Host $SolutionsJson
       Write-Host "##vso[task.setvariable variable=samplesJson;isOutput=true]$SolutionsJson"
