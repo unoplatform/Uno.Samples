@@ -32,7 +32,7 @@ jobs:
       $samples = Get-ChildItem -Path **\*.sln -Recurse | Where-Object {$_.FullName -notmatch "\\ArchivedProjects\\"}
       foreach($sample in $samples){
         $item = New-Object 'System.Collections.Generic.Dictionary[String,String]'
-        $item.Add("solutionname", $sample.FullName)
+        $item.Add("solutionPath", $sample.FullName)
         $name = $sample.Name.Split(".")[0]
         if(!$dict.ContainsKey($name)){
           $dict.Add($name, $item)
