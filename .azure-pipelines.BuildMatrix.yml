@@ -6,7 +6,8 @@ jobs:
     vmImage: 'windows-2022'
 
   strategy:
-    matrix: { "Commerce" : { "solutionname": "D:/a/1/s/reference/Commerce/Commerce.sln" } }
+    matrix: $[ dependencies.VS_Latest.outputs['generateJson.samplesJson'] ]
+    #matrix: { "Commerce" : { "solutionname": "D:/a/1/s/reference/Commerce/Commerce.sln" } }
   
   variables:
     - name: UseDotNetNativeToolchain
