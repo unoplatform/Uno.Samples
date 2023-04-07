@@ -1,13 +1,11 @@
 jobs:
 - job: Strategy
   dependsOn: VS_Latest
-  
+
   strategy:
     matrix:
-      Commerce:
+      Commerce.sln:
         solutionname: 'D:/a/1/s/reference/Commerce/Commerce.sln'
-    #matrix: { "Commerce" : { "solutionname": "D:/a/1/s/reference/Commerce/Commerce.sln" } }
-    # matrix: $[ dependencies.VS_Latest.outputs['generateJson.samplesJson'] ]
   
   variables:
     - name: UseDotNetNativeToolchain
