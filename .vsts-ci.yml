@@ -28,20 +28,27 @@ jobs:
   #   displayName: Set MSBUILDPATH
 
   - powershell: |
-      $dict = New-Object 'System.Collections.Generic.Dictionary[String,System.Collections.Generic.Dictionary[String,String]]'
-      $samples = Get-ChildItem -Path **\*.sln -Recurse | Where-Object {$_.FullName -notmatch "\\ArchivedProjects\\"}
-      foreach($sample in $samples){
-        $item = New-Object 'System.Collections.Generic.Dictionary[String,String]'
-        $item.Add("solutionname", $sample.FullName)
-        $name = $sample.Name.Split(".")[0]
-        if(!$dict.ContainsKey($name)){
-          $dict.Add($name, $item)
-        }
-      }
+      # $dict = New-Object 'System.Collections.Generic.Dictionary[String,System.Collections.Generic.Dictionary[String,String]]'
+      # $samples = Get-ChildItem -Path **\*.sln -Recurse | Where-Object {$_.FullName -notmatch "\\ArchivedProjects\\"}
+      # foreach($sample in $samples){
+      #   $item = New-Object 'System.Collections.Generic.Dictionary[String,String]'
+      #   $item.Add("solutionname", $sample.FullName)
+      #   $name = $sample.Name.Split(".")[0]
+      #   if(!$dict.ContainsKey($name)){
+      #     $dict.Add($name, $item)
+      #   }
+      # }
 
-      $SolutionsJson = $dict | ConvertTo-Json
+      # $SolutionsJson = $dict | ConvertTo-Json
+
+      $SolutionsJson = @"
+      {
+         "Commerce": { "solutionname": "D:/a/1/s/reference/Commerce/Commerce.sln" },
+         "SplashScreenSample": { "solutionname": "D:/a/1/s/UI/SplashScreenSample/SplashScreenSample.sln"}
+      }
+      "@
       
-      # Write-Host $SolutionsJson
+      Write-Host $SolutionsJson
       Write-Host "##vso[task.setvariable variable=samplesJson;isOutput=true]$SolutionsJson"
     name: generateJson
     displayName: Generate Json of Samples
