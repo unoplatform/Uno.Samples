@@ -1,5 +1,5 @@
 parameters:
-- name: solutionname
+- name: arguments
   type: string
   default: ''
 
@@ -11,12 +11,12 @@ steps:
       Set-PSDebug -Trace 1
       
       if($env:System_PullRequest_TargetBranch -eq $null) { $TargetBranch = "master" } else { $TargetBranch = $env:System_PullRequest_TargetBranch; }
-      git diff --quiet HEAD "origin/$TargetBranch" -- "${{ parameters.solutionname }}"
+      git diff --quiet HEAD "origin/$TargetBranch" -- "${{ parameters.arguments }}"
       
       # Only build if there a change in the solution path for the current PR, if we're not in a PR
       if( ("$env:System_PullRequest_PullRequestId" -eq '') -or ($global:LASTEXITCODE -ne 0)) {
         
-        & $env:msbuildpath ${{ parameters.solutionname }} /r /p:Configuration=Release /p:WasmShellMonoRuntimeExecutionMode=Interpreter /p:AotAssemblies=false /p:PublishTrimmed=false /p:WasmShellILLinkerEnabled=false /ds ;
+        & $env:msbuildpath ${{ parameters.arguments }} /r /p:Configuration=Release /p:WasmShellMonoRuntimeExecutionMode=Interpreter /p:AotAssemblies=false /p:PublishTrimmed=false /p:WasmShellILLinkerEnabled=false /ds ;
         
         if (($lastexitcode -ne 0)) {
           exit $lastexitcode
