@@ -8,6 +8,7 @@ steps:
   clean: 'true'
 
 - powershell: |
+      $global:LASTEXITCODE = 0
       Write-Host "${{ parameters.path }}"
 
       if($env:System_PullRequest_TargetBranch -eq $null) { $TargetBranch = "master" } else { $TargetBranch = $env:System_PullRequest_TargetBranch; }
