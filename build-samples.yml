@@ -50,5 +50,8 @@ steps:
 
         # Clean the whole tree after every build to avoid disk space issues
         git clean -fdx
-      }    
+      }
+      else {
+        $global:LASTEXITCODE = 0
+      }
   displayName: Build Matrix Samples
