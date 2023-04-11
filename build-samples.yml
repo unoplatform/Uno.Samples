@@ -3,10 +3,6 @@ parameters:
   type: string
   default: ''
 
-variables:
-- name: buildSample
-  value: true
-
 steps:
 - checkout: self
   clean: 'true'
@@ -25,7 +21,7 @@ steps:
       if( ("$env:System_PullRequest_PullRequestId" -eq '') -or ($global:LASTEXITCODE -ne 0)) {
         Write-Host "##vso[task.setvariable variable=buildSample]false"
       }  
-displayName: Check Build
+  displayName: Check Build
 
 - ${{ if ($(buildSample) -eq true) }}:
   - template: build/templates/dotnet-install-windows.yml
