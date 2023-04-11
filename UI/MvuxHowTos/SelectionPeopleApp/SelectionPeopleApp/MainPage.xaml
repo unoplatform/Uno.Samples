@@ -1,0 +1,61 @@
+<Page 
+    x:Class="SelectionPeopleApp.MainPage"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mvux="using:Uno.Extensions.Reactive.UI">
+
+    <StackPanel>
+
+        <!--single selection
+        <StackPanel DataContext="{Binding SelectedPerson}" Orientation="Horizontal" Spacing="5">
+            <TextBlock Text="Selected person:" />
+            <TextBlock Text="{Binding FirstName}"/>
+            <TextBlock Text="{Binding LastName}"/>
+        </StackPanel>
+        -->
+
+        <!--multiple selection
+        <StackPanel Orientation="Horizontal">
+            <TextBlock Text="Selected people:" />
+            <ItemsControl ItemsSource="{Binding SelectedPeople}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal" Spacing="5"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal" Spacing="2">
+                            <TextBlock Text="{Binding FirstName}"/>
+                            <TextBlock Text="{Binding LastName}"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </StackPanel>
+
+        <Border Height="2" Background="Gray" />
+
+        <ListView ItemsSource="{Binding People}" SelectionMode="Multiple">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal" Spacing="5">
+                        <TextBlock Text="{Binding FirstName}"/>
+                        <TextBlock Text="{Binding LastName}"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        -->
+
+        <ListView ItemsSource="{Binding PaginatedPeople}">
+            <ListView.Footer>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Items per page:"/>
+                    <NumberBox Minimum="1" Maximum="10" Value="{Binding DesiredSize, Mode=TwoWay}" />                    
+                </StackPanel>
+            </ListView.Footer>
+        </ListView>
+
+    </StackPanel>
+</Page>
