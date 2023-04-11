@@ -2,6 +2,8 @@ namespace SliderApp;
 
 public sealed partial class MainPage : Page
 {
-    public MainPage() =>
-        this.InitializeComponent();
+	public MainPage()
+	{
+		this.InitializeComponent();
+	}
 }
