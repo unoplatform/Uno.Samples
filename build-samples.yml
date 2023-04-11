@@ -40,7 +40,7 @@ steps:
       
       Write-Host "${{ parameters.path }}"
 
-      if ($env:buildSample -eq true) {
+      if ("$env:buildSample" -eq 'true') {
         
         & $env:msbuildpath "${{ parameters.path }}" /r /p:Configuration=Release /p:WasmShellMonoRuntimeExecutionMode=Interpreter /p:AotAssemblies=false /p:PublishTrimmed=false /p:WasmShellILLinkerEnabled=false /ds ;
         

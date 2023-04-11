@@ -1,4 +1,5 @@
 <Project Sdk="Microsoft.NET.Sdk">
+
 	<PropertyGroup>
 		<OutputType>WinExe</OutputType>
 		<TargetFramework>net6.0-windows10.0.19041.0</TargetFramework>
@@ -11,15 +12,12 @@
 		<UseWinUI>true</UseWinUI>
 		<EnableMsixTooling>true</EnableMsixTooling>
 	</PropertyGroup>
-
 	<PropertyGroup>
-	
 		<!-- Bundles the WinAppSDK binaries (Uncomment for unpackaged builds) -->
 		<!-- <WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained> -->
 		<!-- This bundles the .NET Core libraries (Uncomment for packaged builds)  -->
 		<SelfContained>true</SelfContained>
 		<DefaultLanguage>en</DefaultLanguage>
-
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -73,7 +71,6 @@
 		<PackageReference Include="Uno.Extensions.Serialization" Version="2.3.0" />
 		<PackageReference Include="Uno.Extensions.Serialization.Http" Version="2.3.0" />
 		<PackageReference Include="Uno.Extensions.Serialization.Refit" Version="2.3.0" />
-
 	</ItemGroup>
 
 	<!-- Defining the "Msix" ProjectCapability here allows the Single-project MSIX Packaging
@@ -101,5 +98,6 @@
 		<FrameworkReference Update="Microsoft.Windows.SDK.NET.Ref" TargetingPackVersion="10.0.22621.28" />
 
 	</ItemGroup>
+	
 	<Import Project="..\Commerce.UI\Commerce.UI.projitems" Label="Shared" />
 </Project>
