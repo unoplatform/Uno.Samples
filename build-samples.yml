@@ -16,16 +16,16 @@ steps:
       Write-Host "$solutionPath"
 
       git diff --quiet HEAD "origin/$TargetBranch" -- "$solutionPath"
-      $buildSample = $false
+      $buildSample = 0
       # Only build if there a change in the solution path for the current PR, if we're not in a PR
       if( ("$env:System_PullRequest_PullRequestId" -eq '') -or ($global:LASTEXITCODE -ne 0)) {
-        $buildSample = $true
+        $buildSample = 1
       }
 
       echo "##vso[task.setvariable variable=buildSample]$buildSample"
   displayName: Check Build
 
-- ${{ if eq(variables['buildSample'], true) }}:
+- ${{ if eq(variables['buildSample'], 1) }}:
   - template: build/templates/dotnet-install-windows.yml
 
 - powershell: |
@@ -40,7 +40,7 @@ steps:
       
       Write-Host "${{ parameters.path }}"
 
-      if ($buildSample -eq $true) {
+      if ($buildSample -eq 1) {
         
         & $env:msbuildpath "${{ parameters.path }}" /r /p:Configuration=Release /p:WasmShellMonoRuntimeExecutionMode=Interpreter /p:AotAssemblies=false /p:PublishTrimmed=false /p:WasmShellILLinkerEnabled=false /ds ;
         
