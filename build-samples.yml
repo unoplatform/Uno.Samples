@@ -16,10 +16,10 @@ steps:
       Write-Host "$solutionPath"
 
       git diff --quiet HEAD "origin/$TargetBranch" -- "$solutionPath"
-      $buildSample = false
+      $buildSample = $false
       # Only build if there a change in the solution path for the current PR, if we're not in a PR
       if( ("$env:System_PullRequest_PullRequestId" -eq '') -or ($global:LASTEXITCODE -ne 0)) {
-        $buildSample = true
+        $buildSample = $true
       }  
 
       echo "##vso[task.setvariable variable=buildSample]$buildSample"
@@ -40,7 +40,7 @@ steps:
       
       Write-Host "${{ parameters.path }}"
 
-      if ("$env:buildSample" -eq 'true') {
+      if ($buildSample) {
         
         & $env:msbuildpath "${{ parameters.path }}" /r /p:Configuration=Release /p:WasmShellMonoRuntimeExecutionMode=Interpreter /p:AotAssemblies=false /p:PublishTrimmed=false /p:WasmShellILLinkerEnabled=false /ds ;
         
