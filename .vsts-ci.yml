@@ -12,21 +12,6 @@ jobs:
   - ${{ if startsWith(variables['Build.SourceBranch'], 'refs/heads/canaries') }}:
     - template: .vsts-ci.canaries.yml
 
-  # Restore nuget.org to the list of existing sources, .NET 6 Pre 2 may somehow remove it
-  # - powershell: |
-  #     dotnet nuget add source https://api.nuget.org/v3/index.json -n nuget.org | Out-Null
-  #     $global:LASTEXITCODE = 0
-  #   displayName: Adjust nuget.org source
-
-  # - template: build/templates/dotnet-install-windows.yml
-
-  # - powershell: |
-  #       & choco install vswhere
-  #       $msbuildpath=(vswhere -latest -requires Microsoft.Component.MSBuild -find MSBuild\**\Bin\MSBuild.exe -nologo)
-
-  #       echo "##vso[task.setvariable variable=msbuildpath]$msbuildpath"
-  #   displayName: Set MSBUILDPATH
-
   - powershell: |
       $dict = New-Object 'System.Collections.Generic.Dictionary[String,System.Collections.Generic.Dictionary[String,String]]'
       $samples = Get-ChildItem -Path **\*.sln -Recurse | Where-Object {$_.FullName -notmatch "\\ArchivedProjects\\"}
