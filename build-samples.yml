@@ -30,7 +30,9 @@ steps:
 - template: build/templates/dotnet-install-windows.yml
 
 - powershell: |
-      if ( $buildSample ) {
+      if ( $(buildSample) ) {
+        Write-Host "Setting MSBuild path"
+
         & choco install vswhere
         $msbuildpath=(vswhere -latest -requires Microsoft.Component.MSBuild -find MSBuild\**\Bin\MSBuild.exe -nologo)
 
@@ -40,11 +42,11 @@ steps:
 
 - powershell: |
       Set-PSDebug -Trace 1
-      Write-Host "$buildSample"
+      Write-Host "$(buildSample)"
       
       Write-Host "${{ parameters.path }}"
 
-      if ( $buildSample ) {
+      if ( $(buildSample) ) {
         
         & $env:msbuildpath "${{ parameters.path }}" /r /p:Configuration=Release /p:WasmShellMonoRuntimeExecutionMode=Interpreter /p:AotAssemblies=false /p:PublishTrimmed=false /p:WasmShellILLinkerEnabled=false /ds ;
         
