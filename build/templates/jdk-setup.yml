@@ -3,5 +3,4 @@ steps:
   - pwsh: |
       echo "##vso[task.setvariable variable=JAVA_HOME]$(JAVA_HOME_11_X64)"
       echo "##vso[task.setvariable variable=JavaSdkDirectory]$(JAVA_HOME_11_X64)"
-    condition: and(succeeded(), eq(variables.buildSample, true))
     displayName: Select JDK 11

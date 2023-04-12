@@ -7,26 +7,6 @@ steps:
 - checkout: self
   clean: 'true'
 
-- powershell: |
-      Write-Host "${{ parameters.path }}"
-
-      if($env:System_PullRequest_TargetBranch -eq $null) { $TargetBranch = "master" } else { $TargetBranch = $env:System_PullRequest_TargetBranch; }
-
-      $solutionPath=[System.IO.Path]::GetDirectoryName("${{ parameters.path }}");
-      Write-Host "$solutionPath"
-
-      git diff --quiet HEAD "origin/$TargetBranch" -- "$solutionPath"
-      $buildSample = $false
-      # Only build if there a change in the solution path for the current PR, if we're not in a PR
-      if( ("$env:System_PullRequest_PullRequestId" -eq '') -or ($global:LASTEXITCODE -ne 0)) {
-        $buildSample = $true
-      }
-      $global:LASTEXITCODE = 0
-
-      Write-Host "$buildSample"
-      echo "##vso[task.setvariable variable=buildSample]$buildSample"
-  displayName: Check Build
-
 - template: build/templates/dotnet-install-windows.yml
 
 - powershell: |
@@ -34,7 +14,6 @@ steps:
       $msbuildpath=(vswhere -latest -requires Microsoft.Component.MSBuild -find MSBuild\**\Bin\MSBuild.exe -nologo)
 
       echo "##vso[task.setvariable variable=msbuildpath]$msbuildpath"
-  condition: and(succeeded(), eq(variables.buildSample, true))
   displayName: Set MSBUILDPATH
 
 - powershell: |
@@ -45,5 +24,4 @@ steps:
 
       # Clean the whole tree after every build to avoid disk space issues
       git clean -fdx
-  condition: and(succeeded(), eq(variables.buildSample, true))
   displayName: Build Matrix Samples

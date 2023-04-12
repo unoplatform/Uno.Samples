@@ -16,12 +16,23 @@ jobs:
       $dict = New-Object 'System.Collections.Generic.Dictionary[String,System.Collections.Generic.Dictionary[String,String]]'
       $samples = Get-ChildItem -Path **\*.sln -Recurse | Where-Object {$_.FullName -notmatch "\\ArchivedProjects\\"}
       foreach($sample in $samples){
-        $item = New-Object 'System.Collections.Generic.Dictionary[String,String]'
-        $item.Add("solutionPath", $sample.FullName)
-        $name = $sample.Name.Split(".")[0]
-        if(!$dict.ContainsKey($name)){
-          $dict.Add($name, $item)
+
+        $solutionPath=[System.IO.Path]::GetDirectoryName($sample.FullName);
+        Write-Host "$solutionPath"
+
+        git diff --quiet HEAD "origin/$TargetBranch" -- "$solutionPath"
+        # Only build if there a change in the solution path for the current PR, if we're not in a PR
+        if( ("$env:System_PullRequest_PullRequestId" -eq '') -or ($global:LASTEXITCODE -ne 0)) {
+          Write-Host "Adding $solutionPath"
+          $item = New-Object 'System.Collections.Generic.Dictionary[String,String]'
+          $item.Add("solutionPath", $sample.FullName)
+          $name = $sample.Name.Split(".")[0]
+          if(!$dict.ContainsKey($name)){
+            $dict.Add($name, $item)
+          }
         }
+        $global:LASTEXITCODE = 0
+
       }
 
       $SolutionsJson = $dict | ConvertTo-Json -Compress
