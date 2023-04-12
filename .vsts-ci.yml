@@ -13,6 +13,8 @@ jobs:
     - template: .vsts-ci.canaries.yml
 
   - powershell: |
+      if($env:System_PullRequest_TargetBranch -eq $null) { $TargetBranch = "master" } else { $TargetBranch = $env:System_PullRequest_TargetBranch; }
+
       $dict = New-Object 'System.Collections.Generic.Dictionary[String,System.Collections.Generic.Dictionary[String,String]]'
       $samples = Get-ChildItem -Path **\*.sln -Recurse | Where-Object {$_.FullName -notmatch "\\ArchivedProjects\\"}
       foreach($sample in $samples){
@@ -21,6 +23,7 @@ jobs:
         Write-Host "$solutionPath"
 
         git diff --quiet HEAD "origin/$TargetBranch" -- "$solutionPath"
+
         # Only build if there a change in the solution path for the current PR, if we're not in a PR
         if( ("$env:System_PullRequest_PullRequestId" -eq '') -or ($global:LASTEXITCODE -ne 0)) {
           Write-Host "Adding $solutionPath"
