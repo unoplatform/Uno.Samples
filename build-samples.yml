@@ -8,7 +8,6 @@ steps:
   clean: 'true'
 
 - powershell: |
-      $global:LASTEXITCODE = 0
       Write-Host "${{ parameters.path }}"
 
       if($env:System_PullRequest_TargetBranch -eq $null) { $TargetBranch = "master" } else { $TargetBranch = $env:System_PullRequest_TargetBranch; }
@@ -23,6 +22,7 @@ steps:
         $buildSample = 1
       }
 
+      $global:LASTEXITCODE = 0
       echo "##vso[task.setvariable variable=buildSample]$buildSample"
   displayName: Check Build
 
