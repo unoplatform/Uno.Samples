@@ -2,7 +2,12 @@
 
 public partial record Person(string FirstName, string LastName);
 
-public class PeopleService
+public interface IPeopleService
+{
+    ValueTask<IImmutableList<Person>> GetPeopleAsync(CancellationToken ct);
+}
+
+public class PeopleService : IPeopleService
 {
     public async ValueTask<IImmutableList<Person>> GetPeopleAsync(CancellationToken ct)
     {

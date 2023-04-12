@@ -6,6 +6,7 @@ public interface IWeatherService
 {
     ValueTask<WeatherInfo> GetCurrentWeather(CancellationToken ct);
 }
+
 public class WeatherService : IWeatherService
 {
     public async ValueTask<WeatherInfo> GetCurrentWeather(CancellationToken ct)

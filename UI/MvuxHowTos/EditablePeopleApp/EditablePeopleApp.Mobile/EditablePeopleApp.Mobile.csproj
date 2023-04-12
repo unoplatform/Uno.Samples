@@ -1,13 +1,13 @@
 <Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-		<TargetFrameworks>net7.0-ios;net7.0-android</TargetFrameworks>
+		<TargetFrameworks>net7.0-ios;net7.0-android;net7.0-maccatalyst</TargetFrameworks>
 		<SingleProject>true</SingleProject>
 		<OutputType>Exe</OutputType>
 		<!-- Display name -->
 		<ApplicationTitle>EditablePeopleApp</ApplicationTitle>
 		<!-- App Identifier -->
 		<ApplicationId>com.companyname.EditablePeopleApp</ApplicationId>
-		<ApplicationIdGuid>A3965DC1-4EB2-40F1-86C9-B7EE4259508C</ApplicationIdGuid>
+		<ApplicationIdGuid>CE1E0FE5-1888-4D3E-800F-89786A9A927E</ApplicationIdGuid>
 		<!-- Versions -->
 		<ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
 		<ApplicationVersion>1</ApplicationVersion>
@@ -47,6 +47,18 @@
 				<MtouchExtraArgs>$(MtouchExtraArgs) --registrar:static</MtouchExtraArgs>
 				<!-- https://github.com/xamarin/xamarin-macios/issues/14812 -->
 				<MtouchExtraArgs>$(MtouchExtraArgs) --marshal-objectivec-exceptions:disable</MtouchExtraArgs>
+			</PropertyGroup>
+		</When>
+		<When Condition="$(IsMacCatalyst)">
+			<PropertyGroup>
+				<!-- Configure the GC -->
+				<MtouchExtraArgs>$(MtouchExtraArgs) --setenv=MONO_GC_PARAMS=soft-heap-limit=512m,nursery-size=64m,evacuation-threshold=66,major=marksweep,concurrent-sweep</MtouchExtraArgs>
+				<!-- Required for unknown crash as of .NET 6 Mobile Preview 13 -->
+				<MtouchExtraArgs>$(MtouchExtraArgs) --registrar:static</MtouchExtraArgs>
+				<!-- https://github.com/xamarin/xamarin-macios/issues/14812 -->
+				<MtouchExtraArgs>$(MtouchExtraArgs) --marshal-objectivec-exceptions:disable</MtouchExtraArgs>
+				<!-- Full globalization is required for Uno -->
+				<InvariantGlobalization>false</InvariantGlobalization>
 			</PropertyGroup>
 		</When>
 	</Choose>

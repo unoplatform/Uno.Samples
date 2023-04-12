@@ -6,6 +6,6 @@ public sealed partial class MainPage : Page
     {
         this.InitializeComponent();
 
-        DataContext = new BindablePeopleModel(new PeopleService());
+        this.DataContext = new BindablePeopleModel(new PeopleService());
     }
 }

@@ -8,8 +8,10 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Uno.Extensions.Reactive.WinUI" Version="2.3.2" />
 		<PackageReference Include="Uno.WinUI" Version="4.8.15" />
+		<PackageReference Include="Uno.Resizetizer" Version="1.0.2" />
+		<PackageReference Include="Uno.Extensions.Reactive.WinUI" Version="2.3.2" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Console" Version="7.0.0" />
 	</ItemGroup>
 
 	<Choose>
@@ -46,7 +48,21 @@
 	</Choose>
 
 	<ItemGroup>
-		<UnoImage Include="Assets\**\*.svg" />
 		<UpToDateCheckInput Include="**\*.xaml" Exclude="bin\**\*.xaml;obj\**\*.xaml" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Remove="AppResources.xaml" />
+	</ItemGroup>
+
+	<ItemGroup>
+	<UnoImage Include="Assets\**\*.svg" />
+	  <UpToDateCheckInput Remove="AppResources.xaml" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Page Update="AppResources.xaml">
+	    <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+	  </Page>
 	</ItemGroup>
 </Project>
