@@ -17,6 +17,7 @@ steps:
   #  retryCountOnTaskFailure: 3
   - task: UseDotNet@2
     displayName: 'Use .NET Core SDK ${{ parameters.DotNetVersion }}'
+    condition: and(succeeded(), eq(variables.buildSample, true))
     retryCountOnTaskFailure: 3
     inputs:
       packageType: sdk
@@ -29,6 +30,7 @@ steps:
       & dotnet tool update --global uno.check --version ${{ parameters.UnoCheck_Version }} --add-source https://api.nuget.org/v3/index.json
       & uno-check -v --ci --non-interactive --fix --skip androidsdk --skip androidemulator --skip xcode --skip gtk3 --skip vswin --skip vsmac --manifest ${{ parameters.UnoCheck_Manifest }}
     displayName: Install .NET Workloads
+    condition: and(succeeded(), eq(variables.buildSample, true))
     errorActionPreference: continue
     ignoreLASTEXITCODE: true
     retryCountOnTaskFailure: 3
