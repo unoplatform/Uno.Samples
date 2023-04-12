@@ -12,31 +12,30 @@ jobs:
   - ${{ if startsWith(variables['Build.SourceBranch'], 'refs/heads/canaries') }}:
     - template: .vsts-ci.canaries.yml
 
-  # Restore nuget.org to the list of existing sources, .NET 6 Pre 2 may somehow remove it
-  # - powershell: |
-  #     dotnet nuget add source https://api.nuget.org/v3/index.json -n nuget.org | Out-Null
-  #     $global:LASTEXITCODE = 0
-  #   displayName: Adjust nuget.org source
-
-  # - template: build/templates/dotnet-install-windows.yml
-
-  # - powershell: |
-  #       & choco install vswhere
-  #       $msbuildpath=(vswhere -latest -requires Microsoft.Component.MSBuild -find MSBuild\**\Bin\MSBuild.exe -nologo)
-
-  #       echo "##vso[task.setvariable variable=msbuildpath]$msbuildpath"
-  #   displayName: Set MSBUILDPATH
-
   - powershell: |
+      if($env:System_PullRequest_TargetBranch -eq $null) { $TargetBranch = "master" } else { $TargetBranch = $env:System_PullRequest_TargetBranch; }
+
       $dict = New-Object 'System.Collections.Generic.Dictionary[String,System.Collections.Generic.Dictionary[String,String]]'
       $samples = Get-ChildItem -Path **\*.sln -Recurse | Where-Object {$_.FullName -notmatch "\\ArchivedProjects\\"}
       foreach($sample in $samples){
-        $item = New-Object 'System.Collections.Generic.Dictionary[String,String]'
-        $item.Add("solutionPath", $sample.FullName)
-        $name = $sample.Name.Split(".")[0]
-        if(!$dict.ContainsKey($name)){
-          $dict.Add($name, $item)
+
+        $solutionPath=[System.IO.Path]::GetDirectoryName($sample.FullName);
+        Write-Host "$solutionPath"
+
+        git diff --quiet HEAD "origin/$TargetBranch" -- "$solutionPath"
+
+        # Only build if there a change in the solution path for the current PR, if we're not in a PR
+        if( ("$env:System_PullRequest_PullRequestId" -eq '') -or ($global:LASTEXITCODE -ne 0)) {
+          Write-Host "Adding $solutionPath"
+          $item = New-Object 'System.Collections.Generic.Dictionary[String,String]'
+          $item.Add("solutionPath", $sample.FullName)
+          $name = $sample.Name.Split(".")[0]
+          if(!$dict.ContainsKey($name)){
+            $dict.Add($name, $item)
+          }
         }
+        $global:LASTEXITCODE = 0
+
       }
 
       $SolutionsJson = $dict | ConvertTo-Json -Compress
