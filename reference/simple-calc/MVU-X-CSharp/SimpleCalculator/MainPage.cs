@@ -97,72 +97,73 @@ public sealed partial class MainPage : Page
         .RowDefinitions<Grid>("*,*,*,*,*")
         .Children
         (
-            // Row 0
-            KeyPadPrimaryButton(vm, 0, 0, "C"),
-            KeyPadPrimaryButton(vm, 0, 1, "±"),
-            KeyPadPrimaryButton(vm, 0, 2, "%"),
-            KeyPadSecondaryButton(vm, 0, 3, "÷"),
+			// Row 0
+			KeyPadPrimaryButton(vm, 0, 0, "C"),
+			KeyPadPrimaryButton(vm, 0, 1, "±"),
+			KeyPadPrimaryButton(vm, 0, 2, "%"),
+			KeyPadBaseButton(vm, 0, 3, "÷"),
 
-            // Row 1
-            KeyPadButton(vm, 1, 0, "7"),
-            KeyPadButton(vm, 1, 1, "8"),
-            KeyPadButton(vm, 1, 2, "9"),
-            KeyPadSecondaryButton(vm, 1, 3, "×"),
+			// Row 1
+			KeyPadButton(vm, 1, 0, "7"),
+			KeyPadButton(vm, 1, 1, "8"),
+			KeyPadButton(vm, 1, 2, "9"),
+			KeyPadBaseButton(vm, 1, 3, "×"),
 
-            // Row 2
-            KeyPadButton(vm, 2, 0, "4"),
-            KeyPadButton(vm, 2, 1, "5"),
-            KeyPadButton(vm, 2, 2, "6"),
-            KeyPadSecondaryButton(vm, 2, 3, "−"),
+			// Row 2
+			KeyPadButton(vm, 2, 0, "4"),
+			KeyPadButton(vm, 2, 1, "5"),
+			KeyPadButton(vm, 2, 2, "6"),
+			KeyPadBaseButton(vm, 2, 3, "−"),
 
-            //Row 3
-            KeyPadButton(vm, 3, 0, "1"),
-            KeyPadButton(vm, 3, 1, "2"),
-            KeyPadButton(vm, 3, 2, "3"),
-            KeyPadSecondaryButton(vm, 3, 3, "+"),
+			//Row 3
+			KeyPadButton(vm, 3, 0, "1"),
+			KeyPadButton(vm, 3, 1, "2"),
+			KeyPadButton(vm, 3, 2, "3"),
+			KeyPadBaseButton(vm, 3, 3, "+"),
 
-            //Row 4
-            KeyPadButton(vm, 4, 0, "."),
-            KeyPadButton(vm, 4, 1, "0"),
-            KeyPadButton(vm, 4, 2, new FontIcon().Glyph("\uE926"), parameter: "back"),
-            KeyPadSecondaryButton(vm, 4, 3, "=")
-        );
+			//Row 4
+			KeyPadButton(vm, 4, 0, "."),
+			KeyPadButton(vm, 4, 1, "0"),
+			KeyPadButton(vm, 4, 2, new FontIcon().Glyph("\uE926"), parameter: "back"),
+			KeyPadBaseButton(vm, 4, 3, "=")
+		);
 
     private Button KeyPadPrimaryButton(
             BindableMainModel vm,
             int gridRow,
             int gridColumn,
             object content) =>
-        KeyPadButton(vm, gridRow, gridColumn, content, 
-                    Theme.Brushes.Primary.Container.Default, Theme.Brushes.OnSecondary.Container.Default);
-    
-    private Button KeyPadSecondaryButton(
-            BindableMainModel vm,
-            int gridRow,
-            int gridColumn,
-            object content) =>
-        KeyPadButton(vm, gridRow, gridColumn, content, 
-                    Theme.Brushes.Primary.VariantDark.Default, Theme.Brushes.OnTertiary.Default);
+		KeyPadBaseButton(vm, gridRow, gridColumn, content,
+					Theme.Brushes.Secondary.Default, Theme.Brushes.OnSecondary.Container.Default);
 
-    private Button KeyPadButton(
+	private Button KeyPadButton(
+            BindableMainModel vm,
+			int gridRow,
+			int gridColumn,
+			object content,
+			string? parameter = null) =>
+		KeyPadBaseButton(vm, gridRow, gridColumn, content,
+					Theme.Brushes.Surface.Default, Theme.Brushes.OnSurface.Default, parameter);
+
+	private Button KeyPadBaseButton(
             BindableMainModel vm,
             int gridRow, 
             int gridColumn,
             object content,
             BrushBuilder? background = null,
             BrushBuilder? foreground = null,
-            string? parameter = null) => 
-        new Button()
-        .Command(() => vm.InputCommand)
-        .CommandParameter(parameter ?? content)
-        .Background(background ?? Theme.Brushes.Secondary.Container.Default)
-        .Content(content)
-        .FontSize(32)
-        .Foreground(foreground ?? Theme.Brushes.OnSurface.Default)
-        .Grid(row: gridRow, column: gridColumn)
-        .HorizontalAlignment(HorizontalAlignment.Stretch)
-        .VerticalAlignment(VerticalAlignment.Stretch)
-        .Height(72);
+            string? parameter = null) =>
+		new Button()
+		.Command(() => vm.InputCommand)
+		.CommandParameter(parameter ?? content)
+		.Background(background ?? Theme.Brushes.Primary.Default)
+		.Content(content)
+		.FontSize(32)
+		.Foreground(foreground ?? Theme.Brushes.OnPrimary.Default)
+		.Grid(row: gridRow, column: gridColumn)
+		.HorizontalAlignment(HorizontalAlignment.Stretch)
+		.VerticalAlignment(VerticalAlignment.Stretch)
+		.Height(72);
 }
 
 public static class AppIcons

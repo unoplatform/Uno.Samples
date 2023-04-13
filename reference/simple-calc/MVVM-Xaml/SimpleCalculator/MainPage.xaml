@@ -12,7 +12,6 @@
     Background="{ThemeResource BackgroundBrush}">
 
     <Page.Resources>
-
         <Style TargetType="Button" x:Key="BaseButton" BasedOn="{StaticResource FilledButtonStyle}">
             <Setter Property="FontSize" Value="32" />
             <Setter Property="Height" Value="72" />
@@ -21,15 +20,11 @@
         </Style>
         <Style TargetType="Button" x:Key="KeypadPrimaryButton" BasedOn="{StaticResource BaseButton}">
             <Setter Property="Foreground" Value="{ThemeResource OnSecondaryContainerBrush}" />
-            <Setter Property="Background" Value="{ThemeResource PrimaryContainerBrush}" />
-        </Style>
-        <Style TargetType="Button" x:Key="KeypadSecondaryButton" BasedOn="{StaticResource BaseButton}">
-            <Setter Property="Foreground" Value="{ThemeResource OnTertiaryBrush}" />
-            <Setter Property="Background" Value="{ThemeResource PrimaryVariantDarkBrush}" />
+            <Setter Property="Background" Value="{ThemeResource SecondaryBrush}" />
         </Style>
         <Style TargetType="Button" x:Key="KeypadButton" BasedOn="{StaticResource BaseButton}">
             <Setter Property="Foreground" Value="{ThemeResource OnSurfaceBrush}" />
-            <Setter Property="Background" Value="{ThemeResource SecondaryContainerBrush}" />
+            <Setter Property="Background" Value="{ThemeResource SurfaceBrush}" />
         </Style>
 
         <x:String x:Key="MoonIcon">F1 M 3 0 C 1.9500000476837158 0 0.949999988079071 0.1600000262260437 0 0.46000003814697266 C 4.059999942779541 1.7300000190734863 7 5.519999980926514 7 10 C 7 14.480000019073486 4.059999942779541 18.27000093460083 0 19.540000915527344 C 0.949999988079071 19.840000927448273 1.9500000476837158 20 3 20 C 8.519999980926514 20 13 15.519999980926514 13 10 C 13 4.480000019073486 8.519999980926514 0 3 0 Z</x:String>
@@ -46,10 +41,10 @@
         <!--Header-->
         <ToggleButton Grid.Row="0" Background="{ThemeResource SecondaryContainerBrush}" Margin="8,24,8,0" HorizontalAlignment="Center" Style="{StaticResource IconToggleButtonStyle}" IsChecked="{Binding IsDark, Mode=TwoWay}" CornerRadius="20">
             <ToggleButton.Content>
-                <PathIcon Data="{StaticResource SunIcon}" Foreground="{ThemeResource PrimaryVariantDarkBrush}" />
+                <PathIcon Data="{StaticResource SunIcon}" Foreground="{ThemeResource PrimaryBrush}" />
             </ToggleButton.Content>
             <um:ControlExtensions.AlternateContent>
-                <PathIcon Data="{StaticResource MoonIcon}" Foreground="{ThemeResource PrimaryVariantDarkBrush}" />
+                <PathIcon Data="{StaticResource MoonIcon}" Foreground="{ThemeResource PrimaryBrush}" />
             </um:ControlExtensions.AlternateContent>
         </ToggleButton>
 
@@ -103,7 +98,7 @@
                 Command="{Binding InputCommand}" 
                 CommandParameter="÷" 
                 Content="÷" 
-                Style="{StaticResource KeypadSecondaryButton}" />
+                Style="{StaticResource BaseButton}" />
 
             <!--Row 1-->
             <Button 
@@ -133,7 +128,7 @@
                 Command="{Binding InputCommand}" 
                 CommandParameter="×" 
                 Content="×" 
-                Style="{StaticResource KeypadSecondaryButton}"  />
+                Style="{StaticResource BaseButton}"  />
 
             <!--Row 2-->
             <Button 
@@ -163,7 +158,7 @@
                 Command="{Binding InputCommand}"
                 CommandParameter="−" 
                 Content="−" 
-                Style="{StaticResource KeypadSecondaryButton}" />
+                Style="{StaticResource BaseButton}" />
 
             <!--Row 3-->
             <Button 
@@ -193,7 +188,7 @@
                 Command="{Binding InputCommand}"
                 CommandParameter="+" 
                 Content="+" 
-                Style="{StaticResource KeypadSecondaryButton}" />
+                Style="{StaticResource BaseButton}" />
 
             <!--Row 4-->
             <Button 
@@ -226,7 +221,7 @@
                 Command="{Binding InputCommand}"
                 CommandParameter="=" 
                 Content="=" 
-                Style="{StaticResource KeypadSecondaryButton}" />
+                Style="{StaticResource BaseButton}" />
         </Grid>
     </Grid>
 </Page>
