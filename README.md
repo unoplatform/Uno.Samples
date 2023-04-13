@@ -143,6 +143,11 @@ An implementation of the UWP `Maps` control with a custom slider that binds the 
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/MapControlSample)
 
+### Migrating Animations
+Code to accompany the blog post on migrating animations from Xamarin Forms to Uno.
+
+[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/MigratingAnimations)
+
 ### Native Frame Navigation
 An example showcasing how to set up the native frame navigation for iOS and Android, and frame navigation in general for Uno.  
 
