@@ -6,13 +6,12 @@
 
     <StackPanel>
 
-        <!--single selection
+        <!--single selection-->
         <StackPanel DataContext="{Binding SelectedPerson}" Orientation="Horizontal" Spacing="5">
             <TextBlock Text="Selected person:" />
             <TextBlock Text="{Binding FirstName}"/>
             <TextBlock Text="{Binding LastName}"/>
         </StackPanel>
-        -->
 
         <!--multiple selection
         <StackPanel Orientation="Horizontal">
@@ -33,10 +32,11 @@
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
         </StackPanel>
+        -->
 
         <Border Height="2" Background="Gray" />
 
-        <ListView ItemsSource="{Binding People}" SelectionMode="Multiple">
+        <ListView ItemsSource="{Binding People}" SelectionMode="Single">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal" Spacing="5">
@@ -46,16 +46,5 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-        -->
-
-        <ListView ItemsSource="{Binding PaginatedPeople}">
-            <ListView.Footer>
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="Items per page:"/>
-                    <NumberBox Minimum="1" Maximum="10" Value="{Binding DesiredSize, Mode=TwoWay}" />                    
-                </StackPanel>
-            </ListView.Footer>
-        </ListView>
-
     </StackPanel>
 </Page>
