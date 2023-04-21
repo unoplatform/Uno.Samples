@@ -4,12 +4,30 @@ namespace PaginationPeopleApp;
 
 public partial record PeopleModel(IPeopleService PeopleService)
 {
-    public IListFeed<Person> People =>
-        ListFeed.AsyncPaginated(async (pageRequest, ct) =>
-            await PeopleService.GetPeopleAsync(pageSize: 5, pageIndex: pageRequest.Index, ct));    
+    const int PageSize = 20;
 
-    public ValueTask MovePage(int direction, CancellationToken ct)
+    public IListFeed<Person> PeopleAuto =>
+        ListFeed.AsyncPaginated(async (pageRequest, ct) =>
+            await PeopleService.GetPeopleAsync(pageSize: PageSize, pageIndex: pageRequest.Index, ct));
+
+    public IFeed<int> PageCount =>
+        Feed.Async(async (ct) => await PeopleService.GetPageCount(PageSize, ct));
+
+    public IState<uint> CurrentPage => State.Value(this, () => 0u);
+
+    public IListFeed<Person> PeopleManual =>
+        CurrentPage.SelectAsync(async (pageIndex, ct) =>
+            await PeopleService.GetPeopleAsync(pageSize: PageSize, pageIndex: pageIndex, ct))
+        .AsListFeed();
+
+    public async ValueTask Move(int value, CancellationToken ct)
     {
-        return ValueTask.CompletedTask;
+        var currentPage = await CurrentPage;
+        var desiredPage = currentPage + value;
+
+        if (desiredPage < 0 || desiredPage >= await PageCount)
+            return;
+
+        await CurrentPage.Set((uint)desiredPage, ct);
     }
 }
