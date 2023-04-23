@@ -19,6 +19,8 @@
             <ColumnDefinition Width="1*"/>
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="1*"/>
         </Grid.ColumnDefinitions>
 
         <ListView ItemsSource="{Binding PeopleAuto}" ItemTemplate="{StaticResource PersonDataTemplate}"
@@ -28,16 +30,16 @@
 
         <ListView Grid.Column="2" ItemsSource="{Binding PeopleManual}"
                   ItemTemplate="{StaticResource PersonDataTemplate}" Header="Load single page on demand">
-            
+
             <ListView.Footer>
                 <StackPanel Orientation="Horizontal" Spacing="3">
-                    <Button Content="Previous" Command="{Binding Move}" VerticalAlignment="Center">
+                    <Button Content="Previous" Command="{Binding Move}" VerticalAlignment="Center" IsEnabled="{Binding CanMovePrevious}">
                         <Button.CommandParameter>
                             <x:Int32>-1</x:Int32>
                         </Button.CommandParameter>
                     </Button>
                     <TextBlock Text="{Binding CurrentPage}" VerticalAlignment="Center" />
-                    <Button Content="Next" Command="{Binding Move}" VerticalAlignment="Center">
+                    <Button Content="Next" Command="{Binding Move}" VerticalAlignment="Center" IsEnabled="{Binding CanMoveNext}">
                         <Button.CommandParameter>
                             <x:Int32>1</x:Int32>
                         </Button.CommandParameter>
@@ -45,5 +47,9 @@
                 </StackPanel>
             </ListView.Footer>
         </ListView>
+
+        <Border Grid.Column="3" Width="3" Background="DarkGray" />
+
+        <ListView Grid.Column="4" ItemsSource="{Binding PeopleCursor}" ItemTemplate="{StaticResource PersonDataTemplate}" Header="Load single page by cursor"/>
     </Grid>
 </Page>

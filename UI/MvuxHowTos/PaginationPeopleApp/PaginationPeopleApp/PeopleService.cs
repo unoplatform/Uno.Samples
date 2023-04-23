@@ -1,12 +1,17 @@
 ﻿namespace PaginationPeopleApp;
 
-public partial record Person(string FirstName, string LastName);
+public partial record Person(string FirstName, string LastName)
+{
+    public override string ToString() => $"{FirstName} {LastName}";
+}
 
 public interface IPeopleService
 {
     ValueTask<IImmutableList<Person>> GetPeopleAsync(uint pageSize, uint pageIndex, CancellationToken ct);
 
-    ValueTask<int> GetPageCount(int pageSize, CancellationToken ct);
+    ValueTask<uint> GetPageCount(uint pageSize, CancellationToken ct);
+
+    ValueTask<(IImmutableList<Person> CurrentPage, Person NextCursor)> GetPeopleAsync(Person? cursor, uint pageSize, CancellationToken ct);
 }
 
 public class PeopleService : IPeopleService
@@ -29,8 +34,25 @@ public class PeopleService : IPeopleService
     }
 
     // Determines how many pages we'll need to display all the data.
-    public async ValueTask<int> GetPageCount(int pageSize, CancellationToken ct) =>
-        (int)Math.Ceiling(GetPeople().Length / (double)pageSize);
+    public async ValueTask<uint> GetPageCount(uint pageSize, CancellationToken ct) =>
+        (uint)Math.Ceiling(GetPeople().Length / (double)pageSize);
+
+    public async ValueTask<(IImmutableList<Person> CurrentPage, Person NextCursor)> GetPeopleAsync(Person? cursor, uint pageSize, CancellationToken ct)
+    {
+        // fake delay to simulate loading data
+        await Task.Delay(TimeSpan.FromSeconds(1), ct);
+
+        var people = GetPeople();
+
+        var collection = people
+            .OrderBy(person => person.ToString())
+            .Where(person => StringComparer.CurrentCultureIgnoreCase.Compare(cursor?.ToString(), person.ToString()) <= 0)
+            .Take((int)pageSize + 1)
+            .ToArray();
+
+        return (CurrentPage: collection[..^1].ToImmutableList(), NextCursor: collection[^1]);
+    }
+
 
     private Person[] GetPeople() =>
         new Person[]
