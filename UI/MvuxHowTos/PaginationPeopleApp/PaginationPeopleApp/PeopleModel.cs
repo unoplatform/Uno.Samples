@@ -37,10 +37,13 @@ public partial record PeopleModel(IPeopleService PeopleService)
     public IFeed<bool> CanMoveNext => CurrentPage.SelectAsync(async (currentPage, ct) => currentPage < await PageCount);
 
     public IListFeed<Person> PeopleCursor =>
-        ListFeed<Person>.AsyncPaginatedByCursor(new Person(string.Empty, string.Empty), async (cursor, desiredPageSize, ct) =>
-            {
-                (IImmutableList<Person> currentPage, Person nextCursor) = await PeopleService.GetPeopleAsync(cursor, PageSize, ct);
-
-                return new PageResult<Person, Person>(currentPage, nextCursor);
-            });
+        ListFeed<Person>.AsyncPaginatedByCursor(
+                // starting off with a blank Person, since the person list is to be ordered by name, any valid name will follow.
+                firstPage: new Person(string.Empty, string.Empty), 
+                // this will be automatically invoked by the ISupportIncrementalLoading the ListView supports
+            getPage: async (cursor, desiredPageSize, ct) =>
+                {
+                    var result = await PeopleService.GetPeopleAsync(cursor, PageSize, ct);
+                    return new PageResult<Person, Person>(result.CurrentPage, result.NextCursor);
+                });
 }

@@ -45,14 +45,20 @@ public class PeopleService : IPeopleService
         var people = GetPeople();
 
         var collection = people
+            // order by full name
             .OrderBy(person => person.ToString())
+            // select only subsequent items
             .Where(person => StringComparer.CurrentCultureIgnoreCase.Compare(cursor?.ToString(), person.ToString()) <= 0)
+            // take only n number of rows, plus the first entity of the next page
             .Take((int)pageSize + 1)
+            // using array to enable range access
             .ToArray();
 
+        // this returns a tuple of two elements
+        // first element is the current page's entities except the last
+        // the second contains the last item in the collection, which is a cursor for next page
         return (CurrentPage: collection[..^1].ToImmutableList(), NextCursor: collection[^1]);
     }
-
 
     private Person[] GetPeople() =>
         new Person[]
