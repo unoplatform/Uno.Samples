@@ -13,21 +13,22 @@ public class PeopleService : IPeopleService
 {
     public async ValueTask<IImmutableList<Person>> GetPeopleAsync(uint pageSize, uint pageIndex, CancellationToken ct)
     {
+        // convert to int for use with LINQ
+        var (size, index) = ((int)pageSize, (int)pageIndex);
+
+        // fake delay to simulate loading data
         await Task.Delay(TimeSpan.FromSeconds(1), ct);
 
-        if (pageSize == 0) pageSize = 1;
-
-        // convert to int
-        var (size, number) = ((int)pageSize!, (int)pageIndex);
-
+        // this is where we would asynchronously load actual data from a remote data store
         var people = GetPeople();
 
         return people
-            .Skip(size * number)
+            .Skip(size * index)
             .Take(size)
             .ToImmutableList();
     }
 
+    // Determines how many pages we'll need to display all the data.
     public async ValueTask<int> GetPageCount(int pageSize, CancellationToken ct) =>
         (int)Math.Ceiling(GetPeople().Length / (double)pageSize);
 

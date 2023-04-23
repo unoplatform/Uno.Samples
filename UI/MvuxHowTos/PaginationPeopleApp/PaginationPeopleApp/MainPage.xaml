@@ -2,7 +2,6 @@
     x:Class="PaginationPeopleApp.MainPage"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:sys="using:System"
     xmlns:local="using:PaginationPeopleApp"
     xmlns:mvux="using:Uno.Extensions.Reactive.UI">
 
@@ -22,14 +21,12 @@
             <ColumnDefinition Width="1*"/>
         </Grid.ColumnDefinitions>
 
-        <!--Example one - automatically loading on scroll -->
-        <ListView x:Name="autom" ItemsSource="{Binding PeopleAuto}" ItemTemplate="{StaticResource PersonDataTemplate}"
+        <ListView ItemsSource="{Binding PeopleAuto}" ItemTemplate="{StaticResource PersonDataTemplate}"
                   DataFetchSize="20" Header="Next page auto-loading when on available capacity or scrolled"/>
 
         <Border Grid.Column="1" Width="3" Background="DarkGray" />
 
-        <!--Example two - manual loading on demand -->
-        <ListView Grid.Column="2" x:Name="manual" ItemsSource="{Binding PeopleManual}"
+        <ListView Grid.Column="2" ItemsSource="{Binding PeopleManual}"
                   ItemTemplate="{StaticResource PersonDataTemplate}" Header="Load single page on demand">
             
             <ListView.Footer>
