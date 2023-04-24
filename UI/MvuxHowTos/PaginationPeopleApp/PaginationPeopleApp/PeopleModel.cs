@@ -22,12 +22,11 @@ public partial record PeopleModel(IPeopleService PeopleService)
             await PeopleService.GetPeopleAsync(pageSize: PageSize, pageIndex: currentPage - 1, ct))
         .AsListFeed();
 
-    public async ValueTask Move(int direction, CancellationToken ct)
+    public async ValueTask Move(uint currentPage, uint pageCount, int direction, CancellationToken ct)
     {
-        var currentPage = await CurrentPage;
         var desiredPage = currentPage + direction;
 
-        if (desiredPage <= 0 || desiredPage > await PageCount)
+        if (desiredPage <= 0 || desiredPage > pageCount)
             return;
 
         await CurrentPage.Set((uint)desiredPage, ct);
@@ -39,8 +38,8 @@ public partial record PeopleModel(IPeopleService PeopleService)
     public IListFeed<Person> PeopleCursor =>
         ListFeed<Person>.AsyncPaginatedByCursor(
                 // starting off with a blank Person, since the person list is to be ordered by name, any valid name will follow.
-                firstPage: new Person(string.Empty, string.Empty), 
-                // this will be automatically invoked by the ISupportIncrementalLoading the ListView supports
+                firstPage: new Person(string.Empty, string.Empty),
+            // this will be automatically invoked by the ISupportIncrementalLoading the ListView supports
             getPage: async (cursor, desiredPageSize, ct) =>
                 {
                     var result = await PeopleService.GetPeopleAsync(cursor, PageSize, ct);
