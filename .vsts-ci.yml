@@ -9,9 +9,6 @@ jobs:
   - checkout: self
     clean: true
   
-  - ${{ if startsWith(variables['Build.SourceBranch'], 'refs/heads/canaries') }}:
-    - template: .vsts-ci.canaries.yml
-
   - powershell: |
       if($env:System_PullRequest_TargetBranch -eq $null) { $TargetBranch = "master" } else { $TargetBranch = $env:System_PullRequest_TargetBranch; }
 

@@ -9,6 +9,9 @@ steps:
 
 - template: build/templates/dotnet-install-windows.yml
 
+- ${{ if startsWith(variables['Build.SourceBranch'], 'refs/heads/canaries') }}:
+  - template: .vsts-ci.canaries.yml
+
 - powershell: |
       & choco install vswhere
       $msbuildpath=(vswhere -latest -requires Microsoft.Component.MSBuild -find MSBuild\**\Bin\MSBuild.exe -nologo)
