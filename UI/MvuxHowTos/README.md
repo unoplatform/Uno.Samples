@@ -11,11 +11,15 @@ By name:
 
 - PeopleApp
 
-    This app displays a read-only list of people using the `IListFeed<T>` where `T` is a `Person` record.      
+    This app displays a read-only list of people using the `IListFeed<T>` where `T` is a `Person` record.
 
 - EditablePeopleApp
 
-    This app displays an editable list of people using the `IListState<T>` where `T` is a `Person` record.          
+    This app displays an editable list of people using the `IListState<T>` where `T` is a `Person` record.
+
+- AdvancedPeopleApp
+
+    This app displays a read-only list of people using the `IListState<T>` where `T` is a `Person` record, enabling selection and pagination.
 
 - SliderApp
 
@@ -38,6 +42,7 @@ By category:
     - WeatherApp
 - ListFeed
     - PeopleApp
+    - AdvancedPeopleApp
 - Feed with AsyncEnumerable 
     - StockMarketApp
 - State

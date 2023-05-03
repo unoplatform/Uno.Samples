@@ -1,0 +1,55 @@
+<Page 
+    x:Class="PaginationPeopleApp.MainPage"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:PaginationPeopleApp"
+    xmlns:mvux="using:Uno.Extensions.Reactive.UI">
+
+    <Page.Resources>
+        <DataTemplate x:Key="PersonDataTemplate" x:DataType="local:Person">
+            <StackPanel Orientation="Horizontal" Spacing="2">
+                <TextBlock Text="{x:Bind FirstName}"/>
+                <TextBlock Text="{x:Bind LastName}"/>
+            </StackPanel>
+        </DataTemplate>
+    </Page.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+
+        <ListView ItemsSource="{Binding PeopleAuto}" ItemTemplate="{StaticResource PersonDataTemplate}"
+                  DataFetchSize="20" Header="Next page auto-loading when on available capacity or scrolled"/>
+
+        <Border Grid.Column="1" Width="3" Background="DarkGray" />
+
+        <ListView Grid.Column="2" ItemsSource="{Binding PeopleManual}"
+                  ItemTemplate="{StaticResource PersonDataTemplate}" Header="Load single page on demand">
+
+            <ListView.Footer>
+                <StackPanel Orientation="Horizontal" Spacing="3">
+                    <Button Content="Previous" Command="{Binding Move}" VerticalAlignment="Center" IsEnabled="{Binding CanMovePrevious}">
+                        <Button.CommandParameter>
+                            <x:Int32>-1</x:Int32>
+                        </Button.CommandParameter>
+                    </Button>
+                    <TextBlock Text="{Binding CurrentPage}" VerticalAlignment="Center" />
+                    <Button Content="Next" Command="{Binding Move}" VerticalAlignment="Center" IsEnabled="{Binding CanMoveNext}">
+                        <Button.CommandParameter>
+                            <x:Int32>1</x:Int32>
+                        </Button.CommandParameter>
+                    </Button>
+                </StackPanel>
+            </ListView.Footer>
+        </ListView>
+
+        <Border Grid.Column="3" Width="3" Background="DarkGray" />
+
+        <ListView Grid.Column="4" ItemsSource="{Binding PeopleCursor}" ItemTemplate="{StaticResource PersonDataTemplate}" Header="Load single page by cursor"/>
+    </Grid>
+</Page>
