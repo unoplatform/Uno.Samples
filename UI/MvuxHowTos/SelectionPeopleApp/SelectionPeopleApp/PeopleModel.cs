@@ -8,7 +8,7 @@ public partial record PeopleModel(IPeopleService PeopleService)
         ListFeed
         .Async(PeopleService.GetPeopleAsync)
         .Selection(SelectedPerson);
-        //.Selection(SelectedPeople);
+    //.Selection(SelectedPeople);
 
     public IState<Person> SelectedPerson => State<Person>.Empty(this);
 

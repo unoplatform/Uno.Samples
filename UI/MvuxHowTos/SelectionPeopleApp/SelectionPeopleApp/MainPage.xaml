@@ -4,8 +4,13 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mvux="using:Uno.Extensions.Reactive.UI">
 
-    <StackPanel>
-
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        
         <!--single selection-->
         <StackPanel DataContext="{Binding SelectedPerson}" Orientation="Horizontal" Spacing="5">
             <TextBlock Text="Selected person:" />
@@ -34,9 +39,9 @@
         </StackPanel>
         -->
 
-        <Border Height="2" Background="Gray" />
+        <Border Height="2" Background="Gray" Grid.Row="1" />
 
-        <ListView ItemsSource="{Binding People}" SelectionMode="Single">
+        <ListView ItemsSource="{Binding People}" SelectionMode="Single" Grid.Row="2">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal" Spacing="5">
@@ -46,5 +51,5 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-    </StackPanel>
+    </Grid>
 </Page>
