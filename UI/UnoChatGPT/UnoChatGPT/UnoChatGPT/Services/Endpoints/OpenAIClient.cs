@@ -19,34 +19,43 @@ namespace UnoChatGPT.Services.Endpoints
 			_client = new OpenAIService(
 				new OpenAiOptions()
 				{
-					ApiKey = "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" // "<insert api key here>"
+					ApiKey = "<insert api key here>"
 				});
 		}
 
-		public async Task<string> CreateCompletions(string prompt)
+		public async Task<List<string>> CreateCompletions(string prompt)
 		{
-			var result = await _client.Completions.CreateCompletion(new CompletionCreateRequest() { Prompt = prompt, Model = OpenAI.GPT3.ObjectModels.Models.TextDavinciV3 });
+			var result = await _client.Completions.CreateCompletion(new CompletionCreateRequest() 
+			{ 
+				Prompt = prompt, 
+				Model = Models.TextDavinciV3,
+				Temperature = 0.7f,
+				MaxTokens = 512
+			});
 
 			if (result.Successful)
 			{
-				return result.Choices.Select(choice => choice.Text).FirstOrDefault(string.Empty);
+				return result.Choices.Select(choice => choice.Text).ToList();
 			}
 			else
 			{
-				return "Error";
+				if (result.Error == null)
+				{
+					throw new Exception("Unknown Error");
+				}
+
+				return new List<string>{ result.Error.Message ?? $"Unknown Error Message", result.Error.Code ?? $"Unknown Error Code." };
 			}
 		}
 
-		public async Task<string[]> ChatCompletions(string prompt)
+		public async Task<List<string>> ChatCompletions(string prompt)
 		{
 			var result = await _client.ChatCompletion.CreateCompletion(new ChatCompletionCreateRequest()
 			{
 				Messages = new List<ChatMessage>
 				{
 					ChatMessage.FromSystem("You are a helpful assistant."),
-					ChatMessage.FromUser("Who won the world series in 2020?"),
-					ChatMessage.FromAssistant("The Los Angeles Dodgers won the World Series in 2020."),
-					ChatMessage.FromUser("Where was it played?")
+					ChatMessage.FromUser(prompt)
 				},
 				Model = Models.ChatGpt3_5Turbo
 			});
@@ -54,7 +63,7 @@ namespace UnoChatGPT.Services.Endpoints
             if (result.Successful)
             {
                 var _result = result.Choices.Select( choice => choice.Message.Content);
-				return _result.ToArray();
+				return _result.ToList();
             }
 			else
 			{
@@ -63,7 +72,7 @@ namespace UnoChatGPT.Services.Endpoints
 					throw new Exception("Unknown Error");
 				}
 
-				return	new string[] { result.Error.Message ?? result.Error.Message : string.Empty };
+				return	new List<string> { result.Error.Message ?? $"Unknown Error Message", result.Error.Code ?? $"Unknown Error Code." };
 			}
 		}
 	}

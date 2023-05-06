@@ -11,22 +11,103 @@
 	  NavigationCacheMode="Required"
 	  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-	<Grid>
-		<Grid.RowDefinitions>
-			<RowDefinition Height="Auto" />
-			<RowDefinition />
-		</Grid.RowDefinitions>
-		<utu:NavigationBar Content="{Binding Title}" />
+	<Pivot Title="Chat GPT">
+		<PivotItem Header="Text Completion">
+			<StackPanel x:Name="textCompletionStack">
+				<TextBlock Text="Insert a prompt below and the first and other possible results will be displayed below"
+						   Margin="5"
+						   FontSize="20" />
 
-		<StackPanel Grid.Row="1"
-					HorizontalAlignment="Center"
-					VerticalAlignment="Center">
-			<TextBox Text="{Binding Name, Mode=TwoWay}"
-					 PlaceholderText="Enter your name:"
-					 Margin="8" />
-			<Button Content="Go to Second Page"
-					not_skia:AutomationProperties.AutomationId="SecondPageButton"
-					Command="{Binding GoToSecond}" />
-		</StackPanel>
-	</Grid>
+				<TextBox x:Name="textCompletionPrompt"
+						 Margin="5"
+						 TextWrapping="Wrap"
+						 AcceptsReturn="True"
+						 IsSpellCheckEnabled="True"
+						 SelectionHighlightColor="Green"
+						 MinWidth="500"
+						 PlaceholderText="Insert your text prompt here" />
+
+				<Button x:Name="textCompletionButton"
+						Content="Send"
+						Margin="5"
+						Click="textCompletionButton_Click"/>
+
+				<Line X1="0"
+					  Y1="0"
+					  X2="2000"
+					  Y2="0"
+					  Margin="5"
+					  Stroke="WhiteSmoke"
+					  StrokeThickness="2" />
+
+				<TextBlock x:Name="firstChoice"
+						   Margin="5"
+						   TextWrapping="WrapWholeWords"
+						   MinHeight="400"
+						   Text="First Choice Answer will show up here." />
+
+				<Line X1="0"
+					  Y1="0"
+					  X2="2000"
+					  Y2="0"
+					  Margin="5"
+					  Stroke="WhiteSmoke"
+					  StrokeThickness="2" />
+
+				<StackPanel x:Name="textCompletionResults"
+							Margin="10,5">
+
+				</StackPanel>
+
+			</StackPanel>
+		</PivotItem>
+		<PivotItem Header="Chat Completion">
+			<StackPanel x:Name="chatCompletionStack">
+				<TextBlock Text="Insert a prompt below and the first and other possible results will be displayed below"
+						   Margin="5"
+						   FontSize="20" />
+
+				<TextBox x:Name="chatCompletionPrompt"
+						 Margin="5"
+						 TextWrapping="Wrap"
+						 AcceptsReturn="True"
+						 IsSpellCheckEnabled="True"
+						 SelectionHighlightColor="Green"
+						 MinWidth="500"
+						 PlaceholderText="Insert your chat prompt here" />
+				
+				<Button x:Name="chatCompletionButton"
+						Content="Send"
+						Margin="5"
+						Click="chatCompletionButton_Click" />
+
+				<Line X1="0"
+					  Y1="0"
+					  X2="2000"
+					  Y2="0"
+					  Margin="5"
+					  Stroke="WhiteSmoke"
+					  StrokeThickness="2" />
+
+				<TextBlock x:Name="firstAnswer"
+						   Margin="5"
+						   TextWrapping="WrapWholeWords"
+						   MinHeight="400"
+						   Text="First Choice Answer will show up here." />
+
+				<Line X1="0"
+					  Y1="0"
+					  X2="2000"
+					  Y2="0"
+					  Margin="5"
+					  Stroke="WhiteSmoke"
+					  StrokeThickness="2" />
+
+				<StackPanel x:Name="chatCompletionResults">
+
+				</StackPanel>
+
+			</StackPanel>
+		</PivotItem>
+	</Pivot>
 </Page>
