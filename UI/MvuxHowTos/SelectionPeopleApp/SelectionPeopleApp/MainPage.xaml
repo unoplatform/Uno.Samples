@@ -10,7 +10,7 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        
+
         <!--single selection-->
         <StackPanel DataContext="{Binding SelectedPerson}" Orientation="Horizontal" Spacing="5">
             <TextBlock Text="Selected person:" />
@@ -42,6 +42,19 @@
         <Border Height="2" Background="Gray" Grid.Row="1" />
 
         <ListView ItemsSource="{Binding People}" SelectionMode="Single" Grid.Row="2">
+            <ListView.Header>
+                <StackPanel>
+                    <StackPanel Orientation="Horizontal" Spacing="3">
+                        <TextBlock Text="Greeting Select:"/>
+                        <TextBlock Text="{Binding GreetingSelect}"/>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" Spacing="3">
+                        <TextBlock Text="Greeting ForEach:"/>
+                        <TextBlock Text="{Binding GreetingForEach}"/>
+                    </StackPanel>
+                </StackPanel>
+            </ListView.Header>
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal" Spacing="5">
