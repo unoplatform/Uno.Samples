@@ -34,33 +34,33 @@ public class PeopleService : IPeopleService
     public async ValueTask<uint> GetPageCount(uint pageSize, CancellationToken ct) =>
         (uint)Math.Ceiling(GetPeople().Length / (double)pageSize);
 
-    public async ValueTask<(IImmutableList<Person> CurrentPage, int? NextPersonIdCursor)> GetPeopleAsync(int? personIdCursor, uint pageSize, CancellationToken ct)
-    {
-        // fake delay to simulate loading data
-        await Task.Delay(TimeSpan.FromSeconds(1), ct);
+public async ValueTask<(IImmutableList<Person> CurrentPage, int? NextPersonIdCursor)> GetPeopleAsync(int? personIdCursor, uint pageSize, CancellationToken ct)
+{
+    // fake delay to simulate loading data
+    await Task.Delay(TimeSpan.FromSeconds(1), ct);
 
-        var people = GetPeople();
+    var people = GetPeople();
 
-        var collection = people
-            // select only subsequent items
-            .Where(person => person.Id >= personIdCursor.GetValueOrDefault())
-            // take only n number of rows, plus the first entity of the next page
-            .Take((int)pageSize + 1)
-            // using array to enable range access
-            .ToArray();
+    var collection = people
+        // select only subsequent items
+        .Where(person => person.Id >= personIdCursor.GetValueOrDefault())
+        // take only n number of rows, plus the first entity of the next page
+        .Take((int)pageSize + 1)
+        // using array to enable range access
+        .ToArray();
 
-        // determine if there's another page ahead
-        var noMoreItems = collection.Length <= pageSize;
+    // determine if there's another page ahead
+    var noMoreItems = collection.Length <= pageSize;
 
-        // use the last item as the cursor of next page, if it exceeds the page-size
-        var lastIndex = noMoreItems ? ^0 : ^1;
-        var nextPersonIdCursor = noMoreItems ? default(int?) : collection[^1].Id;
+    // use the last item as the cursor of next page, if it exceeds the page-size
+    var lastIndex = noMoreItems ? ^0 : ^1;
+    var nextPersonIdCursor = noMoreItems ? default(int?) : collection[^1].Id;
 
-        // this returns a tuple of two elements
-        // first element is the current page's entities except the last
-        // the second contains the last item in the collection, which is a cursor for next page
-        return (CurrentPage: collection[..lastIndex].ToImmutableList(), NextPersonIdCursor: nextPersonIdCursor);
-    }
+    // this returns a tuple of two elements
+    // first element is the current page's entities except the last
+    // the second contains the last item in the collection, which is a cursor for next page
+    return (CurrentPage: collection[..lastIndex].ToImmutableList(), NextPersonIdCursor: nextPersonIdCursor);
+}
 
     private Person[] GetPeople() =>
         new Person[]
