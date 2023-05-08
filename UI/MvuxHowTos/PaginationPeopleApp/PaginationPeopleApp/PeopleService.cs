@@ -4,7 +4,7 @@ public partial record Person(int Id, string FirstName, string LastName);
 
 public interface IPeopleService
 {
-    ValueTask<IImmutableList<Person>> GetPeopleAsync(uint pageSize, uint pageIndex, CancellationToken ct);
+    ValueTask<IImmutableList<Person>> GetPeopleAsync(uint pageSize, uint firstItemIndex, CancellationToken ct);
 
     ValueTask<uint> GetPageCount(uint pageSize, CancellationToken ct);
 
@@ -13,10 +13,10 @@ public interface IPeopleService
 
 public class PeopleService : IPeopleService
 {
-    public async ValueTask<IImmutableList<Person>> GetPeopleAsync(uint pageSize, uint pageIndex, CancellationToken ct)
+    public async ValueTask<IImmutableList<Person>> GetPeopleAsync(uint pageSize, uint firstItemIndex, CancellationToken ct)
     {
         // convert to int for use with LINQ
-        var (size, index) = ((int)pageSize, (int)pageIndex);
+        var (size, count) = ((int)pageSize, (int)firstItemIndex);
 
         // fake delay to simulate loading data
         await Task.Delay(TimeSpan.FromSeconds(1), ct);
@@ -25,7 +25,7 @@ public class PeopleService : IPeopleService
         var people = GetPeople();
 
         return people
-            .Skip(size * index)
+            .Skip(count)
             .Take(size)
             .ToImmutableList();
     }
