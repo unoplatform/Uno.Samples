@@ -8,6 +8,7 @@
     <Page.Resources>
         <DataTemplate x:Key="PersonDataTemplate" x:DataType="local:Person">
             <StackPanel Orientation="Horizontal" Spacing="2">
+                <TextBlock Text="{x:Bind Id}"/>
                 <TextBlock Text="{x:Bind FirstName}"/>
                 <TextBlock Text="{x:Bind LastName}"/>
             </StackPanel>
@@ -15,6 +16,7 @@
     </Page.Resources>
 
     <Grid>
+
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*"/>
             <ColumnDefinition Width="Auto"/>
@@ -23,8 +25,8 @@
             <ColumnDefinition Width="1*"/>
         </Grid.ColumnDefinitions>
 
-        <ListView ItemsSource="{Binding PeopleAuto}" ItemTemplate="{StaticResource PersonDataTemplate}"
-                  DataFetchSize="20" Header="Next page auto-loading when on available capacity or scrolled"/>
+        <ListView ItemsSource="{Binding PeopleAuto}" ItemTemplate="{StaticResource PersonDataTemplate}"              
+            Header="Next page auto-loading when on available capacity or scrolled"/>
 
         <Border Grid.Column="1" Width="3" Background="DarkGray" />
 
@@ -32,19 +34,13 @@
                   ItemTemplate="{StaticResource PersonDataTemplate}" Header="Load single page on demand">
 
             <ListView.Footer>
-                <StackPanel Orientation="Horizontal" Spacing="3">
-                    <Button Content="Previous" Command="{Binding Move}" VerticalAlignment="Center" IsEnabled="{Binding CanMovePrevious}">
-                        <Button.CommandParameter>
-                            <x:Int32>-1</x:Int32>
-                        </Button.CommandParameter>
-                    </Button>
-                    <TextBlock Text="{Binding CurrentPage}" VerticalAlignment="Center" />
-                    <Button Content="Next" Command="{Binding Move}" VerticalAlignment="Center" IsEnabled="{Binding CanMoveNext}">
-                        <Button.CommandParameter>
-                            <x:Int32>1</x:Int32>
-                        </Button.CommandParameter>
-                    </Button>
-                </StackPanel>
+                <NumberBox 
+                    HorizontalAlignment="Center"
+                    Header="Current page:"
+                    Minimum="1" 
+                    Maximum="{Binding PageCount}"
+                    SpinButtonPlacementMode="Inline"                     
+                    Value="{Binding CurrentPage, Mode=TwoWay}"/>
             </ListView.Footer>
         </ListView>
 
