@@ -4,7 +4,7 @@ public partial class ProductsViewModel
 {
 	private readonly IProductService _products;
 
-	private ProductsViewModel(
+	public ProductsViewModel(
 		IProductService products,
 		Filters? filter)
 	{

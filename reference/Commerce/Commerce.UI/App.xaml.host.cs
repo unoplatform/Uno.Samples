@@ -93,6 +93,10 @@ public static class AppBuilder
 																						ToQuery: product => new Dictionary<string, string> { { nameof(Product.ProductId), product.ProductId.ToString() } },
 																						FromQuery: async (sp, query) =>
 																						{
+																							if (query.TryGetValue(string.Empty, out var prod) && prod is Product p)
+																							{
+																								return p;
+																							}
 																							var id = int.Parse(query[nameof(Product.ProductId)] + string.Empty);
 																							var ps = sp.GetRequiredService<IProductService>();
 																							var products = await ps.GetAll(default);
