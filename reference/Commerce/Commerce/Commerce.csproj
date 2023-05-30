@@ -47,20 +47,39 @@
 
 	<ItemGroup>
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.0" />
-		<PackageReference Include="Uno.Extensions.Authentication" Version="2.4.0-dev.297" />
-		<PackageReference Include="Uno.Extensions.Configuration" Version="2.4.0-dev.297" />
-		<PackageReference Include="Uno.Extensions.Core" Version="2.4.0-dev.297" />
-		<PackageReference Include="Uno.Extensions.Hosting" Version="2.4.0-dev.297" />
-		<PackageReference Include="Uno.Extensions.Http" Version="2.4.0-dev.297" />
-		<PackageReference Include="Uno.Extensions.Http.Refit" Version="2.4.0-dev.297" />
-		<PackageReference Include="Uno.Extensions.Localization" Version="2.4.0-dev.297" />
-		<PackageReference Include="Uno.Extensions.Logging.Serilog" Version="2.4.0-dev.297" />
-		<PackageReference Include="Uno.Extensions.Navigation" Version="2.4.0-dev.297" />
-		<PackageReference Include="Uno.Extensions.Reactive" Version="2.4.0-dev.297" />
-		<PackageReference Include="Uno.Extensions.Reactive.Messaging" Version="2.4.0-dev.297" />
-		<PackageReference Include="Uno.Extensions.Serialization" Version="2.4.0-dev.297" />
-		<PackageReference Include="Uno.Extensions.Serialization.Http" Version="2.4.0-dev.297" />
-		<PackageReference Include="Uno.Extensions.Serialization.Refit" Version="2.4.0-dev.297" />
-		<PackageReference Include="Uno.Extensions.Toolkit.WinUI" Version="2.4.0-dev.297" />
+		<PackageReference Include="Uno.Extensions.Authentication" Version="2.4.0-dev.329" />
+		<PackageReference Include="Uno.Extensions.Configuration" Version="2.4.0-dev.329" />
+		<PackageReference Include="Uno.Extensions.Core" Version="2.4.0-dev.329" />
+		<PackageReference Include="Uno.Extensions.Hosting" Version="2.4.0-dev.329" />
+		<PackageReference Include="Uno.Extensions.Http" Version="2.4.0-dev.329" />
+		<PackageReference Include="Uno.Extensions.Http.Refit" Version="2.4.0-dev.329" />
+		<PackageReference Include="Uno.Extensions.Localization" Version="2.4.0-dev.329" />
+		<PackageReference Include="Uno.Extensions.Logging.Serilog" Version="2.4.0-dev.329" />
+		<PackageReference Include="Uno.Extensions.Navigation" Version="2.4.0-dev.329" />
+		<PackageReference Include="Uno.Extensions.Reactive" Version="2.4.0-dev.329" />
+		<PackageReference Include="Uno.Extensions.Reactive.Messaging" Version="2.4.0-dev.329" />
+		<PackageReference Include="Uno.Extensions.Serialization" Version="2.4.0-dev.329" />
+		<PackageReference Include="Uno.Extensions.Serialization.Http" Version="2.4.0-dev.329" />
+		<PackageReference Include="Uno.Extensions.Serialization.Refit" Version="2.4.0-dev.329" />
+		<PackageReference Include="Uno.Extensions.Toolkit.WinUI" Version="2.4.0-dev.329" />
 	</ItemGroup>
+
+	<!-- Workaround to avoid including Uno.Toolkit.UI XBFs in the PRI file -->
+	<Target Name="AdjustGetPackagingOutput1" AfterTargets="GetMrtPackagingOutputs">
+		<Message Importance="high" Text="Applying NuGet packaging workaround for dependent PRI files exclusion" />
+		<ItemGroup>
+			<_OtherPriFiles Include="@(PackagingOutputs)" Condition="'%(Extension)' == '.pri' and ('%(PackagingOutputs.ReferenceSourceTarget)' == 'ProjectReference' or '%(PackagingOutputs.NugetSourceType)'=='Package')" />
+			<PackagingOutputs Remove="@(_OtherPriFiles)" />
+		</ItemGroup>
+	</Target>
+	
+	<Target Name="AdjustGetPackagingOutput2" BeforeTargets="AddPriPayloadFilesToCopyToOutputDirectoryItems">
+		<Message Importance="high" Text="Applying NuGet packaging workaround for dependent PRI files exclusion" />
+		<ItemGroup>
+			<_OtherPriFiles1 Include="@(_ReferenceRelatedPaths)" Condition="'%(Extension)' == '.pri' and ('%(_ReferenceRelatedPaths.ReferenceSourceTarget)' == 'ProjectReference' or '%(_ReferenceRelatedPaths.NugetSourceType)'=='Package')" />
+			<_ReferenceRelatedPaths Remove="@(_OtherPriFiles1)" />
+			<_OtherPriFiles2 Include="@(ReferenceCopyLocalPaths)" Condition="'%(Extension)' == '.pri' and ('%(ReferenceCopyLocalPaths.ReferenceSourceTarget)' == 'ProjectReference' or '%(ReferenceCopyLocalPaths.NugetSourceType)'=='Package')" />
+			<ReferenceCopyLocalPaths Remove="@(_OtherPriFiles2)" />
+		</ItemGroup>
+	</Target>
 </Project>
