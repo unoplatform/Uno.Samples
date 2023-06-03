@@ -9,105 +9,149 @@
 	  xmlns:utu="using:Uno.Toolkit.UI"
 	  xmlns:not_skia="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	  NavigationCacheMode="Required"
+	  Padding="5, 40,5,0"
 	  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-	<Pivot Title="Chat GPT">
-		<PivotItem Header="Text Completion">
-			<StackPanel x:Name="textCompletionStack">
-				<TextBlock Text="Insert a prompt below and the first and other possible results will be displayed below"
+	<TabView TabWidthMode="Equal">
+		<TabView.TabItems>
+			<TabViewItem Header="Text Completion">
+				<Grid RowSpacing="5"
+					  Padding="5"
+					  x:Name="textCompletionStack">
+					<Grid.RowDefinitions>
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="Auto" />
+					</Grid.RowDefinitions>
+
+					<TextBlock Grid.Row="0"
+							   Text="Insert a prompt below and the first and other possible results will be displayed below"
+							   FontSize="20"
+							   TextWrapping="Wrap" />
+
+					<TextBox x:Name="textCompletionPrompt"
+							 Grid.Row="1"
+							 Margin="5"
+							 TextWrapping="Wrap"
+							 AcceptsReturn="True"
+							 IsSpellCheckEnabled="True"
+							 SelectionHighlightColor="Green"
+							 HorizontalAlignment="Stretch"
+							 PlaceholderText="Insert your text prompt here" />
+
+					<Button x:Name="textCompletionButton"
+							Grid.Row="2"
+							Content="Send"
+							Margin="5"
+							Click="textCompletionButton_Click" />
+
+					<Line  Grid.Row="3"
+						   X1="0"
+						   Y1="0"
+						   X2="2000"
+						   Y2="0"
 						   Margin="5"
-						   FontSize="20" />
+						   Stroke="WhiteSmoke"
+						   StrokeThickness="2" />
 
-				<TextBox x:Name="textCompletionPrompt"
-						 Margin="5"
-						 TextWrapping="Wrap"
-						 AcceptsReturn="True"
-						 IsSpellCheckEnabled="True"
-						 SelectionHighlightColor="Green"
-						 HorizontalAlignment="Stretch"
-						 PlaceholderText="Insert your text prompt here" />
+					<TextBlock x:Name="firstChoice"
+							   Grid.Row="4"
+							   Margin="5"
+							   TextWrapping="WrapWholeWords"
+							   HorizontalAlignment="Stretch"
+							   Text="First Choice Answer will show up here." />
 
-				<Button x:Name="textCompletionButton"
-						Content="Send"
-						Margin="5"
-						Click="textCompletionButton_Click"/>
-
-				<Line X1="0"
-					  Y1="0"
-					  X2="2000"
-					  Y2="0"
-					  Margin="5"
-					  Stroke="WhiteSmoke"
-					  StrokeThickness="2" />
-
-				<TextBlock x:Name="firstChoice"
+					<Line  Grid.Row="5"
+						   X1="0"
+						   Y1="0"
+						   X2="2000"
+						   Y2="0"
 						   Margin="5"
-						   TextWrapping="WrapWholeWords"
-						   MinHeight="400"
-						   Text="First Choice Answer will show up here." />
+						   Stroke="WhiteSmoke"
+						   StrokeThickness="2" />
 
-				<Line X1="0"
-					  Y1="0"
-					  X2="2000"
-					  Y2="0"
-					  Margin="5"
-					  Stroke="WhiteSmoke"
-					  StrokeThickness="2" />
+					<StackPanel x:Name="textCompletionResults"
+								Grid.Row="6"
+								Margin="10,5">
 
-				<StackPanel x:Name="textCompletionResults"
-							Margin="10,5">
+					</StackPanel>
 
-				</StackPanel>
+				</Grid>
+			</TabViewItem>
 
-			</StackPanel>
-		</PivotItem>
-		<PivotItem Header="Chat Completion">
-			<StackPanel x:Name="chatCompletionStack">
-				<TextBlock Text="Insert a prompt below and the first and other possible results will be displayed below"
-						   Margin="5"
-						   FontSize="20" />
+			<TabViewItem Header="Chat Completion">
+				<Grid RowSpacing="5"
+					  Padding="5"
+					  x:Name="chatCompletionStack">
+					<Grid.RowDefinitions>
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="Auto" />
+					</Grid.RowDefinitions>
 
-				<TextBox x:Name="chatCompletionPrompt"
-						 Margin="5"
-						 TextWrapping="Wrap"
-						 AcceptsReturn="True"
-						 IsSpellCheckEnabled="True"
-						 SelectionHighlightColor="Green"
-						 MinWidth="500"
-						 PlaceholderText="Insert your chat prompt here" />
-				
-				<Button x:Name="chatCompletionButton"
-						Content="Send"
-						Margin="5"
-						Click="chatCompletionButton_Click" />
+					<TextBlock Grid.Row="0"
+							   Text="Insert a prompt below and the first and other possible results will be displayed below"
+							   TextWrapping="WrapWholeWords"
+							   Margin="5"
+							   FontSize="20" />
 
-				<Line X1="0"
-					  Y1="0"
-					  X2="2000"
-					  Y2="0"
-					  Margin="5"
-					  Stroke="WhiteSmoke"
-					  StrokeThickness="2" />
+					<TextBox x:Name="chatCompletionPrompt"
+							 Grid.Row="1"
+							 Margin="5"
+							 TextWrapping="Wrap"
+							 AcceptsReturn="True"
+							 IsSpellCheckEnabled="True"
+							 SelectionHighlightColor="Green"
+							 HorizontalAlignment="Stretch"
+							 PlaceholderText="Insert your chat prompt here" />
 
-				<TextBlock x:Name="firstAnswer"
-						   Margin="5"
-						   TextWrapping="WrapWholeWords"
-						   MinHeight="400"
-						   Text="First Choice Answer will show up here." />
+					<Button x:Name="chatCompletionButton"
+							Grid.Row="2"
+							Content="Send"
+							Margin="5"
+							Click="chatCompletionButton_Click" />
 
-				<Line X1="0"
-					  Y1="0"
-					  X2="2000"
-					  Y2="0"
-					  Margin="5"
-					  Stroke="WhiteSmoke"
-					  StrokeThickness="2" />
+					<Line Grid.Row="3"
+						  X1="0"
+						  Y1="0"
+						  X2="2000"
+						  Y2="0"
+						  Margin="5"
+						  Stroke="WhiteSmoke"
+						  StrokeThickness="2" />
 
-				<StackPanel x:Name="chatCompletionResults">
+					<TextBlock x:Name="firstAnswer"
+							   Grid.Row="4"
+							   Margin="5"
+							   TextWrapping="WrapWholeWords"
+							   HorizontalAlignment="Stretch"
+							   Text="First Choice Answer will show up here." />
 
-				</StackPanel>
+					<Line Grid.Row="5"
+						  X1="0"
+						  Y1="0"
+						  X2="2000"
+						  Y2="0"
+						  Margin="5"
+						  Stroke="WhiteSmoke"
+						  StrokeThickness="2" />
 
-			</StackPanel>
-		</PivotItem>
-	</Pivot>
+					<StackPanel x:Name="chatCompletionResults"
+								Grid.Row="6">
+
+					</StackPanel>
+
+				</Grid>
+			</TabViewItem>
+		</TabView.TabItems>
+
+	</TabView>
 </Page>
