@@ -1,13 +1,9 @@
-﻿using OpenAI.GPT3.Managers;
-using OpenAI.GPT3.ObjectModels.RequestModels;
-using OpenAI.GPT3;
+﻿// Ignore Spelling: Uno
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using OpenAI.GPT3.ObjectModels;
+using OpenAI.Managers;
+using OpenAI;
+using OpenAI.ObjectModels;
+using OpenAI.ObjectModels.RequestModels;
 
 namespace UnoChatGPT.Services.Endpoints
 {
