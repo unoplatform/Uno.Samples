@@ -1,3 +1,0 @@
-namespace UnoMaterialSample.Skia.Gtk
-{
-}
