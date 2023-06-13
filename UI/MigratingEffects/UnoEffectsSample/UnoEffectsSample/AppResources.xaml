@@ -1,0 +1,34 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+					xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:android="http://uno.ui/android"
+                    xmlns:not_android="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+
+	<ResourceDictionary.MergedDictionaries>
+		<!-- Load WinUI resources -->
+        <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
+        
+    </ResourceDictionary.MergedDictionaries>
+	<!-- A very basic template with just the raw native control -->
+    <Style x:Key="NakedTextBox" TargetType="TextBox">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="TextBox">
+                    <ContentControl x:Name="ContentElement" />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <!-- A custom template with its own border and properties -->
+    <Style x:Key="RoundedTextBox" TargetType="TextBox">
+        <Setter Property="FontSize" Value="18"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="TextBox">
+                    <Border CornerRadius="6" BorderBrush="{TemplateBinding Foreground}" AllowFocusOnInteraction="False" Background="Wheat" BorderThickness="2" Padding="4">
+                        <ContentControl x:Name="ContentElement" />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

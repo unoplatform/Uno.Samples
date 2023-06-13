@@ -143,6 +143,13 @@ An implementation of the UWP `Maps` control with a custom slider that binds the 
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/MapControlSample)
 
+### Migrating Xamarin.Forms Effects
+Code samples to accompany the blog post on Migrating from Xamarin.Forms Effects
+- XamarinFormsEffect: A reference implementation of an effect with an Android implementation.
+  [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/MigratingEffects/XamarinFormsEffect)
+- UnoEffectSample: Showcasing how to replace Effects with either ControlTemplates or custom code accessing the native control.
+  [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/MigratingEffects/UnoEffectsSample)
+  
 ### Migrating Animations
 Code to accompany the blog post on migrating animations from Xamarin Forms to Uno.
 
