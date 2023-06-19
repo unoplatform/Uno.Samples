@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.Messaging;
+﻿using System.Collections.Immutable;
+using CommunityToolkit.Mvvm.Messaging;
 
 namespace MessagingPeopleApp;
 
@@ -12,12 +13,6 @@ public interface IPeopleService
 {
     ValueTask<IImmutableList<Person>> GetPeople(CancellationToken ct = default);
 
-    /// <summary>
-    /// Adds a new <see cref="Person"/> to the store and returns its new ID.
-    /// </summary>
-    /// <param name="person">The <see cref="Person"/> to add.</param>
-    /// <param name="ct">A <see cref="CancellationToken"/> which is disregarded in this sample.</param>
-    /// <returns>The store-assigned ID of the newly created <see cref="Person"/>.</returns>
     ValueTask AddPerson(Person person, CancellationToken ct = default);
 
     ValueTask RemovePerson(int personId, CancellationToken ct = default);

@@ -10,7 +10,7 @@ public partial record PeopleModel
     {
         _peopleService = peopleService;
 
-        messenger.Observe(People, person => person.Id);        
+        messenger.Observe(People, person => person.Id);          
     }
 
     public IListState<Person> People => ListState.Async(this, _peopleService.GetPeople);
