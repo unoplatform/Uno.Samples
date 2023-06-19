@@ -21,6 +21,10 @@ By name:
 
     This app displays a read-only list of people using the `IListState<T>` where `T` is a `Person` record, enabling selection and pagination.
 
+- MessagingPeopleApp
+
+    This app is similar to EditablePeopleApp, except it uses CommunityToolkit.Mvvm.Messaging and Uno.Extensions.Reactive.Messaging to pass messages around.
+
 - SliderApp
 
     This app utilizes an `IState<T>` where `T` is a primitive (`double`).    
@@ -50,3 +54,5 @@ By category:
     - SliderApp
 - ListState
     - EditablePeopleApp
+- Messaging
+    - MessagingPeopleApp
