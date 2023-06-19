@@ -4,7 +4,13 @@ namespace MessagingPeopleApp
     {
         public MainPage()
         {
-            this.InitializeComponent();
+            this.InitializeComponent();                   
+        }
+
+        public MainPage(BindablePeopleModel peopleModel)
+            : this()
+        {
+            this.DataContext = peopleModel;
         }
     }
 }

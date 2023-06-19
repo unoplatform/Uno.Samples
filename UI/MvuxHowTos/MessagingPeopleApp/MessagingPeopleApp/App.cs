@@ -1,3 +1,5 @@
+using CommunityToolkit.Mvvm.Messaging;
+
 namespace MessagingPeopleApp
 {
     public class App : Application
@@ -15,8 +17,10 @@ namespace MessagingPeopleApp
 #endif
                     .ConfigureServices((context, services) =>
                     {
-                        // TODO: Register your services
-                        //services.AddSingleton<IMyService, MyService>();
+                        services.AddSingleton<IPeopleService, PeopleService>();
+                        services.AddSingleton<IMessenger, WeakReferenceMessenger>();
+                        services.AddTransient<BindablePeopleModel>();
+                        services.AddTransient<MainPage>();
                     })
                 );
             MainWindow = builder.Window;
@@ -25,22 +29,8 @@ namespace MessagingPeopleApp
 
             // Do not repeat app initialization when the Window already has content,
             // just ensure that the window is active
-            if (MainWindow.Content is not Frame rootFrame)
-            {
-                // Create a Frame to act as the navigation context and navigate to the first page
-                rootFrame = new Frame();
+            MainWindow.Content = Host.Services.GetRequiredService<MainPage>();
 
-                // Place the frame in the current Window
-                MainWindow.Content = rootFrame;
-            }
-
-            if (rootFrame.Content == null)
-            {
-                // When the navigation stack isn't restored navigate to the first page,
-                // configuring the new page by passing required information as a navigation
-                // parameter
-                rootFrame.Navigate(typeof(MainPage), args.Arguments);
-            }
             // Ensure the current window is active
             MainWindow.Activate();
         }
