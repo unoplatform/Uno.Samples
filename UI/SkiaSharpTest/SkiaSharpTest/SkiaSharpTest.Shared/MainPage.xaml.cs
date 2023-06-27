@@ -29,12 +29,14 @@ namespace SkiaSharpTest
 
         public MainPage()
         {
+            SKSwapChainPanel.RaiseOnUnsupported = false;
+
             this.InitializeComponent();
         }
 
         private Visibility Not(bool? value) => (!value ?? false) ? Visibility.Visible : Visibility.Collapsed;
 
-        private void OnPaintSwapChain(object sender, SKPaintSurfaceEventArgs e)
+        private void OnPaintSwapChain(object sender, SKPaintGLSurfaceEventArgs e)
         {
             // the the canvas and properties
             var canvas = e.Surface.Canvas;
@@ -70,7 +72,7 @@ namespace SkiaSharpTest
         private void Render(SKCanvas canvas, Size size, SKColor color, string text)
         {
             // get the screen density for scaling
-            var scale = (float)this.RasterizationScale;
+            var scale = (float)this.XamlRoot.RasterizationScale;
             var scaledSize = new SKSize((float)size.Width / scale, (float)size.Height / scale);
 
             // handle the device screen density
