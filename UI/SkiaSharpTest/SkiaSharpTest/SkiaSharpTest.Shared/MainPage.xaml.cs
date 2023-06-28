@@ -29,9 +29,15 @@ namespace SkiaSharpTest
 
         public MainPage()
         {
+#if !WINDOWS
             SKSwapChainPanel.RaiseOnUnsupported = false;
+#endif
 
             this.InitializeComponent();
+
+#if HAS_UNO_SKIA || WINDOWS
+            notSupported.Visibility = Visibility.Visible;
+#endif
         }
 
         private Visibility Not(bool? value) => (!value ?? false) ? Visibility.Visible : Visibility.Collapsed;
@@ -61,7 +67,9 @@ namespace SkiaSharpTest
             
             if (hwAcceleration.IsChecked ?? false)
             {
+#if !WINDOWS
                 swapChain.Invalidate();
+#endif
             }
             else
             {
