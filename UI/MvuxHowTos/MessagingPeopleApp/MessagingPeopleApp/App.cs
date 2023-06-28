@@ -1,4 +1,5 @@
 using CommunityToolkit.Mvvm.Messaging;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace MessagingPeopleApp
 {
@@ -18,6 +19,7 @@ namespace MessagingPeopleApp
                     .ConfigureServices((context, services) =>
                     {
                         services.AddSingleton<IPeopleService, PeopleService>();
+                        services.AddSingleton<IPhoneService, PhoneService>();
                         services.AddSingleton<IMessenger, WeakReferenceMessenger>();
                         services.AddTransient<BindablePeopleModel>();
                         services.AddTransient<MainPage>();

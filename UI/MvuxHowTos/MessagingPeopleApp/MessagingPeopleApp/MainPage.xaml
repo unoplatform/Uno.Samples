@@ -46,6 +46,21 @@
 
             </DataTemplate>
         </ListView.ItemTemplate>
+        <ListView.Footer>
+            <ListView ItemsSource="{Binding SelectedPersonPhones}">
+                <ListView.ItemTemplate>
+                    <DataTemplate x:DataType="local:Phone">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding Number}" />
+                            <Button 
+                                Content="Remove"
+                                Command="{Binding DataContext.RemovePhone, ElementName=peopleView}" CommandParameter="{Binding Id}"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </ListView.Footer>
     </ListView>
+
 
 </Page>
