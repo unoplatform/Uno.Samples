@@ -1,29 +1,29 @@
 ﻿using System;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
 
 namespace ChatUI.Entities;
 
-public record Message(string Text, string ContactName, DateTimeOffset Timestamp, bool IsMyMessage) : INotifyPropertyChanged
+public class Message
 {
-	private bool _isLastInSequence = true;
+	public Message(string text, string contactName = default, DateTimeOffset timestamp = default, bool isMyMessage = true)
+	{
+		Text = text;
+		ContactName = contactName == default ? "Me" : contactName;
+		Timestamp = timestamp == default ? DateTimeOffset.Now : timestamp;
+		IsMyMessage = isMyMessage;
+	}
 
-	public event PropertyChangedEventHandler PropertyChanged;
+	public string Text { get; init; }
+
+	public string ContactName { get; init; }
+
+	public DateTimeOffset Timestamp { get; init; }
+
+	public bool IsMyMessage { get; init; }
+
+	public bool IsLastInSequence { get; set; }
 
 	public string UserFriendlyTimestamp => Timestamp.LocalDateTime.ToString("t");
 
-	public bool IsLastInSequence
-	{
-		get =>  _isLastInSequence;
-		set 
-		{ 
-			_isLastInSequence = value;
-			OnPropertyChanged();
-		}
-	}
-
-	protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-	{
-		PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-	}
+	public static Message Empty => new Message(default);
 }
+

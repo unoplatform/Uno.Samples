@@ -41,7 +41,7 @@ public class CommandOnKeyPressBehavior
 		{
 			var textBox = sender as TextBox;
 			var command = GetTextBoxCommand(textBox);
-			command.Execute(textBox.Text);
+			command.Execute(null);
 		}
 	}
 }

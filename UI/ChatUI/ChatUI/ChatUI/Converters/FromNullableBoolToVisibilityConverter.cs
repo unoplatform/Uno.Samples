@@ -26,25 +26,13 @@ namespace ChatUI.Converters
 
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            if (parameter != null)
-            {
-                throw new ArgumentException($"This converter does not use any parameters. You should remove \"{parameter}\" passed as parameter.");
-            }
-
-            bool inverse = VisibilityIfTrue == VisibilityIfTrue.Collapsed;
-
-            Visibility visibilityOnTrue = !inverse ? Visibility.Visible : Visibility.Collapsed;
-            Visibility visibilityOnFalse = !inverse ? Visibility.Collapsed : Visibility.Visible;
-
-            if (value != null && !(value is bool))
-            {
-                throw new ArgumentException($"Value must either be null or of type bool. Got {value} ({value.GetType().FullName})");
-            }
-
-            var valueToConvert = value != null && System.Convert.ToBoolean(value, CultureInfo.InvariantCulture);
-
-            return valueToConvert ? visibilityOnTrue : visibilityOnFalse;
-        }
+			return value switch
+			{
+				true => VisibilityIfTrue,
+				null or bool when VisibilityIfTrue is VisibilityIfTrue.Collapsed => VisibilityIfTrue.Visible,
+				_ => VisibilityIfTrue.Collapsed
+			};
+		}
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)
         {
@@ -53,19 +41,13 @@ namespace ChatUI.Converters
                 return null;
             }
 
-            if (parameter != null)
-            {
-                throw new ArgumentException($"This converter does not use any parameters. You should remove \"{parameter}\" passed as parameter.");
-            }
-
-            bool inverse = VisibilityIfTrue == VisibilityIfTrue.Collapsed;
-
-            Visibility visibilityOnTrue = !inverse ? Visibility.Visible : Visibility.Collapsed;
-
-            var visibility = (Visibility)value;
-
-            return visibilityOnTrue.Equals(visibility);
-        }
+			return value switch
+			{
+				false => VisibilityIfTrue,
+				_ when VisibilityIfTrue is VisibilityIfTrue.Visible => VisibilityIfTrue.Collapsed,
+				_ => VisibilityIfTrue.Visible
+			};
+		}
     }
 
     public enum VisibilityIfTrue
