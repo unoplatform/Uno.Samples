@@ -300,3 +300,11 @@ Demo of the usage of WebRTC in Uno WebAssembly. This sample establishes a direct
 =======
 
 Visit [our documentation](https://platform.uno/docs/articles/intro.html) for more details.
+
+# Contributors
+Thanks go to these wonderful people (List made with [contrib.rocks](https://contrib.rocks)):
+
+[![Uno.Samples Contributors](https://contrib.rocks/image?repo=unoplatform/Uno.Samples)](https://github.com/unoplatform/Uno.Samples/graphs/contributors)
+
+💖 Thank you.
+
