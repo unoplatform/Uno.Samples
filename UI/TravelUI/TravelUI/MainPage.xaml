@@ -32,7 +32,7 @@
            </Button> 
  
             <!-- Destination type-->
-           <ListView Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3" ItemsSource="{x:Bind destinationType}" SelectionMode="None" Padding="0,20">
+           <ListView Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3" ItemsSource="{x:Bind destinationType}" SelectionMode="None" Padding="0,20" ScrollViewer.HorizontalScrollMode="Auto"  ScrollViewer.VerticalScrollMode="Disabled" ScrollViewer.HorizontalScrollBarVisibility="Auto">
                 <ListView.ItemsPanel>
                     <ItemsPanelTemplate>
                         <StackPanel Orientation="Horizontal"/>
@@ -54,7 +54,7 @@
         <TextBlock Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" Text="Popular Destination" FontWeight="Bold"/>
 
         <!--Popular destination list-->
-        <ListView  Grid.Row="5" Padding="0,20" Margin="0,0,0,20" Grid.Column="0" Grid.ColumnSpan="3" ItemsSource="{x:Bind popularDestination}" SelectionMode="None">
+        <ListView  Grid.Row="5" Padding="0,20" Margin="0,0,0,20" Grid.Column="0" Grid.ColumnSpan="3" ItemsSource="{x:Bind popularDestination}" SelectionMode="None"  ScrollViewer.HorizontalScrollMode="Auto"  ScrollViewer.VerticalScrollMode="Disabled" ScrollViewer.HorizontalScrollBarVisibility="Auto">
             <ListView.ItemsPanel>
                 <ItemsPanelTemplate>
                     <StackPanel Orientation="Horizontal"/>
