@@ -38,11 +38,12 @@ namespace Commerce
                     // Register Json serializers (ISerializer and ISerializer)
                     .UseSerialization((context, services) => services
                         .AddContentSerializer(context))
-                    .UseHttp((context, services) => services
-                            // Register HttpClient
+                    // Register HttpClient
+                    .UseHttp(
 #if DEBUG
+                        (context, services) =>
 						// DelegatingHandler will be automatically injected into Refit Client
-						.AddTransient<DelegatingHandler, DebugHttpHandler>()
+						services.AddTransient<DelegatingHandler, DebugHttpHandler>()
 #endif
                             )
                     .ConfigureServices((context, services) =>
