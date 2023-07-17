@@ -1,0 +1,40 @@
+<Page x:Class="SkeletonLoaderAnimation.Presentation.MainPage"
+	  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	  xmlns:local="using:SkeletonLoaderAnimation.Presentation"
+	  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	  mc:Ignorable="d"
+	  xmlns:uen="using:Uno.Extensions.Navigation.UI"
+	  xmlns:utu="using:Uno.Toolkit.UI"
+	  NavigationCacheMode="Required"
+	  Background="{ThemeResource BackgroundBrush}">
+
+	<Page.Resources>
+		<DataTemplate x:Key="LoadingTemplate">
+			<local:LoaderControl Margin="5, 10" />
+		</DataTemplate>
+
+		<DataTemplate x:Key="LoadedTemplate">
+			<StackPanel Padding="10"
+						HorizontalAlignment="Center">
+				<TextBlock Text="{Binding Text}"
+						   TextWrapping="NoWrap"
+						   FontSize="20" />
+				<TextBlock Text="{Binding Description}"
+						   TextWrapping="NoWrap"
+						   FontSize="16" />
+			</StackPanel>
+		</DataTemplate>
+	</Page.Resources>
+
+	<Grid utu:SafeArea.Insets="All">
+		<ListView  x:Name="itemsListView"
+				   ItemsSource="{Binding MainItems}"
+				   SelectionMode="None"
+				   Tapped="itemsListView_Tapped"
+				   HorizontalAlignment="Center"
+				   HorizontalContentAlignment="Center"
+				   ItemTemplate="{StaticResource LoadingTemplate}" />
+	</Grid>
+</Page>
