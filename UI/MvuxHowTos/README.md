@@ -17,9 +17,13 @@ By name:
 
     This app displays an editable list of people using the `IListState<T>` where `T` is a `Person` record.
 
-- AdvancedPeopleApp
+- SelectionPeopleApp
 
-    This app displays a read-only list of people using the `IListState<T>` where `T` is a `Person` record, enabling selection and pagination.
+    This app displays a read-only list of people and demonstrates the use of MVUX selection.
+
+- PaginationPeopleApp
+
+    This app displays a read-only list of people and demonstrates the use of MVUX pagination.
 
 - SliderApp
 
@@ -42,11 +46,14 @@ By category:
     - WeatherApp
 - ListFeed
     - PeopleApp
-    - AdvancedPeopleApp
+    - SelectionPeopleApp
+    - PaginationPeopleApp
 - Feed with AsyncEnumerable 
     - StockMarketApp
 - State
     - WeddingHallApp
     - SliderApp
+    - SelectionPeopleApp
+    - PaginationPeopleApp
 - ListState
     - EditablePeopleApp
