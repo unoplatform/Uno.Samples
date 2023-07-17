@@ -27,8 +27,10 @@ steps:
       
       $folderPath = [System.IO.Path]::GetDirectoryName("${{ parameters.path }}");
 
-      if (!((Get-ChildItem -Path $folderPath\**\*.Tests.csproj -Recurse) -eq $null)) {
-        & dotnet test "${{ parameters.path }}" -c Release --collect "XPlat code coverage" --logger trx --no-build ;
+      $testProject = Get-Item -Path $folderPath\**\*.Tests.csproj;
+
+      if (!($testProject -eq $null)) {
+        & dotnet test testProject.FullName -c Release --collect "XPlat code coverage" --logger trx --no-build ;
       }
 
       # fail the build on last exit code non zero
