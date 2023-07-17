@@ -24,6 +24,14 @@ steps:
       Write-Host "${{ parameters.path }}"
 
       & $env:msbuildpath "${{ parameters.path }}" /r /p:Configuration=Release /p:WasmShellMonoRuntimeExecutionMode=Interpreter /p:AotAssemblies=false /p:PublishTrimmed=false /p:WasmShellILLinkerEnabled=false /ds ;
+      
+      $folderPath = [System.IO.Path]::GetDirectoryName("${{ parameters.path }}");
+
+      $testProject = Get-Item -Path $folderPath\**\*.Tests.csproj;
+
+      if (!($testProject -eq $null)) {
+        & dotnet test testProject.FullName -c Release --collect "XPlat code coverage" --logger trx --no-build ;
+      }
 
       # fail the build on last exit code non zero
       if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
