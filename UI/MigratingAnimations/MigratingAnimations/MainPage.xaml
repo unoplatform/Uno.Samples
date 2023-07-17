@@ -1,0 +1,95 @@
+<Page x:Class="MigratingAnimations.MainPage"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:local="using:MigratingAnimations"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	mc:Ignorable="d"
+	Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Page.Resources>
+        <Storyboard x:Name="ComplexXamlStoryboard">
+            <DoubleAnimationUsingKeyFrames
+               Storyboard.TargetName="RectangleScale"
+               Storyboard.TargetProperty="ScaleX">
+                <EasingDoubleKeyFrame Value="2.0" KeyTime="0:0:2">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <ElasticEase EasingMode="EaseIn" Springiness="2" Oscillations="2" />
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+                <EasingDoubleKeyFrame Value="1.0" KeyTime="0:0:4">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <ElasticEase EasingMode="EaseOut" Springiness="2" Oscillations="2" />
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames
+               Storyboard.TargetName="RectangleScale"
+               Storyboard.TargetProperty="ScaleY">
+                <EasingDoubleKeyFrame Value="2.0" KeyTime="0:0:2">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <ElasticEase EasingMode="EaseIn" Springiness="2" Oscillations="2" />
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+                <EasingDoubleKeyFrame Value="1.0" KeyTime="0:0:4">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <ElasticEase EasingMode="EaseOut" Springiness="2" Oscillations="2" />
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimation
+                Storyboard.TargetName="RectangleRotation"
+                Storyboard.TargetProperty="Angle"
+                From="0.0" To="360" Duration="0:0:4"/>
+        </Storyboard>
+        <Storyboard x:Name="ComplexXamlStoryboard2">
+            <DoubleAnimationUsingKeyFrames
+               Storyboard.TargetName="MoveableRectangle"
+               Storyboard.TargetProperty="Opacity">
+                <LinearDoubleKeyFrame Value="0.0" KeyTime="0:0:1"/>
+                <LinearDoubleKeyFrame Value="1.0" KeyTime="0:0:2"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimation
+                Storyboard.TargetName="RectangleRotation"
+                Storyboard.TargetProperty="Angle"
+                From="0.0" To="90.0" Duration="0:0:2"/>
+            <DoubleAnimation
+                Storyboard.TargetName="RectangleTranslation"
+                Storyboard.TargetProperty="X"
+                From="0.0" To="40.0" Duration="0:0:4">
+                <DoubleAnimation.EasingFunction>
+                    <BounceEase EasingMode="EaseInOut" Bounciness="4"/>
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+            <DoubleAnimation
+                Storyboard.TargetName="RectangleTranslation"
+                Storyboard.TargetProperty="Y"
+                From="0.0" To="-40.0" Duration="0:0:4">
+                <DoubleAnimation.EasingFunction>
+                    <BounceEase EasingMode="EaseInOut" Bounciness="4"/>
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+        </Storyboard>
+    </Page.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Rectangle x:Name="MoveableRectangle" Width="100" Height="100" HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Red">
+            <Rectangle.RenderTransform>
+                <TransformGroup >
+                    <RotateTransform x:Name="RectangleRotation" Angle="0" CenterX="50" CenterY="50" />
+                    <ScaleTransform x:Name="RectangleScale" CenterX="50" CenterY="50" />
+                    <TranslateTransform x:Name="RectangleTranslation" X="0" Y="0"/>
+                </TransformGroup>
+            </Rectangle.RenderTransform>
+        </Rectangle>
+        <StackPanel Grid.Row="1" HorizontalAlignment="Center" Spacing="8"
+				VerticalAlignment="Center">
+            <TextBlock Text="Hello Uno Platform" />
+            <Button Content="Start XAML Storyboard" Click="Storyboard_Click"/>
+            <Button Content="Start C# Storyboard" Click="CSharp_Click"/>
+            <Button Content="Storyboard with Keyframes" Click="Keyframes_Click"/>
+        </StackPanel>
+    </Grid>
+</Page>

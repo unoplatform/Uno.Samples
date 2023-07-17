@@ -7,34 +7,17 @@ steps:
     dotnet sln Uno.Samples.generated.sln add (Get-ChildItem -Recurse *.csproj)
     $env:MSBuildExtensionsPath = $savedMSBuildExtensionsPath
 
-- task: UseDotNet@2
-  inputs:
-    packageType: 'runtime'
-    version: '2.2.0'
-
 - task: nventiveCanaryUpdater@5
   inputs:
     solution: Uno.Samples.generated.sln
     usePrivateFeed: false
     useNuGetOrg: true
-    mergeBranch: false
-    nugetUpdaterVersion: '2.1.1'
+    mergeBranch: true
+    nugetUpdaterVersion: '2.3.0-alpha.35'
     allowDowngrade: true
-    packageAuthor: 'nventive'
+    packageAuthor: 'nventive,Uno Platform'
     summaryFile: '$(Build.ArtifactStagingDirectory)/Summary.md'
     resultFile: '$(Build.ArtifactStagingDirectory)/Results.json'
 
-- powershell: |
-    dotnet tool uninstall nventive.nuget.updater.tool --tool-path $(Agent.TempDirectory)
-
-- task: nventiveCanaryUpdater@5
-  inputs:
-    solution: Uno.Samples.generated.sln
-    usePrivateFeed: false
-    useNuGetOrg: true
-    mergeBranch: false
-    nugetUpdaterVersion: '2.1.1'
-    allowDowngrade: true
-    packageAuthor: 'Uno Platform'
-    summaryFile: '$(Build.ArtifactStagingDirectory)/Summary-Uno.md'
-    resultFile: '$(Build.ArtifactStagingDirectory)/Results-Uno.json'
+- pwsh: |
+    del Uno.Samples.generated.sln

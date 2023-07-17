@@ -1,0 +1,23 @@
+jobs:
+- job: Strategy
+  dependsOn: VS_Latest
+
+  pool:
+    vmImage: 'windows-2022'
+
+  strategy:
+    # matrix:
+    #   Commerce:
+    #     solutionPath: 'D:\a\1\s\reference\Commerce\Commerce.sln'
+    #   NotChanged:
+    #     solutionPath: 'D:\a\1\s\UI\AdvancedXBind\AdvancedXBind.sln'
+    matrix: $[ dependencies.VS_Latest.outputs['generateJson.samplesJson'] ]
+  
+  variables:
+    - name: UseDotNetNativeToolchain
+      value: false
+
+  steps:
+  - template: build-samples.yml
+    parameters:
+      path: $(solutionPath)

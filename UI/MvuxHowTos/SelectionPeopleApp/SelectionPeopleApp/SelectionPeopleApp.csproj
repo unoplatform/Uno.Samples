@@ -1,0 +1,39 @@
+<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows')) or '$(EnableWindowsTargeting)' == 'true'">$(TargetFrameworks);net7.0-windows10.0.19041</TargetFrameworks>
+		<TargetFrameworks>$(TargetFrameworks);net7.0;net7.0-ios;net7.0-android;net7.0-maccatalyst</TargetFrameworks>
+
+		<!-- Ensures the .xr.xml files are generated in a proper layout folder -->
+		<GenerateLibraryLayout>true</GenerateLibraryLayout>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Uno.WinUI" Version="4.9.26" />
+		<PackageReference Include="Uno.Resizetizer" Version="1.0.2" />
+		<PackageReference Include="Uno.Extensions.Reactive.WinUI" Version="2.3.10" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Console" Version="7.0.0" />
+	</ItemGroup>
+
+	<Choose>
+		<When Condition="$(IsWinAppSdk)">
+			<ItemGroup>
+				<PackageReference Include="Microsoft.WindowsAppSDK" Version="1.3.230602002" />
+				<PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.756" />
+			</ItemGroup>
+		</When>
+		<Otherwise>
+			<ItemGroup>
+				<Content Include="Assets\**" />
+				<Page Include="**\*.xaml" Exclude="bin\**\*.xaml;obj\**\*.xaml" />
+				<Compile Update="**\*.xaml.cs">
+					<DependentUpon>%(Filename)</DependentUpon>
+				</Compile>
+			</ItemGroup>
+		</Otherwise>
+	</Choose>
+
+	<ItemGroup>
+		<UnoImage Include="Assets\**\*.svg" />
+		<UpToDateCheckInput Include="**\*.xaml" Exclude="bin\**\*.xaml;obj\**\*.xaml" />
+	</ItemGroup>
+</Project>
