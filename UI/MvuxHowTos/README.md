@@ -25,6 +25,10 @@ By name:
 
     This app displays a read-only list of people and demonstrates the use of MVUX pagination.
 
+- MessagingPeopleApp
+
+    This app is similar to EditablePeopleApp, except it uses CommunityToolkit.Mvvm.Messaging and Uno.Extensions.Reactive.Messaging to pass messages around.
+
 - SliderApp
 
     This app utilizes an `IState<T>` where `T` is a primitive (`double`).    
@@ -57,3 +61,5 @@ By category:
     - PaginationPeopleApp
 - ListState
     - EditablePeopleApp
+- Messaging
+    - MessagingPeopleApp

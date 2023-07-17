@@ -1,0 +1,66 @@
+<Page 
+    x:Name="peopleView"
+    x:Class="MessagingPeopleApp.MainPage"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:local="using:MessagingPeopleApp"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	mc:Ignorable="d">
+
+    <ListView ItemsSource="{Binding People}">
+        <ListView.Header>
+            <StackPanel>
+
+                <StackPanel  Orientation="Horizontal" DataContext="{Binding NewPerson.Value}">
+
+                    <TextBox PlaceholderText="First name"
+						 Text="{Binding FirstName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+                    <TextBox PlaceholderText="Last name" 
+   						 Text="{Binding LastName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                </StackPanel>
+
+                <Button Content="Add" Command="{Binding AddPerson}"
+                        CommandParameter="{Binding NewPerson.Value}" />
+            </StackPanel>
+
+        </ListView.Header>
+        <ListView.ItemTemplate>
+            <DataTemplate>
+
+                <StackPanel Orientation="Horizontal" Spacing="5">
+
+                    <TextBlock>
+                        <Run Text="#" />
+                        <Run Text="{Binding Id}" />
+                    </TextBlock>
+
+                    <TextBlock Text="{Binding FirstName}" />
+                    <TextBlock Text="{Binding LastName}" />
+
+                    <Button Content="Remove"                                    
+								    Command="{Binding DataContext.RemovePerson, ElementName=peopleView}"
+								    CommandParameter="{Binding}" />
+                </StackPanel>
+
+            </DataTemplate>
+        </ListView.ItemTemplate>
+        <ListView.Footer>
+            <ListView ItemsSource="{Binding SelectedPersonPhones}">
+                <ListView.ItemTemplate>
+                    <DataTemplate x:DataType="local:Phone">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding Number}" />
+                            <Button 
+                                Content="Remove"
+                                Command="{Binding DataContext.RemovePhone, ElementName=peopleView}" CommandParameter="{Binding Id}"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </ListView.Footer>
+    </ListView>
+
+
+</Page>
