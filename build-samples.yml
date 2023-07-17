@@ -9,6 +9,9 @@ steps:
 
 - template: build/templates/dotnet-install-windows.yml
 
+- ${{ if startsWith(variables['Build.SourceBranch'], 'refs/heads/canaries') }}:
+  - template: .vsts-ci.canaries.yml
+
 - powershell: |
       & choco install vswhere
       $msbuildpath=(vswhere -latest -requires Microsoft.Component.MSBuild -find MSBuild\**\Bin\MSBuild.exe -nologo)
@@ -21,6 +24,9 @@ steps:
       Write-Host "${{ parameters.path }}"
 
       & $env:msbuildpath "${{ parameters.path }}" /r /p:Configuration=Release /p:WasmShellMonoRuntimeExecutionMode=Interpreter /p:AotAssemblies=false /p:PublishTrimmed=false /p:WasmShellILLinkerEnabled=false /ds ;
+
+      # fail the build on last exit code non zero
+      if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
       # Clean the whole tree after every build to avoid disk space issues
       git clean -fdx

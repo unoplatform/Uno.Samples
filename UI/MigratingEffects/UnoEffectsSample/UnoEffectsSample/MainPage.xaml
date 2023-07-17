@@ -1,0 +1,25 @@
+<Page x:Class="UnoEffectsSample.MainPage"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:local="using:UnoEffectsSample"
+    xmlns:not_android="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	mc:Ignorable="d"
+	Background="{ThemeResource BackgroundBrush}">
+
+	<StackPanel HorizontalAlignment="Stretch"
+				VerticalAlignment="Top" Margin="16" Spacing="16">
+		<TextBlock AutomationProperties.AutomationId="HelloTextBlock"
+				   Text="Hello Uno Platform" Style="{StaticResource TitleTextBlockStyle}" />
+        <TextBlock Text="TextBox with minimal ControlTemplate"/>
+        <TextBox Text="Naked TextBox" Style="{StaticResource NakedTextBox}"/>
+        <TextBlock Text="TextBox with custom ControlTemplate"/>
+        <TextBox Text="Edit This!" Foreground="DarkRed" Style="{StaticResource RoundedTextBox}"/>
+        <TextBlock Text="TextBox with ErrorText attached property"/>
+
+        <TextBox x:Name="ErrorTextBox" FontSize="18" Text="Text with error" local:TextBoxErrorHelper.ErrorText="{x:Bind ErrorText, Mode=OneWay}"/>
+        <not_android:TextBlock Text="{x:Bind ErrorText, Mode=TwoWay}" Foreground="DarkRed"/>
+        <Button Content="Clear" Click="Button_Click"/>
+    </StackPanel>
+</Page>
