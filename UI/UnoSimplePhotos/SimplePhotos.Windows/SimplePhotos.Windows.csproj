@@ -2,7 +2,7 @@
 	<PropertyGroup>
 		<OutputType>WinExe</OutputType>
 		<TargetFramework>net7.0-windows10.0.22621.0</TargetFramework>
-		<TargetPlatformMinVersion>10.0.22000.0</TargetPlatformMinVersion>
+		<TargetPlatformMinVersion>10.0.18362.0</TargetPlatformMinVersion>
 		<RootNamespace>UnoWinUIQuickStart</RootNamespace>
 		<Platforms>x86;x64;arm64</Platforms>
 		<RuntimeIdentifiers>win10-x86;win10-x64;win10-arm64</RuntimeIdentifiers>
@@ -15,7 +15,6 @@
 		<!-- <WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained> -->
 		<!-- This bundles the .NET Core libraries (Uncomment for packaged builds)  -->
 		<SelfContained>true</SelfContained>
-		<SupportedOSPlatformVersion>10.0.22000.0</SupportedOSPlatformVersion>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -24,33 +23,33 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Uno.Resizetizer" Version="1.1.0" />
+		<PackageReference Include="Uno.Resizetizer" Version="1.0.4" />
 		<PackageReference Include="Uno.WinUI" Version="4.9.26" />
 		<PackageReference Include="Microsoft.WindowsAppSDK" Version="1.3.230602002" />
 		<PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.756" />
-		<PackageReference Include="Uno.Extensions.Configuration" Version="2.4.2" />
-		<PackageReference Include="Uno.Extensions.Http" Version="2.4.2" />
-		<PackageReference Include="Uno.Extensions.Http.Refit" Version="2.4.2" />
-		<PackageReference Include="Uno.Extensions.Logging.WinUI" Version="2.4.2" />
-		<PackageReference Include="Uno.Extensions.Serialization.Http" Version="2.4.2" />
-		<PackageReference Include="Uno.Extensions.Serialization.Refit" Version="2.4.2" />
-		<PackageReference Include="Uno.Toolkit.WinUI" Version="3.0.5" />
-		<PackageReference Include="Uno.Extensions.Authentication.WinUI" Version="2.4.2" />
-		<PackageReference Include="Uno.Extensions.Hosting.WinUI" Version="2.4.2" />
-		<PackageReference Include="Uno.Extensions.Localization.WinUI" Version="2.4.2" />
-		<PackageReference Include="Uno.Extensions.Navigation.Toolkit.WinUI" Version="2.4.2" />
-		<PackageReference Include="Uno.Extensions.Navigation.WinUI" Version="2.4.2" />
-		<PackageReference Include="Uno.Extensions.Reactive.WinUI" Version="2.4.2" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Console" Version="7.0.0" />
 		<PackageReference Include="Uno.Core.Extensions.Logging.Singleton" Version="4.0.1" />
 		<PackageReference Include="Uno.UI.Adapter.Microsoft.Extensions.Logging" Version="4.9.26" />
 	</ItemGroup>
 
-
 	<ItemGroup>
-		<ProjectReference Include="..\UnoChatGPT\UnoChatGPT.csproj" />
-		<ProjectReference Include="..\UnoChatGPT.DataContracts\UnoChatGPT.DataContracts.csproj" />
+		<!--
+		If you encounter this error message:
+
+			error NETSDK1148: A referenced assembly was compiled using a newer version of Microsoft.Windows.SDK.NET.dll.
+			Please update to a newer .NET SDK in order to reference this assembly.
+
+		This means that the two packages below must be aligned with the "build" version number of
+		the "Microsoft.Windows.SDK.BuildTools" package above, and the "revision" version number
+		must be the highest found in https://www.nuget.org/packages/Microsoft.Windows.SDK.NET.Ref.
+		-->
+		<!-- <FrameworkReference Update="Microsoft.Windows.SDK.NET.Ref" RuntimeFrameworkVersion="10.0.22621.28" />
+		<FrameworkReference Update="Microsoft.Windows.SDK.NET.Ref" TargetingPackVersion="10.0.22621.28" /> -->
 	</ItemGroup>
 
-	<Import Project="..\UnoChatGPT.Base\base.props" />
+	<ItemGroup>
+		<ProjectReference Include="..\SimplePhotos\SimplePhotos.csproj" />
+	</ItemGroup>
+
+	<Import Project="..\SimplePhotos.Base\base.props" />
 </Project>
