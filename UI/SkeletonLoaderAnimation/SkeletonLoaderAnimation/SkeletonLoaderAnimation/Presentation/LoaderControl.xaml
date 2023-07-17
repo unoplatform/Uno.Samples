@@ -18,28 +18,12 @@
 										  RepeatBehavior="Forever"
 										  Duration="0:0:2">
 				
-				 
-			<!--Go from green to red in the first 2 seconds. LinearColorKeyFrame creates
-                a smooth, linear animation between values.-->
-
 				<LinearColorKeyFrame Value="DarkGray"
 									 KeyTime="00:00:02" />
-
-				
-				 
-			<!--In the next half second, go to yellow. DiscreteColorKeyFrame creates a 
-                sudden jump between values.-->
 
 				<DiscreteColorKeyFrame Value="#7f7f7f7f"
 									   KeyTime="00:00:2.5" />
 
-				
-				 
-			<!--In the final 2 seconds of the animation, go from yellow back to green. SplineColorKeyFrame 
-                creates a variable transition between values depending on the KeySpline property. In this example,
-                the animation starts off slow but toward the end of the time segment, it speeds up exponentially.-->
-			
-				
 				<SplineColorKeyFrame Value="DarkGray"
 									 KeyTime="00:00:4.5"
 									 KeySpline="0.6,0.0 0.9,0.00" />
@@ -49,24 +33,6 @@
 					</EasingColorKeyFrame.EasingFunction>
 				</EasingColorKeyFrame>
 			</ColorAnimationUsingKeyFrames>
-
-			<!--<ColorAnimation Storyboard.TargetName="RectItem"
-							Storyboard.TargetProperty="(Shape.Fill).(LinearGradientBrush.GradientStops)[0].(GradientStop.Color)"
-							From="#7f7f7f7f"
-							To="DarkGray"
-							RepeatBehavior="Forever"
-							EnableDependentAnimation="True"
-							AutoReverse="False"
-							Duration="0:0:3" />
-			<ColorAnimation Storyboard.TargetName="RectItem"
-							Storyboard.TargetProperty="(Shape.Fill).(LinearGradientBrush.GradientStops)[1].(GradientStop.Color)"
-							From="DarkGray"
-							To="#7f7f7f7f"
-							AutoReverse="False"
-							EnableDependentAnimation="True"
-							RepeatBehavior="Forever"
-							Duration="0:0:3" />-->
-
 		</Storyboard>
 	</UserControl.Resources>
 
@@ -75,14 +41,7 @@
 				   Height="70"
 				   Width="350">
 			<Rectangle.Fill>
-				<!--<LinearGradientBrush StartPoint="0,0"
-									 EndPoint="1,1">
-					<GradientStop Offset="0.0"
-								  Color="DarkGray"
-								  x:Name="StopOne" />
-					<GradientStop Offset="1.0"
-								  Color="#7f7f7f7f" />
-				</LinearGradientBrush>-->
+				
 				<SolidColorBrush Color="DarkGray"
 								 x:Name="RectItemBrush" />
 			</Rectangle.Fill>
