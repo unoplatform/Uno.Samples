@@ -6,7 +6,7 @@ public partial record LoginViewModel
 {
 	private readonly INavigator _navigator;
 
-	private LoginViewModel(
+	public LoginViewModel(
 		INavigator navigator,
 		IOptions<AppInfo> appInfo)
 	{
