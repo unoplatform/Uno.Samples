@@ -28,6 +28,8 @@ steps:
       # fail the build on last exit code non zero
       if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
+      git config --system core.longpaths true
+
       # Clean the whole tree after every build to avoid disk space issues
       git clean -fdx
   displayName: Build Matrix Samples
