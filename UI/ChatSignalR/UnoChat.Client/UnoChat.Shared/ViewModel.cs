@@ -23,7 +23,8 @@ namespace UnoChat.Client
         Connecting,
         Chatting
     }
-    public class ViewModel {
+    public class ViewModel: INotifyPropertyChanged
+    {
         private readonly Guid _id = Guid.NewGuid();
         private readonly Guid _deviceTypeId = Guid.Empty;
 
@@ -68,7 +69,7 @@ namespace UnoChat.Client
             _allMessages = new ObservableCollection<Message.Model>();
 
             _connection = new HubConnectionBuilder()
-                .WithUrl("https://unochatservice20200716114254.azurewebsites.net/ChatHub")
+                .WithUrl("https://localhost:7167/ChatHub")
                 //.WithUrl("http://localhost:61877")
                 .WithAutomaticReconnect()
                 .Build();
@@ -268,6 +269,6 @@ namespace UnoChat.Client
         public ICommand Connect => _connect;
 
         public ICommand SendMessage => _sendMessage;
-    
-}
+
+    }
 }

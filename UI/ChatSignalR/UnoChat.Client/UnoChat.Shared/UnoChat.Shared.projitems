@@ -24,6 +24,8 @@
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Schedulers.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Xaml\Cogenity.xaml.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Xaml\MessageTemplateSelector.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Xaml\StringEqualityConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Xaml\StringFormatConverter.cs" />
   </ItemGroup>
@@ -33,6 +35,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="$(MSBuildThisFileDirectory)Xaml\Cogenity.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Xaml\Resources.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -18,7 +18,7 @@ namespace UnoChat.Client.Console
             Console.WriteLine($"Ok {name} one second, we're going to connect to the SignalR server...");
 
             var connection = new HubConnectionBuilder()
-                .WithUrl("https://unochatservice20200716114254.azurewebsites.net/ChatHub")
+                .WithUrl("https://localhost:7167/ChatHub")
                 .WithAutomaticReconnect()
                 .Build();
 
