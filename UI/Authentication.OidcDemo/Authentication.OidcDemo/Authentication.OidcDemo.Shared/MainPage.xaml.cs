@@ -3,6 +3,11 @@ using Windows.Security.Authentication.Web;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using IdentityModel.OidcClient;
+using Windows.UI.Xaml;
+using IdentityModel.OidcClient.Browser;
+using System.Threading.Tasks;
+using System.Threading;
+using System.Linq;
 
 namespace Authentication.OidcDemo
 {
@@ -14,6 +19,11 @@ namespace Authentication.OidcDemo
         public MainPage()
         {
             this.InitializeComponent();
+            Loaded += MainPage_Loaded;
+        }
+
+        private void MainPage_Loaded(object sender, RoutedEventArgs e)
+        {
             PrepareClient();
         }
 
@@ -35,9 +45,11 @@ namespace Authentication.OidcDemo
                 Scope = "openid profile email api offline_access",
                 RedirectUri = redirectUri,
                 PostLogoutRedirectUri = redirectUri,
-                ResponseMode = OidcClientOptions.AuthorizeResponseMode.Redirect,
-                Flow = OidcClientOptions.AuthenticationFlow.AuthorizationCode
+                //ResponseMode = OidcClientOptions.AuthorizeResponseMode.Redirect,
+                //Flow = OidcClientOptions.AuthenticationFlow.AuthorizationCode
             };
+
+            options.Browser = new WebAuthenticatorBrowser();
 
             // Create the client. In production application, this is often created and stored
             // directly in the Application class.
@@ -98,5 +110,41 @@ namespace Authentication.OidcDemo
             // on WebAssembly, in order to prevent triggering the popup blocker mechanisms.
             await WebAuthenticationBroker.AuthenticateAsync(WebAuthenticationOptions.None, _logoutUrl);
         }
+    }
+
+
+    internal class WebAuthenticatorBrowser : IBrowser
+    {
+        public async Task<BrowserResult> InvokeAsync(BrowserOptions options, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+#if WINDOWS && !HAS_UNO
+			var userResult = await WinUIEx.WebAuthenticator.AuthenticateAsync(new Uri(options.StartUrl), new Uri(options.EndUrl));
+			var callbackurl = $"{options.EndUrl}/?{string.Join("&", userResult.Properties.Select(x => $"{x.Key}={x.Value}"))}";
+			return new BrowserResult
+			{
+				Response = callbackurl
+			};
+#else
+                var userResult = await WebAuthenticationBroker.AuthenticateAsync(WebAuthenticationOptions.None, new Uri(options.StartUrl), new Uri(options.EndUrl));
+
+                return new BrowserResult
+                {
+                    Response = userResult.ResponseData
+                };
+#endif
+            }
+            catch (Exception ex)
+            {
+                return new BrowserResult()
+                {
+                    ResultType = BrowserResultType.UnknownError,
+                    Error = ex.ToString()
+                };
+            }
+        }
+
+
     }
 }
