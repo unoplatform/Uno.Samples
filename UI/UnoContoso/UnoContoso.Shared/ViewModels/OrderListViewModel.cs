@@ -150,16 +150,18 @@ namespace UnoContoso.ViewModels
 
         private void SetOrders(string queryText)
         {
-            Orders.Clear();
-            if (string.IsNullOrEmpty(queryText))
-            {
-                Orders.AddRange(MasterOrdersList);
-            }
-            else
-            {
-                List<Order> orders = GetOrders(queryText);
-                Orders.AddRange(orders);
-            }
+            // TODO: Fix
+
+            //Orders.Clear();
+            //if (string.IsNullOrEmpty(queryText))
+            //{
+            //    Orders.AddRange(MasterOrdersList);
+            //}
+            //else
+            //{
+            //    List<Order> orders = GetOrders(queryText);
+            //    Orders.AddRange(orders);
+            //}
         }
 
         private List<Order> GetOrders(string queryText)
@@ -184,7 +186,9 @@ namespace UnoContoso.ViewModels
         {
             if (string.IsNullOrEmpty(searchBoxText))
             {
-                Orders.AddRange(MasterOrdersList);
+                // TODO: Fix
+
+                //Orders.AddRange(MasterOrdersList);
                 SuggestItems = null;
             }
             else
@@ -267,10 +271,12 @@ namespace UnoContoso.ViewModels
             await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal,
                 async () =>
                 {
-                    var orders = await _contosoRepository.Orders.GetAsync();
-                    Orders.AddRange(orders);
-                    MasterOrdersList.AddRange(orders);
-                    SetBusy("LoadOrders", false);
+                    // TODO: Fix
+
+                    //var orders = await _contosoRepository.Orders.GetAsync();
+                    //Orders.AddRange(orders);
+                    //MasterOrdersList.AddRange(orders);
+                    //SetBusy("LoadOrders", false);
                 });
         }
 

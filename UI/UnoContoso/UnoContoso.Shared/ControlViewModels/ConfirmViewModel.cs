@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Uno.Extensions.Specialized;
+//using Uno.Extensions.Specialized;
 using UnoContoso.Base;
 
 namespace UnoContoso.ControlViewModels

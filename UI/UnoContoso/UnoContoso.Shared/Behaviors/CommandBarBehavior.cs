@@ -2,8 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Windows.UI.Core;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml;
 
 namespace UnoContoso.Behaviors
 {

@@ -452,16 +452,18 @@ namespace UnoContoso.Model
                     "connecting to the database. Please try again.", ex);
             }
 
-            if (result != null)
-            {
-                await DispatcherHelper.ExecuteOnUIThreadAsync(() => IsModified = false);
-            }
-            else
-            {
-                await DispatcherHelper.ExecuteOnUIThreadAsync(() => new OrderSavingException(
-                    "Unable to save. There might have been a problem " +
-                    "connecting to the database. Please try again."));
-            }
+            // TODO: Fix
+
+            //if (result != null)
+            //{
+            //    await DispatcherHelper.ExecuteOnUIThreadAsync(() => IsModified = false);
+            //}
+            //else
+            //{
+            //    await DispatcherHelper.ExecuteOnUIThreadAsync(() => new OrderSavingException(
+            //        "Unable to save. There might have been a problem " +
+            //        "connecting to the database. Please try again."));
+            //}
         }
     }
 }

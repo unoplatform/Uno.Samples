@@ -9,6 +9,12 @@ using UnoContoso.Repository;
 using UnoContoso.Views;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
+using Prism.Ioc;
+using Windows.Storage;
+using UnoContoso.Controls;
+using UnoContoso.ControlViewModels;
+using Prism.Mvvm;
+using System.Reflection;
 
 namespace UnoContoso
 {
@@ -130,21 +136,23 @@ namespace UnoContoso
             containerRegistry.Register<IContosoRepository, SqlContosoRepository>("Sql");
             //containerRegistry.Register<IContosoRepository, SqlContosoRepository>();
 
-            // Load the database.
-            if (ApplicationData.Current.LocalSettings.Values.TryGetValue(
-                "data_source", out object dataSource))
-            {
-                switch (dataSource.ToString())
-                {
-                    case "Rest": UseRest(containerRegistry); break;
-                    default: UseSqlite(containerRegistry); break;
-                }
-            }
-            else
-            {
-                //UseSqlite(containerRegistry);
-                UseRest(containerRegistry);
-            }
+            // TODO: Fix
+
+            //// Load the database.
+            //if (ApplicationData.Current.LocalSettings.Values.TryGetValue(
+            //    "data_source", out object dataSource))
+            //{
+            //    switch (dataSource.ToString())
+            //    {
+            //        case "Rest": UseRest(containerRegistry); break;
+            //        default: UseSqlite(containerRegistry); break;
+            //    }
+            //}
+            //else
+            //{
+            //    //UseSqlite(containerRegistry);
+            //    UseRest(containerRegistry);
+            //}
 
             containerRegistry.RegisterForNavigation<HomeView>();
             containerRegistry.RegisterForNavigation<CustomerListView>();
@@ -247,7 +255,8 @@ namespace UnoContoso
                 // builder.AddFilter("Uno.Foundation.WebAssemblyRuntime", LogLevel.Debug );
             });
 
-            global::Uno.Extensions.LogExtensionPoint.AmbientLoggerFactory = factory;
+            // TODO: Fix
+            //global::Uno.Extensions.LogExtensionPoint.AmbientLoggerFactory = factory;
 
 #if HAS_UNO
             global::Uno.UI.Adapter.Microsoft.Extensions.Logging.LoggingAdapter.Initialize();

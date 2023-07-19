@@ -136,16 +136,18 @@ namespace UnoContoso.ViewModels
             if (string.IsNullOrEmpty(inputText)
                 || inputText.Length < 2) return;
 
-            await DispatcherHelper.ExecuteOnUIThreadAsync(
-                async () => 
-                {
-                    SuggestItems.Clear();
-                    var suggestions = await _contosoRepository.Products.GetAsync(inputText);
-                    foreach (var product in suggestions)
-                    {
-                        SuggestItems.Add(product);
-                    }
-                });
+            // TODO: Fix
+
+            //await DispatcherHelper.ExecuteOnUIThreadAsync(
+            //    async () => 
+            //    {
+            //        SuggestItems.Clear();
+            //        var suggestions = await _contosoRepository.Products.GetAsync(inputText);
+            //        foreach (var product in suggestions)
+            //        {
+            //            SuggestItems.Add(product);
+            //        }
+            //    });
         }
 
         private async void OnSave()

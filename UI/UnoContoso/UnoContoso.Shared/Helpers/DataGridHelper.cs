@@ -72,7 +72,10 @@ namespace UnoContoso.Helpers
                 collection.OrderBy(sortFunc).ToList() :
                 collection.OrderByDescending(sortFunc).ToList();
             collection.Clear();
-            collection.AddRange(sortedCollection);
+
+            // TODO: Fix
+
+            //collection.AddRange(sortedCollection);
         }
     }
 }

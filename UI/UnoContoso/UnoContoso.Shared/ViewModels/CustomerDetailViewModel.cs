@@ -195,13 +195,16 @@ namespace UnoContoso.ViewModels
                 SetBusy("CustomerLoad", true);
                 var id = navigationContext.Parameters.GetValue<Guid>("CustomerId");
                 //Debug.WriteLine($"{Title} / {id}");
-                await DispatcherHelper.ExecuteOnUIThreadAsync(
-                    async () =>
-                    {
-                        var customer = await _contosoRepository.Customers.GetAsync(id);
-                        Customer = new CustomerWrapper(_contosoRepository, customer);
-                        await Customer.LoadOrdersAsync();
-                    });
+
+                // TODO: Fix
+
+                //await DispatcherHelper.ExecuteOnUIThreadAsync(
+                //    async () =>
+                //    {
+                //        var customer = await _contosoRepository.Customers.GetAsync(id);
+                //        Customer = new CustomerWrapper(_contosoRepository, customer);
+                //        await Customer.LoadOrdersAsync();
+                //    });
                 SetBusy("CustomerLoad", false);
             }
         }

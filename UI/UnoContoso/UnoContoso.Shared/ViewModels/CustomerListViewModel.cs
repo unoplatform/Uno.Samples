@@ -162,19 +162,21 @@ namespace UnoContoso.ViewModels
 
         private async Task SetCustomersAsync(string queryText)
         {
-            Customers.Clear();
-            if (string.IsNullOrEmpty(queryText))
-            {
-                Customers.AddRange(_allCustomers);
-            }
-            else
-            {
-                await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
-                {
-                    List<CustomerWrapper> customers = GetCustomers(queryText);
-                    Customers.AddRange(customers);
-                });
-            }
+            // TODO: Fix
+
+            //Customers.Clear();
+            //if (string.IsNullOrEmpty(queryText))
+            //{
+            //    Customers.AddRange(_allCustomers);
+            //}
+            //else
+            //{
+            //    await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
+            //    {
+            //        List<CustomerWrapper> customers = GetCustomers(queryText);
+            //        Customers.AddRange(customers);
+            //    });
+            //}
         }
 
         private List<CustomerWrapper> GetCustomers(string queryText)
@@ -198,9 +200,11 @@ namespace UnoContoso.ViewModels
         {
             if (string.IsNullOrEmpty(searchBoxText))
             {
-                Customers.Clear();
-                Customers.AddRange(_allCustomers);
-                SuggestItems = null;
+                // TODO: Fix
+
+                //Customers.Clear();
+                //Customers.AddRange(_allCustomers);
+                //SuggestItems = null;
             }
             else
             {
@@ -281,12 +285,14 @@ namespace UnoContoso.ViewModels
             Customers.Clear();
             SelectedCustomer = null;
 
-            await DispatcherHelper.ExecuteOnUIThreadAsync(
-                async () =>
-                {
-                    _allCustomers = await GetCustomerListAsync();
-                    Customers.AddRange(_allCustomers);
-                });
+            // TODO: Fix
+
+            //await DispatcherHelper.ExecuteOnUIThreadAsync(
+            //    async () =>
+            //    {
+            //        _allCustomers = await GetCustomerListAsync();
+            //        Customers.AddRange(_allCustomers);
+            //    });
             SetBusy("FirstLoading", false);
 
         }

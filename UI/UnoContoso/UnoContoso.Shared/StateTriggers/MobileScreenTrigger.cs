@@ -26,7 +26,7 @@ namespace UnoContoso.StateTriggers
             UpdateTrigger(size);
         }
 
-        private void Window_SizeChanged(object sender, Windows.UI.Core.WindowSizeChangedEventArgs e)
+        private void Window_SizeChanged(object sender, WindowSizeChangedEventArgs e)
         {
             UpdateTrigger(e.Size);
         }

@@ -139,7 +139,7 @@ namespace UnoContoso.UserControls
             searchBox.TextChanged -= SearchBox_TextChanged;
         }
 
-        private void Current_SizeChanged(object sender, Windows.UI.Core.WindowSizeChangedEventArgs e)
+        private void Current_SizeChanged(object sender, WindowSizeChangedEventArgs e)
         {
             SetState(e.Size.Width);
         }
