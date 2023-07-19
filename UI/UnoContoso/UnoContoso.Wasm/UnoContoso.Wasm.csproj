@@ -1,21 +1,26 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk.Web">
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
     <NoWarn>NU1701</NoWarn>
-  </PropertyGroup>
+		
+	</PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)'=='Debug'">
     <MonoRuntimeDebuggerEnabled>true</MonoRuntimeDebuggerEnabled>
     <DefineConstants>$(DefineConstants);TRACE;DEBUG</DefineConstants>
     <DebugType>portable</DebugType>
     <DebugSymbols>true</DebugSymbols>
+    <!--
+		IL Linking is disabled in Debug configuration.
+		When building in Release, see https://platform.uno/docs/articles/features/using-il-linker-webassembly.html
+		-->
+    <WasmShellILLinkerEnabled>false</WasmShellILLinkerEnabled>
   </PropertyGroup>
-    <PropertyGroup>
-      <WasmShellILLinkerEnabled>true</WasmShellILLinkerEnabled>
-    </PropertyGroup>
   <ItemGroup>
     <Content Include="Assets\SplashScreen.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <UpToDateCheckInput Include="..\UnoContoso.Shared\**\*.xaml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="WasmCSS\Fonts.css" />
@@ -26,30 +31,31 @@
   </ItemGroup>
   <ItemGroup>
     <!--
-    This item group is required by the project template because of the
-    new SDK-Style project, otherwise some files are not added automatically.
+		This item group is required by the project template because of the
+		new SDK-Style project, otherwise some files are not added automatically.
 
-    You can safely remove this ItemGroup completely.
-    -->
+		You can safely remove this ItemGroup completely.
+		-->
     <None Include="Program.cs" />
     <None Include="LinkerConfig.xml" />
     <None Include="wwwroot\web.config" />
   </ItemGroup>
   <ItemGroup>
-    <!-- Note that for WebAssembly version 1.1.1 of the console logger required -->
-    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="6.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Filter" Version="1.1.2" />
-    <PackageReference Include="Uno.ColorCode.Core" Version="2.1.0-uno.4" />
-    <PackageReference Include="Uno.ColorCode.UWP" Version="2.1.0-uno.4" />
-    <PackageReference Include="Uno.Microsoft.Toolkit.Uwp.UI.Controls" Version="7.1.11" />
-    <PackageReference Include="Uno.Microsoft.Toolkit.Uwp.UI.Controls.DataGrid" Version="7.1.11" />
-    <PackageReference Include="Uno.Microsoft.Xaml.Behaviors.Uwp.Managed" Version="2.3.0" />
-    <PackageReference Include="Uno.UI.WebAssembly" Version="4.9.26" />
-    <PackageReference Include="Uno.UI.RemoteControl" Version="4.9.26" Condition="'$(Configuration)'=='Debug'" />
-    <PackageReference Include="Microsoft.Windows.Compatibility" Version="7.0.1" />
-		<PackageReference Include="Uno.Wasm.Bootstrap" Version="7.0.24" />
+	  <PackageReference Include="Microsoft.Windows.Compatibility" Version="7.0.1" />
+	  <PackageReference Include="Microsoft.Extensions.Logging" Version="7.0.0" />
+    <PackageReference Include="Prism.Core" Version="8.1.97" />
+    <!--<PackageReference Include="Prism.DryIoc" Version="8.1.97" />-->
+    <PackageReference Include="Prism.DryIoc.Uno.WinUI" Version="8.1.97" />    
+    <PackageReference Include="Prism.Uno.WinUI" Version="8.1.97" />
+    <PackageReference Include="Uno.CommunityToolkit.WinUI.UI.Controls" Version="7.1.100" />
+    <PackageReference Include="Uno.CommunityToolkit.WinUI.UI.Controls.DataGrid" Version="7.1.100" />    
+    <PackageReference Include="Uno.Extensions.Logging.WebAssembly.Console" Version="1.4.0" />
+    <PackageReference Include="Uno.WinUI.WebAssembly" Version="4.9.26" />
+    <PackageReference Include="Uno.WinUI.RemoteControl" Version="4.9.26" Condition="'$(Configuration)'=='Debug'" />
+    <PackageReference Include="Uno.UI.Adapter.Microsoft.Extensions.Logging" Version="4.9.26" />
+    <PackageReference Include="Uno.Wasm.Bootstrap" Version="7.0.24" />
     <PackageReference Include="Uno.Wasm.Bootstrap.DevServer" Version="7.0.24" />
-    <PackageReference Include="Uno.WindowsStateTriggers" Version="1.1.1-uno.132" />
+    <!--<PackageReference Include="Uno.WinUI.Lottie" Version="4.6.39" />-->  	  
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\UnoContoso.Models\UnoContoso.Models.csproj" />

@@ -23,8 +23,8 @@
 //  ---------------------------------------------------------------------------------
 
 using System;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
 
 namespace UnoContoso.UserControls
 {
@@ -126,27 +126,27 @@ namespace UnoContoso.UserControls
         {
             RequestedWidth = Width;
             //iOS
-            SetState(Windows.UI.Xaml.Window.Current.Bounds.Width);
-            Windows.UI.Xaml.Window.Current.SizeChanged += Current_SizeChanged;
+            SetState(Microsoft.UI.Xaml.Window.Current.Bounds.Width);
+            Microsoft.UI.Xaml.Window.Current.SizeChanged += Current_SizeChanged;
             searchBox.QuerySubmitted += SearchBox_QuerySubmitted;
             searchBox.TextChanged += SearchBox_TextChanged;
         }
 
         private void CollapsableSearchBox_Unloaded(object sender, RoutedEventArgs e)
         {
-            Windows.UI.Xaml.Window.Current.SizeChanged -= Current_SizeChanged;
+            Microsoft.UI.Xaml.Window.Current.SizeChanged -= Current_SizeChanged;
             searchBox.QuerySubmitted -= SearchBox_QuerySubmitted;
             searchBox.TextChanged -= SearchBox_TextChanged;
         }
 
-        private void Current_SizeChanged(object sender, Windows.UI.Core.WindowSizeChangedEventArgs e)
+        private void Current_SizeChanged(object sender, WindowSizeChangedEventArgs e)
         {
             SetState(e.Size.Width);
         }
 
         private void SearchBox_LostFocus(object sender, RoutedEventArgs e)
         {
-            SetState(Windows.UI.Xaml.Window.Current.Bounds.Width);
+            SetState(Microsoft.UI.Xaml.Window.Current.Bounds.Width);
             searchButton.IsChecked = false;
         }
 

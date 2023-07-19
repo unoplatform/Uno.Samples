@@ -1,232 +1,226 @@
-﻿<UserControl
-    x:Class="UnoContoso.Views.CustomerListView"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:UnoContoso.Views"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:i="using:Microsoft.Xaml.Interactivity" 
-    xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
-    xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls"
-    xmlns:prismMvvm="using:Prism.Mvvm" 
-    prismMvvm:ViewModelLocator.AutowireViewModel="True"
-    xmlns:uc="using:UnoContoso.UserControls" 
-    xmlns:behaviors="using:UnoContoso.Behaviors"
-    xmlns:stateTriggers="using:UnoContoso.StateTriggers"
-    xmlns:model="using:UnoContoso.Model"
-    mc:Ignorable="d">
-    <UserControl.Resources>
-        <MenuFlyout x:Key="DataGridContextMenu">
-            <MenuFlyoutItem
-                Command="{x:Bind ViewModel.ViewDetailCommand, Mode=OneWay}"
-                Style="{StaticResource MenuFlyoutItemIconTemplate}"
-                Tag="&#xE1A5;"
-                Text="View details" />
-            <MenuFlyoutItem
-                Command="{x:Bind ViewModel.AddOrderCommand, Mode=OneWay}"
-                Style="{StaticResource MenuFlyoutItemIconTemplate}"
-                Tag="&#xE14D;"
-                Text="Add order" />
-        </MenuFlyout>
-    </UserControl.Resources>
+﻿<UserControl x:Class="UnoContoso.Views.CustomerListView"
+			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:local="using:UnoContoso.Views"
+			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 xmlns:i="using:Microsoft.Xaml.Interactivity"
+			 xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
+			 xmlns:toolkit="using:CommunityToolkit.WinUI.UI.Controls"
+			 xmlns:prismMvvm="using:Prism.Mvvm"
+			 prismMvvm:ViewModelLocator.AutowireViewModel="True"
+			 xmlns:uc="using:UnoContoso.UserControls"
+			 xmlns:behaviors="using:UnoContoso.Behaviors"
+			 xmlns:stateTriggers="using:UnoContoso.StateTriggers"
+			 xmlns:model="using:UnoContoso.Model"
+			 mc:Ignorable="d">
+	<UserControl.Resources>
+		<MenuFlyout x:Key="DataGridContextMenu">
+			<MenuFlyoutItem Command="{x:Bind ViewModel.ViewDetailCommand, Mode=OneWay}"
+							Style="{StaticResource MenuFlyoutItemIconTemplate}"
+							Tag="&#xE1A5;"
+							Text="View details" />
+			<MenuFlyoutItem Command="{x:Bind ViewModel.AddOrderCommand, Mode=OneWay}"
+							Style="{StaticResource MenuFlyoutItemIconTemplate}"
+							Tag="&#xE14D;"
+							Text="Add order" />
+		</MenuFlyout>
+	</UserControl.Resources>
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <RelativePanel>
-            <TextBlock 
-                x:Name="PageTitle"
-                Margin="0,4,0,0"
-                Text="{x:Bind ViewModel.Title}"
-                Style="{StaticResource PageTitleTextBlockStyle}"/>
+	<Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+		<RelativePanel>
+			<TextBlock x:Name="PageTitle"
+					   Margin="0,4,0,0"
+					   Text="{x:Bind ViewModel.Title}"
+					   Style="{StaticResource PageTitleTextBlockStyle}" />
 
-            <CommandBar 
-                x:Name="mainCommandBar"
-                Background="White"
-                HorizontalAlignment="Right"
-                DefaultLabelPosition="Right"
-                RelativePanel.LeftOf="CustomerSearchBox"
-                RelativePanel.RightOf="PageTitle">
-                <i:Interaction.Behaviors>
-                    <behaviors:CommandBarBehavior/>
-                </i:Interaction.Behaviors>
-                <AppBarButton
-                    Icon="Contact"
-                    Label="View details"
-                    ToolTipService.ToolTip="View details" 
-                    Command="{x:Bind ViewModel.ViewDetailCommand}"/>
-                <AppBarButton
-                    Icon="Shop"
-                    Label="Add order"
-                    ToolTipService.ToolTip="Add order" 
-                    Command="{x:Bind ViewModel.AddOrderCommand}"/>
-                <AppBarSeparator Padding="0"/>
-                <AppBarButton
-                    Icon="Add"
-                    Label="New customer"
-                    ToolTipService.ToolTip="New customer" 
-                    Command="{x:Bind ViewModel.NewCustomerCommand}"/>
-                <AppBarButton
-                    Icon="Refresh"
-                    Label="Sync"
-                    ToolTipService.ToolTip="Sync with server" 
-                    Command="{x:Bind ViewModel.SyncCommand}"/>
-            </CommandBar>
+			<CommandBar x:Name="mainCommandBar"
+						Background="White"
+						HorizontalAlignment="Right"
+						DefaultLabelPosition="Right"
+						RelativePanel.LeftOf="CustomerSearchBox"
+						RelativePanel.RightOf="PageTitle">
+				<i:Interaction.Behaviors>
+					<behaviors:CommandBarBehavior />
+				</i:Interaction.Behaviors>
+				<AppBarButton Icon="Contact"
+							  Label="View details"
+							  ToolTipService.ToolTip="View details"
+							  Command="{x:Bind ViewModel.ViewDetailCommand}" />
+				<AppBarButton Icon="Shop"
+							  Label="Add order"
+							  ToolTipService.ToolTip="Add order"
+							  Command="{x:Bind ViewModel.AddOrderCommand}" />
+				<AppBarSeparator Padding="0" />
+				<AppBarButton Icon="Add"
+							  Label="New customer"
+							  ToolTipService.ToolTip="New customer"
+							  Command="{x:Bind ViewModel.NewCustomerCommand}" />
+				<AppBarButton Icon="Refresh"
+							  Label="Sync"
+							  ToolTipService.ToolTip="Sync with server"
+							  Command="{x:Bind ViewModel.SyncCommand}" />
+			</CommandBar>
 
-            <uc:CollapsibleSearchBox
-                x:Name="CustomerSearchBox"
-                Width="240"
-                Margin="12,8,12,0"
-                CollapseWidth="{StaticResource LargeWindowSnapPoint}"
-                RelativePanel.AlignRightWithPanel="True"
-                Text="{x:Bind ViewModel.SearchBoxText, Mode=TwoWay}"
-                ItemsSource="{x:Bind ViewModel.SuggestItems, Mode=OneWay}"
-                QueryText="{x:Bind ViewModel.QueryText, Mode=TwoWay}" />
+			<uc:CollapsibleSearchBox x:Name="CustomerSearchBox"
+									 Width="240"
+									 Margin="12,8,12,0"
+									 CollapseWidth="{StaticResource LargeWindowSnapPoint}"
+									 RelativePanel.AlignRightWithPanel="True"
+									 Text="{x:Bind ViewModel.SearchBoxText, Mode=TwoWay}"
+									 ItemsSource="{x:Bind ViewModel.SuggestItems, Mode=OneWay}"
+									 QueryText="{x:Bind ViewModel.QueryText, Mode=TwoWay}" />
 
-            <Grid
-                x:Name="RootDataGrid"
-                Margin="0,10,0,0"
-                RelativePanel.AlignLeftWithPanel="True"
-                RelativePanel.AlignRightWithPanel="True"
-                RelativePanel.AlignBottomWithPanel="True"
-                RelativePanel.Below="PageTitle">
+			<Grid x:Name="RootDataGrid"
+				  Margin="0,10,0,0"
+				  RelativePanel.AlignLeftWithPanel="True"
+				  RelativePanel.AlignRightWithPanel="True"
+				  RelativePanel.AlignBottomWithPanel="True"
+				  RelativePanel.Below="PageTitle">
 
-                <ListView
-                    x:Name="CustomerListMobileView"
-                    Visibility="Collapsed"
-                    VerticalAlignment="Stretch"
-                    HorizontalAlignment="Stretch"
-                    BorderThickness="0"
-                    ItemsSource="{x:Bind ViewModel.Customers, Mode=OneWay}"
-                    SelectedItem="{x:Bind ViewModel.SelectedCustomer, Mode=TwoWay}"
-                    ContextFlyout="{StaticResource DataGridContextMenu}">
-                    <ListView.ItemContainerStyle>
-                        <Style TargetType="ListViewItem">
-                            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                            <Setter Property="Padding" Value="4,10" />
-                        </Style>
-                    </ListView.ItemContainerStyle>
-                    <ListView.ItemTemplate>
-                        <DataTemplate x:DataType="model:CustomerWrapper">
-                            <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition/>
-                                    <RowDefinition/>
-                                </Grid.RowDefinitions>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition/>
-                                    <ColumnDefinition Width="Auto"/>
-                                </Grid.ColumnDefinitions>
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock Style="{StaticResource ListTitleStyle}">
-                                        <Run Text="{x:Bind FirstName, Mode=OneWay}"/>
-                                        <Run Text="{x:Bind LastName, Mode=OneWay}"/>
-                                    </TextBlock>
-                                    <TextBlock Margin="4,0,0,0">
-                                        <Run>(</Run><Run Text="{x:Bind Company}"/><Run>)</Run>
-                                    </TextBlock>
-                                </StackPanel>
-                                <TextBlock
-                                    Grid.Row="0" Grid.Column="1"
-                                    HorizontalAlignment="Right">
-                                    <Run Text="{x:Bind Phone,Mode=OneWay}"/>
-                                </TextBlock>
-                                <TextBlock 
-                                    Grid.Row="1" 
-                                    Text="{x:Bind Address, Mode=OneWay}"
-                                    Style="{StaticResource ListSubTitleStyle}"/>
-                            </Grid>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
+				<ListView x:Name="CustomerListMobileView"
+						  Visibility="Collapsed"
+						  VerticalAlignment="Stretch"
+						  HorizontalAlignment="Stretch"
+						  BorderThickness="0"
+						  ItemsSource="{x:Bind ViewModel.Customers, Mode=OneWay}"
+						  SelectedItem="{x:Bind ViewModel.SelectedCustomer, Mode=TwoWay}"
+						  ContextFlyout="{StaticResource DataGridContextMenu}">
+					<ListView.ItemContainerStyle>
+						<Style TargetType="ListViewItem">
+							<Setter Property="HorizontalContentAlignment"
+									Value="Stretch" />
+							<Setter Property="Padding"
+									Value="4,10" />
+						</Style>
+					</ListView.ItemContainerStyle>
+					<ListView.ItemTemplate>
+						<DataTemplate x:DataType="model:CustomerWrapper">
+							<Grid>
+								<Grid.RowDefinitions>
+									<RowDefinition />
+									<RowDefinition />
+								</Grid.RowDefinitions>
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition />
+									<ColumnDefinition Width="Auto" />
+								</Grid.ColumnDefinitions>
+								<StackPanel Orientation="Horizontal">
+									<TextBlock Style="{StaticResource ListTitleStyle}">
+                                        <Run Text="{x:Bind FirstName, Mode=OneWay}" />
+                                        <Run Text="{x:Bind LastName, Mode=OneWay}" />
+									</TextBlock>
+									<TextBlock Margin="4,0,0,0">
+                                        <Run>(</Run><Run Text="{x:Bind Company}" /><Run>)</Run>
+									</TextBlock>
+								</StackPanel>
+								<TextBlock Grid.Row="0"
+										   Grid.Column="1"
+										   HorizontalAlignment="Right">
+                                    <Run Text="{x:Bind Phone,Mode=OneWay}" />
+								</TextBlock>
+								<TextBlock Grid.Row="1"
+										   Text="{x:Bind Address, Mode=OneWay}"
+										   Style="{StaticResource ListSubTitleStyle}" />
+							</Grid>
+						</DataTemplate>
+					</ListView.ItemTemplate>
+				</ListView>
 
-                <toolkit:DataGrid
-                    x:Name="CustomerDataGrid"
-                    Visibility="Visible"
-                    CanUserReorderColumns="False"
-                    CanUserResizeColumns="False"
-					VerticalAlignment="Stretch"
-					HorizontalAlignment="Stretch"
-                    BorderThickness="0"
-                    GridLinesVisibility="None"
-                    HorizontalScrollBarVisibility="Visible"
-					VerticalScrollBarVisibility="Visible"
-                    AutoGenerateColumns="False"
-                    IsReadOnly="True"
-                    ItemsSource="{x:Bind ViewModel.Customers, Mode=OneWay}"
-                    SelectedItem="{x:Bind ViewModel.SelectedCustomer, Mode=TwoWay}"
-                    ContextFlyout="{StaticResource DataGridContextMenu}">
-                    <i:Interaction.Behaviors>
-                        <behaviors:DataGridBehavior/>
-                    </i:Interaction.Behaviors>
-                    <toolkit:DataGrid.Columns>
-                        <toolkit:DataGridTextColumn
-                            Header="First name"
-                            Tag="FirstName"
-                            Binding="{Binding FirstName, Mode=OneWay}"/>
-                        <toolkit:DataGridTextColumn
-                            Header="Last name"
-                            Tag="LastName"
-                            Binding="{Binding LastName, Mode=OneWay}"/>
-                        <toolkit:DataGridTextColumn
-                            Header="Address"
-                            Binding="{Binding Address, Mode=OneWay}"/>
-                        <toolkit:DataGridTextColumn
-                            Header="Company"
-                            Binding="{Binding Company, Mode=OneWay}"/>
-                        <toolkit:DataGridTextColumn
-                            Header="Phone"
-                            Binding="{Binding Phone, Mode=OneWay}"
-                            CanUserSort="False" 
-                            HeaderStyle="{StaticResource DataGridNonSortableColumnHeaderStyle}"/>
-                        <toolkit:DataGridTextColumn
-                            Header="Email"
-                            Binding="{Binding Email, Mode=OneWay}"
-                            CanUserSort="False" 
-                            HeaderStyle="{StaticResource DataGridNonSortableColumnHeaderStyle}"/>
-                    </toolkit:DataGrid.Columns>
-                </toolkit:DataGrid>
-            </Grid>
-        </RelativePanel>
+				<toolkit:DataGrid x:Name="CustomerDataGrid"
+								  Visibility="Visible"
+								  CanUserReorderColumns="False"
+								  CanUserResizeColumns="False"
+								  VerticalAlignment="Stretch"
+								  HorizontalAlignment="Stretch"
+								  BorderThickness="0"
+								  GridLinesVisibility="None"
+								  HorizontalScrollBarVisibility="Visible"
+								  VerticalScrollBarVisibility="Visible"
+								  AutoGenerateColumns="False"
+								  IsReadOnly="True"
+								  ItemsSource="{x:Bind ViewModel.Customers, Mode=OneWay}"
+								  SelectedItem="{x:Bind ViewModel.SelectedCustomer, Mode=TwoWay}"
+								  ContextFlyout="{StaticResource DataGridContextMenu}">
+					<i:Interaction.Behaviors>
+						<behaviors:DataGridBehavior />
+					</i:Interaction.Behaviors>
+					<toolkit:DataGrid.Columns>
+						<toolkit:DataGridTextColumn Header="First name"
+													Tag="FirstName"
+													Binding="{Binding FirstName, Mode=OneWay}" />
+						<toolkit:DataGridTextColumn Header="Last name"
+													Tag="LastName"
+													Binding="{Binding LastName, Mode=OneWay}" />
+						<toolkit:DataGridTextColumn Header="Address"
+													Binding="{Binding Address, Mode=OneWay}" />
+						<toolkit:DataGridTextColumn Header="Company"
+													Binding="{Binding Company, Mode=OneWay}" />
+						<toolkit:DataGridTextColumn Header="Phone"
+													Binding="{Binding Phone, Mode=OneWay}"
+													CanUserSort="False"
+													HeaderStyle="{StaticResource DataGridNonSortableColumnHeaderStyle}" />
+						<toolkit:DataGridTextColumn Header="Email"
+													Binding="{Binding Email, Mode=OneWay}"
+													CanUserSort="False"
+													HeaderStyle="{StaticResource DataGridNonSortableColumnHeaderStyle}" />
+					</toolkit:DataGrid.Columns>
+				</toolkit:DataGrid>
+			</Grid>
+		</RelativePanel>
 
-        <VisualStateManager.VisualStateGroups>
-            <VisualStateGroup>
-                <VisualState>
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="{StaticResource LargeWindowSnapPoint}" />
-                    </VisualState.StateTriggers>
-                </VisualState>
-                <VisualState>
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="{StaticResource MediumWindowSnapPoint}" />
-                    </VisualState.StateTriggers>
-                </VisualState>
-                <VisualState>
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="{StaticResource MinWindowSnapPoint}" />
-                    </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                        <Setter Target="PageTitle.Margin" Value="30,4,0,0"/>
-                    </VisualState.Setters>
-                </VisualState>
-                <VisualState>
-                    <VisualState.StateTriggers>
-                        <stateTriggers:MobileScreenTrigger />
-                    </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                        <Setter Target="mainCommandBar.(RelativePanel.AlignBottomWithPanel)" Value="True" />
-                        <Setter Target="mainCommandBar.(RelativePanel.AlignLeftWithPanel)" Value="True" />
-                        <Setter Target="mainCommandBar.(RelativePanel.AlignRightWithPanel)" Value="True" />
-                        <Setter Target="mainCommandBar.(RelativePanel.LeftOf)" Value="" />
-                        <Setter Target="mainCommandBar.(RelativePanel.RightOf)" Value="" />
-                        <Setter Target="mainCommandBar.HorizontalAlignment" Value="Stretch" />
-                        <Setter Target="PageTitle.Margin" Value="30,4,0,0"/>
-                        <Setter Target="CustomerSearchBox.Width" Value="240" />
-                        <Setter Target="RootDataGrid.Margin" Value="0,10,0,40" />
-                        <Setter Target="CustomerListMobileView.Visibility" Value="Visible"/>
-                        <Setter Target="CustomerDataGrid.Visibility" Value="Collapsed"/>
-                    </VisualState.Setters>
-                </VisualState>
-            </VisualStateGroup>
-        </VisualStateManager.VisualStateGroups>
+		<VisualStateManager.VisualStateGroups>
+			<VisualStateGroup>
+				<VisualState>
+					<VisualState.StateTriggers>
+						<AdaptiveTrigger MinWindowWidth="{StaticResource LargeWindowSnapPoint}" />
+					</VisualState.StateTriggers>
+				</VisualState>
+				<VisualState>
+					<VisualState.StateTriggers>
+						<AdaptiveTrigger MinWindowWidth="{StaticResource MediumWindowSnapPoint}" />
+					</VisualState.StateTriggers>
+				</VisualState>
+				<VisualState>
+					<VisualState.StateTriggers>
+						<AdaptiveTrigger MinWindowWidth="{StaticResource MinWindowSnapPoint}" />
+					</VisualState.StateTriggers>
+					<VisualState.Setters>
+						<Setter Target="PageTitle.Margin"
+								Value="30,4,0,0" />
+					</VisualState.Setters>
+				</VisualState>
+				<VisualState>
+					<VisualState.StateTriggers>
+						<stateTriggers:MobileScreenTrigger />
+					</VisualState.StateTriggers>
+					<VisualState.Setters>
+						<Setter Target="mainCommandBar.(RelativePanel.AlignBottomWithPanel)"
+								Value="True" />
+						<Setter Target="mainCommandBar.(RelativePanel.AlignLeftWithPanel)"
+								Value="True" />
+						<Setter Target="mainCommandBar.(RelativePanel.AlignRightWithPanel)"
+								Value="True" />
+						<Setter Target="mainCommandBar.(RelativePanel.LeftOf)"
+								Value="" />
+						<Setter Target="mainCommandBar.(RelativePanel.RightOf)"
+								Value="" />
+						<Setter Target="mainCommandBar.HorizontalAlignment"
+								Value="Stretch" />
+						<Setter Target="PageTitle.Margin"
+								Value="30,4,0,0" />
+						<Setter Target="CustomerSearchBox.Width"
+								Value="240" />
+						<Setter Target="RootDataGrid.Margin"
+								Value="0,10,0,40" />
+						<Setter Target="CustomerListMobileView.Visibility"
+								Value="Visible" />
+						<Setter Target="CustomerDataGrid.Visibility"
+								Value="Collapsed" />
+					</VisualState.Setters>
+				</VisualState>
+			</VisualStateGroup>
+		</VisualStateManager.VisualStateGroups>
 
-    </Grid>
+	</Grid>
 </UserControl>

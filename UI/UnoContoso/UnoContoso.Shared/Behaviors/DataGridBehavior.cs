@@ -1,5 +1,4 @@
-﻿using Microsoft.Toolkit.Uwp.UI.Controls;
-using Microsoft.Xaml.Interactivity;
+﻿using Microsoft.Xaml.Interactivity;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -8,7 +7,8 @@ using System.Text;
 using UnoContoso.Helpers;
 using UnoContoso.Model;
 using UnoContoso.Models;
-using Windows.UI.Xaml;
+using Microsoft.UI.Xaml;
+using CommunityToolkit.WinUI.UI.Controls;
 
 namespace UnoContoso.Behaviors
 {
@@ -34,7 +34,7 @@ namespace UnoContoso.Behaviors
             }
         }
 
-        private void AssociatedObject_RightTapped(object sender, Windows.UI.Xaml.Input.RightTappedRoutedEventArgs e)
+        private void AssociatedObject_RightTapped(object sender, Microsoft.UI.Xaml.Input.RightTappedRoutedEventArgs e)
         {
             var selectedElement = e.OriginalSource as FrameworkElement;
             switch(selectedElement.DataContext)
@@ -51,7 +51,7 @@ namespace UnoContoso.Behaviors
             }
         }
 
-        private void AssociatedObject_KeyDown(object sender, Windows.UI.Xaml.Input.KeyRoutedEventArgs e)
+        private void AssociatedObject_KeyDown(object sender, Microsoft.UI.Xaml.Input.KeyRoutedEventArgs e)
         {
             
         }
