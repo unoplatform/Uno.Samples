@@ -36,8 +36,7 @@ namespace Demo.ViewModels
 
         public ObservableCollection<Invoice> Invoices { get; set; }
 
-        private readonly string databasePath = Path.Combine(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Demo.db"));
-
+        private readonly string databasePath = Path.Combine(Windows.Storage.ApplicationData.Current.LocalFolder.Path, "Demo.db");
 
         #endregion
 
@@ -79,26 +78,27 @@ namespace Demo.ViewModels
 
         #region DB Services
 
+        private void SetupDatabase()
+        {
+            using (var connection = new SQLiteConnection(databasePath))
+            {
+                connection.CreateTable<Address>(CreateFlags.ImplicitIndex);
+                connection.CreateTable<Account>();                
+                connection.CreateTable<Client>();
+                connection.CreateTable<Communication>();
+                connection.CreateTable<Invoice>();
+            }
+        }
+      
         private void InitializeDatabase()
         {
-            var dbExists = File.Exists(databasePath);
-            if (!dbExists)
-            {
-                using (var connection = new SQLiteConnection(databasePath))
-                {
-                    connection.CreateTable<Account>();
-                    connection.CreateTable<Address>();
-                    connection.CreateTable<Client>();
-                    connection.CreateTable<Communication>();
-                    connection.CreateTable<Invoice>();
-                }
-                var userService = new AccountDBService();
-                var userAddressService = new AddressDBService();
-                var mockData = new MockData();
-                userService.AddEntity(mockData.UserAccount);
-                userAddressService.AddEntity(mockData.UserAddressFaker.Generate());
+            this.SetupDatabase();
 
-            }
+            var userService = new AccountDBService();
+            var userAddressService = new AddressDBService();
+            var mockData = new MockData();
+            userService.AddEntity(mockData.UserAccount);
+            userAddressService.AddEntity(mockData.UserAddressFaker.Generate());           
         }
 
         private void InitializeServices()
