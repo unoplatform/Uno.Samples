@@ -13,10 +13,8 @@ public partial record MessageModel(IMessageService MessageService)
 
 	public IState<Message> NewMessage => State<Message>.Value(this, () => Message.Empty);
 
-	public async ValueTask AddMessage(CancellationToken ct)
+	public async ValueTask AddMessage(Message newMessage, CancellationToken ct)
 	{
-		var newMessage = await NewMessage;
-
 		await MessageService.AddMessage(newMessage, ct);
 
 		await Messages.InsertAsync(newMessage, ct);

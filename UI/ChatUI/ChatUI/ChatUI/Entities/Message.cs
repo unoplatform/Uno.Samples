@@ -20,8 +20,6 @@ public class Message
 
 	public bool IsMyMessage { get; init; }
 
-	public bool IsLastInSequence { get; set; }
-
 	public string UserFriendlyTimestamp => Timestamp.LocalDateTime.ToString("t");
 
 	public static Message Empty => new Message(default);

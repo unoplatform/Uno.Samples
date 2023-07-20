@@ -1,31 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Media;
-using Microsoft.UI.Xaml;
-using Windows.System;
 using Microsoft.UI.Xaml.Input;
+using Microsoft.UI.Xaml.Media;
+using Windows.System;
 
 namespace ChatUI.Behaviors;
 
-public static class ReversedPointerWheelBehavior
+public static class ReversedPointerWheel
 {
-	public static readonly DependencyProperty IsReversedProperty = DependencyProperty.RegisterAttached(
-		"IsReversed",
+	public static readonly DependencyProperty IsEnabledProperty = DependencyProperty.RegisterAttached(
+		"IsEnabled",
 		typeof(bool),
-		typeof(FrameworkElement),
-		new PropertyMetadata(default(bool), OnIsReversedChanged));
+		typeof(ReversedPointerWheel),
+		new PropertyMetadata(default(bool), OnIsEnabledChanged));
 
-	public static bool GetIsReversed(FrameworkElement element)
-		=> (bool)element.GetValue(IsReversedProperty);
+	public static bool GetIsEnabled(FrameworkElement element)
+		=> (bool)element.GetValue(IsEnabledProperty);
 
-	public static void SetIsReversed(FrameworkElement element, bool value)
-		=> element.SetValue(IsReversedProperty, value);
+	public static void SetIsEnabled(FrameworkElement element, bool value)
+		=> element.SetValue(IsEnabledProperty, value);
 
-	private static void OnIsReversedChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+	private static void OnIsEnabledChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
 	{
 		if (d is ScrollContentPresenter scp)
 		{
@@ -53,7 +48,7 @@ public static class ReversedPointerWheelBehavior
 			{
 				if (sender is FrameworkElement sv && TryFindFirstChild(sv, 10, out ScrollContentPresenter scp))
 				{
-					SetIsReversed(scp, GetIsReversed(sv));
+					SetIsEnabled(scp, GetIsEnabled(sv));
 				}
 			}
 		}
@@ -61,7 +56,7 @@ public static class ReversedPointerWheelBehavior
 
 	private static void OnWheelChanged(object sender, PointerRoutedEventArgs e)
 	{
-		if (sender is not ScrollContentPresenter { ScrollOwner: ScrollViewer sv } scp || !GetIsReversed(scp))
+		if (sender is not ScrollContentPresenter { ScrollOwner: ScrollViewer sv } scp || !GetIsEnabled(scp))
 		{
 			if (sender is FrameworkElement fe)
 			{
