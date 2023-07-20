@@ -23,8 +23,8 @@ steps:
       Set-PSDebug -Trace 1
       Write-Host "${{ parameters.path }}"
 
-      & $env:msbuildpath "${{ parameters.path }}" /r /p:Configuration=Release /p:WasmShellMonoRuntimeExecutionMode=Interpreter /p:AotAssemblies=false /p:PublishTrimmed=false /p:WasmShellILLinkerEnabled=false /ds ;
-      
+      & $env:msbuildpath "${{ parameters.path }}" /r /p:Configuration=Release /p:WasmShellMonoRuntimeExecutionMode=Interpreter /p:AotAssemblies=false /p:PublishTrimmed=false /p:WasmShellILLinkerEnabled=false /ds "/bl:$(build.artifactstagingdirectory)\$(Agent.JobName).binlog" ;
+
       $folderPath = [System.IO.Path]::GetDirectoryName("${{ parameters.path }}");
 
       $testProject = Get-Item -Path $folderPath\**\*.Tests.csproj;
@@ -40,4 +40,13 @@ steps:
 
       # Clean the whole tree after every build to avoid disk space issues
       git clean -fdx
-  displayName: Build Matrix Samples
+
+  displayName: Build Sample
+
+- task: PublishBuildArtifacts@1
+  condition: always()
+  retryCountOnTaskFailure: 3
+  inputs:
+    PathtoPublish: $(build.artifactstagingdirectory)
+    ArtifactName: samples
+    ArtifactType: Container

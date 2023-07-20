@@ -14,7 +14,7 @@ namespace WeatherApp.Skia.Gtk
                 expArgs.ExitApplication = true;
             };
 
-            var host = new GtkHost(() => new AppHead(), args);
+            var host = new GtkHost(() => new AppHead());
 
             host.Run();
         }

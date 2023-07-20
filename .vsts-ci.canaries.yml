@@ -8,16 +8,20 @@ steps:
     $env:MSBuildExtensionsPath = $savedMSBuildExtensionsPath
 
 - task: nventiveCanaryUpdater@5
+  displayName: 'Canary Update'
+  condition: startsWith(variables['Build.SourceBranch'], 'refs/heads/canaries')
   inputs:
     solution: Uno.Samples.generated.sln
     usePrivateFeed: false
     useNuGetOrg: true
     mergeBranch: true
-    nugetUpdaterVersion: '2.3.0-alpha.35'
-    allowDowngrade: true
-    packageAuthor: 'nventive,Uno Platform'
+    branchToMerge: master
+    nugetUpdaterVersion: '2.3.0-alpha.46'
+    nugetVersion: dev
+    packageAuthor: 'nventive,unoplatform,uno platform'
     summaryFile: '$(Build.ArtifactStagingDirectory)/Summary.md'
     resultFile: '$(Build.ArtifactStagingDirectory)/Results.json'
+    additionalPublicSources: 'https://pkgs.dev.azure.com/uno-platform/1dd81cbd-cb35-41de-a570-b0df3571a196/_packaging/dev-uno5/nuget/v3/index.json'
 
 - pwsh: |
     del Uno.Samples.generated.sln
