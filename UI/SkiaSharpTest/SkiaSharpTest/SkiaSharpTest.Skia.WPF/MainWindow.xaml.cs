@@ -24,7 +24,7 @@ namespace SkiaSharpTest.WPF
         {
             InitializeComponent();
 
-            root.Content = new global::Uno.UI.Skia.Platform.WpfHost(Dispatcher, () => new SkiaSharpTest.App());
+            root.Content = new global::Uno.UI.Runtime.Skia.Wpf.WpfHost(Dispatcher, () => new SkiaSharpTest.App());
         }
     }
 }
