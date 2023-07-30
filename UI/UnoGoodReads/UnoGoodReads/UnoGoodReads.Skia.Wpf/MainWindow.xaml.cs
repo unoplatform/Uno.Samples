@@ -24,7 +24,7 @@ namespace UnoGoodReads.WPF
         {
             InitializeComponent();
 
-            root.Content = new global::Uno.UI.Skia.Platform.WpfHost(Dispatcher, () => new UnoGoodReads.App());
+            root.Content = new global::Uno.UI.Runtime.Skia.Wpf.WpfHost(Dispatcher, () => new UnoGoodReads.App());
         }
     }
 }
