@@ -27,7 +27,7 @@ Visit [our documentation](https://platform.uno/docs/articles/intro.html) for mor
 
 ### Commerce App
 
-The The Commercial App Sample with Cart, products and so on.
+The Commerce App is a sample application that demonstrates the use of ListFeed pagination, Feedviews, and other features provided by Uno.Extensions. It illustrates how these features can be applied to create an application complete with a shopping cart, products, and more.
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/reference/Commerce)
 
