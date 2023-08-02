@@ -2,8 +2,8 @@
 
 public class ProductEndpoint : IProductEndpoint
 {
-	public const string ProductDataFile = "products.json";
-	private const string ReviewDataFile = "reviews.json";
+	public const string ProductDataFile = "Commerce/products.json";
+	private const string ReviewDataFile = "Commerce/reviews.json";
 
 	private readonly IStorage _dataService;
 	private readonly ISerializer _serializer;
