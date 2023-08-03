@@ -21,19 +21,16 @@
 					HorizontalAlignment="Center"
 					VerticalAlignment="Center"
 					Spacing="16">
-			<TextBox Text="{Binding Name, Mode=TwoWay}"
-					 PlaceholderText="Enter your name:" />
-			<Button Content="Go to Second Page"
-					AutomationProperties.AutomationId="SecondPageButton"
-					Command="{Binding GoToSecond}" />
 
 			<StackPanel Orientation="Horizontal"
 						Spacing="15">
 				<Button x:Name="StartWorkerButton"
 						Content="Start"
+						HorizontalAlignment="Left"
 						Click="StartWorkerButton_Click" />
 				<Button x:Name="CancelWorkerButton"
 						Content="Cancel"
+						HorizontalAlignment="Right"
 						Click="CancelWorkerButton_Click" />
 			</StackPanel>
 
