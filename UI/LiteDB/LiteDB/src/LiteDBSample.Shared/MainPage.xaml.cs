@@ -21,12 +21,26 @@ namespace LiteDBSample
             _todoItems = new ObservableCollection<TodoItem>();
         }
 
+        private LiteDatabase _liteDatabase;
+
+        private LiteDatabase LiteDatabase
+        {
+            get
+            {
+                // If the database is created in the constructor, it stops working on WASM.
+                if (_liteDatabase == null)
+                {
+                    _liteDatabase = new LiteDatabase(DbPath);
+                }
+                return _liteDatabase;
+            }
+        }
+
         private static string DbPath => System.IO.Path.Combine(ApplicationData.Current.LocalFolder.Path, "save.db");
 
         private void LoadFromDatabase(object sender, RoutedEventArgs args)
         {
-            var liteDatabase = new LiteDatabase(DbPath);
-            var liteCollection = liteDatabase.GetCollection<TodoItem>();
+            var liteCollection = LiteDatabase.GetCollection<TodoItem>();
             var todoItems = liteCollection
                 .FindAll()
                 .ToList();
@@ -36,8 +50,7 @@ namespace LiteDBSample
 
         private void DeleteFromDatabase(object sender, RoutedEventArgs args)
         {
-            var liteDatabase = new LiteDatabase(DbPath);
-            liteDatabase.GetCollection<TodoItem>().DeleteAll();
+            LiteDatabase.GetCollection<TodoItem>().DeleteAll();
             _todoItems.Clear();
         }
 
@@ -49,10 +62,9 @@ namespace LiteDBSample
             };
 
             todoText.Text = string.Empty;
-            var liteDatabase = new LiteDatabase(DbPath);
-            var liteCollection = liteDatabase.GetCollection<TodoItem>();
+            var liteCollection = LiteDatabase.GetCollection<TodoItem>();
             liteCollection.Insert(todoItem);
-            liteDatabase.Commit();
+            LiteDatabase.Commit();
             _todoItems.Add(todoItem);
         }
     }
