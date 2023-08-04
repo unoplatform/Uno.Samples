@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType Condition="'$(Configuration)'=='Release'">WinExe</OutputType>
+    <OutputType Condition="'$(Configuration)'=='Debug'">Exe</OutputType>
+    <TargetFramework>net7.0</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup Condition="exists('..\LiteDBSample.Windows')">
+    <EmbeddedResource Include="..\LiteDBSample.Windows\Package.appxmanifest" LogicalName="Package.appxmanifest" />
+    <Content Include="..\LiteDBSample.Windows\Images\StoreLogo.png" Link="Assets\StoreLogo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Assets\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <UpToDateCheckInput Include="..\LiteDBSample.Shared\**\*.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="7.0.0" />
+    <PackageReference Include="Uno.WinUI.Skia.Gtk" Version="4.9.26" />
+    <PackageReference Include="Uno.WinUI.RemoteControl" Version="4.9.26" Condition="'$(Configuration)'=='Debug'" />
+    <PackageReference Include="Uno.UI.Adapter.Microsoft.Extensions.Logging" Version="4.9.26" />
+    <PackageReference Include="Uno.WinUI.Lottie" Version="4.9.26" />
+    <PackageReference Include="SkiaSharp.Views.Uno.WinUI" Version="2.88.3" />
+    <PackageReference Include="SkiaSharp.Skottie" Version="2.88.3" />
+    <PackageReference Include="LiteDB" Version="5.0.17" />
+  </ItemGroup>
+  <Import Project="..\LiteDBSample.Shared\LiteDBSample.Shared.projitems" Label="Shared" />
+</Project>
