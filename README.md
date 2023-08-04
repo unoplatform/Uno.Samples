@@ -296,6 +296,9 @@ Demo of the usage of WebRTC in Uno WebAssembly. This sample establishes a direct
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/XamlBasics/ListViewSample)
 
+### UnoBackgroundWorker: Background Work
+
+[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/UnoBackgroundWorker)
 
 =======
 
