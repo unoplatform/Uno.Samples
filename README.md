@@ -127,6 +127,8 @@ This is a WASM-only sample. It is creating _native_ HTML elements that can be us
 
 ### LiteDB
 
+This is an example that utilizes the [LiteDB NuGet package](http://www.litedb.org/) to save data.
+
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/LiteDB)
 
 ### Localization Samples
