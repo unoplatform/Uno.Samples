@@ -306,6 +306,12 @@ Demo of the usage of WebRTC in Uno WebAssembly. This sample establishes a direct
 
 Visit [our documentation](https://platform.uno/docs/articles/intro.html) for more details.
 
+### UnoExpandableParagraph
+
+[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/UnoExpandableParagraph)
+
+Visit [our documentation](https://platform.uno/docs/articles/intro.html) for more details.
+
 # Contributors
 Thanks go to these wonderful people (List made with [contrib.rocks](https://contrib.rocks)):
 

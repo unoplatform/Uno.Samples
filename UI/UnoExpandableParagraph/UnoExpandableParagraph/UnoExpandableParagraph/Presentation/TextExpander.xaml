@@ -1,0 +1,52 @@
+﻿<UserControl x:Class="UnoExpandableParagraph.Presentation.TextExpander"
+			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:local="using:UnoExpandableParagraph.Presentation"
+			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 mc:Ignorable="d"
+			 xmlns:toolkit="using:Uno.UI.Toolkit"
+			 x:Name="TextExpanderControl"
+			 d:DesignHeight="300"
+			 d:DesignWidth="400">
+
+	<toolkit:ElevatedView CornerRadius="10"
+						  Background="{ThemeResource SystemAccentColor}"
+						  Padding="20"
+						  Elevation="20"
+						  ShadowColor="{ThemeResource CardBackgroundFillColorSecondary}">
+
+		<Grid RowSpacing="15"
+			  Padding="20">
+			<Grid.RowDefinitions>
+				<RowDefinition Height="*" />
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="*" />
+			</Grid.RowDefinitions>
+
+			<TextBlock Grid.Row="0"
+					   x:Name="headerText"
+					   Text="{x:Bind HeaderText, Mode=OneWay}"
+					   FontWeight="{x:Bind HeaderTextWeight, Mode=OneWay}"
+					   FontSize="{x:Bind HeaderTextFontSize, Mode=OneWay}"
+					   Foreground="{x:Bind HeaderTextColor, Mode=OneWay}" />
+
+			<TextBlock Grid.Row="1"
+					   x:Name="bodyText"
+					   TextTrimming="WordEllipsis"
+					   TextWrapping="WrapWholeWords"
+					   Text="{x:Bind BodyText, Mode=OneWay}"
+					   MaxLines="{x:Bind BodyTextDefaultLines, Mode=TwoWay}"
+					   FontWeight="{x:Bind BodyTextWeight, Mode=OneWay}"
+					   FontSize="{x:Bind BodyTextFontSize, Mode=OneWay}"
+					   Foreground="{x:Bind BodyTextColor, Mode=OneWay}" />
+
+			<Button Grid.Row="2"
+					x:Name="footerButton"
+					Content="{x:Bind FooterButtonText, Mode=OneWay}"
+					Foreground="{x:Bind FooterButtonTextColor}"
+					Command="{x:Bind FooterMoreCommmand, Mode=OneWay}"
+					CommandParameter="{Binding ElementName=TextExpanderControl}" />
+		</Grid>
+	</toolkit:ElevatedView>
+</UserControl>
