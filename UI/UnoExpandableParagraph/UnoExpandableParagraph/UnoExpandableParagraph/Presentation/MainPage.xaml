@@ -1,0 +1,60 @@
+<Page x:Class="UnoExpandableParagraph.Presentation.MainPage"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:local="using:UnoExpandableParagraph.Presentation"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	mc:Ignorable="d"
+	xmlns:uen="using:Uno.Extensions.Navigation.UI"
+	xmlns:utu="using:Uno.Toolkit.UI"
+	NavigationCacheMode="Required"
+	Background="{ThemeResource BackgroundBrush}">
+	<ScrollViewer>
+		<Grid utu:SafeArea.Insets="All">
+			<Grid.RowDefinitions>
+				<RowDefinition Height="Auto" />
+				<RowDefinition />
+			</Grid.RowDefinitions>
+			<utu:NavigationBar Content="{Binding Title}" />
+
+			<StackPanel Grid.Row="1"
+						HorizontalAlignment="Center"
+						VerticalAlignment="Center"
+						Padding="20"
+						Spacing="16">
+				<local:TextExpander HeaderText="Hello World One"
+									HeaderTextFontSize="22"
+									HeaderTextWeight="ExtraBlack"
+									BodyText="When you get the value of a dependency property, you are obtaining a value that was determined for that property through any one of the inputs that participate in the Windows Runtime property system. Dependency property value precedence exists so that the Windows Runtime property system can calculate values in a predictable way, and it's important that you be familiar with the basic precedence order too. Otherwise, you might find yourself in a situation where you're trying to set a property at one level of precedence but something else (the system, third-party callers, some of your own code) is setting it at another level, and you'll get frustrated trying to figure out which property value is used and where that value came from.
+
+For example, styles and templates are intended to be a shared starting point for establishing property values and thus appearances of a control. But on a particular control instance you might want to change its value versus the common templated value, such as giving that control a different background color or a different text string as content. The Windows Runtime property system considers local values at higher precedence than values provided by styles and templates. That enables the scenario of having app-specific values overwrite the templates so that the controls are useful for your own use of them in app UI." />
+				<utu:Divider />
+				<local:TextExpander HeaderText="Hello World Two"
+									HeaderTextFontSize="22"
+									HeaderTextWeight="ExtraBlack"
+									HeaderTextColor="White"
+									BodyText="When you get the value of a dependency property, you are obtaining a value that was determined for that property through any one of the inputs that participate in the Windows Runtime property system. Dependency property value precedence exists so that the Windows Runtime property system can calculate values in a predictable way, and it's important that you be familiar with the basic precedence order too. Otherwise, you might find yourself in a situation where you're trying to set a property at one level of precedence but something else (the system, third-party callers, some of your own code) is setting it at another level, and you'll get frustrated trying to figure out which property value is used and where that value came from.
+
+For example, styles and templates are intended to be a shared starting point for establishing property values and thus appearances of a control. But on a particular control instance you might want to change its value versus the common templated value, such as giving that control a different background color or a different text string as content. The Windows Runtime property system considers local values at higher precedence than values provided by styles and templates. That enables the scenario of having app-specific values overwrite the templates so that the controls are useful for your own use of them in app UI." />
+				<utu:Divider />
+				<local:TextExpander HeaderText="Hello World Three"
+									HeaderTextFontSize="22"
+									HeaderTextWeight="ExtraBlack"
+									BodyTextColor="Wheat"
+									BodyText="When you get the value of a dependency property, you are obtaining a value that was determined for that property through any one of the inputs that participate in the Windows Runtime property system. Dependency property value precedence exists so that the Windows Runtime property system can calculate values in a predictable way, and it's important that you be familiar with the basic precedence order too. Otherwise, you might find yourself in a situation where you're trying to set a property at one level of precedence but something else (the system, third-party callers, some of your own code) is setting it at another level, and you'll get frustrated trying to figure out which property value is used and where that value came from.
+
+For example, styles and templates are intended to be a shared starting point for establishing property values and thus appearances of a control. But on a particular control instance you might want to change its value versus the common templated value, such as giving that control a different background color or a different text string as content. The Windows Runtime property system considers local values at higher precedence than values provided by styles and templates. That enables the scenario of having app-specific values overwrite the templates so that the controls are useful for your own use of them in app UI." />
+				<utu:Divider />
+				<local:TextExpander HeaderText="Hello World Four"
+									HeaderTextFontSize="22"
+									HeaderTextWeight="ExtraBlack"
+									FooterButtonTextColor="Yellow"
+									
+									BodyText="When you get the value of a dependency property, you are obtaining a value that was determined for that property through any one of the inputs that participate in the Windows Runtime property system. Dependency property value precedence exists so that the Windows Runtime property system can calculate values in a predictable way, and it's important that you be familiar with the basic precedence order too. Otherwise, you might find yourself in a situation where you're trying to set a property at one level of precedence but something else (the system, third-party callers, some of your own code) is setting it at another level, and you'll get frustrated trying to figure out which property value is used and where that value came from.
+
+For example, styles and templates are intended to be a shared starting point for establishing property values and thus appearances of a control. But on a particular control instance you might want to change its value versus the common templated value, such as giving that control a different background color or a different text string as content. The Windows Runtime property system considers local values at higher precedence than values provided by styles and templates. That enables the scenario of having app-specific values overwrite the templates so that the controls are useful for your own use of them in app UI." />
+			</StackPanel>
+		</Grid>
+	</ScrollViewer>
+	
+</Page>
