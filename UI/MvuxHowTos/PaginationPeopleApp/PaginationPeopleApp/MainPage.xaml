@@ -3,7 +3,8 @@
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:PaginationPeopleApp"
-    xmlns:mvux="using:Uno.Extensions.Reactive.UI">
+    xmlns:mvux="using:Uno.Extensions.Reactive.UI"
+    xmlns:utu="using:Uno.Toolkit.UI">
 
     <Page.Resources>
         <DataTemplate x:Key="PersonDataTemplate" x:DataType="local:Person">
@@ -13,10 +14,13 @@
                 <TextBlock Text="{x:Bind LastName}"/>
             </StackPanel>
         </DataTemplate>
+
+        <DataTemplate x:Key="ListViewHeaderTemplate">
+            <TextBlock Text="{Binding}" TextWrapping="WrapWholeWords" />
+        </DataTemplate>
     </Page.Resources>
 
-    <Grid>
-
+    <Grid utu:SafeArea.Insets="Bottom,Top">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*"/>
             <ColumnDefinition Width="Auto"/>
@@ -25,16 +29,21 @@
             <ColumnDefinition Width="1*"/>
         </Grid.ColumnDefinitions>
 
-        <ListView ItemsSource="{Binding PeopleAuto}" ItemTemplate="{StaticResource PersonDataTemplate}"              
-            Header="Next page auto-loading when on available capacity or scrolled"/>
+        <ListView ItemsSource="{Binding PeopleAuto}" 
+                  ItemTemplate="{StaticResource PersonDataTemplate}"              
+                  Header="Next page auto-loading when on available capacity or scrolled"
+                  HeaderTemplate="{StaticResource ListViewHeaderTemplate}"/>
 
         <Border Grid.Column="1" Width="3" Background="DarkGray" />
 
-        <ListView Grid.Column="2" ItemsSource="{Binding PeopleManual}"
-                  ItemTemplate="{StaticResource PersonDataTemplate}" Header="Load single page on demand">
+        <ListView Grid.Column="2" 
+                  ItemsSource="{Binding PeopleManual}"
+                  ItemTemplate="{StaticResource PersonDataTemplate}" 
+                  Header="Load single page on demand"
+                  HeaderTemplate="{StaticResource ListViewHeaderTemplate}">
 
             <ListView.Footer>
-                <NumberBox 
+                <NumberBox
                     HorizontalAlignment="Center"
                     Header="Current page:"
                     Minimum="1" 
@@ -46,6 +55,10 @@
 
         <Border Grid.Column="3" Width="3" Background="DarkGray" />
 
-        <ListView Grid.Column="4" ItemsSource="{Binding PeopleCursor}" ItemTemplate="{StaticResource PersonDataTemplate}" Header="Load single page by cursor"/>
+        <ListView Grid.Column="4" 
+                  ItemsSource="{Binding PeopleCursor}" 
+                  ItemTemplate="{StaticResource PersonDataTemplate}" 
+                  Header="Load single page by cursor"
+                  HeaderTemplate="{StaticResource ListViewHeaderTemplate}"/>
     </Grid>
 </Page>
