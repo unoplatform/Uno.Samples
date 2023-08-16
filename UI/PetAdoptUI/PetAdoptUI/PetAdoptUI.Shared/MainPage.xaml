@@ -7,10 +7,11 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:local="using:PetAdoptUI"
-      xmlns:converter="using:PetAdoptUI.Image.Converter"      
+      xmlns:converter="using:PetAdoptUI.Image.Converter"
       mc:Ignorable="d"
       Background="{ThemeResource BackgroundBrush}"
       utu:StatusBar.Foreground="Auto"
+      utu:SafeArea.Insets="Top"
       utu:StatusBar.Background="{ThemeResource SurfaceBrush}">
 
     <Page.Resources>
@@ -23,22 +24,23 @@
     <utu:AutoLayout Background="{ThemeResource BackgroundBrush}"
                     Margin="0,0,0,10">
         <ScrollViewer utu:AutoLayout.PrimaryAlignment="Stretch">
-            
-            <utu:AutoLayout Spacing="8">                
-                
+
+            <utu:AutoLayout Spacing="8">
+
                 <!--Pet Images-->
                 <FlipView x:Name="FlipViewPetImages"
                           utu:SelectorExtensions.PipsPager="{Binding ElementName=pipsPager}"
-                          ItemsSource="{x:Bind PetImages}">
+                          ItemsSource="{x:Bind PetImages}"
+                          MinHeight="400">
                     <FlipView.ItemTemplate>
                         <DataTemplate>
                             <Image Source="{Binding File, Converter={StaticResource byteToImageConverter}}"
                                    Stretch="Uniform"
-                                    />
+                                   VerticalAlignment="Top" />
                         </DataTemplate>
                     </FlipView.ItemTemplate>
                 </FlipView>
-
+                
 
                 <utu:AutoLayout Padding="8,92"
                                 Height="432">

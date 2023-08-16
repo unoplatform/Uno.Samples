@@ -177,6 +177,7 @@ Note that for WebAssembly assets are downloaded on demand, as can be seen in the
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/PackageResources)
 
 ### Pet Adopt
+An example that demonstrates the use of pipspager with a flipview, in an app created with the help of the Figma-to-XAML plugin. 
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/PetAdoptUI)
 
