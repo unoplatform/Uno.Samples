@@ -62,6 +62,11 @@ An implementation of the .NET Benchmark Control, a performance comparison tool.
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/Benchmark)
 
+### BluetoothExplorer
+A sample that allows the user to search for nearby Bluetooth connections and connect to a device of their choice. Uses [InTheHand.BluetoothLE](https://www.nuget.org/packages/InTheHand.BluetoothLE)
+
+[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/BluetoothExplorer) 
+
 ### Camera Capture UI  
 A cross-platform implementation of the UWP `CameraCaptureUI` class that allows the user to capture audio, video, and photos from the device camera. 
 
