@@ -123,6 +123,8 @@ This is a WASM-only sample. It is creating _native_ HTML elements that can be us
 
 ### Inserting Separators
 
+This example demonstrates the dynamic creation of a menu incorporating nested items as well as items with separators. 
+
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/InsertingSeparators)
 
 ### LiteDB
