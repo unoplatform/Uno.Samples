@@ -134,6 +134,8 @@ This example demonstrates the dynamic creation of a menu incorporating nested it
 
 ### LiteDB
 
+This is an example that utilizes the [LiteDB NuGet package](http://www.litedb.org/) to save data.
+
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/LiteDB)
 
 ### Localization Samples
