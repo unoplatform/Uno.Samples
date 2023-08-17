@@ -246,6 +246,11 @@ Inspiration from Justin Liu's [demo app](https://twitter.com/justinxinliu/status
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/ToyCar)
 
+### Travel UI
+A sample travel app that shows how a user could 1) search for locations, 2) favorite locations and 3) view their profile as well as others' profiles. For the layout, showcases many ListViews coupled with Grids.
+
+[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/TravelUI)
+
 ### Uno Contoso
 A port of Microsoft's Contoso Enterprise UWP app to Uno Platform, using Prism.
 
