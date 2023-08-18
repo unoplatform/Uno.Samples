@@ -6,28 +6,29 @@
 	  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	  xmlns:toolkit="using:Uno.UI.Toolkit"
 	  mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+	  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <Grid toolkit:VisibleBoundsPadding.PaddingMask="Top">
-        <ScrollViewer>
-            <StackPanel Margin="16,0"
+	<Grid toolkit:VisibleBoundsPadding.PaddingMask="Top">
+		<ScrollViewer>
+			<StackPanel Margin="16,0"
 						Spacing="8">
-                <!-- controls with material styles -->
+				<!-- controls with Cupertino styles -->
 				<!-- These work-->
-                <TextBlock Text="Hello, Cupertino!"
+				<TextBlock Text="Hello, Cupertino!"
 						   Style="{StaticResource CupertinoHeadline}" />
 				<TextBlock Text="text"
 						   Style="{StaticResource CupertinoBody}" />
-                <Button Content="button"
+				<Button Content="button"
 						Style="{StaticResource CupertinoContainedButtonStyle}" />
 				<!-- These Don't work -->
-				<ComboBox ItemsSource="asd"
+				<ComboBox ItemsSource="{x:Bind asd}"
+						  PlaceholderText="Placeholder text"
 						  Style="{StaticResource CupertinoComboBoxStyle}" />
-                <DatePicker Style="{StaticResource CupertinoDatePickerStyle}" />
+				<DatePicker Style="{StaticResource CupertinoDatePickerStyle}" />
 				<TextBox Text="input"
 						 Style="{StaticResource CupertinoTextBoxStyle}" />
 
 			</StackPanel>
-        </ScrollViewer>
-    </Grid>
+		</ScrollViewer>
+	</Grid>
 </Page>
