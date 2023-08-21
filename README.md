@@ -278,7 +278,7 @@ An example showing how to set up the [`Uno.Material`](https://github.com/unoplat
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/UnoMaterialSample)
 
-[Follow the tutorial](https://platform.uno/docs/articles/guides/uno-material-walkthrough.html)
+[Consult the documentation](https://platform.uno/docs/articles/external/uno.themes/doc/material-getting-started.html)
 
 ### Uno Onnx
 
