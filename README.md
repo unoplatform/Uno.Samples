@@ -280,6 +280,13 @@ An example showing how to set up the [`Uno.Material`](https://github.com/unoplat
 
 [Follow the tutorial](https://platform.uno/docs/articles/guides/uno-material-walkthrough.html)
 
+### Uno.Toolkit.Material Sample
+An example showing how to set up the [`Uno.Toolkit.Material`](https://github.com/unoplatform/uno.toolkit.ui/tree/main/src/library/Uno.Toolkit.Material) library, 
+
+[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/UnoMaterialToolkitSample)
+
+[Consult the documentation](https://platform.uno/docs/articles/external/uno.toolkit.ui/doc/material-getting-started.html)
+
 ### Uno Onnx
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/UnoOnnxSamples)
