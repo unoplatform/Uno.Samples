@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows')) or '$(EnableWindowsTargeting)' == 'true'">$(TargetFrameworks);net7.0-windows10.0.19041</TargetFrameworks>
@@ -8,5 +8,21 @@
 		<UseMaui>true</UseMaui>
 		<SingleProject>true</SingleProject>
 	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Syncfusion.Maui.Core" />
+		<PackageReference Include="Syncfusion.Maui.Charts" />
+		<PackageReference Include="Syncfusion.Maui.TabView" />
+		<PackageReference Include="Syncfusion.Maui.DataGrid" />
+
+		<PackageReference Include="Syncfusion.Compression.NET" />
+		<PackageReference Include="Syncfusion.Maui.PdfToImageConverter" />
+		<PackageReference Include="Syncfusion.PDF.NET" />
+		<PackageReference Include="Syncfusion.Maui.PdfViewer" />
+		<PackageReference Include="Syncfusion.Maui.ListView" />
+		<PackageReference Include="Syncfusion.Maui.DataSource" />
+		<PackageReference Include="Syncfusion.Maui.GridCommon" />
+		<PackageReference Include="Syncfusion.Pdf.Imaging.NET" />
+	</ItemGroup>
 
 </Project>
