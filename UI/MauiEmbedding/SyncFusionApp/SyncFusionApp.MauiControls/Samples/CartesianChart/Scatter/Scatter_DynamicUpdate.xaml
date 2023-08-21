@@ -1,0 +1,31 @@
+<localCore:SampleView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="SyncFusionApp.MauiControls.Samples.CartesianChart.SfCartesianChart.Scatter_DynamicUpdate"
+             xmlns:local="using:SyncFusionApp.MauiControls.Samples.CartesianChart.SfCartesianChart"
+             xmlns:localCore="using:SyncFusionApp.MauiControls.Samples.Base"
+                       xmlns:chart="http://schemas.syncfusion.com/maui">
+    <localCore:SampleView.Content>
+        <chart:SfCartesianChart x:Name="Chart1" PaletteBrushes="{Binding PaletteBrushes}" HorizontalOptions="Fill" VerticalOptions="Fill">
+
+            <chart:SfCartesianChart.BindingContext>
+                <local:DynamicAnimationViewModel x:Name="viewModel"/>
+            </chart:SfCartesianChart.BindingContext>
+            <chart:SfCartesianChart.Title>
+                <Label Text="Scatter Chart Dynamic Animation" Margin="0,0,0,5" HorizontalOptions="Fill" HorizontalTextAlignment="Center" VerticalOptions="Center" FontSize="16" TextColor="Black"/>
+            </chart:SfCartesianChart.Title>
+            <chart:SfCartesianChart.XAxes>
+                <chart:NumericalAxis PlotOffsetStart="10" PlotOffsetEnd="10" ShowMajorGridLines="False">
+                </chart:NumericalAxis>
+            </chart:SfCartesianChart.XAxes>
+            <chart:SfCartesianChart.YAxes>
+                <chart:NumericalAxis ShowMajorGridLines="True" Maximum="100" Interval="20" Minimum="0">
+                </chart:NumericalAxis>
+            </chart:SfCartesianChart.YAxes>
+            <chart:SfCartesianChart.Series>
+
+                <chart:ScatterSeries PointWidth="12" PointHeight="12" ItemsSource="{Binding MotionAnimation}" EnableAnimation="True" XBindingPath="Value" YBindingPath="Size">
+                </chart:ScatterSeries>
+            </chart:SfCartesianChart.Series>
+        </chart:SfCartesianChart>
+    </localCore:SampleView.Content>
+</localCore:SampleView>

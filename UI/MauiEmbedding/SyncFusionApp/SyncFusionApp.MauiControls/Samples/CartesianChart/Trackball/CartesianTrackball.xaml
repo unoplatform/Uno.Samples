@@ -1,0 +1,91 @@
+<localCore:SampleView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="SyncFusionApp.MauiControls.Samples.CartesianChart.SfCartesianChart.CartesianTrackball"
+             xmlns:local="using:SyncFusionApp.MauiControls.Samples.CartesianChart.SfCartesianChart"
+             xmlns:localCore="using:SyncFusionApp.MauiControls.Samples.Base"
+             xmlns:chart="http://schemas.syncfusion.com/maui">
+    
+    <localCore:SampleView.Content>
+        <StackLayout HorizontalOptions="Fill" Padding="20">
+            <chart:SfCartesianChart x:Name="trackballChart" HorizontalOptions="Fill" VerticalOptions="CenterAndExpand" PaletteBrushes="{Binding PaletteBrushes}">
+                <chart:SfCartesianChart.Title >
+                    <VerticalStackLayout Margin="0,0,0,5">
+                        <Label Text="Average Sales Per Person" Margin="0" HorizontalOptions="Fill" HorizontalTextAlignment="Center" VerticalOptions="Center" FontSize="16" TextColor="Black"/>
+                    </VerticalStackLayout>
+                </chart:SfCartesianChart.Title>
+                <chart:SfCartesianChart.BindingContext>
+                    <local:CartesianTrackballViewModel x:Name="ViewModel"/>
+                </chart:SfCartesianChart.BindingContext>
+                <chart:SfCartesianChart.Legend>
+                    <chart:ChartLegend  ToggleSeriesVisibility="True">
+                    </chart:ChartLegend>
+                </chart:SfCartesianChart.Legend>
+                <chart:SfCartesianChart.TrackballBehavior>
+                    <chart:ChartTrackballBehavior x:Name="trackball" ShowLine="True" ShowMarkers="True" DisplayMode="FloatAllPoints">
+                        <chart:ChartTrackballBehavior.LineStyle>
+                            <chart:ChartLineStyle Stroke="black" StrokeWidth="1.5"/>
+                        </chart:ChartTrackballBehavior.LineStyle>
+                        <chart:ChartTrackballBehavior.MarkerSettings>
+                            <chart:ChartMarkerSettings Width="10" Height="10" Fill="white" StrokeWidth="1"/>
+                        </chart:ChartTrackballBehavior.MarkerSettings>
+                    </chart:ChartTrackballBehavior>
+                </chart:SfCartesianChart.TrackballBehavior>
+
+                <chart:SfCartesianChart.XAxes>
+                    <chart:DateTimeAxis IntervalType="Years" Interval="1" EdgeLabelsVisibilityMode="Visible" Minimum="{Binding Minimum}" Maximum="{Binding Maximum}" ShowMajorGridLines="false"
+                                        PlotOffsetStart="10" PlotOffsetEnd="10" AxisLineOffset="10">
+                        <chart:DateTimeAxis.MajorTickStyle>
+                            <chart:ChartAxisTickStyle TickSize="10">
+                            </chart:ChartAxisTickStyle>
+                        </chart:DateTimeAxis.MajorTickStyle>
+                    </chart:DateTimeAxis>
+                </chart:SfCartesianChart.XAxes>
+                <chart:SfCartesianChart.YAxes>
+                    <chart:NumericalAxis Maximum="90" Minimum="0" Interval="10">
+                        <chart:NumericalAxis.Title>
+                            <chart:ChartAxisTitle Text="Revenue in Millions" Margin="5,10,5,2"/>
+                        </chart:NumericalAxis.Title>
+                        <chart:NumericalAxis.AxisLineStyle>
+                            <chart:ChartLineStyle StrokeWidth="0">
+                            </chart:ChartLineStyle>
+                        </chart:NumericalAxis.AxisLineStyle>
+                        <chart:NumericalAxis.MajorTickStyle>
+                            <chart:ChartAxisTickStyle TickSize="0" />
+                        </chart:NumericalAxis.MajorTickStyle>
+                    </chart:NumericalAxis>
+                </chart:SfCartesianChart.YAxes>
+                <chart:SfCartesianChart.Series>
+                    <chart:LineSeries EnableTooltip="False" Label="Thomas" StrokeWidth="1" ItemsSource="{Binding ChartData1}" XBindingPath="Date" YBindingPath="Value" ShowMarkers="True">
+                        <chart:LineSeries.MarkerSettings>
+                            <chart:ChartMarkerSettings Type="Circle" Width="10" Height="10" Fill="white" Stroke="#314A6E" StrokeWidth="1"/>
+                        </chart:LineSeries.MarkerSettings>
+                    </chart:LineSeries>
+                    <chart:LineSeries EnableTooltip="False"  Label="Andrew" StrokeWidth="1" ItemsSource="{Binding ChartData1}" XBindingPath="Date" YBindingPath="High" ShowMarkers="True">
+                        <chart:LineSeries.MarkerSettings>
+                            <chart:ChartMarkerSettings Type="Circle" Width="10" Height="10" Fill="white" Stroke="#48988B" StrokeWidth="1"/>
+                        </chart:LineSeries.MarkerSettings>
+                    </chart:LineSeries>
+                    <chart:LineSeries EnableTooltip="False"  Label="John" StrokeWidth="1" ItemsSource="{Binding ChartData1}" XBindingPath="Date" YBindingPath="Low" ShowMarkers="True">
+                        <chart:LineSeries.MarkerSettings>
+                            <chart:ChartMarkerSettings Type="Circle" Width="10" Height="10" Fill="white" Stroke="#5E498C" StrokeWidth="1"/>
+                        </chart:LineSeries.MarkerSettings>
+                    </chart:LineSeries>
+                </chart:SfCartesianChart.Series>
+            </chart:SfCartesianChart>
+            <Label Text="Presss and hold to enable trackball." Grid.Row="1" HorizontalOptions="Center" FontSize="12" TextColor="#000000" Opacity="0.8" IsVisible="{OnPlatform WinUI='False', MacCatalyst='False', Android='True',iOS='True'}"/>
+        </StackLayout>
+    </localCore:SampleView.Content>
+    <localCore:SampleView.OptionView>
+        <HorizontalStackLayout Spacing="5">
+            <Label Text="Mode: " VerticalOptions="Start" HorizontalOptions="Center" Padding="5"  FontSize="17"/>
+            <Picker ItemsSource="{Binding Source={x:Reference ViewModel},Path=DisplayMode}" 
+                    SelectedItem="{Binding Source={x:Reference ViewModel}, Path=DisplayMode[0]}"
+                     VerticalOptions="Start" HorizontalOptions="Fill" 
+                    x:Name="picker" 
+                    SelectedIndex="0"
+                    SelectedIndexChanged="picker_SelectedIndexChanged">
+            </Picker>
+        </HorizontalStackLayout>
+    </localCore:SampleView.OptionView>
+    
+</localCore:SampleView>

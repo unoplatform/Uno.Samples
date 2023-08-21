@@ -1,0 +1,117 @@
+<localCore:SampleView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                      x:Class="SyncFusionApp.MauiControls.Samples.CartesianChart.SfCartesianChart.ErrorBarChart"
+                      xmlns:local="using:SyncFusionApp.MauiControls.Samples.CartesianChart.SfCartesianChart"
+                      xmlns:localCore="using:SyncFusionApp.MauiControls.Samples.Base"
+                      xmlns:chart="http://schemas.syncfusion.com/maui">
+    <localCore:SampleView.Content>
+        <StackLayout Padding="20" HorizontalOptions="Fill" x:Name="layout">
+
+            <StackLayout.Resources>
+                <Label x:Key="title" x:Name="titleName" Text="Sales Distribution of Cars by Region"
+                           FontSize="16" HorizontalOptions="Fill" VerticalOptions="Center" HorizontalTextAlignment="Center"
+                          LineBreakMode="WordWrap" Padding="0,0,0,5"/>
+            </StackLayout.Resources>
+
+            <chart:SfCartesianChart PaletteBrushes="{Binding PaletteBrushes}" HorizontalOptions="Fill" VerticalOptions="CenterAndExpand" x:Name="errorBarChart" 
+                                    Title="{StaticResource title}">
+                <chart:SfCartesianChart.BindingContext>
+                    <local:ErrorBarViewModel x:Name="ViewModel"/>
+                </chart:SfCartesianChart.BindingContext>
+
+                <chart:SfCartesianChart.XAxes >
+                    <chart:CategoryAxis x:Name="xAxis" ShowMajorGridLines="False" EdgeLabelsDrawingMode="Shift" Interval="1"  >
+                        <chart:CategoryAxis.MajorTickStyle>
+                            <chart:ChartAxisTickStyle TickSize="10"></chart:ChartAxisTickStyle>
+                        </chart:CategoryAxis.MajorTickStyle>
+                    </chart:CategoryAxis>
+                </chart:SfCartesianChart.XAxes>
+                <chart:SfCartesianChart.YAxes>
+                    <chart:NumericalAxis ShowMajorGridLines="False"  x:Name="yAxis">
+                    </chart:NumericalAxis>
+                </chart:SfCartesianChart.YAxes>
+                <chart:SfCartesianChart.Series>
+                    <chart:ScatterSeries  ItemsSource="{Binding EnergyProductions}"  x:Name="scatterSeries1"   XBindingPath="Name"   YBindingPath="Value" PointHeight="10" PointWidth="10"/>
+                    <chart:ErrorBarSeries ItemsSource="{Binding EnergyProductions}" x:Name="errorBar"  
+                                          XBindingPath="Name"  
+                                          YBindingPath="Value"   
+                                          HorizontalErrorValue="{Binding Source={x:Reference horStepper},Path=Value}" 
+                                          VerticalErrorValue="{Binding Source={x:Reference verStepper},Path=Value}" 
+                                          Type="Fixed" 
+                                          Mode="Vertical"
+                                          HorizontalDirection="Both" 
+                                          VerticalDirection="Both">
+                    </chart:ErrorBarSeries>
+                    <chart:ScatterSeries  ItemsSource="{Binding EnergyProductions}"  x:Name="scatterSeries2"   XBindingPath="Name"   YBindingPath="Value" PointHeight="10" PointWidth="10"/>
+                </chart:SfCartesianChart.Series>
+            </chart:SfCartesianChart>
+        </StackLayout>
+    </localCore:SampleView.Content>
+    <localCore:SampleView.OptionView>
+        <ScrollView >
+        <VerticalStackLayout Spacing="15">
+        <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Label  Grid.Row="0" Grid.Column="0"     Text=" Type"  HorizontalOptions="Start" Padding="5"  FontSize="15"/>
+                <Picker     Grid.Row="0" Grid.Column="1"  
+                                 ItemsSource="{Binding Source={x:Reference ViewModel},Path=ErrorBarType}" 
+                                 SelectedItem="{Binding Source={x:Reference ViewModel}, Path=ErrorBarType[0]}"
+                                 VerticalOptions="Start" HorizontalOptions="Fill" 
+                                 x:Name="typePicker" 
+                                 SelectedIndex="0"
+                                 SelectedIndexChanged="typePicker_SelectedIndexChanged">
+            </Picker>
+        </Grid>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Label Grid.Row="0" Grid.Column="0" Text="Mode" HorizontalOptions="Start"  Padding="5"  FontSize="15"/>
+                <Picker     Grid.Row="0" Grid.Column="1"
+                                 ItemsSource="{Binding Source={x:Reference ViewModel},Path=ErrorBarMode}" 
+                                 SelectedItem="{Binding Source={x:Reference ViewModel}, Path=ErrorBarMode[0]}"
+                                 VerticalOptions="Start" HorizontalOptions="Fill" 
+                                 x:Name="modePicker" 
+                                 SelectedIndex="0"
+                                 SelectedIndexChanged="modePicker_SelectedIndexChanged">
+                </Picker>
+            </Grid>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Label Grid.Row="0" Grid.Column="0" Text="Direction" HorizontalOptions="Start" Padding="5"  FontSize="15"/>
+                <Picker Grid.Row="0" Grid.Column="1" 
+                              ItemsSource="{Binding Source={x:Reference ViewModel},Path=ErrorBarDirection}" 
+                              SelectedItem="{Binding Source={x:Reference ViewModel}, Path=ErrorBarDirection[0]}"
+                              VerticalOptions="Start" HorizontalOptions="Fill" 
+                              x:Name="directionPicker" 
+                              SelectedIndex="0"
+                              SelectedIndexChanged="directionPicker_SelectedIndexChanged">
+                </Picker>
+            </Grid>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Row="0" Grid.Column="0" Text="Horizontal Error " Padding="5" FontSize="15" />
+                    <Stepper Grid.Row="0" Grid.Column="1" Minimum="1" Maximum="10" Increment="1" x:Name="horStepper"> </Stepper>
+                </Grid>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Row="0" Grid.Column="0" Text="Vertical Error " Padding="5" FontSize="15" />
+                    <Stepper Grid.Row="0" Grid.Column="1" Minimum="5" Maximum="40" Increment="5" x:Name="verStepper" ></Stepper>
+                </Grid>
+            </VerticalStackLayout>
+        </ScrollView>
+    </localCore:SampleView.OptionView>
+</localCore:SampleView>

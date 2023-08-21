@@ -1,0 +1,51 @@
+<localCore:SampleView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="SyncFusionApp.MauiControls.Samples.CartesianChart.SfCartesianChart.Bar_WidthCustomization"
+             xmlns:local="using:SyncFusionApp.MauiControls.Samples.CartesianChart.SfCartesianChart"
+             xmlns:localCore="using:SyncFusionApp.MauiControls.Samples.Base"
+                       xmlns:chart="http://schemas.syncfusion.com/maui">
+    <localCore:SampleView.Content>
+        <StackLayout>
+            <StackLayout.BindingContext>
+                <local:BarSeriesViewModel/>
+            </StackLayout.BindingContext>
+            <chart:SfCartesianChart x:Name="Chart3" IsTransposed="True"  PaletteBrushes="{Binding PaletteBrushes}" HorizontalOptions="Fill" VerticalOptions="CenterAndExpand">
+                <chart:SfCartesianChart.Title>
+                    <Label Text="UK Trade in Food Groups - 2014" Margin="0,0,0,5" HorizontalOptions="Fill" HorizontalTextAlignment="Center" VerticalOptions="Center" FontSize="16" TextColor="Black"/>
+                </chart:SfCartesianChart.Title>
+                <chart:SfCartesianChart.Legend>
+                    <chart:ChartLegend ToggleSeriesVisibility="True"/>
+                </chart:SfCartesianChart.Legend>
+                <chart:SfCartesianChart.XAxes>
+                    <chart:CategoryAxis EdgeLabelsDrawingMode="Shift" ShowMajorGridLines="false">
+                        <chart:CategoryAxis.Title>
+                            <chart:ChartAxisTitle Text="Food" />
+                        </chart:CategoryAxis.Title>
+                    </chart:CategoryAxis>
+                </chart:SfCartesianChart.XAxes>
+                <chart:SfCartesianChart.YAxes>
+                    <chart:NumericalAxis IsVisible="false" EdgeLabelsDrawingMode="Shift" ShowMajorGridLines="false" ShowMinorGridLines="false">
+                        <chart:NumericalAxis.MajorTickStyle>
+                            <chart:ChartAxisTickStyle TickSize="8">
+                            </chart:ChartAxisTickStyle>
+                        </chart:NumericalAxis.MajorTickStyle>
+                    </chart:NumericalAxis>
+                </chart:SfCartesianChart.YAxes>
+                <chart:SfCartesianChart.Series>
+                    <chart:ColumnSeries Label="Imports" Width="0.8" EnableTooltip="True" Spacing="0.1" ItemsSource="{Binding BarData2}" XBindingPath="Name" YBindingPath="Value" EnableAnimation="{Binding EnableAnimation}" LegendIcon="SeriesType">
+                    </chart:ColumnSeries>
+                    <chart:ColumnSeries Label="Exports" Width="0.8" EnableTooltip="True" Spacing="0.1" ItemsSource="{Binding BarData3}" XBindingPath="Name" YBindingPath="Value" EnableAnimation="{Binding EnableAnimation}" LegendIcon="SeriesType">
+                    </chart:ColumnSeries>
+                </chart:SfCartesianChart.Series>
+            </chart:SfCartesianChart>
+            <HorizontalStackLayout x:Name="hyperLinkLayout" Margin="5,5,0,0">
+                <Label Text="Source: " FontSize="12" VerticalOptions="Center"></Label>
+                <Label TextColor="#3E8EED" FontSize="12" FontAttributes="Italic" Text=" The National Archives - UK" VerticalOptions="Center">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding TapCommand}" CommandParameter="https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/526395/foodpocketbook-2015update-26may16.pdf"></TapGestureRecognizer>
+                    </Label.GestureRecognizers>
+                </Label>
+            </HorizontalStackLayout>
+        </StackLayout>
+    </localCore:SampleView.Content>
+</localCore:SampleView>

@@ -27,30 +27,34 @@
 									uen:Region.Name="DoughnutGroupToDoughnutChart" />
 				<NavigationViewItem Content="Doughnut - SemiDoughnutChart"
 									uen:Region.Name="DoughnutSemiDoughnutChart" />
-				<MenuFlyoutSeparator />
+				<!--<MenuFlyoutSeparator />-->
 				<NavigationViewItem Content="Interaction - Selection"
 									uen:Region.Name="InteractionSelection" />
 				<NavigationViewItem Content="Interaction - Tooltip"
 									uen:Region.Name="InteractionTooltip" />
-				<MenuFlyoutSeparator />
+				<!--<MenuFlyoutSeparator />-->
 				<NavigationViewItem Content="Pie - GroupToPieChart"
 									uen:Region.Name="PieGroupToPieChart" />
 				<NavigationViewItem Content="Pie - PieChart"
 									uen:Region.Name="PiePieChart" />
 				<NavigationViewItem Content="Pie - SemiPie"
 									uen:Region.Name="PieSemiPieChart" />
-				<MenuFlyoutSeparator />
+				<!--<MenuFlyoutSeparator />-->
 				<NavigationViewItem Content="RadialBar - CustomizedRadialBarChart"
 									uen:Region.Name="RadialBarCustomizedRadialBarChart" />
 				<NavigationViewItem Content="RadialBar - RadialBarChart"
 									uen:Region.Name="RadialBarRadialBarChart" />
-				<MenuFlyoutSeparator />
+				<!--<MenuFlyoutSeparator />-->
 				<NavigationViewItem Content="FunnelChart - DefaultFunnel"
 									uen:Region.Name="FunnelChartDefaultFunnel" />
 				<NavigationViewItem Content="FunnelChart - Legend"
 									uen:Region.Name="FunnelChartLegend" />
 				<NavigationViewItem Content="FunnelChart - Tooltip"
 									uen:Region.Name="FunnelChartTooltip" />
+				<!--<MenuFlyoutSeparator />-->
+				<NavigationViewItem Content="NeumorphismUI - NeumorphismColumnChart"
+									uen:Region.Name="NeumorphismUINeumorphismColumnChart" />
+				
 			</NavigationView.MenuItems>
 			<Grid uen:Region.Attached="True"
 				  uen:Region.Navigator="Visibility">
@@ -130,6 +134,14 @@
 								xmlns:embed="using:Uno.Extensions.Maui"
 								xmlns:controls="using:SyncFusionApp.MauiControls.Samples.FunnelChart.SfFunnelChart"
 								Source="controls:Tooltip"
+								Visibility="Collapsed" />
+
+
+
+				<embed:MauiHost uen:Region.Name="NeumorphismUINeumorphismColumnChart"
+								xmlns:embed="using:Uno.Extensions.Maui"
+								xmlns:controls="using:SyncFusionApp.MauiControls.Samples.CartesianChart.SfCartesianChart"
+								Source="controls:NeumorphismColumnChart"
 								Visibility="Collapsed" />
 			</Grid>
 		</NavigationView>

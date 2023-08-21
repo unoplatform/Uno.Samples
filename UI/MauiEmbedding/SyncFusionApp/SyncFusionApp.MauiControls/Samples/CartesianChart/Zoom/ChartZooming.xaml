@@ -1,0 +1,55 @@
+<localCore:SampleView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="SyncFusionApp.MauiControls.Samples.CartesianChart.SfCartesianChart.ChartZooming"
+             xmlns:local="using:SyncFusionApp.MauiControls.Samples.CartesianChart.SfCartesianChart"
+             xmlns:localCore="using:SyncFusionApp.MauiControls.Samples.Base"
+                       xmlns:chart="http://schemas.syncfusion.com/maui">
+    <localCore:SampleView.Content>
+        <chart:SfCartesianChart x:Name="chart" HorizontalOptions="Fill" VerticalOptions="Fill">
+            <chart:SfCartesianChart.BindingContext>
+                <local:ZoomViewModel/>
+            </chart:SfCartesianChart.BindingContext>
+            <chart:SfCartesianChart.Title>
+                <Label Text="Activity Summary" Margin="0" HorizontalOptions="Fill" HorizontalTextAlignment="Center" VerticalOptions="Center" FontSize="16" TextColor="Black"/>
+            </chart:SfCartesianChart.Title>
+            <chart:SfCartesianChart.XAxes>
+                <chart:DateTimeAxis ShowMajorGridLines="False" EnableAutoIntervalOnZooming="True" >
+                    <chart:DateTimeAxis.MajorTickStyle>
+                        <chart:ChartAxisTickStyle StrokeWidth="0"/>
+                    </chart:DateTimeAxis.MajorTickStyle>
+                    <chart:DateTimeAxis.Title>
+                        <chart:ChartAxisTitle Text="Month" Margin="5,10,5,2"/>
+                    </chart:DateTimeAxis.Title>
+                    <chart:DateTimeAxis.LabelStyle>
+                        <chart:ChartAxisLabelStyle LabelFormat="MMM-dd"/>
+                    </chart:DateTimeAxis.LabelStyle>
+                    <chart:DateTimeAxis.AxisLineStyle>
+                        <chart:ChartLineStyle StrokeWidth="0"/>
+                    </chart:DateTimeAxis.AxisLineStyle>
+                </chart:DateTimeAxis>
+            </chart:SfCartesianChart.XAxes>
+            <chart:SfCartesianChart.YAxes>
+                <chart:NumericalAxis ShowMajorGridLines="True"
+                                     EdgeLabelsDrawingMode="Shift"
+                                     Maximum="100" Minimum="0">
+                    <chart:NumericalAxis.AxisLineStyle>
+                        <chart:ChartLineStyle StrokeWidth="0" />
+                    </chart:NumericalAxis.AxisLineStyle>
+                </chart:NumericalAxis>
+            </chart:SfCartesianChart.YAxes>
+            <chart:SfCartesianChart.Series>
+                <chart:AreaSeries ItemsSource="{Binding ZoomData}" XBindingPath="Date" YBindingPath="Value">
+                    <chart:AreaSeries.Fill>
+                        <LinearGradientBrush EndPoint="0.5,0" StartPoint="0.5,1">
+                            <GradientStop Color="#00bdae" Offset="1.0"/>
+                            <GradientStop Color="White" Offset="0.0"/>
+                        </LinearGradientBrush>
+                    </chart:AreaSeries.Fill>
+                </chart:AreaSeries>
+            </chart:SfCartesianChart.Series>
+            <chart:SfCartesianChart.ZoomPanBehavior>
+                <chart:ChartZoomPanBehavior/>
+            </chart:SfCartesianChart.ZoomPanBehavior>
+        </chart:SfCartesianChart>
+    </localCore:SampleView.Content>
+</localCore:SampleView>

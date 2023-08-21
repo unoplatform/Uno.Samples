@@ -1,0 +1,39 @@
+<localCore:SampleView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="SyncFusionApp.MauiControls.Samples.CartesianChart.SfCartesianChart.AreaChart_DynamicUpdate"
+             xmlns:local="using:SyncFusionApp.MauiControls.Samples.CartesianChart.SfCartesianChart"
+             xmlns:localCore="using:SyncFusionApp.MauiControls.Samples.Base"
+                       xmlns:chart="http://schemas.syncfusion.com/maui">
+    <localCore:SampleView.Content>
+        <chart:SfCartesianChart x:Name="Chart1" PaletteBrushes="{Binding PaletteBrushes}" HorizontalOptions="Fill" VerticalOptions="Fill">
+            <chart:SfCartesianChart.BindingContext>
+                <local:DynamicAnimationViewModel x:Name="viewModel1"/>
+            </chart:SfCartesianChart.BindingContext>
+            <chart:SfCartesianChart.Title>
+                <Label Text="Area Chart Dynamic Animation" Margin="0,0,0,5" HorizontalOptions="Fill" HorizontalTextAlignment="Center" VerticalOptions="Center" FontSize="16" TextColor="Black"/>
+            </chart:SfCartesianChart.Title>
+            <chart:SfCartesianChart.XAxes>
+                <chart:NumericalAxis ShowMajorGridLines="False">
+                </chart:NumericalAxis>
+            </chart:SfCartesianChart.XAxes>
+            <chart:SfCartesianChart.YAxes>
+                <chart:NumericalAxis ShowMajorGridLines="True" Maximum="100" Interval="20" Minimum="0">
+                </chart:NumericalAxis>
+            </chart:SfCartesianChart.YAxes>
+            <chart:SfCartesianChart.Series>
+
+                <chart:AreaSeries Opacity="0.7" Stroke="#FF0080DF" StrokeWidth="2" ItemsSource="{Binding MotionAnimation}" EnableAnimation="True" XBindingPath="Value" YBindingPath="Size">
+                    <chart:AreaSeries.Fill>
+                        <LinearGradientBrush StartPoint="0.5,1"
+                                                             EndPoint="0.5,0">
+                            <GradientStop Color="White"
+                                                          Offset="0.0" />
+                            <GradientStop Color="#FF0080DF"
+                                                          Offset="1.0" />
+                        </LinearGradientBrush>
+                    </chart:AreaSeries.Fill>
+                </chart:AreaSeries>
+            </chart:SfCartesianChart.Series>
+        </chart:SfCartesianChart>
+    </localCore:SampleView.Content>
+</localCore:SampleView>
