@@ -19,21 +19,95 @@
 
 		<NavigationView uen:Region.Attached="True" Grid.Row="1">
 			<NavigationView.MenuItems>
-				<NavigationViewItem Content="Pie"
-									uen:Region.Name="Pie" />
+				<NavigationViewItem Content="Doughnut - CenterElevation"
+									uen:Region.Name="DoughnutCenterElevation" />
+				<NavigationViewItem Content="Doughnut - DoughnutChart"
+									uen:Region.Name="DoughnutDoughnutChart" />
+				<NavigationViewItem Content="Doughnut - GroupToDoughnutChart"
+									uen:Region.Name="DoughnutGroupToDoughnutChart" />
+				<NavigationViewItem Content="Doughnut - SemiDoughnutChart"
+									uen:Region.Name="DoughnutSemiDoughnutChart" />
+				<MenuFlyoutSeparator />
+				<NavigationViewItem Content="Interaction - Selection"
+									uen:Region.Name="InteractionSelection" />
+				<NavigationViewItem Content="Interaction - Tooltip"
+									uen:Region.Name="InteractionTooltip" />
+				<MenuFlyoutSeparator />
+				<NavigationViewItem Content="Pie - GroupToPieChart"
+									uen:Region.Name="PieGroupToPieChart" />
+				<NavigationViewItem Content="Pie - PieChart"
+									uen:Region.Name="PiePieChart" />
+				<NavigationViewItem Content="Pie - SemiPie"
+									uen:Region.Name="PieSemiPieChart" />
+				<MenuFlyoutSeparator />
+				<NavigationViewItem Content="RadialBar - CustomizedRadialBarChart"
+									uen:Region.Name="RadialBarCustomizedRadialBarChart" />
+				<NavigationViewItem Content="RadialBar - RadialBarChart"
+									uen:Region.Name="RadialBarRadialBarChart" />
 			</NavigationView.MenuItems>
 			<Grid uen:Region.Attached="True"
 				  uen:Region.Navigator="Visibility">
-				<embed:MauiHost uen:Region.Name="Pie"
+				<embed:MauiHost uen:Region.Name="DoughnutCenterElevation"
 								xmlns:embed="using:Uno.Extensions.Maui"
-								xmlns:controls="using:SyncFusionApp.MauiControls"
-								Source="controls:EmbeddedControl"
+								xmlns:controls="using:SyncFusionApp.MauiControls.Samples.CircularChart.SfCircularChart"
+								Source="controls:CenterElevation"
 								Visibility="Collapsed" />
-				<embed:MauiHost uen:Region.Name="Pie"
+				<embed:MauiHost uen:Region.Name="DoughnutDoughnutChart"
 								xmlns:embed="using:Uno.Extensions.Maui"
-								xmlns:controls="using:SyncFusionApp.MauiControls"
-								Source="controls:EmbeddedControl"
+								xmlns:controls="using:SyncFusionApp.MauiControls.Samples.CircularChart.SfCircularChart"
+								Source="controls:DoughnutChart"
 								Visibility="Collapsed" />
+				<embed:MauiHost uen:Region.Name="DoughnutGroupToDoughnutChart"
+								xmlns:embed="using:Uno.Extensions.Maui"
+								xmlns:controls="using:SyncFusionApp.MauiControls.Samples.CircularChart.SfCircularChart"
+								Source="controls:GroupToDoughnutChart"
+								Visibility="Collapsed" />
+				<embed:MauiHost uen:Region.Name="DoughnutSemiDoughnutChart"
+								xmlns:embed="using:Uno.Extensions.Maui"
+								xmlns:controls="using:SyncFusionApp.MauiControls.Samples.CircularChart.SfCircularChart"
+								Source="controls:SemiDoughnutChart"
+								Visibility="Collapsed" />
+
+				<embed:MauiHost uen:Region.Name="InteractionSelection"
+								xmlns:embed="using:Uno.Extensions.Maui"
+								xmlns:controls="using:SyncFusionApp.MauiControls.Samples.CircularChart.SfCircularChart"
+								Source="controls:Selection"
+								Visibility="Collapsed" />
+				<embed:MauiHost uen:Region.Name="InteractionTooltip"
+								xmlns:embed="using:Uno.Extensions.Maui"
+								xmlns:controls="using:SyncFusionApp.MauiControls.Samples.CircularChart.SfCircularChart"
+								Source="controls:Tooltip"
+								Visibility="Collapsed" />
+
+
+				<embed:MauiHost uen:Region.Name="PieGroupToPieChart"
+								xmlns:embed="using:Uno.Extensions.Maui"
+								xmlns:controls="using:SyncFusionApp.MauiControls.Samples.CircularChart.SfCircularChart"
+								Source="controls:GroupToPieChart"
+								Visibility="Collapsed" />
+				<embed:MauiHost uen:Region.Name="PiePieChart"
+								xmlns:embed="using:Uno.Extensions.Maui"
+								xmlns:controls="using:SyncFusionApp.MauiControls.Samples.CircularChart.SfCircularChart"
+								Source="controls:PieChart"
+								Visibility="Collapsed" />
+				<embed:MauiHost uen:Region.Name="PieSemiPie"
+								xmlns:embed="using:Uno.Extensions.Maui"
+								xmlns:controls="using:SyncFusionApp.MauiControls.Samples.CircularChart.SfCircularChart"
+								Source="controls:SemiPieChart"
+								Visibility="Collapsed" />
+
+
+				<embed:MauiHost uen:Region.Name="RadialBarCustomizedRadialBarChart"
+								xmlns:embed="using:Uno.Extensions.Maui"
+								xmlns:controls="using:SyncFusionApp.MauiControls.Samples.CircularChart.SfCircularChart"
+								Source="controls:CustomizedRadialBarChart"
+								Visibility="Collapsed" />
+				<embed:MauiHost uen:Region.Name="RadialBarRadialBarChart"
+								xmlns:embed="using:Uno.Extensions.Maui"
+								xmlns:controls="using:SyncFusionApp.MauiControls.Samples.CircularChart.SfCircularChart"
+								Source="controls:RadialBarChart"
+								Visibility="Collapsed" />
+
 			</Grid>
 		</NavigationView>
 	</Grid>
