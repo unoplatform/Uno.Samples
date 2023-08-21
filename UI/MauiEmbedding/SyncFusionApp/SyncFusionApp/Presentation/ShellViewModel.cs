@@ -1,10 +1,10 @@
 namespace SyncFusionApp.Presentation;
 
-public class ShellModel
+public class ShellViewModel
 {
 	private readonly INavigator _navigator;
 
-	public ShellModel(
+	public ShellViewModel(
 		INavigator navigator)
 	{
 		_navigator = navigator;
@@ -13,6 +13,6 @@ public class ShellModel
 
 	public async Task Start()
 	{
-		await _navigator.NavigateViewModelAsync<MainModel>(this);
+		await _navigator.NavigateViewModelAsync<MainViewModel>(this);
 	}
 }
