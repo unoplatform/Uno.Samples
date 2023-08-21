@@ -14,8 +14,8 @@ public partial class EmbeddedControl : ContentView
 
 		InitializeComponent();
 
-        //var data = Customer.GetCustomerList(20);
-        //grid.ItemsSource = data;
+        var data = Customer.GetCustomerList(20);
+        grid.ItemsSource = data;
     }
 }
 

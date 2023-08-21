@@ -2,7 +2,7 @@ using CommunityToolkit.Maui;
 
 namespace GrapeCityApp;
 
-public class App : Application
+public class App : EmbeddingApplication
 {
 	protected Window? MainWindow { get; private set; }
 
@@ -14,9 +14,8 @@ public class App : Application
 		MainWindow = Microsoft.UI.Xaml.Window.Current;
 #endif
 
-		this.UseMauiEmbedding(maui => maui
-					.UseMauiControls()
-					.UseMauiEmbeddingResources<MauiControls.Styles>());
+		this.UseMauiEmbedding<MauiControls.App>(maui => maui
+					.UseMauiControls());
 
 		// Do not repeat app initialization when the Window already has content,
 		// just ensure that the window is active

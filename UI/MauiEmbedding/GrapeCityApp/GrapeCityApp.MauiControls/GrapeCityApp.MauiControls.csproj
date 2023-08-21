@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows')) or '$(EnableWindowsTargeting)' == 'true'">$(TargetFrameworks);net7.0-windows10.0.19041</TargetFrameworks>
@@ -6,26 +6,32 @@
 
 		<UseMaui>true</UseMaui>
 		<SingleProject>true</SingleProject>
+		<GenerateLibraryLayout>true</GenerateLibraryLayout>
 	</PropertyGroup>
 
 	<ItemGroup>
+		<PackageReference Include="C1.Maui.Grid" />
 		<PackageReference Include="C1.Maui.Calendar" />
 		<PackageReference Include="CommunityToolkit.Maui" />
 	</ItemGroup>
 
-	<ItemGroup Condition="'$(TargetFramework)' == 'net7.0-windows10.0.19041'">
-	  <PackageReference Include="C1.Maui.Grid" />
-	</ItemGroup>
+	<!-- Workaround to avoid including Uno.Toolkit.UI XBFs in the PRI file -->
+	<Target Name="AdjustGetPackagingOutput1" AfterTargets="GetMrtPackagingOutputs">
+		<Message Importance="high" Text="Applying NuGet packaging workaround for dependent PRI files exclusion" />
+		<ItemGroup>
+			<_OtherPriFiles Include="@(PackagingOutputs)" Condition="'%(Extension)' == '.pri' and ('%(PackagingOutputs.ReferenceSourceTarget)' == 'ProjectReference' or '%(PackagingOutputs.NugetSourceType)'=='Package')" />
+			<PackagingOutputs Remove="@(_OtherPriFiles)" />
+		</ItemGroup>
+	</Target>
 
-	<ItemGroup Condition="'$(TargetFramework)' == 'net7.0-ios'">
-	  <PackageReference Include="C1.Maui.Grid" />
-	</ItemGroup>
+	<Target Name="AdjustGetPackagingOutput2" BeforeTargets="AddPriPayloadFilesToCopyToOutputDirectoryItems">
+		<Message Importance="high" Text="Applying NuGet packaging workaround for dependent PRI files exclusion" />
+		<ItemGroup>
+			<_OtherPriFiles1 Include="@(_ReferenceRelatedPaths)" Condition="'%(Extension)' == '.pri' and ('%(_ReferenceRelatedPaths.ReferenceSourceTarget)' == 'ProjectReference' or '%(_ReferenceRelatedPaths.NugetSourceType)'=='Package')" />
+			<_ReferenceRelatedPaths Remove="@(_OtherPriFiles1)" />
 
-	<ItemGroup Condition="'$(TargetFramework)' == 'net7.0-android'">
-	  <PackageReference Include="C1.Maui.Grid" />
-	</ItemGroup>
-
-	<ItemGroup Condition="'$(TargetFramework)' == 'net7.0-maccatalyst'">
-	  <PackageReference Include="C1.Maui.Grid" />
-	</ItemGroup>
+			<_OtherPriFiles2 Include="@(ReferenceCopyLocalPaths)" Condition="'%(Extension)' == '.pri' and ('%(ReferenceCopyLocalPaths.ReferenceSourceTarget)' == 'ProjectReference' or '%(ReferenceCopyLocalPaths.NugetSourceType)'=='Package')" />
+			<ReferenceCopyLocalPaths Remove="@(_OtherPriFiles2)" />
+		</ItemGroup>
+	</Target>
 </Project>

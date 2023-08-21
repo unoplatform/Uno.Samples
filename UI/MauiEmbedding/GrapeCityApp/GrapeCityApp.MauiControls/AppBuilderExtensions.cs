@@ -8,6 +8,11 @@ public static class AppBuilderExtensions
 {
 	public static MauiAppBuilder UseMauiControls(this MauiAppBuilder builder) =>
 		builder.UseMauiCommunityToolkit()
-			.RegisterFlexGridControls()
+            .ConfigureFonts(fonts =>
+            {
+                fonts.AddFont("HandlerMauiBlankApp/Assets/Fonts/OpenSansRegular.ttf", "OpenSansRegular");
+                fonts.AddFont("HandlerMauiBlankApp/Assets/Fonts/OpenSansSemibold.ttf", "OpenSansSemibold");
+            })
+            .RegisterFlexGridControls()
 	        .RegisterCalendarControls();
 }
