@@ -1,0 +1,82 @@
+<localCore:SampleView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="SyncFusionApp.MauiControls.Samples.FunnelChart.SfFunnelChart.Tooltip"
+             xmlns:local="using:SyncFusionApp.MauiControls.Samples.FunnelChart.SfFunnelChart"
+             xmlns:localCore="using:SyncFusionApp.MauiControls.Samples.Base"
+             xmlns:chart="http://schemas.syncfusion.com/maui">
+
+    <localCore:SampleView.Resources>
+        <DataTemplate x:Key="tooltipTemplate">
+            <Grid ColumnDefinitions="*,*"
+                  RowDefinitions="Auto,Auto,Auto">
+                <HorizontalStackLayout Grid.Row="0"
+                                       Grid.Column="0">
+                    <Label  Text="{Binding Item.Name}"
+                            FontSize="12"
+                            TextColor="White"
+                            HorizontalOptions="Center"
+                            VerticalOptions="Center" />
+
+                    <Label Text="{Binding Item.Value,StringFormat=': {0}'}"
+                           FontSize="12"
+                           FontAttributes="Bold"
+                           TextColor="White"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center" />
+                </HorizontalStackLayout>
+                <BoxView Grid.Column="0"
+                                 Grid.Row="1"
+                                 HeightRequest="1"
+                                 Color="Gray"
+                         Margin="3"/>
+                <Label Grid.Row="2"
+                               Grid.Column="0"
+                               Text="{Binding Item.Percentage}"
+                           FontSize="12"
+                           TextColor="White"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center" />
+            </Grid>
+        </DataTemplate>
+    </localCore:SampleView.Resources>
+
+    <localCore:SampleView.Content>
+        <chart:SfFunnelChart HorizontalOptions="Fill" VerticalOptions="Fill" 
+                             PaletteBrushes="{Binding CustomColor_1}"
+                             Margin="{OnPlatform Android='0,0,0,50', iOS='0,0,0,50', Default='0,0,0,0'}"
+                                    StrokeWidth="2"
+                                    Stroke="White"
+                                    ItemsSource="{Binding CustomerData}"
+                                    XBindingPath="Name"
+                                    YBindingPath="Value"
+                                    ShowDataLabels="True"
+                                    EnableTooltip="True"
+                                    x:Name="Chart"
+                                    TooltipTemplate="{StaticResource tooltipTemplate}"
+                                    LegendIcon="SeriesType">
+            <chart:SfFunnelChart.BindingContext>
+                <local:ViewModel />
+            </chart:SfFunnelChart.BindingContext>
+            <chart:SfFunnelChart.Legend>
+                <chart:ChartLegend Placement="{OnPlatform WinUI='Bottom',MacCatalyst='Bottom',Default='Top'}"/>
+            </chart:SfFunnelChart.Legend>
+            <chart:SfFunnelChart.DataLabelSettings>
+                <chart:FunnelDataLabelSettings UseSeriesPalette="False"
+                                               >
+                    <chart:FunnelDataLabelSettings.LabelStyle>
+                        <chart:ChartDataLabelStyle LabelFormat="#"
+                                                   Margin="0.5" />
+                    </chart:FunnelDataLabelSettings.LabelStyle>
+                </chart:FunnelDataLabelSettings>
+            </chart:SfFunnelChart.DataLabelSettings>
+            <chart:SfFunnelChart.Title>
+                <Label Text="Sales Funnel Stages"
+                           HorizontalOptions="Fill"
+                           HorizontalTextAlignment="Center"
+                           VerticalOptions="Center"
+                           FontSize="16"
+                           TextColor="Black" />
+            </chart:SfFunnelChart.Title>
+        </chart:SfFunnelChart>
+    </localCore:SampleView.Content>
+</localCore:SampleView>

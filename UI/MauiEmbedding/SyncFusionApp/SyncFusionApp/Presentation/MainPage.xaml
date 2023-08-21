@@ -44,6 +44,13 @@
 									uen:Region.Name="RadialBarCustomizedRadialBarChart" />
 				<NavigationViewItem Content="RadialBar - RadialBarChart"
 									uen:Region.Name="RadialBarRadialBarChart" />
+				<MenuFlyoutSeparator />
+				<NavigationViewItem Content="FunnelChart - DefaultFunnel"
+									uen:Region.Name="FunnelChartDefaultFunnel" />
+				<NavigationViewItem Content="FunnelChart - Legend"
+									uen:Region.Name="FunnelChartLegend" />
+				<NavigationViewItem Content="FunnelChart - Tooltip"
+									uen:Region.Name="FunnelChartTooltip" />
 			</NavigationView.MenuItems>
 			<Grid uen:Region.Attached="True"
 				  uen:Region.Navigator="Visibility">
@@ -108,6 +115,22 @@
 								Source="controls:RadialBarChart"
 								Visibility="Collapsed" />
 
+
+				<embed:MauiHost uen:Region.Name="FunnelChartDefaultFunnel"
+								xmlns:embed="using:Uno.Extensions.Maui"
+								xmlns:controls="using:SyncFusionApp.MauiControls.Samples.FunnelChart.SfFunnelChart"
+								Source="controls:DefaultFunnel"
+								Visibility="Collapsed" />
+				<embed:MauiHost uen:Region.Name="FunnelChartLegend"
+								xmlns:embed="using:Uno.Extensions.Maui"
+								xmlns:controls="using:SyncFusionApp.MauiControls.Samples.FunnelChart.SfFunnelChart"
+								Source="controls:Legend"
+								Visibility="Collapsed" />
+				<embed:MauiHost uen:Region.Name="FunnelChartTooltip"
+								xmlns:embed="using:Uno.Extensions.Maui"
+								xmlns:controls="using:SyncFusionApp.MauiControls.Samples.FunnelChart.SfFunnelChart"
+								Source="controls:Tooltip"
+								Visibility="Collapsed" />
 			</Grid>
 		</NavigationView>
 	</Grid>
