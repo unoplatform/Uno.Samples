@@ -5,10 +5,11 @@
     xmlns:local="using:ListViewSample"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:toolkit="using:Uno.UI.Toolkit"
     mc:Ignorable="d"    
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-	<Grid>
+	<Grid toolkit:VisibleBoundsPadding.PaddingMask="All">
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto"/>
 			<RowDefinition Height="*"/>
@@ -20,7 +21,7 @@
 					<Grid>
 						<Grid.ColumnDefinitions>
 							<ColumnDefinition Width="*"/>
-							<ColumnDefinition Width="*"/>
+							<ColumnDefinition Width="2*"/>
 							<ColumnDefinition Width="*"/>
 						</Grid.ColumnDefinitions>
 						<TextBlock Grid.Column="0" Text="{x:Bind Name}"/>
