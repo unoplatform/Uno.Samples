@@ -36,7 +36,7 @@ namespace SyncfusionApp.MauiControls.Samples.PdfViewer.SfPdfViewer
             string fileName = "PDF_Succinctly.pdf";
             string basePath = "SyncfusionApp.MauiControls.Samples.Resources.Pdf.";
             if (BaseConfig.IsIndividualSB)
-                basePath = "SyncfusionApp.MauiControls.Samples.PdfViewer.Samples.Pdf.";
+                basePath = "SyncfusionApp.MauiControls.Samples.Pdf.";
             DocumentStream = this.GetType().Assembly.GetManifestResourceStream(basePath + fileName);
         }
 
