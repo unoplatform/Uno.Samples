@@ -1,6 +1,6 @@
 using Syncfusion.Maui.Core.Hosting;
 
-namespace SyncFusionApp;
+namespace SyncfusionApp;
 
 public static class AppBuilderExtensions
 {
@@ -8,8 +8,8 @@ public static class AppBuilderExtensions
 		builder
 			.ConfigureFonts(fonts =>
 			{
-				fonts.AddFont("SyncFusionApp/Assets/Fonts/OpenSansRegular.ttf", "OpenSansRegular");
-				fonts.AddFont("SyncFusionApp/Assets/Fonts/OpenSansSemibold.ttf", "OpenSansSemibold");
+				fonts.AddFont("SyncfusionApp/Assets/Fonts/OpenSansRegular.ttf", "OpenSansRegular");
+				fonts.AddFont("SyncfusionApp/Assets/Fonts/OpenSansSemibold.ttf", "OpenSansSemibold");
 			})
 			.ConfigureSyncfusionCore();
 }

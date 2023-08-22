@@ -6,11 +6,11 @@
 // applicable laws. 
 #endregion
 using Microsoft.Maui.Controls.Shapes;
-using SyncFusionApp.MauiControls.Samples.Base;
+using SyncfusionApp.MauiControls.Samples.Base;
 using Syncfusion.Maui.Charts;
 using Path = Microsoft.Maui.Controls.Shapes.Path;
 
-namespace SyncFusionApp.MauiControls.Samples.CartesianChart.SfCartesianChart
+namespace SyncfusionApp.MauiControls.Samples.CartesianChart.SfCartesianChart
 {
     public partial class CartesianLegend : SampleView
     {

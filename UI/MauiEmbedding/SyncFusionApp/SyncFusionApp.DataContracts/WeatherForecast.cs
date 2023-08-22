@@ -1,4 +1,4 @@
-namespace SyncFusionApp.DataContracts;
+namespace SyncfusionApp.DataContracts;
 
 /// <summary>
 /// A Weather Forecast for a specific date

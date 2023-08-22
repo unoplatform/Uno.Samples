@@ -8,7 +8,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace SyncFusionApp.MauiControls.Samples.FunnelChart.SfFunnelChart
+namespace SyncfusionApp.MauiControls.Samples.FunnelChart.SfFunnelChart
 {
     public class ChartDataModel
     {

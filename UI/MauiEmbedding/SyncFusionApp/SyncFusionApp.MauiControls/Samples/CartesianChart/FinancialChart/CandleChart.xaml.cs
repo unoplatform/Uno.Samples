@@ -10,10 +10,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using SyncFusionApp.MauiControls.Samples.Base;
+using SyncfusionApp.MauiControls.Samples.Base;
 using Syncfusion.Maui.Charts;
 
-namespace SyncFusionApp.MauiControls.Samples.CartesianChart.SfCartesianChart
+namespace SyncfusionApp.MauiControls.Samples.CartesianChart.SfCartesianChart
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class CandleChart : SampleView

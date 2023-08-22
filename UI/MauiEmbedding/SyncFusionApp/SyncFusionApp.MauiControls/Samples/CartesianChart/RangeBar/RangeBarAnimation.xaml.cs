@@ -5,8 +5,8 @@
 // licensing@syncfusion.com. Any infringement will be prosecuted under
 // applicable laws. 
 #endregion
-using SyncFusionApp.MauiControls.Samples.Base;
-namespace SyncFusionApp.MauiControls.Samples.CartesianChart.SfCartesianChart;
+using SyncfusionApp.MauiControls.Samples.Base;
+namespace SyncfusionApp.MauiControls.Samples.CartesianChart.SfCartesianChart;
 
 public partial class RangeBarAnimation : SampleView
 {

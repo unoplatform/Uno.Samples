@@ -11,7 +11,7 @@ using Android.Widget;
 using Com.Nostra13.Universalimageloader.Core;
 using Microsoft.UI.Xaml.Media;
 
-namespace SyncFusionApp.Droid;
+namespace SyncfusionApp.Droid;
 
 [global::Android.App.ApplicationAttribute(
 	Label = "@string/ApplicationName",

@@ -6,12 +6,12 @@
 // applicable laws. 
 #endregion
 using Microsoft.Maui.Controls;
-using SyncFusionApp.MauiControls.Samples.Base;
+using SyncfusionApp.MauiControls.Samples.Base;
 using System;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using Microsoft.Maui.Dispatching;
-namespace SyncFusionApp.MauiControls.Samples.CartesianChart.SfCartesianChart
+namespace SyncfusionApp.MauiControls.Samples.CartesianChart.SfCartesianChart
 {
     public class FastLineSeriesViewModel : BaseViewModel
     {

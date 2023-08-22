@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SyncFusionApp.MauiControls.Samples.Base.CustomView;
+namespace SyncfusionApp.MauiControls.Samples.Base.CustomView;
 public class SfNeumorphismDrawer : SfShadowDrawer
 {
     private SizeF lightOffSet = new SizeF(-6f, -6f);

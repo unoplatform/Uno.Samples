@@ -1,7 +1,7 @@
 ﻿using System.Reflection;
 using System.Xml;
 
-namespace SyncFusionApp.MauiControls.Samples.Base.Converters;
+namespace SyncfusionApp.MauiControls.Samples.Base.Converters;
 
 [ContentProperty("Source")]
 public class SfImageResourceExtension : IMarkupExtension<ImageSource>, IMarkupExtension

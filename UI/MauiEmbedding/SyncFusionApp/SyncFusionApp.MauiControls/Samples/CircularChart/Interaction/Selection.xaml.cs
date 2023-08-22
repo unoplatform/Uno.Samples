@@ -6,9 +6,9 @@
 // applicable laws. 
 #endregion
 using Microsoft.Maui.Controls;
-using SyncFusionApp.MauiControls.Samples.Base;
+using SyncfusionApp.MauiControls.Samples.Base;
 
-namespace SyncFusionApp.MauiControls.Samples.CircularChart.SfCircularChart
+namespace SyncfusionApp.MauiControls.Samples.CircularChart.SfCircularChart
 { 
     public partial class Selection : SampleView
     {

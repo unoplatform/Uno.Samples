@@ -9,7 +9,7 @@ using Microsoft.Maui.Controls.Shapes;
 using System;
 using System.Collections.Generic;
 
-namespace SyncFusionApp.MauiControls.Samples.CartesianChart.SfCartesianChart
+namespace SyncfusionApp.MauiControls.Samples.CartesianChart.SfCartesianChart
 {
     public class ChartDataModel
     {

@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 
-namespace SyncFusionApp.MauiControls.Samples.Base.Converters;
+namespace SyncfusionApp.MauiControls.Samples.Base.Converters;
 
 public class SfImageSourceConverter : IValueConverter
 {

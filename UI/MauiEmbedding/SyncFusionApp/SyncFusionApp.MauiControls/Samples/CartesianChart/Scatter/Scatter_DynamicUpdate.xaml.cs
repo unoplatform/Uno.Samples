@@ -5,10 +5,10 @@
 // licensing@syncfusion.com. Any infringement will be prosecuted under
 // applicable laws. 
 #endregion
-using SyncFusionApp.MauiControls.Samples.Base;
+using SyncfusionApp.MauiControls.Samples.Base;
 using Syncfusion.Maui.Charts;
 
-namespace SyncFusionApp.MauiControls.Samples.CartesianChart.SfCartesianChart
+namespace SyncfusionApp.MauiControls.Samples.CartesianChart.SfCartesianChart
 {
     public partial class Scatter_DynamicUpdate : SampleView
     {

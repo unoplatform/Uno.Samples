@@ -7,13 +7,13 @@
 #endregion
 using Microsoft.Maui.Controls;
 using Microsoft.Maui.Graphics;
-using SyncFusionApp.MauiControls.Samples.Base;
+using SyncfusionApp.MauiControls.Samples.Base;
 using Syncfusion.Maui.Charts;
 using System;
 using Chart = Syncfusion.Maui.Charts;
 using mauiColor = Microsoft.Maui.Graphics.Color;
 
-namespace SyncFusionApp.MauiControls.Samples.CartesianChart.SfCartesianChart
+namespace SyncfusionApp.MauiControls.Samples.CartesianChart.SfCartesianChart
 {
     public partial class BarChart_RoundedEdge : SampleView
     {

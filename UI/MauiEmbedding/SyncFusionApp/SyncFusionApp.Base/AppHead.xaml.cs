@@ -1,7 +1,7 @@
 using Microsoft.UI.Xaml;
 using Uno.Resizetizer;
 
-namespace SyncFusionApp;
+namespace SyncfusionApp;
 
 public sealed partial class AppHead : App
 {

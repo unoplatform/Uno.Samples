@@ -1,4 +1,4 @@
-namespace SyncFusionApp;
+namespace SyncfusionApp;
 
 public class App : EmbeddingApplication
 {

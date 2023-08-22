@@ -6,7 +6,7 @@
 // applicable laws. 
 #endregion
 
-using SyncFusionApp.MauiControls.Samples.Base.CustomView;
+using SyncfusionApp.MauiControls.Samples.Base.CustomView;
 using Syncfusion.Maui.Charts;
 using System;
 using System.Collections.Generic;
@@ -14,7 +14,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SyncFusionApp.MauiControls.Samples.CartesianChart.SfCartesianChart
+namespace SyncfusionApp.MauiControls.Samples.CartesianChart.SfCartesianChart
 {
     public class SfNeumorphismColumnSeries : ColumnSeries
     {

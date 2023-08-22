@@ -1,6 +1,6 @@
 using Refit;
 
-namespace SyncFusionApp.Services.Endpoints;
+namespace SyncfusionApp.Services.Endpoints;
 
 [Headers("Content-Type: application/json")]
 public interface IApiClient

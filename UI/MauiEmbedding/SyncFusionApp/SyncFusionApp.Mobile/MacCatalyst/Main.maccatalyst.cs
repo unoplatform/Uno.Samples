@@ -1,6 +1,6 @@
 using UIKit;
 
-namespace SyncFusionApp.MacCatalyst;
+namespace SyncfusionApp.MacCatalyst;
 
 public class EntryPoint
 {

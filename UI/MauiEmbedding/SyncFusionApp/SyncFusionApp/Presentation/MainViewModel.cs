@@ -1,4 +1,4 @@
-namespace SyncFusionApp.Presentation;
+namespace SyncfusionApp.Presentation;
 
 public partial class MainViewModel : ObservableObject
 {

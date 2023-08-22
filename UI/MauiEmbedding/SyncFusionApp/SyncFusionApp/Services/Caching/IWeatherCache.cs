@@ -1,4 +1,4 @@
-namespace SyncFusionApp.Services.Caching;
+namespace SyncfusionApp.Services.Caching;
 
 public interface IWeatherCache
 {

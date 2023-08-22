@@ -5,11 +5,11 @@
 // licensing@syncfusion.com. Any infringement will be prosecuted under
 // applicable laws. 
 #endregion
-using SyncFusionApp.MauiControls.Samples.Base;
+using SyncfusionApp.MauiControls.Samples.Base;
 using Syncfusion.Maui.Charts;
 using System.Globalization;
 
-namespace SyncFusionApp.MauiControls.Samples.CircularChart.SfCircularChart
+namespace SyncfusionApp.MauiControls.Samples.CircularChart.SfCircularChart
 {
     public partial class GroupToPieChart : SampleView
     {

@@ -1,4 +1,4 @@
-﻿namespace SyncFusionApp.MauiControls.Samples.Base.CustomView;
+﻿namespace SyncfusionApp.MauiControls.Samples.Base.CustomView;
 
 public class SfShadowDrawer : IDrawable
 {

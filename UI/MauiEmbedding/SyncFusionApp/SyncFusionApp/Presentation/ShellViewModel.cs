@@ -1,4 +1,4 @@
-namespace SyncFusionApp.Presentation;
+namespace SyncfusionApp.Presentation;
 
 public class ShellViewModel
 {

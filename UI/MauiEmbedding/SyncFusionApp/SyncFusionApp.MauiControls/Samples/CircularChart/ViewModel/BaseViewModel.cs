@@ -5,7 +5,7 @@
 // licensing@syncfusion.com. Any infringement will be prosecuted under
 // applicable laws. 
 #endregion
-using SyncFusionApp.MauiControls.Samples.Base;
+using SyncfusionApp.MauiControls.Samples.Base;
 using Syncfusion.Maui.Charts;
 using System;
 using System.Collections.ObjectModel;
@@ -13,7 +13,7 @@ using System.ComponentModel;
 using System.Globalization;
 using System.Windows.Input;
 
-namespace SyncFusionApp.MauiControls.Samples.CircularChart.SfCircularChart
+namespace SyncfusionApp.MauiControls.Samples.CircularChart.SfCircularChart
 {
     public class BaseViewModel : INotifyPropertyChanged
     {

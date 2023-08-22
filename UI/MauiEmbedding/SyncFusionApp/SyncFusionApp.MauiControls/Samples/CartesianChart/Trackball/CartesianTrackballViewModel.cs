@@ -8,7 +8,7 @@
 using Syncfusion.Maui.Charts;
 using System.Collections.ObjectModel;
 
-namespace SyncFusionApp.MauiControls.Samples.CartesianChart.SfCartesianChart
+namespace SyncfusionApp.MauiControls.Samples.CartesianChart.SfCartesianChart
 {
     public class CartesianTrackballViewModel : BaseViewModel
     {

@@ -1,4 +1,4 @@
-namespace SyncFusionApp.Infrastructure;
+namespace SyncfusionApp.Infrastructure;
 
 internal class DebugHttpHandler : DelegatingHandler
 {

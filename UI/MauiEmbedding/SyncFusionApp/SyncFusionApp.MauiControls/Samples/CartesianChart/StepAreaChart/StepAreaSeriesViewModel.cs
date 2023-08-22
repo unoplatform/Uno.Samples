@@ -5,7 +5,7 @@
 // licensing@syncfusion.com. Any infringement will be prosecuted under
 // applicable laws. 
 #endregion
-using SyncFusionApp.MauiControls.Samples.CartesianChart.SfCartesianChart;
+using SyncfusionApp.MauiControls.Samples.CartesianChart.SfCartesianChart;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -13,7 +13,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SyncFusionApp.MauiControls.Samples.CartesianChart.SfCartesianChart
+namespace SyncfusionApp.MauiControls.Samples.CartesianChart.SfCartesianChart
 {
    public class StepAreaSeriesViewModel : BaseViewModel
     {

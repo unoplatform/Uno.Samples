@@ -1,4 +1,4 @@
-namespace SyncFusionApp.MauiControls;
+namespace SyncfusionApp.MauiControls;
 
 public partial class EmbeddedControl : ContentView
 {

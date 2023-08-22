@@ -8,7 +8,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace SyncFusionApp.MauiControls.Samples.CircularChart.SfCircularChart
+namespace SyncfusionApp.MauiControls.Samples.CircularChart.SfCircularChart
 {
     public class ChartDataModel
     {

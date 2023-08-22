@@ -5,9 +5,9 @@
 // licensing@syncfusion.com. Any infringement will be prosecuted under
 // applicable laws. 
 #endregion
-using SyncFusionApp.MauiControls.Samples.Base;
+using SyncfusionApp.MauiControls.Samples.Base;
 
-namespace SyncFusionApp.MauiControls.Samples.FunnelChart.SfFunnelChart
+namespace SyncfusionApp.MauiControls.Samples.FunnelChart.SfFunnelChart
 {
     public partial class DefaultFunnel : SampleView
     {

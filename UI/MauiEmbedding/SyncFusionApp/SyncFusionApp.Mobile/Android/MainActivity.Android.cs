@@ -4,7 +4,7 @@ using Android.OS;
 using Android.Content.PM;
 using Android.Views;
 
-namespace SyncFusionApp.Droid;
+namespace SyncfusionApp.Droid;
 
 [Activity(
 	MainLauncher = true,

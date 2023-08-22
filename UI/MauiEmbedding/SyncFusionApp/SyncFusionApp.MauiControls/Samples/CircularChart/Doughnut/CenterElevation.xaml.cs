@@ -6,13 +6,13 @@
 // applicable laws. 
 #endregion
 using Microsoft.Maui.Graphics;
-using SyncFusionApp.MauiControls.Samples.Base;
+using SyncfusionApp.MauiControls.Samples.Base;
 using Syncfusion.Maui.Charts;
 using Syncfusion.Maui.Core;
 using System.Collections.ObjectModel;
 using System.Globalization;
 
-namespace SyncFusionApp.MauiControls.Samples.CircularChart.SfCircularChart
+namespace SyncfusionApp.MauiControls.Samples.CircularChart.SfCircularChart
 {
     public partial class CenterElevation : SampleView
     {

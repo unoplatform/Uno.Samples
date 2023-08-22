@@ -8,7 +8,7 @@
 using System.Collections.ObjectModel;
 using Microsoft.Maui.Dispatching;
 
-namespace SyncFusionApp.MauiControls.Samples.CartesianChart.SfCartesianChart
+namespace SyncfusionApp.MauiControls.Samples.CartesianChart.SfCartesianChart
 {
     internal class DynamicAnimationViewModel : BaseViewModel
     {

@@ -8,7 +8,7 @@ using Microsoft.Maui.ApplicationModel;
 using Microsoft.Maui.Controls;
 using Syncfusion.Licensing;
 
-namespace SyncFusionApp.MauiControls.Samples.Base;
+namespace SyncfusionApp.MauiControls.Samples.Base;
 
 public enum SBDevice
 {

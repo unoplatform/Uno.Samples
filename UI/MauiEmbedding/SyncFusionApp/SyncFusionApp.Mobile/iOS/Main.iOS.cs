@@ -1,6 +1,6 @@
 using UIKit;
 
-namespace SyncFusionApp.iOS;
+namespace SyncfusionApp.iOS;
 
 public class EntryPoint
 {

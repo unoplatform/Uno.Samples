@@ -6,7 +6,7 @@
 // applicable laws. 
 #endregion
 using System.Collections.ObjectModel;
-namespace SyncFusionApp.MauiControls.Samples.CartesianChart.SfCartesianChart
+namespace SyncfusionApp.MauiControls.Samples.CartesianChart.SfCartesianChart
 {
     public class ErrorBarViewModel:BaseViewModel
     {

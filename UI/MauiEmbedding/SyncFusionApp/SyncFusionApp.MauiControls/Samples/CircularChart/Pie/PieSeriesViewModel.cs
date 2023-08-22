@@ -7,7 +7,7 @@
 #endregion
 using System.Collections.ObjectModel;
 
-namespace SyncFusionApp.MauiControls.Samples.CircularChart.SfCircularChart
+namespace SyncfusionApp.MauiControls.Samples.CircularChart.SfCircularChart
 {
     public class PieSeriesViewModel : BaseViewModel
     {

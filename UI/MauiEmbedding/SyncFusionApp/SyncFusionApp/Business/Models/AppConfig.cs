@@ -1,4 +1,4 @@
-namespace SyncFusionApp.Business.Models;
+namespace SyncfusionApp.Business.Models;
 
 public record AppConfig
 {

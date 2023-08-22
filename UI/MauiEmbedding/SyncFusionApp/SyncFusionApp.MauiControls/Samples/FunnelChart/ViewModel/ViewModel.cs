@@ -12,7 +12,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SyncFusionApp.MauiControls.Samples.FunnelChart.SfFunnelChart
+namespace SyncfusionApp.MauiControls.Samples.FunnelChart.SfFunnelChart
 {
     public class ViewModel : BaseViewModel
     {

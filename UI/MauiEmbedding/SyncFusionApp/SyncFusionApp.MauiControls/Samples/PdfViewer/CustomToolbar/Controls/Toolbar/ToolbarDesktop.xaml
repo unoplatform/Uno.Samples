@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<local:ToolbarView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="using:SyncfusionApp.MauiControls.Samples.PdfViewer.SfPdfViewer"             
+             x:Class="SyncfusionApp.MauiControls.Samples.PdfViewer.SfPdfViewer.ToolbarDesktop">
+    <local:ToolbarView.Resources>
+        <Style x:Key="buttonIconStyle" TargetType="Button">
+            <Setter Property="BorderWidth" Value="0" />
+            <Setter Property="FontSize" Value="18" />
+            <Setter Property="Padding" Value="4" />
+            <Setter Property="VerticalOptions" Value="Center" />
+            <Setter Property="FontFamily" Value="{OnPlatform iOS=PdfViewerIcon, MacCatalyst=PdfViewerIcon, Android=PdfViewerIcon.ttf#, WinUI=PdfViewerIcon.ttf#PdfViewerIcon}" />
+            <Setter Property="TextColor" Value="#99000000"/>
+            <Setter Property="BackgroundColor" Value="Transparent"/>
+            <Style.Triggers>
+                <Trigger Property = "IsEnabled" Value = "True" TargetType="Button">
+                    <Setter Property="BackgroundColor" Value="Transparent"/>
+                    <Setter Property="Opacity" Value="1" />
+                </Trigger>
+                <Trigger Property = "IsEnabled" Value = "False" TargetType="Button">
+                    <Setter Property="Opacity" Value="0.25" />
+                </Trigger>
+                <Trigger Property = "IsPressed" Value = "True" TargetType="Button">
+                    <Setter Property="BackgroundColor" Value="#14000000" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </local:ToolbarView.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <Button Text="&#xe712;"
+                FontFamily= "Maui Material Assets"
+                Margin="8,0,0,0"
+                Grid.Column="0"
+                HorizontalOptions="Start"
+                Style="{StaticResource buttonIconStyle}"
+                Command="{Binding OpenCloseFilePickerCommand}"/>
+        <HorizontalStackLayout HorizontalOptions="Center"
+                    Spacing="8" Grid.Column="1">
+            <Border BackgroundColor="#FFFFFFFF" Stroke="#66000000" 
+                    StrokeShape="{OnPlatform WinUI=RoundRectangle 4, MacCatalyst=RoundRectangle 5}" HeightRequest="{OnPlatform WinUI=34, MacCatalyst=26}"
+                    StrokeThickness="1">
+                <local:CustomEntry
+                    x:Name="pageNumberEntry"
+                    IsEnabled="{Binding IsDocumentLoaded}"
+                    MaxLength="4"
+                    Keyboard="Numeric"
+                    TextColor="#1C1B1F"
+                    BackgroundColor="Transparent"
+                    TextChanged="pageNumberEntry_TextChanged"
+                    Focused="pageNumberEntry_Focused"
+                    Unfocused="pageNumberEntry_Unfocused"
+                    Completed="GoToEntry_Completed"
+                    VerticalTextAlignment="Center"
+                    WidthRequest="40"
+                    HeightRequest="24"
+                    VerticalOptions="Center" 
+                    HorizontalTextAlignment="Center"/>
+            </Border>
+            <Label 
+                    Text=" / " 
+                    VerticalTextAlignment="Center" 
+                    HorizontalTextAlignment="Center"
+                    VerticalOptions="Center"/>
+            <Label x:Name="pageCountLabel"
+                    VerticalTextAlignment="Center"
+                    HorizontalTextAlignment="Center"
+                    VerticalOptions="Center"
+                    Margin="0,0,4,0"/>
+            <Button x:Name="goToPreviousPageButton"
+                    Text="&#xe702;" FontSize="16"
+                    Margin="4,0,0,0"
+                    Style="{StaticResource buttonIconStyle}"/>
+            <Button x:Name="goToNextPageButton" 
+                    Text="&#xe701;"  FontSize="16"
+                    Margin="4,0,0,0"
+                    Style="{StaticResource buttonIconStyle}"/>
+            <Rectangle
+                Fill="#FF979797" Margin="4,0,0,0" HeightRequest="24" WidthRequest="2"/>
+            <Button 
+                Text="&#xe704;" Margin="4,0,0,0"
+                Style="{StaticResource buttonIconStyle}"
+                Command="{Binding ZoomOutCommand}"/>
+            <Button 
+                Text="&#xe703;" Margin="4,0,0,0"
+                Style="{StaticResource buttonIconStyle}"
+                Command="{Binding ZoomInCommand}"/>
+        </HorizontalStackLayout>
+        <HorizontalStackLayout Grid.Column="2" Spacing="8" HorizontalOptions="End">
+            <Button
+                x:Name="outlineButton"
+                Text="&#xe72c;" Margin="4,0,0,0"
+                FontSize="20"
+                FontFamily="Maui Material Assets"
+                Style="{StaticResource buttonIconStyle}"
+                Clicked="outlineButton_Clicked"/>
+            <Button
+                x:Name="searchButton"
+                Text="&#xe715;" Margin="0,0,8,0"
+                FontSize="20"
+                FontFamily="Maui Material Assets"
+                Style="{StaticResource buttonIconStyle}"
+                Clicked="Search_Clicked"/>
+        </HorizontalStackLayout>
+    </Grid>
+</local:ToolbarView>

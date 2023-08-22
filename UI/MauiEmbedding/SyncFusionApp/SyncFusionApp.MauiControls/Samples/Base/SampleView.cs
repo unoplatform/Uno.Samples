@@ -1,4 +1,4 @@
-namespace SyncFusionApp.MauiControls.Samples.Base;
+namespace SyncfusionApp.MauiControls.Samples.Base;
 
 public class SampleView : ContentView
 {

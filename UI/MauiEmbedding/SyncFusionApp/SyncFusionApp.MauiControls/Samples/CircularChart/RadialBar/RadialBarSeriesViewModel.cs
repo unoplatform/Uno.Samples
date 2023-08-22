@@ -8,7 +8,7 @@
 using Syncfusion.Maui.Charts;
 using System.Collections.ObjectModel;
 
-namespace SyncFusionApp.MauiControls.Samples.CircularChart.SfCircularChart
+namespace SyncfusionApp.MauiControls.Samples.CircularChart.SfCircularChart
 {
     public class RadialBarSeriesViewModel : BaseViewModel
     {

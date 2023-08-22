@@ -10,7 +10,7 @@ using System.ComponentModel;
 using System.Reflection;
 using System.Windows.Input;
 
-namespace SyncFusionApp.MauiControls.Samples.CartesianChart.SfCartesianChart
+namespace SyncfusionApp.MauiControls.Samples.CartesianChart.SfCartesianChart
 {
     public class BaseViewModel : INotifyPropertyChanged
     {

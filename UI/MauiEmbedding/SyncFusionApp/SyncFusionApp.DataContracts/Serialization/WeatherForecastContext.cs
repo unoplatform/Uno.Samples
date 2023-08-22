@@ -1,7 +1,7 @@
 using System.Collections.Immutable;
 using System.Text.Json.Serialization;
 
-namespace SyncFusionApp.DataContracts.Serialization;
+namespace SyncfusionApp.DataContracts.Serialization;
 
 /// <summary>
 /// Generated class for System.Text.Json Serialization
