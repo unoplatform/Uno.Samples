@@ -32,3 +32,9 @@ steps:
     errorActionPreference: continue
     ignoreLASTEXITCODE: true
     retryCountOnTaskFailure: 3
+
+  - powershell: |
+      dotnet workload install maui --source https://api.nuget.org/v3/index.json
+      dotnet workload install android ios maccatalyst tvos macos maui wasm-tools --source https://api.nuget.org/v3/index.json
+    displayName: Maui workloads
+    retryCountOnTaskFailure: 3
