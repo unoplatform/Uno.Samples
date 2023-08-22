@@ -1,5 +1,3 @@
-using CommunityToolkit.Maui;
-
 namespace GrapeCityApp;
 
 public class App : EmbeddingApplication
