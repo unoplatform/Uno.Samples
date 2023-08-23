@@ -9,11 +9,14 @@
     >
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
-          Margin="50">
-        <StackPanel>
-            <TextBlock Text="This sample demonstrates the use of the AutoSuggestBox Control" Margin="0,0,0,30" FontSize="30" />
+          Margin="20,40">
+        <StackPanel Margin="4">
+            <TextBlock Text="This sample demonstrates the use of the AutoSuggestBox Control" 
+                       Margin="0,0,0,30" 
+                       FontSize="30"
+                       TextWrapping="WrapWholeWords" />
             <AutoSuggestBox x:Name="suggestBox"
-                            Height="60"
+			    Height="60"
 			    Header="Type in some text:"
 			    TextChanged="OnTextChanged"
 			    QuerySubmitted="OnQuerySubmitted"

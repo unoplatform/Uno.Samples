@@ -1,0 +1,81 @@
+<Page x:Class="UnoScrollReveal.MainPage"
+	  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	  xmlns:local="using:UnoScrollReveal"
+	  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	  mc:Ignorable="d"
+	  xmlns:template_selectors="using:UnoScrollReveal.DataTemplateSelectors"
+	  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+	<Page.Resources>
+		<DataTemplate x:Key="EmptyCell">
+			<Grid VerticalAlignment="Stretch"						
+						
+						Height="250">
+				<TextBlock Text="Pull Up to Scroll through more content"
+						   HorizontalTextAlignment="Center"
+						   VerticalAlignment="Center"
+						   Padding="10"
+						   FontSize="22"
+						   FontWeight="ExtraBold"
+						   FontStyle="Italic"
+						   Foreground="White" />
+			</Grid>
+		</DataTemplate>
+
+		<DataTemplate x:Key="NonEmptyCell">
+			<Grid Padding="15">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="*" />
+					<ColumnDefinition Width="4*" />
+				</Grid.ColumnDefinitions>
+
+				<Rectangle Width="100"
+						   Height="100" 
+						   Fill="DarkGray"/>
+
+				<Grid Grid.Column="1">
+					<Grid.RowDefinitions>
+						<RowDefinition Height="*" />
+						<RowDefinition Height="3*" />
+					</Grid.RowDefinitions>
+
+					<TextBlock Grid.Row="0"
+							   Text="{Binding Title}"
+							   FontSize="20"
+							   FontWeight="Bold"
+							   Margin="10,0,0,0" />
+
+					<TextBlock Grid.Row="1"
+							   Text="{Binding Description}"
+							   TextWrapping="WrapWholeWords"
+							   Margin="10,0,0,0" />
+
+				</Grid>
+
+			</Grid>
+		</DataTemplate>
+
+		<template_selectors:TemplateSelector x:Name="TemplateSelector" 
+											 ItemTemplate="{StaticResource NonEmptyCell}"
+											 DefaultTemplate="{StaticResource EmptyCell}"/>
+	</Page.Resources>
+
+	<Grid Background="WhiteSmoke">
+		<StackPanel>
+			<Image x:Name="backgroundImg"
+				   Source="Assets/background.jpg"	
+				   Stretch="Fill" />
+		</StackPanel>
+		<RefreshContainer RefreshRequested="OnPullToRefresh"
+						  PullDirection="BottomToTop">
+			<ListView x:Name="itemsListView"
+					  ItemsSource="{x:Bind Items}"
+					  VerticalAlignment="Stretch"
+					  Background="Transparent"					  
+					  ItemTemplateSelector="{StaticResource TemplateSelector}" />
+		</RefreshContainer>
+		
+	</Grid>
+</Page>

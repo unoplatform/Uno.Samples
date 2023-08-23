@@ -2,19 +2,22 @@
 	x:Class="WeatherApp.MainPage"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-	xmlns:mvux="using:Uno.Extensions.Reactive.UI">
+	xmlns:mvux="using:Uno.Extensions.Reactive.UI"
+    xmlns:utu="using:Uno.Toolkit.UI">
 
-    <mvux:FeedView Source="{Binding CurrentWeather}">
-        <DataTemplate>
-            <StackPanel>
+    <Grid utu:SafeArea.Insets="Bottom,Top">
+        <mvux:FeedView Source="{Binding CurrentWeather}">
+            <DataTemplate>
+                <StackPanel>
                 <TextBlock DataContext="{Binding Data}" Text="{Binding Temperature}" />
                 <Button Content="Refresh" Command="{Binding Refresh}" />
-            </StackPanel>
-        </DataTemplate>
-        <mvux:FeedView.ProgressTemplate>
-            <DataTemplate>
-                <TextBlock Text="Requesting temperature..."/>
+                </StackPanel>
             </DataTemplate>
-        </mvux:FeedView.ProgressTemplate>
-    </mvux:FeedView>
+            <mvux:FeedView.ProgressTemplate>
+                <DataTemplate>
+                <TextBlock Text="Requesting temperature..."/>
+                </DataTemplate>
+            </mvux:FeedView.ProgressTemplate>
+        </mvux:FeedView>
+    </Grid>
 </Page>

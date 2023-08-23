@@ -62,6 +62,11 @@ An implementation of the .NET Benchmark Control, a performance comparison tool.
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/Benchmark)
 
+### BluetoothExplorer
+A sample that allows the user to search for nearby Bluetooth connections and connect to a device of their choice. Uses [InTheHand.BluetoothLE](https://www.nuget.org/packages/InTheHand.BluetoothLE)
+
+[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/BluetoothExplorer) 
+
 ### Camera Capture UI  
 A cross-platform implementation of the UWP `CameraCaptureUI` class that allows the user to capture audio, video, and photos from the device camera. 
 
@@ -123,9 +128,13 @@ This is a WASM-only sample. It is creating _native_ HTML elements that can be us
 
 ### Inserting Separators
 
+This example demonstrates the dynamic creation of a menu incorporating nested items as well as items with separators. 
+
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/InsertingSeparators)
 
 ### LiteDB
+
+This is an example that utilizes the [LiteDB NuGet package](http://www.litedb.org/) to save data.
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/LiteDB)
 
@@ -167,6 +176,11 @@ An example of a toggle that allows you to switch between Native UI Controls and 
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/NativeStylesSwitch)
 
+### Neumorphism  
+An example of an app containing an animated lock that you can unlock.
+
+[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/Neumorphism)
+
 ### Package Resources
 An example that demonstrates the use of package assets and how to read them from your app. 
 
@@ -175,6 +189,7 @@ Note that for WebAssembly assets are downloaded on demand, as can be seen in the
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/PackageResources)
 
 ### Pet Adopt
+An example that demonstrates the use of pipspager with a flipview, in an app created with the help of the Figma-to-XAML plugin. 
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/PetAdoptUI)
 
@@ -296,8 +311,17 @@ Demo of the usage of WebRTC in Uno WebAssembly. This sample establishes a direct
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/XamlBasics/ListViewSample)
 
+### UnoBackgroundWorker: Background Work
 
-=======
+[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/UnoBackgroundWorker)
+
+### CountryDataSample
+
+[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/CountryDataSample)
+
+### UnoScrollReveal
+
+[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/UnoScrollReveal)
 
 Visit [our documentation](https://platform.uno/docs/articles/intro.html) for more details.
 
