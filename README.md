@@ -257,7 +257,7 @@ An example showing how to set up the [`Uno.Cupertino`](https://github.com/unopla
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/UnoCupertinoSample)
 
-[Follow the tutorial](https://platform.uno/docs/articles/guides/uno-cupertino-walkthrough.html)
+[Consult the documentation](https://platform.uno/docs/articles/external/uno.themes/doc/cupertino-getting-started.html)
 
 ### Uno+Ethereum+Blockchain
 
