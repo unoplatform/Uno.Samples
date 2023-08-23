@@ -267,6 +267,8 @@ A sample showing how to integrate smart contracts on the Ethereum blockchain wit
 
 ### Uno Good Reads
 
+A sample showing how to make an app containing several pages in a TabView, as well as fake data generation to populate those pages.
+
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/UnoGoodReads)
 
 ### Uno Islands
