@@ -5,9 +5,11 @@
 	  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	  xmlns:sys="using:System"
+	  xmlns:wasm="http://uno.ui/wasm"
 	  xmlns:vm="using:AdvancedXBind.ViewModel"
-	  mc:Ignorable="d"
+	  mc:Ignorable="d wasm"
 	  Background="White">
+
 	<Page.Resources>
 		<converters:DoubleToStringConverter x:Key="DoubleToStringConverter" />
 	</Page.Resources>
@@ -53,9 +55,12 @@
 				   Grid.Row="2"
 				   Grid.Column="1"
 				   Grid.ColumnSpan="2" />
+
+		<!-- The button is disabled on WASM because of this issue: https://github.com/unoplatform/uno/issues/13370 -->
 		<Button Grid.Row="3"
 				HorizontalAlignment="Right"
 				Content="Display Planet Information"
+				wasm:IsEnabled="False"
 				Click="{x:Bind DisplayPlanetSync}" />
 		<TextBlock Grid.Row="3"
 				   Grid.Column="1"
