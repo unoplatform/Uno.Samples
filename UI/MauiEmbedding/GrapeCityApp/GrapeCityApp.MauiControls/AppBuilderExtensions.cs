@@ -1,5 +1,6 @@
-using C1.Maui.Calendar;
-using C1.Maui.Grid;
+// TODO: Uncomment using statements
+//using C1.Maui.Calendar;
+//using C1.Maui.Grid;
 
 namespace GrapeCityApp;
 
@@ -12,6 +13,8 @@ public static class AppBuilderExtensions
                 fonts.AddFont("HandlerMauiBlankApp/Assets/Fonts/OpenSansRegular.ttf", "OpenSansRegular");
                 fonts.AddFont("HandlerMauiBlankApp/Assets/Fonts/OpenSansSemibold.ttf", "OpenSansSemibold");
             })
-            .RegisterFlexGridControls()
-	        .RegisterCalendarControls();
+            // TODO: Uncomment Register method for the C1 Controls
+            //.RegisterFlexGridControls()
+	        //.RegisterCalendarControls()
+        ;
 }
