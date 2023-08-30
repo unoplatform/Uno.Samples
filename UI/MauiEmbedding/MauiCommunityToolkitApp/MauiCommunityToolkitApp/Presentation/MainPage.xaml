@@ -17,6 +17,7 @@
                 <NavigationViewItem uen:Region.Name="DrawingView" Content="DrawingView" />
                 <NavigationViewItem uen:Region.Name="Expander" Content="Expander" />
                 <NavigationViewItem uen:Region.Name="Toast" Content="Toast" />
+                <NavigationViewItem uen:Region.Name="Snackbar" Content="Snackbar" />
             </NavigationView.MenuItems>
             <Grid uen:Region.Attached="True" uen:Region.Navigator="Visibility">
                 <embed:MauiHost
@@ -41,6 +42,14 @@
                     VerticalAlignment="Center"
                     uen:Region.Name="Toast"
                     Source="controls:ToastControl"
+                    Visibility="Collapsed" />
+                <embed:MauiHost
+                    xmlns:controls="using:MauiCommunityToolkitApp.MauiControls"
+                    xmlns:embed="using:Uno.Extensions.Maui"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    uen:Region.Name="Snackbar"
+                    Source="controls:SnackbarControl"
                     Visibility="Collapsed" />
             </Grid>
         </NavigationView>
