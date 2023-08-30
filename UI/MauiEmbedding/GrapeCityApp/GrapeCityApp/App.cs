@@ -12,7 +12,7 @@ public class App : EmbeddingApplication
 		MainWindow = Microsoft.UI.Xaml.Window.Current;
 #endif
 
-		this.UseMauiEmbedding<MauiControls.App>(maui => maui
+		this.UseMauiEmbedding<MauiControls.App>(MainWindow, maui => maui
 					.UseMauiControls());
 
 		// Do not repeat app initialization when the Window already has content,
