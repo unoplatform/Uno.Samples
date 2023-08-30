@@ -23,22 +23,7 @@
                     uen:Region.Name="Avatar"
                     Source="controls:AvatarControl"
                     Visibility="Collapsed" />
-                <StackPanel uen:Region.Name="DrawingView" Visibility="Collapsed">
-                    <StackPanel.DataContext>
-                        <local:DrawingViewViewModel />
-                    </StackPanel.DataContext>
-
-                    <TextBlock Text="Clean on Finish:" />
-                    <ToggleSwitch IsOn="{Binding ShouldCleanOnFinish, Mode=TwoWay}" />
-                    <TextBlock Text="MultiLineMode:" />
-                    <ToggleSwitch x:Name="MultiLineMode" IsOn="{Binding IsMultiLineModeEnabled, Mode=TwoWay}" />
-                    <embed:MauiHost
-                        xmlns:controls="using:MauiCommunityToolkitApp.MauiControls"
-                        xmlns:embed="using:Uno.Extensions.Maui"
-                        MinWidth="600"
-                        MinHeight="300"
-                        Source="controls:DrawingViewControl" />
-                </StackPanel>
+                <local:DrawingViewContent uen:Region.Name="DrawingView" Visibility="Collapsed" />
             </Grid>
         </NavigationView>
     </Grid>
