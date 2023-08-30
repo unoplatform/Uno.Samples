@@ -1,0 +1,30 @@
+<Page x:Class="MauiCommunityToolkitApp.Presentation.MainPage"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:local="using:MauiCommunityToolkitApp.Presentation"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	mc:Ignorable="d"
+	xmlns:uen="using:Uno.Extensions.Navigation.UI"
+	NavigationCacheMode="Required"
+	Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+	<Grid>
+		<NavigationView uen:Region.Attached="True">
+			<NavigationView.MenuItems>
+				<NavigationViewItem Content="Avatar"
+									uen:Region.Name="Avatar" />
+				
+
+			</NavigationView.MenuItems>
+			<Grid uen:Region.Attached="True"
+				  uen:Region.Navigator="Visibility">
+				<embed:MauiHost uen:Region.Name="Avatar"
+								xmlns:embed="using:Uno.Extensions.Maui"
+								xmlns:controls="using:MauiCommunityToolkitApp.MauiControls"
+								Source="controls:AvatarControl"
+								Visibility="Collapsed" />
+			</Grid>
+		</NavigationView>
+	</Grid>
+</Page>
