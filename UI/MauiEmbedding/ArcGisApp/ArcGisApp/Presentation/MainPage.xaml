@@ -1,0 +1,26 @@
+<Page x:Class="ArcGisApp.Presentation.MainPage"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:local="using:ArcGisApp.Presentation"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	mc:Ignorable="d"
+	xmlns:uen="using:Uno.Extensions.Navigation.UI"
+	NavigationCacheMode="Required"
+	Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition />
+		</Grid.RowDefinitions>
+		<TextBlock Text="{Binding Title}" HorizontalAlignment="Center" />
+
+		<Grid Grid.Row="1">
+			<embed:MauiHost x:Name="MauiHostElement"
+					xmlns:embed="using:Uno.Extensions.Maui"
+					xmlns:controls="using:ArcGisApp.MauiControls"
+					Source="controls:EmbeddedControl" />
+		</Grid>
+	</Grid>
+</Page>
