@@ -10,7 +10,9 @@ public class App : EmbeddingApplication
 		var builder = this.CreateBuilder(args)
 			// Add navigation support for toolkit controls such as TabBar and NavigationView
 			.UseToolkitNavigation()
-			.Configure(host => host
+            .UseMauiEmbedding<MauiControls.App>( maui => maui
+                    .UseMauiControls())
+            .Configure(host => host
 #if DEBUG
 				// Switch to Development environment when running in DEBUG
 				.UseEnvironment(Environments.Development)
@@ -53,20 +55,7 @@ public class App : EmbeddingApplication
 				)
 				// Enable localization (see appsettings.json for supported languages)
 				.UseLocalization()
-				// Register Json serializers (ISerializer and ISerializer)
-				.UseSerialization((context, services) => services
-					.AddContentSerializer(context)
-					.AddJsonTypeInfo(WeatherForecastContext.Default.IImmutableListWeatherForecast))
-				.UseHttp((context, services) => services
-					// Register HttpClient
-#if DEBUG
-					// DelegatingHandler will be automatically injected into Refit Client
-					.AddTransient<DelegatingHandler, DebugHttpHandler>()
-#endif
-					.AddSingleton<IWeatherCache, WeatherCache>()
-					.AddRefitClient<IApiClient>(context))
-				.UseMauiEmbedding<MauiControls.App>(this, maui => maui
-					.UseMauiControls())
+				
 				.ConfigureServices((context, services) => {
 					// TODO: Register your services
 					//services.AddSingleton<IMyService, MyService>();

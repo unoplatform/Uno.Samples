@@ -1,20 +1,21 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <localCore:SampleView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:localCore="using:SyncfusionApp.MauiControls.Samples.Base"
-             xmlns:local="using:SyncfusionApp.MauiControls.Samples.PdfViewer.SfPdfViewer"
-             xmlns:syncfusion="clr-namespace:Syncfusion.Maui.PdfViewer;assembly=Syncfusion.Maui.PdfViewer"        
-             x:Class="SyncfusionApp.MauiControls.Samples.PdfViewer.SfPdfViewer.GettingStarted">
-    <localCore:SampleView.BindingContext>
-        <local:ViewModel/>
-    </localCore:SampleView.BindingContext>
-    <localCore:SampleView.Content>
-        <Border 
-            Stroke="#D2D2D2" StrokeThickness="{OnPlatform Default=1, Android=0, iOS=0}" 
-            StrokeShape="Rectangle" Padding="0">
-            <syncfusion:SfPdfViewer
-                x:Name="PdfViewer"
-                DocumentSource="{Binding DocumentStream}"/>
-        </Border>
-    </localCore:SampleView.Content>
+					  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+					  xmlns:localCore="using:SyncfusionApp.MauiControls.Samples.Base"
+					  xmlns:local="using:SyncfusionApp.MauiControls.Samples.PdfViewer.SfPdfViewer"
+					  xmlns:syncfusion="clr-namespace:Syncfusion.Maui.PdfViewer;assembly=Syncfusion.Maui.PdfViewer"
+					  x:Class="SyncfusionApp.MauiControls.Samples.PdfViewer.SfPdfViewer.GettingStarted">
+
+	<localCore:SampleView.Content>
+		<Border Stroke="#D2D2D2"
+				StrokeThickness="{OnPlatform Default=1, Android=0, iOS=0}"
+				StrokeShape="Rectangle"
+				Padding="0">
+			<Border.BindingContext>
+				<local:ViewModel />
+			</Border.BindingContext>
+			<syncfusion:SfPdfViewer x:Name="PdfViewer"
+									DocumentSource="{Binding DocumentStream}" />
+		</Border>
+	</localCore:SampleView.Content>
 </localCore:SampleView>

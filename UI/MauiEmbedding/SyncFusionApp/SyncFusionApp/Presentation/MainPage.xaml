@@ -8,16 +8,10 @@
 	  xmlns:uen="using:Uno.Extensions.Navigation.UI"
 	  xmlns:utu="using:Uno.Toolkit.UI"
 	  NavigationCacheMode="Required"
-	  Background="{ThemeResource BackgroundBrush}">
+	  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
 	<Grid utu:SafeArea.Insets="All">
-		<Grid.RowDefinitions>
-			<RowDefinition Height="Auto" />
-			<RowDefinition />
-		</Grid.RowDefinitions>
-		<utu:NavigationBar Content="{Binding Title}" />
-
-		<NavigationView uen:Region.Attached="True" Grid.Row="1">
+		<NavigationView uen:Region.Attached="True">
 			<NavigationView.MenuItems>
 				<NavigationViewItem Content="Doughnut - CenterElevation"
 									uen:Region.Name="DoughnutCenterElevation" />
@@ -66,7 +60,7 @@
 								xmlns:controls="using:SyncfusionApp.MauiControls.Samples.CircularChart.SfCircularChart"
 								Source="controls:CenterElevation"
 								Visibility="Collapsed" />
-				<embed:MauiHost uen:Region.Name="DoughnutDoughnutChart"
+				<!--<embed:MauiHost uen:Region.Name="DoughnutDoughnutChart"
 								xmlns:embed="using:Uno.Extensions.Maui"
 								xmlns:controls="using:SyncfusionApp.MauiControls.Samples.CircularChart.SfCircularChart"
 								Source="controls:DoughnutChart"
@@ -80,9 +74,9 @@
 								xmlns:embed="using:Uno.Extensions.Maui"
 								xmlns:controls="using:SyncfusionApp.MauiControls.Samples.CircularChart.SfCircularChart"
 								Source="controls:SemiDoughnutChart"
-								Visibility="Collapsed" />
+								Visibility="Collapsed" />-->
 
-				<embed:MauiHost uen:Region.Name="InteractionSelection"
+				<!--<embed:MauiHost uen:Region.Name="InteractionSelection"
 								xmlns:embed="using:Uno.Extensions.Maui"
 								xmlns:controls="using:SyncfusionApp.MauiControls.Samples.CircularChart.SfCircularChart"
 								Source="controls:Selection"
@@ -91,10 +85,10 @@
 								xmlns:embed="using:Uno.Extensions.Maui"
 								xmlns:controls="using:SyncfusionApp.MauiControls.Samples.CircularChart.SfCircularChart"
 								Source="controls:Tooltip"
-								Visibility="Collapsed" />
+								Visibility="Collapsed" />-->
 
 
-				<embed:MauiHost uen:Region.Name="PieGroupToPieChart"
+				<!--<embed:MauiHost uen:Region.Name="PieGroupToPieChart"
 								xmlns:embed="using:Uno.Extensions.Maui"
 								xmlns:controls="using:SyncfusionApp.MauiControls.Samples.CircularChart.SfCircularChart"
 								Source="controls:GroupToPieChart"
@@ -120,7 +114,7 @@
 								xmlns:embed="using:Uno.Extensions.Maui"
 								xmlns:controls="using:SyncfusionApp.MauiControls.Samples.CircularChart.SfCircularChart"
 								Source="controls:RadialBarChart"
-								Visibility="Collapsed" />
+								Visibility="Collapsed" />-->
 
 
 				<embed:MauiHost uen:Region.Name="FunnelChartDefaultFunnel"
@@ -128,7 +122,7 @@
 								xmlns:controls="using:SyncfusionApp.MauiControls.Samples.FunnelChart.SfFunnelChart"
 								Source="controls:DefaultFunnel"
 								Visibility="Collapsed" />
-				<embed:MauiHost uen:Region.Name="FunnelChartLegend"
+				<!--<embed:MauiHost uen:Region.Name="FunnelChartLegend"
 								xmlns:embed="using:Uno.Extensions.Maui"
 								xmlns:controls="using:SyncfusionApp.MauiControls.Samples.FunnelChart.SfFunnelChart"
 								Source="controls:Legend"
@@ -137,7 +131,7 @@
 								xmlns:embed="using:Uno.Extensions.Maui"
 								xmlns:controls="using:SyncfusionApp.MauiControls.Samples.FunnelChart.SfFunnelChart"
 								Source="controls:Tooltip"
-								Visibility="Collapsed" />
+								Visibility="Collapsed" />-->
 
 
 				<embed:MauiHost uen:Region.Name="NeumorphismUINeumorphismColumnChart"
