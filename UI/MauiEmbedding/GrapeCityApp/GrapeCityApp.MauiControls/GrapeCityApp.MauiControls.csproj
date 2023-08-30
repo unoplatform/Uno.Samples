@@ -1,20 +1,17 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows')) or '$(EnableWindowsTargeting)' == 'true'">$(TargetFrameworks);net7.0-windows10.0.19041</TargetFrameworks>
 		<TargetFrameworks>$(TargetFrameworks);net7.0-ios;net7.0-android;net7.0-maccatalyst</TargetFrameworks>
+		<TargetFrameworks Condition="'$(OverrideTargetFrameworks)'!=''">$(OverrideTargetFrameworks)</TargetFrameworks>
 
 		<UseMaui>true</UseMaui>
 		<SingleProject>true</SingleProject>
-		<GenerateLibraryLayout>true</GenerateLibraryLayout>
 	</PropertyGroup>
 
+
 	<ItemGroup>
-		<!-- TODO: Uncomment the PackageReferences for the C1 Packages -->
-		<!--<PackageReference Include="C1.Maui.Grid" />
-		<PackageReference Include="C1.Maui.Calendar" />-->
+		<PackageReference Include="C1.Maui.Calendar" />
+		<PackageReference Include="C1.Maui.Grid" />
 	</ItemGroup>
-
-
-	
 </Project>

@@ -8,7 +8,7 @@
 		<ApplicationTitle>GrapeCityApp</ApplicationTitle>
 		<!-- App Identifier -->
 		<ApplicationId>com.companyname.grapecityapp</ApplicationId>
-		<ApplicationIdGuid>6E2FABBA-12AE-45D2-A513-9AA6ACB0C5DF</ApplicationIdGuid>
+		<ApplicationIdGuid>D8943F7D-C243-4663-88DC-E0BC51977AF5</ApplicationIdGuid>
 		<!-- Versions -->
 		<ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
 		<ApplicationVersion>1</ApplicationVersion>
@@ -24,10 +24,25 @@
 
 	<ItemGroup>
 		<PackageReference Include="Uno.WinUI" />
+		<PackageReference Include="Uno.Extensions.Configuration" />
+		<PackageReference Include="Uno.Extensions.Http" />
+		<PackageReference Include="Uno.Extensions.Http.Refit" />
+		<PackageReference Include="Uno.Extensions.Logging.WinUI" />
+		<PackageReference Include="Uno.Extensions.Logging.Serilog" />
+		<PackageReference Include="Uno.Extensions.Serialization.Http" />
+		<PackageReference Include="Uno.Extensions.Serialization.Refit" />
+		<PackageReference Include="Uno.Material.WinUI" />
+		<PackageReference Include="Uno.Toolkit.WinUI.Material" />
+		<PackageReference Include="Uno.Extensions.Toolkit.WinUI" />
+		<PackageReference Include="Uno.Toolkit.WinUI" />
+		<PackageReference Include="Uno.Extensions.Hosting.WinUI" />
+		<PackageReference Include="Uno.Extensions.Localization.WinUI" />
+		<PackageReference Include="Uno.Extensions.Navigation.Toolkit.WinUI" />
+		<PackageReference Include="Uno.Extensions.Navigation.WinUI" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Console" />
 		<PackageReference Include="Uno.Extensions.Logging.OSLog" />
 		<PackageReference Include="Uno.UI.Adapter.Microsoft.Extensions.Logging" />
-		<PackageReference Include="Uno.WinUI.RemoteControl" Condition="'$(Configuration)'=='Debug'" />
+		<!--<PackageReference Include="Uno.WinUI.RemoteControl" Condition="'$(Configuration)'=='Debug'" />-->
 	</ItemGroup>
 	<Choose>
 		<When Condition="$(IsAndroid)">

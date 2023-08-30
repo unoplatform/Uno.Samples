@@ -1,4 +1,4 @@
-namespace GrapeCityApp;
+﻿namespace GrapeCityApp.Presentation;
 
 public sealed partial class MainPage : Page
 {

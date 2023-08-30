@@ -1,14 +1,20 @@
-﻿using System.Collections.ObjectModel;
-using System.ComponentModel.DataAnnotations;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Runtime.CompilerServices;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Text.Json.Serialization;
 
-namespace GrapeCityApp.MauiControls;
+namespace GrapeCityApp.Business.Models;
 
-public class Customer : INotifyPropertyChanged, IEditableObject
+/// <summary>
+/// Simple data class generator.
+/// </summary>
+public class Customer : ObservableValidator, IEditableObject
 {
-    //fields
+    #region fields
 
     int _id, _countryId, _orderCount;
     string _first, _last;
@@ -21,12 +27,14 @@ public class Customer : INotifyPropertyChanged, IEditableObject
     static string[] _firstNames = "Andy|Ben|Charlie|Dan|Ed|Fred|Gil|Herb|Jack|Karl|Larry|Mark|Noah|Oprah|Paul|Quince|Rich|Steve|Ted|Ulrich|Vic|Xavier|Zeb".Split('|');
     static string[] _lastNames = "Ambers|Bishop|Cole|Danson|Evers|Frommer|Griswold|Heath|Jammers|Krause|Lehman|Myers|Neiman|Orsted|Paulson|Quaid|Richards|Stevens|Trask|Ulam".Split('|');
     static KeyValuePair<string, string[]>[] _countries = "China-Beijing,Chongqing,Shanghai,Tianjin,Hong Kong,Macau,Anqing,Bengbu,Bozhou,Chaohu|India-New Delhi,Mumbai,Delhi,Bangalore,Hyderabad,Ahmedabad,Chennai,Kolkata,Surat,Pune|United States-Washington,New York,Los Angeles,Chicago,Houston,Philadelphia,Phoenix,San Antonio,San Diego,Dallas|Indonesia-Jakarta,Surabaya,Bandung,Bekasi,Medan,Tangerang,Depok,Semarang,Palembang,South Tangerang|Brazil-Brasilia,San Pablo,Rio de Janeiro,Salvador,Fortaleza,Belo Horizonte,Manaus,Curitiba,Recife,Porto Alegre|Pakistan-Islamabad,Karachi,Lahore,Faisalabad,Rawalpindi,Gujranwala,Multan,Hyderabad,Peshawar,Quetta|Russia-Moscow,Saint Petersburg,Novosibirsk,Yekaterinburg,Nizhny Novgorod,Kazan,Chelyabinsk,Samara,Omsk,Rostov-na-Donu|Japan-Tokio,Yokohama,Ōsaka,Nagoya,Sapporo,Kōbe,Kyōto,Fukuoka,Kawasaki,Saitama|Mexico-Mexico City,Guadalajara,Monterrey,Puebla,Toluca,Tijuana,León,Juárez,Torreón,Querétaro".Split('|').Select(str => new KeyValuePair<string, string[]>(str.Split('-').First(), str.Split('-').Skip(1).First().Split(','))).ToArray();
-    static string[] _emailServers = "gmail|yahoo|outlook|aol".Split('|');
+    static string[] _emailServers = "gmail|yahoo|outlook|aol|email|reagan".Split('|');
     static string[] _streetNames = "Main|Broad|Grand|Panoramic|Green|Golden|Park|Fake".Split('|');
     static string[] _streetTypes = "ST|AVE|BLVD".Split('|');
     static string[] _streetOrientation = "S|N|W|E|SE|SW|NE|NW".Split('|');
 
-    //initialization
+    #endregion
+
+    #region initialization
 
     public Customer()
     {
@@ -49,7 +57,9 @@ public class Customer : INotifyPropertyChanged, IEditableObject
         Active = _rnd.NextDouble() >= .5;
     }
 
-    //object model
+    #endregion
+
+    #region object model
 
     [Display(AutoGenerateField = false)]
     [JsonIgnore]
@@ -58,52 +68,39 @@ public class Customer : INotifyPropertyChanged, IEditableObject
         get { return _id; }
         set
         {
-            if (value != _id)
-            {
-                _id = value;
-                OnPropertyChanged();
-            }
+            SetProperty(ref _id, value, true);
         }
     }
 
+    [Required]
     public string FirstName
     {
         get { return _first; }
         set
         {
-            if (value != _first)
-            {
-                _first = value;
-                OnPropertyChanged();
-                OnPropertyChanged("Name");
-            }
+            SetProperty(ref _first, value, true);
+            OnPropertyChanged(nameof(Name));
         }
     }
 
+    [Required]
     public string LastName
     {
         get { return _last; }
         set
         {
-            if (value != _last)
-            {
-                _last = value;
-                OnPropertyChanged();
-                OnPropertyChanged("Name");
-            }
+            SetProperty(ref _last, value, true);
+            OnPropertyChanged(nameof(Name));
         }
     }
 
+    [MinLength(2)]
     public string Address
     {
         get { return _address; }
         set
         {
-            if (value != _address)
-            {
-                _address = value;
-                OnPropertyChanged();
-            }
+            SetProperty(ref _address, value, true);
         }
     }
 
@@ -112,11 +109,7 @@ public class Customer : INotifyPropertyChanged, IEditableObject
         get { return _city; }
         set
         {
-            if (value != _city)
-            {
-                _city = value;
-                OnPropertyChanged();
-            }
+            SetProperty(ref _city, value, true);
         }
     }
 
@@ -127,13 +120,11 @@ public class Customer : INotifyPropertyChanged, IEditableObject
         get { return _countryId; }
         set
         {
-            if (value != _countryId && value > -1 && value < _countries.Length)
+            if (value > -1 && value < _countries.Length)
             {
-                _countryId = value;
-                //_city = _countries[_countryId].Value.First();
-                OnPropertyChanged();
-                OnPropertyChanged("Country");
-                OnPropertyChanged("City");
+                SetProperty(ref _countryId, value, true);
+                OnPropertyChanged(nameof(Country));
+                OnPropertyChanged(nameof(City));
             }
         }
     }
@@ -143,25 +134,18 @@ public class Customer : INotifyPropertyChanged, IEditableObject
         get { return _postalCode; }
         set
         {
-            if (value != _postalCode)
-            {
-                _postalCode = value;
-                OnPropertyChanged();
-            }
+            SetProperty(ref _postalCode, value, true);
         }
     }
 
     [Display(Name = "e-mail")]
+    [EmailAddress]
     public string Email
     {
         get { return _email; }
         set
         {
-            if (value != _email)
-            {
-                _email = value;
-                OnPropertyChanged();
-            }
+            SetProperty(ref _email, value, true);
         }
     }
 
@@ -172,11 +156,7 @@ public class Customer : INotifyPropertyChanged, IEditableObject
         get { return _lastOrderDate; }
         set
         {
-            if (value != _lastOrderDate)
-            {
-                _lastOrderDate = value;
-                OnPropertyChanged();
-            }
+            SetProperty(ref _lastOrderDate, value, true);
         }
     }
 
@@ -197,11 +177,7 @@ public class Customer : INotifyPropertyChanged, IEditableObject
         get { return _orderCount; }
         set
         {
-            if (value != _orderCount)
-            {
-                _orderCount = value;
-                OnPropertyChanged();
-            }
+            SetProperty(ref _orderCount, value, true);
         }
     }
 
@@ -212,11 +188,7 @@ public class Customer : INotifyPropertyChanged, IEditableObject
         get { return _orderTotal; }
         set
         {
-            if (value != _orderTotal)
-            {
-                _orderTotal = value;
-                OnPropertyChanged();
-            }
+            SetProperty(ref _orderTotal, value, true);
         }
     }
 
@@ -227,11 +199,7 @@ public class Customer : INotifyPropertyChanged, IEditableObject
         get { return _active; }
         set
         {
-            if (value != _active)
-            {
-                _active = value;
-                OnPropertyChanged();
-            }
+            SetProperty(ref _active, value, true);
         }
     }
 
@@ -256,7 +224,9 @@ public class Customer : INotifyPropertyChanged, IEditableObject
         get { return OrderTotal / (double)OrderCount; }
     }
 
-    //implementation
+    #endregion
+
+    #region implementation
 
     // ** utilities
     static string GetRandomString(string[] arr)
@@ -292,30 +262,16 @@ public class Customer : INotifyPropertyChanged, IEditableObject
     public static string[] GetFirstNames() { return _firstNames; }
     public static string[] GetLastNames() { return _lastNames; }
 
-    //INotifyPropertyChanged Members
+    #endregion
 
-    // this interface allows bounds controls to react to changes in the data objects.
-    public event PropertyChangedEventHandler PropertyChanged;
-
-    private void OnPropertyChanged([CallerMemberName] string propertyName = "")
-    {
-        OnPropertyChanged(new PropertyChangedEventArgs(propertyName));
-    }
-
-    protected void OnPropertyChanged(PropertyChangedEventArgs e)
-    {
-        if (PropertyChanged != null)
-            PropertyChanged(this, e);
-    }
-
-    //IEditableObject Members
+    #region IEditableObject Members
 
     // this interface allows transacted edits (user can press escape to restore previous values).
 
     Customer _clone;
     public void BeginEdit()
     {
-        _clone = (Customer)MemberwiseClone();
+        _clone = (Customer)this.MemberwiseClone();
     }
 
     public void EndEdit()
@@ -327,7 +283,7 @@ public class Customer : INotifyPropertyChanged, IEditableObject
     {
         if (_clone != null)
         {
-            foreach (var p in GetType().GetProperties())
+            foreach (var p in this.GetType().GetProperties())
             {
                 if (p.CanRead && p.CanWrite)
                 {
@@ -337,10 +293,24 @@ public class Customer : INotifyPropertyChanged, IEditableObject
         }
     }
 
+    #endregion
+
     public static IEnumerable<City> GetCities()
     {
         return _countries.SelectMany(country => country.Value, (pair, city) => new City() { Name = city, Country = pair.Key });
     }
 
+    public bool Validate()
+    {
+        ValidateAllProperties();
+        return !HasErrors;
+    }
 }
 
+public class City
+{
+    [Display(AutoGenerateField = false)]
+    public bool Selected { get; set; }
+    public string Name { get; set; } = default!;
+    public string Country { get; set; } = default!;
+}
