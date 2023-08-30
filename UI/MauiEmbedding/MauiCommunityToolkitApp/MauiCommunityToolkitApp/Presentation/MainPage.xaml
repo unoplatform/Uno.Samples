@@ -16,6 +16,7 @@
                 <NavigationViewItem uen:Region.Name="Avatar" Content="Avatar" />
                 <NavigationViewItem uen:Region.Name="DrawingView" Content="DrawingView" />
                 <NavigationViewItem uen:Region.Name="Expander" Content="Expander" />
+                <NavigationViewItem uen:Region.Name="Toast" Content="Toast" />
             </NavigationView.MenuItems>
             <Grid uen:Region.Attached="True" uen:Region.Navigator="Visibility">
                 <embed:MauiHost
@@ -32,6 +33,14 @@
                     VerticalAlignment="Center"
                     uen:Region.Name="Expander"
                     Source="controls:ExpanderControl"
+                    Visibility="Collapsed" />
+                <embed:MauiHost
+                    xmlns:controls="using:MauiCommunityToolkitApp.MauiControls"
+                    xmlns:embed="using:Uno.Extensions.Maui"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    uen:Region.Name="Toast"
+                    Source="controls:ToastControl"
                     Visibility="Collapsed" />
             </Grid>
         </NavigationView>
