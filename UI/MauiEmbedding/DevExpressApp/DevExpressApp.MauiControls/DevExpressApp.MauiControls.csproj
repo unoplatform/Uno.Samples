@@ -9,4 +9,14 @@
 		<SingleProject>true</SingleProject>
 	</PropertyGroup>
 
+	<ItemGroup Condition="'$(TargetFramework)' == 'net7.0-ios'">
+	  <PackageReference Include="DevExpress.Maui.Charts" />
+	  <PackageReference Include="DevExpress.Maui.DataGrid" />
+	</ItemGroup>
+
+	<ItemGroup Condition="'$(TargetFramework)' == 'net7.0-android'">
+	  <PackageReference Include="DevExpress.Maui.Charts" />
+	  <PackageReference Include="DevExpress.Maui.DataGrid" />
+	</ItemGroup>
+
 </Project>
