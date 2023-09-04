@@ -1,4 +1,4 @@
-namespace DevExpressApp;
+﻿namespace DevExpressApp.Presentation;
 
 public sealed partial class MainPage : Page
 {

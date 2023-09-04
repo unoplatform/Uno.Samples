@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-		<TargetFrameworks>net7.0-ios;net7.0-android;net7.0-maccatalyst</TargetFrameworks>
+		<TargetFrameworks>net7.0-android;net7.0-ios</TargetFrameworks>
 		<TargetFrameworks Condition="'$(OverrideTargetFrameworks)'!=''">$(OverrideTargetFrameworks)</TargetFrameworks>
 		<SingleProject>true</SingleProject>
 		<OutputType>Exe</OutputType>
@@ -8,7 +8,7 @@
 		<ApplicationTitle>DevExpressApp</ApplicationTitle>
 		<!-- App Identifier -->
 		<ApplicationId>com.companyname.devexpressapp</ApplicationId>
-		<ApplicationIdGuid>C1723468-3FB1-434D-8E46-F0FC44AFDE99</ApplicationIdGuid>
+		<ApplicationIdGuid>A18E2491-6786-40FA-981F-D0EC510B3918</ApplicationIdGuid>
 		<!-- Versions -->
 		<ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
 		<ApplicationVersion>1</ApplicationVersion>
@@ -25,12 +25,19 @@
 	<ItemGroup>
 		<PackageReference Include="Uno.WinUI" />
 		<PackageReference Include="CommunityToolkit.Mvvm" />
+		<PackageReference Include="Uno.Extensions.Configuration" />
+		<PackageReference Include="Uno.Extensions.Logging.WinUI" />
+		<PackageReference Include="Uno.Extensions.Logging.Serilog" />
 		<PackageReference Include="Uno.Extensions.Toolkit.WinUI"/>
 		<PackageReference Include="Uno.Toolkit.WinUI" />
+		<PackageReference Include="Uno.Extensions.Hosting.WinUI" />
+		<PackageReference Include="Uno.Extensions.Localization.WinUI" />
+		<PackageReference Include="Uno.Extensions.Navigation.Toolkit.WinUI" />
+		<PackageReference Include="Uno.Extensions.Navigation.WinUI" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Console" />
 		<PackageReference Include="Uno.Extensions.Logging.OSLog" />
 		<PackageReference Include="Uno.UI.Adapter.Microsoft.Extensions.Logging" />
-		<PackageReference Include="Uno.WinUI.RemoteControl" Condition="'$(Configuration)'=='Debug'" />
+		<!--<PackageReference Include="Uno.WinUI.RemoteControl" Condition="'$(Configuration)'=='Debug'" />-->
 	</ItemGroup>
 	<Choose>
 		<When Condition="$(IsAndroid)">
