@@ -152,6 +152,16 @@ An implementation of the UWP `Maps` control with a custom slider that binds the 
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/MapControlSample)
 
+### .NET MAUI Embedding  
+Multiple samples that demonstrate third party control libraries embedded in Uno applications using .NET MAUI Embedding
+
+#### .NET MAUI Community Toolkit  
+
+Embeds the [.NET MAUI Community Toolkit](https://learn.microsoft.com/en-us/dotnet/communitytoolkit/maui/) in an Uno application.
+
+[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/MauiEmbedding/MauiCommunityToolkitApp)
+
+
 ### Migrating Xamarin.Forms Effects
 Code samples to accompany the blog post on Migrating from Xamarin.Forms Effects
 - XamarinFormsEffect: A reference implementation of an effect with an Android implementation.
