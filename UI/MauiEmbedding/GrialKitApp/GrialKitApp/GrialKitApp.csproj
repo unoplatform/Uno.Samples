@@ -20,8 +20,18 @@
 		<PackageReference Include="Uno.Extensions.Localization.WinUI" />
 		<PackageReference Include="Uno.Extensions.Navigation.WinUI" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Console" />
+		
+		<PackageReference Include="Microsoft.Maui.Graphics" VersionOverride="7.0.92"/>
 	</ItemGroup>
-
+	
+	<ItemGroup Condition="$(IsAndroid)">
+		<PackageReference Include="Xamarin.Google.Android.Material" VersionOverride="1.9.0.2" />
+		<PackageReference Include="Xamarin.AndroidX.Navigation.UI" VersionOverride="2.6.0.1" />
+		<PackageReference Include="Xamarin.AndroidX.Navigation.Fragment" VersionOverride="2.6.0.1" />
+		<PackageReference Include="Xamarin.AndroidX.Navigation.Runtime" VersionOverride="2.6.0.1" />
+		<PackageReference Include="Xamarin.AndroidX.Navigation.Common" VersionOverride="2.6.0.1" />
+	</ItemGroup>
+	
 	<Choose>
 		<When Condition="$(IsWinAppSdk)">
 			<PropertyGroup>
