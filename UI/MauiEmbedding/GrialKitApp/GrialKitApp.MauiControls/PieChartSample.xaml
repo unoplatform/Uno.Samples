@@ -5,21 +5,22 @@
              xmlns:grial="http://uxdivers.com/grial"
              Title="PieChartSample">
  <ContentPage.Resources>
-        <!-- CHART THEME -->
-        <grial:ChartTheme x:Key="PieTheme">
+		<!-- TODO: Uncomment -->
+		<!--<grial:ChartTheme x:Key="PieTheme">
             <SolidColorBrush Color="#F9B300" />
             <SolidColorBrush Color="#FF602E" />
             <SolidColorBrush Color="#B146C2" />
             <SolidColorBrush Color="#5AC8FA" />
             <SolidColorBrush Color="#46C771" />
             <SolidColorBrush Color="#3F75FF" />
-        </grial:ChartTheme>
+        </grial:ChartTheme>-->
     </ContentPage.Resources>
 
     <VerticalStackLayout Padding="30">
 
-        <!-- PIE CHART -->
-        <grial:PieChart
+		<Label Text="PieChart (Search for TODO and uncomment code)" />
+		<!-- TODO: Uncomment -->
+		<!--<grial:PieChart
             x:Name="chart"
             HeightRequest="400"
             BackgroundColor="Transparent"
@@ -35,7 +36,7 @@
                 Radius="120"
                 ValuePath="Value"
             />
-        </grial:PieChart>
+        </grial:PieChart>-->
 
         <Label Text="{Binding Value, Source={x:Reference radius}, StringFormat='InnerRadius: {0:F2}'}" />
         <Slider Maximum=".9" Minimum="0" Value="0.8" x:Name="radius" />

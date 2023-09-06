@@ -6,6 +6,7 @@ public partial class PieChartSample : ContentPage
 	{
 		InitializeComponent();
 
-        chart.BindingContext = SampleData.Ring();
+        // TODO: Uncomment
+        //chart.BindingContext = SampleData.Ring();
     }
 }

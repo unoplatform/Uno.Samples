@@ -6,6 +6,7 @@ public partial class LineChartSample : ContentPage
 	{
 		InitializeComponent();
 
-		chart.BindingContext = SampleData.Line();
-	}
+        // TODO: Uncomment
+        //chart.BindingContext = SampleData.Line();
+    }
 }
