@@ -14,7 +14,7 @@ using Microsoft.UI.Xaml.Media;
 namespace GrialKitApp.Droid;
 
 [global::Android.App.ApplicationAttribute(
-	Label = "@string/ApplicationName",
+	Label = "GrialControlsTestBed",
 	Icon = "@mipmap/iconapp",
 	LargeHeap = true,
 	HardwareAccelerated = true,
