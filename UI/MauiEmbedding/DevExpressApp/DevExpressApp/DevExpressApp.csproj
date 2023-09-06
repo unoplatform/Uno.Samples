@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
 		<TargetFrameworks>$(TargetFrameworks);net7.0-ios;net7.0-android</TargetFrameworks>
 		<TargetFrameworks Condition="'$(OverrideTargetFrameworks)'!=''">$(OverrideTargetFrameworks)</TargetFrameworks>
@@ -22,6 +22,16 @@
 		<PackageReference Include="Uno.Extensions.Navigation.Toolkit.WinUI" />
 		<PackageReference Include="Uno.Extensions.Navigation.WinUI" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Console" />
+
+		<PackageReference Include="Microsoft.Maui.Graphics" VersionOverride="7.0.92"/>
+	</ItemGroup>
+
+	<ItemGroup Condition="$(IsAndroid)">
+		<PackageReference Include="Xamarin.Google.Android.Material" VersionOverride="1.9.0.2" />
+		<PackageReference Include="Xamarin.AndroidX.Navigation.UI" VersionOverride="2.6.0.1" />
+		<PackageReference Include="Xamarin.AndroidX.Navigation.Fragment" VersionOverride="2.6.0.1" />
+		<PackageReference Include="Xamarin.AndroidX.Navigation.Runtime" VersionOverride="2.6.0.1" />
+		<PackageReference Include="Xamarin.AndroidX.Navigation.Common" VersionOverride="2.6.0.1" />
 	</ItemGroup>
 
 	<Choose>

@@ -1,4 +1,5 @@
-using DevExpress.Maui;
+// TODO: Uncomment
+//using DevExpress.Maui;
 
 namespace DevExpressApp;
 
@@ -6,7 +7,8 @@ public static class AppBuilderExtensions
 {
 	public static MauiAppBuilder UseMauiControls(this MauiAppBuilder builder) =>
 		builder
-            .UseDevExpress()
+            // TODO: Uncomment
+            //.UseDevExpress()
             .ConfigureFonts(fonts =>
             {
                 fonts.AddFont("DevExpressApp/Assets/Fonts/OpenSansRegular.ttf", "OpenSansRegular");
