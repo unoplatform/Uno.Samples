@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="GrialKitApp.MauiControls.BarChartSample"
+             xmlns:grial="http://uxdivers.com/grial"
+             xmlns:local="clr-namespace:GrialKitApp.MauiControls"
+             Title="BarChartSample">
+    <VerticalStackLayout Padding="30" Spacing="20">
+
+		<Label Text="BarChart (Search for TODO and uncomment code)" />
+		<!-- TODO: Uncomment -->
+		<!--<grial:HorizontalBarChart
+            x:Name="chart1"
+            AxisFontColor="DarkGray"
+            AxisLinesColor="#E0E3EC"
+            AxisLinesStrokeSize="1"
+            BackgroundColor="Transparent"
+            DisplayLabels="{Binding Value, Source={x:Reference toggleLabelsSwitch}}"
+            DisplayReferenceAxis="{Binding Value, Source={x:Reference toggleHorizontalLinesSwich}}"
+            DisplayReferenceGridLines="{Binding Value, Source={x:Reference toggleReferenceGridLines}}"
+            HasSelection="True"
+            HeightRequest="250"
+            LabelFontColor="DarkGray"
+            LabelFontSize="9"
+            LabelHorizontalAlignment="Left"
+            ValueLabelFontColor="DarkGray">
+            <grial:BarSeries
+                BarWidth="0.8"
+                SelectedIndex="0"
+                ItemsSource="{ Binding . }"
+                LabelPath="Label"
+                ShowBackgroundBar="False"
+                ValuePath="Value"
+                Color="#8CACFF"
+                SelectedColor="#3F75FF"
+                CornerRadius="8"
+            />
+
+        </grial:HorizontalBarChart>
+
+        <grial:BarChart
+            x:Name="chart2"
+            AxisFontColor="DarkGray"
+            AxisLinesColor="#E0E3EC"
+            AxisLinesStrokeSize="1"
+            BackgroundColor="Transparent"
+            DisplayLabels="{Binding Value, Source={x:Reference toggleLabelsSwitch}}"
+            DisplayReferenceAxis="{Binding Value, Source={x:Reference toggleHorizontalLinesSwich}}"
+            DisplayReferenceGridLines="{Binding Value, Source={x:Reference toggleReferenceGridLines}}"
+            HasSelection="True"
+            HeightRequest="250"
+            LabelFontColor="DarkGray"
+            LabelFontSize="9"
+            LabelHorizontalAlignment="Center"
+            ValueLabelFontColor="DarkGray">
+
+            <grial:BarSeries
+                BarWidth="0.6"
+                SelectedIndex="0"
+                ItemsSource="{ Binding . }"
+                LabelPath="Label"
+                ShowBackgroundBar="False"
+                ValuePath="Value"
+                Color="#8CACFF"
+                SelectedColor="#3F75FF"
+                CornerRadius="8"
+            />
+
+        </grial:BarChart>-->
+
+        <local:SwitchOption x:Name="toggleLabelsSwitch" Label="Toggle Labels" />
+        <local:SwitchOption x:Name="toggleHorizontalLinesSwich" Label="Toggle Reference Axis" />
+        <local:SwitchOption x:Name="toggleReferenceGridLines" Label="Toggle Reference Grid Lines" />
+
+    </VerticalStackLayout>
+</ContentPage>
