@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="SyncfusionApp.MauiControls.Samples.PdfViewer.SfPdfViewer.HyperlinkDialog"
+             BackgroundColor="#40000000">
+    <ContentView.Resources>
+        <Style x:Key="buttonIconStyle" TargetType="Button">
+            <Setter Property="BackgroundColor" Value="Transparent" />
+            <Setter Property="Opacity" Value="0.6"/>
+            <Setter Property="Padding" Value="4" />
+            <Setter Property="BorderWidth" Value="0" />
+            <Setter Property="FontFamily" Value="{OnPlatform iOS=PdfViewerIcon, MacCatalyst=PdfViewerIcon, Android=PdfViewerIcon.ttf#, WinUI=PdfViewerIcon.ttf#PdfViewerIcon}"/>
+            <Style.Triggers>
+                <Trigger Property = "IsPressed" Value = "True" TargetType="Button">
+                    <Setter Property="BackgroundColor" Value="#14000000" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </ContentView.Resources>
+    <Border 
+        BackgroundColor="#F3EDF7"
+        Stroke="#33000000"
+        StrokeShape="RoundRectangle 20" 
+        StrokeThickness="1" HorizontalOptions="Center" 
+        VerticalOptions="Center" HeightRequest="160" WidthRequest="320" >
+        <Grid Padding="20" BackgroundColor="#F3EDF7">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="1*"/>    
+             </Grid.RowDefinitions>
+            <Grid Grid.Row="0" VerticalOptions="Start">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="auto"/>
+                </Grid.ColumnDefinitions>
+                <Label 
+                        x:Name="Title" 
+                        Text="Open Web Page" 
+                        FontFamily="Roboto-Medium"
+                        Grid.Column="0" Opacity="0.87" 
+                        FontSize="20" />
+                <Button 
+                        Grid.Column="1" 
+                        Text="&#xe705;" 
+                        TextColor="Black"
+                        VerticalOptions="Start"
+                        FontSize="13.65"
+                        Style="{StaticResource buttonIconStyle}" Clicked="Close_Clicked" />
+            </Grid>
+            <Label  x:Name="Message"
+                    Grid.Row="1"  
+                    FontFamily="Roboto-Regular"
+               VerticalTextAlignment="Center" 
+                    LineBreakMode="WordWrap"
+                    TextColor="#DE000000" />
+            <Grid Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="20"/>
+                    <ColumnDefinition Width="auto"/>
+                </Grid.ColumnDefinitions>
+                <Button 
+                        Grid.Column="1" Padding="{OnPlatform Android=0,Default=4}" 
+                        TextColor="#6200EE" x:Name="CancelButton" Text="CANCEL" Opacity="1"
+                        FontFamily="Roboto-Medium"
+                        Style="{StaticResource buttonIconStyle}" 
+                        Clicked="Cancel_Clicked"
+                        VerticalOptions="End"/>
+                <Button 
+                        Grid.Column="3" Padding="{OnPlatform Android=0,Default=4}" 
+                        TextColor="#6200EE" x:Name="OpenButton" Text="OPEN" Opacity="1"
+                        FontFamily="Roboto-Medium"
+                        Style="{StaticResource buttonIconStyle}"
+                        Clicked="Open_Clicked"
+                        VerticalOptions="End"/>
+            </Grid>
+        </Grid>  
+    </Border>
+</ContentView>

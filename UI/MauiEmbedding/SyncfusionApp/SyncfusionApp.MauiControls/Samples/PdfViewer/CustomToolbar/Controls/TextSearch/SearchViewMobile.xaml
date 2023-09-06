@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<local:SearchView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+            xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+            x:Class="SyncfusionApp.MauiControls.Samples.PdfViewer.SfPdfViewer.SearchViewMobile"
+            xmlns:local="using:SyncfusionApp.MauiControls.Samples.PdfViewer.SfPdfViewer">
+    <local:SearchView.Resources>
+        <Style x:Key="buttonIconStyle" TargetType="Button">
+            <Setter Property="BorderWidth" Value="0" />
+            <Setter Property="FontSize" Value="20" />
+            <Setter Property="Padding" Value="4" />
+            <Setter Property="VerticalOptions" Value="Center" />
+            <Setter Property="FontFamily" Value="Maui Material Assets"/>
+            <Setter Property="TextColor" Value="#99000000"/>
+            <Setter Property="BackgroundColor" Value="Transparent"/>
+            <Style.Triggers>
+                <Trigger Property = "IsEnabled" Value = "True" TargetType="Button">
+                    <Setter Property="BackgroundColor" Value="Transparent"/>
+                    <Setter Property="Opacity" Value="1" />
+                </Trigger>
+                <Trigger Property = "IsEnabled" Value = "False" TargetType="Button">
+                    <Setter Property="Opacity" Value="0.25" />
+                </Trigger>
+                <Trigger Property = "IsPressed" Value = "True" TargetType="Button">
+                    <Setter Property="BackgroundColor" Value="#14000000" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </local:SearchView.Resources>
+    <Grid BackgroundColor="#F3EDF7">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <Button
+            Grid.Column="0"
+            Text="&#xe72d;"
+            Style="{StaticResource buttonIconStyle}"
+            HorizontalOptions="Center"
+            Command="{Binding CloseCommand}"
+            Margin="4,0,4,0"/>
+        <local:CustomEntry
+            Grid.Column="1"
+            BackgroundColor="#FFFBFE"
+            TextColor="#49454F"
+            VerticalOptions="Center"
+            ClearButtonVisibility="WhileEditing"
+            x:Name="TextInput"/>
+        <Grid Grid.Column="2" Margin="4,0,4,0">
+            <Button 
+                Text="&#xe715;"
+                Style="{StaticResource buttonIconStyle}"
+                HorizontalOptions="Center"
+                Command="{Binding SearchCommand}"
+                CommandParameter="{Binding Source={x:Reference TextInput},Path=Text}"/>
+            <ActivityIndicator
+                BackgroundColor="#F3EDF7" 
+                Color="#6750A4"
+                IsVisible="False"
+                x:Name="BusyIndicator"
+                HeightRequest="24" WidthRequest="24"/>
+        </Grid>
+        <Label 
+            Grid.Column="3"
+            Text="0 / 0" FontSize="12"
+            x:Name="StatusLabel"
+            Grid.Row="1"
+            IsVisible="False"
+            TextColor="#49454F"
+            HorizontalOptions="End" VerticalOptions="Center" Margin="8,0,8,0"/>
+        <Button 
+            Grid.Column="4"
+            Text="&#xe707;"
+            Style="{StaticResource buttonIconStyle}"
+            Command="{Binding GoToPreviousMatchCommand}"
+            HorizontalOptions="Center"
+            Margin="0,0,4,0"/>
+        <Button
+            Grid.Column="5"
+            Text="&#xe706;"
+            Style="{StaticResource buttonIconStyle}"
+            Command="{Binding GoToNextMatchCommand}"
+            HorizontalOptions="Center"
+            Margin="0,0,4,0"/>
+        <Button 
+            Grid.Column="6"
+            Text="&#xe759;"
+            Style="{StaticResource buttonIconStyle}"
+            Clicked="ChangeMatchCaseDialogVisibility_Clicked"
+            HorizontalOptions="Center"
+            Margin="0,0,4,0">
+        </Button>
+    </Grid>
+</local:SearchView>

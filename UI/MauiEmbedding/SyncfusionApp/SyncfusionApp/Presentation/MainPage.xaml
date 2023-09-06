@@ -1,0 +1,151 @@
+<Page x:Class="SyncfusionApp.Presentation.MainPage"
+	  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	  xmlns:local="using:SyncfusionApp.Presentation"
+	  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	  mc:Ignorable="d"
+	  xmlns:uen="using:Uno.Extensions.Navigation.UI"
+	  xmlns:utu="using:Uno.Toolkit.UI"
+	  NavigationCacheMode="Required"
+	  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+	<Grid utu:SafeArea.Insets="All">
+		<NavigationView uen:Region.Attached="True">
+			<NavigationView.MenuItems>
+				<NavigationViewItem Content="Doughnut - CenterElevation"
+									uen:Region.Name="DoughnutCenterElevation" />
+				<NavigationViewItem Content="Doughnut - DoughnutChart"
+									uen:Region.Name="DoughnutDoughnutChart" />
+				<NavigationViewItem Content="Doughnut - GroupToDoughnutChart"
+									uen:Region.Name="DoughnutGroupToDoughnutChart" />
+				<NavigationViewItem Content="Doughnut - SemiDoughnutChart"
+									uen:Region.Name="DoughnutSemiDoughnutChart" />
+				<!--<MenuFlyoutSeparator />-->
+				<NavigationViewItem Content="Interaction - Selection"
+									uen:Region.Name="InteractionSelection" />
+				<NavigationViewItem Content="Interaction - Tooltip"
+									uen:Region.Name="InteractionTooltip" />
+				<!--<MenuFlyoutSeparator />-->
+				<NavigationViewItem Content="Pie - GroupToPieChart"
+									uen:Region.Name="PieGroupToPieChart" />
+				<NavigationViewItem Content="Pie - PieChart"
+									uen:Region.Name="PiePieChart" />
+				<NavigationViewItem Content="Pie - SemiPie"
+									uen:Region.Name="PieSemiPieChart" />
+				<!--<MenuFlyoutSeparator />-->
+				<NavigationViewItem Content="RadialBar - CustomizedRadialBarChart"
+									uen:Region.Name="RadialBarCustomizedRadialBarChart" />
+				<NavigationViewItem Content="RadialBar - RadialBarChart"
+									uen:Region.Name="RadialBarRadialBarChart" />
+				<!--<MenuFlyoutSeparator />-->
+				<NavigationViewItem Content="FunnelChart - DefaultFunnel"
+									uen:Region.Name="FunnelChartDefaultFunnel" />
+				<NavigationViewItem Content="FunnelChart - Legend"
+									uen:Region.Name="FunnelChartLegend" />
+				<NavigationViewItem Content="FunnelChart - Tooltip"
+									uen:Region.Name="FunnelChartTooltip" />
+				<!--<MenuFlyoutSeparator />-->
+				<NavigationViewItem Content="NeumorphismUI - NeumorphismColumnChart"
+									uen:Region.Name="NeumorphismUINeumorphismColumnChart" />
+
+				<NavigationViewItem Content="PdfViewer - GettingStarted"
+									uen:Region.Name="PdfViewerGettingStarted" />
+
+			</NavigationView.MenuItems>
+			<Grid uen:Region.Attached="True"
+				  uen:Region.Navigator="Visibility">
+				<embed:MauiHost uen:Region.Name="DoughnutCenterElevation"
+								xmlns:embed="using:Uno.Extensions.Maui"
+								xmlns:controls="using:SyncfusionApp.MauiControls.Samples.CircularChart.SfCircularChart"
+								Source="controls:CenterElevation"
+								Visibility="Collapsed" />
+				<!--<embed:MauiHost uen:Region.Name="DoughnutDoughnutChart"
+								xmlns:embed="using:Uno.Extensions.Maui"
+								xmlns:controls="using:SyncfusionApp.MauiControls.Samples.CircularChart.SfCircularChart"
+								Source="controls:DoughnutChart"
+								Visibility="Collapsed" />
+				<embed:MauiHost uen:Region.Name="DoughnutGroupToDoughnutChart"
+								xmlns:embed="using:Uno.Extensions.Maui"
+								xmlns:controls="using:SyncfusionApp.MauiControls.Samples.CircularChart.SfCircularChart"
+								Source="controls:GroupToDoughnutChart"
+								Visibility="Collapsed" />
+				<embed:MauiHost uen:Region.Name="DoughnutSemiDoughnutChart"
+								xmlns:embed="using:Uno.Extensions.Maui"
+								xmlns:controls="using:SyncfusionApp.MauiControls.Samples.CircularChart.SfCircularChart"
+								Source="controls:SemiDoughnutChart"
+								Visibility="Collapsed" />-->
+
+				<!--<embed:MauiHost uen:Region.Name="InteractionSelection"
+								xmlns:embed="using:Uno.Extensions.Maui"
+								xmlns:controls="using:SyncfusionApp.MauiControls.Samples.CircularChart.SfCircularChart"
+								Source="controls:Selection"
+								Visibility="Collapsed" />
+				<embed:MauiHost uen:Region.Name="InteractionTooltip"
+								xmlns:embed="using:Uno.Extensions.Maui"
+								xmlns:controls="using:SyncfusionApp.MauiControls.Samples.CircularChart.SfCircularChart"
+								Source="controls:Tooltip"
+								Visibility="Collapsed" />-->
+
+
+				<!--<embed:MauiHost uen:Region.Name="PieGroupToPieChart"
+								xmlns:embed="using:Uno.Extensions.Maui"
+								xmlns:controls="using:SyncfusionApp.MauiControls.Samples.CircularChart.SfCircularChart"
+								Source="controls:GroupToPieChart"
+								Visibility="Collapsed" />
+				<embed:MauiHost uen:Region.Name="PiePieChart"
+								xmlns:embed="using:Uno.Extensions.Maui"
+								xmlns:controls="using:SyncfusionApp.MauiControls.Samples.CircularChart.SfCircularChart"
+								Source="controls:PieChart"
+								Visibility="Collapsed" />
+				<embed:MauiHost uen:Region.Name="PieSemiPie"
+								xmlns:embed="using:Uno.Extensions.Maui"
+								xmlns:controls="using:SyncfusionApp.MauiControls.Samples.CircularChart.SfCircularChart"
+								Source="controls:SemiPieChart"
+								Visibility="Collapsed" />
+
+
+				<embed:MauiHost uen:Region.Name="RadialBarCustomizedRadialBarChart"
+								xmlns:embed="using:Uno.Extensions.Maui"
+								xmlns:controls="using:SyncfusionApp.MauiControls.Samples.CircularChart.SfCircularChart"
+								Source="controls:CustomizedRadialBarChart"
+								Visibility="Collapsed" />
+				<embed:MauiHost uen:Region.Name="RadialBarRadialBarChart"
+								xmlns:embed="using:Uno.Extensions.Maui"
+								xmlns:controls="using:SyncfusionApp.MauiControls.Samples.CircularChart.SfCircularChart"
+								Source="controls:RadialBarChart"
+								Visibility="Collapsed" />-->
+
+
+				<embed:MauiHost uen:Region.Name="FunnelChartDefaultFunnel"
+								xmlns:embed="using:Uno.Extensions.Maui"
+								xmlns:controls="using:SyncfusionApp.MauiControls.Samples.FunnelChart.SfFunnelChart"
+								Source="controls:DefaultFunnel"
+								Visibility="Collapsed" />
+				<!--<embed:MauiHost uen:Region.Name="FunnelChartLegend"
+								xmlns:embed="using:Uno.Extensions.Maui"
+								xmlns:controls="using:SyncfusionApp.MauiControls.Samples.FunnelChart.SfFunnelChart"
+								Source="controls:Legend"
+								Visibility="Collapsed" />
+				<embed:MauiHost uen:Region.Name="FunnelChartTooltip"
+								xmlns:embed="using:Uno.Extensions.Maui"
+								xmlns:controls="using:SyncfusionApp.MauiControls.Samples.FunnelChart.SfFunnelChart"
+								Source="controls:Tooltip"
+								Visibility="Collapsed" />-->
+
+
+				<embed:MauiHost uen:Region.Name="NeumorphismUINeumorphismColumnChart"
+								xmlns:embed="using:Uno.Extensions.Maui"
+								xmlns:controls="using:SyncfusionApp.MauiControls.Samples.CartesianChart.SfCartesianChart"
+								Source="controls:NeumorphismColumnChart"
+								Visibility="Collapsed" />
+
+				<embed:MauiHost uen:Region.Name="PdfViewerGettingStarted"
+								xmlns:embed="using:Uno.Extensions.Maui"
+								xmlns:controls="using:SyncfusionApp.MauiControls.Samples.PdfViewer.SfPdfViewer"
+								Source="controls:GettingStarted"
+								Visibility="Collapsed" />
+			</Grid>
+		</NavigationView>
+	</Grid>
+</Page>

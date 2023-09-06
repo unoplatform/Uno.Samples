@@ -146,10 +146,8 @@ namespace StatusBarColorSample
                 UpdateStatusBar();
             };
 
-#if __IOS__ || __WASM__
 			// Force an update when the app is launched.
 			UpdateStatusBar();
-#endif
         }
 
 

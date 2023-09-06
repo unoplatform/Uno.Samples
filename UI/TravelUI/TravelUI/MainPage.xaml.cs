@@ -28,18 +28,18 @@ namespace TravelUI
         public void GenerateInfo()
         {
             // Destination Type
-            destinationType.Add(new DestinationType(Icon: "Assets/beach.png", Description: "Beach"));
-            destinationType.Add(new DestinationType(Icon: "Assets/camping.png", Description: "Mountain"));
-            destinationType.Add(new DestinationType(Icon: "Assets/mountain.png", Description: "Camping"));
+            destinationType.Add(new DestinationType(Icon: "ms-appx:///TravelUI/Assets/beach.png", Description: "Beach"));
+            destinationType.Add(new DestinationType(Icon: "ms-appx:///TravelUI/Assets/camping.png", Description: "Mountain"));
+            destinationType.Add(new DestinationType(Icon: "ms-appx:///TravelUI/Assets/mountain.png", Description: "Camping"));
 
             // Popular destination
-            popularDestination.Add(new PopularDestination(Picture: "Assets/mykonos.jpeg", Name: "Mykonos", Location: "Chora, Greece", Price: "48$"));
-            popularDestination.Add(new PopularDestination(Picture: "Assets/venesia.png", Name: "Waterfort", Location: "Venesia, Italy", Price: "50$"));
+            popularDestination.Add(new PopularDestination(Picture: "ms-appx:///TravelUI/Assets/mykonos.jpeg", Name: "Mykonos", Location: "Chora, Greece", Price: "48$"));
+            popularDestination.Add(new PopularDestination(Picture: "ms-appx:///TravelUI/Assets/venesia.png", Name: "Waterfort", Location: "Venesia, Italy", Price: "50$"));
 
             // Special for you
-            specialForYou.Add(new SpecialForYou(Picture: "Assets/nubian.png", Name: "Nubian Desert", Location: "Northeastern Sudan"));
-            specialForYou.Add(new SpecialForYou(Picture: "Assets/mykonos.jpeg", Name: "Mykonos", Location: "Chora, Greece"));
-            specialForYou.Add(new SpecialForYou(Picture: "Assets/venesia.png", Name: "Waterfort", Location: "Venesia, Italy"));
+            specialForYou.Add(new SpecialForYou(Picture: "ms-appx:///TravelUI/Assets/nubian.png", Name: "Nubian Desert", Location: "Northeastern Sudan"));
+            specialForYou.Add(new SpecialForYou(Picture: "ms-appx:///TravelUI/Assets/mykonos.jpeg", Name: "Mykonos", Location: "Chora, Greece"));
+            specialForYou.Add(new SpecialForYou(Picture: "ms-appx:///TravelUI/Assets/venesia.png", Name: "Waterfort", Location: "Venesia, Italy"));
 
         }
     }

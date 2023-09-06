@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"   
+             xmlns:syncfusion="clr-namespace:Syncfusion.Maui.PdfViewer;assembly=Syncfusion.Maui.PdfViewer"        
+             x:Class="SyncfusionApp.MauiControls.Samples.PdfViewer.SfPdfViewer.PdfView">
+    <ContentView.Content>
+        <syncfusion:SfPdfViewer
+                x:Name="PdfViewer"
+                DocumentSource="{Binding DocumentStream}"
+                DocumentLoadFailed="PdfViewerDocumentLoadFailed"/>
+    </ContentView.Content>
+</ContentView>

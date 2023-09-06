@@ -16,8 +16,6 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -35,8 +33,6 @@ namespace SkottieSample
         public MainPage()
         {
             this.InitializeComponent();
-
-            Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().Title = "Skottie WebAssembly";
 
             _ = Load();
         }
@@ -64,9 +60,9 @@ namespace SkottieSample
             _timer.Tick += (s, e) => {
                 // TODO: Work out why canvas can't be resolved for Mobile and Wasm targets
                 // canvas.Invalidate();
-                if (this.skiaCanvas.Children.FirstOrDefault() is SKXamlCanvas canvas) 
+                if (this.skiaCanvas.Children.FirstOrDefault() is SKXamlCanvas canvas)
                 {
-                    canvas.Invalidate(); 
+                    canvas.Invalidate();
                 }
                 else
                 {

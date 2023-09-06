@@ -62,6 +62,11 @@ An implementation of the .NET Benchmark Control, a performance comparison tool.
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/Benchmark)
 
+### BluetoothExplorer
+A sample that allows the user to search for nearby Bluetooth connections and connect to a device of their choice. Uses [InTheHand.BluetoothLE](https://www.nuget.org/packages/InTheHand.BluetoothLE)
+
+[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/BluetoothExplorer) 
+
 ### Camera Capture UI  
 A cross-platform implementation of the UWP `CameraCaptureUI` class that allows the user to capture audio, video, and photos from the device camera. 
 
@@ -123,9 +128,13 @@ This is a WASM-only sample. It is creating _native_ HTML elements that can be us
 
 ### Inserting Separators
 
+This example demonstrates the dynamic creation of a menu incorporating nested items as well as items with separators. 
+
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/InsertingSeparators)
 
 ### LiteDB
+
+This is an example that utilizes the [LiteDB NuGet package](http://www.litedb.org/) to save data.
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/LiteDB)
 
@@ -142,6 +151,16 @@ A pair of samples related to localization:
 An implementation of the UWP `Maps` control with a custom slider that binds the value of the slider to the `ZoomLevel` property of the control. 
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/MapControlSample)
+
+### .NET MAUI Embedding  
+Multiple samples that demonstrate third party control libraries embedded in Uno applications using .NET MAUI Embedding
+
+#### .NET MAUI Community Toolkit  
+
+Embeds the [.NET MAUI Community Toolkit](https://learn.microsoft.com/en-us/dotnet/communitytoolkit/maui/) in an Uno application.
+
+[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/MauiEmbedding/MauiCommunityToolkitApp)
+
 
 ### Migrating Xamarin.Forms Effects
 Code samples to accompany the blog post on Migrating from Xamarin.Forms Effects
@@ -167,6 +186,11 @@ An example of a toggle that allows you to switch between Native UI Controls and 
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/NativeStylesSwitch)
 
+### Neumorphism  
+An example of an app containing an animated lock that you can unlock.
+
+[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/Neumorphism)
+
 ### Package Resources
 An example that demonstrates the use of package assets and how to read them from your app. 
 
@@ -175,6 +199,7 @@ Note that for WebAssembly assets are downloaded on demand, as can be seen in the
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/PackageResources)
 
 ### Pet Adopt
+An example that demonstrates the use of pipspager with a flipview, in an app created with the help of the Figma-to-XAML plugin. 
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/PetAdoptUI)
 
@@ -231,6 +256,11 @@ Inspiration from Justin Liu's [demo app](https://twitter.com/justinxinliu/status
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/ToyCar)
 
+### Travel UI
+A sample travel app that shows how a user could 1) search for locations, 2) favorite locations and 3) view their profile as well as others' profiles. For the layout, showcases many ListViews coupled with Grids.
+
+[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/TravelUI)
+
 ### Uno Contoso
 A port of Microsoft's Contoso Enterprise UWP app to Uno Platform, using Prism.
 
@@ -242,7 +272,7 @@ An example showing how to set up the [`Uno.Cupertino`](https://github.com/unopla
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/UnoCupertinoSample)
 
-[Follow the tutorial](https://platform.uno/docs/articles/guides/uno-cupertino-walkthrough.html)
+[Consult the documentation](https://platform.uno/docs/articles/external/uno.themes/doc/cupertino-getting-started.html)
 
 ### Uno+Ethereum+Blockchain
 
@@ -252,18 +282,31 @@ A sample showing how to integrate smart contracts on the Ethereum blockchain wit
 
 ### Uno Good Reads
 
+A sample showing how to make an app containing several pages in a TabView, as well as fake data generation to populate those pages.
+
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/UnoGoodReads)
 
 ### Uno Islands
 
+This sample shows how you can integrate Uno Platform XAML controls into existing WPF applications using Uno Islands. This feature allows you to enhance WPF apps with Uno Platform features by hosting Uno Platform XAML files in a Shared project and adding an Uno Island using the UnoXamlHost control.
+
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/UnoIslandsSampleApp)
+
+[Follow the tutorial](https://platform.uno/docs/articles/guides/uno-islands.html)
 
 ### Uno.Material Sample
 An example showing how to set up the [`Uno.Material`](https://github.com/unoplatform/Uno.Themes) library.  
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/UnoMaterialSample)
 
-[Follow the tutorial](https://platform.uno/docs/articles/guides/uno-material-walkthrough.html)
+[Consult the documentation](https://platform.uno/docs/articles/external/uno.themes/doc/material-getting-started.html)
+
+### Uno.Toolkit.Material Sample
+An example showing how to set up the [`Uno.Toolkit.Material`](https://github.com/unoplatform/uno.toolkit.ui/tree/main/src/library/Uno.Toolkit.Material) library, 
+
+[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/UnoMaterialToolkitSample)
+
+[Consult the documentation](https://platform.uno/docs/articles/external/uno.toolkit.ui/doc/material-getting-started.html)
 
 ### Uno Onnx
 
@@ -303,6 +346,10 @@ Demo of the usage of WebRTC in Uno WebAssembly. This sample establishes a direct
 ### CountryDataSample
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/CountryDataSample)
+
+### UnoScrollReveal
+
+[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/UnoScrollReveal)
 
 Visit [our documentation](https://platform.uno/docs/articles/intro.html) for more details.
 

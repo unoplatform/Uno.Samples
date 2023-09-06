@@ -1,0 +1,167 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<localCore:SampleView 
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:localCore="using:SyncfusionApp.MauiControls.Samples.Base"
+    xmlns:local="using:SyncfusionApp.MauiControls.Samples.PdfViewer.SfPdfViewer"
+    xmlns:syncfusion="clr-namespace:Syncfusion.Maui.PdfViewer;assembly=Syncfusion.Maui.PdfViewer"        
+    x:Class="SyncfusionApp.MauiControls.Samples.PdfViewer.SfPdfViewer.CustomToolbar">
+    <localCore:SampleView.BindingContext>
+        <local:CustomToolbarViewModel/>
+    </localCore:SampleView.BindingContext>
+    <localCore:SampleView.Resources>
+        <Style x:Key="buttonIconStyle" TargetType="Button">
+            <Setter Property="BorderWidth" Value="0" />
+            <Setter Property="FontSize" Value="18" />
+            <Setter Property="Padding" Value="4" />
+            <Setter Property="VerticalOptions" Value="Center" />
+            <Setter Property="FontFamily" Value="{OnPlatform iOS=PdfViewerIcon, MacCatalyst=PdfViewerIcon, Android=PdfViewerIcon.ttf#, WinUI=PdfViewerIcon.ttf#PdfViewerIcon}" />
+            <Setter Property="TextColor" Value="#99000000"/>
+            <Setter Property="BackgroundColor" Value="Transparent"/>
+            <Style.Triggers>
+                <Trigger Property = "IsEnabled" Value = "True" TargetType="Button">
+                    <Setter Property="BackgroundColor" Value="Transparent"/>
+                    <Setter Property="Opacity" Value="1" />
+                </Trigger>
+                <Trigger Property = "IsEnabled" Value = "False" TargetType="Button">
+                    <Setter Property="Opacity" Value="0.25" />
+                </Trigger>
+                <Trigger Property = "IsPressed" Value = "True" TargetType="Button">
+                    <Setter Property="BackgroundColor" Value="#14000000" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </localCore:SampleView.Resources>
+    <localCore:SampleView.Content>
+        <Border Stroke="#D2D2D2" StrokeThickness="{OnPlatform Default=1, Android=0, iOS=0}" 
+            StrokeShape="Rectangle" Padding="0">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <local:ToolbarDesktop
+                    x:Name="DesktopToolbar" Grid.Row="0" 
+                    HeightRequest="48" BackgroundColor="#F3EDF7" 
+                    IsVisible="{OnPlatform Default=true,Android=false,iOS=false}"/>
+                <local:ToolbarMobile
+                    x:Name="MobileToolbar" Grid.Row="0" 
+                    HeightRequest="48" BackgroundColor="#F3EDF7"  
+                    IsVisible="{OnPlatform Default=false,Android=true,iOS=true}"/>
+                <local:SearchViewMobile 
+                    x:Name="MobileSearchView"
+                    Grid.Row="0" IsVisible="False"/>
+                <Line Grid.Row="1" StrokeThickness="1">
+                    <Line.Background>
+                        <LinearGradientBrush EndPoint="0,1">
+                            <GradientStop Color="#33000000" Offset="0.1"/>
+                            <GradientStop Color="#24000000" Offset="0.4"/>
+                            <GradientStop Color="#1F000000" Offset="0.7"/>
+                        </LinearGradientBrush>
+                    </Line.Background>
+                </Line>
+                <syncfusion:SfPdfViewer
+                    x:Name="PdfViewer"
+                    Grid.Row="2"
+                    PropertyChanged="PdfViewer_PropertyChanged"
+                    IsOutlineViewVisible="{Binding ShowOutlineView, Mode=TwoWay}"
+                    MinZoomFactor="{Binding MinZoom, Mode=OneWayToSource}"
+                    MaxZoomFactor="{Binding MaxZoom, Mode=OneWayToSource}"
+                    DocumentSource="{Binding DocumentData.DocumentStream}"
+                    ZoomFactor="{Binding CurrentZoom,Mode=TwoWay}"
+                    PasswordRequested="PdfViewer_PasswordRequested"
+                    HyperlinkClicked="PdfViewer_HyperlinkClicked"
+                    DocumentLoadFailed="PdfViewer_DocumentLoadFailed"
+                    DocumentLoaded="PdfViewer_DocumentLoaded"
+                    DocumentUnloaded="PdfViewer_DocumentUnloaded">
+                    <syncfusion:SfPdfViewer.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" />
+                    </syncfusion:SfPdfViewer.GestureRecognizers>
+                </syncfusion:SfPdfViewer>
+                <Frame 
+                    x:Name="matchCaseView"
+                    BackgroundColor="#F3EDF7"
+                    BorderColor="#33000000"
+                    CornerRadius="8"
+                    HeightRequest="56"
+                    WidthRequest="155"                    
+                    Grid.Row="2"
+                    HorizontalOptions="End"
+                    VerticalOptions="Start"
+                    Margin="0,-12,12,0" 
+                    IsVisible="{Binding Source={x:Reference MobileSearchView},Path=IsMoreOptionsVisible}">
+                    <Frame.Shadow>
+                        <Shadow
+                            Brush="Black"
+                           Radius="8"
+                           Opacity="0.15" />
+                    </Frame.Shadow>
+                    <Grid 
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <HorizontalStackLayout  Grid.Row="0">
+                            <CheckBox 
+                                x:Name="matchCaseCheckBox" 
+                                IsChecked="{Binding Source={x:Reference MobileSearchView},Path=IsMatchCase}"
+                                HeightRequest="40"
+                                WidthRequest="40"
+                                VerticalOptions="Center"
+                                Margin="8,8,4,8">
+                            </CheckBox>
+                            <Label 
+                                Text="Match Case"
+                                Margin="0,16,16,15"
+                                VerticalOptions="Center"
+                                HeightRequest="25"
+                                WidthRequest="87"
+                                FontSize="16"
+                                FontFamily="Roboto"
+                                TextColor="#49454F"/>
+                        </HorizontalStackLayout>
+                    </Grid>
+                </Frame>
+                <local:SearchViewDesktop
+                    x:Name="DesktopSearchView"
+                    Grid.Row="2" HorizontalOptions="End" VerticalOptions="Start"
+                    IsVisible="{OnPlatform MacCatalyst=False, iOS=False, Android=False}"
+                    Margin="0,0,4,0"/>
+                <Border
+                    Grid.Row="2" WidthRequest="200" HeightRequest="180" Padding="8"
+                    HorizontalOptions="Start" VerticalOptions="Start"
+                    BackgroundColor="#F3EDF7"
+                    Stroke="#33000000"
+                    StrokeShape="Rectangle" StrokeThickness="1"
+                    IsVisible="{Binding IsFilePickerVisible}">
+                    <ListView BackgroundColor="#F3EDF7"
+                        ItemsSource="{Binding Files}"
+                        RowHeight="32"
+                        SelectionMode="None"
+                        ItemTapped="ListView_ItemTapped">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell Tapped="ViewCell_Tapped">
+                                    <Label Text="{Binding .}" VerticalTextAlignment="Center"/>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </Border>
+                <local:PasswordDialogBox x:FieldModifier="public"
+                    x:Name="passwordDialog" Grid.Row="0" Grid.RowSpan="3"
+                    IsVisible="{Binding ShowPasswordDialog, Mode=TwoWay}"
+                    PasswordDialogBoxClosed="passwordDialog_PasswordDialogClosed"/>
+                <local:MessageBox x:FieldModifier="public"
+                    CloseClicked="MessageBox_CloseClicked"
+                    x:Name="messageBox" Grid.Row="0" Grid.RowSpan="3"
+                    IsVisible="{Binding ShowMessageBoxDialog, Mode=TwoWay}"/>
+                <local:HyperlinkDialog
+                    x:Name="hyperlinkDialog" Grid.Row="0" Grid.RowSpan="3"
+                    IsVisible="{Binding ShowHyperlinkDialog, Mode=TwoWay}"/>
+            </Grid>
+        </Border>
+    </localCore:SampleView.Content>
+</localCore:SampleView>
