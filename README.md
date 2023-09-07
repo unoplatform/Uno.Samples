@@ -159,6 +159,12 @@ Code samples to accompany the blog post on Migrating from Xamarin.Forms Effects
 - UnoEffectSample: Showcasing how to replace Effects with either ControlTemplates or custom code accessing the native control.
   [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/MigratingEffects/UnoEffectsSample)
   
+### Migrating Custom renderer
+An example of how to take a custom renderer, which is a technique commonly used on Xamarin.forms app, and achieve an equivalent result on the Uno Platform.
+
+[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/MigrateCustomRenderers)  
+[Follow the Tutorial](https://platform.uno/blog/hosting-native-controls-moving-from-xamarin-forms-renderers-to-uno-platform-controls/)
+
 ### Migrating Animations
 Code to accompany the blog post on migrating animations from Xamarin Forms to Uno.
 
