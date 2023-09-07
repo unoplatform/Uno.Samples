@@ -302,6 +302,12 @@ An example showing how to set up the [`Uno.Toolkit.Material`](https://github.com
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/UnoOnnxSamples)
 
+
+### Uno SimplePhotos
+Demo of usage of a gridview to show photos stored in a custom class.
+
+[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/UnoSimplePhotos)
+
 ### Uno SQlite One Drive Invoice
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/UnoSQLiteOneDriveInvoiceSample)
