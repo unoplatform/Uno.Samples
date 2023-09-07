@@ -153,14 +153,49 @@ An implementation of the UWP `Maps` control with a custom slider that binds the 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/MapControlSample)
 
 ### .NET MAUI Embedding  
-Multiple samples that demonstrate third party control libraries embedded in Uno applications using .NET MAUI Embedding
+Multiple samples that demonstrate third-party control libraries embedded in Uno Platform applications using .NET MAUI Embedding
+
+#### ArcGIS Maps SDK for .NET
+
+Embeds the [ArcGIS Maps SDK for .NET](https://developers.arcgis.com/net/) in an Uno Platform application.
+
+[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/MauiEmbedding/ArcGisApp)
 
 #### .NET MAUI Community Toolkit  
 
-Embeds the [.NET MAUI Community Toolkit](https://learn.microsoft.com/en-us/dotnet/communitytoolkit/maui/) in an Uno application.
+Embeds the [.NET MAUI Community Toolkit](https://learn.microsoft.com/en-us/dotnet/communitytoolkit/maui/) in an Uno Platform application.
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/MauiEmbedding/MauiCommunityToolkitApp)
 
+#### DevExpress .NET MAUI Controls
+
+Embeds the [DevExpress .NET MAUI Controls](https://www.devexpress.com/maui/) in an Uno Platform application.
+
+[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/MauiEmbedding/DevExpressApp)
+
+#### GrapeCity ComponentOne .NET MAUI Controls 
+
+Embeds the [GrapeCity ComponentOne .NET MAUI Controls](https://www.grapecity.com/componentone/docs/maui/online-maui/overview.html) in an Uno Platform application.
+
+[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/MauiEmbedding/GrapeCityApp)
+
+#### Grial UI Kit for .NET MAUI
+
+Embeds the [Grial UI Kit for .NET MAUI](https://grialkit.com/) in an Uno Platform application.
+
+[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/MauiEmbedding/GrialKitApp)
+
+#### Syncfusion .NET MAUI Controls
+
+Embeds the [Syncfusion .NET MAUI Controls](https://www.syncfusion.com/maui-controls) in an Uno Platform application.
+
+[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/MauiEmbedding/SyncfusionApp)
+
+#### Telerik UI for .NET MAUI
+
+Embeds the [Telerik UI for .NET MAUI](https://www.telerik.com/maui-ui) in an Uno Platform application.
+
+[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/MauiEmbedding/TelerikApp)
 
 ### Migrating Xamarin.Forms Effects
 Code samples to accompany the blog post on Migrating from Xamarin.Forms Effects
