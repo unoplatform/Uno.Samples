@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+			 xmlns:telerik="http://schemas.telerik.com/2022/xaml/maui"
+			 x:Class="TelerikApp.MauiControls.AreaChartSample">
+	<!-- TODO: Uncomment -->
+	<!--<ContentView.Resources>
+    <ResourceDictionary>
+      <DataTemplate x:Key="lineArea">
+        <telerik:RadCartesianChart BackgroundColor="{AppThemeBinding Light=White}">
+          <telerik:RadCartesianChart.ChartBehaviors>
+            <telerik:ChartSelectionBehavior DataPointSelectionMode="None" 
+                                            SeriesSelectionMode="Single" />
+          </telerik:RadCartesianChart.ChartBehaviors>
+          <telerik:RadCartesianChart.HorizontalAxis>
+            <telerik:CategoricalAxis LineColor="#A9A9A9" 
+                                     MajorTickThickness="2" 
+                                     PlotMode="OnTicks" 
+                                     LabelFitMode="MultiLine" 
+                                     ShowLabels="True" 
+                                     MajorTickBackgroundColor="#A9A9A9" />
+          </telerik:RadCartesianChart.HorizontalAxis>
+          <telerik:RadCartesianChart.VerticalAxis>
+            <telerik:NumericalAxis Minimum="0" 
+                                   Maximum="100" 
+                                   LineColor="#A9A9A9" 
+                                   MajorTickBackgroundColor="#A9A9A9" />
+          </telerik:RadCartesianChart.VerticalAxis>
+          <telerik:RadCartesianChart.Grid>
+            <telerik:CartesianChartGrid MajorLinesVisibility="Y" 
+                                        MajorLineThickness="1" />
+          </telerik:RadCartesianChart.Grid>
+          <telerik:RadCartesianChart.Series>
+            <telerik:AreaSeries CategoryBinding="Category" 
+                                ValueBinding="Value" 
+                                ItemsSource="{Binding SeriesData}" />
+          </telerik:RadCartesianChart.Series>
+        </telerik:RadCartesianChart>
+      </DataTemplate>
+      <DataTemplate x:Key="splineArea">
+        <telerik:RadCartesianChart BackgroundColor="{AppThemeBinding Light=White}">
+          <telerik:RadCartesianChart.ChartBehaviors>
+            <telerik:ChartSelectionBehavior DataPointSelectionMode="None" 
+                                            SeriesSelectionMode="Single" />
+          </telerik:RadCartesianChart.ChartBehaviors>
+          <telerik:RadCartesianChart.HorizontalAxis>
+            <telerik:CategoricalAxis LineColor="#A9A9A9" 
+                                     MajorTickThickness="2" 
+                                     PlotMode="OnTicks" 
+                                     LabelFitMode="MultiLine" 
+                                     ShowLabels="True" 
+                                     MajorTickBackgroundColor="#A9A9A9" />
+          </telerik:RadCartesianChart.HorizontalAxis>
+          <telerik:RadCartesianChart.VerticalAxis>
+            <telerik:NumericalAxis Minimum="0" 
+                                   Maximum="100" 
+                                   LineColor="#A9A9A9" 
+                                   MajorTickBackgroundColor="#A9A9A9" />
+          </telerik:RadCartesianChart.VerticalAxis>
+          <telerik:RadCartesianChart.Grid>
+            <telerik:CartesianChartGrid MajorLinesVisibility="Y" 
+                                        MajorLineThickness="1" />
+          </telerik:RadCartesianChart.Grid>
+          <telerik:RadCartesianChart.Series>
+            <telerik:SplineAreaSeries CategoryBinding="Category" 
+                                      ValueBinding="Value" 
+                                      ItemsSource="{Binding SeriesData}" />
+          </telerik:RadCartesianChart.Series>
+        </telerik:RadCartesianChart>
+      </DataTemplate>
+      <DataTemplate x:Key="stackedLineArea">
+        <telerik:RadCartesianChart BackgroundColor="{AppThemeBinding Light=White}">
+          <telerik:RadCartesianChart.ChartBehaviors>
+            <telerik:ChartSelectionBehavior DataPointSelectionMode="None" 
+                                            SeriesSelectionMode="Single" />
+          </telerik:RadCartesianChart.ChartBehaviors>
+          <telerik:RadCartesianChart.HorizontalAxis>
+            <telerik:CategoricalAxis LineColor="#A9A9A9" 
+                                     MajorTickThickness="2" 
+                                     PlotMode="OnTicks" 
+                                     LabelFitMode="MultiLine" 
+                                     ShowLabels="True" 
+                                     MajorTickBackgroundColor="#A9A9A9" />
+          </telerik:RadCartesianChart.HorizontalAxis>
+          <telerik:RadCartesianChart.VerticalAxis>
+            <telerik:NumericalAxis Minimum="0" 
+                                   Maximum="100" 
+                                   LineColor="#A9A9A9" 
+                                   MajorTickBackgroundColor="#A9A9A9" />
+          </telerik:RadCartesianChart.VerticalAxis>
+          <telerik:RadCartesianChart.Grid>
+            <telerik:CartesianChartGrid MajorLinesVisibility="Y" 
+                                        MajorLineThickness="1" />
+          </telerik:RadCartesianChart.Grid>
+          <telerik:RadCartesianChart.Series>
+            <telerik:AreaSeries CategoryBinding="Category" 
+                                ValueBinding="Value" 
+                                ItemsSource="{Binding SeriesData}" 
+                                CombineMode="Stack" />
+            <telerik:AreaSeries CategoryBinding="Category" 
+                                ValueBinding="Value" 
+                                ItemsSource="{Binding SecondSeriesData}" 
+                                CombineMode="Stack" />
+          </telerik:RadCartesianChart.Series>
+        </telerik:RadCartesianChart>
+      </DataTemplate>
+      <DataTemplate x:Key="stackedSplineArea">
+        <telerik:RadCartesianChart BackgroundColor="{AppThemeBinding Light=White}">
+          <telerik:RadCartesianChart.ChartBehaviors>
+            <telerik:ChartSelectionBehavior DataPointSelectionMode="None" 
+                                            SeriesSelectionMode="Single" />
+          </telerik:RadCartesianChart.ChartBehaviors>
+          <telerik:RadCartesianChart.HorizontalAxis>
+            <telerik:CategoricalAxis LineColor="#A9A9A9" 
+                                     MajorTickThickness="2" 
+                                     PlotMode="OnTicks" 
+                                     LabelFitMode="MultiLine" 
+                                     ShowLabels="True" 
+                                     MajorTickBackgroundColor="#A9A9A9" />
+          </telerik:RadCartesianChart.HorizontalAxis>
+          <telerik:RadCartesianChart.VerticalAxis>
+            <telerik:NumericalAxis Minimum="0" 
+                                   Maximum="100" 
+                                   LineColor="#A9A9A9" 
+                                   MajorTickBackgroundColor="#A9A9A9" />
+          </telerik:RadCartesianChart.VerticalAxis>
+          <telerik:RadCartesianChart.Grid>
+            <telerik:CartesianChartGrid MajorLinesVisibility="Y" 
+                                        MajorLineThickness="1" />
+          </telerik:RadCartesianChart.Grid>
+          <telerik:RadCartesianChart.Series>
+            <telerik:SplineAreaSeries CategoryBinding="Category" 
+                                      ValueBinding="Value" 
+                                      ItemsSource="{Binding SeriesData}" 
+                                      CombineMode="Stack" />
+            <telerik:SplineAreaSeries CategoryBinding="Category" 
+                                      ValueBinding="Value" 
+                                      ItemsSource="{Binding SecondSeriesData}" 
+                                      CombineMode="Stack" />
+          </telerik:RadCartesianChart.Series>
+        </telerik:RadCartesianChart>
+      </DataTemplate>
+    </ResourceDictionary>
+  </ContentView.Resources>-->
+	<Label Text="AreaChart Sample (Search for TODO and apply comments)" />
+
+</ContentView>
