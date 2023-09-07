@@ -1,44 +1,56 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:telerik="http://schemas.telerik.com/2022/xaml/maui"
-             x:Class="TelerikApp.MauiControls.BadgeSample">
-  <ContentView.Resources>
-    <ResourceDictionary>
-      <Color x:Key="SecondaryTextColorLight">#99000000</Color>
-      <Color x:Key="SecondaryTextColorDark">#99FFFFFF</Color>
-      <Color x:Key="HighLightedColorLight">#0E88F2</Color>
-      <Color x:Key="HighLightedColorDark">#42A5F5</Color>
-      <Color x:Key="MenuItemBackgroundColorLight">#F8F8F8</Color>
-      <Color x:Key="MenuItemBackgroundColorDark">#373737</Color>
-      <Color x:Key="DisabledTextColorLight">#9D9CA1</Color>
-      <Color x:Key="DisabledTextColorDark">#8E8E8E</Color>
-      <Color x:Key="DisabledBadgeBackground">#FFBABA</Color>
+			 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+			 xmlns:telerik="http://schemas.telerik.com/2022/xaml/maui"
+			 x:Class="TelerikApp.MauiControls.BadgeSample">
+	<ContentView.Resources>
+		<ResourceDictionary>
+			<Color x:Key="SecondaryTextColorLight">#99000000</Color>
+			<Color x:Key="SecondaryTextColorDark">#99FFFFFF</Color>
+			<Color x:Key="HighLightedColorLight">#0E88F2</Color>
+			<Color x:Key="HighLightedColorDark">#42A5F5</Color>
+			<Color x:Key="MenuItemBackgroundColorLight">#F8F8F8</Color>
+			<Color x:Key="MenuItemBackgroundColorDark">#373737</Color>
+			<Color x:Key="DisabledTextColorLight">#9D9CA1</Color>
+			<Color x:Key="DisabledTextColorDark">#8E8E8E</Color>
+			<Color x:Key="DisabledBadgeBackground">#FFBABA</Color>
 
-      <Style x:Key="DefaultTabItemStyle" TargetType="Label">
-        <Setter Property="HorizontalOptions" Value="Center" />
-        <Setter Property="VerticalOptions" Value="Center" />
-        <Setter Property="HorizontalTextAlignment" Value="Center" />
-        <Setter Property="VerticalTextAlignment" Value="Center" />
-      </Style>
-      <Style x:Key="DefaultTabItemIconStyle" TargetType="Label" 
-             BasedOn="{StaticResource DefaultTabItemStyle}">
-        <Setter Property="FontSize" Value="Title" />
-        <Setter Property="FontFamily" Value="TelerikFont"/>
-      </Style>
-      <Style x:Key="DefaultTabItemLabelStyle" TargetType="Label" 
-                   BasedOn="{StaticResource DefaultTabItemStyle}">
-        <Setter Property="FontSize" Value="Micro" />
-      </Style>
-      <Style x:Key="DefaultBadgeViewStyle" TargetType="telerik:RadBadgeView">
-        <Setter Property="HorizontalOptions" Value="Center" />
-        <Setter Property="BadgeVerticalAlignment" Value="Start" />
-      </Style>
-    </ResourceDictionary>
-  </ContentView.Resources>
-
-  <Grid RowDefinitions="*, Auto">
-    <telerik:RadItemsControl Grid.Row="0"
+			<Style x:Key="DefaultTabItemStyle"
+				   TargetType="Label">
+				<Setter Property="HorizontalOptions"
+						Value="Center" />
+				<Setter Property="VerticalOptions"
+						Value="Center" />
+				<Setter Property="HorizontalTextAlignment"
+						Value="Center" />
+				<Setter Property="VerticalTextAlignment"
+						Value="Center" />
+			</Style>
+			<Style x:Key="DefaultTabItemIconStyle"
+				   TargetType="Label"
+				   BasedOn="{StaticResource DefaultTabItemStyle}">
+				<Setter Property="FontSize"
+						Value="Title" />
+				<Setter Property="FontFamily"
+						Value="TelerikFont" />
+			</Style>
+			<Style x:Key="DefaultTabItemLabelStyle"
+				   TargetType="Label"
+				   BasedOn="{StaticResource DefaultTabItemStyle}">
+				<Setter Property="FontSize"
+						Value="Micro" />
+			</Style>
+			<!-- TODO: Uncomment -->
+			<!--<Style x:Key="DefaultBadgeViewStyle" TargetType="telerik:RadBadgeView">
+                <Setter Property="HorizontalOptions" Value="Center" />
+                <Setter Property="BadgeVerticalAlignment" Value="Start" />
+            </Style>-->
+		</ResourceDictionary>
+	</ContentView.Resources>
+	<Grid RowDefinitions="*, Auto">
+		<Label Text="Badge Sample (Search for TODO and apply comments)" />
+		<!-- TODO: Uncomment -->
+		<!--  <telerik:RadItemsControl Grid.Row="0"
                                  ItemsSource="{Binding Users}">
       <telerik:RadItemsControl.ItemTemplate>
         <DataTemplate>
@@ -138,6 +150,6 @@
           </StackLayout>
         </telerik:RadBadgeView.Content>
       </telerik:RadBadgeView>
-    </Grid>
-  </Grid>
+    </Grid>-->
+	</Grid>
 </ContentView>

@@ -1,4 +1,5 @@
-﻿using Telerik.Maui.Controls.Compatibility;
+﻿// TODO: Uncomment
+//using Telerik.Maui.Controls.Compatibility;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 namespace TelerikApp.MauiControls;
@@ -7,14 +8,9 @@ public static class AppBuilderExtensions
 {
     public static MauiAppBuilder UseMauiControls(this MauiAppBuilder maui)
     {
-        //maui.Services.AddSingleton<IApplication>(sp =>
-        //{
-        //    var app = new Application();
-        //    app.Resources.MergedDictionaries.Add(new EmbeddedResources());
-        //    return app;
-        //});
         maui
-            .UseTelerik()
+            // TODO: Uncomment
+            //.UseTelerik()
             .ConfigureFonts(fonts =>
             {
                 fonts.AddFont("TelerikApp/Assets/Fonts/OpenSansRegular.ttf", "OpenSansRegular");

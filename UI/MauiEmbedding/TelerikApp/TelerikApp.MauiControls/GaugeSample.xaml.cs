@@ -1,8 +1,8 @@
 namespace TelerikApp.MauiControls;
 
-public partial class GuageSample : ContentView
+public partial class GaugeSample : ContentView
 {
-	public GuageSample()
+	public GaugeSample()
 	{
 		InitializeComponent();
 	}

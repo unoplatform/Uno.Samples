@@ -6,6 +6,6 @@ using System.Threading.Tasks;
 
 namespace TelerikApp.Presentation;
 
-internal class GuageSampleViewModel
+internal class GaugeSampleViewModel
 {
 }

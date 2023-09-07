@@ -53,7 +53,7 @@ public class App : EmbeddingApplication
 						.EmbeddedSource<App>()
 						.Section<AppConfig>()
 				)
-				// Enable localization (see appsettings.json for supported languages)
+				// Enable localization (see appsettings.json for supported Languages)
 				.UseLocalization()
 				.ConfigureServices((context, services) => {
                     services.AddSingleton<DataGenerator>()
@@ -78,7 +78,7 @@ public class App : EmbeddingApplication
             new ViewMap<MauiHost, DataGridSampleViewModel>(),
             new ViewMap<MauiHost, AreaChartSampleViewModel>(),
             new ViewMap<MauiHost, FinancialChartSampleViewModel>(),
-            new ViewMap<MauiHost, GuageSampleViewModel>(),
+            new ViewMap<MauiHost, GaugeSampleViewModel>(),
             new ViewMap<MauiHost, PdfViewerSampleViewModel>()
         );
 
@@ -94,7 +94,7 @@ public class App : EmbeddingApplication
                         new RouteMap("Calendar", View: views.FindByViewModel<CalendarSampleViewModel>()),
                         new RouteMap("DataGrid", View: views.FindByViewModel<DataGridSampleViewModel>()),
                         new RouteMap("FinancialChart", View: views.FindByViewModel<FinancialChartSampleViewModel>()),
-                        new RouteMap("Guage", View: views.FindByViewModel<GuageSampleViewModel>()),
+                        new RouteMap("Gauge", View: views.FindByViewModel<GaugeSampleViewModel>()),
                         new RouteMap("PdfViewer", View: views.FindByViewModel<PdfViewerSampleViewModel>()),
                     }),
                 }

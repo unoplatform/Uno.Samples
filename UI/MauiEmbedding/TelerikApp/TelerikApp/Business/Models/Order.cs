@@ -1,5 +1,6 @@
 ﻿using System.Xml.Serialization;
-using Telerik.Maui.Controls.Compatibility.Common.DataAnnotations;
+// TODO: Uncomment
+//using Telerik.Maui.Controls.Compatibility.Common.DataAnnotations;
 
 namespace TelerikApp.Business.Models;
 
@@ -22,7 +23,7 @@ public class Order : ObservableObject
     private string? shipRegion;
 
     [XmlAttribute(AttributeName = "OrderID")]
-    [DisplayOptions(Header = "Order ID", PlaceholderText = "Order ID")]
+    // TODO: Uncomment: [DisplayOptions (Header = "Order ID", PlaceholderText = "Order ID")]
     public int OrderID
     {
         get => this.orderID;
@@ -30,7 +31,7 @@ public class Order : ObservableObject
     }
 
     [XmlAttribute(AttributeName = "ShipName")]
-    [DisplayOptions(Header = "Ship Name", PlaceholderText = "Ship Name")]
+    // TODO: Uncomment: [DisplayOptions (Header = "Ship Name", PlaceholderText = "Ship Name")]
     public string? ShipName
     {
         get => this.shipName;
@@ -38,7 +39,7 @@ public class Order : ObservableObject
     }
 
     [XmlAttribute(AttributeName = "CustomerID")]
-    [DisplayOptions(Header = "Customer ID", PlaceholderText = "Customer ID")]
+    // TODO: Uncomment: [DisplayOptions (Header = "Customer ID", PlaceholderText = "Customer ID")]
     public string? CustomerID
     {
         get => this.customerID;
@@ -60,7 +61,7 @@ public class Order : ObservableObject
     }
 
     [XmlAttribute(AttributeName = "OrderDate")]
-    [DisplayOptions(Header = "Order Date", PlaceholderText = "Order Date")]
+    // TODO: Uncomment: [DisplayOptions (Header = "Order Date", PlaceholderText = "Order Date")]
     public DateTime OrderDate
     {
         get => this.orderDate;
@@ -75,7 +76,7 @@ public class Order : ObservableObject
     }
 
     [XmlAttribute(AttributeName = "ShippedDate")]
-    [DisplayOptions(Header = "Shipped Date", PlaceholderText = "Shipped Date")]
+    // TODO: Uncomment: [DisplayOptions (Header = "Shipped Date", PlaceholderText = "Shipped Date")]
     public DateTime ShippedDate
     {
         get => this.shippedDate;
@@ -83,7 +84,7 @@ public class Order : ObservableObject
     }
 
     [XmlAttribute(AttributeName = "ShipVia")]
-    [DisplayOptions(Header = "Ship Via", PlaceholderText = "Ship Via")]
+    // TODO: Uncomment: [DisplayOptions (Header = "Ship Via", PlaceholderText = "Ship Via")]
     public double ShipVia
     {
         get => this.shipVia;
@@ -91,7 +92,7 @@ public class Order : ObservableObject
     }
 
     [XmlAttribute(AttributeName = "Freight")]
-    [DisplayOptions(Header = "Freight", PlaceholderText = "Freight")]
+    // TODO: Uncomment: [DisplayOptions (Header = "Freight", PlaceholderText = "Freight")]
     public double Freight
     {
         get => this.freight;

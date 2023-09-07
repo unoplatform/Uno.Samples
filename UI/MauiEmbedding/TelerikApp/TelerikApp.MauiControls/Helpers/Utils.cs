@@ -14,39 +14,8 @@ internal static class Utils
         return type;
     }
 
-    //public static object CreateView(Example example, bool createBindingContext)
-    //{
-    //    IExampleService exampleService = DependencyService.Get<IExampleService>();
-    //    View exampleView = exampleService.CreateExample(example) as View;
-
-    //    if (createBindingContext && exampleView != null && exampleView.BindingContext == null)
-    //    {
-    //        Type viewModelType = GetExampleViewModelType(example.ControlName, example.Name);
-
-    //        if (viewModelType == null)
-    //        {
-    //            viewModelType = typeof(ViewModels.ExampleViewModel);
-    //        }
-
-    //        object viewModel = Activator.CreateInstance(viewModelType);
-    //        exampleView.BindingContext = viewModel;
-    //    }
-
-    //    return exampleView;
-    //}
-
-    //public static object CreateView(Control control)
-    //{
-    //    SampleViewModel SampleViewModel = new SampleViewModel(control);
-    //    ControlViewDesktop controlView = new ControlViewDesktop { BindingContext = SampleViewModel };
-    //    return controlView;
-    //}
-
     public static View CreateConfigurationArea(Example example)
     {
-        //IConfigurationAreaService configurationAreaService = DependencyService.Get<IConfigurationAreaService>();
-        //View configurationArea = configurationAreaService.CreateConfigurationArea(example);
-        //return configurationArea;
         return new Label { Text = "Dan did not implement this..." };
     }
 
@@ -61,12 +30,6 @@ internal static class Utils
         {
             return example.CodeUrl;
         }
-        //else
-        //{
-        //    IConfigurationService configurationService = DependencyService.Get<IConfigurationService>();
-        //    string url = configurationService.Configuration.ExampleCodeUrl + $"/{example.ControlName}Control/{example.Name}Example";
-        //    return url;
-        //}
         return null;
     }
 

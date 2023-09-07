@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows')) or '$(EnableWindowsTargeting)' == 'true'">$(TargetFrameworks);net7.0-windows10.0.19041</TargetFrameworks>
@@ -11,7 +11,15 @@
 
 
 	<ItemGroup>
-		<PackageReference Include="Telerik.UI.for.Maui" />
+		<!-- TODO: Uncomment -->
+		<!--<PackageReference Include="Telerik.UI.for.Maui" />-->
 		<PackageReference Include="CommunityToolkit.Mvvm" />
+	</ItemGroup>
+
+
+	<ItemGroup>
+	  <Compile Update="Styles\ColorsAndStyles.xaml.cs">
+	    <DependentUpon>ColorsAndStyles.xaml</DependentUpon>
+	  </Compile>
 	</ItemGroup>
 </Project>
