@@ -1,3 +1,5 @@
+using TelerikApp.Business.Services;
+
 namespace TelerikApp;
 
 public class App : EmbeddingApplication
@@ -54,9 +56,10 @@ public class App : EmbeddingApplication
 				// Enable localization (see appsettings.json for supported languages)
 				.UseLocalization()
 				.ConfigureServices((context, services) => {
-					// TODO: Register your services
-					//services.AddSingleton<IMyService, MyService>();
-				})
+                    services.AddSingleton<DataGenerator>()
+                       .AddSingleton<IResourceService, AssemblyResourceService>()
+                       .AddSingleton<ISerializationService, SerializationService>();
+                })
 				.UseNavigation(RegisterRoutes)
 			);
 		MainWindow = builder.Window;
@@ -69,16 +72,32 @@ public class App : EmbeddingApplication
 		views.Register(
 			new ViewMap(ViewModel: typeof(ShellViewModel)),
 			new ViewMap<MainPage, MainViewModel>(),
-			new DataViewMap<SecondPage, SecondViewModel, Entity>()
-		);
+             new ViewMap<MauiHost, AccordionSampleViewModel>(),
+            new ViewMap<MauiHost, BadgeViewSampleViewModel>(),
+            new ViewMap<MauiHost, CalendarSampleViewModel>(),
+            new ViewMap<MauiHost, DataGridSampleViewModel>(),
+            new ViewMap<MauiHost, AreaChartSampleViewModel>(),
+            new ViewMap<MauiHost, FinancialChartSampleViewModel>(),
+            new ViewMap<MauiHost, GuageSampleViewModel>(),
+            new ViewMap<MauiHost, PdfViewerSampleViewModel>()
+        );
 
 		routes.Register(
 			new RouteMap("", View: views.FindByViewModel<ShellViewModel>(),
 				Nested: new RouteMap[]
 				{
-					new RouteMap("Main", View: views.FindByViewModel<MainViewModel>()),
-					new RouteMap("Second", View: views.FindByViewModel<SecondViewModel>()),
-				}
+					new RouteMap("Main", View: views.FindByViewModel<MainViewModel>(), Nested: new RouteMap[]
+                    {
+                        new RouteMap("Accordion", View: views.FindByViewModel<AccordionSampleViewModel>(), IsDefault: true),
+                        new RouteMap("AreaChart", View: views.FindByViewModel<AreaChartSampleViewModel>()),
+                        new RouteMap("BadgeView", View: views.FindByViewModel<BadgeViewSampleViewModel>()),
+                        new RouteMap("Calendar", View: views.FindByViewModel<CalendarSampleViewModel>()),
+                        new RouteMap("DataGrid", View: views.FindByViewModel<DataGridSampleViewModel>()),
+                        new RouteMap("FinancialChart", View: views.FindByViewModel<FinancialChartSampleViewModel>()),
+                        new RouteMap("Guage", View: views.FindByViewModel<GuageSampleViewModel>()),
+                        new RouteMap("PdfViewer", View: views.FindByViewModel<PdfViewerSampleViewModel>()),
+                    }),
+                }
 			)
 		);
 	}

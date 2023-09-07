@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:telerik="http://schemas.telerik.com/2022/xaml/maui"
+             x:Class="TelerikApp.MauiControls.DataGridSample">
+  <Grid>
+    <telerik:RadDataGrid Grid.Row="1"
+                         ItemsSource="{Binding People}"
+                         AutoGenerateColumns="False"
+                         SelectionUnit="Row"
+                         SelectionMode="Multiple"
+                         UserEditMode="Cell"
+                         UserGroupMode="Enabled">
+      <telerik:RadDataGrid.GroupDescriptors>
+        <telerik:PropertyGroupDescriptor PropertyName="CountryName" />
+      </telerik:RadDataGrid.GroupDescriptors>
+      <telerik:RadDataGrid.Columns>
+        <telerik:DataGridTextColumn PropertyName="CountryName"
+                                    HeaderText="Country"
+                                    IsVisible="False" />
+        <telerik:DataGridTextColumn PropertyName="FullName"
+                                    HeaderText="Name" />
+        <telerik:DataGridTextColumn PropertyName="PhoneNumberWithCountryCode"
+                                    HeaderText="Phone" />
+        <telerik:DataGridBooleanColumn HeaderText="Is Member"
+                                       PropertyName="IsMember"
+                                       SizeMode="Auto" />
+        <telerik:DataGridNumericalColumn PropertyName="Id"
+                                         HeaderText="Id" />
+        <!--<telerik:DataGridTemplateColumn HeaderText="Country"
+                                        MinimumWidth="40">
+          <telerik:DataGridTemplateColumn.CellContentTemplate>
+            <DataTemplate>
+              <Grid>
+                <Image Source="{Binding CountryFlag}"
+                       Aspect="Center"
+                       Margin="{OnPlatform Android='8, 13', iOS='18, 14', MacCatalyst=10, WinUI=12}" />
+              </Grid>
+            </DataTemplate>
+          </telerik:DataGridTemplateColumn.CellContentTemplate>
+        </telerik:DataGridTemplateColumn>-->
+      </telerik:RadDataGrid.Columns>
+    </telerik:RadDataGrid>
+  </Grid>
+</ContentView>

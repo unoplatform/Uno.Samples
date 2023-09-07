@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:telerik="http://schemas.telerik.com/2022/xaml/maui"
+             x:Class="TelerikApp.MauiControls.FinancialChartSample">
+  <Grid x:Name="RootGrid">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="50"/>
+      <RowDefinition Height="*"/>
+      <RowDefinition Height="50"/>
+      <RowDefinition Height="*"/>
+    </Grid.RowDefinitions>
+    <StackLayout Orientation="Horizontal">
+      <Label Text="Choose Trendline:"
+             FontSize="14"
+             Padding="10"
+             HorizontalOptions="Center"
+             VerticalOptions="CenterAndExpand"/>
+      <telerik:RadListPicker x:Name="trendlinePicker"
+                             AutomationId="TrendlinePicker"
+                             Grid.Column="1"
+                             ItemsSource="{Binding TrendlinesList}"
+                             SelectionChanged="OnTrendlinePickerSelectedIndexChanged"
+                             HorizontalOptions="FillAndExpand"/>
+    </StackLayout>
+    <telerik:RadCartesianChart x:Name="trendlinesChart"
+                               Grid.Row="1"
+                               BackgroundColor="{AppThemeBinding Light=White}" 
+                               StyleClass="TelerikTheme">
+      <telerik:RadCartesianChart.ChartBehaviors>
+        <telerik:ChartPanAndZoomBehavior ZoomMode="Horizontal" 
+                                         PanMode="Horizontal" 
+                                         HandleDoubleTap="True"/>
+      </telerik:RadCartesianChart.ChartBehaviors>
+      <telerik:RadCartesianChart.HorizontalAxis>
+        <telerik:DateTimeContinuousAxis LineColor="#A9A9A9"
+                                        LabelFitMode="Rotate"
+                                        LabelFormat="dd/MM"
+                                        GapLength="0.8"
+                                        PlotMode="BetweenTicks"
+                                        MajorStep="1"
+                                        MajorStepUnit="Month"/>
+      </telerik:RadCartesianChart.HorizontalAxis>
+      <telerik:RadCartesianChart.VerticalAxis>
+        <telerik:NumericalAxis LineColor="#A9A9A9"
+                               Minimum="320"
+                               Maximum="400"
+                               MajorTickBackgroundColor="#A9A9A9"/>
+      </telerik:RadCartesianChart.VerticalAxis>
+      <telerik:RadCartesianChart.Series>
+        <telerik:OhlcSeries CategoryBinding="DateCategory"
+                            DisplayName="AppleStocks-OHLC"
+                            OpenBinding="Open"
+                            HighBinding="High"
+                            LowBinding="Low"
+                            CloseBinding="Close"
+							x:Name="TSeries"
+                            ItemsSource="{Binding SeriesData}"/>
+      </telerik:RadCartesianChart.Series>
+    </telerik:RadCartesianChart>
+
+    <StackLayout Orientation="Horizontal" Grid.Row="2">
+      <Label Text="Choose Indicator: "
+             FontSize="14"
+             Padding="10"
+             HorizontalOptions="Center"
+             VerticalOptions="CenterAndExpand"/>
+      <telerik:RadListPicker x:Name="indicatorPicker"
+                             AutomationId="IndicatorPicker" 
+                             Grid.Column="1"
+                             ItemsSource="{Binding IndicatorsList}"
+                             SelectionChanged="OnIndicatorPickerSelectedIndexChanged"
+                             HorizontalOptions="FillAndExpand"/>
+    </StackLayout>
+    <telerik:RadCartesianChart Grid.Row="3"
+                               x:Name="indicatorsChart"
+                               BackgroundColor="{AppThemeBinding Light=White}" 
+                               StyleClass="TelerikTheme">
+      <telerik:RadCartesianChart.ChartBehaviors>
+        <telerik:ChartPanAndZoomBehavior ZoomMode="Horizontal" 
+                                         PanMode="Horizontal" 
+                                         HandleDoubleTap="True"/>
+      </telerik:RadCartesianChart.ChartBehaviors>
+      <telerik:RadCartesianChart.HorizontalAxis>
+        <telerik:DateTimeContinuousAxis LineColor="#A9A9A9"
+                                        LabelFitMode="Rotate"
+                                        LabelFormat="dd/MM"
+                                        GapLength="0.8"
+                                        PlotMode="BetweenTicks"
+                                        MajorStep="1"
+                                        MajorStepUnit="Month"/>
+      </telerik:RadCartesianChart.HorizontalAxis>
+      <telerik:RadCartesianChart.VerticalAxis>
+        <telerik:NumericalAxis LineColor="#A9A9A9"
+                               MajorTickBackgroundColor="#A9A9A9"/>
+      </telerik:RadCartesianChart.VerticalAxis>
+      <telerik:RadCartesianChart.Series>
+      </telerik:RadCartesianChart.Series>
+    </telerik:RadCartesianChart>
+  </Grid>
+</ContentView>

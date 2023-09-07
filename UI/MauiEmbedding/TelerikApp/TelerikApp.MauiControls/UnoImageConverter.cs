@@ -1,6 +1,6 @@
 using System.Globalization;
 
-namespace TelerikApp;
+namespace TelerikApp.MauiControls;
 
 public class UnoImageConverter : IValueConverter
 {

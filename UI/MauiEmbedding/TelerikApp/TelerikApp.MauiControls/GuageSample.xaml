@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:telerik="http://schemas.telerik.com/2022/xaml/maui"
+             x:Class="TelerikApp.MauiControls.GuageSample">
+  <Grid>
+    <telerik:RadRadialGauge x:Name="gauge">
+      <telerik:RadRadialGauge.Axis>
+        <telerik:GaugeLinearAxis Maximum="200"
+                                 Minimum="0"
+                                 Step="25" />
+      </telerik:RadRadialGauge.Axis>
+      <telerik:RadRadialGauge.Indicators>
+        <telerik:GaugeNeedleIndicator Offset="30" Value="60" />
+        <telerik:GaugeShapeIndicator Value="80" />
+      </telerik:RadRadialGauge.Indicators>
+      <telerik:RadRadialGauge.Ranges>
+        <telerik:GaugeRangesDefinition>
+          <telerik:GaugeRange Color="Green"
+                              From="0"
+                              To="150" />
+          <telerik:GaugeGradientRange From="150" To="200">
+            <telerik:RadGradientStop Offset="150" Color="Yellow" />
+            <telerik:RadGradientStop Offset="200" Color="Red" />
+          </telerik:GaugeGradientRange>
+        </telerik:GaugeRangesDefinition>
+      </telerik:RadRadialGauge.Ranges>
+    </telerik:RadRadialGauge>
+  </Grid>
+</ContentView>

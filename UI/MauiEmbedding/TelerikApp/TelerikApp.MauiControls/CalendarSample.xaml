@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:telerik="http://schemas.telerik.com/2022/xaml/maui"
+             x:Class="TelerikApp.MauiControls.CalendarSample">
+  <ContentView.Resources>
+    <ResourceDictionary>
+      <DataTemplate x:Key="ReminderTemplate">
+        <telerik:RadBorder BackgroundColor="{AppThemeBinding Light=#F3F3F3, Dark=#202020}"
+                                   BorderColor="{AppThemeBinding Light={OnPlatform Default={StaticResource DefaultBorderColor}, WinUI={StaticResource DefaultBorderColorWinUI}},
+                                                                 Dark={OnPlatform Default={StaticResource DefaultBorderColorDark}, WinUI={StaticResource DefaultBorderColorDarkWinUI}}}"
+                                   CornerRadius="4"
+                                   BorderThickness="1"
+                                   Padding="16, 8"
+                                   Margin="0, 0, 0, 4">
+          <Label Text="{Binding Title}"
+                           LineBreakMode="TailTruncation"
+                           MaxLines="1" />
+        </telerik:RadBorder>
+      </DataTemplate>
+      <DataTemplate x:Key="ReminderTemplate_Phone">
+        <Grid Margin="0, 0, 0, 4">
+          <telerik:RadBorder BackgroundColor="{AppThemeBinding Light={StaticResource ItemBackgroundColor}, Dark={StaticResource ItemBackgroundColorDark}}"
+                                       CornerRadius="4"
+                                       Padding="16, 8">
+            <Label Text="{Binding Title}"
+                               LineBreakMode="TailTruncation"
+                               MaxLines="1" />
+          </telerik:RadBorder>
+          <telerik:RadBorder WidthRequest="3"
+                                       BackgroundColor="{StaticResource ApplicationAccentColor}"
+                                       CornerRadius="4, 0, 0, 4"
+                                       HorizontalOptions="Start" />
+        </Grid>
+      </DataTemplate>
+    </ResourceDictionary>
+  </ContentView.Resources>
+
+  <Grid RowDefinitions="Auto, *"
+          ColumnDefinitions="Auto, *"
+          BackgroundColor="{AppThemeBinding Light={OnPlatform Default=Transparent, iOS=#F3F3F3, Android=#F3F3F3},
+                                            Dark={OnPlatform Default=Transparent, iOS=#202020, Android=#202020}}"
+          Padding="{OnIdiom Default=0, Phone=16}">
+    <telerik:RadCalendar x:Name="calendar"
+                             Grid.Column="{OnIdiom Default=1, Desktop=0}"
+                             FirstDayOfWeek="Monday"
+                             SelectedDate="{Binding SelectedDate, Mode=TwoWay}"
+                             MaximumHeightRequest="{OnPlatform iOS=350, Android=320}" />
+    <Grid Grid.Row="{OnIdiom Default=1, Desktop=0}"
+              Grid.RowSpan="{OnIdiom Default=1, Desktop=2}"
+              Grid.Column="1"
+              RowDefinitions="Auto, *"
+              Padding="{OnIdiom Default='0, 16, 0, 0', Desktop='16, 0, 0, 0'}">
+      <Label Text="{Binding SelectedDate, StringFormat='Reminders for {0:M}:'}"
+                   FontSize="16"
+                   FontAttributes="Bold" />
+      <Grid Grid.Row="1"
+                  Margin="{OnIdiom Default='0, 8, 0, 0', Phone='0, 8'}">
+        <telerik:RadItemsView Grid.Row="1"
+                                      ItemsSource="{Binding FilteredRemindersList}"
+                                      ItemTemplate="{OnIdiom Default={StaticResource ReminderTemplate}, Phone={StaticResource ReminderTemplate_Phone}}" />
+        <Label IsVisible="{Binding IsEmptyMessageVisible}"
+                       Text="No reminders for this day"
+                       TextColor="{StaticResource AccentColor4}" />
+      </Grid>
+    </Grid>
+  </Grid>
+</ContentView>
