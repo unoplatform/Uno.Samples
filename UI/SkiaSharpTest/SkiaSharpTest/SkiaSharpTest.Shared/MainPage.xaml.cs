@@ -90,10 +90,22 @@ namespace SkiaSharpTest
 
             // make sure the canvas is blank
             canvas.Clear(color);
-
 			//canvas.Clear(SKColors.Transparent);
+
+			var paint2 = new SKPaint
+			{
+				Color = SKColors.Blue,
+				IsAntialias = true,
+				Style = SKPaintStyle.Fill,
+			};
+
+			//Test Rect
+			var rect0 = new SKRect((float)_currentPosition.X, (float)_currentPosition.Y, (float)size.Width / 2, (float)size.Height / 2);
+			canvas.DrawRect(rect0, paint2);
+
+			//Test Rect Radii
 			CornerRadius = new CornerRadius(50);
-			var rect = new SKRect(0, 0, (float)Width, (float)Height);
+			var rect = new SKRect(0, 0, (float)size.Width / 2, (float)size.Height / 2);
 			var radii = new SKPoint[] {
 				new SKPoint((float)CornerRadius.TopLeft, (float)CornerRadius.TopLeft),
 				new SKPoint((float)CornerRadius.TopRight, (float)CornerRadius.TopRight),
@@ -102,36 +114,29 @@ namespace SkiaSharpTest
 			};
 			var shape = new SKRoundRect();
 			shape.SetRectRadii(rect, radii);
-
-			// draw some text
-			var paint2 = new SKPaint
-			{
-				Color = SKColors.Violet,
-				IsAntialias = true,
-				Style = SKPaintStyle.Fill,
-			};
 			canvas.DrawRoundRect(shape, paint2);
 
-			// draw some text
+			//Test a text
 			var paint = new SKPaint
-            {
-                Color = SKColors.Black,
-                IsAntialias = true,
-                Style = SKPaintStyle.Fill,
-                TextAlign = SKTextAlign.Center,
-                TextSize = 24
-            };
-            var coord = new SKPoint(scaledSize.Width / 2, (scaledSize.Height + paint.TextSize) / 2);
-            canvas.DrawText(text, coord, paint);
+		   {
+			   Color = SKColors.Black,
+			   IsAntialias = true,
+			   Style = SKPaintStyle.Fill,
+			   TextAlign = SKTextAlign.Center,
+			   TextSize = 24
+		   };
+			var coord = new SKPoint(scaledSize.Width / 2, (scaledSize.Height + paint.TextSize) / 2);
+			canvas.DrawText(text, coord, paint);
 
-            var circlePaint = new SKPaint
-            {
-                Style = SKPaintStyle.Fill,
-                Color = SKColors.Red
-            };
-
-            canvas.DrawCircle((float)_currentPosition.X, (float)_currentPosition.Y, 5, circlePaint);
-        }
+			//Test a point
+			var circlePaint = new SKPaint
+			{
+				Style = SKPaintStyle.Fill,
+				IsAntialias = true,
+				Color = SKColors.Red
+			};
+			canvas.DrawRect((float)_currentPosition.X, (float)_currentPosition.Y, (float)50, (float)50, circlePaint);
+		}
 
     }
 }
