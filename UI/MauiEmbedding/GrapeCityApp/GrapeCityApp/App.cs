@@ -8,8 +8,6 @@ public class App : EmbeddingApplication
 	protected async override void OnLaunched(LaunchActivatedEventArgs args)
 	{
 		var builder = this.CreateBuilder(args)
-			// Add navigation support for toolkit controls such as TabBar and NavigationView
-			.UseToolkitNavigation()
 				// Add navigation support for toolkit controls such as TabBar and NavigationView
 				.UseToolkitNavigation()
 				.UseMauiEmbedding<MauiControls.App>(maui => maui
