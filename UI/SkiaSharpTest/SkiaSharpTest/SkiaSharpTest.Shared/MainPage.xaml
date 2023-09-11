@@ -9,33 +9,101 @@
       mc:Ignorable="d not_win"
       Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <Grid>
+
+
+
+	
+	<Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
-            <RowDefinition />
+			<RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <StackPanel>
             <CheckBox Content="Hardware Accelerated"
                       x:Name="hwAcceleration" />
             <TextBlock x:Name="currentPositionText" />
         </StackPanel>
-        <Grid x:Name="panelGrid"
+		<Grid x:Name="panelGrid"
               Grid.Row="1">
-            <not_win:Border>
-                <sk:SKSwapChainPanel x:Name="swapChain"
+			<Grid.RowDefinitions>
+				<RowDefinition Height="500" />
+				<RowDefinition Height="500" />
+			</Grid.RowDefinitions>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="500" />
+				<ColumnDefinition Width="500" />
+			</Grid.ColumnDefinitions>
+
+			<sk:SKSwapChainPanel x:Name="swapChain"
+							 Margin="10"
                                      PaintSurface="OnPaintSwapChain"
                                      PointerMoved="{x:Bind OnSurfacePointerMoved}"
                                      not_win:Background="Transparent"
                                      Visibility="{x:Bind hwAcceleration.IsChecked, Mode=OneWay}" />
-            </not_win:Border>
-            <TextBlock x:Name="notSupported"
-                       Visibility="Collapsed"
-                       Text="SKSwapChainPanel is not supported on this platform" />
-            <sk:SKXamlCanvas x:Name="canvas"
+
+			<sk:SKXamlCanvas x:Name="canvas"
+							 Margin="10"
                              PaintSurface="OnPaintSurface"
                              PointerMoved="{x:Bind OnSurfacePointerMoved}"
                              not_win:Background="Transparent"
                              Visibility="{x:Bind Not(hwAcceleration.IsChecked), Mode=OneWay}" />
-        </Grid>
+
+
+
+			<sk:SKSwapChainPanel x:Name="swapChain2" Grid.Row="1"
+							 Margin="10"
+                                     PaintSurface="OnPaintSwapChain"
+                                     PointerMoved="{x:Bind OnSurfacePointerMoved}"
+                                     not_win:Background="Transparent"
+                                     Visibility="{x:Bind hwAcceleration.IsChecked, Mode=OneWay}" />
+
+			<sk:SKXamlCanvas x:Name="canvas2" Grid.Row="1"
+							 Margin="10"
+                             PaintSurface="OnPaintSurface"
+                             PointerMoved="{x:Bind OnSurfacePointerMoved}"
+                             not_win:Background="Transparent"
+                             Visibility="{x:Bind Not(hwAcceleration.IsChecked), Mode=OneWay}" />
+
+
+
+			<sk:SKSwapChainPanel x:Name="swapChain3"
+                   Grid.Column="1" 
+							 Margin="10"
+                                     PaintSurface="OnPaintSwapChain"
+                                     PointerMoved="{x:Bind OnSurfacePointerMoved}"
+                                     not_win:Background="Transparent"
+                                     Visibility="{x:Bind hwAcceleration.IsChecked, Mode=OneWay}" />
+
+			<sk:SKXamlCanvas x:Name="canvas3"
+                   Grid.Column="1" 
+							 Margin="10"
+                             PaintSurface="OnPaintSurface"
+                             PointerMoved="{x:Bind OnSurfacePointerMoved}"
+                             not_win:Background="Transparent"
+                             Visibility="{x:Bind Not(hwAcceleration.IsChecked), Mode=OneWay}" />
+
+
+			<sk:SKSwapChainPanel x:Name="swapChain4"
+                   Grid.Row="1"
+                   Grid.Column="1"
+							 Margin="10"
+                                     PaintSurface="OnPaintSwapChain"
+                                     PointerMoved="{x:Bind OnSurfacePointerMoved}"
+                                     not_win:Background="Transparent"
+                                     Visibility="{x:Bind hwAcceleration.IsChecked, Mode=OneWay}" />
+
+			<sk:SKXamlCanvas x:Name="canvas4"
+                   Grid.Row="1"
+                   Grid.Column="1"
+							 Margin="10"
+                             PaintSurface="OnPaintSurface"
+                             PointerMoved="{x:Bind OnSurfacePointerMoved}"
+                             not_win:Background="Transparent"
+                             Visibility="{x:Bind Not(hwAcceleration.IsChecked), Mode=OneWay}" />
+
+		</Grid>
+
+		
+		
     </Grid>
 </Page>

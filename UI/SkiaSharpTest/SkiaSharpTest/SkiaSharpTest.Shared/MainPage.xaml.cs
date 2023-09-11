@@ -34,33 +34,29 @@ namespace SkiaSharpTest
 #endif
 
             this.InitializeComponent();
-
-#if HAS_UNO_SKIA || WINDOWS
-            notSupported.Visibility = Visibility.Visible;
-#endif
         }
 
         private Visibility Not(bool? value) => (!value ?? false) ? Visibility.Visible : Visibility.Collapsed;
 
-        private void OnPaintSwapChain(object sender, SKPaintGLSurfaceEventArgs e)
-        {
-            // the the canvas and properties
-            var canvas = e.Surface.Canvas;
-            var info = e.Info;
+		private void OnPaintSwapChain(object sender, SKPaintGLSurfaceEventArgs e)
+		{
+			// the the canvas and properties
+			var canvas = e.Surface.Canvas;
+			var info = e.Info;
 
-            Render(canvas, new Size(info.Width, info.Height), SKColors.Green, "SkiaSharp Hardware Rendering");
-        }
+			Render(canvas, new Size(info.Width, info.Height), SKColors.Green, "SkiaSharp Hardware Rendering");
+		}
 
-        private void OnPaintSurface(object sender, SKPaintSurfaceEventArgs e)
-        {
-            // the the canvas and properties
-            var canvas = e.Surface.Canvas;
-            var info = e.Info;
+		private void OnPaintSurface(object sender, SKPaintSurfaceEventArgs e)
+		{
+			// the the canvas and properties
+			var canvas = e.Surface.Canvas;
+			var info = e.Info;
 
-            Render(canvas, new Size(info.Width, info.Height), SKColors.Yellow, "SkiaSharp Software Rendering");
-        }
+			Render(canvas, new Size(info.Width, info.Height), SKColors.Yellow, "SkiaSharp Software Rendering");
+		}
 
-        private void OnSurfacePointerMoved(object sender, PointerRoutedEventArgs e)
+		private void OnSurfacePointerMoved(object sender, PointerRoutedEventArgs e)
         {
             _currentPosition = e.GetCurrentPoint(panelGrid).Position;
             currentPositionText.Text = _currentPosition.ToString();
@@ -68,13 +64,19 @@ namespace SkiaSharpTest
             if (hwAcceleration.IsChecked ?? false)
             {
 #if !WINDOWS
-                swapChain.Invalidate();
+				swapChain.Invalidate();
+				swapChain2.Invalidate();
+				swapChain3.Invalidate();
+				swapChain4.Invalidate();
 #endif
-            }
+			}
             else
-            {
-                canvas.Invalidate();
-            }
+			{
+				canvas.Invalidate();
+				canvas2.Invalidate();
+				canvas3.Invalidate();
+				canvas4.Invalidate();
+			}
         }
 
         private void Render(SKCanvas canvas, Size size, SKColor color, string text)
@@ -89,8 +91,29 @@ namespace SkiaSharpTest
             // make sure the canvas is blank
             canvas.Clear(color);
 
-            // draw some text
-            var paint = new SKPaint
+			//canvas.Clear(SKColors.Transparent);
+			CornerRadius = new CornerRadius(50);
+			var rect = new SKRect(0, 0, (float)Width, (float)Height);
+			var radii = new SKPoint[] {
+				new SKPoint((float)CornerRadius.TopLeft, (float)CornerRadius.TopLeft),
+				new SKPoint((float)CornerRadius.TopRight, (float)CornerRadius.TopRight),
+				new SKPoint((float)CornerRadius.BottomRight,(float)CornerRadius.BottomRight),
+				new SKPoint((float)CornerRadius.BottomLeft, (float)CornerRadius.BottomLeft)
+			};
+			var shape = new SKRoundRect();
+			shape.SetRectRadii(rect, radii);
+
+			// draw some text
+			var paint2 = new SKPaint
+			{
+				Color = SKColors.Violet,
+				IsAntialias = true,
+				Style = SKPaintStyle.Fill,
+			};
+			canvas.DrawRoundRect(shape, paint2);
+
+			// draw some text
+			var paint = new SKPaint
             {
                 Color = SKColors.Black,
                 IsAntialias = true,
