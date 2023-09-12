@@ -4,6 +4,8 @@ This sample app embeds the [DevExpress .NET MAUI Controls](https://www.devexpres
 
 For more information on how to use the controls from DevExpress in an Uno Platform application via .NET MAUI Embedding, please visit [our documentation here](https://aka.platform.uno/maui-embedding-sample-app-devexpress).
 
+<img src="doc/assets/third-party-sample-devexpress.gif" alt="DevExpress .NET MAUI Controls Demo sample" />
+
 > [!NOTE]
 > The DevExpress .NET MAUI Controls are currently available [free of charge](https://www.devexpress.com/maui/). However, in order to access the NuGet packages you do need to create an account at [DevExpress website](https://www.devexpress.com/MyAccount/Register/?returnUrl=https%3a%2f%2fnuget.devexpress.com%2f%23feed-url).
 

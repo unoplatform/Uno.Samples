@@ -4,6 +4,11 @@ This sample app embeds the [Syncfusion .NET MAUI Controls](https://www.syncfusio
 
 For more information on how to use the controls from Syncfusion in an Uno Platform application via .NET MAUI Embedding, please visit [our documentation here](https://aka.platform.uno/maui-embedding-sample-app-syncfusion).
 
+<img src="doc/assets/third-party-sample-syncfusion.gif" alt="Syncfusion .NET MAUI Controls Demo sample" />
+
+> [!NOTE]
+> In order to use the Syncfusion controls, you will need to create an account and purchase a Syncfusion license [here](https://help.syncfusion.com/maui/licensing/overview). This sample can be run in development without a license key.
+
 ## List of controls used in this sample
 - Doughnut
     - CenterElevation

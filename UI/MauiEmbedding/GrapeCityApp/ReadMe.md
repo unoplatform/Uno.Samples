@@ -4,6 +4,11 @@ This sample app embeds the [GrapeCity ComponentOne .NET MAUI Controls](https://w
 
 For more information on how to use the controls from GrapeCity in an Uno Platform application via .NET MAUI Embedding, please visit [our documentation here](https://aka.platform.uno/maui-embedding-sample-app-grapecity).
 
+<img src="doc/assets/third-party-sample-grapecity.gif" alt="GrapeCity ComponentOne .NET MAUI Controls Demo sample" />
+
+> [!NOTE]
+> In order to use the ComponentOne controls, you first need to install the ComponentOne ControlPanel following [these instructions](https://www.grapecity.com/componentone/docs/maui/online-maui/get-started.html).
+
 ## List of controls used in this sample
 - FlexGrid
 - Calendar

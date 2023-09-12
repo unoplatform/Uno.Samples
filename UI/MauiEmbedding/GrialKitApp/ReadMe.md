@@ -4,6 +4,8 @@ This sample app embeds the [Grial UI Kit for .NET MAUI](https://grialkit.com/) i
 
 For more information on how to use the controls from GrialKit in an Uno Platform application via .NET MAUI Embedding, please visit [our documentation here](https://aka.platform.uno/maui-embedding-sample-app-grialkit).
 
+<img src="doc/assets/third-party-sample-grialkit.gif" alt="Grial UI Kit for .NET MAUI Demo sample" />
+
 > [!NOTE]
 > In order to use the Grial UI Kit controls, you first need to [sign up](https://admin.grialkit.com/secure/grial/front/signup). 
 

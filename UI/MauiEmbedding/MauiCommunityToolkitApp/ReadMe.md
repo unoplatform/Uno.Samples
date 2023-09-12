@@ -4,6 +4,8 @@ This sample app embeds the [.NET MAUI Community Toolkit](https://learn.microsoft
 
 For more information on how to use the .NET MAUI Community Toolkit in an Uno Platform application via .NET MAUI Embedding, please visit [our documentation here](https://aka.platform.uno/maui-embedding-sample-app-mauicommunitytoolkit).
 
+<img src="doc/assets/third-party-sample-dotnetmauicommunitytoolkit.gif" alt=".NET MAUI Community Toolkit Demo sample" />
+
 ## List of controls used in this sample
 - Avatar
 - DrawingView
