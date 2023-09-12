@@ -24,11 +24,11 @@ For more information on how to use the controls from Telerik in an Uno Platform 
 
 ### Windows
 
- ![Telerik Sample App running on Windows](doc/assets/_Add proper screenshot_)
+ ![Telerik Sample App running on Windows](doc/assets/Telerik_DataGrid_Windows.png)
 
 ### Android
 
- ![Telerik Sample App running on Android](doc/assets/_Add proper screenshot_)
+ ![Telerik Sample App running on Android](doc/assets/Telerik_DataGrid_Android.png)
 
 ## Sample App - Issues
 If you encounter any issues with this sample, please open an issue [here](https://github.com/unoplatform/uno/issues).

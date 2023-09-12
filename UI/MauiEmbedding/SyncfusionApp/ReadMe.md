@@ -38,11 +38,11 @@ For more information on how to use the controls from Syncfusion in an Uno Platfo
 
 ### Windows
 
- ![Syncfusion Sample App running on Windows](doc/assets/_Add proper screenshot_)
+ ![Syncfusion Sample App running on Windows](doc/assets/SyncFusion_Windows.png)
 
 ### Android
 
- ![Syncfusion Sample App running on Android](doc/assets/_Add proper screenshot_)
+ ![Syncfusion Sample App running on Android](doc/assets/SyncFusion_Android.png)
 
 ## Sample App - Issues
 If you encounter any issues with this sample, please open an issue [here](https://github.com/unoplatform/uno/issues).

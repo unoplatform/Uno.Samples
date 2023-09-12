@@ -17,11 +17,11 @@ For more information on how to use the controls from GrapeCity in an Uno Platfor
 
 ### Windows
 
- ![GrapeCity Sample App running on Windows](doc/assets/_Add proper screenshot_)
+ ![GrapeCity Sample App running on Windows](doc/assets/GrapeCity_Windows.png)
 
 ### Android
 
- ![GrapeCity Sample App running on Android](doc/assets/_Add proper screenshot_)
+ ![GrapeCity Sample App running on Android](doc/assets/GrapeCity_Android.png)
 
 ## Sample App - Issues
 If you encounter any issues with this sample, please open an issue [here](https://github.com/unoplatform/uno/issues).

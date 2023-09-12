@@ -28,11 +28,11 @@ For more information on how to use the controls from DevExpress in an Uno Platfo
 
 ### Android
 
- ![DevExpress Sample App running on Android](doc/assets/_Add proper screenshot_)
+ ![DevExpress Sample App running on Android](doc/assets/DevExpress_Android.png)
 
 ### iOS
 
- ![DevExpress Sample App running on iOS](doc/assets/_Add proper screenshot_)
+ ![DevExpress Sample App running on iOS](doc/assets/DevExpress_iOS.png)
 
 ## Sample App - Issues
 If you encounter any issues with this sample, please open an issue [here](https://github.com/unoplatform/uno/issues).

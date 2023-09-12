@@ -17,11 +17,11 @@ For more information on how to use the .NET MAUI Community Toolkit in an Uno Pla
 
 ### Windows
 
- ![.NET MAUI Community Toolkit Sample App running on Windows](doc/assets/_Add proper screenshot_)
+ ![.NET MAUI Community Toolkit Sample App running on Windows](doc/assets/CommunityToolkit_Windows.png)
 
 ### Android
 
- ![.NET MAUI Community Toolkit Sample App running on Android](doc/assets/_Add proper screenshot_)
+ ![.NET MAUI Community Toolkit Sample App running on Android](doc/assets/CommunityToolkit_Android.png)
 
 ## Sample App - Issues
 If you encounter any issues with this sample, please open an issue [here](https://github.com/unoplatform/uno/issues).

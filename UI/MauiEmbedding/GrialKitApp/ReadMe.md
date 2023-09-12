@@ -30,13 +30,13 @@ For more information on how to use the controls from GrialKit in an Uno Platform
 
 ## Sample App - Examples
 
-### iOS
-
- ![GrialKit Sample App running on iOS](doc/assets/_Add proper screenshot_)
-
 ### Android
 
- ![GrialKit Sample App running on Android](doc/assets/_Add proper screenshot_)
+ ![GrialKit Sample App running on Android](doc/assets/GrialKit_Android.png)
+
+### iOS
+
+ ![GrialKit Sample App running on iOS](doc/assets/GrialKit_iOS.png)
 
 ## Sample App - Issues
 If you encounter any issues with this sample, please open an issue [here](https://github.com/unoplatform/uno/issues).
