@@ -65,8 +65,9 @@
         </DataTemplate>
     </Page.Resources>
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
-		  toolkit:VisibleBoundsPadding.PaddingMask="All">
+	<Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+		<!-- TODO: Fix padding - breaking canaries on windows target -->
+		<!--toolkit:VisibleBoundsPadding.PaddingMask="All">-->
         <controls:DataGrid x:Name="dataGrid"
                            Margin="12"
                            VerticalAlignment="Stretch"
