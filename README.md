@@ -153,7 +153,8 @@ An implementation of the UWP `Maps` control with a custom slider that binds the 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/MapControlSample)
 
 ### .NET MAUI Embedding  
-Multiple samples that demonstrate third-party control libraries embedded in Uno Platform applications using .NET MAUI Embedding
+Multiple samples that demonstrate third-party control libraries embedded in Uno Platform applications using .NET MAUI Embedding.
+Note that these controls work only for target platforms .NET MAUI reaches – iOS, Android, MacOS, and Windows.
 
 #### ArcGIS Maps SDK for .NET
 
@@ -387,6 +388,9 @@ Demo of the usage of WebRTC in Uno WebAssembly. This sample establishes a direct
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/UnoScrollReveal)
 
 Visit [our documentation](https://platform.uno/docs/articles/intro.html) for more details.
+
+## Uno Platform Samples - Issues
+If you encounter any issues with these samples above, please open an issue [here](https://github.com/unoplatform/uno/issues).
 
 # Contributors
 Thanks go to these wonderful people (List made with [contrib.rocks](https://contrib.rocks)):
