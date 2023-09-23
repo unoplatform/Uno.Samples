@@ -93,8 +93,9 @@ namespace MapControlSample
                 {
                     return;
                 }
-                
-                MapControl.Map.Navigator.ZoomToLevel(Convert.ToInt32(zoomSlider.Value));
+
+                var level = Convert.ToInt32(zoomSlider.Value);
+                MapControl.Map.Navigator.ZoomToLevel(level);
             }
             finally
             {
