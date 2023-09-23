@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Threading.Tasks;
 using Mapsui;
 using Mapsui.Animations;
 using Mapsui.Extensions;
@@ -34,27 +35,26 @@ namespace MapControlSample
             var sphericalMercatorCoordinate = SphericalMercator.FromLonLat(centerOfLondonOntario.X, centerOfLondonOntario.Y).ToMPoint();
 
             MapControl.Map.Home = n => n.CenterOnAndZoomTo(sphericalMercatorCoordinate, n.Resolutions[13]);
-            lastViewPort = MapControl.Map.Navigator.Viewport;
             MapControl.Map.Navigator.ViewportChanged += Navigator_ViewPortChanged;
         }
 
         private void Navigator_ViewPortChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (this.updating)
+            if (this._updating)
                 return;
             
+            this._updating = true;
+
             this.DispatcherQueue.TryEnqueue(() =>
             {
                 try
                 {
-                    this.updating = true;
-
                     var resolutions = MapControl.Map.Navigator.Resolutions;
                     // find the closest resolution
                     var zoomLevel = 0;
                     for (var i = 0; i < resolutions.Count; i++)
                     {
-                        if (resolutions[i] < MapControl.Map.Navigator.Viewport.Resolution)
+                        if (resolutions[i] <= MapControl.Map.Navigator.Viewport.Resolution)
                         {
                             break;
                         }
@@ -66,7 +66,7 @@ namespace MapControlSample
                 }
                 finally
                 {
-                    this.updating = false;
+                    this._updating = false;
                 }
             });
         }
@@ -76,13 +76,15 @@ namespace MapControlSample
             _currentPoint = e.GetCurrentPoint(this);
         }
 
-        private void ZoomSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
+        private async void ZoomSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
         {
-            if (this.updating)
+            if (this._updating)
                 return;
 
             try
             {
+                _updating = true;
+
                 if(_currentPoint is null)
                 {
                     return;
@@ -94,12 +96,14 @@ namespace MapControlSample
                     return;
                 }
 
-                var level = Convert.ToInt32(zoomSlider.Value);
-                MapControl.Map.Navigator.ZoomToLevel(level);
+                var level = Convert.ToInt32(zoomSlider.Value) - 1;
+                var resolution = MapControl.Map.Navigator.Resolutions[level];
+                MapControl.Map.Navigator.ZoomTo(resolution, mousePosition, 100, MouseWheelAnimation.Easing);
             }
             finally
             {
-                this.updating = false;
+                await Task.Delay(120); // animation duration + 20ms
+                _updating = false;
             }
         }
 
@@ -107,7 +111,6 @@ namespace MapControlSample
         public MouseWheelAnimation MouseWheelAnimation { get; } = new MouseWheelAnimation { Duration = 0 };
 
         private Microsoft.UI.Input.PointerPoint _currentPoint;
-        private Viewport lastViewPort;
-        private bool updating;
+        private bool _updating;
     }
 }
