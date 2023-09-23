@@ -8,6 +8,7 @@ using Mapsui.Projections;
 using Mapsui.Tiling;
 using Mapsui.UI;
 using Mapsui.Widgets.Zoom;
+using Microsoft.UI.Input;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Input;
@@ -85,11 +86,9 @@ namespace MapControlSample
             {
                 _updating = true;
 
-                if(_currentPoint is null)
-                {
-                    return;
-                }
-                var mousePosition = new MPoint(_currentPoint.Position.X, _currentPoint.Position.Y);
+                var mousePosition = _currentPoint is null ? 
+                    new MPoint(MapControl.ActualWidth / 2, MapControl.ActualHeight / 2) : 
+                    new MPoint(_currentPoint.Position.X, _currentPoint.Position.Y);
 
                 if (MapControl.Map == null)
                 {
