@@ -1,4 +1,6 @@
-﻿using Mapsui;
+﻿using System;
+using System.ComponentModel;
+using Mapsui;
 using Mapsui.Animations;
 using Mapsui.Extensions;
 using Mapsui.Projections;
@@ -32,6 +34,41 @@ namespace MapControlSample
             var sphericalMercatorCoordinate = SphericalMercator.FromLonLat(centerOfLondonOntario.X, centerOfLondonOntario.Y).ToMPoint();
 
             MapControl.Map.Home = n => n.CenterOnAndZoomTo(sphericalMercatorCoordinate, n.Resolutions[13]);
+            lastViewPort = MapControl.Map.Navigator.Viewport;
+            MapControl.Map.Navigator.ViewportChanged += Navigator_ViewPortChanged;
+        }
+
+        private void Navigator_ViewPortChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (this.updating)
+                return;
+            
+            this.DispatcherQueue.TryEnqueue(() =>
+            {
+                try
+                {
+                    this.updating = true;
+
+                    var resolutions = MapControl.Map.Navigator.Resolutions;
+                    // find the closest resolution
+                    var zoomLevel = 0;
+                    for (var i = 0; i < resolutions.Count; i++)
+                    {
+                        if (resolutions[i] < MapControl.Map.Navigator.Viewport.Resolution)
+                        {
+                            break;
+                        }
+
+                        zoomLevel = i;
+                    }
+
+                    zoomSlider.Value = zoomLevel;
+                }
+                finally
+                {
+                    this.updating = false;
+                }
+            });
         }
 
         private void MapControl_PointerMoved(object sender, PointerRoutedEventArgs e)
@@ -41,23 +78,27 @@ namespace MapControlSample
 
         private void ZoomSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
         {
-            if(_currentPoint is null)
-            {
+            if (this.updating)
                 return;
-            }
-            var mousePosition = new MPoint(_currentPoint.Position.X, _currentPoint.Position.Y);
 
-            if (MapControl.Map == null)
+            try
             {
-                return;
+                if(_currentPoint is null)
+                {
+                    return;
+                }
+                var mousePosition = new MPoint(_currentPoint.Position.X, _currentPoint.Position.Y);
+
+                if (MapControl.Map == null)
+                {
+                    return;
+                }
+                
+                MapControl.Map.Navigator.ZoomToLevel(Convert.ToInt32(zoomSlider.Value));
             }
-            if (e.NewValue > e.OldValue)
+            finally
             {
-                MapControl.Map.Navigator?.ZoomIn(mousePosition, 100, MouseWheelAnimation.Easing);
-            }
-            else
-            {
-                MapControl.Map.Navigator?.ZoomOut(mousePosition, 100, MouseWheelAnimation.Easing);
+                this.updating = false;
             }
         }
 
@@ -65,7 +106,7 @@ namespace MapControlSample
         public MouseWheelAnimation MouseWheelAnimation { get; } = new MouseWheelAnimation { Duration = 0 };
 
         private Microsoft.UI.Input.PointerPoint _currentPoint;
-
-
+        private Viewport lastViewPort;
+        private bool updating;
     }
 }
