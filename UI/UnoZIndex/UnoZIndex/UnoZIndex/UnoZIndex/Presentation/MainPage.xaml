@@ -1,15 +1,37 @@
-<Page x:Class="UnoZIndex.Presentation.MainPage"
-	  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-	  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-	  xmlns:local="using:UnoZIndex.Presentation"
-	  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-	  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	  mc:Ignorable="d"
-	  xmlns:uen="using:Uno.Extensions.Navigation.UI"
-	  xmlns:utu="using:Uno.Toolkit.UI"
-	  xmlns:toolkit="using:Uno.UI.Toolkit"
-	  NavigationCacheMode="Required"
-	  Background="{ThemeResource BackgroundBrush}">
+<Page
+	x:Class="UnoZIndex.Presentation.MainPage"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:local="using:UnoZIndex.Presentation"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:toolkit="using:Uno.UI.Toolkit"
+	xmlns:uen="using:Uno.Extensions.Navigation.UI"
+	xmlns:utu="using:Uno.Toolkit.UI"
+	Background="{ThemeResource BackgroundBrush}"
+	NavigationCacheMode="Required"
+	mc:Ignorable="d">
+
+	<Page.Resources>
+		<utu:ShadowCollection x:Key="InnerShadows">
+			<utu:Shadow
+				BlurRadius="5"
+				IsInner="False"
+				OffsetX="2"
+				OffsetY="2"
+				Opacity="1"
+				Spread="-5"
+				Color="LavenderBlush" />
+			<utu:Shadow
+				BlurRadius="5"
+				IsInner="False"
+				OffsetX="-2"
+				OffsetY="-5"
+				Opacity="1"
+				Spread="-5"
+				Color="Moccasin" />
+		</utu:ShadowCollection>
+	</Page.Resources>
 
 	<Grid utu:SafeArea.Insets="All">
 		<Grid.RowDefinitions>
@@ -19,139 +41,135 @@
 		<utu:NavigationBar Content="Tap on invidual cards to bring to the front" />
 
 		<Canvas Grid.Row="1">
-			<toolkit:ElevatedView x:Name="ElevatedView"
-								  Canvas.Left="20"
-								  Canvas.Top="20"
-								  Canvas.ZIndex="1"
-								  CornerRadius="5"
-								  Width="300"
-								  Height="200"
-								  Elevation="2"
-								  ShadowColor="DarkGray"
-								  IsTapEnabled="True"
-								  Tapped="ElevatedView_Tapped">
-				<Grid RowSpacing="5"
-					  Background="#1f1f1f">
+			<utu:ShadowContainer
+				x:Name="ElevatedView"
+				Canvas.Left="20"
+				Canvas.Top="20"
+				Width="300"
+				Height="200"
+				Background="#1f1f1f"
+				Canvas.ZIndex="1"
+				CornerRadius="5"
+				IsTapEnabled="True"
+				Shadows="{StaticResource InnerShadows}"
+				Tapped="ElevatedView_Tapped">
+				<Grid RowSpacing="5">
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition Width="*" />
 						<ColumnDefinition Width="8*" />
 					</Grid.ColumnDefinitions>
 					<Rectangle Fill="DarkOliveGreen" />
-					<Grid Grid.Column="1"
-						  Padding="15">
+					<Grid Grid.Column="1" Padding="15">
 						<Grid.RowDefinitions>
 							<RowDefinition Height="*" />
 							<RowDefinition Height="*" />
 						</Grid.RowDefinitions>
 
-						<TextBlock Text="Card One Title"
-								   FontSize="16" />
-						<TextBlock Grid.Row="1"
-								   Text="Card One Content"
-								   FontSize="14" />
+						<TextBlock FontSize="16" Text="Card One Title" />
+						<TextBlock
+							Grid.Row="1"
+							FontSize="14"
+							Text="Card One Content" />
 					</Grid>
 
 				</Grid>
-			</toolkit:ElevatedView>
+			</utu:ShadowContainer>
 
-			<toolkit:ElevatedView x:Name="ElevatedView2"
-								  Canvas.Left="70"
-								  Canvas.Top="70"
-								  Canvas.ZIndex="2"
-								  CornerRadius="5"
-								  Width="300"
-								  Height="200"
-								  Elevation="2"
-								  ShadowColor="DarkGray"
-								  IsTapEnabled="True"
-								  Tapped="ElevatedView_Tapped">
-				<Grid RowSpacing="5"
-					  Background="#1f1f1f">
+			<toolkit:ElevatedView
+				x:Name="ElevatedView2"
+				Canvas.Left="70"
+				Canvas.Top="70"
+				Width="300"
+				Height="200"
+				Canvas.ZIndex="2"
+				CornerRadius="5"
+				Elevation="2"
+				IsTapEnabled="True"
+				ShadowColor="DarkGray"
+				Tapped="ElevatedView_Tapped">
+				<Grid Background="#1f1f1f" RowSpacing="5">
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition Width="*" />
 						<ColumnDefinition Width="8*" />
 					</Grid.ColumnDefinitions>
 					<Rectangle Fill="DarkCyan" />
-					<Grid Grid.Column="1"
-						  Padding="15">
+					<Grid Grid.Column="1" Padding="15">
 						<Grid.RowDefinitions>
 							<RowDefinition Height="*" />
 							<RowDefinition Height="*" />
 						</Grid.RowDefinitions>
 
-						<TextBlock Text="Card Two Title"
-								   FontSize="16" />
-						<TextBlock Grid.Row="1"
-								   Text="Card Two Content"
-								   FontSize="14" />
+						<TextBlock FontSize="16" Text="Card Two Title" />
+						<TextBlock
+							Grid.Row="1"
+							FontSize="14"
+							Text="Card Two Content" />
 					</Grid>
 
 				</Grid>
 			</toolkit:ElevatedView>
-			<toolkit:ElevatedView x:Name="ElevatedView3"
-								  Canvas.Left="120"
-								  Canvas.Top="120"
-								  Canvas.ZIndex="3"
-								  CornerRadius="5"
-								  Width="300"
-								  Height="200"
-								  Elevation="2"
-								  ShadowColor="DarkGray"
-								  IsTapEnabled="True"
-								  Tapped="ElevatedView_Tapped">
-				<Grid RowSpacing="5"
-					  Background="#1f1f1f">
+			<toolkit:ElevatedView
+				x:Name="ElevatedView3"
+				Canvas.Left="120"
+				Canvas.Top="120"
+				Width="300"
+				Height="200"
+				Canvas.ZIndex="3"
+				CornerRadius="5"
+				Elevation="2"
+				IsTapEnabled="True"
+				ShadowColor="DarkGray"
+				Tapped="ElevatedView_Tapped">
+				<Grid Background="#1f1f1f" RowSpacing="5">
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition Width="*" />
 						<ColumnDefinition Width="8*" />
 					</Grid.ColumnDefinitions>
 					<Rectangle Fill="DarkBlue" />
-					<Grid Grid.Column="1"
-						  Padding="15">
+					<Grid Grid.Column="1" Padding="15">
 						<Grid.RowDefinitions>
 							<RowDefinition Height="*" />
 							<RowDefinition Height="*" />
 						</Grid.RowDefinitions>
 
-						<TextBlock Text="Card Three Title"
-								   FontSize="16" />
-						<TextBlock Grid.Row="1"
-								   Text="Card Three Content"
-								   FontSize="14" />
+						<TextBlock FontSize="16" Text="Card Three Title" />
+						<TextBlock
+							Grid.Row="1"
+							FontSize="14"
+							Text="Card Three Content" />
 					</Grid>
 
 				</Grid>
 			</toolkit:ElevatedView>
-			<toolkit:ElevatedView x:Name="ElevatedView4"
-								  Canvas.Left="170"
-								  Canvas.Top="170"
-								  Canvas.ZIndex="4"
-								  CornerRadius="5"
-								  Width="300"
-								  Height="200"
-								  Elevation="5"
-								  ShadowColor="DarkGray"
-								  IsTapEnabled="True"
-								  Tapped="ElevatedView_Tapped">
-				<Grid RowSpacing="5"
-					  Background="#1f1f1f">
+			<toolkit:ElevatedView
+				x:Name="ElevatedView4"
+				Canvas.Left="170"
+				Canvas.Top="170"
+				Width="300"
+				Height="200"
+				Canvas.ZIndex="4"
+				CornerRadius="5"
+				Elevation="5"
+				IsTapEnabled="True"
+				ShadowColor="DarkGray"
+				Tapped="ElevatedView_Tapped">
+				<Grid Background="#1f1f1f" RowSpacing="5">
 					<Grid.ColumnDefinitions>
-						<ColumnDefinition Width="*"/>
+						<ColumnDefinition Width="*" />
 						<ColumnDefinition Width="8*" />
 					</Grid.ColumnDefinitions>
-					<Rectangle Fill="DarkGreen"/>
-					<Grid Grid.Column="1"
-						  Padding="15">
+					<Rectangle Fill="DarkGreen" />
+					<Grid Grid.Column="1" Padding="15">
 						<Grid.RowDefinitions>
 							<RowDefinition Height="*" />
 							<RowDefinition Height="*" />
 						</Grid.RowDefinitions>
 
-						<TextBlock Text="Card Four Title"
-								   FontSize="16" />
-						<TextBlock Grid.Row="1"
-								   Text="Card Four Content"
-								   FontSize="14" />
+						<TextBlock FontSize="16" Text="Card Four Title" />
+						<TextBlock
+							Grid.Row="1"
+							FontSize="14"
+							Text="Card Four Content" />
 					</Grid>
 
 				</Grid>
