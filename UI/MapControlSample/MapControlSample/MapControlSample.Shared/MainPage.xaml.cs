@@ -8,7 +8,6 @@ using Mapsui.Projections;
 using Mapsui.Tiling;
 using Mapsui.UI;
 using Mapsui.Widgets.Zoom;
-using Microsoft.UI.Input;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Input;
