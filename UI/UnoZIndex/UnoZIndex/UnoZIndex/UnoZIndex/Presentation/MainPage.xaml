@@ -29,7 +29,9 @@
 			<RowDefinition Height="Auto" />
 			<RowDefinition />
 		</Grid.RowDefinitions>
-		<utu:NavigationBar Content="Tap on invidual cards to bring to the front" />
+		<Grid>
+			<TextBlock Text="Tap on invidual cards to bring to the front" />
+		</Grid>
 
 		<Canvas x:Name="MainCanvas" Grid.Row="1">
 
@@ -39,7 +41,7 @@
 				Canvas.Top="20"
 				Width="300"
 				Height="200"
-				Background="#1f1f1f"
+				Background="{ThemeResource BackgroundBrush}"
 				Shadows="{StaticResource InnerShadows}"
 				Tapped="Card_Tapped">
 				<Border CornerRadius="10" IsTapEnabled="True">
@@ -75,7 +77,7 @@
 				Shadows="{StaticResource InnerShadows}"
 				Tapped="Card_Tapped">
 				<Border CornerRadius="5">
-					<Grid Background="#1f1f1f" RowSpacing="5">
+					<Grid Background="{ThemeResource BackgroundBrush}" RowSpacing="5">
 						<Grid.ColumnDefinitions>
 							<ColumnDefinition Width="*" />
 							<ColumnDefinition Width="8*" />
@@ -107,7 +109,7 @@
 				Shadows="{StaticResource InnerShadows}"
 				Tapped="Card_Tapped">
 				<Border CornerRadius="5">
-					<Grid Background="#1f1f1f" RowSpacing="5">
+					<Grid Background="{ThemeResource BackgroundBrush}" RowSpacing="5">
 						<Grid.ColumnDefinitions>
 							<ColumnDefinition Width="*" />
 							<ColumnDefinition Width="8*" />
@@ -140,7 +142,7 @@
 				Shadows="{StaticResource InnerShadows}"
 				Tapped="Card_Tapped">
 				<Border CornerRadius="5">
-					<Grid Background="#1f1f1f" RowSpacing="5">
+					<Grid Background="{ThemeResource BackgroundBrush}" RowSpacing="5">
 						<Grid.ColumnDefinitions>
 							<ColumnDefinition Width="*" />
 							<ColumnDefinition Width="8*" />
