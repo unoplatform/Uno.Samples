@@ -1,0 +1,68 @@
+﻿<Page x:Class="XamlBrewerUnoApp.HomePage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:skiasharp="using:SkiaSharp.Views.Windows"
+      mc:Ignorable="d"
+      Background="Transparent">
+
+    <Grid>
+
+        <!-- SkiaSharp Logo -->
+        <Image Source="/Assets/SkiaSharpLogo.png"
+               VerticalAlignment="Bottom"
+               HorizontalAlignment="Left"
+               Height="48" />
+
+        <skiasharp:SKXamlCanvas x:Name="xamlCanvas"
+                                VerticalAlignment="Stretch"
+                                HorizontalAlignment="Stretch"
+                                PaintSurface="OnPaintSurface"
+                                Margin="0 0 0 60">
+            <!--<Rectangle Fill="Blue"
+                       Width="63"
+                       Height="41"
+                       Canvas.Left="40"
+                       Canvas.Top="31">
+            </Rectangle>
+            <Ellipse Fill="Green"
+                     Width="58"
+                     Height="58"
+                     Canvas.Left="88"
+                     Canvas.Top="100" />
+            <Path Fill="Orange"
+                  Data="M 0,0 c 0,0 50,0 50,-50 c 0,0 50,0 50,50 h -50 v 50 l -50,-50 Z"
+                  Canvas.Left="30"
+                  Canvas.Top="250" />
+            <Path Fill="OrangeRed"
+                  Canvas.Left="180"
+                  Canvas.Top="250">
+                <Path.Data>
+                    <PathGeometry>
+                        <PathFigure StartPoint="0,0"
+                                    IsClosed="True">
+                            <QuadraticBezierSegment Point1="50,0"
+                                                    Point2="50,-50" />
+                            <QuadraticBezierSegment Point1="100,-50"
+                                                    Point2="100,0" />
+                            <LineSegment Point="50,0" />
+                            <LineSegment Point="50,50" />
+                        </PathFigure>
+                    </PathGeometry>
+                </Path.Data>
+            </Path>
+            <Polygon Points="75,0 120,120 0,45 150,45 30,120"
+                     Stroke="DarkBlue"
+                     StrokeThickness="1"
+                     Fill="Violet"
+                     Canvas.Left="150"
+                     Canvas.Top="31" />
+            <Polyline Points="0,0 65,0 78,-26 91,39 104,-39 117,13 130,0 195,0"
+                      Stroke="Brown"
+                      Canvas.Left="30"
+                      Canvas.Top="350" />-->
+        </skiasharp:SKXamlCanvas>
+
+    </Grid>
+</Page>

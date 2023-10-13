@@ -1,0 +1,100 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows')) or '$(EnableWindowsTargeting)' == 'true'">$(TargetFrameworks);net7.0-windows10.0.19041</TargetFrameworks>
+    <TargetFrameworks>$(TargetFrameworks);net7.0-maccatalyst;net7.0;net7.0-android;net7.0-ios</TargetFrameworks>
+    <TargetFrameworks Condition="'$(OverrideTargetFrameworks)'!=''">$(OverrideTargetFrameworks)</TargetFrameworks>
+
+    <!-- Ensures the .xr.xml files are generated in a proper layout folder -->
+    <GenerateLibraryLayout>true</GenerateLibraryLayout>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CommunityToolkit.Mvvm" />
+    <PackageReference Include="Uno.Toolkit.WinUI" />
+    <PackageReference Include="Uno.WinUI" />
+    <PackageReference Include="Uno.Resizetizer" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Console" />
+    <PackageReference Include="SkiaSharp.HarfBuzz" />
+    <PackageReference Include="SkiaSharp.Skottie" />
+    <PackageReference Include="SkiaSharp.Svg" />
+
+  </ItemGroup>
+
+
+  <Choose>
+    <When Condition="$(IsWinAppSdk)">
+      <PropertyGroup>
+        <!--
+        If you encounter this error message:
+
+          error NETSDK1148: A referenced assembly was compiled using a newer version of Microsoft.Windows.SDK.NET.dll.
+          Please update to a newer .NET SDK in order to reference this assembly.
+
+        This means that the two packages below must be aligned with the "build" version number of
+        the "Microsoft.Windows.SDK.BuildTools" package above, and the "revision" version number
+        must be the highest found in https://www.nuget.org/packages/Microsoft.Windows.SDK.NET.Ref.
+        -->
+        <!-- <WindowsSdkPackageVersion>10.0.22621.28</WindowsSdkPackageVersion> -->
+      </PropertyGroup>
+      <ItemGroup>
+        <PackageReference Include="Microsoft.WindowsAppSDK" />
+        <PackageReference Include="Microsoft.Windows.SDK.BuildTools" />
+        <PackageReference Include="SkiaSharp.Views.WinUI" />
+      </ItemGroup>
+    </When>
+    <Otherwise>
+      <ItemGroup>
+        <PackageReference Include="Uno.WinUI.Lottie" />
+        <PackageReference Include="SkiaSharp.Views.Uno.WinUI" />
+        <!-- Include all images by default - matches the __WindowsAppSdkDefaultImageIncludes property in the WindowsAppSDK -->
+        <Content Include="Assets\**;**/*.png;**/*.bmp;**/*.jpg;**/*.dds;**/*.tif;**/*.tga;**/*.gif" Exclude="bin\**;obj\**;**\*.svg" />
+        <Page Include="**\*.xaml" Exclude="bin\**\*.xaml;obj\**\*.xaml" />
+        <Compile Update="**\*.xaml.cs">
+          <DependentUpon>%(Filename)</DependentUpon>
+        </Compile>
+        <PRIResource Include="**\*.resw" />
+      </ItemGroup>
+    </Otherwise>
+  </Choose>
+
+  <ItemGroup>
+    <UnoImage Include="Assets\**\*.svg" />
+    <UpToDateCheckInput Include="**\*.xaml" Exclude="bin\**\*.xaml;obj\**\*.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="SkiaSharpSample\Media\animated-heart.gif" />
+    <Content Remove="SkiaSharpSample\Media\baboon.png" />
+    <Content Remove="SkiaSharpSample\Media\color-wheel.png" />
+    <Content Remove="SkiaSharpSample\Media\nine-patch.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="SkiaSharpSample\Media\adobe-dng.dng" />
+    <None Remove="SkiaSharpSample\Media\baby_tux.webp" />
+    <None Remove="SkiaSharpSample\Media\content-font.ttf" />
+    <None Remove="SkiaSharpSample\Media\embedded-font.ttf" />
+    <None Remove="SkiaSharpSample\Media\logos.svg" />
+    <None Remove="SkiaSharpSample\Media\LottieLogo1.json" />
+    <None Remove="SkiaSharpSample\Media\opacity.svg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UnoImage Remove="Assets\winuilogo.svg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Assets\winuilogo.svg" />
+    <EmbeddedResource Include="SkiaSharpSample\Media\adobe-dng.dng" />
+    <EmbeddedResource Include="SkiaSharpSample\Media\animated-heart.gif" />
+    <EmbeddedResource Include="SkiaSharpSample\Media\baboon.png" />
+    <EmbeddedResource Include="SkiaSharpSample\Media\baby_tux.webp" />
+    <EmbeddedResource Include="SkiaSharpSample\Media\color-wheel.png" />
+    <EmbeddedResource Include="SkiaSharpSample\Media\content-font.ttf" />
+    <EmbeddedResource Include="SkiaSharpSample\Media\embedded-font.ttf" />
+    <EmbeddedResource Include="SkiaSharpSample\Media\logos.svg" />
+    <EmbeddedResource Include="SkiaSharpSample\Media\LottieLogo1.json" />
+    <EmbeddedResource Include="SkiaSharpSample\Media\nine-patch.png" />
+    <EmbeddedResource Include="SkiaSharpSample\Media\opacity.svg" />
+  </ItemGroup>
+</Project>
