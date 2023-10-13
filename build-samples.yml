@@ -19,11 +19,14 @@ steps:
       echo "##vso[task.setvariable variable=msbuildpath]$msbuildpath"
   displayName: Set MSBUILDPATH
 
+# NOTE: Currently, the CI just validates that the sample builds, and we don't publish actual apps.
+# In future, if we publish actual apps, it could happen that AndroidAddKeepAlives=false may cause issues.
+# So it will be safer to remove it. For now, we set it to false as it makes the build much faster.
 - powershell: |
       Set-PSDebug -Trace 1
       Write-Host "${{ parameters.path }}"
 
-      & $env:msbuildpath "${{ parameters.path }}" /r /p:Configuration=Release /p:WasmShellMonoRuntimeExecutionMode=Interpreter /p:PublishTrimmed=false /p:WasmShellILLinkerEnabled=false /p:RunAOTCompilation=false /p:MtouchUseLlvm=false /ds "/bl:$(build.artifactstagingdirectory)\$(Agent.JobName).binlog" ;
+      & $env:msbuildpath "${{ parameters.path }}" /r /p:AndroidAddKeepAlives=false /p:Configuration=Release /p:WasmShellMonoRuntimeExecutionMode=Interpreter /p:PublishTrimmed=false /p:WasmShellILLinkerEnabled=false /p:RunAOTCompilation=false /p:MtouchUseLlvm=false /ds "/bl:$(build.artifactstagingdirectory)\$(Agent.JobName).binlog" ;
 
       $folderPath = [System.IO.Path]::GetDirectoryName("${{ parameters.path }}");
 
