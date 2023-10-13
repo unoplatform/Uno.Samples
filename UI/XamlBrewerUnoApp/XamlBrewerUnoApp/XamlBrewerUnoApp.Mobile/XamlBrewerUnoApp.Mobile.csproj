@@ -29,6 +29,9 @@
     <RunAOTCompilation>False</RunAOTCompilation>
     <PublishTrimmed>False</PublishTrimmed>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0-ios|AnyCPU'">
+    <MtouchUseLlvm>False</MtouchUseLlvm>
+  </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Uno.WinUI" />
