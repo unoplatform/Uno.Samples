@@ -39,6 +39,7 @@ namespace XamlBrewerUnoApp
                 root.RequestedTheme = settings.IsLightTheme ? ElementTheme.Light : ElementTheme.Dark;
             };
         }
+
         private void Root_ActualThemeChanged(FrameworkElement sender, object args)
         {
             // Theme change refinements (e.g. content dialogs and title bar).
