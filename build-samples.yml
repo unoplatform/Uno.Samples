@@ -23,7 +23,7 @@ steps:
       Set-PSDebug -Trace 1
       Write-Host "${{ parameters.path }}"
 
-      & $env:msbuildpath "${{ parameters.path }}" /r /p:Configuration=Release /p:WasmShellMonoRuntimeExecutionMode=Interpreter /p:PublishTrimmed=false /p:WasmShellILLinkerEnabled=false /p:RunAOTCompilation=false /p:MtouchUseLlvm=false /ds "/bl:$(build.artifactstagingdirectory)\$(Agent.JobName).binlog" ;
+      & $env:msbuildpath "${{ parameters.path }}" /r /p:AndroidAddKeepAlives=false /p:Configuration=Release /p:WasmShellMonoRuntimeExecutionMode=Interpreter /p:PublishTrimmed=false /p:WasmShellILLinkerEnabled=false /p:RunAOTCompilation=false /p:MtouchUseLlvm=false /ds "/bl:$(build.artifactstagingdirectory)\$(Agent.JobName).binlog" ;
 
       $folderPath = [System.IO.Path]::GetDirectoryName("${{ parameters.path }}");
 
