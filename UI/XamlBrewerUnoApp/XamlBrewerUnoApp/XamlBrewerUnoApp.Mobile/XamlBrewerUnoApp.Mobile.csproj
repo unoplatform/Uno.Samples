@@ -25,6 +25,10 @@
     <CodesignKey>Apple Development: Nick Randolph (UWH57C8LKA)</CodesignKey>
     <CodesignProvision>VS: WildCard Development</CodesignProvision>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0-android|AnyCPU'">
+    <RunAOTCompilation>False</RunAOTCompilation>
+    <PublishTrimmed>False</PublishTrimmed>
+  </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Uno.WinUI" />
