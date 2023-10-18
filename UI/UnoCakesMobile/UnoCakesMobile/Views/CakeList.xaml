@@ -1,0 +1,262 @@
+﻿<Page
+    x:Class="UnoCakesMobile.Views.CakeList"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:UnoCakesMobile.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:utu="using:Uno.Toolkit.UI"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <utu:NavigationBar Grid.Row="0" MainCommandMode="Back" Content="Cakes" Foreground="White" Background="#3d9165"/>
+
+        <ScrollViewer Grid.Row="1">
+        <StackPanel Padding="32" Background="#dededd" HorizontalAlignment="Stretch">
+            <StackPanel.Resources>
+                <ResourceDictionary>
+                    <Style TargetType="Rectangle">
+                        <Setter Property="Fill" Value="White" />
+                        <Setter Property="RadiusX" Value="20" />
+                        <Setter Property="RadiusY" Value="20" />
+                    </Style>
+                </ResourceDictionary>
+            </StackPanel.Resources>
+            
+            <StackPanel
+                    Margin="0,6"
+                    Orientation="Horizontal">
+                <Image
+                        HorizontalAlignment="Left"
+                        Source="ms-appx:///UnoCakesMobile/Assets/icon_menu.png"
+                        Width="20" />
+                <Image
+                        HorizontalAlignment="Right"
+                        Source="ms-appx:///UnoCakesMobile/Assets/icon_cart.png"
+                        Width="26" />
+            </StackPanel>
+
+            <StackPanel Margin="0,32,0,16" Spacing="-4">
+                <TextBlock
+                        FontSize="28"
+                        Style="{StaticResource ExBoldTextBlock}"
+                        Text="Fresh Taste of" />
+                <TextBlock
+                        FontSize="28"
+                        Style="{StaticResource LightTextBlock}"
+                        Text="Designed Cakes" />
+            </StackPanel>
+
+            <Grid Margin="0,16,0,30" ColumnSpacing="20" ColumnDefinitions="*,*,*,*">
+                <Grid.Resources>
+                    <ResourceDictionary>
+                        <Style TargetType="Rectangle">
+                            <Setter Property="Width" Value="52" />
+                            <Setter Property="Height" Value="52" />
+                            <Setter Property="HorizontalAlignment" Value="Center" />
+                            <Setter Property="Fill" Value="White" />
+                            <Setter Property="VerticalAlignment" Value="Center" />
+                            <Setter Property="RadiusX" Value="26" />
+                            <Setter Property="RadiusY" Value="26" />
+                        </Style>
+                    </ResourceDictionary>
+                </Grid.Resources>
+                <Rectangle Grid.Column="0" />
+                <Rectangle Grid.Column="1" />
+                <Rectangle Grid.Column="2" />
+
+                <Rectangle Grid.Column="3" Fill="#3d9165" />
+                <Image
+                        Grid.Column="0"
+                        HorizontalAlignment="Center"
+                        Source="ms-appx:///UnoCakesMobile/Assets/btncake.png"
+                        Width="44" />
+                <Image
+                        Grid.Column="1"
+                        HorizontalAlignment="Center"
+                        Source="ms-appx:///UnoCakesMobile/Assets/btnpd.png"
+                        Width="44" />
+                <Image
+                        Grid.Column="2"
+                        HorizontalAlignment="Center"
+                        Source="ms-appx:///UnoCakesMobile/Assets/btndk.png"
+                        Width="44" />
+                <TextBlock
+                        Grid.Column="3"
+                        FontSize="16"
+                        HorizontalAlignment="Center"
+                        Text="All"
+                        Foreground="White"
+                        VerticalAlignment="Center" />
+            </Grid>
+
+            <Grid
+                    ColumnDefinitions="*,*"
+                    ColumnSpacing="28"
+                    VerticalAlignment="Stretch">
+                <StackPanel Orientation="Vertical" Spacing="28" Grid.Column="0">
+                    <Grid>
+                        <Rectangle MinHeight="248"/>
+                        <Image
+                            Margin="8"
+                            Source="ms-appx:///UnoCakesMobile/Assets/item1.png"
+                            MaxWidth="240"
+                            VerticalAlignment="Top" />
+                        <Grid VerticalAlignment="Bottom" Margin="20,32,20,16" RowDefinitions="*,*,*">
+                            <TextBlock
+                                Grid.Row="0"
+                                FontWeight="Bold"
+                                FontSize="13"
+                                Style="{StaticResource ExBoldTextBlock}"
+                                Text="Iced Coffee" />
+                            <TextBlock
+                                Grid.Row="1"
+                                FontSize="10"
+                                Style="{StaticResource LightTextBlock}"
+                                Text="Lime with Coffee" />
+                            <TextBlock
+                                Grid.Row="2"
+                                FontWeight="Bold"
+                                FontSize="13"
+                                Style="{StaticResource ExBoldTextBlock}"
+                                Text="$8.00" />
+                            <FontIcon FontFamily="Segoe Fluent Icons" FontSize="16"  Glyph="&#xEB51;" Grid.Row="2" HorizontalAlignment="Right"/>
+                        </Grid>
+                    </Grid>
+                    
+                    <Grid>
+                        <Rectangle MinHeight="248" />
+                        <Image
+                            Margin="8"
+                            Source="ms-appx:///UnoCakesMobile/Assets/item3.png"
+                            MaxWidth="240"
+                            VerticalAlignment="Top" />
+                        <Grid
+                            Margin="20,32,20,16"
+                            RowDefinitions="*,*,*"
+                            VerticalAlignment="Bottom">
+                            <TextBlock
+                                Grid.Row="0"
+                                FontWeight="Bold"
+                                FontSize="13"
+                                Style="{StaticResource ExBoldTextBlock}"
+                                Text="Strawberry Cake" />
+                            <TextBlock
+                                Grid.Row="1"
+                                FontSize="10"
+                                Style="{StaticResource LightTextBlock}"
+                                Text="Cream with Strawberry" />
+                            <TextBlock
+                                Grid.Row="2"
+                                FontWeight="Bold"
+                                FontSize="13"
+                                Style="{StaticResource ExBoldTextBlock}"
+                                Text="$12.00" />
+                            <FontIcon FontFamily="Segoe Fluent Icons" FontSize="16"  Glyph="&#xEB51;" Grid.Row="2" HorizontalAlignment="Right"/>
+                        </Grid>
+                    </Grid>
+                </StackPanel>
+                
+                <StackPanel Orientation="Vertical" Spacing="28" Grid.Column="1">
+                    <Grid Tapped="{x:Bind ViewModel.ShowCake}">
+                        <Rectangle MinHeight="210" />
+                        <Image
+                            Margin="8,-2,8,8"
+                            Source="ms-appx:///UnoCakesMobile/Assets/item2.png"
+                            MaxWidth="240"
+                            VerticalAlignment="Top" />
+                        <Grid
+                            Margin="20,32,20,16"
+                            RowDefinitions="*,*,*"
+                            VerticalAlignment="Bottom">
+                            <TextBlock
+                                Grid.Row="0"
+                                FontWeight="Bold"
+                                FontSize="13"
+                                Style="{StaticResource ExBoldTextBlock}"
+                                Text="Blueberry Cake" />
+                            <TextBlock
+                                Grid.Row="1"
+                                FontSize="12"
+                                Style="{StaticResource LightTextBlock}"
+                                Text="Cream with Berry" />
+                            <TextBlock
+                                Grid.Row="2"
+                                FontWeight="Bold"
+                                FontSize="13"
+                                Style="{StaticResource ExBoldTextBlock}"
+                                Text="$15.00" />
+                            <FontIcon FontFamily="Segoe Fluent Icons" FontSize="16"  Glyph="&#xEB51;" Grid.Row="2" HorizontalAlignment="Right"/>
+                        </Grid>
+                    </Grid>
+                    
+                    <Grid>
+                            <Rectangle Grid.Row="1" MinHeight="220" />
+                            <Image
+                            Grid.Row="1"
+                            Margin="8,-4,8,8"
+                            Source="ms-appx:///UnoCakesMobile/Assets/item4.png"
+                                MaxWidth="240"
+                            VerticalAlignment="Top" />
+                            <Grid
+                            Grid.Row="1"
+                            Margin="20,32,20,16"
+                            RowDefinitions="*,*,*"
+                            VerticalAlignment="Bottom">
+                                <TextBlock
+                                Grid.Row="0"
+                                FontWeight="Bold"
+                                FontSize="13"
+                                Style="{StaticResource ExBoldTextBlock}"
+                                Text="Hot Coffee" />
+                                <TextBlock
+                                Grid.Row="1"
+                                FontSize="12"
+                                Style="{StaticResource LightTextBlock}"
+                                Text="Fresh Coffee" />
+                                <TextBlock
+                                Grid.Row="2"
+                                FontWeight="Bold"
+                                FontSize="13"
+                                Style="{StaticResource ExBoldTextBlock}"
+                                Text="$6.00" />
+                            <FontIcon FontFamily="Segoe Fluent Icons" FontSize="16"  Glyph="&#xEB51;" Grid.Row="2" HorizontalAlignment="Right"/>
+                        </Grid>
+                        </Grid>
+                    <Grid>
+                        <Rectangle
+                            Fill="#3d9165"
+                        HorizontalAlignment="Stretch"
+                            RadiusX="23"
+                            RadiusY="23"
+                            Height="46" />
+                        <TextBlock
+                            Margin="20,0"
+                            FontWeight="Bold"
+                            FontSize="13"
+                            HorizontalAlignment="Left"
+                            Style="{StaticResource ExBoldTextBlock}"
+                            Text="View More"
+                            Foreground="White"
+                            VerticalAlignment="Center" />
+                        <Rectangle
+                            Margin="10,0"
+                            Fill="White"
+                            RadiusX="16"
+                            RadiusY="16"
+                            Height="32"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Center"
+                            Width="32" />
+                        <SymbolIcon Symbol="Forward" Margin="16" HorizontalAlignment="Right" Foreground="#3d9165"  VerticalAlignment="Center"/>
+                    </Grid>
+                </StackPanel>
+            </Grid>
+        </StackPanel>
+    </ScrollViewer>
+    </Grid>
+</Page>
