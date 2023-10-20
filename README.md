@@ -226,6 +226,12 @@ Inspiration from Justin Liu's [demo app](https://twitter.com/justinxinliu/status
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/ToyCar)
 
+### Uno Cakes Mobile
+A port of Shaw Yu's Cakes Mobile App from [XampleUI](https://github.com/shawyunz/XampleUI) to Uno Platform.
+Used to demonstrate simple page navigation from View and ViewModel.
+
+[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/UnoCakesMobile)
+
 ### Uno Contoso
 A port of Microsoft's Contoso Enterprise UWP app to Uno Platform, using Prism.
 
