@@ -1,5 +1,4 @@
-﻿using Microsoft.Toolkit.Uwp.Helpers;
-using Prism.Mvvm;
+﻿using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -10,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnoContoso.Models;
 using UnoContoso.Repository;
+using Windows.ApplicationModel.Core;
 
 namespace UnoContoso.Model
 {
@@ -55,7 +55,7 @@ namespace UnoContoso.Model
         private async void LoadCustomer(Guid customerId)
         {
             var customer = await _contosoRepository.Customers.GetAsync(customerId);
-            await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
+            await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
             {
                 Customer = customer;
             });
@@ -452,16 +452,18 @@ namespace UnoContoso.Model
                     "connecting to the database. Please try again.", ex);
             }
 
-            if (result != null)
-            {
-                await DispatcherHelper.ExecuteOnUIThreadAsync(() => IsModified = false);
-            }
-            else
-            {
-                await DispatcherHelper.ExecuteOnUIThreadAsync(() => new OrderSavingException(
-                    "Unable to save. There might have been a problem " +
-                    "connecting to the database. Please try again."));
-            }
+            // TODO: Fix
+
+            //if (result != null)
+            //{
+            //    await DispatcherHelper.ExecuteOnUIThreadAsync(() => IsModified = false);
+            //}
+            //else
+            //{
+            //    await DispatcherHelper.ExecuteOnUIThreadAsync(() => new OrderSavingException(
+            //        "Unable to save. There might have been a problem " +
+            //        "connecting to the database. Please try again."));
+            //}
         }
     }
 }

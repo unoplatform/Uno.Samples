@@ -1,0 +1,157 @@
+﻿<Page x:Class="UnoChatGPT.Presentation.MainPage"
+	  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	  xmlns:local="using:UnoChatGPT.Presentation"
+	  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	  mc:Ignorable="d"
+	  xmlns:uen="using:Uno.Extensions.Navigation.UI"
+	  xmlns:utu="using:Uno.Toolkit.UI"
+	  xmlns:not_skia="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	  NavigationCacheMode="Required"
+	  Padding="5, 40,5,0"
+	  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+	<TabView TabWidthMode="Equal">
+		<TabView.TabItems>
+			<TabViewItem Header="Text Completion">
+				<Grid RowSpacing="5"
+					  Padding="5"
+					  x:Name="textCompletionStack">
+					<Grid.RowDefinitions>
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="Auto" />
+					</Grid.RowDefinitions>
+
+					<TextBlock Grid.Row="0"
+							   Text="Insert a prompt below and the first and other possible results will be displayed below"
+							   FontSize="20"
+							   TextWrapping="Wrap" />
+
+					<TextBox x:Name="textCompletionPrompt"
+							 Grid.Row="1"
+							 Margin="5"
+							 TextWrapping="Wrap"
+							 AcceptsReturn="True"
+							 IsSpellCheckEnabled="True"
+							 SelectionHighlightColor="Green"
+							 HorizontalAlignment="Stretch"
+							 PlaceholderText="Insert your text prompt here" />
+
+					<Button x:Name="textCompletionButton"
+							Grid.Row="2"
+							Content="Send"
+							Margin="5"
+							Click="textCompletionButton_Click" />
+
+					<Line  Grid.Row="3"
+						   X1="0"
+						   Y1="0"
+						   X2="2000"
+						   Y2="0"
+						   Margin="5"
+						   Stroke="WhiteSmoke"
+						   StrokeThickness="2" />
+
+					<TextBlock x:Name="firstChoice"
+							   Grid.Row="4"
+							   Margin="5"
+							   TextWrapping="WrapWholeWords"
+							   HorizontalAlignment="Stretch"
+							   Text="First Choice Answer will show up here." />
+
+					<Line  Grid.Row="5"
+						   X1="0"
+						   Y1="0"
+						   X2="2000"
+						   Y2="0"
+						   Margin="5"
+						   Stroke="WhiteSmoke"
+						   StrokeThickness="2" />
+
+					<StackPanel x:Name="textCompletionResults"
+								Grid.Row="6"
+								Margin="10,5">
+
+					</StackPanel>
+
+				</Grid>
+			</TabViewItem>
+
+			<TabViewItem Header="Chat Completion">
+				<Grid RowSpacing="5"
+					  Padding="5"
+					  x:Name="chatCompletionStack">
+					<Grid.RowDefinitions>
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="Auto" />
+					</Grid.RowDefinitions>
+
+					<TextBlock Grid.Row="0"
+							   Text="Insert a prompt below and the first and other possible results will be displayed below"
+							   TextWrapping="WrapWholeWords"
+							   Margin="5"
+							   FontSize="20" />
+
+					<TextBox x:Name="chatCompletionPrompt"
+							 Grid.Row="1"
+							 Margin="5"
+							 TextWrapping="Wrap"
+							 AcceptsReturn="True"
+							 IsSpellCheckEnabled="True"
+							 SelectionHighlightColor="Green"
+							 HorizontalAlignment="Stretch"
+							 PlaceholderText="Insert your chat prompt here" />
+
+					<Button x:Name="chatCompletionButton"
+							Grid.Row="2"
+							Content="Send"
+							Margin="5"
+							Click="chatCompletionButton_Click" />
+
+					<Line Grid.Row="3"
+						  X1="0"
+						  Y1="0"
+						  X2="2000"
+						  Y2="0"
+						  Margin="5"
+						  Stroke="WhiteSmoke"
+						  StrokeThickness="2" />
+
+					<TextBlock x:Name="firstAnswer"
+							   Grid.Row="4"
+							   Margin="5"
+							   TextWrapping="WrapWholeWords"
+							   HorizontalAlignment="Stretch"
+							   Text="First Choice Answer will show up here." />
+
+					<Line Grid.Row="5"
+						  X1="0"
+						  Y1="0"
+						  X2="2000"
+						  Y2="0"
+						  Margin="5"
+						  Stroke="WhiteSmoke"
+						  StrokeThickness="2" />
+
+					<StackPanel x:Name="chatCompletionResults"
+								Grid.Row="6">
+
+					</StackPanel>
+
+				</Grid>
+			</TabViewItem>
+		</TabView.TabItems>
+
+	</TabView>
+</Page>

@@ -1,0 +1,90 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows')) or '$(EnableWindowsTargeting)' == 'true'">$(TargetFrameworks);net7.0-windows10.0.19041</TargetFrameworks>
+		<TargetFrameworks>$(TargetFrameworks);net7.0;net7.0-ios;net7.0-android;net7.0-maccatalyst</TargetFrameworks>
+		<TargetFrameworks Condition="'$(OverrideTargetFrameworks)'!=''">$(OverrideTargetFrameworks)</TargetFrameworks>
+
+		<!-- Ensures the .xr.xml files are generated in a proper layout folder -->
+		<GenerateLibraryLayout>true</GenerateLibraryLayout>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Uno.WinUI" />
+		<PackageReference Include="Uno.Resizetizer" />
+		<PackageReference Include="CommunityToolkit.Mvvm" />
+		<PackageReference Include="Uno.Extensions.Configuration" />
+		<PackageReference Include="Uno.Extensions.Logging.WinUI" />
+		<PackageReference Include="Uno.Extensions.Logging.Serilog" />
+		<PackageReference Include="Uno.Extensions.Maui.WinUI" />
+		<PackageReference Include="Uno.Extensions.Toolkit.WinUI" />
+		<PackageReference Include="Uno.Toolkit.WinUI" />
+		<PackageReference Include="Uno.Extensions.Hosting.WinUI" />
+		<PackageReference Include="Uno.Extensions.Localization.WinUI" />
+		<PackageReference Include="Uno.Extensions.Navigation.Toolkit.WinUI" />
+		<PackageReference Include="Uno.Extensions.Navigation.WinUI" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Console" />
+
+		<PackageReference Include="Microsoft.Maui.Graphics" VersionOverride="7.0.92" />
+	</ItemGroup>
+
+	<ItemGroup Condition="$(IsAndroid)">
+		<PackageReference Include="Xamarin.Google.Android.Material" VersionOverride="1.9.0.2" />
+		<PackageReference Include="Xamarin.AndroidX.Navigation.UI" VersionOverride="2.6.0.1" />
+		<PackageReference Include="Xamarin.AndroidX.Navigation.Fragment" VersionOverride="2.6.0.1" />
+		<PackageReference Include="Xamarin.AndroidX.Navigation.Runtime" VersionOverride="2.6.0.1" />
+		<PackageReference Include="Xamarin.AndroidX.Navigation.Common" VersionOverride="2.6.0.1" />
+	</ItemGroup>
+	
+	<Choose>
+		<When Condition="$(IsWinAppSdk)">
+			<PropertyGroup>
+				<!--
+				If you encounter this error message:
+
+					error NETSDK1148: A referenced assembly was compiled using a newer version of Microsoft.Windows.SDK.NET.dll.
+					Please update to a newer .NET SDK in order to reference this assembly.
+
+				This means that the two packages below must be aligned with the "build" version number of
+				the "Microsoft.Windows.SDK.BuildTools" package above, and the "revision" version number
+				must be the highest found in https://www.nuget.org/packages/Microsoft.Windows.SDK.NET.Ref.
+				-->
+				<!-- <WindowsSdkPackageVersion>10.0.22621.28</WindowsSdkPackageVersion> -->
+			</PropertyGroup>
+		</When>
+		<Otherwise>
+			<ItemGroup>
+				<PackageReference Include="Uno.WinUI.Lottie" />
+
+				<!-- Include all images by default - matches the __WindowsAppSdkDefaultImageIncludes property in the WindowsAppSDK -->
+				<Content Include="**/*.png;**/*.bmp;**/*.jpg;**/*.dds;**/*.tif;**/*.tga;**/*.gif" Exclude="bin\**;obj\**;**\*.svg" />
+				<Page Include="**\*.xaml" Exclude="bin\**\*.xaml;obj\**\*.xaml" />
+				<Compile Update="**\*.xaml.cs">
+					<DependentUpon>%(Filename)</DependentUpon>
+				</Compile>
+				<PRIResource Include="**\*.resw" />
+			</ItemGroup>
+		</Otherwise>
+	</Choose>
+
+	<ItemGroup>
+		<ProjectReference Include="..\TelerikApp.MauiControls\TelerikApp.MauiControls.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<UnoImage Include="Assets\**\*.svg" />
+		<EmbeddedResource Include="appsettings.json" />
+		<EmbeddedResource Include="Business\Data\AppleStockPrices.json" />
+		<EmbeddedResource Include="Business\Data\OrdersDataSource.xml" />
+		<EmbeddedResource Include="Business\Data\pdfviewer-firstlook.pdf" />
+		<EmbeddedResource Include="Business\Data\PeopleDataSource.xml" />
+		<EmbeddedResource Include="appsettings.*.json" DependentUpon="appsettings.json" />
+		<UpToDateCheckInput Include="**\*.xaml" Exclude="bin\**\*.xaml;obj\**\*.xaml" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Remove="Business\Data\AppleStockPrices.json" />
+	  <None Remove="Business\Data\OrdersDataSource.xml" />
+	  <None Remove="Business\Data\pdfviewer-firstlook.pdf" />
+	  <None Remove="Business\Data\PeopleDataSource.xml" />
+	</ItemGroup>
+</Project>

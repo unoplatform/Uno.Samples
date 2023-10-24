@@ -1,0 +1,86 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows')) or '$(EnableWindowsTargeting)' == 'true'">$(TargetFrameworks);net7.0-windows10.0.19041</TargetFrameworks>
+		<TargetFrameworks>$(TargetFrameworks);net7.0;net7.0-ios;net7.0-android;net7.0-maccatalyst</TargetFrameworks>
+		<TargetFrameworks Condition="'$(OverrideTargetFrameworks)'!=''">$(OverrideTargetFrameworks)</TargetFrameworks>
+
+		<UseMaui>true</UseMaui>
+		<SingleProject>true</SingleProject>
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <None Remove="Samples\Pdf\corrupted_document.pdf" />
+	  <None Remove="Samples\Pdf\credit_card_statement.pdf" />
+	  <None Remove="Samples\Pdf\Invoice.pdf" />
+	  <None Remove="Samples\Pdf\password_protected_document.pdf" />
+	  <None Remove="Samples\Pdf\PDF_Succinctly.pdf" />
+	  <None Remove="Samples\Pdf\PDF_Succinctly1.pdf" />
+	  <None Remove="Samples\Pdf\rotated_document.pdf" />
+	  <None Remove="Samples\Pdf\rtl_document.pdf" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <EmbeddedResource Include="Samples\Pdf\corrupted_document.pdf" />
+	  <EmbeddedResource Include="Samples\Pdf\credit_card_statement.pdf" />
+	  <EmbeddedResource Include="Samples\Pdf\Invoice.pdf" />
+	  <EmbeddedResource Include="Samples\Pdf\password_protected_document.pdf" />
+	  <EmbeddedResource Include="Samples\Pdf\PDF_Succinctly.pdf" />
+	  <EmbeddedResource Include="Samples\Pdf\PDF_Succinctly1.pdf" />
+	  <EmbeddedResource Include="Samples\Pdf\rotated_document.pdf" />
+	  <EmbeddedResource Include="Samples\Pdf\rtl_document.pdf" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Syncfusion.Maui.Core" />
+		<PackageReference Include="Syncfusion.Maui.Charts" />
+		<PackageReference Include="Syncfusion.Maui.TabView" />
+		<PackageReference Include="Syncfusion.Maui.DataGrid" />
+
+		<PackageReference Include="Syncfusion.Compression.NET" />
+		<PackageReference Include="Syncfusion.Maui.PdfToImageConverter" />
+		<PackageReference Include="Syncfusion.PDF.NET" />
+		<PackageReference Include="Syncfusion.Maui.PdfViewer" />
+		<PackageReference Include="Syncfusion.Maui.ListView" />
+		<PackageReference Include="Syncfusion.Maui.DataSource" />
+		<PackageReference Include="Syncfusion.Maui.GridCommon" />
+		<PackageReference Include="Syncfusion.Pdf.Imaging.NET" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiXaml Update="Samples\CircularChart\Doughnut\CenterElevation.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Samples\CircularChart\Doughnut\DoughnutChart.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Samples\CircularChart\Doughnut\GroupToDoughnutChart.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Samples\CircularChart\Doughnut\SemiDoughnutChart.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Samples\CircularChart\Interaction\Selection.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Samples\CircularChart\Interaction\Tooltip.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Samples\CircularChart\Pie\GroupToPieChart.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Samples\CircularChart\Pie\PieChart.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Samples\CircularChart\Pie\SemiPieChart.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Samples\CircularChart\RadialBar\CustomizedRadialBarChart.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Samples\CircularChart\RadialBar\RadialBarChart.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	</ItemGroup>
+
+</Project>

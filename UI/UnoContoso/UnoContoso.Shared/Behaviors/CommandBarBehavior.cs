@@ -2,8 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Windows.UI.Core;
-using Windows.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml;
 
 namespace UnoContoso.Behaviors
 {
@@ -12,7 +12,7 @@ namespace UnoContoso.Behaviors
         protected override void OnAttached()
         {
             AssociatedObject.Loaded += AssociatedObject_Loaded;
-            Windows.UI.Xaml.Window.Current.SizeChanged += Window_SizeChanged;
+            Microsoft.UI.Xaml.Window.Current.SizeChanged += Window_SizeChanged;
         }
 
         private void Window_SizeChanged(object sender, WindowSizeChangedEventArgs e)
@@ -20,7 +20,7 @@ namespace UnoContoso.Behaviors
             UpdateCommandBar();
         }
 
-        private void AssociatedObject_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        private void AssociatedObject_Loaded(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
         {
             UpdateCommandBar();
         }
@@ -34,7 +34,7 @@ namespace UnoContoso.Behaviors
             else
             {
                 var width = (double)App.Current.Resources["MediumWindowSnapPoint"];
-                if(Windows.UI.Xaml.Window.Current.Bounds.Width < width)
+                if(Microsoft.UI.Xaml.Window.Current.Bounds.Width < width)
                 {
                     AssociatedObject.DefaultLabelPosition = CommandBarDefaultLabelPosition.Bottom;
                 }
@@ -48,7 +48,7 @@ namespace UnoContoso.Behaviors
         protected override void OnDetaching()
         {
             AssociatedObject.Loaded -= AssociatedObject_Loaded;
-            Windows.UI.Xaml.Window.Current.SizeChanged -= Window_SizeChanged;
+            Microsoft.UI.Xaml.Window.Current.SizeChanged -= Window_SizeChanged;
         }
     }
 }

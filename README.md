@@ -27,7 +27,7 @@ Visit [our documentation](https://platform.uno/docs/articles/intro.html) for mor
 
 ### Commerce App
 
-The The Commercial App Sample with Cart, products and so on.
+The Commerce App is a sample application that demonstrates the use of ListFeed pagination, Feedviews, and other features provided by Uno.Extensions. It illustrates how these features can be applied to create an application complete with a shopping cart, products, and more.
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/reference/Commerce)
 
@@ -62,6 +62,11 @@ An implementation of the .NET Benchmark Control, a performance comparison tool.
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/Benchmark)
 
+### BluetoothExplorer
+A sample that allows the user to search for nearby Bluetooth connections and connect to a device of their choice. Uses [InTheHand.BluetoothLE](https://www.nuget.org/packages/InTheHand.BluetoothLE)
+
+[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/BluetoothExplorer) 
+
 ### Camera Capture UI  
 A cross-platform implementation of the UWP `CameraCaptureUI` class that allows the user to capture audio, video, and photos from the device camera. 
 
@@ -83,6 +88,11 @@ An example of creating a custom control library and calling a control from your 
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/ControlLibrary)
 
+### Country Data
+
+[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/CountryDataSample)
+
+
 ### Custom Sorting
 Sample app to accompany "Adding Custom Sorting Logic" blog post.
 
@@ -93,17 +103,17 @@ A simple example using the `TwoPaneView` control spanned across dual screens (su
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/DualScreenSample)
 
-### Entity Framework Core Demo
-
-An example of Entity Framework Core 7 with a SQLite storage for WebAssembly, WinAppSDK, iOS and Android.
-
-[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/EFCoreSQLiteSample)
-
 ### EmbeddedResources
 An example that demonstrates the use of embedded resources and how to read them from your app.
 Note that the [`Default namespace`](https://stackoverflow.com/questions/2871314/change-project-namespace-in-visual-studio) property of all projects is the same in order for the embedded resource names to be the same on all platforms.
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/EmbeddedResources)
+
+### Entity Framework Core Demo
+
+An example of Entity Framework Core 7 with a SQLite storage for WebAssembly, WinAppSDK, iOS and Android.
+
+[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/EFCoreSQLiteSample)
 
 ### FileSavePicker iOS
 
@@ -121,13 +131,17 @@ This is a WASM-only sample. It is creating _native_ HTML elements that can be us
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/HtmlControls)
 
-### Inserting Separators
-
-[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/InsertingSeparators)
-
 ### LiteDB
 
+This is an example that utilizes the [LiteDB NuGet package](http://www.litedb.org/) to save data.
+
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/LiteDB)
+
+### Inserting Separators
+
+This example demonstrates the dynamic creation of a menu incorporating nested items as well as items with separators. 
+
+[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/InsertingSeparators)
 
 ### Localization Samples
 A pair of samples related to localization:
@@ -143,13 +157,95 @@ An implementation of the UWP `Maps` control with a custom slider that binds the 
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/MapControlSample)
 
+### .NET MAUI Embedding  
+Multiple samples that demonstrate third-party control libraries embedded in Uno Platform applications using .NET MAUI Embedding.
+Note that these controls work only for target platforms .NET MAUI reaches – iOS, Android, MacOS, and Windows.
+
+#### ArcGIS Maps SDK for .NET
+
+Embeds the [ArcGIS Maps SDK for .NET](https://developers.arcgis.com/net/) in an Uno Platform application.
+
+[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/MauiEmbedding/ArcGisApp)
+
+#### Esri ArcGIS Maps SDK for .NET
+
+Embeds the [Esri ArcGIS Maps SDK for .NET](https://platform.uno/docs/articles/external/uno.extensions/doc/Overview/Maui/ThirdParty-EsriMaps.html) in an Uno application.
+
+[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/MauiEmbedding/ArcGisApp)
+
+#### DevExpress .NET MAUI Controls
+
+Embeds the [DevExpress .NET MAUI Controls](https://platform.uno/docs/articles/external/uno.extensions/doc/Overview/Maui/ThirdParty-DevExpres.html) in an Uno application.
+
+[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/MauiEmbedding/DevExpressApp)
+
+#### GrapeCity ComponentOne .NET MAUI Controls
+
+Embeds the [GrapeCity ComponentOne .NET MAUI Controls](https://platform.uno/docs/articles/external/uno.extensions/doc/Overview/Maui/ThirdParty-GrapeCity.html) in an Uno application.
+
+[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/MauiEmbedding/GrapeCityApp)
+
+#### Grial UI Kit
+
+Embeds the [Grial UI Kit](https://platform.uno/docs/articles/external/uno.extensions/doc/Overview/Maui/ThirdParty-GrialKit.html) in an Uno application.
+
+[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/MauiEmbedding/GrialKitApp)
+
+#### .NET MAUI Community Toolkit  
+
+Embeds the [.NET MAUI Community Toolkit](https://learn.microsoft.com/en-us/dotnet/communitytoolkit/maui/) in an Uno Platform application.
+
+[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/MauiEmbedding/MauiCommunityToolkitApp)
+
+#### DevExpress .NET MAUI Controls
+
+Embeds the [DevExpress .NET MAUI Controls](https://www.devexpress.com/maui/) in an Uno Platform application.
+
+[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/MauiEmbedding/DevExpressApp)
+
+#### GrapeCity ComponentOne .NET MAUI Controls 
+
+Embeds the [GrapeCity ComponentOne .NET MAUI Controls](https://www.grapecity.com/componentone/docs/maui/online-maui/overview.html) in an Uno Platform application.
+
+[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/MauiEmbedding/GrapeCityApp)
+
+#### Grial UI Kit for .NET MAUI
+
+Embeds the [Grial UI Kit for .NET MAUI](https://grialkit.com/) in an Uno Platform application.
+
+[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/MauiEmbedding/GrialKitApp)
+
+#### Syncfusion .NET MAUI Controls
+
+Embeds the [Syncfusion .NET MAUI Controls](https://www.syncfusion.com/maui-controls) in an Uno Platform application.
+#### Syncfusion .NET MAUI Controls
+
+Embeds the [Syncfusion .NET MAUI Controls](https://platform.uno/docs/articles/external/uno.extensions/doc/Overview/Maui/ThirdParty-Synfusion.html) in an Uno application.
+
+[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/MauiEmbedding/SyncfusionApp)
+
+#### Telerik UI for .NET MAUI
+
+Embeds the [Telerik UI for .NET MAUI](https://www.telerik.com/maui-ui) in an Uno Platform application.
+
+[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/MauiEmbedding/TelerikApp)
+Embeds the [Telerik UI for .NET MAUI](https://platform.uno/docs/articles/external/uno.extensions/doc/Overview/Maui/ThirdParty-Telerik.html) in an Uno application.
+
+[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/MauiEmbedding/TelerikApp)
+
+### Migrating Xamarin.Forms Animations
+Code to accompany the [blog post](https://platform.uno/blog/migrating-animations-from-xamarin-forms-to-uno-platform/) on migrating animations from Xamarin Forms to Uno.
+
+[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/MigratingAnimations)
+
 ### Migrating Xamarin.Forms Effects
-Code samples to accompany the blog post on Migrating from Xamarin.Forms Effects
+Code samples to accompany the [blog post](https://platform.uno/blog/xamarin-forms-migration-to-uno-platform-effects-and-alternative-approaches/) on Migrating from Xamarin.Forms Effects
 - XamarinFormsEffect: A reference implementation of an effect with an Android implementation.
   [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/MigratingEffects/XamarinFormsEffect)
 - UnoEffectSample: Showcasing how to replace Effects with either ControlTemplates or custom code accessing the native control.
   [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/MigratingEffects/UnoEffectsSample)
   
+
 ### Native Frame Navigation
 An example showcasing how to set up the native frame navigation for iOS and Android, and frame navigation in general for Uno.  
 
@@ -162,6 +258,11 @@ An example of a toggle that allows you to switch between Native UI Controls and 
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/NativeStylesSwitch)
 
+### Neumorphism  
+An example of an app containing an animated lock that you can unlock.
+
+[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/Neumorphism)
+
 ### Package Resources
 An example that demonstrates the use of package assets and how to read them from your app. 
 
@@ -170,13 +271,9 @@ Note that for WebAssembly assets are downloaded on demand, as can be seen in the
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/PackageResources)
 
 ### Pet Adopt
+An example that demonstrates the use of pipspager with a flipview, in an app created with the help of the Figma-to-XAML plugin. 
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/PetAdoptUI)
-
-### SQLite  
-This is a simple standalone app demonstrating the use of SQLite in an Uno application, including WebAssembly. It uses Erik Sink's [SQLitePCLRaw](https://github.com/ericsink/SQLitePCL.raw), and Frank Krueger's [sqlite-net](https://github.com/praeclarum/sqlite-net) libraries.
-
-[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/SQLiteSample)
 
 ### SkiaSharp Test  
 An example of the Uno implementation of SkiaSharp creating a basic canvas with text.
@@ -197,6 +294,11 @@ An example showing how to set the splash/launch screen in Uno.
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/SplashScreenSample)
 
 [Follow the tutorial](https://platform.uno/docs/articles/splash-screen.html)
+
+### SQLite  
+This is a simple standalone app demonstrating the use of SQLite in an Uno application, including WebAssembly. It uses Erik Sink's [SQLitePCLRaw](https://github.com/ericsink/SQLitePCL.raw), and Frank Krueger's [sqlite-net](https://github.com/praeclarum/sqlite-net) libraries.
+
+[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/SQLiteSample)
 
 ### StatusBar Theme Color
 An example showing how to adjust the `StatusBar` and `CommandBar` dynamically based on the current light/dark theme.  
@@ -226,6 +328,15 @@ Inspiration from Justin Liu's [demo app](https://twitter.com/justinxinliu/status
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/ToyCar)
 
+### Travel UI
+A sample travel app that shows how a user could 1) search for locations, 2) favorite locations and 3) view their profile as well as others' profiles. For the layout, showcases many ListViews coupled with Grids.
+
+[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/TravelUI)
+
+### Uno BackgroundWorker: Background Work
+
+[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/UnoBackgroundWorker)
+
 ### Uno Cakes Mobile
 A port of Shaw Yu's Cakes Mobile App from [XampleUI](https://github.com/shawyunz/XampleUI) to Uno Platform.
 Used to demonstrate simple page navigation from View and ViewModel.
@@ -237,42 +348,59 @@ A port of Microsoft's Contoso Enterprise UWP app to Uno Platform, using Prism.
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/UnoContoso)
 
-### Uno.Cupertino
+### Uno Cupertino Theme
 
 An example showing how to set up the [`Uno.Cupertino`](https://github.com/unoplatform/Uno.Themes) library.  
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/UnoCupertinoSample)
 
-[Follow the tutorial](https://platform.uno/docs/articles/guides/uno-cupertino-walkthrough.html)
+[Consult the documentation](https://platform.uno/docs/articles/external/uno.themes/doc/cupertino-getting-started.html)
 
-### Uno+Ethereum+Blockchain
+### Uno Ethereum+Blockchain
 
 A sample showing how to integrate smart contracts on the Ethereum blockchain with a multi-targeted Uno Platform application.
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/UnoEthereumBlockChain)
 
-### Uno Good Reads
+### Uno GoodReads
+
+A sample showing how to make an app containing several pages in a TabView, as well as fake data generation to populate those pages. The blog post series for this app includes parts on [creating the home page](https://platform.uno/blog/recreating-amazon-goodreads-app-home-page-using-material-ui-figma-and-uno-platform/), [creating the author page](https://platform.uno/blog/how-to-quickly-build-goodreads-author-page-with-figma-and-uno-platform/), [creating the books page](https://platform.uno/blog/replicating-goodreads-detail-page-in-figma-with-uno-platform/), and [code generation with Figma](https://platform.uno/blog/from-figma-to-visual-studio-adding-back-end-logic-to-goodreads-app/).
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/UnoGoodReads)
 
 ### Uno Islands
 
+This sample shows how you can integrate Uno Platform XAML controls into existing WPF applications using Uno Islands. This feature allows you to enhance WPF apps with Uno Platform features by hosting Uno Platform XAML files in a Shared project and adding an Uno Island using the UnoXamlHost control.
+
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/UnoIslandsSampleApp)
 
-### Uno.Material Sample
+[Follow the tutorial](https://platform.uno/docs/articles/guides/uno-islands.html)
+
+### Uno Material Theme
 An example showing how to set up the [`Uno.Material`](https://github.com/unoplatform/Uno.Themes) library.  
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/UnoMaterialSample)
 
-[Follow the tutorial](https://platform.uno/docs/articles/guides/uno-material-walkthrough.html)
+[Consult the documentation](https://platform.uno/docs/articles/external/uno.themes/doc/material-getting-started.html)
 
 ### Uno Onnx
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/UnoOnnxSamples)
 
+### Uno Scroll Reveal
+
+[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/UnoScrollReveal)
+
 ### Uno SQlite One Drive Invoice
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/UnoSQLiteOneDriveInvoiceSample)
+
+### Uno Toolkit Material
+An example showing how to set up the [`Uno.Toolkit.Material`](https://github.com/unoplatform/uno.toolkit.ui/tree/main/src/library/Uno.Toolkit.Material) library, 
+
+[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/UnoMaterialToolkitSample)
+
+[Consult the documentation](https://platform.uno/docs/articles/external/uno.toolkit.ui/doc/material-getting-started.html)
 
 ### WCT DataGrid  
 A dynamic grid view ported from the Windows Community Toolkit that allows for x:Bind. 
@@ -298,6 +426,21 @@ Demo of the usage of WebRTC in Uno WebAssembly. This sample establishes a direct
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/XamlBasics/ListViewSample)
 
 
-=======
-
 Visit [our documentation](https://platform.uno/docs/articles/intro.html) for more details.
+
+### XamlBrewer SkiaSharp
+Port of the XAML Brewer WinUI3 SkiaSharp Sample application ([blog post](https://xamlbrewer.wordpress.com/2023/09/25/getting-started-with-skiasharp-in-winui-3/) and [source code](https://github.com/XamlBrewer/XamlBrewer.WinUI3.SkiaSharp.Sample))
+
+[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/XamlBrewerUnoApp) 
+
+
+## Uno Platform Samples - Issues
+If you encounter any issues with these samples above, please open an issue [here](https://github.com/unoplatform/uno/issues).
+
+# Contributors
+Thanks go to these wonderful people (List made with [contrib.rocks](https://contrib.rocks)):
+
+[![Uno.Samples Contributors](https://contrib.rocks/image?repo=unoplatform/Uno.Samples)](https://github.com/unoplatform/Uno.Samples/graphs/contributors)
+
+💖 Thank you.
+

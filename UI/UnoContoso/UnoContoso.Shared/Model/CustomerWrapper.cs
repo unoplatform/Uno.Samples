@@ -1,4 +1,4 @@
-﻿using Microsoft.Toolkit.Uwp.Helpers;
+﻿//using Microsoft.Toolkit.Uwp.Helpers;
 using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using UnoContoso.Enums;
 using UnoContoso.Models;
 using UnoContoso.Repository;
+using Windows.ApplicationModel.Core;
 
 namespace UnoContoso.Model
 {
@@ -290,9 +291,9 @@ namespace UnoContoso.Model
         /// </summary>
         public async Task LoadOrdersAsync()
         {
-            var orders = await _contosoRepository.Orders.GetForCustomerAsync(Model.Id);
+            var orders = await _contosoRepository.Orders.GetForCustomerAsync(Model.Id);            
 
-            await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
+            await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
             {
                 Orders.Clear();
                 Orders.AddRange(orders);

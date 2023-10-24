@@ -1,0 +1,82 @@
+<Page x:Class="TelerikApp.Presentation.MainPage"
+	  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	  xmlns:local="using:TelerikApp.Presentation"
+	  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	  mc:Ignorable="d"
+	  xmlns:uen="using:Uno.Extensions.Navigation.UI"
+	  xmlns:utu="using:Uno.Toolkit.UI"
+	  NavigationCacheMode="Required"
+	  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+	<Grid utu:SafeArea.Insets="All">
+		<NavigationView uen:Region.Attached="True">
+			<NavigationView.MenuItems>
+				<NavigationViewItem Content="Accordion"
+									uen:Region.Name="Accordion" />
+				<NavigationViewItem Content="Badge View"
+									uen:Region.Name="BadgeView" />
+				<NavigationViewItem Content="Calendar"
+									uen:Region.Name="Calendar" />
+				<NavigationViewItem Content="Data Grid"
+									uen:Region.Name="DataGrid" />
+				<NavigationViewItem Content="Area Chart"
+									uen:Region.Name="AreaChart" />
+				<NavigationViewItem Content="Financial Chart"
+									uen:Region.Name="FinancialChart" />
+				<NavigationViewItem Content="Gauge"
+									uen:Region.Name="Gauge" />
+				<NavigationViewItem Content="PDF Viewer"
+									uen:Region.Name="PdfViewer" />
+				<NavigationViewItem>
+					<TextBlock Text="&#xE901;"
+							   FontFamily="ms-appx:///TelerikApp/Assets/Fonts/telerikfont.ttf#TelerikFontExamples" />
+				</NavigationViewItem>
+			</NavigationView.MenuItems>
+			<Grid uen:Region.Attached="True"
+				  uen:Region.Navigator="Visibility">
+				<embed:MauiHost xmlns:controls="using:TelerikApp.MauiControls"
+								xmlns:embed="using:Uno.Extensions.Maui"
+								uen:Region.Name="Accordion"
+								Source="controls:AccordionSample"
+								Visibility="Collapsed" />
+				<embed:MauiHost xmlns:controls="using:TelerikApp.MauiControls"
+								xmlns:embed="using:Uno.Extensions.Maui"
+								uen:Region.Name="BadgeView"
+								Source="controls:BadgeSample"
+								Visibility="Collapsed" />
+				<embed:MauiHost xmlns:controls="using:TelerikApp.MauiControls"
+								xmlns:embed="using:Uno.Extensions.Maui"
+								uen:Region.Name="Calendar"
+								Source="controls:CalendarSample"
+								Visibility="Collapsed" />
+				<embed:MauiHost xmlns:controls="using:TelerikApp.MauiControls"
+								xmlns:embed="using:Uno.Extensions.Maui"
+								uen:Region.Name="DataGrid"
+								Source="controls:DataGridSample"
+								Visibility="Collapsed" />
+				<embed:MauiHost xmlns:controls="using:TelerikApp.MauiControls"
+								xmlns:embed="using:Uno.Extensions.Maui"
+								uen:Region.Name="AreaChart"
+								Source="controls:AreaChartSample"
+								Visibility="Collapsed" />
+				<embed:MauiHost xmlns:controls="using:TelerikApp.MauiControls"
+								xmlns:embed="using:Uno.Extensions.Maui"
+								uen:Region.Name="FinancialChart"
+								Source="controls:FinancialChartSample"
+								Visibility="Collapsed" />
+				<embed:MauiHost xmlns:controls="using:TelerikApp.MauiControls"
+								xmlns:embed="using:Uno.Extensions.Maui"
+								uen:Region.Name="Gauge"
+								Source="controls:GaugeSample"
+								Visibility="Collapsed" />
+				<embed:MauiHost xmlns:controls="using:TelerikApp.MauiControls"
+								xmlns:embed="using:Uno.Extensions.Maui"
+								uen:Region.Name="PdfViewer"
+								Source="controls:PdfViewSample"
+								Visibility="Collapsed" />
+			</Grid>
+		</NavigationView>
+	</Grid>
+</Page>

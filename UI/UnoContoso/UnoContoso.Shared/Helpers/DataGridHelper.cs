@@ -26,7 +26,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using Microsoft.Toolkit.Uwp.UI.Controls;
+using CommunityToolkit.WinUI.UI.Controls;
 using Uno.Extensions;
 
 namespace UnoContoso.Helpers
@@ -72,7 +72,10 @@ namespace UnoContoso.Helpers
                 collection.OrderBy(sortFunc).ToList() :
                 collection.OrderByDescending(sortFunc).ToList();
             collection.Clear();
-            collection.AddRange(sortedCollection);
+
+            // TODO: Fix
+
+            //collection.AddRange(sortedCollection);
         }
     }
 }

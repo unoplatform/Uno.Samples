@@ -7,34 +7,21 @@ steps:
     dotnet sln Uno.Samples.generated.sln add (Get-ChildItem -Recurse *.csproj)
     $env:MSBuildExtensionsPath = $savedMSBuildExtensionsPath
 
-- task: UseDotNet@2
-  inputs:
-    packageType: 'runtime'
-    version: '2.2.0'
-
 - task: nventiveCanaryUpdater@5
+  displayName: 'Canary Update'
+  condition: startsWith(variables['Build.SourceBranch'], 'refs/heads/canaries')
   inputs:
     solution: Uno.Samples.generated.sln
     usePrivateFeed: false
     useNuGetOrg: true
-    mergeBranch: false
-    nugetUpdaterVersion: '2.1.1'
-    allowDowngrade: true
-    packageAuthor: 'nventive'
+    mergeBranch: true
+    branchToMerge: master
+    nugetUpdaterVersion: '2.3.0-alpha.46'
+    nugetVersion: dev
+    packageAuthor: 'nventive,unoplatform,uno platform'
     summaryFile: '$(Build.ArtifactStagingDirectory)/Summary.md'
     resultFile: '$(Build.ArtifactStagingDirectory)/Results.json'
+    additionalPublicSources: 'https://pkgs.dev.azure.com/uno-platform/1dd81cbd-cb35-41de-a570-b0df3571a196/_packaging/dev-uno5/nuget/v3/index.json'
 
-- powershell: |
-    dotnet tool uninstall nventive.nuget.updater.tool --tool-path $(Agent.TempDirectory)
-
-- task: nventiveCanaryUpdater@5
-  inputs:
-    solution: Uno.Samples.generated.sln
-    usePrivateFeed: false
-    useNuGetOrg: true
-    mergeBranch: false
-    nugetUpdaterVersion: '2.1.1'
-    allowDowngrade: true
-    packageAuthor: 'Uno Platform'
-    summaryFile: '$(Build.ArtifactStagingDirectory)/Summary-Uno.md'
-    resultFile: '$(Build.ArtifactStagingDirectory)/Results-Uno.json'
+- pwsh: |
+    del Uno.Samples.generated.sln

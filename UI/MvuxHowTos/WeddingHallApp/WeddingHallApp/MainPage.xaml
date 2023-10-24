@@ -1,0 +1,15 @@
+<Page 
+    x:Class="WeddingHallApp.MainPage"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:utu="using:Uno.Toolkit.UI">
+
+    <StackPanel utu:SafeArea.Insets="Bottom,Top">
+        <TextBlock Text="How many people are currently in the hall?" />
+        <TextBox 
+            DataContext="{Binding HallCrowdedness}"
+            Text="{Binding NumberOfPeopleInHall, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />        
+        
+        <Button Content="Save" Command="{Binding Save}" />
+    </StackPanel>
+</Page>

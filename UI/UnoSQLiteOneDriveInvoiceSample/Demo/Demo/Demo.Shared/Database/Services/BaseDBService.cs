@@ -7,26 +7,23 @@ using SQLiteNetExtensions.Extensions;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Text;
+using System.Linq;
 
 namespace Demo.Database.Services
 {
     public abstract class BaseDBService<T>
     {
-
         #region Properties
 
         public string TypeName { get; set; }
-        protected string databasePath = Path.Combine(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Demo.db")); 
-        //Path.Combine(Windows.Storage.ApplicationData.Current.LocalFolder.Path, "Demo.db");
+        protected string databasePath = Path.Combine(Windows.Storage.ApplicationData.Current.LocalFolder.Path, "Demo.db");
 
-        #endregion
+        #endregion Properties
 
         #region Constructor(s)
 
         public BaseDBService() => TypeName = typeof(T).Name;
-
-        #endregion
+        #endregion Constructor(s)
 
         #region CreateOperation(s)
 
@@ -62,7 +59,7 @@ namespace Demo.Database.Services
             }
         }
 
-        #endregion
+        #endregion CreateOperation(s)
 
         #region UpdateOperation(s)
 
@@ -104,7 +101,7 @@ namespace Demo.Database.Services
             }
         }
 
-        #endregion
+        #endregion UpdateOperation(s)
 
         #region ReadOperation(s)
 
@@ -112,7 +109,7 @@ namespace Demo.Database.Services
 
         public abstract (bool isSuccessful, string operationMessage, List<T> entities) GetEntities(Guid[] entityIds);
 
-        #endregion
+        #endregion ReadOperation(s)
 
         #region DeleteOperation(s)
 
@@ -120,6 +117,6 @@ namespace Demo.Database.Services
 
         public abstract (bool isSuccessful, string operationMessage, object errorObject) DeleteEntities(T[] entities);
 
-        #endregion
+        #endregion DeleteOperation(s)
     }
 }

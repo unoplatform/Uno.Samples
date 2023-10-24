@@ -1,25 +1,30 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <OutputType Condition="'$(Configuration)'=='Release'">WinExe</OutputType>
+    <OutputType Condition="'$(Configuration)'=='Debug'">Exe</OutputType>
+    <TargetFramework>net7.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
   </PropertyGroup>
   <ItemGroup> 
-    <PackageReference Include="IdentityModel.OidcClient" Version="3.1.2" />
-    <PackageReference Include="Microsoft.Extensions.Logging" Version="5.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="5.0.0" />
+    <PackageReference Include="IdentityModel.OidcClient" Version="5.2.1" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="7.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="7.0.0" />
     <PackageReference Include="SkiaSharp" Version="2.88.3" />
     <PackageReference Include="SkiaSharp.HarfBuzz" Version="2.88.3" />
     <PackageReference Include="SkiaSharp.NativeAssets.macOS" Version="2.88.3" />
     <PackageReference Include="SkiaSharp.NativeAssets.Win32" Version="2.88.3" />
     <PackageReference Include="SkiaSharp.Views.Desktop.Common" Version="2.88.3" />
     <PackageReference Include="SkiaSharp.Views.WPF" Version="2.88.3" />
-    <PackageReference Include="Uno.UI.Runtime.Skia.Wpf" Version="4.6.39" />
-    <PackageReference Include="Uno.UI.Skia.Wpf" Version="4.6.39" />
-    <PackageReference Include="Uno.UI.RemoteControl" Version="4.6.39" Condition="'$(Configuration)'=='Debug'" />
-    <PackageReference Include="Uno.UI.Adapter.Microsoft.Extensions.Logging" Version="4.6.39" />
+    <PackageReference Include="Uno.WinUI.Runtime.Skia.Wpf" Version="4.9.26" />
+    <PackageReference Include="Uno.WinUI.Skia.Wpf" Version="4.9.26" />
+    <PackageReference Include="Uno.WinUI.RemoteControl" Version="4.9.26" Condition="'$(Configuration)'=='Debug'" />
+    <PackageReference Include="Uno.UI.Adapter.Microsoft.Extensions.Logging" Version="4.9.26" />
   </ItemGroup>
   <ItemGroup>
     <UpToDateCheckInput Include="..\Authentication.OidcDemo.Shared\**\*.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Assets\Fonts\uno-fluentui-assets.ttf" />
   </ItemGroup>
   <Import Project="..\Authentication.OidcDemo.Shared\Authentication.OidcDemo.Shared.projitems" Label="Shared" />
 </Project>

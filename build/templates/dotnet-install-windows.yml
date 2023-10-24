@@ -1,0 +1,24 @@
+parameters:
+  DotNetVersion: '7.0.401'
+  UnoCheck_Version: '1.15.0'
+  UnoCheck_Manifest: 'https://raw.githubusercontent.com/unoplatform/uno.check/fa8e6fb23797004fbd39f7572ec6a2653be2a0b1/manifests/uno.ui.manifest.json'
+
+steps:
+
+  - task: UseDotNet@2
+    displayName: 'Use .NET Core SDK ${{ parameters.DotNetVersion }}'
+    retryCountOnTaskFailure: 3
+    inputs:
+      packageType: sdk
+      version: ${{ parameters.DotNetVersion }}
+      includePreviewVersions: true
+
+  - template: jdk-setup.yml
+    
+  - powershell: |
+      & dotnet tool update --global uno.check --version ${{ parameters.UnoCheck_Version }} --add-source https://api.nuget.org/v3/index.json
+      & uno-check -v --ci --non-interactive --fix --skip androidsdk --skip androidemulator --skip xcode --skip gtk3 --skip vswin --skip vsmac --manifest ${{ parameters.UnoCheck_Manifest }}
+    displayName: Install .NET Workloads
+    errorActionPreference: continue
+    ignoreLASTEXITCODE: true
+    retryCountOnTaskFailure: 3

@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<localCore:SampleView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="SyncfusionApp.MauiControls.Samples.CartesianChart.SfCartesianChart.BoxAndWhisker"
+             xmlns:local="using:SyncfusionApp.MauiControls.Samples.CartesianChart.SfCartesianChart"
+             xmlns:localCore="using:SyncfusionApp.MauiControls.Samples.Base"
+                       xmlns:chart="http://schemas.syncfusion.com/maui">
+    <localCore:SampleView.Content>
+        <StackLayout HorizontalOptions="Fill" Padding="20" x:Name="layout">
+
+            <StackLayout.Resources>
+                <Label x:Key="title" x:Name="titleName" Text="Charpy Impact Test"
+                           FontSize="16" HorizontalOptions="Fill" VerticalOptions="Center" HorizontalTextAlignment="Center"
+                          LineBreakMode="WordWrap" Padding="0,0,0,5"/>
+            </StackLayout.Resources>
+            
+            <StackLayout.BindingContext>
+                <local:BoxAndWhiskerViewModel x:Name="ViewModel"/>
+            </StackLayout.BindingContext>
+            <chart:SfCartesianChart  x:Name="Chart" VerticalOptions="FillAndExpand" Title="{OnPlatform iOS={StaticResource title},MacCatalyst={StaticResource title}}">
+
+                <chart:SfCartesianChart.XAxes>
+                <chart:CategoryAxis x:Name="xAxis" LabelPlacement="BetweenTicks">
+                </chart:CategoryAxis>
+            </chart:SfCartesianChart.XAxes>
+            <chart:SfCartesianChart.YAxes>
+                    <chart:NumericalAxis  x:Name="yAxis">
+                </chart:NumericalAxis>
+            </chart:SfCartesianChart.YAxes>
+            <chart:BoxAndWhiskerSeries ItemsSource="{Binding DataSets}"
+                                       x:Name="BoxAndWhisker1"
+                                       XBindingPath="Levels"
+                                       YBindingPath="Energy"   
+                                       EnableAnimation="True"
+                                       ShowOutlier="True"
+                                       ShowMedian="True"/>
+        </chart:SfCartesianChart>
+
+            <HorizontalStackLayout x:Name="hyperLinkLayout" Margin="5,5,0,0">
+                <Label Text="Source: " FontSize="12" VerticalOptions="Center"></Label>
+                <Label TextColor="#3E8EED" FontSize="12" FontAttributes="Italic" Text=" itl.nist.gov" VerticalOptions="Center">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding TapCommand}" CommandParameter="https://www.itl.nist.gov/div898/handbook/datasets/SPLETT2.DAT"/>
+                    </Label.GestureRecognizers>
+                </Label>
+            </HorizontalStackLayout>
+        </StackLayout>
+    </localCore:SampleView.Content>
+    <localCore:SampleView.OptionView>
+        <VerticalStackLayout Spacing="5">
+            <HorizontalStackLayout>
+                <Label Text="Mode :" HorizontalOptions="Center" VerticalOptions="Start" Padding="5" FontSize="17"/>
+                <Picker ItemsSource="{Binding Source={x:Reference ViewModel},Path=BoxPlotMode}"
+                        SelectedItem="{Binding Source={x:Reference ViewModel},Path=BoxPlotMode[0]}"
+                        HorizontalOptions="Fill" VerticalOptions="Start"                        
+                        SelectedIndex="0"
+                        SelectedIndexChanged="ModePicker_SelectedIndexChanged"
+                        ></Picker>
+            </HorizontalStackLayout>
+        </VerticalStackLayout>
+    </localCore:SampleView.OptionView>
+</localCore:SampleView>

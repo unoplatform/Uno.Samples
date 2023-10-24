@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<OutputType Condition="'$(Configuration)'=='Release'">WinExe</OutputType>
+		<OutputType Condition="'$(Configuration)'=='Debug'">Exe</OutputType>
+		<TargetFramework>net7.0</TargetFramework>
+	</PropertyGroup>
+	<ItemGroup>
+		<EmbeddedResource Include="Package.appxmanifest" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Uno.Resizetizer" Version="1.0.2" />
+		<PackageReference Include="Uno.WinUI.Skia.Gtk" Version="4.9.26" />
+		<PackageReference Include="Uno.Extensions.Reactive.WinUI" Version="2.4.2" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Console" Version="7.0.0" />
+		<PackageReference Include="SkiaSharp.Views.Uno.WinUI" Version="2.88.3" />
+		<PackageReference Include="SkiaSharp.Skottie" Version="2.88.3" />
+		<PackageReference Include="Uno.WinUI.RemoteControl" Version="4.9.26" Condition="'$(Configuration)'=='Debug'" />
+		<PackageReference Include="Uno.UI.Adapter.Microsoft.Extensions.Logging" Version="4.9.26" />
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\SliderApp\SliderApp.csproj" />
+	</ItemGroup>
+	<Import Project="..\SliderApp.Base\base.props" />
+</Project>

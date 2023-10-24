@@ -1,5 +1,4 @@
-﻿using Microsoft.Toolkit.Uwp.Helpers;
-using Prism.Commands;
+﻿using Prism.Commands;
 using Prism.Ioc;
 using Prism.Regions;
 using Prism.Services.Dialogs;
@@ -12,6 +11,7 @@ using System.Windows.Input;
 using UnoContoso.Model;
 using UnoContoso.Models;
 using UnoContoso.Repository;
+using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.Email;
 
 namespace UnoContoso.ViewModels
@@ -115,7 +115,7 @@ namespace UnoContoso.ViewModels
 
         private void OnSuggestionChosen(object obj)
         {
-            var args = obj as Windows.UI.Xaml.Controls.AutoSuggestBoxSuggestionChosenEventArgs;
+            var args = obj as Microsoft.UI.Xaml.Controls.AutoSuggestBoxSuggestionChosenEventArgs;
             if (args.SelectedItem == null) return;
             var selectedProduct = args.SelectedItem as Product;
             Order.NewLineItem.Product = selectedProduct;
@@ -123,9 +123,9 @@ namespace UnoContoso.ViewModels
 
         private void OnTextChange(object obj)
         {
-            var args = obj as Windows.UI.Xaml.Controls.AutoSuggestBoxTextChangedEventArgs;
+            var args = obj as Microsoft.UI.Xaml.Controls.AutoSuggestBoxTextChangedEventArgs;
             if (args == null) return;
-            if(args.Reason == Windows.UI.Xaml.Controls.AutoSuggestionBoxTextChangeReason.UserInput)
+            if(args.Reason == Microsoft.UI.Xaml.Controls.AutoSuggestionBoxTextChangeReason.UserInput)
             {
                 UpdateProductSuggestions(InputText);
             }
@@ -136,16 +136,18 @@ namespace UnoContoso.ViewModels
             if (string.IsNullOrEmpty(inputText)
                 || inputText.Length < 2) return;
 
-            await DispatcherHelper.ExecuteOnUIThreadAsync(
-                async () => 
-                {
-                    SuggestItems.Clear();
-                    var suggestions = await _contosoRepository.Products.GetAsync(inputText);
-                    foreach (var product in suggestions)
-                    {
-                        SuggestItems.Add(product);
-                    }
-                });
+            // TODO: Fix
+
+            //await DispatcherHelper.ExecuteOnUIThreadAsync(
+            //    async () => 
+            //    {
+            //        SuggestItems.Clear();
+            //        var suggestions = await _contosoRepository.Products.GetAsync(inputText);
+            //        foreach (var product in suggestions)
+            //        {
+            //            SuggestItems.Add(product);
+            //        }
+            //    });
         }
 
         private async void OnSave()
@@ -234,8 +236,8 @@ namespace UnoContoso.ViewModels
                 //Order is a new order
                 SetBusy("OrderLoad", true);
                 var customerId = navigationContext.Parameters.GetValue<Guid>("CustomerId");
-                await DispatcherHelper.ExecuteOnUIThreadAsync(
-                    async () =>
+               await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal,
+                   async () =>
                     {
                         var customer = await _contosoRepository.Customers.GetAsync(customerId);
                         Order = new OrderWrapper(_contosoRepository, new Order(customer));
@@ -248,8 +250,8 @@ namespace UnoContoso.ViewModels
                 //Order is an existing order
                 SetBusy("OrderLoad", true);
                 var orderId = navigationContext.Parameters.GetValue<Guid>("OrderId");
-                await DispatcherHelper.ExecuteOnUIThreadAsync(
-                    async () =>
+               await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal,
+                   async () =>
                     {
                         var order = await _contosoRepository.Orders.GetAsync(orderId);
                         Order = new OrderWrapper(_contosoRepository, order);

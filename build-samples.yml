@@ -1,0 +1,55 @@
+parameters:
+- name: path
+  type: string
+  default: ''
+
+steps:
+- checkout: self
+  clean: 'true'
+
+- template: build/templates/dotnet-install-windows.yml
+
+- ${{ if startsWith(variables['Build.SourceBranch'], 'refs/heads/canaries') }}:
+  - template: .vsts-ci.canaries.yml
+
+- powershell: |
+      & choco install vswhere
+      $msbuildpath=(vswhere -latest -requires Microsoft.Component.MSBuild -find MSBuild\**\Bin\MSBuild.exe -nologo)
+
+      echo "##vso[task.setvariable variable=msbuildpath]$msbuildpath"
+  displayName: Set MSBUILDPATH
+
+# NOTE: Currently, the CI just validates that the sample builds, and we don't publish actual apps.
+# In future, if we publish actual apps, it could happen that AndroidAddKeepAlives=false may cause issues.
+# So it will be safer to remove it. For now, we set it to false as it makes the build much faster.
+- powershell: |
+      Set-PSDebug -Trace 1
+      Write-Host "${{ parameters.path }}"
+
+      & $env:msbuildpath "${{ parameters.path }}" /r /p:AndroidAddKeepAlives=false /p:Configuration=Release /p:WasmShellMonoRuntimeExecutionMode=Interpreter /p:PublishTrimmed=false /p:WasmShellILLinkerEnabled=false /p:RunAOTCompilation=false /p:MtouchUseLlvm=false /ds "/bl:$(build.artifactstagingdirectory)\$(Agent.JobName).binlog" ;
+
+      $folderPath = [System.IO.Path]::GetDirectoryName("${{ parameters.path }}");
+
+      $testProject = Get-Item -Path $folderPath\**\*.Tests.csproj;
+
+      if (!($testProject -eq $null)) {
+        & dotnet test testProject.FullName -c Release --collect "XPlat code coverage" --logger trx --no-build ;
+      }
+
+      # fail the build on last exit code non zero
+      if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+      git config --system core.longpaths true
+
+      # Clean the whole tree after every build to avoid disk space issues
+      git clean -fdx
+
+  displayName: Build Sample
+
+- task: PublishBuildArtifacts@1
+  condition: always()
+  retryCountOnTaskFailure: 3
+  inputs:
+    PathtoPublish: $(build.artifactstagingdirectory)
+    ArtifactName: samples
+    ArtifactType: Container

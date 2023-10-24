@@ -10,7 +10,7 @@ using Uno.Extensions.Storage.Pickers;
 using Windows.ApplicationModel.Resources;
 using Windows.Storage;
 using Windows.Storage.Pickers;
-using Windows.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls;
 
 namespace Custom.Pickers
 {

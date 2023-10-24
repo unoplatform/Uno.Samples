@@ -1,6 +1,4 @@
 ﻿using Microsoft.AspNetCore.SignalR;
-using System;
-using System.Threading.Tasks;
 
 namespace UnoChat.Service.Hubs
 {

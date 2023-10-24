@@ -17,11 +17,7 @@ namespace TimeEntryUno.Shared.WebServices
 
         static IdentityServerClient()
         {
-#if __WASM__
-            var innerHandler = new Uno.UI.Wasm.WasmHttpHandler();
-#else
             var innerHandler = new HttpClientHandler();
-#endif
             _client = new HttpClient(innerHandler);
         }
 

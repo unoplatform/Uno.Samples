@@ -19,14 +19,15 @@ using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls.Primitives;
+using Microsoft.UI.Xaml.Data;
+using Microsoft.UI.Xaml.Input;
+using Microsoft.UI.Xaml.Media;
+using Microsoft.UI.Xaml.Navigation;
 using LogLevel = Microsoft.Extensions.Logging.LogLevel;
+using System.Threading.Tasks;
 
 namespace Demo
 {
@@ -62,7 +63,7 @@ namespace Demo
         /// will be used such as when the application is launched to open a specific file.
         /// </summary>
         /// <param name="args">Details about the launch request and process.</param>
-        protected override void OnLaunched(LaunchActivatedEventArgs args)
+        protected override void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs args)
         {
 #if DEBUG
             if (System.Diagnostics.Debugger.IsAttached)
@@ -71,11 +72,11 @@ namespace Demo
             }
 #endif
 
-#if NET5_0 && WINDOWS
+#if NET6_0_OR_GREATER && WINDOWS
             _window = new Window();
             _window.Activate();
 #else
-            _window = Windows.UI.Xaml.Window.Current;
+            _window = Microsoft.UI.Xaml.Window.Current;
 #endif
 
             var rootFrame = _window.Content as Frame;
@@ -89,7 +90,7 @@ namespace Demo
 
                 rootFrame.NavigationFailed += OnNavigationFailed;
 
-                if (args.PreviousExecutionState == ApplicationExecutionState.Terminated)
+                if (args.UWPLaunchActivatedEventArgs.PreviousExecutionState == ApplicationExecutionState.Terminated)
                 {
                     // TODO: Load state from previously suspended application
                 }
@@ -98,12 +99,15 @@ namespace Demo
                 _window.Content = rootFrame;
             }
 
-#if !(NET5_0 && WINDOWS)
-            if (args.PrelaunchActivated == false)
+#if !(NET6_0_OR_GREATER && WINDOWS)
+            if (args.UWPLaunchActivatedEventArgs.PrelaunchActivated == false)
 #endif
             {
                 if (rootFrame.Content == null)
                 {
+#if __WASM__
+                    _ = Windows.Storage.StorageFolder.GetFolderFromPathAsync(Windows.Storage.ApplicationData.Current.LocalFolder.Path);
+#endif
                     // When the navigation stack isn't restored navigate to the first page,
                     // configuring the new page by passing required information as a navigation
                     // parameter
@@ -112,42 +116,42 @@ namespace Demo
                 // Ensure the current window is active
                 _window.Activate();
             }
-            ConfigureNavigation();
+            //ConfigureNavigation();
         }
 
-        private void ConfigureNavigation()
-        {
-            var frame = (Frame)Windows.UI.Xaml.Window.Current.Content;
-            var manager = Windows.UI.Core.SystemNavigationManager.GetForCurrentView();
+//        private void ConfigureNavigation()
+//        {
+//            var frame = (Microsoft.UI.Xaml.Controls.Frame)_window.Content;
+//            var manager = Windows.UI.Core.SystemNavigationManager.GetForCurrentView();
 
 
-#if WINDOWS_UWP || __WASM__
-            // Toggle the visibility of back button based on if the frame can navigate back.
-            // Setting it to visible has the follow effect on the platform:
-            // - uwp: add a `<-` back button on the title bar
-            // - wasm: add a dummy entry in the browser back stack
-            frame.Navigated += (s, e) => manager.AppViewBackButtonVisibility = frame.CanGoBack
-                ? Windows.UI.Core.AppViewBackButtonVisibility.Visible
-                : Windows.UI.Core.AppViewBackButtonVisibility.Collapsed;
-#endif
+//#if WINDOWS_UWP || __WASM__
+//            // Toggle the visibility of back button based on if the frame can navigate back.
+//            // Setting it to visible has the follow effect on the platform:
+//            // - uwp: add a `<-` back button on the title bar
+//            // - wasm: add a dummy entry in the browser back stack
+//            frame.Navigated += (s, e) => manager.AppViewBackButtonVisibility = frame.CanGoBack
+//                ? Windows.UI.Core.AppViewBackButtonVisibility.Visible
+//                : Windows.UI.Core.AppViewBackButtonVisibility.Collapsed;
+//#endif
 
-#if WINDOWS_UWP || __ANDROID__ || __WASM__
-            // On some platforms, the back navigation request needs to be hooked up to the back navigation of the Frame.
-            // These requests can come from:
-            // - uwp: title bar back button
-            // - droid: CommandBar back button, os back button/gesture
-            // - wasm: browser back button
-            manager.BackRequested += (s, e) =>
-            {
-                if (frame.CanGoBack)
-                {
-                    frame.GoBack();
+//#if WINDOWS_UWP || __ANDROID__ || __WASM__
+//            // On some platforms, the back navigation request needs to be hooked up to the back navigation of the Frame.
+//            // These requests can come from:
+//            // - uwp: title bar back button
+//            // - droid: CommandBar back button, os back button/gesture
+//            // - wasm: browser back button
+//            manager.BackRequested += (s, e) =>
+//            {
+//                if (frame.CanGoBack)
+//                {
+//                    frame.GoBack();
 
-                    e.Handled = true;
-                }
-            };
-#endif
-        }
+//                    e.Handled = true;
+//                }
+//            };
+//#endif
+//        }
 
 
         /// <summary>
@@ -247,8 +251,7 @@ namespace Demo
         // Handling redirect URL
         // See: https://docs.microsoft.com/azure/active-directory/develop/msal-net-xamarin-ios-considerations
         public override bool OpenUrl(UIApplication app, NSUrl url, NSDictionary options)
-        {
-            AuthenticationContinuationHelper.SetAuthenticationContinuationEventArgs(url);
+        {   
             return true;
         }
 

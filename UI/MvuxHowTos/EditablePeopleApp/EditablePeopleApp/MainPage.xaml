@@ -1,0 +1,67 @@
+<Page 
+    x:Name="peopleView"
+    x:Class="EditablePeopleApp.MainPage"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mvux="using:Uno.Extensions.Reactive.UI"
+    xmlns:utu="using:Uno.Toolkit.UI">
+
+    <StackPanel utu:SafeArea.Insets="Bottom,Top">
+        <StackPanel Orientation="Horizontal">
+
+            <TextBox PlaceholderText="First name" DataContext="{Binding NewPerson}"
+						 Text="{Binding FirstName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+            <TextBox PlaceholderText="Last name" DataContext="{Binding NewPerson}"
+   						 Text="{Binding LastName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+            <!-- NewPerson is a generated class inheriting from Bindable<T>
+            (https://github.com/unoplatform/uno.extensions/blob/main/src/Uno.Extensions.Reactive/Presentation/Bindings/Bindable.cs)
+            and its Value property is a generated addition that exposes the actual model it's wrapped around, in our example the Person -->
+            <Button Content="Add" Command="{Binding AddPerson}"
+                        CommandParameter="{Binding NewPerson.Value}" />
+        </StackPanel>
+
+        <!-- People is a generated property in our mirrored Model (PeopleModel), that provides an enhanced version of our IListState<Person>
+        it inherits from BindableListFeed<T> (https://github.com/unoplatform/uno.extensions/blob/main/src/Uno.Extensions.Reactive.UI/Presentation/Bindings/BindableListFeed.cs)
+        
+        The actual object the template is gonna be presenting is of FeedViewState
+        It adds additional properties to it such as Data, Refresh -->
+        <mvux:FeedView Source="{Binding People}">
+            <DataTemplate>
+
+                <!-- The Data property is of FeedViewState and provides access to the Data of the state if any -->
+                <ListView ItemsSource="{Binding Data}">
+                    <ListView.Header>
+                        <Button Content="Refresh" Command="{Binding Refresh}" />
+                    </ListView.Header>
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+
+                            <StackPanel Orientation="Horizontal" Spacing="5">
+
+                                <TextBlock>
+								    <Run Text="#" />
+								    <Run Text="{Binding Id}" />
+                                </TextBlock>
+
+                                <TextBlock Text="{Binding FirstName}" />
+                                <TextBlock Text="{Binding LastName}" />
+
+                                <!-- since this button sits in an item of the list view      
+                                    we need to access the Model object outside of it -->
+                                <Button Content="Remove"                                    
+								    Command="{Binding DataContext.RemovePerson, ElementName=peopleView}"
+								    CommandParameter="{Binding}" />
+
+                            </StackPanel>
+
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+
+            </DataTemplate>
+        </mvux:FeedView>
+    </StackPanel>
+
+</Page>

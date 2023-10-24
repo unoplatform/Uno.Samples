@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFrameworks>net7.0-ios;net7.0-android</TargetFrameworks>
+		<TargetFrameworks Condition="'$(OverrideTargetFrameworks)'!=''">$(OverrideTargetFrameworks)</TargetFrameworks>
+
+		<UseMaui>true</UseMaui>
+		<SingleProject>true</SingleProject>
+	</PropertyGroup>
+
+	<ItemGroup Condition=" Exists('GrialLicense') ">
+		<None Remove="GrialLicense" />
+		<EmbeddedResource Include="GrialLicense" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<!-- TODO: Uncomment -->
+		<!--<PackageReference Include="UXDivers.GrialMaui" />-->
+	</ItemGroup>
+</Project>

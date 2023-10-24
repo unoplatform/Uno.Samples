@@ -90,11 +90,11 @@ namespace Demo.Database.Entities
         [OneToOne(CascadeOperations = CascadeOperation.All)]
         public Address Address { get; set; }
 
-        /// <summary>
-        /// Client details of the Account record.
-        /// </summary>
-        [OneToOne(ReadOnly = true)]
-        public Client Client { get; set; }
+        ///// <summary>
+        ///// Client details of the Account record.
+        ///// </summary>
+        //[OneToOne(ReadOnly = false)]
+        //public Client Client { get; set; }
 
         #endregion
     }

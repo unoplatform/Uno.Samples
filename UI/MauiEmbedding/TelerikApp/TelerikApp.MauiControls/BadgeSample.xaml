@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+			 xmlns:telerik="http://schemas.telerik.com/2022/xaml/maui"
+			 x:Class="TelerikApp.MauiControls.BadgeSample">
+	<ContentView.Resources>
+		<ResourceDictionary>
+			<Color x:Key="SecondaryTextColorLight">#99000000</Color>
+			<Color x:Key="SecondaryTextColorDark">#99FFFFFF</Color>
+			<Color x:Key="HighLightedColorLight">#0E88F2</Color>
+			<Color x:Key="HighLightedColorDark">#42A5F5</Color>
+			<Color x:Key="MenuItemBackgroundColorLight">#F8F8F8</Color>
+			<Color x:Key="MenuItemBackgroundColorDark">#373737</Color>
+			<Color x:Key="DisabledTextColorLight">#9D9CA1</Color>
+			<Color x:Key="DisabledTextColorDark">#8E8E8E</Color>
+			<Color x:Key="DisabledBadgeBackground">#FFBABA</Color>
+
+			<Style x:Key="DefaultTabItemStyle"
+				   TargetType="Label">
+				<Setter Property="HorizontalOptions"
+						Value="Center" />
+				<Setter Property="VerticalOptions"
+						Value="Center" />
+				<Setter Property="HorizontalTextAlignment"
+						Value="Center" />
+				<Setter Property="VerticalTextAlignment"
+						Value="Center" />
+			</Style>
+			<Style x:Key="DefaultTabItemIconStyle"
+				   TargetType="Label"
+				   BasedOn="{StaticResource DefaultTabItemStyle}">
+				<Setter Property="FontSize"
+						Value="Title" />
+				<Setter Property="FontFamily"
+						Value="TelerikFont" />
+			</Style>
+			<Style x:Key="DefaultTabItemLabelStyle"
+				   TargetType="Label"
+				   BasedOn="{StaticResource DefaultTabItemStyle}">
+				<Setter Property="FontSize"
+						Value="Micro" />
+			</Style>
+			<!-- TODO: Uncomment -->
+			<!--<Style x:Key="DefaultBadgeViewStyle" TargetType="telerik:RadBadgeView">
+                <Setter Property="HorizontalOptions" Value="Center" />
+                <Setter Property="BadgeVerticalAlignment" Value="Start" />
+            </Style>-->
+		</ResourceDictionary>
+	</ContentView.Resources>
+	<Grid RowDefinitions="*, Auto">
+		<Label Text="Badge Sample (Search for TODO and apply comments)" />
+		<!-- TODO: Uncomment -->
+		<!--  <telerik:RadItemsControl Grid.Row="0"
+                                 ItemsSource="{Binding Users}">
+      <telerik:RadItemsControl.ItemTemplate>
+        <DataTemplate>
+          <Grid ColumnDefinitions="Auto, *, *"
+                          Padding="16, 8">
+            <telerik:RadBadgeView BadgeType="{Binding ActivityStatus}"
+                                              BadgeTextColor="White"
+                                              BadgeVerticalPosition="End"
+                                              BadgeHorizontalAlignment="End"
+                                              BadgeVerticalAlignment="End"
+                                              Margin="0, 0, 16, 0">
+              <telerik:RadBadgeView.Content>
+                <Image Source="{Binding ImageSourcePath}" 
+                                       WidthRequest="50"
+                                       HeightRequest="50" />
+              </telerik:RadBadgeView.Content>
+            </telerik:RadBadgeView>
+            <VerticalStackLayout Grid.Column="1"
+                                             Spacing="2"
+                                             VerticalOptions="Center">
+              <Label Text="{Binding Name}" 
+                                   FontAttributes="{Binding MessageFontAttributes}"
+                                   VerticalTextAlignment="End" />
+              <Label Text="{Binding LastMessageReceived}"
+                                   TextColor="{StaticResource SecondaryTextColorLight}"
+                                   FontSize="Micro"
+                                   FontAttributes="{Binding MessageFontAttributes}" />
+            </VerticalStackLayout>
+            <VerticalStackLayout Grid.Column="2" 
+                                             HorizontalOptions="End"
+                                             VerticalOptions="Center" >
+              <Label Text="{Binding LastMessageReceivedDate}"
+                                   TextColor="{Binding LastMessageReceivedDateColor}"
+                                   FontSize="Small"
+                                   VerticalOptions="CenterAndExpand" />
+              <telerik:Badge BackgroundColor="{StaticResource HighLightedColorLight}"
+                                           Text="{Binding UnreadMessagesText}"
+                                           HorizontalOptions="End"
+                                           IsVisible="{Binding IsVisibleUnreadMessages}" />
+            </VerticalStackLayout>
+          </Grid>
+        </DataTemplate>
+      </telerik:RadItemsControl.ItemTemplate>
+    </telerik:RadItemsControl>
+    <Grid Grid.Row="1"
+              ColumnDefinitions="*, *, *, *"
+              VerticalOptions="EndAndExpand"
+              BackgroundColor="{StaticResource MenuItemBackgroundColorLight}"
+              Padding="0, 7">
+      <telerik:RadBadgeView BadgeText="12"
+                                  BadgeBackgroundColor="{StaticResource DisabledBadgeBackground}"
+                                  Style="{StaticResource DefaultBadgeViewStyle}">
+        <telerik:RadBadgeView.Content>
+          <StackLayout>
+            <Label Text="&#xE904;" TextColor="{StaticResource DisabledTextColorLight}"
+                               Style="{StaticResource DefaultTabItemIconStyle}" />
+            <Label Text="Calls" TextColor="{StaticResource DisabledTextColorLight}"
+                               Style="{StaticResource DefaultTabItemLabelStyle}" />
+          </StackLayout>
+        </telerik:RadBadgeView.Content>
+      </telerik:RadBadgeView>
+      <telerik:RadBadgeView Grid.Column="1"
+                                  BadgeText="2"
+                                  Style="{StaticResource DefaultBadgeViewStyle}"
+                                  BadgeOffsetX="{OnPlatform Android=-2, iOS=-3, Default=-6}">
+        <telerik:RadBadgeView.Content>
+          <StackLayout>
+            <Label Text="&#xE903;"
+                               TextColor="{StaticResource HighLightedColorLight}"
+                               Style="{StaticResource DefaultTabItemIconStyle}" />
+            <Label Text="Chats"
+                               TextColor="{StaticResource HighLightedColorLight}"
+                               Style="{StaticResource DefaultTabItemLabelStyle}" />
+          </StackLayout>
+        </telerik:RadBadgeView.Content>
+      </telerik:RadBadgeView>
+
+      <StackLayout Grid.Column="2">
+        <Label Text="&#xE864;" TextColor="{StaticResource DisabledTextColorLight}"
+                       Style="{StaticResource DefaultTabItemIconStyle}" />
+        <Label Text="Calendar" TextColor="{StaticResource DisabledTextColorLight}"
+                       Style="{StaticResource DefaultTabItemLabelStyle}" />
+      </StackLayout>
+      <telerik:RadBadgeView BadgeType="Dot" Grid.Column="3"
+                            BadgeBackgroundColor="{StaticResource DisabledBadgeBackground}"
+                            Style="{StaticResource DefaultBadgeViewStyle}"
+                            BadgeVerticalAlignment="Start"
+                            BadgeOffsetX="{OnPlatform Android=-5, iOS=-7, Default=-12}">
+        <telerik:RadBadgeView.Content>
+          <StackLayout>
+            <Label Text="&#xE901;" 
+                   TextColor="{StaticResource DisabledTextColorLight}"
+                   Style="{StaticResource DefaultTabItemIconStyle}" />
+            <Label Text="Activity" 
+                   TextColor="{StaticResource DisabledTextColorLight}"
+                   Style="{StaticResource DefaultTabItemLabelStyle}" />
+          </StackLayout>
+        </telerik:RadBadgeView.Content>
+      </telerik:RadBadgeView>
+    </Grid>-->
+	</Grid>
+</ContentView>
