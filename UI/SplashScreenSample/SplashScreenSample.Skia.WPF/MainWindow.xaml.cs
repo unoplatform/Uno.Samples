@@ -24,7 +24,7 @@ namespace SplashScreenSample.WPF
         {
             InitializeComponent();
 
-            root.Content = new global::Uno.UI.Skia.Platform.WpfHost(Dispatcher, () => new SplashScreenSample.App());
+            root.Content = new global::Uno.UI.Runtime.Skia.Wpf.WpfHost(Dispatcher, () => new SplashScreenSample.App());
         }
     }
 }

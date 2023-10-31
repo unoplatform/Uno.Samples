@@ -24,7 +24,7 @@ namespace ListViewSample.WPF
         {
             InitializeComponent();
 
-            root.Content = new global::Uno.UI.Skia.Platform.WpfHost(Dispatcher, () => new ListViewSample.App());
+            root.Content = new global::Uno.UI.Runtime.Skia.Wpf.WpfHost(Dispatcher, () => new ListViewSample.App());
         }
     }
 }

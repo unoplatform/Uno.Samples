@@ -1,6 +1,6 @@
 using System;
 using GLib;
-using Uno.UI.Runtime.Skia;
+using Uno.UI.Runtime.Skia.Gtk;
 
 namespace PeopleApp.Skia.Gtk
 {

@@ -24,7 +24,7 @@ namespace ChatUI.WPF
 		{
 			InitializeComponent();
 
-			root.Content = new global::Uno.UI.Skia.Platform.WpfHost(Dispatcher, () => new ChatUI.AppHead());
+			root.Content = new global::Uno.UI.Runtime.Skia.Wpf.WpfHost(Dispatcher, () => new ChatUI.AppHead());
 		}
 	}
 }

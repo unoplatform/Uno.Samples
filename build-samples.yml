@@ -11,6 +11,8 @@ steps:
 
 - ${{ if startsWith(variables['Build.SourceBranch'], 'refs/heads/canaries') }}:
   - template: .vsts-ci.canaries.yml
+    parameters:
+      solution: ${{ parameters.path }}
 
 - powershell: |
       & choco install vswhere
