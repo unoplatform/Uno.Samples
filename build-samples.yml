@@ -28,14 +28,16 @@ steps:
       Set-PSDebug -Trace 1
       Write-Host "${{ parameters.path }}"
 
-      & $env:msbuildpath "${{ parameters.path }}" /r /p:AndroidAddKeepAlives=false /p:Configuration=Release /p:WasmShellMonoRuntimeExecutionMode=Interpreter /p:PublishTrimmed=false /p:WasmShellILLinkerEnabled=false /p:RunAOTCompilation=false /p:MtouchUseLlvm=false /p:EnableCoreMrtTooling=false /ds "/bl:$(build.artifactstagingdirectory)\$(Agent.JobName).binlog" ;
+      dotnet build "${{ parameters.path }}" /p:AndroidAddKeepAlives=false /p:Configuration=Release /p:WasmShellMonoRuntimeExecutionMode=Interpreter /p:PublishTrimmed=false /p:WasmShellILLinkerEnabled=false /p:EnableCoreMrtTooling=false /p:RunAOTCompilation=false /p:MtouchUseLlvm=false "/bl:$(build.artifactstagingdirectory)\$(Agent.JobName).binlog" ;
 
       $folderPath = [System.IO.Path]::GetDirectoryName("${{ parameters.path }}");
 
       $testProject = Get-Item -Path $folderPath\**\*.Tests.csproj;
 
+      Write-Host "Test project - $testProject.FullName"
+
       if (!($testProject -eq $null)) {
-        & dotnet test testProject.FullName -c Release --collect "XPlat code coverage" --logger trx --no-build ;
+        & dotnet test $testProject.FullName -c Release --collect "XPlat code coverage" --logger trx --no-build ;
       }
 
       # fail the build on last exit code non zero
