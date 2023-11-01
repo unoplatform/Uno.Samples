@@ -9,6 +9,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="Uno.Dsp.Tasks" />
+		<PackageReference Include="Uno.Toolkit.Skia.WinUI" />
 		<PackageReference Include="Uno.WinUI" />
 		<PackageReference Include="Uno.Resizetizer" />
 		<PackageReference Include="CommunityToolkit.Mvvm" />
@@ -38,7 +39,7 @@
 				the "Microsoft.Windows.SDK.BuildTools" package above, and the "revision" version number
 				must be the highest found in https://www.nuget.org/packages/Microsoft.Windows.SDK.NET.Ref.
 				-->
-				<!-- <WindowsSdkPackageVersion>10.0.22621.28</WindowsSdkPackageVersion> -->
+				 <WindowsSdkPackageVersion>10.0.22621.28</WindowsSdkPackageVersion> 
 			</PropertyGroup>
 			<ItemGroup>
 				<PackageReference Include="Microsoft.WindowsAppSDK" />
@@ -52,18 +53,16 @@
 				<Compile Update="**\*.xaml.cs">
 					<DependentUpon>%(Filename)</DependentUpon>
 				</Compile>
-				<PRIResource Include ="**\*.resw" />
+				<PRIResource Include="**\*.resw" />
 			</ItemGroup>
 		</Otherwise>
 	</Choose>
 
 	<ItemGroup>
-		<UnoDspImportColors Include="Styles\*.zip"
-												Generator="Xaml" />
+		<UnoDspImportColors Include="Styles\*.zip" Generator="Xaml" />
 		<UnoImage Include="Assets\**\*.svg" />
 		<EmbeddedResource Include="appsettings.json" />
-		<EmbeddedResource Include="appsettings.*.json"
-											DependentUpon="appsettings.json" />
+		<EmbeddedResource Include="appsettings.*.json" DependentUpon="appsettings.json" />
 		<UpToDateCheckInput Include="**\*.xaml" Exclude="bin\**\*.xaml;obj\**\*.xaml" />
 	</ItemGroup>
 </Project>
