@@ -1,0 +1,38 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType Condition="'$(Configuration)'=='Release'">WinExe</OutputType>
+    <OutputType Condition="'$(Configuration)'=='Debug'">Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+  </PropertyGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Package.appxmanifest" />
+    <Manifest Include="$(ApplicationManifest)" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Uno.WinUI.Skia.Gtk" />
+    <PackageReference Include="Uno.WinUI.Markup" />
+    <PackageReference Include="Uno.Material.WinUI.Markup" />
+    <PackageReference Include="Uno.Themes.WinUI.Markup" />
+    <PackageReference Include="Uno.Extensions.Configuration" />
+    <PackageReference Include="Uno.Material.WinUI" />
+    <PackageReference Include="Uno.Toolkit.WinUI.Material" />
+    <PackageReference Include="Uno.Toolkit.WinUI.Markup" />
+    <PackageReference Include="Uno.Extensions.Hosting.WinUI" />
+    <PackageReference Include="Uno.Extensions.Navigation.Toolkit.WinUI" />
+    <PackageReference Include="Uno.Extensions.Navigation.WinUI" />
+    <PackageReference Include="Uno.Extensions.Navigation.WinUI.Markup" />
+    <PackageReference Include="Uno.Extensions.Reactive.WinUI" />
+    <PackageReference Include="Uno.Extensions.Reactive.WinUI.Markup" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Console" />
+    <PackageReference Include="SkiaSharp.Views.Uno.WinUI" />
+    <PackageReference Include="SkiaSharp.Skottie" />
+    <PackageReference Include="Uno.WinUI.DevServer" Condition="'$(Configuration)'=='Debug'" />
+    <PackageReference Include="Uno.UI.Adapter.Microsoft.Extensions.Logging" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TubePlayer\TubePlayer.csproj" />
+  </ItemGroup>
+  <Import Project="..\TubePlayer.Base\base.props" />
+</Project>
