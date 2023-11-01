@@ -1,6 +1,6 @@
 using System;
 using GLib;
-using Uno.UI.Runtime.Skia.Gtk;
+using Uno.UI.Runtime.Skia;
 
 namespace MapControlSample.Skia.Gtk
 {

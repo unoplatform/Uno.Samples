@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Uno.UI.Skia.Platform;
 
 namespace MapControlSample.WPF
 {
@@ -24,7 +25,7 @@ namespace MapControlSample.WPF
 		{
 			InitializeComponent();
 	
-			root.Content = new global::Uno.UI.Runtime.Skia.Wpf.WpfHost(Dispatcher, () => new MapControlSample.App());
+			root.Content = new WpfHost(Dispatcher, () => new MapControlSample.App());
 		}
 	}
 }
