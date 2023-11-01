@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading;
 using Windows.UI;
 using Windows.UI.Text;
-using Windows.UI.Xaml;
+
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using Microsoft.AspNetCore.SignalR.Client;
