@@ -1,6 +1,6 @@
 using GLib;
 using System;
-using Uno.UI.Runtime.Skia;
+using Uno.UI.Runtime.Skia.Gtk;
 
 namespace TravelUI.Skia.Gtk
 {
