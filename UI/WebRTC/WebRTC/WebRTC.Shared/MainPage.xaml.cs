@@ -13,6 +13,7 @@ using Newtonsoft.Json;
 using Uno.Extensions;
 using Uno.Foundation;
 using WebRTC.Entities;
+using Windows.UI.Xaml;
 
 namespace WebRTC
 {
