@@ -75,13 +75,13 @@ Now we can use this power when we want to build a **UNO Platform** app. You migh
 So let's create a new UNO Platform app. I am a big fan of the command line arguments, but you can also take the [Visual Studio Project templates](https://platform.uno/docs/articles/get-started-dotnet-new.html). To create a new app you can simply type: `dotnet new unoapp-uwp-net6 -o LiteDBSample` (the template allows also for optionally removing some UNO Platform heads: `dotnet new unoapp-uwp-net6 -o LiteDBSample -M=false -skia-wpf=false -skia-gtk=false -skia-linux-fb=false`. With this you are only running the WASM head). Don't worry you can also take other templates if you wish, as the code will work everywhere. Now if we want to use **LiteDB**, we have to reference the nuget package in your UNO Head<sup>[What is a Head?](https://platform.uno/docs/articles/uno-app-solution-structure.html)</sup> projects:
 
 ```csharp
-dotnet add package LiteDB --version 5.0.12
+dotnet add package LiteDB --version 5.0.15
 ```
 
 Or alternatively just copy and paste this part into your csproj:
 ```xml
 <ItemGroup>
-  <PackageReference Include="LiteDB" Version="5.0.12" />
+  <PackageReference Include="LiteDB" Version="5.0.15" />
 </ItemGroup>
 ```
 
