@@ -1,6 +1,6 @@
 using System;
 using GLib;
-using Uno.UI.Runtime.Skia;
+using Uno.UI.Runtime.Skia.Gtk;
 
 namespace HomeIdeasUI.Skia.Gtk;
 
@@ -14,7 +14,7 @@ public class Program
 			expArgs.ExitApplication = true;
 		};
 
-		var host = new GtkHost(() => new AppHead(), args);
+		var host = new GtkHost(() => new AppHead());
 
 		host.Run();
 	}

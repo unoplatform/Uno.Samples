@@ -18,11 +18,11 @@
     <PackageReference Include="Uno.CommunityToolkit.WinUI" Version="7.1.100" />
     <PackageReference Include="Uno.CommunityToolkit.WinUI.UI.Controls" Version="7.1.100" />
     <PackageReference Include="Uno.CommunityToolkit.WinUI.UI.Controls.DataGrid" Version="7.1.100" />
-    <PackageReference Include="Uno.WinUI" Version="4.9.26" />
-    <PackageReference Include="Uno.WinUI.RemoteControl" Version="4.9.26" Condition="'$(Configuration)'=='Debug'" />
-    <PackageReference Include="Uno.UI.Adapter.Microsoft.Extensions.Logging" Version="4.9.26" />
+    <PackageReference Include="Uno.WinUI" Version="5.0.19" />
+    <PackageReference Include="Uno.WinUI.DevServer" Version="5.0.19" Condition="'$(Configuration)'=='Debug'" />
+    <PackageReference Include="Uno.UI.Adapter.Microsoft.Extensions.Logging" Version="5.0.19" />
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="7.0.0" />
-    <PackageReference Include="Uno.WinUI.Lottie" Version="4.9.26" />
+    <PackageReference Include="Uno.WinUI.Lottie" Version="5.0.19" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\UnoContoso.Models\UnoContoso.Models.csproj" />
@@ -31,7 +31,7 @@
   <Choose>
     <When Condition="'$(TargetFramework)'=='net7.0-android'">
       <ItemGroup>
-        <PackageReference Include="Xamarin.Google.Android.Material" Version="1.9.0.2" />
+        <PackageReference Include="Xamarin.Google.Android.Material" Version="1.10.0.1" />
         <PackageReference Include="Uno.UniversalImageLoader" Version="1.9.36" />
       </ItemGroup>
       <ItemGroup>
@@ -47,7 +47,7 @@
         <MtouchExtraArgs>$(MtouchExtraArgs) --marshal-objectivec-exceptions:disable</MtouchExtraArgs>
       </PropertyGroup>
       <ItemGroup>
-        <PackageReference Include="Uno.Extensions.Logging.OSLog" Version="1.4.0" />
+        <PackageReference Include="Uno.Extensions.Logging.OSLog" Version="1.7.0" />
       </ItemGroup>
     </When>
     <When Condition="'$(TargetFramework)'=='net7.0-maccatalyst'">
@@ -62,7 +62,7 @@
         <InvariantGlobalization>false</InvariantGlobalization>
       </PropertyGroup>
       <ItemGroup>
-        <PackageReference Include="Uno.Extensions.Logging.OSLog" Version="1.4.0" />
+        <PackageReference Include="Uno.Extensions.Logging.OSLog" Version="1.7.0" />
       </ItemGroup>
     </When>
     <When Condition="'$(TargetFramework)'=='net7.0-macos'">

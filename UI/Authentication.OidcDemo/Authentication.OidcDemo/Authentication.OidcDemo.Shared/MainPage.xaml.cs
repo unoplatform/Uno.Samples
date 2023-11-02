@@ -1,13 +1,12 @@
-﻿using System;
-using Windows.Security.Authentication.Web;
+﻿using IdentityModel.OidcClient;
+using IdentityModel.OidcClient.Browser;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using IdentityModel.OidcClient;
-using Windows.UI.Xaml;
-using IdentityModel.OidcClient.Browser;
-using System.Threading.Tasks;
-using System.Threading;
+using System;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using Windows.Security.Authentication.Web;
 
 namespace Authentication.OidcDemo
 {

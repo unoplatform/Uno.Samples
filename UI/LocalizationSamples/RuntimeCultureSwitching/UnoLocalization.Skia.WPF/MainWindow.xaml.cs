@@ -24,7 +24,7 @@ namespace UnoLocalization.WPF
         {
             InitializeComponent();
 
-            root.Content = new global::Uno.UI.Skia.Platform.WpfHost(Dispatcher, () => new UnoLocalization.App());
+            root.Content = new global::Uno.UI.Runtime.Skia.Wpf.WpfHost(Dispatcher, () => new UnoLocalization.App());
         }
     }
 }

@@ -1,6 +1,6 @@
 using System;
 using GLib;
-using Uno.UI.Runtime.Skia;
+using Uno.UI.Runtime.Skia.Gtk;
 
 namespace MessagingPeopleApp.Skia.Gtk
 {
@@ -14,7 +14,7 @@ namespace MessagingPeopleApp.Skia.Gtk
                 expArgs.ExitApplication = true;
             };
 
-            var host = new GtkHost(() => new AppHead(), args);
+            var host = new GtkHost(() => new AppHead());
 
             host.Run();
         }

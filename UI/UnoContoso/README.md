@@ -15,7 +15,7 @@ https://github.com/microsoft/Windows-appsample-customers-orders-database
 - Uno.UI v3.2.0-dev.254
 - Uno.WindowsStateTriggers v1.1.1-uno.132
 - WindowsStateTriggers v1.1.0
-- UWP Target version : Windows 10, version 1903(10.0; Build 18362)
+- UWP Target version : Windows 10, version 1903(10.0; Build 19041)
 - UWP Min version : Windows 10, version 1809(10.0; Build 17763)
 
 ## How to run

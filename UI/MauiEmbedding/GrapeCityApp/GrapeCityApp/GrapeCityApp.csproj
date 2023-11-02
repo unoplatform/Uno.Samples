@@ -1,7 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows')) or '$(EnableWindowsTargeting)' == 'true'">$(TargetFrameworks);net7.0-windows10.0.19041</TargetFrameworks>
-		<TargetFrameworks>$(TargetFrameworks);net7.0-ios;net7.0-android;net7.0-maccatalyst</TargetFrameworks>
+		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows')) or '$(EnableWindowsTargeting)' == 'true'">$(TargetFrameworks);net8.0-windows10.0.19041</TargetFrameworks>
+		<TargetFrameworks>$(TargetFrameworks);net8.0-ios;net8.0-android</TargetFrameworks>
+		<!-- MacCatalyst disabled due to issue with CI - uncomment to add MacCatalyst tfm-->
+		<!--<TargetFrameworks>$(TargetFrameworks);net8.0-maccatalyst</TargetFrameworks>-->
 		<TargetFrameworks Condition="'$(OverrideTargetFrameworks)'!=''">$(OverrideTargetFrameworks)</TargetFrameworks>
 
 		<!-- Ensures the .xr.xml files are generated in a proper layout folder -->
@@ -22,7 +24,7 @@
 		<PackageReference Include="Uno.Extensions.Serialization.Http" />
 		<PackageReference Include="Uno.Extensions.Http.WinUI" />
 		<PackageReference Include="Uno.Extensions.Serialization.Refit" />
-		<PackageReference Include="Uno.Extensions.Toolkit.WinUI" />
+		
 		<PackageReference Include="Uno.Toolkit.WinUI" />
 		<PackageReference Include="Uno.Extensions.Hosting.WinUI" />
 		<PackageReference Include="Uno.Extensions.Localization.WinUI" />
@@ -30,20 +32,27 @@
 		<PackageReference Include="Uno.Extensions.Navigation.WinUI" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Console" />
 
-		<PackageReference Include="Microsoft.Maui.Graphics" VersionOverride="7.0.92"/>
-	</ItemGroup>
+		
+	    <PackageReference Include="Microsoft.Maui.Controls" />
+	    <PackageReference Include="Microsoft.Maui.Controls.Compatibility" />
+		<PackageReference Include="Microsoft.Maui.Graphics" />
+  </ItemGroup>
 
-	<ItemGroup Condition="$(IsAndroid)">
-		<PackageReference Include="Xamarin.Google.Android.Material" VersionOverride="1.9.0.2" />
-		<PackageReference Include="Xamarin.AndroidX.Navigation.UI" VersionOverride="2.6.0.1" />
-		<PackageReference Include="Xamarin.AndroidX.Navigation.Fragment" VersionOverride="2.6.0.1" />
-		<PackageReference Include="Xamarin.AndroidX.Navigation.Runtime" VersionOverride="2.6.0.1" />
-		<PackageReference Include="Xamarin.AndroidX.Navigation.Common" VersionOverride="2.6.0.1" />
-	</ItemGroup>
+  <ItemGroup Condition="$(IsAndroid)">
+    <PackageReference Include="Xamarin.Google.Android.Material" VersionOverride="$(AndroidMaterialVersion)" />
+    <PackageReference Include="Xamarin.AndroidX.Navigation.UI" VersionOverride="$(AndroidXNavigationVersion)" />
+    <PackageReference Include="Xamarin.AndroidX.Navigation.Fragment" VersionOverride="$(AndroidXNavigationVersion)" />
+    <PackageReference Include="Xamarin.AndroidX.Navigation.Runtime" VersionOverride="$(AndroidXNavigationVersion)" />
+    <PackageReference Include="Xamarin.AndroidX.Navigation.Common" VersionOverride="$(AndroidXNavigationVersion)" />
+    <PackageReference Include="Xamarin.AndroidX.Collection" VersionOverride="$(AndroidXCollectionVersion)" />
+    <PackageReference Include="Xamarin.AndroidX.Collection.Ktx" VersionOverride="$(AndroidXCollectionVersion)" />    
+  </ItemGroup>
+
 	
 	<Choose>
 		<When Condition="$(IsWinAppSdk)">
 			<PropertyGroup>
+				<UseRidGraph>true</UseRidGraph>
 				<!--
 				If you encounter this error message:
 

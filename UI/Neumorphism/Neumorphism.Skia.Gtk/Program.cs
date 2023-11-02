@@ -1,6 +1,6 @@
 using GLib;
 using System;
-using Uno.UI.Runtime.Skia;
+using Uno.UI.Runtime.Skia.Gtk;
 
 namespace Neumorphism.Skia.Gtk
 {
@@ -14,7 +14,7 @@ namespace Neumorphism.Skia.Gtk
                 expArgs.ExitApplication = true;
             };
 
-            var host = new GtkHost(() => new AppHead(), args);
+            var host = new GtkHost(() => new AppHead());
 
             host.Run();
         }

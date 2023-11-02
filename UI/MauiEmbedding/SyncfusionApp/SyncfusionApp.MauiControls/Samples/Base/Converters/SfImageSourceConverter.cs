@@ -38,7 +38,7 @@ public class SfImageSourceConverter : IValueConverter
     //
     // Exceptions:
     //   T:System.NotImplementedException:
-    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+    public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
         throw new NotImplementedException();
     }

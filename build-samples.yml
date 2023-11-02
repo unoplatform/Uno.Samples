@@ -11,6 +11,8 @@ steps:
 
 - ${{ if startsWith(variables['Build.SourceBranch'], 'refs/heads/canaries') }}:
   - template: .vsts-ci.canaries.yml
+    parameters:
+      solution: ${{ parameters.path }}
 
 - powershell: |
       & choco install vswhere
@@ -26,7 +28,7 @@ steps:
       Set-PSDebug -Trace 1
       Write-Host "${{ parameters.path }}"
 
-      dotnet build "${{ parameters.path }}" /p:AndroidAddKeepAlives=false /p:Configuration=Release /p:WasmShellMonoRuntimeExecutionMode=Interpreter /p:PublishTrimmed=false /p:WasmShellILLinkerEnabled=false /p:RunAOTCompilation=false /p:MtouchUseLlvm=false "/bl:$(build.artifactstagingdirectory)\$(Agent.JobName).binlog" ;
+      dotnet build "${{ parameters.path }}" /p:AndroidAddKeepAlives=false /p:Configuration=Release /p:WasmShellMonoRuntimeExecutionMode=Interpreter /p:PublishTrimmed=false /p:WasmShellILLinkerEnabled=false /p:EnableCoreMrtTooling=false /p:RunAOTCompilation=false /p:MtouchUseLlvm=false "/bl:$(build.artifactstagingdirectory)\$(Agent.JobName).binlog" ;
 
       $folderPath = [System.IO.Path]::GetDirectoryName("${{ parameters.path }}");
 

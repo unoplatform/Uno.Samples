@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-		<TargetFrameworks>net7.0-ios;net7.0-android</TargetFrameworks>
+		<TargetFrameworks>net8.0-ios;net8.0-android</TargetFrameworks>
 		<TargetFrameworks Condition="'$(OverrideTargetFrameworks)'!=''">$(OverrideTargetFrameworks)</TargetFrameworks>
 
 		<!-- Ensures the .xr.xml files are generated in a proper layout folder -->
@@ -15,7 +15,7 @@
 		<PackageReference Include="Uno.Extensions.Logging.WinUI" />
 		<PackageReference Include="Uno.Extensions.Logging.Serilog" />
 		<PackageReference Include="Uno.Extensions.Maui.WinUI" />
-		<PackageReference Include="Uno.Extensions.Toolkit.WinUI" />
+		
 		<PackageReference Include="Uno.Toolkit.WinUI" />
 		<PackageReference Include="Uno.Extensions.Hosting.WinUI" />
 		<PackageReference Include="Uno.Extensions.Localization.WinUI" />
@@ -23,16 +23,22 @@
 		<PackageReference Include="Uno.Extensions.Navigation.WinUI" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Console" />
 		
-		<PackageReference Include="Microsoft.Maui.Graphics" VersionOverride="7.0.92"/>
-	</ItemGroup>
-	
-	<ItemGroup Condition="$(IsAndroid)">
-		<PackageReference Include="Xamarin.Google.Android.Material" VersionOverride="1.9.0.2" />
-		<PackageReference Include="Xamarin.AndroidX.Navigation.UI" VersionOverride="2.6.0.1" />
-		<PackageReference Include="Xamarin.AndroidX.Navigation.Fragment" VersionOverride="2.6.0.1" />
-		<PackageReference Include="Xamarin.AndroidX.Navigation.Runtime" VersionOverride="2.6.0.1" />
-		<PackageReference Include="Xamarin.AndroidX.Navigation.Common" VersionOverride="2.6.0.1" />
-	</ItemGroup>
+		
+	    <PackageReference Include="Microsoft.Maui.Controls" />
+	    <PackageReference Include="Microsoft.Maui.Controls.Compatibility" />
+		<PackageReference Include="Microsoft.Maui.Graphics" />
+  </ItemGroup>
+
+  <ItemGroup Condition="$(IsAndroid)">
+    <PackageReference Include="Xamarin.Google.Android.Material" VersionOverride="$(AndroidMaterialVersion)" />
+    <PackageReference Include="Xamarin.AndroidX.Navigation.UI" VersionOverride="$(AndroidXNavigationVersion)" />
+    <PackageReference Include="Xamarin.AndroidX.Navigation.Fragment" VersionOverride="$(AndroidXNavigationVersion)" />
+    <PackageReference Include="Xamarin.AndroidX.Navigation.Runtime" VersionOverride="$(AndroidXNavigationVersion)" />
+    <PackageReference Include="Xamarin.AndroidX.Navigation.Common" VersionOverride="$(AndroidXNavigationVersion)" />
+    <PackageReference Include="Xamarin.AndroidX.Collection" VersionOverride="$(AndroidXCollectionVersion)" />
+    <PackageReference Include="Xamarin.AndroidX.Collection.Ktx" VersionOverride="$(AndroidXCollectionVersion)" />    
+  </ItemGroup>
+
 	
 	<Choose>
 		<When Condition="$(IsWinAppSdk)">

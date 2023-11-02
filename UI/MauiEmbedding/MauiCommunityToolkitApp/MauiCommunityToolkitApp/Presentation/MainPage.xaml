@@ -6,6 +6,7 @@
     xmlns:local="using:MauiCommunityToolkitApp.Presentation"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:uen="using:Uno.Extensions.Navigation.UI"
+    xmlns:controls="using:MauiCommunityToolkitApp.MauiControls"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     NavigationCacheMode="Required"
 	xmlns:utu="using:Uno.Toolkit.UI"
@@ -22,14 +23,12 @@
             </NavigationView.MenuItems>
             <Grid uen:Region.Attached="True" uen:Region.Navigator="Visibility">
                 <embed:MauiHost
-                    xmlns:controls="using:MauiCommunityToolkitApp.MauiControls"
                     xmlns:embed="using:Uno.Extensions.Maui"
                     uen:Region.Name="Avatar"
                     Source="controls:AvatarControl"
                     Visibility="Collapsed" />
                 <local:DrawingViewContent uen:Region.Name="DrawingView" Visibility="Collapsed" />
                 <embed:MauiHost
-                    xmlns:controls="using:MauiCommunityToolkitApp.MauiControls"
                     xmlns:embed="using:Uno.Extensions.Maui"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
@@ -37,7 +36,6 @@
                     Source="controls:ExpanderControl"
                     Visibility="Collapsed" />
                 <embed:MauiHost
-                    xmlns:controls="using:MauiCommunityToolkitApp.MauiControls"
                     xmlns:embed="using:Uno.Extensions.Maui"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
@@ -45,7 +43,6 @@
                     Source="controls:ToastControl"
                     Visibility="Collapsed" />
                 <embed:MauiHost
-                    xmlns:controls="using:MauiCommunityToolkitApp.MauiControls"
                     xmlns:embed="using:Uno.Extensions.Maui"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
