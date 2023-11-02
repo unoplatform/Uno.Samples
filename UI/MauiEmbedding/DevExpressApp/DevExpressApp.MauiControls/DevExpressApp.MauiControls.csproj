@@ -1,17 +1,20 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFrameworks>$(TargetFrameworks);net7.0-ios;net7.0-android;</TargetFrameworks>
+		<TargetFrameworks>$(TargetFrameworks);net8.0-ios;net8.0-android;</TargetFrameworks>
 		<TargetFrameworks Condition="'$(OverrideTargetFrameworks)'!=''">$(OverrideTargetFrameworks)</TargetFrameworks>
 
 		<UseMaui>true</UseMaui>
 		<SingleProject>true</SingleProject>
 	</PropertyGroup>
 
+	<ItemGroup >
+		<PackageReference Include="Microsoft.Maui.Controls" />
+		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" />
 	<!-- TODO: Uncomment -->
-	<!--<ItemGroup >
+	<!--
 	  <PackageReference Include="DevExpress.Maui.Charts" />
-	  <PackageReference Include="DevExpress.Maui.DataGrid" />
-	</ItemGroup>-->
+	  <PackageReference Include="DevExpress.Maui.DataGrid" />-->
+	</ItemGroup>
 
 </Project>

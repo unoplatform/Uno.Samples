@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
 		<OutputType>WinExe</OutputType>
-		<TargetFramework>net7.0-windows10.0.19041.0</TargetFramework>
+		<TargetFramework>net8.0-windows10.0.19041.0</TargetFramework>
 		<TargetPlatformMinVersion>10.0.19041.0</TargetPlatformMinVersion>
 		<RootNamespace>GrapeCityApp.Windows</RootNamespace>
 		<ApplicationManifest>app.manifest</ApplicationManifest>
@@ -10,6 +10,7 @@
 		<PublishProfile>win10-$(Platform).pubxml</PublishProfile>
 		<UseWinUI>true</UseWinUI>
 		<EnableMsixTooling>true</EnableMsixTooling>
+		<UseRidGraph>true</UseRidGraph>
 	</PropertyGroup>
 	<PropertyGroup>
 		<!-- Bundles the WinAppSDK binaries -->
@@ -34,7 +35,7 @@
 		<PackageReference Include="Uno.Extensions.Serialization.Refit" />
 		<PackageReference Include="Uno.Material.WinUI" />
 		<PackageReference Include="Uno.Toolkit.WinUI.Material" />
-		<PackageReference Include="Uno.Extensions.Toolkit.WinUI" />
+		
 		<PackageReference Include="Uno.Toolkit.WinUI" />
 		<PackageReference Include="Uno.Extensions.Hosting.WinUI" />
 		<PackageReference Include="Uno.Extensions.Localization.WinUI" />

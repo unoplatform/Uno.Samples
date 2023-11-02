@@ -10,7 +10,7 @@ public class StatusTagToTemplateConverter : IValueConverter
     public DataTemplate UpdatedTemplate { get; set; } = default!;
     public DataTemplate BetaTemplate { get; set; } = default!;
 
-    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+    public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
         var statusTagTemplate = ((StatusType)value) switch
         {
@@ -23,7 +23,7 @@ public class StatusTagToTemplateConverter : IValueConverter
         return statusTagTemplate.CreateContent();
     }
 
-    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+    public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
         throw new NotImplementedException();
     }

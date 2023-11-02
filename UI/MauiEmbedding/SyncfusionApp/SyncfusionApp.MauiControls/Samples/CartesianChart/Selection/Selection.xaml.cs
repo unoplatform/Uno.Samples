@@ -33,12 +33,12 @@ namespace SyncfusionApp.MauiControls.Samples.CartesianChart.SfCartesianChart
 
     public class SelectionValueConverter : IValueConverter
     {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
             return ((DateTime)value).ToString("ddd-hh:mm");
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
             return value;
         }
