@@ -22,21 +22,16 @@
 									uen:Region.Name="Calendar" />
 				<NavigationViewItem Content="Data Grid"
 									uen:Region.Name="DataGrid" />
-				<NavigationViewItem Content="Area Chart"
-									uen:Region.Name="AreaChart" />
 				<NavigationViewItem Content="Financial Chart"
 									uen:Region.Name="FinancialChart" />
 				<NavigationViewItem Content="Gauge"
 									uen:Region.Name="Gauge" />
 				<NavigationViewItem Content="PDF Viewer"
 									uen:Region.Name="PdfViewer" />
-				<NavigationViewItem>
-					<TextBlock Text="&#xE901;"
-							   FontFamily="ms-appx:///TelerikApp/Assets/Fonts/telerikfont.ttf#TelerikFontExamples" />
-				</NavigationViewItem>
 			</NavigationView.MenuItems>
 			<Grid uen:Region.Attached="True"
-				  uen:Region.Navigator="Visibility">
+				  uen:Region.Navigator="Visibility"
+				  Padding="0,42,0,0">
 				<embed:MauiHost xmlns:embed="using:Uno.Extensions.Maui"
 								uen:Region.Name="Accordion"
 								Source="controls:AccordionSample"

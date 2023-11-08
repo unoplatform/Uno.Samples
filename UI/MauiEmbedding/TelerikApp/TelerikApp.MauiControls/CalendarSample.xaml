@@ -4,7 +4,7 @@
 			 xmlns:telerik="http://schemas.telerik.com/2022/xaml/maui"
 			 x:Class="TelerikApp.MauiControls.CalendarSample">
 	<!-- TODO: Uncomment -->
-	<!--<ContentView.Resources>
+	<ContentView.Resources>
 		<ResourceDictionary>
 			<DataTemplate x:Key="ReminderTemplate">
 				<telerik:RadBorder BackgroundColor="{AppThemeBinding Light=#F3F3F3, Dark=#202020}"
@@ -35,16 +35,15 @@
 				</Grid>
 			</DataTemplate>
 		</ResourceDictionary>
-	</ContentView.Resources>-->
+	</ContentView.Resources>
 
 	<Grid RowDefinitions="Auto, *"
 		  ColumnDefinitions="Auto, *"
 		  BackgroundColor="{AppThemeBinding Light={OnPlatform Default=Transparent, iOS=#F3F3F3, Android=#F3F3F3},
                                             Dark={OnPlatform Default=Transparent, iOS=#202020, Android=#202020}}"
 		  Padding="{OnIdiom Default=0, Phone=16}">
-		<Label Text="DataGrid Sample (Search for TODO and apply comments)" />
 		<!-- TODO: Uncomment -->
-		<!--<telerik:RadCalendar x:Name="calendar"
+		<telerik:RadCalendar x:Name="calendar"
 							 Grid.Column="{OnIdiom Default=1, Desktop=0}"
 							 FirstDayOfWeek="Monday"
 							 SelectedDate="{Binding SelectedDate, Mode=TwoWay}"
@@ -66,6 +65,6 @@
 					   Text="No reminders for this day"
 					   TextColor="{StaticResource AccentColor4}" />
 			</Grid>
-		</Grid>-->
+		</Grid>
 	</Grid>
 </ContentView>
