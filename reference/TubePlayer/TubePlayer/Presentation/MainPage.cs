@@ -52,7 +52,7 @@ public partial class MainPage : Page
                                     .Children
                                     (
                                         new Image()
-                                            .Source(new SvgImageSource(new Uri("ms-appx:///TubePlayer/Assets/navigation_bar")))
+                                            .Source("ms-appx:///TubePlayer/Assets/navigation_bar.png")
                                             .Stretch(Stretch.UniformToFill)
                                             .AutoLayout(primaryAlignment: AutoLayoutPrimaryAlignment.Stretch)
                                     )
