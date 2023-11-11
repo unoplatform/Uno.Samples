@@ -337,6 +337,12 @@ A sample travel app that shows how a user could 1) search for locations, 2) favo
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/UnoBackgroundWorker)
 
+### Uno Cakes Mobile
+A port of Shaw Yu's Cakes Mobile App from [XampleUI](https://github.com/shawyunz/XampleUI) to Uno Platform.
+Used to demonstrate simple page navigation from View and ViewModel.
+
+[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/UnoCakesMobile)
+
 ### Uno Contoso
 A port of Microsoft's Contoso Enterprise UWP app to Uno Platform, using Prism.
 

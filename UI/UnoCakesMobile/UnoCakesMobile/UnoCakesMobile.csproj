@@ -1,0 +1,133 @@
+<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows')) or '$(EnableWindowsTargeting)' == 'true'">$(TargetFrameworks);net7.0-windows10.0.19041</TargetFrameworks>
+		<TargetFrameworks>$(TargetFrameworks);net7.0;net7.0-ios;net7.0-android;net7.0-maccatalyst</TargetFrameworks>
+
+		<!-- Ensures the .xr.xml files are generated in a proper layout folder -->
+		<GenerateLibraryLayout>true</GenerateLibraryLayout>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="CommunityToolkit.Mvvm" />
+		<PackageReference Include="InTheHand.DependencyInjection" />
+		<PackageReference Include="Uno.Toolkit.WinUI" />
+		<PackageReference Include="Uno.WinUI" />
+		<PackageReference Include="Uno.Resizetizer" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Console" />
+	</ItemGroup>
+
+	<Choose>
+		<When Condition="$(IsWinAppSdk)">
+			<PropertyGroup>
+				<!--
+				If you encounter this error message:
+
+					error NETSDK1148: A referenced assembly was compiled using a newer version of Microsoft.Windows.SDK.NET.dll.
+					Please update to a newer .NET SDK in order to reference this assembly.
+
+				This means that the two packages below must be aligned with the "build" version number of
+				the "Microsoft.Windows.SDK.BuildTools" package above, and the "revision" version number
+				must be the highest found in https://www.nuget.org/packages/Microsoft.Windows.SDK.NET.Ref.
+				-->
+				<!-- <WindowsSdkPackageVersion>10.0.22621.28</WindowsSdkPackageVersion> -->
+			</PropertyGroup>
+			<ItemGroup>
+				<PackageReference Include="Microsoft.WindowsAppSDK" />
+				<PackageReference Include="Microsoft.Windows.SDK.BuildTools" />
+			</ItemGroup>
+		</When>
+		<Otherwise>
+			<ItemGroup>
+				<Content Include="Assets\**" />
+				<Page Include="**\*.xaml" Exclude="bin\**\*.xaml;obj\**\*.xaml" />
+				<Compile Update="**\*.xaml.cs">
+					<DependentUpon>%(Filename)</DependentUpon>
+				</Compile>
+				<PRIResource Include="**\*.resw" />
+			</ItemGroup>
+		</Otherwise>
+	</Choose>
+
+	<ItemGroup>
+		<UnoImage Include="Assets\**\*.svg" />
+		<UpToDateCheckInput Include="**\*.xaml" Exclude="bin\**\*.xaml;obj\**\*.xaml" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Remove="Views\CakeDetails.xaml" />
+	  <None Remove="Views\CakeList.xaml" />
+	  <None Remove="Views\StartPage.xaml" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <UpToDateCheckInput Remove="Views\CakeDetails.xaml" />
+	  <UpToDateCheckInput Remove="Views\CakeList.xaml" />
+	  <UpToDateCheckInput Remove="Views\StartPage.xaml" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Content Update="Assets\btncake.png">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	  <Content Update="Assets\btndk.png">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	  <Content Update="Assets\btnpd.png">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	  <Content Update="Assets\cake_bg.png">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	  <Content Update="Assets\icon_arrow.jpg">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	  <Content Update="Assets\icon_arrow2.jpg">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	  <Content Update="Assets\icon_back.png">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	  <Content Update="Assets\icon_cart.png">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	  <Content Update="Assets\icon_check.png">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	  <Content Update="Assets\icon_clock.png">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	  <Content Update="Assets\icon_dollar.png">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	  <Content Update="Assets\icon_heart.png">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	  <Content Update="Assets\icon_indicator.png">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	  <Content Update="Assets\icon_menu.png">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	  <Content Update="Assets\icon_more.png">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	  <Content Update="Assets\icon_star.png">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	  <Content Update="Assets\item1.png">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	  <Content Update="Assets\item2.png">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	  <Content Update="Assets\item2large.png">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	  <Content Update="Assets\item3.png">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	  <Content Update="Assets\item4.png">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	</ItemGroup>
+</Project>
