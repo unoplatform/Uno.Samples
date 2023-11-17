@@ -1,16 +1,16 @@
 <Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('Windows')) or '$(EnableWindowsTargeting)' == 'true'">$(TargetFrameworks);net7.0-windows10.0.19041</TargetFrameworks>
-		<TargetFrameworks>$(TargetFrameworks);net7.0</TargetFrameworks>
+		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('Windows')) or '$(EnableWindowsTargeting)' == 'true'">$(TargetFrameworks);net8.0-windows10.0.19041</TargetFrameworks>
+		<TargetFrameworks>$(TargetFrameworks);net8.0</TargetFrameworks>
 		<!-- 
 			This condition is used when building under Linux. If you're not building under
 			 Linux, you can remove this line and the conditions below.
 		-->
 		<_CanUseMobileTargets Condition="!$([MSBuild]::IsOSPlatform('Linux'))">true</_CanUseMobileTargets>
 
-		<TargetFrameworks Condition="'$(_CanUseMobileTargets)'=='true'">$(TargetFrameworks);net7.0-android</TargetFrameworks>
-		<TargetFrameworks Condition="'$(_CanUseMobileTargets)'=='true'">$(TargetFrameworks);net7.0-ios</TargetFrameworks>
-		<TargetFrameworks Condition="'$(_CanUseMobileTargets)'=='true'">$(TargetFrameworks);net7.0-maccatalyst</TargetFrameworks>
+		<TargetFrameworks Condition="'$(_CanUseMobileTargets)'=='true'">$(TargetFrameworks);net8.0-android</TargetFrameworks>
+		<TargetFrameworks Condition="'$(_CanUseMobileTargets)'=='true'">$(TargetFrameworks);net8.0-ios</TargetFrameworks>
+		<TargetFrameworks Condition="'$(_CanUseMobileTargets)'=='true'">$(TargetFrameworks);net8.0-maccatalyst</TargetFrameworks>
 
 
 		<DefaultLanguage>en</DefaultLanguage>
@@ -31,7 +31,7 @@
 
 	<ItemGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">
 		<PackageReference Include="Microsoft.WindowsAppSDK" Version="1.4.231008000" />
-		<PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.756" />
+		<PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.2428" />
 	</ItemGroup>
 
 	<!-- Include the Community Toolkit -->
@@ -42,8 +42,8 @@
 		<PackageReference Include="Uno.CommunityToolkit.WinUI.UI.Controls" Version="7.1.100" />
 	</ItemGroup>
 
-	<ItemGroup Condition="'$(TargetFramework)'!='net7.0-windows10.0.19041'">
-		<PackageReference Include="Uno.WinUI" Version="5.0.19" />
+	<ItemGroup Condition="'$(TargetFramework)'!='net8.0-windows10.0.19041'">
+		<PackageReference Include="Uno.WinUI" Version="5.0.48" />
 		<Content Include="Assets\**" />
 		<Page Include="**\*.xaml" Exclude="bin\**\*.xaml;obj\**\*.xaml" />
 		<ApplicationDefinition Include="App.xaml" Condition="exists('App.xaml')" />

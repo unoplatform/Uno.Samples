@@ -2,7 +2,7 @@
   <PropertyGroup>
     <OutputType Condition="'$(Configuration)'=='Release'">WinExe</OutputType>
     <OutputType Condition="'$(Configuration)'=='Debug'">Exe</OutputType>
-    <TargetFramework>net7.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup Condition="exists('..\WCTDataTreeTabSample.Windows')">
     <EmbeddedResource Include="..\WCTDataTreeTabSample.Windows\Package.appxmanifest" LogicalName="Package.appxmanifest" />
@@ -19,10 +19,10 @@
     <PackageReference Include="SkiaSharp.Views.Uno.WinUI" Version="2.88.6" />
 	
 	<PackageReference Include="Uno.CommunityToolkit.WinUI.UI.Controls" Version="7.1.100" />
-	<PackageReference Include="Uno.WinUI.Lottie" Version="5.0.19" />
-    <PackageReference Include="Uno.WinUI.Skia.Gtk" Version="5.0.19" />
-    <PackageReference Include="Uno.WinUI.DevServer" Version="5.0.19" Condition="'$(Configuration)'=='Debug'" />
-    <PackageReference Include="Uno.UI.Adapter.Microsoft.Extensions.Logging" Version="5.0.19" />
+	<PackageReference Include="Uno.WinUI.Lottie" Version="5.0.48" />
+    <PackageReference Include="Uno.WinUI.Skia.Gtk" Version="5.0.48" />
+    <PackageReference Include="Uno.WinUI.DevServer" Version="5.0.48" Condition="'$(Configuration)'=='Debug'" />
+    <PackageReference Include="Uno.UI.Adapter.Microsoft.Extensions.Logging" Version="5.0.48" />
   </ItemGroup>
   <Import Project="..\WCTDataTreeTabSample.Shared\WCTDataTreeTabSample.Shared.projitems" Label="Shared" />
 </Project>

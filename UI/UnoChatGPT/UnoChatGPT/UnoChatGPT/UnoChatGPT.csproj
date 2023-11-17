@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows')) or '$(EnableWindowsTargeting)' == 'true'">$(TargetFrameworks);net7.0-windows10.0.22000</TargetFrameworks>
-		<TargetFrameworks>$(TargetFrameworks);net7.0;net7.0-ios;net7.0-android;net7.0-maccatalyst</TargetFrameworks>
+		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows')) or '$(EnableWindowsTargeting)' == 'true'">$(TargetFrameworks);net8.0-windows10.0.19041.0</TargetFrameworks>
+		<TargetFrameworks>$(TargetFrameworks);net8.0;net8.0-ios;net8.0-android;net8.0-maccatalyst</TargetFrameworks>
 
 		<!-- Ensures the .xr.xml files are generated in a proper layout folder -->
 		<GenerateLibraryLayout>true</GenerateLibraryLayout>
@@ -9,7 +9,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="Betalgo.OpenAI" Version="7.0.0" />
-		<PackageReference Include="Uno.WinUI" Version="5.0.19" />
+		<PackageReference Include="Uno.WinUI" Version="5.0.48" />
 		<PackageReference Include="Uno.Resizetizer" Version="1.2.0" />
 		<PackageReference Include="Uno.Extensions.Configuration" Version="3.0.10" />
 		<PackageReference Include="Uno.Extensions.Http" Version="3.0.10" />
@@ -31,9 +31,13 @@
 		<When Condition="$(IsWinAppSdk)">
 			<ItemGroup>
 				<PackageReference Include="Microsoft.WindowsAppSDK" Version="1.4.231008000" />
-				<PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.756" />
+				<PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.2428" />
 			</ItemGroup>
+			<PropertyGroup>
+				<RuntimeIdentifiers>win10-x86;win10-x64;win10-arm64</RuntimeIdentifiers>
 
+				<UseRidGraph>true</UseRidGraph>
+			</PropertyGroup>
 		</When>
 		<Otherwise>
 			<ItemGroup>
@@ -46,10 +50,6 @@
 			</ItemGroup>
 		</Otherwise>
 	</Choose>
-
-	<ItemGroup>
-		<ProjectReference Include="..\UnoChatGPT.DataContracts\UnoChatGPT.DataContracts.csproj" />
-	</ItemGroup>
 
 	<ItemGroup>
 		<UnoImage Include="Assets\**\*.svg" />

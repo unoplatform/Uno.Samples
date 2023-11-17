@@ -1,21 +1,21 @@
 <Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
 		<OutputType>WinExe</OutputType>
-		<TargetFramework>net7.0-windows10.0.22621.0</TargetFramework>
-		<TargetPlatformMinVersion>10.0.22000.0</TargetPlatformMinVersion>
+		<TargetFramework>net8.0-windows10.0.19041.0</TargetFramework>
 		<RootNamespace>UnoWinUIQuickStart</RootNamespace>
 		<Platforms>x86;x64;arm64</Platforms>
 		<RuntimeIdentifiers>win10-x86;win10-x64;win10-arm64</RuntimeIdentifiers>
+		<UseRidGraph>true</UseRidGraph>
 		<PublishProfile>win10-$(Platform).pubxml</PublishProfile>
 		<UseWinUI>true</UseWinUI>
 		<EnableMsixTooling>true</EnableMsixTooling>
+		<UseRidGraph>true</UseRidGraph>
 	</PropertyGroup>
 	<PropertyGroup>
 		<!-- Bundles the WinAppSDK binaries (Uncomment for unpackaged builds) -->
 		<!-- <WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained> -->
 		<!-- This bundles the .NET Core libraries (Uncomment for packaged builds)  -->
 		<SelfContained>true</SelfContained>
-		<SupportedOSPlatformVersion>10.0.22000.0</SupportedOSPlatformVersion>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -25,9 +25,9 @@
 
 	<ItemGroup>
 		<PackageReference Include="Uno.Resizetizer" Version="1.2.0" />
-		<PackageReference Include="Uno.WinUI" Version="5.0.19" />
+		<PackageReference Include="Uno.WinUI" Version="5.0.48" />
 		<PackageReference Include="Microsoft.WindowsAppSDK" Version="1.4.231008000" />
-		<PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.756" />
+		<PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.2428" />
 		<PackageReference Include="Uno.Extensions.Configuration" Version="3.0.10" />
 		<PackageReference Include="Uno.Extensions.Http" Version="3.0.10" />
 		<PackageReference Include="Uno.Extensions.Http.Refit" Version="3.0.10" />
@@ -43,13 +43,12 @@
 		<PackageReference Include="Uno.Extensions.Reactive.WinUI" Version="3.0.10" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Console" Version="7.0.0" />
 		<PackageReference Include="Uno.Core.Extensions.Logging.Singleton" Version="4.0.1" />
-		<PackageReference Include="Uno.UI.Adapter.Microsoft.Extensions.Logging" Version="5.0.19" />
+		<PackageReference Include="Uno.UI.Adapter.Microsoft.Extensions.Logging" Version="5.0.48" />
 	</ItemGroup>
 
 
 	<ItemGroup>
 		<ProjectReference Include="..\UnoChatGPT\UnoChatGPT.csproj" />
-		<ProjectReference Include="..\UnoChatGPT.DataContracts\UnoChatGPT.DataContracts.csproj" />
 	</ItemGroup>
 
 	<Import Project="..\UnoChatGPT.Base\base.props" />

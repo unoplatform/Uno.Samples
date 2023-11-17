@@ -1,21 +1,21 @@
 <Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-		<TargetFrameworks>net7.0-windows10.0.19041;net7.0;net7.0-ios;net7.0-maccatalyst;net7.0-android</TargetFrameworks>
+		<TargetFrameworks>net8.0-windows10.0.19041;net8.0;net8.0-ios;net8.0-maccatalyst;net8.0-android</TargetFrameworks>
 
 		<!-- Ensures the .xr.xml files are generated in a proper layout folder -->
 		<GenerateLibraryLayout>true</GenerateLibraryLayout>
 	</PropertyGroup>
 
-	<ItemGroup Condition="'$(TargetFramework)'=='net7.0-windows10.0.19041'">
+	<ItemGroup Condition="'$(TargetFramework)'=='net8.0-windows10.0.19041'">
 		<PackageReference Include="Microsoft.WindowsAppSDK" Version="1.4.231008000" />
-<PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.756" />
+<PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.2428" />
 	</ItemGroup>
 
-	<ItemGroup Condition="'$(TargetFramework)'!='net7.0-windows10.0.19041'">
-		<PackageReference Include="Uno.WinUI" Version="5.0.19" />
+	<ItemGroup Condition="'$(TargetFramework)'!='net8.0-windows10.0.19041'">
+		<PackageReference Include="Uno.WinUI" Version="5.0.48" />
 	</ItemGroup>
 
-	<ItemGroup Condition="'$(TargetFramework)'!='net7.0-windows10.0.19041'">
+	<ItemGroup Condition="'$(TargetFramework)'!='net8.0-windows10.0.19041'">
 		<Content Include="Assets\**" />
 		<Page Include="**\*.xaml" Exclude="bin\**\*.xaml;obj\**\*.xaml" />
 		<Compile Update="**\*.xaml.cs">

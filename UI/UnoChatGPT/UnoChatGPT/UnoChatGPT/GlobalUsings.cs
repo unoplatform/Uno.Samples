@@ -27,11 +27,8 @@ global using Uno.Extensions.Logging;
 global using Uno.Extensions.Navigation;
 
 global using UnoChatGPT.Business.Models;
-global using UnoChatGPT.DataContracts;
-global using UnoChatGPT.DataContracts.Serialization;
 global using UnoChatGPT.Infrastructure;
 global using UnoChatGPT.Presentation;
-global using UnoChatGPT.Services.Caching;
 global using UnoChatGPT.Services.Endpoints;
 
 global using Windows.ApplicationModel;
