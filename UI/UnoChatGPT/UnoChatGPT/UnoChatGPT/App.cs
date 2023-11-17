@@ -31,13 +31,6 @@ namespace UnoChatGPT
 					)
 					// Enable localization (see appsettings.json for supported languages)
 					.UseLocalization()
-					.UseHttp((context, services) => services
-							// Register HttpClient
-#if DEBUG
-						// DelegatingHandler will be automatically injected into Refit Client
-						.AddTransient<DelegatingHandler, DebugHttpHandler>()
-#endif
-						)
 					.ConfigureServices((context, services) =>
 					{
 						// TODO: Register your services
