@@ -1,19 +1,10 @@
 namespace TubePlayer.Business;
 
-public class YoutubeService : IYoutubeService
+public class YoutubeService(IYoutubeEndpoint client, IYoutubePlayerEndpoint playerClient) : IYoutubeService
 {
-    private readonly IYoutubeEndpoint _client;
-    private readonly IYoutubePlayerEndpoint _playerClient;
-
-    public YoutubeService(IYoutubeEndpoint client, IYoutubePlayerEndpoint playerClient)
-    {
-        _client = client;
-        _playerClient = playerClient;
-    }
-
     public async Task<YoutubeVideoSet> SearchVideos(string searchQuery, string nextPageToken, uint maxResult, CancellationToken ct)
     {
-        var resultData = await _client.SearchVideos(searchQuery, nextPageToken, maxResult, ct);
+        var resultData = await client.SearchVideos(searchQuery, nextPageToken, maxResult, ct);
 
         var results = resultData?.Items?.Where(result =>
             !string.IsNullOrWhiteSpace(result.Snippet?.ChannelId)
@@ -35,8 +26,8 @@ public class YoutubeService : IYoutubeService
             .Distinct(StringComparer.OrdinalIgnoreCase)
             .ToArray();
 
-        var asyncDetails = _client.GetVideoDetails(videoIds, ct);
-        var asyncChannels = _client.GetChannels(channelIds, ct);
+        var asyncDetails = client.GetVideoDetails(videoIds, ct);
+        var asyncChannels = client.GetChannels(channelIds, ct);
         await Task.WhenAll(asyncDetails, asyncChannels);
 
         var detailsItems = (await asyncDetails)?.Items;
@@ -90,7 +81,7 @@ public class YoutubeService : IYoutubeService
                 """;
 
         // Get the available stream data
-        var streamData = await _playerClient.GetStreamData(streamVideo, ct);
+        var streamData = await playerClient.GetStreamData(streamVideo, ct);
 
         // Get the video stream with the highest video quality
         var streamWithHighestVideoQuality = streamData.Content?.
