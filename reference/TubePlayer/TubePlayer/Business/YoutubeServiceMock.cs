@@ -17,7 +17,7 @@ public class YoutubeServiceMock : IYoutubeService
 
     public Task<string?> GetVideoSourceUrl(string videoId, CancellationToken ct)
     {
-        return Task.FromResult<string?>(null);
+        return Task.FromResult<string?>(default);
     }
 
     public Task<YoutubeVideoSet> SearchVideos(string searchQuery, string nextPageToken, uint maxResult, CancellationToken ct)
