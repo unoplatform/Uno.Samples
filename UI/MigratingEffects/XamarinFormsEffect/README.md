@@ -1,0 +1,1 @@
+To run the XamarinFormsEffect solution, rename `XamarinFormsEffect.sln.nobuild` to `XamarinFormsEffect.sln`. The `.nobuild` extension is used to prevent the CI from attempting to build Xamarin solutions since these are no longer supported by the CI.

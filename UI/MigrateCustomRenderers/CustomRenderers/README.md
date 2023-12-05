@@ -1,0 +1,1 @@
+To run the CustomRenderers solution, rename `CustomRenderers.sln.nobuild` to `CustomRenderers.sln`. The `.nobuild` extension is used to prevent the CI from attempting to build Xamarin solutions since these are no longer supported by the CI.
