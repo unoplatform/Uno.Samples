@@ -64,7 +64,8 @@ public class App : Application
         views.Register(
             new ViewMap(ViewModel: typeof(ShellModel)),
             new ViewMap<MainPage, MainModel>(),
-            new DataViewMap<VideoDetailsPage, VideoDetailsModel, YoutubeVideo>()
+            new DataViewMap<VideoDetailsPage, VideoDetailsModel, YoutubeVideo>(),
+            new ViewMap<VideoAnalyticsPage, VideoAnalyticsModel>()
         );
 
         routes.Register(
@@ -73,6 +74,7 @@ public class App : Application
                 {
                     new RouteMap("Main", View: views.FindByViewModel<MainModel>()),
                     new RouteMap("VideoDetails", View: views.FindByViewModel<VideoDetailsModel>()),
+                    new RouteMap("VideoAnalytics", View: views.FindByViewModel<VideoAnalyticsModel>()),
                 }
             )
         );
