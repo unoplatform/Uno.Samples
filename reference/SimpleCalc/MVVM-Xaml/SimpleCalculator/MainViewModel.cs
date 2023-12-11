@@ -1,24 +1,14 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
-
 namespace SimpleCalculator;
 
 public partial class MainViewModel : ObservableObject
 {
-	private readonly IThemeService _themeService;
+    private readonly IThemeService _themeService;
 
-	private bool _isDark;
-    public bool IsDark
-    {
-        get => _isDark;
-        set
-        {
-            if (SetProperty(ref _isDark, value))
-            {
-                _themeService.SetThemeAsync(value ? AppTheme.Dark : AppTheme.Light);
-            }
-        }
-    }
+    [ObservableProperty]
+    private bool _isDark;
+
+    partial void OnIsDarkChanged(bool value) =>
+        _themeService.SetThemeAsync(value ? AppTheme.Dark : AppTheme.Light);
 
     public MainViewModel(IThemeService themeService)
     {
