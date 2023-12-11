@@ -27,7 +27,7 @@ public partial record YoutubeVideo(ChannelData Channel, YoutubeVideoDetailsData 
 
     private static string ToFriendlyString(TimeSpan elapsedTime)
     {
-        double minutesElapsed = elapsedTime.TotalMinutes;
+        double minutesElapsed = Math.Abs(elapsedTime.TotalMinutes);
 
         var result = minutesElapsed switch
         {
