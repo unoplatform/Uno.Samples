@@ -126,7 +126,6 @@ public partial class VideoDetailsPage : Page
                                                             .Children
                                                             (
                                                                 new AutoLayout()
-                                                                    //.Spacing(2)
                                                                     .PrimaryAxisAlignment(AutoLayoutAlignment.Center)
                                                                     .Children
                                                                     (
@@ -150,17 +149,7 @@ public partial class VideoDetailsPage : Page
                                                                             .Style(Theme.TextBlock.Styles.TitleMedium)
                                                                             .AutoLayout(counterAlignment: AutoLayoutAlignment.Start)
                                                                     )
-                                                                    ,
-                                                                new Button()
-                                                                    .Navigation(request: "VideoAnalytics")
-                                                                    .Content("Stats")
-                                                                    .AutoLayout(counterAlignment: AutoLayoutAlignment.Center)
-                                                                    .ControlExtensions
-                                                                    (
-                                                                        icon:
-                                                                            new PathIcon()
-                                                                                .Data(StaticResource.Get<Geometry>("Icon_Bar_Chart"))
-                                                                    )
+                                                                    // TODO: Add Stats Button
                                                             )
                                                     ),
                                                 new TextBlock()
