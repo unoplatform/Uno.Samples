@@ -3,6 +3,7 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System;
+using TubePlayer.MauiControls;
 using Uno.Extensions.Markup;
 using Uno.Toolkit.UI;
 
@@ -53,25 +54,25 @@ public partial class VideoAnalyticsPage : Page
                                                     .Foreground(Theme.Brushes.OnSurface.Default)
                                             )
                                     ),
-                                new ScrollViewer()
+                                new Grid()
                                     .AutoLayout(primaryAlignment: AutoLayoutPrimaryAlignment.Stretch)
-                                    .Content
+                                    .Children
                                     (
-                                        new AutoLayout()
-                                            .Padding(0, 32)
-                                            .Children
-                                            (
-                                                new Image()
-                                                    .Source(new BitmapImage(new Uri("https://picsum.photos/380/500")))
-                                                    .Stretch(Stretch.UniformToFill)
-                                                    .Width(380)
-                                                    .Height(500)
-                                                    .AutoLayout(counterAlignment: AutoLayoutAlignment.Center)
-                                            )
+                                            new MauiHost()
+                                                .Source(typeof(EmbeddedControl))
                                     )
                             )
                     )
             )
             ;
+    }
+}
+
+public static class MauiHostExtensions
+{
+    public static MauiHost Source(this MauiHost host, Type sourceType)
+    {
+        host.Source = sourceType;
+        return host;
     }
 }

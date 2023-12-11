@@ -46,8 +46,14 @@
     <When Condition="$(IsAndroid)">
       <ItemGroup>
 
-        <PackageReference Include="Xamarin.Google.Android.Material" />
-        <PackageReference Include="Uno.UniversalImageLoader" />
+		  <PackageReference Include="Xamarin.Google.Android.Material" VersionOverride="$(AndroidMaterialVersion)" />
+		  <PackageReference Include="Xamarin.AndroidX.Navigation.UI" VersionOverride="$(AndroidXNavigationVersion)" />
+		  <PackageReference Include="Xamarin.AndroidX.Navigation.Fragment" VersionOverride="$(AndroidXNavigationVersion)" />
+		  <PackageReference Include="Xamarin.AndroidX.Navigation.Runtime" VersionOverride="$(AndroidXNavigationVersion)" />
+		  <PackageReference Include="Xamarin.AndroidX.Navigation.Common" VersionOverride="$(AndroidXNavigationVersion)" />
+		  <PackageReference Include="Xamarin.AndroidX.Collection" VersionOverride="$(AndroidXCollectionVersion)" />
+		  <PackageReference Include="Xamarin.AndroidX.Collection.Ktx" VersionOverride="$(AndroidXCollectionVersion)" />
+		  <PackageReference Include="Uno.UniversalImageLoader" />
       </ItemGroup>
       <ItemGroup>
         <AndroidEnvironment Include="Android/environment.conf" />

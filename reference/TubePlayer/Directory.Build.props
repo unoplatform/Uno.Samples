@@ -10,6 +10,7 @@
 
 
 	<PropertyGroup>
+		<DotNetVersion>net8.0</DotNetVersion>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 
@@ -33,6 +34,12 @@
 		<IsMac>false</IsMac>
 		<IsMacCatalyst>false</IsMacCatalyst>
 		<IsWinAppSdk>false</IsWinAppSdk>
+		<MauiVersion Condition=" '$(MauiVersion)' == '' ">8.0.3</MauiVersion>
+		<AndroidMaterialVersion  Condition=" '$(AndroidMaterialVersion)' == '' ">1.10.0.2</AndroidMaterialVersion>
+		<AndroidXNavigationVersion  Condition=" '$(AndroidXNavigationVersion)' == '' ">2.7.5.1</AndroidXNavigationVersion>
+		<AndroidXCollectionVersion  Condition=" '$(AndroidXCollectionVersion)' == '' ">1.3.0.2</AndroidXCollectionVersion>
+		<!-- Required for Hot Reload (See https://github.com/dotnet/sdk/issues/36666) -->
+		<IncludeSourceRevisionInInformationalVersion Condition="'$(Configuration)'=='Debug'">false</IncludeSourceRevisionInInformationalVersion>
 	</PropertyGroup>
 
 	<Choose>

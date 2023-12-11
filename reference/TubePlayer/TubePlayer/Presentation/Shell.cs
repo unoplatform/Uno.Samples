@@ -1,4 +1,7 @@
-﻿namespace TubePlayer.Presentation;
+﻿using GridLength = Microsoft.UI.Xaml.GridLength;
+using GridUnitType = Microsoft.UI.Xaml.GridUnitType;
+
+namespace TubePlayer.Presentation;
 
 public sealed partial class Shell : UserControl, IContentControlProvider
 {

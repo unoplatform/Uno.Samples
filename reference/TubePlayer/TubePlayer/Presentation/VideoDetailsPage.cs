@@ -126,7 +126,7 @@ public partial class VideoDetailsPage : Page
                                                             .Children
                                                             (
                                                                 new AutoLayout()
-                                                                    .Spacing(2)
+                                                                    //.Spacing(2)
                                                                     .PrimaryAxisAlignment(AutoLayoutAlignment.Center)
                                                                     .Children
                                                                     (
@@ -149,7 +149,8 @@ public partial class VideoDetailsPage : Page
                                                                             .Foreground(Theme.Brushes.OnSurface.Default)
                                                                             .Style(Theme.TextBlock.Styles.TitleMedium)
                                                                             .AutoLayout(counterAlignment: AutoLayoutAlignment.Start)
-                                                                    ),
+                                                                    )
+                                                                    ,
                                                                 new Button()
                                                                     .Navigation(request: "VideoAnalytics")
                                                                     .Content("Stats")
