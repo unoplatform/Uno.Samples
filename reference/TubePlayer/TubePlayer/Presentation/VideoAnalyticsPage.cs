@@ -59,7 +59,7 @@ public partial class VideoAnalyticsPage : Page
                                     .Children
                                     (
                                             // EMBEDDED MAUI CONTENT
-                                            new MauiHost().Source(typeof(EmbeddedControl))
+                                            new MauiHost().Source(typeof(ChartControl))
                                     )
                             )
                     )

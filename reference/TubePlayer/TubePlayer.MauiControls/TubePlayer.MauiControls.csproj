@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows')) or '$(EnableWindowsTargeting)' == 'true'">$(TargetFrameworks);$(DotNetVersion)-windows10.0.19041</TargetFrameworks>
@@ -14,6 +14,16 @@
     <PackageReference Include="Microsoft.Maui.Controls.Compatibility" />
 	  <PackageReference Include="Syncfusion.Maui.Core" />
 	  <PackageReference Include="Syncfusion.Maui.Charts" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Syncfusion\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="ChartControl.xaml.cs">
+      <DependentUpon>ChartControl.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
 
 </Project>

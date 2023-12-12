@@ -1,8 +1,8 @@
 namespace TubePlayer.MauiControls;
 
-public partial class EmbeddedControl 
+public partial class ChartControl 
 {
-    public EmbeddedControl()
+    public ChartControl()
     {
         InitializeComponent();
     }
