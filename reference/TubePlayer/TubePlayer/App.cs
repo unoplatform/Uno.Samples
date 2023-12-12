@@ -2,6 +2,7 @@ using System.Text.Json;
 
 namespace TubePlayer;
 
+// TODO: 01: Use EmbeddingApplication
 public class App : Application
 {
     protected Window? MainWindow { get; private set; }
@@ -12,6 +13,9 @@ public class App : Application
         var builder = this.CreateBuilder(args)
             // Add navigation support for toolkit controls such as TabBar and NavigationView
             .UseToolkitNavigation()
+
+            // TODO: 02: UseMauiEmbedding
+            
             .Configure(host => host
 #if DEBUG
                 // Switch to Development environment when running in DEBUG

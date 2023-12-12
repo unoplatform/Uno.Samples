@@ -58,8 +58,7 @@ public partial class VideoAnalyticsPage : Page
                                     .AutoLayout(primaryAlignment: AutoLayoutPrimaryAlignment.Stretch)
                                     .Children
                                     (
-                                            // EMBEDDED MAUI CONTENT
-                                            new MauiHost().Source(typeof(ChartControl))
+                                        // TODO: 04: Add Maui Host
                                     )
                             )
                     )
