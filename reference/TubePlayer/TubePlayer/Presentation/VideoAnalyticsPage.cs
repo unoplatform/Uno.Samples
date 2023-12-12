@@ -66,12 +66,3 @@ public partial class VideoAnalyticsPage : Page
             ;
     }
 }
-
-public static class MauiHostExtensions
-{
-    public static MauiHost Source(this MauiHost host, Type sourceType)
-    {
-        host.Source = sourceType;
-        return host;
-    }
-}
