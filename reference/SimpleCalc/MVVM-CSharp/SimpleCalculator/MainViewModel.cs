@@ -2,29 +2,29 @@ namespace SimpleCalculator;
 
 public partial class MainViewModel : ObservableObject
 {
-    private readonly IThemeService _themeService;
+	private readonly IThemeService _themeService;
 
-    [ObservableProperty]
-    private bool _isDark;
+	[ObservableProperty]
+	private bool _isDark;
 
-    partial void OnIsDarkChanged(bool value) =>
-        _themeService.SetThemeAsync(value ? AppTheme.Dark : AppTheme.Light);
+	partial void OnIsDarkChanged(bool value) =>
+		_themeService.SetThemeAsync(value ? AppTheme.Dark : AppTheme.Light);
 
-    public MainViewModel(IThemeService themeService)
-    {
-        _themeService = themeService;
-        _isDark = themeService.IsDark;
+	public MainViewModel(IThemeService themeService)
+	{
+		_themeService = themeService;
+		_isDark = themeService.IsDark;
 
-        themeService.ThemeChanged += (_, _) =>
-        {
-            IsDark = themeService.IsDark;
-        };
-    }
+		themeService.ThemeChanged += (_, _) =>
+		{
+			IsDark = themeService.IsDark;
+		};
+	}
 
-    [ObservableProperty]
-    private Calculator _calculator = new();
+	[ObservableProperty]
+	private Calculator _calculator = new();
 
-    [RelayCommand]
-    private void Input(string key)
-        => Calculator = Calculator.Input(key);
+	[RelayCommand]
+	private void Input(string key)
+		=> Calculator = Calculator.Input(key);
 }
