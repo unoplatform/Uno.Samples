@@ -149,7 +149,16 @@ public partial class VideoDetailsPage : Page
                                                                             .Style(Theme.TextBlock.Styles.TitleMedium)
                                                                             .AutoLayout(counterAlignment: AutoLayoutAlignment.Start)
                                                                     )
-                                                                    // TODO: 03: Add Stats Button
+                                                                    , new Button()
+                                                                    .Navigation(request: "VideoAnalytics")
+                                                                    .Content("Stats")
+                                                                    .AutoLayout(counterAlignment: AutoLayoutAlignment.Center)
+                                                                    .ControlExtensions
+                                                                    (
+                                                                        icon:
+                                                                            new PathIcon()
+                                                                                .Data(StaticResource.Get<Geometry>("Icon_Bar_Chart"))
+                                                                    )
                                                             )
                                                     ),
                                                 new TextBlock()
