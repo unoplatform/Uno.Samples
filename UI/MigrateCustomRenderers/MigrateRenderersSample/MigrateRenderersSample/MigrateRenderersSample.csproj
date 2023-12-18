@@ -38,4 +38,12 @@
 		<UnoImage Include="Assets\**\*.svg" />
 		<UpToDateCheckInput Include="**\*.xaml" Exclude="bin\**\*.xaml;obj\**\*.xaml" />
 	</ItemGroup>
+
+
+	<PropertyGroup  Condition="$(TargetFramework.Contains('windows10'))">
+		<!-- The following added for .net8.0 compatbility -->
+		<RuntimeIdentifiers>win10-x86;win10-x64;win10-arm64</RuntimeIdentifiers>
+		<!-- Removes the "warning NETSDK1206" due to WindowsAppSdk -->
+		<UseRidGraph>true</UseRidGraph>
+	</PropertyGroup>
 </Project>
