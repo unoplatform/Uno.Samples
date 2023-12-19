@@ -2,9 +2,8 @@
 using Android.Graphics;
 using Android.Provider;
 using Microsoft.UI.Xaml;
-using Uno.UI;
-using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Uno.UI;
 
 namespace AndroidCustomCamera
 {

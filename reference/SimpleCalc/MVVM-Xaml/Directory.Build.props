@@ -1,4 +1,4 @@
-﻿<Project>
+<Project>
 
   <!--
     If working on a single target framework, open solution-config.props and uncomment the 
@@ -63,6 +63,8 @@
     <When Condition="$(TargetFramework.Contains('windows10'))">
       <PropertyGroup>
         <IsWinAppSdk>true</IsWinAppSdk>
+				<UseRidGraph>true</UseRidGraph>
+        <UseRidGraph>true</UseRidGraph>
         <SupportedOSPlatformVersion>10.0.18362.0</SupportedOSPlatformVersion>
         <TargetPlatformMinVersion>10.0.18362.0</TargetPlatformMinVersion>
         <RuntimeIdentifiers>win-x86;win-x64;win-arm64</RuntimeIdentifiers>
