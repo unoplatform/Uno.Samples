@@ -1,5 +1,5 @@
-﻿using Uno.Toolkit.UI;
 using Uno.Material;
+using Uno.Toolkit.UI;
 
 namespace SimpleCalculator;
 
@@ -19,5 +19,5 @@ public sealed class AppResources : ResourceDictionary
 		// Load Uno.UI.Toolkit Resources
 		this.Build(r => r.Merged(
 			new ToolkitResources()));
-    }
+	}
 }
