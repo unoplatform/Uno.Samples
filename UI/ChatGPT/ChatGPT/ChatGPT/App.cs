@@ -1,3 +1,5 @@
+using ChatGPT.Services;
+
 namespace ChatGPT;
 
 public class App : Application
@@ -35,7 +37,7 @@ public class App : Application
                 .ConfigureServices((context, services) =>
                 {
                     // TODO: Register your services
-                    //services.AddSingleton<IMyService, MyService>();
+                    services.AddSingleton<IChatService, ChatService>();
                 })
             );
         MainWindow = builder.Window;
