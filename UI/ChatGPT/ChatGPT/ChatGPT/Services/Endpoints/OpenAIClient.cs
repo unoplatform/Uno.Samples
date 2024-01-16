@@ -25,7 +25,7 @@ internal class OpenAIClient
 		var result = await _client.Completions.CreateCompletion(new CompletionCreateRequest() 
 		{ 
 			Prompt = prompt, 
-			Model = Models.TextDavinciV3,
+			Model = Models.Gpt_3_5_Turbo_Instruct,
 			Temperature = 0.7f,
 			MaxTokens = 512
 		});
@@ -54,8 +54,8 @@ internal class OpenAIClient
 				ChatMessage.FromSystem("You are a helpful assistant."),
 				ChatMessage.FromUser(prompt)
 			},
-			Model = Models.ChatGpt3_5Turbo
-		});
+			Model = Models.Gpt_3_5_Turbo
+        });
 
         if (result.Successful)
         {

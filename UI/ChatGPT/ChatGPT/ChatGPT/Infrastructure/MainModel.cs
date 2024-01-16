@@ -1,7 +1,5 @@
 using ChatGPT.Services;
 using ChatGPT.Business;
-using Windows.Networking.NetworkOperators;
-using Uno.Extensions.Reactive;
 
 namespace ChatGPT.Infrastructure;
 public partial record MainModel
@@ -21,7 +19,7 @@ public partial record MainModel
     {
         var currentMessage = await UserMessage;
 
-        if (currentMessage is not null)
+        if (!string.IsNullOrEmpty(currentMessage))
         {
             var userMessage = new Message
             {
