@@ -5,10 +5,10 @@ namespace ChatGPT;
 
 public sealed partial class MainPage : Page
 {
-    public MainPage()
+    public MainPage(IServiceProvider services)
     {
         this.Background(ThemeResource.Get<Brush>("ApplicationPageBackgroundThemeBrush"))
-            .DataContext(new BindableMainModel(new ChatService()), (page, vm) => page
+            .DataContext(services.GetRequiredService<BindableMainModel>(), (page, vm) => page
                 .Content(new StackPanel()
                             .VerticalAlignment(VerticalAlignment.Bottom)
                             .HorizontalAlignment(HorizontalAlignment.Center)

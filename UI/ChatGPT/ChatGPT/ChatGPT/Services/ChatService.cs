@@ -13,17 +13,11 @@ using OpenAI.ObjectModels.ResponseModels;
 namespace ChatGPT.Services;
 public class ChatService : IChatService
 {
-    private readonly IConfiguration _configuration;
     private OpenAIService _client;
 
-    public ChatService(
-            //IConfiguration configuration
-            )
+    public ChatService(IOptions<AppConfig> appConfig)
     {
-        //_configuration = configuration;
-
-        //var apiKey = configuration["ApiKey"];
-        var apiKey = "<insert api key here>";
+        var apiKey = appConfig.Value.ApiKey;
 
         _client = new OpenAIService(
             new OpenAiOptions()
