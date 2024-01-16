@@ -56,6 +56,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Windows.Compatibility" />
+    <PackageReference Include="Uno.Material.WinUI.Markup" />
     <PackageReference Include="Uno.Wasm.Bootstrap" />
     <PackageReference Include="Uno.Wasm.Bootstrap.DevServer" />
     <PackageReference Include="Uno.WinUI.WebAssembly" />
@@ -83,8 +84,6 @@
   <Import Project="..\ChatGPT.Shared\base.props" />
 
   <Target Name="ValidateOverrides" BeforeTargets="Restore;_CheckForUnsupportedTargetFramework" Condition="'$(OverrideTargetFramework)' != ''">
-    <Error
-        Text="OverrideTargetFramework set to '$(OverrideTargetFramework)' is invalid. Set OverrideTargetFramework to $([MSBuild]::Escape('$'))(DotNetVersion) or skip building this project (eg unload the project in Visual Studio)"
-        Condition="'$(OverrideTargetFramework)'!='$(DotNetVersion)'" />
+    <Error Text="OverrideTargetFramework set to '$(OverrideTargetFramework)' is invalid. Set OverrideTargetFramework to $([MSBuild]::Escape('$'))(DotNetVersion) or skip building this project (eg unload the project in Visual Studio)" Condition="'$(OverrideTargetFramework)'!='$(DotNetVersion)'" />
   </Target>
 </Project>
