@@ -1,6 +1,5 @@
 using ChatGPT.Services;
 using ChatGPT.Business;
-using Microsoft.VisualBasic;
 
 namespace ChatGPT.Infrastructure;
 public partial record MainModel
