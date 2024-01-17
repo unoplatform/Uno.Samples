@@ -1,4 +1,4 @@
-﻿global using System.Collections.Immutable;
+global using System.Collections.Immutable;
 global using System.Windows.Input;
 global using Microsoft.Extensions.DependencyInjection;
 global using Windows.Networking.Connectivity;
@@ -16,10 +16,6 @@ global using Microsoft.UI.Xaml.Navigation;
 global using Microsoft.Extensions.Options;
 global using ChatGPT.Business.Models;
 global using ChatGPT.Infrastructure;
-global using ChatGPT.DataContracts;
-global using ChatGPT.DataContracts.Serialization;
-global using ChatGPT.Services.Caching;
-global using ChatGPT.Services.Endpoints;
 global using Uno.UI;
 global using Uno.Extensions.Markup;
 global using Uno.Themes.Markup;

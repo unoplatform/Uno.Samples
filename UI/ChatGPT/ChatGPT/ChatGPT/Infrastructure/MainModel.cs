@@ -1,6 +1,6 @@
 using ChatGPT.Services;
 using ChatGPT.Business;
-using Uno.Extensions.Reactive.Commands;
+using Windows.Networking.NetworkOperators;
 
 namespace ChatGPT.Infrastructure;
 public partial record MainModel
@@ -11,27 +11,51 @@ public partial record MainModel
         _chatService = chatService;
     }
 
-    public IState<string> UserMessage => State.Value(this, () => string.Empty);
+    public IState<string> Prompt => State.Value(this, () => string.Empty);
 
     public IListState<Message> Messages => ListState<Message>.Empty(this);
 
-
-    public async ValueTask SendMessage(string userMessage, CancellationToken ct)
+    public async ValueTask SendMessageSimple(string prompt, CancellationToken ct)
     {
-        if (userMessage is null or { Length: 0 })
+        if (prompt is null or { Length: 0 })
         {
             return;
         }
 
         await Messages.AddAsync(new Message
         {
-            Content = userMessage,
+            Content = prompt,
             Source = Source.User,
             Status = Status.Value
         }, ct);
-        await UserMessage.Set(string.Empty, ct);
+        await Prompt.Set(string.Empty, ct);
 
-        await foreach (var message in _chatService.AskAsStream(userMessage).WithCancellation(ct))
+        var response = await _chatService.AskAsync(prompt);
+
+        await Messages.AddAsync(response, ct);
+    }
+
+    public async ValueTask SendMessage(
+                                        //string prompt,
+                                        CancellationToken ct)
+    {
+        var prompt = await Prompt;
+
+        if (prompt is null or { Length: 0 })
+        {
+            return;
+        }
+
+        await Messages.AddAsync(new Message
+        {
+            Content = prompt,
+            Source = Source.User,
+            Status = Status.Value
+        }, ct);
+
+        await Prompt.Set(string.Empty, ct);
+
+        await foreach (var message in _chatService.AskAsStream(prompt).WithCancellation(ct))
         {
             await Messages.Update(
                 messages =>

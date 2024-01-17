@@ -1,13 +1,10 @@
 using ChatGPT.Business;
-using Microsoft.Extensions.Configuration;
 using OpenAI.Managers;
 using OpenAI;
-using Windows.Media.Protection.PlayReady;
 using System.Runtime.CompilerServices;
 using OpenAI.ObjectModels.RequestModels;
 using OpenAI.ObjectModels;
 using System.Text;
-using System.Linq;
 using OpenAI.ObjectModels.ResponseModels;
 
 namespace ChatGPT.Services;
@@ -26,13 +23,12 @@ public class ChatService : IChatService
             });
     }
 
-    public async ValueTask<ChatResponse> AskAsync(string prompt)
+    public async ValueTask<Message> AskAsync(string prompt)
     {
         var result = await _client.ChatCompletion.CreateCompletion(new ChatCompletionCreateRequest()
         {
             Messages = new List<ChatMessage>
             {
-                ChatMessage.FromSystem("You are a helpful assistant."),
                 ChatMessage.FromUser(prompt)
             },
             Model = Models.Gpt_3_5_Turbo
@@ -41,7 +37,7 @@ public class ChatService : IChatService
         if (result.Successful)
         {
             var _result = result.Choices.Select(choice => choice.Message.Content);
-            return new ChatResponse { Message = _result.ToList() };
+            return new Message { Content = string.Join("", _result), Source = Source.AI, Status = Status.Value };
         }
         else
         {
@@ -50,10 +46,11 @@ public class ChatService : IChatService
                 throw new Exception("Unknown Error");
             }
 
-            return new ChatResponse
+            return new Message
             {
-                Error = true,
-                ErrorMessage = new List<string> { result.Error.Message ?? $"Unknown Error Message", result.Error.Code ?? $"Unknown Error Code." }
+                Status = Status.Error,
+                Content = $"{result.Error.Message ?? "Unknown Error Message"} {result.Error.Code ?? "Unknown Error Code"}",
+                Source = Source.AI
             };
         }
     }
