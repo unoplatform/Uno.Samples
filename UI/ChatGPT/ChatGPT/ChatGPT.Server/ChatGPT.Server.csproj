@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>$(DotNetVersion)</TargetFramework>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <EnableUnoCSMUsings>false</EnableUnoCSMUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ChatGPT.Wasm\ChatGPT.Wasm.csproj" />
+    <ProjectReference Include="..\ChatGPT.DataContracts\ChatGPT.DataContracts.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Swashbuckle.AspNetCore" />
+    <PackageReference Include="Uno.Wasm.Bootstrap.Server" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Apis\" />
+  </ItemGroup>
+
+</Project>

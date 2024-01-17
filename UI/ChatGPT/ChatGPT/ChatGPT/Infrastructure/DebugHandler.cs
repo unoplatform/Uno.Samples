@@ -2,40 +2,43 @@ namespace ChatGPT.Infrastructure;
 
 internal class DebugHttpHandler : DelegatingHandler
 {
-	public DebugHttpHandler(HttpMessageHandler? innerHandler = null)
-		: base(innerHandler ?? new HttpClientHandler())
-	{
-	}
+    private readonly ILogger _logger;
 
-	protected async override Task<HttpResponseMessage> SendAsync(
-		HttpRequestMessage request,
-		CancellationToken cancellationToken)
-	{
-		var response = await base.SendAsync(request, cancellationToken);
+    public DebugHttpHandler(ILogger<DebugHttpHandler> logger, HttpMessageHandler? innerHandler = null)
+        : base(innerHandler ?? new HttpClientHandler())
+    {
+        _logger = logger;
+    }
+
+    protected async override Task<HttpResponseMessage> SendAsync(
+        HttpRequestMessage request,
+        CancellationToken cancellationToken)
+    {
+        var response = await base.SendAsync(request, cancellationToken);
 #if DEBUG
-		if (!response.IsSuccessStatusCode)
-		{
-			Console.Error.WriteLine("Unsuccessful API Call");
-			if (request.RequestUri is not null)
-			{
-				Console.Error.WriteLine($"{request.RequestUri} ({request.Method})");
-			}
+        if (!response.IsSuccessStatusCode)
+        {
+            _logger.LogDebugMessage("Unsuccessful API Call");
+            if (request.RequestUri is not null)
+            {
+                _logger.LogDebugMessage($"{request.RequestUri} ({request.Method})");
+            }
+            
+            foreach ((var key, var values) in request.Headers.ToDictionary(x => x.Key, x => string.Join(", ", x.Value)))
+            {
+                _logger.LogDebugMessage($"{key}: {values}");
+            }
 
-			foreach ((var key, var values) in request.Headers.ToDictionary(x => x.Key, x => string.Join(", ", x.Value)))
-			{
-				Console.Error.WriteLine($"  {key}: {values}");
-			}
+            var content = request.Content is not null ? await request.Content.ReadAsStringAsync() : null;
+            if (!string.IsNullOrEmpty(content))
+            {
+                _logger.LogDebugMessage(content);
+            }
 
-			var content = request.Content is not null ? await request.Content.ReadAsStringAsync() : null;
-			if (!string.IsNullOrEmpty(content))
-			{
-				Console.Error.WriteLine(content);
-			}
-
-			// Uncomment to automatically break when an API call fails while debugging
-			// System.Diagnostics.Debugger.Break();
-		}
+            // Uncomment to automatically break when an API call fails while debugging
+            // System.Diagnostics.Debugger.Break();
+        }
 #endif
-		return response;
-	}
+        return response;
+    }
 }
