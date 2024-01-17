@@ -1,6 +1,5 @@
 using ChatGPT.Services;
 using ChatGPT.Business;
-using Windows.Networking.NetworkOperators;
 
 namespace ChatGPT.Infrastructure;
 public partial record MainModel
@@ -15,6 +14,7 @@ public partial record MainModel
 
     public IListState<Message> Messages => ListState<Message>.Empty(this);
 
+    // For ref when using Toggle to use message stream completion or not
     public async ValueTask SendMessageSimple(string prompt, CancellationToken ct)
     {
         if (prompt is null or { Length: 0 })
