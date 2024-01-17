@@ -1,71 +1,56 @@
 using ChatGPT.Services;
 using ChatGPT.Business;
+using Microsoft.VisualBasic;
 
 namespace ChatGPT.Infrastructure;
 public partial record MainModel
 {
-    private readonly IChatService _chatService;
-    public MainModel(IChatService chatService)
-    {
-        _chatService = chatService;
-    }
+	private readonly IChatService _chatService;
+	public MainModel(IChatService chatService)
+	{
+		_chatService = chatService;
+	}
 
-    public IState<string> Prompt => State.Value(this, () => string.Empty);
+	public IState<string> Prompt => State.Value(this, () => string.Empty);
 
-    public IListState<Message> Messages => ListState<Message>.Empty(this);
+	public IListState<Message> Messages => ListState<Message>.Empty(this);
 
-    // For ref when using Toggle to use message stream completion or not
-    public async ValueTask SendMessageSimple(string prompt, CancellationToken ct)
-    {
-        if (prompt is null or { Length: 0 })
-        {
-            return;
-        }
+	// For ref when using Toggle to use message stream completion or not
+	public async ValueTask SendMessageSimple(string prompt, CancellationToken ct)
+	{
+		if (prompt is null or { Length: 0 })
+		{
+			return;
+		}
 
-        await Messages.AddAsync(new Message
-        {
-            Content = prompt,
-            Source = Source.User,
-            Status = Status.Value
-        }, ct);
-        await Prompt.Set(string.Empty, ct);
+		await Messages.AddAsync(new Message(prompt), ct);
+		await Prompt.Set(string.Empty, ct);
 
-        var response = await _chatService.AskAsync(prompt);
+		var id = Guid.NewGuid();
 
-        await Messages.AddAsync(response, ct);
-    }
+		await Messages.AddAsync(new Message(id, Source.AI, Status.Loading, "..."), ct);
 
-    public async ValueTask SendMessage(
-                                        //string prompt,
-                                        CancellationToken ct)
-    {
-        var prompt = await Prompt;
+		var response = await _chatService.AskAsync(prompt);
 
-        if (prompt is null or { Length: 0 })
-        {
-            return;
-        }
+		var comparer = KeyEqualityComparer.Find<Message>();
 
-        await Messages.AddAsync(new Message
-        {
-            Content = prompt,
-            Source = Source.User,
-            Status = Status.Value
-        }, ct);
+		await Messages.Update(messages => messages.AddOrUpdate(new Message(id, Source.AI, Status.Value, response.Message), comparer), ct);
+	}
 
-        await Prompt.Set(string.Empty, ct);
+	public async ValueTask SendMessage(string prompt, CancellationToken ct)
+	{
+		if (prompt is null or { Length: 0 })
+		{
+			return;
+		}
 
-        await foreach (var message in _chatService.AskAsStream(prompt).WithCancellation(ct))
-        {
-            await Messages.Update(
-                messages =>
-                {
-                    var msgIndex = messages.IndexOf(message, KeyEqualityComparer.Find<Message>());
-                    return msgIndex >= 0
-                        ? messages.RemoveAt(msgIndex).Insert(msgIndex, message)
-                        : messages.Add(message);
-                },
-                ct);
-        }
-    }
+		await Messages.AddAsync(new Message(prompt), ct);
+		await Prompt.Set(string.Empty, ct);
+
+		var comparer = KeyEqualityComparer.Find<Message>();
+		await foreach (var response in _chatService.AskAsStream(prompt).WithCancellation(ct))
+		{
+			await Messages.Update(messages => messages.AddOrUpdate(new Message(response), comparer), ct);
+		}
+	}
 }

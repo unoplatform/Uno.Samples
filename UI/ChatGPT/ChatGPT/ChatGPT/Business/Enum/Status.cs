@@ -1,8 +1,7 @@
 namespace ChatGPT.Business;
 public enum Status
 {
-    Loading,
-    Error,
-    Value
+	Loading,
+	Error,
+	Value
 }
-

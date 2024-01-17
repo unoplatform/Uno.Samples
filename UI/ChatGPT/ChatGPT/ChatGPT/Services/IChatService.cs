@@ -1,7 +1,9 @@
+using ChatGPT.Business;
+
 namespace ChatGPT.Services;
 public interface IChatService
 {
-    ValueTask<Message> AskAsync(string prompt);
+	ValueTask<ChatResponse> AskAsync(string prompt);
 
-    IAsyncEnumerable<Message> AskAsStream(string prompt, CancellationToken ct = default);
+	IAsyncEnumerable<ChatResponse> AskAsStream(string prompt, CancellationToken ct = default);
 }

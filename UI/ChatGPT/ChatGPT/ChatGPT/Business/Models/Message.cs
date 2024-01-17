@@ -1,9 +1,14 @@
 
 namespace ChatGPT.Business.Models;
-public partial record Message
+public partial record Message(Guid Id, Source Source, Status Status, string Content)
 {
-    public Guid Id { get; init; }
-    public Source Source { get; init; }
-    public Status Status { get; init; }
-    public string Content { get; init; }
+	public Message(string userMessage)
+		: this(Guid.NewGuid(), Source.User, Status.Value, userMessage)
+	{
+	}
+
+	public Message(ChatResponse response)
+		: this(response.Id, Source.AI, response.Status, response.Message ?? "...")
+	{
+	}
 }

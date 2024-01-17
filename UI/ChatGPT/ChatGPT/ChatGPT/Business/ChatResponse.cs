@@ -1,7 +1,5 @@
 namespace ChatGPT.Business;
-public class ChatResponse
+public partial record ChatResponse(Status Status, string? Message = null)
 {
-    public List<string>? Message { get; set; }
-    public bool Error { get; set; }
-    public List<string>? ErrorMessage { get; set; }
+    public Guid Id { get; init; } = Guid.NewGuid();
 }
