@@ -16,15 +16,9 @@ public partial record MainModel
 
 	public IListState<Message> Messages => ListState<Message>.Empty(this);
 
-#if __WASM__
-	public IState<bool> IsMessageStream => State.Value(this, () => false);
+	public IState<bool> IsMessageStream => State.Value(this, () => !OperatingSystem.IsBrowser());
 
-	public IState<bool> IsStreamEnabled => State.Value(this, () => false);
-#else
-	public IState<bool> IsMessageStream => State.Value(this, () => true);
-
-	public IState<bool> IsStreamEnabled => State.Value(this, () => true);
-#endif
+	public IState<bool> IsStreamEnabled => State.Value(this, () => !OperatingSystem.IsBrowser());
 
 	public async ValueTask AskMessage(string prompt, CancellationToken ct)
 	{
