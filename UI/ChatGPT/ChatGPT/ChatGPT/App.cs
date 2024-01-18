@@ -8,7 +8,7 @@ public class App : Application
 	protected Window? MainWindow { get; private set; }
 	protected IHost? Host { get; private set; }
 
-	protected async override void OnLaunched(LaunchActivatedEventArgs args)
+	protected override void OnLaunched(LaunchActivatedEventArgs args)
 	{
 		var builder = this.CreateBuilder(args)
 			.Configure(host => host
@@ -51,9 +51,6 @@ public class App : Application
 						.EmbeddedSource<App>()
 						.Section<AppConfig>()
 				)
-				// Register Json serializers (ISerializer and ISerializer)
-				.UseSerialization((context, services) => services
-					.AddContentSerializer(context))
 				.ConfigureServices((context, services) =>
 				{
 					services.AddSingleton<IChatService, ChatService>();

@@ -6,52 +6,61 @@ namespace ChatGPT.Presentation;
 
 public partial record MainModel
 {
-    private readonly IChatService _chatService;
-    public MainModel(IChatService chatService)
-    {
-        _chatService = chatService;
-    }
+	private readonly IChatService _chatService;
+	public MainModel(IChatService chatService)
+	{
+		_chatService = chatService;
+	}
 
-    public IState<string> Prompt => State.Value(this, () => string.Empty);
+	public IState<string> Prompt => State.Value(this, () => string.Empty);
 
-    public IListState<Message> Messages => ListState<Message>.Empty(this);
+	public IListState<Message> Messages => ListState<Message>.Empty(this);
 
-    // For ref when using Toggle to use message stream completion or not
-    public async ValueTask SendMessageSimple(string prompt, CancellationToken ct)
-    {
-        if (prompt is null or { Length: 0 })
-        {
-            return;
-        }
+	public async ValueTask Ask(string prompt, CancellationToken ct)
+	{
+		if (prompt is null or { Length: 0 })
+		{
+			return;
+		}
 
-        await Messages.AddAsync(new Message(prompt), ct);
-        await Prompt.Set(string.Empty, ct);
+		await Messages.AddAsync(new Message(prompt), ct);
+		await Prompt.Set(string.Empty, ct);
 
-        var id = Guid.NewGuid();
+		var message = Message.CreateLoading();
+		await Messages.AddAsync(message, ct);
 
-        await Messages.AddAsync(new Message(id, Source.AI, Status.Loading, "..."), ct);
+		var response = await _chatService.AskAsync(prompt);
 
-        var response = await _chatService.AskAsync(prompt);
+		await Update(message, response, ct);
+	}
 
-        var comparer = KeyEqualityComparer.Find<Message>();
+	public async ValueTask AskAsStream(string prompt, CancellationToken ct)
+	{
+		if (prompt is null or { Length: 0 })
+		{
+			return;
+		}
 
-        await Messages.Update(messages => messages.AddOrUpdate(new Message(id, Source.AI, Status.Value, response.Message), comparer), ct);
-    }
+		await Messages.AddAsync(new Message(prompt), ct);
+		await Prompt.Set(string.Empty, ct);
 
-    public async ValueTask SendMessage(string prompt, CancellationToken ct)
-    {
-        if (prompt is null or { Length: 0 })
-        {
-            return;
-        }
+		var message = Message.CreateLoading();
+		await Messages.AddAsync(message, ct);
 
-        await Messages.AddAsync(new Message(prompt), ct);
-        await Prompt.Set(string.Empty, ct);
+		await foreach (var response in _chatService.AskAsStream(prompt).WithCancellation(ct))
+		{
+			await Update(message, response, ct);
+		}
+	}
 
-        var comparer = KeyEqualityComparer.Find<Message>();
-        await foreach (var response in _chatService.AskAsStream(prompt).WithCancellation(ct))
-        {
-            await Messages.Update(messages => messages.AddOrUpdate(new Message(response), comparer), ct);
-        }
-    }
+	private async ValueTask Update (Message message, ChatResponse response, CancellationToken ct)
+	{
+		message = message with
+		{
+			Content = response.Message,
+			Status = response.IsError ? Status.Error : Status.Value
+		};
+
+		await Messages.UpdateAsync(message, ct);
+	}
 }

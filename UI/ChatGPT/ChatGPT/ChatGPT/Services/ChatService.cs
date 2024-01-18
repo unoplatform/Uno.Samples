@@ -14,7 +14,7 @@ public class ChatService : IChatService
 
 	public ChatService(IOptions<AppConfig> appConfig)
 	{
-		var apiKey = appConfig.Value.ApiKey;
+		var apiKey = appConfig.Value.ApiKey ?? throw new InvalidOperationException("You must define an API key in application settings file.");
 
 		_client = new OpenAIService(
 			new OpenAiOptions()
@@ -27,39 +27,34 @@ public class ChatService : IChatService
 	{
 		try
 		{
-			var result = await _client.ChatCompletion.CreateCompletion(new ChatCompletionCreateRequest()
+			var request = new ChatCompletionCreateRequest()
 			{
-				Messages = new List<ChatMessage>
-				{
-					ChatMessage.FromUser(prompt)
-				},
+				Messages = new List<ChatMessage> { ChatMessage.FromUser(prompt) },
 				Model = Models.Gpt_3_5_Turbo
-			}, cancellationToken: ct);
+			};
+			var result = await _client.ChatCompletion.CreateCompletion(request, cancellationToken: ct);
 
 			if (result.Successful)
 			{
 				var response = result.Choices.Select(choice => choice.Message.Content);
 
-				return new ChatResponse(Status.Value, string.Join("", response));
+				return new ChatResponse(string.Join("", response));
 			}
 			else
 			{
-				return new ChatResponse(Status.Error, result.Error?.Message ?? "Unknown Error");
+				return new ChatResponse(result.Error?.Message, IsError: true);
 			}
 		}
 		catch (Exception)
 		{
-			//TODO: Return message?
-			return new ChatResponse(Status.Error);
+			return new ChatResponse(IsError: true);
 		}
 	}
 
 	public async IAsyncEnumerable<ChatResponse> AskAsStream(string prompt, [EnumeratorCancellation] CancellationToken ct = default)
 	{
-		var response = new ChatResponse(Status.Loading);
+		var response = new ChatResponse();
 		var content = new StringBuilder();
-
-		yield return response;
 
 		var request = new ChatCompletionCreateRequest()
 		{
@@ -68,7 +63,7 @@ public class ChatService : IChatService
 		};
 
 		IAsyncEnumerator<ChatCompletionCreateResponse>? responseStream = default;
-		while (response is { Status: Status.Loading })
+		while (!response.IsError)
 		{
 			try
 			{
@@ -85,18 +80,17 @@ public class ChatService : IChatService
 					}
 					else
 					{
-						response = response with { Status = Status.Error, Message = responseStream.Current.Error?.Message ?? "Unknown Error" };
+						response = response with { Message = responseStream.Current.Error?.Message, IsError = true };
 					}
 				}
 				else
 				{
-					response = response with { Status = Status.Value };
+					yield break;
 				}
 			}
 			catch (Exception)
 			{
-				//TODO: Return message?
-				response = response with { Status = Status.Error };
+				response = response with { IsError = true };
 			}
 
 			yield return response;
