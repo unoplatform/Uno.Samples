@@ -4,10 +4,10 @@ namespace ChatGPT.Presentation;
 
 public sealed partial class MainPage : Page
 {
-    public MainPage(IServiceProvider services)
+    public MainPage()
     {
         this.Background(ThemeResource.Get<Brush>("ApplicationPageBackgroundThemeBrush"))
-            .DataContext(services.GetRequiredService<BindableMainModel>(), (page, vm) => page
+            .DataContext<BindableMainModel>((page, vm) => page
                 .Content(
                     new Grid().BorderBrush(Colors.Gray).BorderThickness(1).CornerRadius(10)
                         .MaxWidth(500)
@@ -79,7 +79,8 @@ public sealed partial class MainPage : Page
                                                             .Foreground(Colors.Red)
                                                             .HorizontalAlignment(HorizontalAlignment.Center)
                                                             .TextWrapping(TextWrapping.Wrap)
-                                                            .Text("Error"))
+                                                            .Text(() => message.Content)
+                                                    )
                                             )
                                     )
                                 ),
@@ -97,7 +98,6 @@ public sealed partial class MainPage : Page
                                         .Text(x => x.Bind(() => vm.Prompt).TwoWay().UpdateSourceTrigger(UpdateSourceTrigger.PropertyChanged)),
                                     new Button()
                                         .Content("Send")
-                                        .Command(() => vm.SendMessage)
                             )
                     )
                 )

@@ -23,30 +23,34 @@ public class ChatService : IChatService
 			});
 	}
 
-	public async ValueTask<ChatResponse> AskAsync(string prompt)
+	public async ValueTask<ChatResponse> AskAsync(string prompt, CancellationToken ct = default)
 	{
-
-		var result = await _client.ChatCompletion.CreateCompletion(new ChatCompletionCreateRequest()
+		try
 		{
-			Messages = new List<ChatMessage>
+			var result = await _client.ChatCompletion.CreateCompletion(new ChatCompletionCreateRequest()
 			{
-				ChatMessage.FromUser(prompt)
-			},
-			Model = Models.Gpt_3_5_Turbo
-		});
+				Messages = new List<ChatMessage>
+				{
+					ChatMessage.FromUser(prompt)
+				},
+				Model = Models.Gpt_3_5_Turbo
+			}, cancellationToken: ct);
 
-		if (result.Successful)
-		{
-			var _result = result.Choices.Select(choice => choice.Message.Content);
-			return new ChatResponse(Status.Value, string.Join("", _result));
-		}
-		else
-		{
-			if (result.Error == null)
+			if (result.Successful)
 			{
-				throw new Exception("Unknown Error");
+				var response = result.Choices.Select(choice => choice.Message.Content);
+
+				return new ChatResponse(Status.Value, string.Join("", response));
 			}
-			return new ChatResponse(Status.Error, $"{result.Error.Message ?? "Unknown Error Message"} {result.Error.Code ?? "Unknown Error Code"}");
+			else
+			{
+				return new ChatResponse(Status.Error, result.Error?.Message ?? "Unknown Error");
+			}
+		}
+		catch (Exception)
+		{
+			//TODO: Return message?
+			return new ChatResponse(Status.Error);
 		}
 	}
 
@@ -71,11 +75,18 @@ public class ChatService : IChatService
 				responseStream ??= _client.ChatCompletion.CreateCompletionAsStream(request).GetAsyncEnumerator(ct);
 				if (await responseStream.MoveNextAsync())
 				{
-					foreach (var choice in responseStream.Current.Choices)
+					if (responseStream.Current.Successful)
 					{
-						content.Append(choice.Message.Content);
+						foreach (var choice in responseStream.Current.Choices)
+						{
+							content.Append(choice.Message.Content);
+						}
+						response = response with { Message = content.ToString() };
 					}
-					response = response with { Message = content.ToString() };
+					else
+					{
+						response = response with { Status = Status.Error, Message = responseStream.Current.Error?.Message ?? "Unknown Error" };
+					}
 				}
 				else
 				{
@@ -84,6 +95,7 @@ public class ChatService : IChatService
 			}
 			catch (Exception)
 			{
+				//TODO: Return message?
 				response = response with { Status = Status.Error };
 			}
 
