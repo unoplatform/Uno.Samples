@@ -15,9 +15,9 @@ public sealed partial class MainPage : Page
 						.CornerRadius(10)
 						.MaxWidth(500)
 						.Padding(10).Margin(0, 10)
-						.RowDefinitions<Grid>("*,Auto")
+						.RowDefinitions<Grid>("Auto,*,Auto")
 						.Children(
-							//TODO: ToggleSwitch
+							Header(vm),
 							Messages(vm),
 							Prompt(vm)
 					)
@@ -25,8 +25,23 @@ public sealed partial class MainPage : Page
 			);
 	}
 
+	private StackPanel Header(BindableMainModel vm)
+		=> new StackPanel()
+			.HorizontalAlignment(HorizontalAlignment.Center)
+			.Visibility(x => x.Bind(() => vm.IsStreamEnabled)
+						.Convert(isStreamEnabled => isStreamEnabled ? Visibility.Visible : Visibility.Collapsed))
+			.Children(
+				new TextBlock()
+					.Text("Message Stream"),
+				new ToggleSwitch()
+					.HorizontalAlignment(HorizontalAlignment.Center)
+					.IsOn(x => x.Bind(() => vm.IsMessageStream).TwoWay())
+			);
+	
+
 	private UIElement Messages(BindableMainModel vm)
 		=> new ListView()
+			.Grid(row: 1)
 			.VerticalAlignment(VerticalAlignment.Bottom)
 			.SelectionMode(ListViewSelectionMode.None)
 			.ItemsSource(() => vm.Messages)
@@ -38,16 +53,18 @@ public sealed partial class MainPage : Page
 					() => UserMessage(message)
 				)
 				.Case(
-					m => m.Source == Source.AI && m.Status != Status.Error,
+					m => m.Source == Source.AI && m.Status == Status.Value,
 					() => AIMessage(message)
 				)
 				.Case(
 					m => m.Source == Source.AI && m.Status == Status.Error,
 					() => ErrorMessage(message)
 				)
-				// TODO: Loading template
+				.Case(
+					m => m.Source == Source.AI && m.Status == Status.Loading,
+					() => LoadingMessage()
+				)
 			);
-
 
 	private StackPanel UserMessage(Message message)
 		=> new StackPanel()
@@ -108,9 +125,29 @@ public sealed partial class MainPage : Page
 					)
 			);
 
+	private StackPanel LoadingMessage()
+		=> new StackPanel()
+			.Margin(8)
+			.HorizontalAlignment(HorizontalAlignment.Left)
+			.Children(
+				new Border()
+					.Background(Colors.DarkGray)
+					.CornerRadius(10)
+					.MinWidth(70)
+					.MaxWidth(350)
+					.Padding(10)
+					.Child(
+						new TextBlock()
+							.Foreground(Colors.Black)
+							.HorizontalAlignment(HorizontalAlignment.Center)
+							.TextWrapping(TextWrapping.Wrap)
+							.Text("...")
+					)
+			);
+
 	private StackPanel Prompt(BindableMainModel vm)
 		=> new StackPanel()
-			.Grid(row: 1)
+			.Grid(row: 2)
 			.VerticalAlignment(VerticalAlignment.Bottom)
 			.HorizontalAlignment(HorizontalAlignment.Center)
 			.Orientation(Orientation.Horizontal)
@@ -119,10 +156,10 @@ public sealed partial class MainPage : Page
 				new TextBox()
 					.Width(300)
 					.PlaceholderText("Message ChatGPT")
-					.CommandExtensions(x => x.Command(() => vm.AskAsStream))
+					.CommandExtensions(x => x.Command(() => vm.AskMessage))
 					.Text(x => x.Bind(() => vm.Prompt).TwoWay().UpdateSourceTrigger(UpdateSourceTrigger.PropertyChanged)),
 				new Button()
-					.Command(() => vm.AskAsStream)
+					.Command(() => vm.AskMessage)
 					.Content("Send")
 		);
 }
