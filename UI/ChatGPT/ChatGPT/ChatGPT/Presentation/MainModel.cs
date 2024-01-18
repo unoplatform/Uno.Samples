@@ -16,13 +16,13 @@ public partial record MainModel
 
 	public IListState<Message> Messages => ListState<Message>.Empty(this);
 
-	public IState<bool> IsMessageStream => State.Value(this, () => !OperatingSystem.IsBrowser());
+	public bool CanStream { get; } = !OperatingSystem.IsBrowser();
 
-	public IState<bool> IsStreamEnabled => State.Value(this, () => !OperatingSystem.IsBrowser());
+	public IState<bool> UseStream => State.Value(this, () => CanStream);
 
 	public async ValueTask AskMessage(string prompt, CancellationToken ct)
 	{
-		if (await IsMessageStream)
+		if (await UseStream)
 		{
 			await AskAsStream(prompt, ct);
 		}
@@ -32,7 +32,7 @@ public partial record MainModel
 		}
 	}
 
-	public async ValueTask Ask(string prompt, CancellationToken ct)
+	private async ValueTask Ask(string prompt, CancellationToken ct)
 	{
 		if (prompt is null or { Length: 0 })
 		{
@@ -50,7 +50,7 @@ public partial record MainModel
 		await Update(message, response, ct);
 	}
 
-	public async ValueTask AskAsStream(string prompt, CancellationToken ct)
+	private async ValueTask AskAsStream(string prompt, CancellationToken ct)
 	{
 		if (prompt is null or { Length: 0 })
 		{

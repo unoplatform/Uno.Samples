@@ -28,14 +28,14 @@ public sealed partial class MainPage : Page
 	private StackPanel Header(BindableMainModel vm)
 		=> new StackPanel()
 			.HorizontalAlignment(HorizontalAlignment.Center)
-			.Visibility(x => x.Bind(() => vm.IsStreamEnabled)
+			.Visibility(x => x.Bind(() => vm.CanStream)
 						.Convert(isStreamEnabled => isStreamEnabled ? Visibility.Visible : Visibility.Collapsed))
 			.Children(
 				new TextBlock()
 					.Text("Message Stream"),
 				new ToggleSwitch()
 					.HorizontalAlignment(HorizontalAlignment.Center)
-					.IsOn(x => x.Bind(() => vm.IsMessageStream).TwoWay())
+					.IsOn(x => x.Bind(() => vm.UseStream).TwoWay())
 			);
 	
 
