@@ -6,6 +6,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 
+using Uno.UI.Runtime.Skia.Wpf;
+
 namespace SkiaSharpTest.WPF
 {
     /// <summary>
@@ -13,5 +15,10 @@ namespace SkiaSharpTest.WPF
     /// </summary>
     public partial class App : Application
     {
+        public App()
+        {
+            var host = new WpfHost(Dispatcher, () => new SkiaSharpTest.App());
+            host.Run();
+        }
     }
 }
