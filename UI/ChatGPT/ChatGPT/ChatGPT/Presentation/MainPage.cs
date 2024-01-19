@@ -4,6 +4,8 @@ namespace ChatGPT.Presentation;
 
 public sealed partial class MainPage : Page
 {
+	private const string PowerIcon = "M8.66667 2H7.33333V8.66667H8.66667V2ZM11.8867 3.44667L10.94 4.39333C11.9933 5.24 12.6667 6.54 12.6667 8C12.6667 10.58 10.58 12.6667 8 12.6667C5.42 12.6667 3.33333 10.58 3.33333 8C3.33333 6.54 4.00667 5.24 5.05333 4.38667L4.11333 3.44667C2.82 4.54667 2 6.17333 2 8C2 11.3133 4.68667 14 8 14C11.3133 14 14 11.3133 14 8C14 6.17333 13.18 4.54667 11.8867 3.44667Z";
+
 	public MainPage()
 	{
 		this.Background(ThemeResource.Get<Brush>("ApplicationPageBackgroundThemeBrush"))
@@ -25,17 +27,38 @@ public sealed partial class MainPage : Page
 			);
 	}
 
-	private StackPanel Header(BindableMainModel vm)
-		=> new StackPanel()
+	private ToggleButton Header(BindableMainModel vm)
+		=> new ToggleButton()
 			.HorizontalAlignment(HorizontalAlignment.Center)
 			.Visibility(x => x.Bind(() => vm.CanStream)
-						.Convert(isStreamEnabled => isStreamEnabled ? Visibility.Visible : Visibility.Collapsed))
-			.Children(
-				new TextBlock()
-					.Text("Message Stream"),
-				new ToggleSwitch()
-					.HorizontalAlignment(HorizontalAlignment.Center)
-					.IsOn(x => x.Bind(() => vm.UseStream).TwoWay())
+							.Convert(isStreamEnabled => isStreamEnabled ? Visibility.Visible : Visibility.Collapsed))
+			.IsChecked(x => x.Bind(() => vm.UseStream).TwoWay())
+			.Content(
+				new StackPanel()
+					.Spacing(4)
+					.Orientation(Orientation.Horizontal)
+					.Children(
+						new PathIcon()
+							.Foreground(Colors.Red)
+							.Data(PowerIcon),
+						new TextBlock()
+							.Foreground(Colors.Red)
+							.Text("Stream Off")
+					)
+			)
+			.ControlExtensions(
+				alternateContent:
+					new StackPanel()
+						.Spacing(4)
+						.Orientation(Orientation.Horizontal)
+						.Children(
+							new PathIcon()
+								.Foreground(Colors.Green)
+								.Data(PowerIcon),
+							new TextBlock()
+								.Foreground(Colors.Green)
+								.Text("Stream On")
+						)
 			);
 	
 
