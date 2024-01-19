@@ -6,22 +6,12 @@ using OpenAI.ObjectModels.RequestModels;
 using OpenAI.ObjectModels;
 using System.Text;
 using OpenAI.ObjectModels.ResponseModels;
+using OpenAI.Interfaces;
 
 namespace ChatGPT.Services;
-public class ChatService : IChatService
+public class ChatService(IChatCompletionService client) : IChatService
 {
-	private OpenAIService _client;
-
-	public ChatService(IOptions<AppConfig> appConfig)
-	{
-		var apiKey = appConfig.Value.ApiKey ?? throw new InvalidOperationException("You must define an API key in application settings file.");
-
-		_client = new OpenAIService(
-			new OpenAiOptions()
-			{
-				ApiKey = apiKey
-			});
-	}
+	private readonly IChatCompletionService _client = client;
 
 	public async ValueTask<ChatResponse> AskAsync(string prompt, CancellationToken ct = default)
 	{
@@ -32,7 +22,7 @@ public class ChatService : IChatService
 				Messages = new List<ChatMessage> { ChatMessage.FromUser(prompt) },
 				Model = Models.Gpt_3_5_Turbo
 			};
-			var result = await _client.ChatCompletion.CreateCompletion(request, cancellationToken: ct);
+			var result = await _client.CreateCompletion(request, cancellationToken: ct);
 
 			if (result.Successful)
 			{
@@ -67,7 +57,7 @@ public class ChatService : IChatService
 		{
 			try
 			{
-				responseStream ??= _client.ChatCompletion.CreateCompletionAsStream(request).GetAsyncEnumerator(ct);
+				responseStream ??= _client.CreateCompletionAsStream(request).GetAsyncEnumerator(ct);
 				if (await responseStream.MoveNextAsync())
 				{
 					if (responseStream.Current.Successful)

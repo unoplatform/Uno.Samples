@@ -1,5 +1,8 @@
 using ChatGPT.Services;
 using Microsoft.Extensions.DependencyInjection;
+using OpenAI;
+using OpenAI.Interfaces;
+using OpenAI.Managers;
 
 namespace ChatGPT;
 
@@ -51,11 +54,12 @@ public class App : Application
 						.EmbeddedSource<App>()
 						.Section<AppConfig>()
 				)
-				.ConfigureServices((context, services) =>
-				{
-					services.AddSingleton<IChatService, ChatService>();
-					services.AddSingleton<BindableMainModel>();
-				})
+				.ConfigureServices(services =>
+					services
+						.AddSingleton<OpenAiOptions, ChatAiOptions>()
+						.AddSingleton<IChatCompletionService, OpenAIService>()
+						.AddSingleton<IChatService, ChatService>()
+						.AddSingleton<BindableMainModel>())
 			);
 		MainWindow = builder.Window;
 
