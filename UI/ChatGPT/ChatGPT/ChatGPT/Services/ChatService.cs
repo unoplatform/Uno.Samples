@@ -22,9 +22,7 @@ public class ChatService(IChatCompletionService client) : IChatService
 			{
 				var response = result.Choices.Select(choice => choice.Message.Content);
 
-				var responseContent = string.Join("", response);
-
-				return new ChatResponse(string.Join("", responseContent));
+				return new ChatResponse(string.Join("", response));
 			}
 			else
 			{
