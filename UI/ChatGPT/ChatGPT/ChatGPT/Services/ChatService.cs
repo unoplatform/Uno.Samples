@@ -1,6 +1,4 @@
 using ChatGPT.Business;
-using OpenAI.Managers;
-using OpenAI;
 using System.Runtime.CompilerServices;
 using OpenAI.ObjectModels.RequestModels;
 using OpenAI.ObjectModels;
@@ -13,13 +11,20 @@ public class ChatService(IChatCompletionService client) : IChatService
 {
 	private readonly IChatCompletionService _client = client;
 
+	private List<ChatMessage> _messages =
+	[
+		ChatMessage.FromSystem("You are Uno ChatGPT Sample, a helpful assistant helping users to learn more about how to develop using Uno Platform.")
+	];
+
 	public async ValueTask<ChatResponse> AskAsync(string prompt, CancellationToken ct = default)
 	{
 		try
 		{
+			AddMessage(prompt, Source.User);
+
 			var request = new ChatCompletionCreateRequest()
 			{
-				Messages = new List<ChatMessage> { ChatMessage.FromUser(prompt) },
+				Messages = _messages,
 				Model = Models.Gpt_3_5_Turbo
 			};
 			var result = await _client.CreateCompletion(request, cancellationToken: ct);
@@ -28,7 +33,11 @@ public class ChatService(IChatCompletionService client) : IChatService
 			{
 				var response = result.Choices.Select(choice => choice.Message.Content);
 
-				return new ChatResponse(string.Join("", response));
+				var responseContent = string.Join("", response);
+
+				AddMessage(responseContent, Source.AI);
+
+				return new ChatResponse(string.Join("", responseContent));
 			}
 			else
 			{
@@ -43,12 +52,14 @@ public class ChatService(IChatCompletionService client) : IChatService
 
 	public async IAsyncEnumerable<ChatResponse> AskAsStream(string prompt, [EnumeratorCancellation] CancellationToken ct = default)
 	{
+		AddMessage(prompt, Source.User);
+
 		var response = new ChatResponse();
 		var content = new StringBuilder();
 
 		var request = new ChatCompletionCreateRequest()
 		{
-			Messages = new List<ChatMessage> { ChatMessage.FromUser(prompt) },
+			Messages = _messages,
 			Model = Models.Gpt_3_5_Turbo
 		};
 
@@ -75,6 +86,10 @@ public class ChatService(IChatCompletionService client) : IChatService
 				}
 				else
 				{
+					if (response.Message is { })
+					{
+						AddMessage(response.Message, Source.AI);
+					}
 					yield break;
 				}
 			}
@@ -85,5 +100,10 @@ public class ChatService(IChatCompletionService client) : IChatService
 
 			yield return response;
 		}
+	}
+
+	private void AddMessage (string prompt, Source source)
+	{
+		_messages.Add(source == Source.User ? ChatMessage.FromUser(prompt) : ChatMessage.FromAssistant(prompt));
 	}
 }
