@@ -1,4 +1,5 @@
-namespace ChatGPT.Business;
+namespace ChatGPT.Presentation;
+
 public enum Status
 {
 	Loading,

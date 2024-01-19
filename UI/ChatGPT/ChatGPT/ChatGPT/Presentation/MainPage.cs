@@ -1,5 +1,3 @@
-using ChatGPT.Business;
-
 namespace ChatGPT.Presentation;
 
 public sealed partial class MainPage : Page
@@ -30,9 +28,9 @@ public sealed partial class MainPage : Page
 	private ToggleButton Header(BindableMainModel vm)
 		=> new ToggleButton()
 			.HorizontalAlignment(HorizontalAlignment.Center)
-			.Visibility(x => x.Bind(() => vm.CanStream)
-							.Convert(isStreamEnabled => isStreamEnabled ? Visibility.Visible : Visibility.Collapsed))
+			.Visibility(x => x.Bind(() => vm.CanStream))
 			.IsChecked(x => x.Bind(() => vm.UseStream).TwoWay())
+			.IsThreeState(false)
 			.Content(
 				new StackPanel()
 					.Spacing(4)

@@ -14,11 +14,11 @@ public partial record MainModel
 
 	public IState<string> Prompt => State.Value(this, () => string.Empty);
 
-	public IListState<Message> Messages => ListState<Message>.Empty(this);
-
 	public bool CanStream { get; } = !OperatingSystem.IsBrowser();
 
 	public IState<bool> UseStream => State.Value(this, () => CanStream);
+
+	public IListState<Message> Messages => ListState<Message>.Empty(this);
 
 	public async ValueTask AskMessage(string prompt, CancellationToken ct)
 	{
@@ -45,7 +45,11 @@ public partial record MainModel
 		var message = Message.CreateLoading();
 		await Messages.AddAsync(message, ct);
 
-		var response = await _chatService.AskAsync(prompt);
+		var history = (await Messages)
+			.Where(msg => msg.Status is Status.Value)
+			.Select(msg => new ChatEntry(msg.Content!, msg.Source is Source.User))
+			.ToImmutableList();
+		var response = await _chatService.AskAsync(history);
 
 		await Update(message, response, ct);
 	}
@@ -63,7 +67,11 @@ public partial record MainModel
 		var message = Message.CreateLoading();
 		await Messages.AddAsync(message, ct);
 
-		await foreach (var response in _chatService.AskAsStream(prompt).WithCancellation(ct))
+		var history = (await Messages)
+			.Where(msg => msg.Status is Status.Value)
+			.Select(msg => new ChatEntry(msg.Content!, msg.Source is Source.User))
+			.ToImmutableList();
+		await foreach (var response in _chatService.AskAsStream(history).WithCancellation(ct))
 		{
 			await Update(message, response, ct);
 		}

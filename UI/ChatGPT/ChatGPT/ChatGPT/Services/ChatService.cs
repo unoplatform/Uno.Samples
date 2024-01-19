@@ -11,22 +11,11 @@ public class ChatService(IChatCompletionService client) : IChatService
 {
 	private readonly IChatCompletionService _client = client;
 
-	private List<ChatMessage> _messages =
-	[
-		ChatMessage.FromSystem("You are Uno ChatGPT Sample, a helpful assistant helping users to learn more about how to develop using Uno Platform.")
-	];
-
-	public async ValueTask<ChatResponse> AskAsync(string prompt, CancellationToken ct = default)
+	public async ValueTask<ChatResponse> AskAsync(IImmutableList<ChatEntry> history, CancellationToken ct = default)
 	{
 		try
 		{
-			AddMessage(prompt, Source.User);
-
-			var request = new ChatCompletionCreateRequest()
-			{
-				Messages = _messages,
-				Model = Models.Gpt_3_5_Turbo
-			};
+			var request = CreateRequest(history);
 			var result = await _client.CreateCompletion(request, cancellationToken: ct);
 
 			if (result.Successful)
@@ -34,8 +23,6 @@ public class ChatService(IChatCompletionService client) : IChatService
 				var response = result.Choices.Select(choice => choice.Message.Content);
 
 				var responseContent = string.Join("", response);
-
-				AddMessage(responseContent, Source.AI);
 
 				return new ChatResponse(string.Join("", responseContent));
 			}
@@ -50,18 +37,11 @@ public class ChatService(IChatCompletionService client) : IChatService
 		}
 	}
 
-	public async IAsyncEnumerable<ChatResponse> AskAsStream(string prompt, [EnumeratorCancellation] CancellationToken ct = default)
+	public async IAsyncEnumerable<ChatResponse> AskAsStream(IImmutableList<ChatEntry> history, [EnumeratorCancellation] CancellationToken ct = default)
 	{
-		AddMessage(prompt, Source.User);
-
+		var request = CreateRequest(history);
 		var response = new ChatResponse();
 		var content = new StringBuilder();
-
-		var request = new ChatCompletionCreateRequest()
-		{
-			Messages = _messages,
-			Model = Models.Gpt_3_5_Turbo
-		};
 
 		IAsyncEnumerator<ChatCompletionCreateResponse>? responseStream = default;
 		while (!response.IsError)
@@ -86,10 +66,6 @@ public class ChatService(IChatCompletionService client) : IChatService
 				}
 				else
 				{
-					if (response.Message is { })
-					{
-						AddMessage(response.Message, Source.AI);
-					}
 					yield break;
 				}
 			}
@@ -102,8 +78,20 @@ public class ChatService(IChatCompletionService client) : IChatService
 		}
 	}
 
-	private void AddMessage (string prompt, Source source)
+	private ChatCompletionCreateRequest CreateRequest(IImmutableList<ChatEntry> history)
 	{
-		_messages.Add(source == Source.User ? ChatMessage.FromUser(prompt) : ChatMessage.FromAssistant(prompt));
+		var requestMessages = new List<ChatMessage>(history.Count + 1)
+		{
+			ChatMessage.FromSystem("You are Uno ChatGPT Sample, a helpful assistant helping users to learn more about how to develop using Uno Platform.")
+		};
+		requestMessages.AddRange(history.Select(entry => entry.IsUser 
+			? ChatMessage.FromUser(entry.Message) 
+			: ChatMessage.FromAssistant(entry.Message)));
+
+		return new ChatCompletionCreateRequest()
+		{
+			Messages = requestMessages,
+			Model = Models.Gpt_3_5_Turbo
+		};
 	}
 }

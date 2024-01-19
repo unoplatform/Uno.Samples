@@ -1,5 +1,5 @@
+namespace ChatGPT.Presentation;
 
-namespace ChatGPT.Business.Models;
 public partial record Message(Guid Id, Source Source, Status Status, string? Content)
 {
 	public static Message CreateLoading()

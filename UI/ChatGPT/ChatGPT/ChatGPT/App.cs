@@ -1,5 +1,4 @@
 using ChatGPT.Services;
-using Microsoft.Extensions.DependencyInjection;
 using OpenAI;
 using OpenAI.Interfaces;
 using OpenAI.Managers;

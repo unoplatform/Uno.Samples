@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Specialized;
+﻿using System.Collections.Specialized;
 using Uno.UI.Extensions;
 
 namespace ChatGPT;

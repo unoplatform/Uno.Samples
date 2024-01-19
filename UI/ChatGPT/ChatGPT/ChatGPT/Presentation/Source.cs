@@ -1,4 +1,5 @@
-namespace ChatGPT.Business;
+namespace ChatGPT.Presentation;
+
 public enum Source
 {
 	User,
