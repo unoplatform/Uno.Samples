@@ -4,7 +4,7 @@
 
 ### What is a Record
 
-Records are special types that focus on comparing values. C# 10 introduces record structs, allowing you to make records as value types. A key feature is value-based equality, meaning two variables of a record type are considered equal if their definitions match exactly, and the values in their fields are the same. This is different from class types, where equality depends on referring to the exact same object.
+Records are special types that focus on comparing values. A key feature is value-based equality, meaning two variables of a record type are considered equal if their definitions match exactly, and the values in their fields are the same. This is different from class types, where equality depends on referring to the exact same object.
 
 An essential point about records is that they are immutable, meaning you can't change their values once set. The compiler automatically generates methods to support this when you declare a record. This makes records useful when you want immutability and value-based equality in your code.
 

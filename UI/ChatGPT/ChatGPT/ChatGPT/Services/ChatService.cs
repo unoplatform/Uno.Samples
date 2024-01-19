@@ -11,11 +11,11 @@ public class ChatService(IChatCompletionService client) : IChatService
 {
 	private readonly IChatCompletionService _client = client;
 
-	public async ValueTask<ChatResponse> AskAsync(IImmutableList<ChatEntry> history, CancellationToken ct = default)
+	public async ValueTask<ChatResponse> AskAsync(ChatRequest chatRequest, CancellationToken ct = default)
 	{
 		try
 		{
-			var request = CreateRequest(history);
+			var request = ToCompletionRequest(chatRequest);
 			var result = await _client.CreateCompletion(request, cancellationToken: ct);
 
 			if (result.Successful)
@@ -35,9 +35,9 @@ public class ChatService(IChatCompletionService client) : IChatService
 		}
 	}
 
-	public async IAsyncEnumerable<ChatResponse> AskAsStream(IImmutableList<ChatEntry> history, [EnumeratorCancellation] CancellationToken ct = default)
+	public async IAsyncEnumerable<ChatResponse> AskAsStream(ChatRequest chatRequest, [EnumeratorCancellation] CancellationToken ct = default)
 	{
-		var request = CreateRequest(history);
+		var request = ToCompletionRequest(chatRequest);
 		var response = new ChatResponse();
 		var content = new StringBuilder();
 
@@ -76,8 +76,9 @@ public class ChatService(IChatCompletionService client) : IChatService
 		}
 	}
 
-	private ChatCompletionCreateRequest CreateRequest(IImmutableList<ChatEntry> history)
+	private ChatCompletionCreateRequest ToCompletionRequest(ChatRequest request)
 	{
+		var history = request.History;
 		var requestMessages = new List<ChatMessage>(history.Count + 1)
 		{
 			ChatMessage.FromSystem("You are Uno ChatGPT Sample, a helpful assistant helping users to learn more about how to develop using Uno Platform.")

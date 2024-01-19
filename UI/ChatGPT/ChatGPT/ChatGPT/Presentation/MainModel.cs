@@ -49,7 +49,10 @@ public partial record MainModel
 			.Where(msg => msg.Status is Status.Value)
 			.Select(msg => new ChatEntry(msg.Content!, msg.Source is Source.User))
 			.ToImmutableList();
-		var response = await _chatService.AskAsync(history);
+
+		var request = new ChatRequest(history);
+
+		var response = await _chatService.AskAsync(request);
 
 		await Update(message, response, ct);
 	}
@@ -71,7 +74,10 @@ public partial record MainModel
 			.Where(msg => msg.Status is Status.Value)
 			.Select(msg => new ChatEntry(msg.Content!, msg.Source is Source.User))
 			.ToImmutableList();
-		await foreach (var response in _chatService.AskAsStream(history).WithCancellation(ct))
+
+		var request = new ChatRequest(history);
+
+		await foreach (var response in _chatService.AskAsStream(request).WithCancellation(ct))
 		{
 			await Update(message, response, ct);
 		}
