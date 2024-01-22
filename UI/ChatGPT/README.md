@@ -4,9 +4,13 @@
 
 ### What is a Record
 
-Records are special types that focus on comparing values. A key feature is value-based equality, meaning two variables of a record type are considered equal if their definitions match exactly, and the values in their fields are the same. This is different from class types, where equality depends on referring to the exact same object.
+A record behaves like a class, offering the feature of **immutability**, where the values assigned to it remain unchanged once set. It's possible to create records using the modifier `record`, for example:
 
-An essential point about records is that they are immutable, meaning you can't change their values once set. The compiler automatically generates methods to support this when you declare a record. This makes records useful when you want immutability and value-based equality in your code.
+```cs
+public record MyRecord()
+```
+
+Record **can**, but are not necessarily immutable. See next how to create immutable records.
 
 ### How to create immutable records
 
@@ -26,9 +30,9 @@ public partial record ChatResponse
 }
 ```
 
-### How to use records with MVUX
+When you create a record, if you let the properties change with the `set` keyword, the record won't be immutable. This means you won't be able to lock in or keep the values from changing once you've set them.
 
-<!-- Service/Business layer creates the record and send it to the Presentation layer -->
+### How to use records with MVUX
 
 Records can be instantiated from the Presentation layer as parameter for a request or the business layer where data is usually retrieved/processed. For example in our `ChatService` we would have the following method being called from the Model. A `ChatEntry` list is received as parameter from the Model, where `ChatEntry` is also a record, and we are creating the instance of `ChatResponse` and returning it to the Model:
 
@@ -75,7 +79,7 @@ message = message with
     Status = response.IsError ? Status.Error : Status.Value
 };
 
-//Then you can update your message list displayed in the UI thread safe
+//Then you can update your message list displayed in the UI, thread safe
 await Messages.UpdateAsync(message);
 ...
 
