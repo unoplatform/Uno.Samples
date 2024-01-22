@@ -39,9 +39,12 @@ public partial record MainModel
 			return;
 		}
 
+		//Add user prompt to ListState with Message record
 		await Messages.AddAsync(new Message(prompt), ct);
+
 		await Prompt.Set(string.Empty, ct);
 
+		//Create loading message with Message record
 		var message = Message.CreateLoading();
 		await Messages.AddAsync(message, ct);
 
@@ -50,10 +53,12 @@ public partial record MainModel
 			.Select(msg => new ChatEntry(msg.Content!, msg.Source is Source.User))
 			.ToImmutableList();
 
+		//Create ChatRequest record with history (Messages list)
 		var request = new ChatRequest(history);
 
 		var response = await _chatService.AskAsync(request);
 
+		//Update loading message with AI response as Message record
 		await Update(message, response, ct);
 	}
 
@@ -64,9 +69,12 @@ public partial record MainModel
 			return;
 		}
 
+		//Add user prompt to ListState with Message record
 		await Messages.AddAsync(new Message(prompt), ct);
+
 		await Prompt.Set(string.Empty, ct);
 
+		//Create loading message with Message record
 		var message = Message.CreateLoading();
 		await Messages.AddAsync(message, ct);
 
@@ -75,6 +83,7 @@ public partial record MainModel
 			.Select(msg => new ChatEntry(msg.Content!, msg.Source is Source.User))
 			.ToImmutableList();
 
+		//Create ChatRequest record with history (Messages list)
 		var request = new ChatRequest(history);
 
 		await foreach (var response in _chatService.AskAsStream(request).WithCancellation(ct))
@@ -85,12 +94,15 @@ public partial record MainModel
 
 	private async ValueTask Update (Message message, ChatResponse response, CancellationToken ct)
 	{
+		//Update record Message with new value coming from AI
 		message = message with
 		{
 			Content = response.Message,
 			Status = response.IsError ? Status.Error : Status.Value
 		};
 
+		//Update ListState thread-safe
+		//Finds the message with same id and upadtes the instance
 		await Messages.UpdateAsync(message, ct);
 	}
 }

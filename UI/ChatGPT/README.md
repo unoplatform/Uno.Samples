@@ -1,28 +1,28 @@
-# MVUX
+# ChatGPT - MVUX
 
 ## Guidance to use Records with MVUX
 
 ### What is a Record
 
-A record behaves like a class, offering the feature of **immutability**, where the values assigned to it remain unchanged once set. It's possible to create records using the modifier `record`, for example:
+A record behaves like a class, offering the feature of **immutability**, where the values assigned to it remain unchanged once set. It's possible to create records using the `record` modifier, for example:
 
-```cs
+```csharp
 public record MyRecord()
 ```
 
-Record **can**, but are not necessarily immutable. See next how to create immutable records.
+Records **can** be, but are not necessarily, immutable. See next how to create immutable records
 
 ### How to create immutable records
 
-You can achieve creating immutable records in two ways. First, by declaring your record with parameters that will create an immutable record with the parameters as its properties:
+You can create immutable records in two ways. First, declare your record with a primary constructor and parameters; this will create an immutable record with the specified parameters as its properties:
 
-```cs
+```csharp
 public partial record ChatResponse(string Message, bool IsError);
 ```
 
 Another way is by creating properties using the `init` keyword instead of `set` to enforce immutability. Here's a brief example:
 
-```cs
+```csharp
 public partial record ChatResponse
 {
     public string Message { get; init; }
@@ -34,9 +34,9 @@ When you create a record, if you let the properties change with the `set` keywor
 
 ### How to use records with MVUX
 
-Records can be instantiated from the Presentation layer as parameter for a request or the business layer where data is usually retrieved/processed. For example in our `ChatService` we would have the following method being called from the Model. A `ChatEntry` list is received as parameter from the Model, where `ChatEntry` is also a record, and we are creating the instance of `ChatResponse` and returning it to the Model:
+Records can be instantiated from the presentation layer as a parameter for a request or in the business layer, where data is usually retrieved/processed. For example, in our `ChatService`, we would have the following method being called from the Model. A `ChatEntry` list is received as a parameter from the Model, where `ChatEntry` is also a record, and we create an instance of `ChatResponse`, returning it to the Model:
 
-```cs
+```csharp
 public async ValueTask<ChatResponse> AskAsync(IImmutableList<ChatEntry> history)
 {
     var request = CreateRequest(history);
@@ -58,17 +58,17 @@ public async ValueTask<ChatResponse> AskAsync(IImmutableList<ChatEntry> history)
 
 ### Updating records
 
-As we are dealing with immutable records it's not possible to update it or its properties, to achieve that we need to create a new instance based on the previous record. This ensures we are not modifying data from the UI in the wrong thread. See the example:
+As we are dealing with immutable records, it's not possible to update them or their properties. To achieve that, we need to create a new instance based on the previous record. This ensures we are not modifying data from the UI in the wrong thread. See the example:
 
 Given the `Message` record:
 
-```cs
+```csharp
 public partial record Message(string Content, Status status, Source source);
 ```
 
 In our Model:
 
-```cs
+```csharp
 var message = new Message("Hello world!", Status.Value, Source.User);
 
 ...
@@ -79,8 +79,31 @@ message = message with
     Status = response.IsError ? Status.Error : Status.Value
 };
 
-//Then you can update your message list displayed in the UI, thread safe
+//Then you can update your message list displayed in the UI, thread-safe
 await Messages.UpdateAsync(message);
 ...
 
 ```
+
+<!-- DIAGRAM SECTION -->
+## Architecture Diagram - WIP
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="images/diagram-dark.png">
+  <source media="(prefers-color-scheme: light)" srcset="images/diagram-light.png">
+  <img alt="Sequence diagram" src="images/diagram-light.png">
+</picture>
+
+STEPS:
+
+1. User types message in the TextBox
+2. `AskMessageCommand` is invoked in auto-generated `BindableViewModel`
+3. `BindableViewModel` calls `AskMessage(string)` method (in Model)
+4. A new `Message` `record` is created with user prompt and then added to the `ListState` (ImmutableList)
+5. A new loading `Message` `record` is created and added to `ListState`
+6. A `ChatRequest` `record` is created with user `Message`
+7. Model calls service `AskAsStream()` method with `ChatRequest`
+8. Creates an empty `ChatResponse` `record`
+9. As AI returns a response the `ChatResponse` `record` is updated until AI finishes
+10. The loading `Message` `record` (created in step 5) is updated with the AI response
+11. `ListState.UpdateAsync` finds the message with same `Id` and upadtes the instance   
