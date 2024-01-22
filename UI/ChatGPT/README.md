@@ -10,7 +10,19 @@ A record behaves like a class, offering the feature of **immutability**, where t
 public record MyRecord()
 ```
 
-Records **can** be, but are not necessarily, immutable. See next how to create immutable records
+Records **can** be, but are not necessarily, immutable.
+
+### Why Immutability in MVUX
+
+Immutability is crucial in MVUX for two main reasons:
+
+**Predictable State Changes**
+
+Immutability ensures that once we set a state, it can't be changed. This predictability makes it easier to understand how our application behaves over time. In MVUX, we use immutable data structures to represent the application state.
+
+**Concurrency and Threading**
+
+Immutability makes our application more robust in handling concurrency and threading challenges. Immutable data structures are naturally thread-safe, reducing the risk of bugs related to multiple things happening simultaneously in our app.
 
 ### How to create immutable records
 
@@ -96,14 +108,15 @@ await Messages.UpdateAsync(message);
 
 STEPS:
 
-1. User types message in the TextBox
-2. `AskMessageCommand` is invoked in auto-generated `BindableViewModel`
-3. `BindableViewModel` calls `AskMessage(string)` method (in Model)
-4. A new `Message` `record` is created with user prompt and then added to the `ListState` (ImmutableList)
-5. A new loading `Message` `record` is created and added to `ListState`
-6. A `ChatRequest` `record` is created with user `Message`
-7. Model calls service `AskAsStream()` method with `ChatRequest`
-8. Creates an empty `ChatResponse` `record`
-9. As AI returns a response the `ChatResponse` `record` is updated until AI finishes
-10. The loading `Message` `record` (created in step 5) is updated with the AI response
-11. `ListState.UpdateAsync` finds the message with same `Id` and upadtes the instance   
+1. User types a message in the TextBox.
+2. The `AskMessageCommand` is invoked in the auto-generated `BindableViewModel`.
+3. The `BindableViewModel` calls the `AskMessage(string)` method in the Model.
+4. A new `Message` record is created with the user's prompt and then added to the `ListState` (ImmutableList).
+5. A new loading `Message` record is created and added to the `ListState`.
+6. A `ChatRequest` record is created with the user's message.
+7. The Model calls the `AskAsStream()` method with the `ChatRequest`.
+8. An empty `ChatResponse` record is created.
+9. As the AI returns a response, the `ChatResponse` record is updated until the AI finishes.
+10. The loading `Message` record (created in step 5) is updated with the AI response.
+11. `ListState.UpdateAsync` finds the message with the same `Id` and updates the instance, ensuring thread safety throughout the process.
+12. `INotifyCollectionChanged` is raised to update the UI with the new message.
