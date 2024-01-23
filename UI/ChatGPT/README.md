@@ -97,18 +97,38 @@ await Messages.UpdateAsync(message);
 
 ```
 
-<!-- DIAGRAM SECTION -->
-## Architecture Diagram - WIP
+## Architecture Diagram
 
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="images/diagram-dark.png">
-  <source media="(prefers-color-scheme: light)" srcset="images/diagram-light.png">
-  <img alt="Sequence diagram" src="images/diagram-light.png">
-</picture>
+See below a Sequence Diagram showing how data is processed:
 
-STEPS:
+```mermaid
+sequenceDiagram
+    participant User as User
+    participant View as View
+    participant BindableVM as BindableVM
+    participant Model as Model
+    participant Service as Service
 
-1. User types a message in the TextBox.
+    User->>View: 1. Input
+    View->>BindableVM: 2. AskMessageCommand
+    BindableVM->>Model: 3. AskMessage(string)
+    Model->>Model: 4. ListState.AddUserMessage(Message) : record
+    Model->>Model: 5. CreateLoadingMessage(Message) : record
+    Model->>Model: 6. CreateChatRequest() : ChatRequest : record
+    Model->>Service: 7. AskAsStream(ChatRequest)
+    Service->>Service: 8. CreateChatResponse() : record
+    Service->>Service: 9. UpdateChatResponse() : record
+    Service-->>Model: ChatResponse : record
+    Model->>Model: 10. UpdateLoadingMessage(ChatResponse) : Message : record
+    Model->>Model: 11. ListState.UpdateAsync(Message)
+    Model-->>BindableVM: 12. INotifyCollectionChanged
+    BindableVM-->>View: UpdateUI
+    View-->>User: Message
+```
+
+Steps description:
+
+1. The user types a message in the TextBox.
 2. The `AskMessageCommand` is invoked in the auto-generated `BindableViewModel`.
 3. The `BindableViewModel` calls the `AskMessage(string)` method in the Model.
 4. A new `Message` record is created with the user's prompt and then added to the `ListState` (ImmutableList).

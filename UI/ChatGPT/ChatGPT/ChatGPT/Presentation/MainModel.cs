@@ -1,5 +1,4 @@
 using ChatGPT.Business;
-using ChatGPT.Extensions;
 using ChatGPT.Services;
 
 namespace ChatGPT.Presentation;

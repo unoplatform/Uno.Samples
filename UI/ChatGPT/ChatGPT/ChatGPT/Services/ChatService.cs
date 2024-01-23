@@ -1,15 +1,17 @@
 using ChatGPT.Business;
-using System.Runtime.CompilerServices;
-using OpenAI.ObjectModels.RequestModels;
-using OpenAI.ObjectModels;
-using System.Text;
-using OpenAI.ObjectModels.ResponseModels;
 using OpenAI.Interfaces;
+using OpenAI.ObjectModels;
+using OpenAI.ObjectModels.RequestModels;
+using OpenAI.ObjectModels.ResponseModels;
+using System.Runtime.CompilerServices;
+using System.Text;
 
 namespace ChatGPT.Services;
 public class ChatService(IChatCompletionService client) : IChatService
 {
 	private readonly IChatCompletionService _client = client;
+
+	private const string systemPrompt = "You are Uno ChatGPT Sample, a helpful assistant helping users to learn more about how to develop using Uno Platform.";
 
 	public async ValueTask<ChatResponse> AskAsync(ChatRequest chatRequest, CancellationToken ct = default)
 	{
@@ -81,7 +83,7 @@ public class ChatService(IChatCompletionService client) : IChatService
 		var history = request.History;
 		var requestMessages = new List<ChatMessage>(history.Count + 1)
 		{
-			ChatMessage.FromSystem("You are Uno ChatGPT Sample, a helpful assistant helping users to learn more about how to develop using Uno Platform.")
+			ChatMessage.FromSystem(systemPrompt)
 		};
 		requestMessages.AddRange(history.Select(entry => entry.IsUser 
 			? ChatMessage.FromUser(entry.Message) 
