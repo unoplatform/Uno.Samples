@@ -77,6 +77,12 @@ An Uno conversion of the Xamarin `CardView` sample showing how to migrate a cust
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/CardViewMigration)
 
+### ChatGPT
+
+A ChatGPT sample using OpenAI SDK with C# Markup, MVUX and immutable records.
+
+[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/ChatGPT)
+
 ### Chat SignalR
 
 Demonstrates the use of [SignalR](https://docs.microsoft.com/en-us/aspnet/core/signalr/introduction?view=aspnetcore-3.1) in an Uno Platform application. 
