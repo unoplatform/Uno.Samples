@@ -81,8 +81,6 @@ public partial record Message(string Content, Status status, Source source);
 In our Model:
 
 ```csharp
-var message = new Message("Hello world!", Status.Value, Source.User);
-
 ...
 
 message = message with
@@ -103,38 +101,38 @@ See below a Sequence Diagram showing how data is processed:
 
 ```mermaid
 sequenceDiagram
-    participant User as User
-    participant View as View
-    participant BindableVM as BindableVM
-    participant Model as Model
-    participant Service as Service
+    actor User as User
+    participant MainPage as MainPage
+    participant BindableMainModel as BindableMainModel
+    participant MainModel as MainModel
+    participant ChatService as ChatService
 
-    User->>View: 1. Input
-    View->>BindableVM: 2. AskMessageCommand
-    BindableVM->>Model: 3. AskMessage(string)
-    Model->>Model: 4. ListState.AddUserMessage(Message) : record
-    Model->>Model: 5. CreateLoadingMessage(Message) : record
-    Model->>Model: 6. CreateChatRequest() : ChatRequest : record
-    Model->>Service: 7. AskAsStream(ChatRequest)
-    Service->>Service: 8. CreateChatResponse() : record
-    Service->>Service: 9. UpdateChatResponse() : record
-    Service-->>Model: ChatResponse : record
-    Model->>Model: 10. UpdateLoadingMessage(ChatResponse) : Message : record
-    Model->>Model: 11. ListState.UpdateAsync(Message)
-    Model-->>BindableVM: 12. INotifyCollectionChanged
-    BindableVM-->>View: UpdateUI
-    View-->>User: Message
+    User->>MainPage: 1. Input
+    MainPage->>BindableMainModel: 2. AskMessageCommand
+    BindableMainModel->>MainModel: 3. AskMessage(string)
+    MainModel->>MainModel: 4. ListState.AddUserMessage(Message) : record
+    MainModel->>MainModel: 5. CreateLoadingMessage(Message) : record
+    MainModel->>MainModel: 6. CreateChatRequest() : ChatRequest : record
+    MainModel->>ChatService: 7. AskAsStream(ChatRequest)
+    ChatService->>ChatService: 8. CreateChatResponse() : record
+    ChatService->>ChatService: 9. UpdateChatResponse() : record
+    ChatService-->>MainModel: ChatResponse : record
+    MainModel->>MainModel: 10. UpdateLoadingMessage(ChatResponse) : Message : record
+    MainModel->>MainModel: 11. ListState.UpdateAsync(Message)
+    MainModel-->>BindableMainModel: 12. INotifyCollectionChanged
+    BindableMainModel-->>MainPage: UpdateUI
+    MainPage-->>User: Message
 ```
 
 Steps description:
 
 1. The user types a message in the TextBox.
-2. The `AskMessageCommand` is invoked in the auto-generated `BindableViewModel`.
-3. The `BindableViewModel` calls the `AskMessage(string)` method in the Model.
+2. The `AskMessageCommand` is invoked in the auto-generated `BindableMainModel`.
+3. The `BindableMainModel` calls the `AskMessage(string)` method in the MainModel.
 4. A new `Message` record is created with the user's prompt and then added to the `ListState` (ImmutableList).
 5. A new loading `Message` record is created and added to the `ListState`.
 6. A `ChatRequest` record is created with the user's message.
-7. The Model calls the `AskAsStream()` method with the `ChatRequest`.
+7. The MainModel calls the `AskAsStream()` method with the `ChatRequest`.
 8. An empty `ChatResponse` record is created.
 9. As the AI returns a response, the `ChatResponse` record is updated until the AI finishes.
 10. The loading `Message` record (created in step 5) is updated with the AI response.
