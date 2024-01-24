@@ -1,6 +1,6 @@
 # ChatGPT
 
-This is a ChatGPT Sample app using the OpenAI SDK. The app was built using C# Markup for the UI and MVUX as the design pattern, encouraging the flow of immutable data. Immutable records are used to manage state and ensure immutability.
+This is a ChatGPT Sample app using the OpenAI SDK. The app was built using C# Markup for the UI and MVUX for state management, encouraging the flow of immutable data. Records are used to manage state and ensure immutability.
 
 ## Getting Started
 
