@@ -47,18 +47,16 @@ public partial record MainModel
 		var message = Message.CreateLoading();
 		await Messages.AddAsync(message, ct);
 
-		var history = (await Messages)
-			.Where(msg => msg.Status is Status.Value)
-			.Select(msg => new ChatEntry(msg.Content!, msg.Source is Source.User))
-			.ToImmutableList();
+		var requestContent = await CreateRequest();
 
-		//Create ChatRequest record with history (Messages list)
-		var request = new ChatRequest(history);
+		//Create ChatRequest record with messages list
+		var request = new ChatRequest(requestContent);
 
 		var response = await _chatService.AskAsync(request);
 
 		//Update loading message with AI response as Message record
-		await Update(message, response, ct);
+		//Finds the message with same id and upadtes the instance
+		await Messages.UpdateAsync(message.Update(response), ct);
 	}
 
 	private async ValueTask AskAsStream(string prompt, CancellationToken ct)
@@ -77,31 +75,21 @@ public partial record MainModel
 		var message = Message.CreateLoading();
 		await Messages.AddAsync(message, ct);
 
-		var history = (await Messages)
-			.Where(msg => msg.Status is Status.Value)
-			.Select(msg => new ChatEntry(msg.Content!, msg.Source is Source.User))
-			.ToImmutableList();
+		var requestContent = await CreateRequest();
 
-		//Create ChatRequest record with history (Messages list)
-		var request = new ChatRequest(history);
+		//Create ChatRequest record with messages list
+		var request = new ChatRequest(requestContent);
 
 		await foreach (var response in _chatService.AskAsStream(request).WithCancellation(ct))
 		{
-			await Update(message, response, ct);
+			//Finds the message with same id and upadtes the instance
+			await Messages.UpdateAsync(message.Update(response), ct);
 		}
 	}
 
-	private async ValueTask Update (Message message, ChatResponse response, CancellationToken ct)
-	{
-		//Update record Message with new value coming from AI
-		message = message with
-		{
-			Content = response.Message,
-			Status = response.IsError ? Status.Error : Status.Value
-		};
-
-		//Update ListState thread-safe
-		//Finds the message with same id and upadtes the instance
-		await Messages.UpdateAsync(message, ct);
-	}
+	private async Task<ImmutableList<ChatEntry>> CreateRequest()
+		=> (await Messages)
+			.Where(msg => msg.Status is Status.Value)
+			.Select(msg => new ChatEntry(msg.Content!, msg.Source is Source.User))
+			.ToImmutableList();
 }
