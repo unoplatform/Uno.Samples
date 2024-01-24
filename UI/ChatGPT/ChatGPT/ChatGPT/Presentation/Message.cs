@@ -12,7 +12,7 @@ public partial record Message(Guid Id, Source Source, Status Status, string? Con
 	{
 	}
 
-	public Message Update(ChatResponse response)
+	public Message With(ChatResponse response)
 	{
 		return this with
 		{

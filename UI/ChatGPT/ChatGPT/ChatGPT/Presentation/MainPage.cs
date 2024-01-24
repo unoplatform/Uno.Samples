@@ -16,7 +16,7 @@ public sealed partial class MainPage : Page
 						.MaxWidth(500)
 						.Padding(10)
 						.Margin(10)
-						.RowDefinitions<Grid>("Auto,*,Auto")
+						.RowDefinitions("Auto,*,Auto")
 						.Children(
 							Header(vm),
 							Messages(vm),

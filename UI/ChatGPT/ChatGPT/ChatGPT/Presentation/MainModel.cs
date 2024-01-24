@@ -55,8 +55,8 @@ public partial record MainModel
 		var response = await _chatService.AskAsync(request);
 
 		//Update loading message with AI response as Message record
-		//Finds the message with same id and upadtes the instance
-		await Messages.UpdateAsync(message.Update(response), ct);
+		//Finds the message with same id and updates the instance
+		await Messages.UpdateAsync(message.With(response), ct);
 	}
 
 	private async ValueTask AskAsStream(string prompt, CancellationToken ct)
@@ -82,8 +82,8 @@ public partial record MainModel
 
 		await foreach (var response in _chatService.AskAsStream(request).WithCancellation(ct))
 		{
-			//Finds the message with same id and upadtes the instance
-			await Messages.UpdateAsync(message.Update(response), ct);
+			//Finds the message with same id and updates the instance
+			await Messages.UpdateAsync(message.With(response), ct);
 		}
 	}
 
