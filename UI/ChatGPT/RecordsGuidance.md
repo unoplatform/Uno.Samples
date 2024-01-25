@@ -2,7 +2,7 @@
 
 ## What is a Record
 
-A record behaves like a class, offering the feature of **immutability**, where the values assigned to it remain unchanged once set. It's possible to create records using the `record` modifier, for example:
+A [record](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/record) behaves like a class, offering the feature of **immutability**, where the values assigned to it remain unchanged once set. It's possible to create records using the `record` modifier, for example:
 
 ```csharp
 public record MyRecord()
