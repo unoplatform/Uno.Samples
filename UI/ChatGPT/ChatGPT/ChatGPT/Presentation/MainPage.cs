@@ -14,8 +14,9 @@ public sealed partial class MainPage : Page
 						.BorderThickness(1)
 						.CornerRadius(10)
 						.MaxWidth(500)
-						.Padding(10).Margin(0, 10)
-						.RowDefinitions<Grid>("Auto,*,Auto")
+						.Padding(10)
+						.Margin(10)
+						.RowDefinitions("Auto,*,Auto")
 						.Children(
 							Header(vm),
 							Messages(vm),
@@ -93,14 +94,14 @@ public sealed partial class MainPage : Page
 			.HorizontalAlignment(HorizontalAlignment.Right)
 			.Children(
 				new Border()
-					.Background(Colors.DarkSlateGray)
+					.Background(Theme.Brushes.Primary.Default)
 					.CornerRadius(10)
 					.MinWidth(70)
 					.MaxWidth(350)
 					.Padding(10)
 					.Child(
 						new TextBlock()
-							.Foreground(Colors.Yellow)
+							.Foreground(Theme.Brushes.OnPrimary.Default)
 							.HorizontalAlignment(HorizontalAlignment.Center)
 							.TextWrapping(TextWrapping.Wrap)
 							.Text(() => message.Content))
@@ -112,14 +113,14 @@ public sealed partial class MainPage : Page
 			.HorizontalAlignment(HorizontalAlignment.Left)
 			.Children(
 				new Border()
-					.Background(Colors.DarkGray)
+					.Background(Theme.Brushes.Secondary.Default)
 					.CornerRadius(10)
 					.MinWidth(70)
 					.MaxWidth(350)
 					.Padding(10)
 					.Child(
 						new TextBlock()
-							.Foreground(Colors.Black)
+							.Foreground(Theme.Brushes.OnSecondary.Default)
 							.HorizontalAlignment(HorizontalAlignment.Center)
 							.TextWrapping(TextWrapping.Wrap)
 							.Text(() => message.Content)
@@ -132,14 +133,14 @@ public sealed partial class MainPage : Page
 			.HorizontalAlignment(HorizontalAlignment.Left)
 			.Children(
 				new Border()
-					.Background(Colors.DarkGray)
+					.Background(Theme.Brushes.Error.Default)
 					.CornerRadius(10)
 					.MinWidth(70)
 					.MaxWidth(350)
 					.Padding(10)
 					.Child(
 						new TextBlock()
-							.Foreground(Colors.Red)
+							.Foreground(Theme.Brushes.OnError.Default)
 							.HorizontalAlignment(HorizontalAlignment.Center)
 							.TextWrapping(TextWrapping.Wrap)
 							.Text(() => message.Content)
@@ -152,35 +153,38 @@ public sealed partial class MainPage : Page
 			.HorizontalAlignment(HorizontalAlignment.Left)
 			.Children(
 				new Border()
-					.Background(Colors.DarkGray)
+					.Background(Theme.Brushes.Secondary.Default)
 					.CornerRadius(10)
 					.MinWidth(70)
 					.MaxWidth(350)
 					.Padding(10)
 					.Child(
 						new TextBlock()
-							.Foreground(Colors.Black)
+							.Foreground(Theme.Brushes.OnSecondary.Default)
 							.HorizontalAlignment(HorizontalAlignment.Center)
 							.TextWrapping(TextWrapping.Wrap)
 							.Text("...")
 					)
 			);
 
-	private StackPanel Prompt(BindableMainModel vm)
-		=> new StackPanel()
+	private Grid Prompt(BindableMainModel vm)
+		=> new Grid()
 			.Grid(row: 2)
+			.ColumnDefinitions("*, Auto")
 			.VerticalAlignment(VerticalAlignment.Bottom)
-			.HorizontalAlignment(HorizontalAlignment.Center)
-			.Orientation(Orientation.Horizontal)
-			.Spacing(10)
+			.HorizontalAlignment(HorizontalAlignment.Stretch)
 			.Children(
 				new TextBox()
-					.Width(300)
 					.PlaceholderText("Message ChatGPT")
 					.CommandExtensions(x => x.Command(() => vm.AskMessage))
 					.Text(x => x.Bind(() => vm.Prompt).TwoWay().UpdateSourceTrigger(UpdateSourceTrigger.PropertyChanged)),
 				new Button()
+					.Grid(column: 1)
+					.Style(Theme.Button.Styles.Icon)
 					.Command(() => vm.AskMessage)
-					.Content("Send")
+					.Content(
+						new PathIcon()
+							.Data("M2.01 21L23 12L2.01 3L2 10L17 12L2 14L2.01 21Z")
+					)
 		);
 }

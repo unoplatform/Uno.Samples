@@ -1,3 +1,5 @@
+using ChatGPT.Business;
+
 namespace ChatGPT.Presentation;
 
 public partial record Message(Guid Id, Source Source, Status Status, string? Content)
@@ -8,5 +10,14 @@ public partial record Message(Guid Id, Source Source, Status Status, string? Con
 	public Message(string userMessage)
 		: this(Guid.NewGuid(), Source.User, Status.Value, userMessage)
 	{
+	}
+
+	public Message With(ChatResponse response)
+	{
+		return this with
+		{
+			Content = response.Message,
+			Status = response.IsError ? Status.Error : Status.Value
+		};
 	}
 }
