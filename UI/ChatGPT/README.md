@@ -24,7 +24,7 @@ This is a ChatGPT Sample app using the OpenAI SDK. The app was built using C# Ma
  * [**MainPage.cs**](ChatGPT/ChatGPT/Presentation/MainPage.cs): Defines the main user interface using C# Markup.
  * [**MainModel.cs**](ChatGPT/ChatGPT/Presentation/MainModel.cs): Handle user input and methods to interact with the AI.
  * [**ChatService.cs**](ChatGPT/ChatGPT/Services/ChatService.cs): Manages communication with the OpenAI API using the OpenAI SDK. This file contains the code responsible for making requests to the OpenAI API and handling the responses.
- * [**Message.cs**](ChatGPT/ChatGPT/Presentation/Message.cs): Record that represents a message sent by user or the AI.
+ * [**Message.cs**](ChatGPT/ChatGPT/Presentation/Message.cs): Record that represents a message sent by the user or the AI.
  * [**ChatRequest.cs**](ChatGPT/ChatGPT/Business/ChatRequest.cs): Record representing a request sent to the ChatGPT model.
  * [**ChatResponse.cs**](ChatGPT/ChatGPT/Business/ChatResponse.cs): Record representing a response received from the ChatGPT model.
 
