@@ -56,7 +56,8 @@ public class App : Application
 				.ConfigureServices(
 					(context, services) =>
 					{
-						var apiKey = context.Configuration.GetSection("AppConfig:ApiKey").Value;
+						var section = context.Configuration.GetSection(nameof(AppConfig));
+						var apiKey = section[nameof(AppConfig.ApiKey)];
 						var useMockService = apiKey is null or { Length: 0 };
 
 						if (useMockService)
