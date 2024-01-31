@@ -53,12 +53,27 @@ public class App : Application
 						.EmbeddedSource<App>()
 						.Section<AppConfig>()
 				)
-				.ConfigureServices(services =>
-					services
-						.AddSingleton<OpenAiOptions, ChatAiOptions>()
-						.AddSingleton<IChatCompletionService, OpenAIService>()
-						.AddSingleton<IChatService, ChatService>()
-						.AddSingleton<BindableMainModel>())
+				.ConfigureServices(
+					(context, services) =>
+					{
+						var section = context.Configuration.GetSection(nameof(AppConfig));
+						var apiKey = section[nameof(AppConfig.ApiKey)];
+						var useMockService = apiKey is null or { Length: 0 };
+
+						if (useMockService)
+						{
+							services.AddSingleton<IChatService, MockChatService>();
+						}
+						else
+						{
+							services
+								.AddSingleton<OpenAiOptions, ChatAiOptions>()
+								.AddSingleton<IChatCompletionService, OpenAIService>()
+								.AddSingleton<IChatService, ChatService>();
+						}
+
+						services.AddSingleton<BindableMainModel>();
+					})
 			);
 		MainWindow = builder.Window;
 
