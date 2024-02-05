@@ -27,7 +27,7 @@ jobs:
           Write-Host "Adding $solutionPath"
           $item = New-Object 'System.Collections.Generic.Dictionary[String,String]'
           $item.Add("solutionPath", $sample.FullName)
-          $name = $containerName + "/" + $sample.Name.Split(".")[0]
+          $name = $containerName + "-" + $sample.Name.Split(".")[0]
           if(!$dict.ContainsKey($name)){
             $dict.Add($name, $item)
           }
