@@ -8,6 +8,7 @@ using System;
 using Uno.Extensions.Markup;
 using Uno.Extensions.Navigation.UI;
 using Uno.Material;
+using Uno.Themes;
 using Uno.Toolkit.UI;
 using Path = Microsoft.UI.Xaml.Shapes.Path;
 
