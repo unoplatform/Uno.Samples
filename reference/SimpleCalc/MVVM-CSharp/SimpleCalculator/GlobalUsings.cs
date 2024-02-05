@@ -13,6 +13,7 @@ global using Microsoft.UI.Xaml.Media;
 global using Microsoft.UI.Xaml.Navigation;
 global using Uno.Extensions.Markup;
 global using Uno.Material;
+global using Uno.Themes;
 global using Uno.Themes.Markup;
 global using Uno.Toolkit.UI;
 global using Uno.Toolkit.UI.Material;
