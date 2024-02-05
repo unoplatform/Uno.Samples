@@ -1,4 +1,4 @@
-﻿using Application = Microsoft.UI.Xaml.Application;
+using Application = Microsoft.UI.Xaml.Application;
 
 namespace SimpleCalculator;
 
@@ -16,13 +16,13 @@ public class App : Application
 
         // Do not repeat app initialization when the Window already has content,
         // just ensure that the window is active
-        if (_window.Content is not Frame rootFrame)
+        if (_window?.Content is not Frame rootFrame)
         {
             // Create a Frame to act as the navigation context and navigate to the first page
             rootFrame = new Frame();
 
             // Place the frame in the current Window
-            _window.Content = rootFrame;
+            _window!.Content = rootFrame;
         }
 
         if (rootFrame.Content == null)
