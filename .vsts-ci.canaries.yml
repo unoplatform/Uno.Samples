@@ -17,7 +17,7 @@ steps:
   displayName: 'Canary Update'
   condition: startsWith(variables['Build.SourceBranch'], 'refs/heads/canaries')
   inputs:
-    solution: Uno.Samples.generated.sln
+    solution: $(build.sourcesdirectory)
     usePrivateFeed: false
     useNuGetOrg: true
     mergeBranch: true
