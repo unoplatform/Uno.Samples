@@ -19,6 +19,7 @@ global using ChatGPT.Presentation;
 global using Uno.UI;
 global using Uno.Extensions.Markup;
 global using Uno.Material;
+global using Uno.Themes;
 global using Uno.Themes.Markup;
 global using Uno.Toolkit.UI;
 global using Uno.Toolkit.UI.Material;
