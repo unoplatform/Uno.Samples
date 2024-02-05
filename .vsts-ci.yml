@@ -17,7 +17,8 @@ jobs:
       foreach($sample in $samples){
 
         $solutionPath=[System.IO.Path]::GetDirectoryName($sample.FullName);
-        Write-Host "$solutionPath"
+        $containerName=[System.IO.Path]::GetFileName($solutionPath);
+        Write-Host "$solutionPath"  
 
         git diff --quiet HEAD "origin/$TargetBranch" -- "$solutionPath"
 
@@ -26,7 +27,7 @@ jobs:
           Write-Host "Adding $solutionPath"
           $item = New-Object 'System.Collections.Generic.Dictionary[String,String]'
           $item.Add("solutionPath", $sample.FullName)
-          $name = $sample.Name.Split(".")[0]
+          $name = $containerName + "/" + $sample.Name.Split(".")[0]
           if(!$dict.ContainsKey($name)){
             $dict.Add($name, $item)
           }
