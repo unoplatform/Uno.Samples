@@ -19,6 +19,9 @@ This is a ChatGPT Sample app using the OpenAI SDK. The app was built using [C# M
 }
 ```
 
+> [!NOTE]
+> If an API key is not provided, the app will use a MockService instead, providing hard-coded responses to simulate the AI's responses.
+
 ## Codebase
 
  * [**MainPage.cs**](ChatGPT/ChatGPT/Presentation/MainPage.cs): Defines the main user interface using C# Markup.
