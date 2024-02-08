@@ -12,10 +12,7 @@ public class ChatService(IChatCompletionService client) : IChatService
 	private readonly IChatCompletionService _client = client;
 
 	//System prompt is a brief instruction or context provided to the AI to guide its response or generation of text when using an API.
-	private const string systemPrompt = @"You are ChatGPT sample developed with Uno Platform using MVUX (Model-View-Update-eXtended) 
-										for state management and C# Markup for the UI. You are supposed to help people understand what Uno Platform is,
-										how to use it and everything Uno is capable of, including Themes,
-										Toolkit, Extensions (Navigation, MVUX, C# Markup). Be a helpful assistant.";
+	private const string systemPrompt = @"You are Uno ChatGPT Sample, a helpful assistant helping users to learn more about how to develop using Uno Platform.";
 
 	public async ValueTask<ChatResponse> AskAsync(ChatRequest chatRequest, CancellationToken ct = default)
 	{
