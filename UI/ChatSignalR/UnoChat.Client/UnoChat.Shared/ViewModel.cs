@@ -217,14 +217,14 @@ namespace UnoChat.Client
                 .Where(args => args.Action == NotifyCollectionChangedAction.Add)
                 .Select(args => args.NewItems.OfType<Message.Model>().FirstOrDefault())
                 .Where(model => model != null)
-                .Delay(TimeSpan.FromMilliseconds(10), Schedulers.Default) // Wait for the list view to have been updated
+                .Delay(TimeSpan.FromMilliseconds(10), Schedulers.Dispatcher) // Wait for the list view to have been updated
                 .ObserveOn(Schedulers.Dispatcher)
                 .Subscribe(messageObserver);
         }
 
         public IDisposable Activate(IObservable<object> messageToSendBoxReturn, IObserver<string> themeObserver, IObserver<Message.Model> messageObserver)
         {
-            return new CompositeDisposable(
+			return new CompositeDisposable(
                 ShouldUpdateStateWhenHubStateChanges(),
                 ShouldEnableConnectWhenNotConnected(),
                 ShouldEnableMessageToSendWhenConnected(),
