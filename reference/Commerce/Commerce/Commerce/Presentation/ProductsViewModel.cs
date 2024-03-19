@@ -6,7 +6,7 @@ public partial class ProductsViewModel
 
 	public ProductsViewModel(
 		IProductService products,
-		Filters? filter)
+		Filters filter)
 	{
 		_products = products;
 
@@ -15,7 +15,7 @@ public partial class ProductsViewModel
 
 	public IState<string> Term => State<string>.Value(this, () => "");
 
-	public IState<Filters?> Filter { get; }
+	public IState<Filters> Filter { get; }
 
 	public IListFeed<Product> Items => Feed
 		.Combine(Results, Filter)
