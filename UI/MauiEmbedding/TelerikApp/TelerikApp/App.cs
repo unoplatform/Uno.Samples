@@ -2,7 +2,7 @@ using TelerikApp.Business.Services;
 
 namespace TelerikApp;
 
-public class App : EmbeddingApplication
+public class App : Application
 {
 	protected Window? MainWindow { get; private set; }
 	protected IHost? Host { get; private set; }
