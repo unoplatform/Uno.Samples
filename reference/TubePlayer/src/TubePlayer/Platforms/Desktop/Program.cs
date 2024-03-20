@@ -1,6 +1,6 @@
 using Uno.UI.Runtime.Skia;
 
-namespace TubePlayer.Skia.Gtk;
+namespace TubePlayer;
 
 public class Program
 {

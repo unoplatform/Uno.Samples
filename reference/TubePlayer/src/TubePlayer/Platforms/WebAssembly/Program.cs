@@ -1,4 +1,4 @@
-namespace TubePlayer.Wasm;
+namespace TubePlayer;
 
 public class Program
 {

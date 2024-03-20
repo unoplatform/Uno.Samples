@@ -1,7 +1,7 @@
 <Project Sdk="Uno.Sdk">
   <PropertyGroup>
+    <TargetFrameworks>$(DotNetVersion)-browserwasm;$(DotNetVersion)-android;$(DotNetVersion)-ios;$(DotNetVersion)-maccatalyst;$(DotNetVersion)-desktop;$(DotNetVersion)</TargetFrameworks>
     <TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows')) or '$(EnableWindowsTargeting)' == 'true'">$(TargetFrameworks);$(DotNetVersion)-windows10.0.19041</TargetFrameworks>
-    <TargetFrameworks>$(TargetFrameworks);$(DotNetVersion);$(DotNetVersion)-android;$(DotNetVersion)-ios;$(DotNetVersion)-maccatalyst;$(DotNetVersion)-browserwasm;$(DotNetVersion)-desktop</TargetFrameworks>
     <TargetFrameworks Condition="'$(OverrideTargetFramework)'!=''">$(OverrideTargetFramework)</TargetFrameworks>
 
     <OutputType>Exe</OutputType>
@@ -26,15 +26,5 @@
     -->
     <!-- <WindowsSdkPackageVersion>10.0.22621.28</WindowsSdkPackageVersion> -->
   </PropertyGroup>
-  
-  <ItemGroup>
-    <!--TODO: Http in UnoFeatures is not bringing those-->
-    <!--<PackageReference Include="Uno.Extensions.Http.Refit" />
-    <PackageReference Include="Uno.Extensions.Http.WinUI" />-->
-
-    <!--TODO:Do we need these?-->
-    <!--<PackageReference Include="Uno.WinUI.MediaPlayer.WebAssembly" />
-    <PackageReference Include="VideoLAN.LibVLC.Windows" />-->
-  </ItemGroup>
 
 </Project>

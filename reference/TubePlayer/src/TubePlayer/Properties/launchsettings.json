@@ -7,14 +7,22 @@
       "sslPort": 0
     }
   },
-	"profiles": {
-		"TubePlayer.Windows (Unpackaged)": {
-			"commandName": "Project"
-		},
-		"TubePlayer.Windows (Package)": {
-			"commandName": "MsixPackage"
-		},
-    "TubePlayer.Wasm": {
+  "profiles": {
+    "TubePlayer (WinAppSDK Unpackaged)": {
+      "commandName": "Project"
+    },
+    "TubePlayer (WinAppSDK Packaged)": {
+      "commandName": "MsixPackage"
+    },
+    "TubePlayer (Desktop)": {
+      "commandName": "Project"
+    },
+    "TubePlayer (Desktop WSL2)": {
+      "commandName": "WSL2",
+      "commandLineArgs": "{ProjectDir}/bin/Debug/net8.0-desktop/TubePlayer.dll",
+      "distributionName": ""
+    },
+    "TubePlayer (Wasm)": {
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": true,
@@ -24,7 +32,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "IIS Express": {
+    "TubePlayer (Wasm - IIS Express)": {
       "commandName": "IISExpress",
       "launchBrowser": true,
       "inspectUri": "{wsProtocol}://{url.hostname}:{url.port}/_framework/debug/ws-proxy?browser={browserInspectUri}",
@@ -32,5 +40,5 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     }
-	}
+  }
 }

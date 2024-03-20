@@ -1,4 +1,4 @@
-namespace TubePlayer.Business.Models;
+namespace TubePlayer.Models;
 
 public record AppConfig
 {
