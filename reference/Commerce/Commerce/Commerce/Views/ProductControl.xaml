@@ -1,0 +1,184 @@
+﻿<UserControl x:Class="Commerce.Views.ProductControl"
+             xmlns:local="using:Commerce"
+             xmlns:uen="using:Uno.Extensions.Navigation.UI"
+             xmlns:uer="using:Uno.Extensions.Reactive.UI"
+             xmlns:utu="using:Uno.Toolkit.UI"
+             xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+             xmlns:um="using:Uno.Material"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d"
+             Background="{ThemeResource BackgroundBrush}"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+
+  <UserControl.Resources>
+    <x:String x:Key="Icon_Shopping_Cart">F1 M 4.5 12 C 3.6749999821186066 12 3.007500171661377 12.674999982118607 3.007500171661377 13.5 C 3.007500171661377 14.325000017881393 3.6749999821186066 15 4.5 15 C 5.325000017881393 15 6 14.325000017881393 6 13.5 C 6 12.674999982118607 5.325000017881393 12 4.5 12 Z M 0 0 L 0 1.5 L 1.5 1.5 L 4.199999928474426 7.192500114440918 L 3.1875 9.02999997138977 C 3.067500002682209 9.23999997228384 3 9.487500004470348 3 9.75 C 3 10.575000017881393 3.6749999821186066 11.25 4.5 11.25 L 13.5 11.25 L 13.5 9.75 L 4.815000057220459 9.75 C 4.710000056773424 9.75 4.627500057220459 9.667500000447035 4.627500057220459 9.5625 L 4.6499998569488525 9.472500085830688 L 5.325000286102295 8.25 L 10.912500143051147 8.25 C 11.475000143051147 8.25 11.969999425113201 7.942500203847885 12.22499942779541 7.4775002002716064 L 14.909999370574951 2.6100000143051147 C 14.969999369233847 2.50500001385808 15 2.3775000013411045 15 2.25 C 15 1.8374999910593033 14.662500008940697 1.5 14.25 1.5 L 3.1575000286102295 1.5 L 2.4524999856948853 0 L 0 0 Z M 12 12 C 11.174999982118607 12 10.507500171661377 12.674999982118607 10.507500171661377 13.5 C 10.507500171661377 14.325000017881393 11.174999982118607 15 12 15 C 12.825000017881393 15 13.5 14.325000017881393 13.5 13.5 C 13.5 12.674999982118607 12.825000017881393 12 12 12 Z</x:String>
+    <x:String x:Key="Icon_Star_Outline">F0 M 11.68863582611084 9 L 10 3.440704822540283 L 8.31136417388916 9 L 3.1229331493377686 9 L 7.348935604095459 12.015642166137695 L 5.707651615142822 17.31663703918457 L 9.999509811401367 14.054267883300781 L 14.303584098815918 17.320627212524414 L 12.661236763000488 12.016199111938477 L 16.881179809570312 9 L 11.68863582611084 9 Z M 20 8 L 13.829999923706055 12.40999984741211 L 16.18000030517578 20 L 10 15.309999465942383 L 3.8299999237060547 20 L 6.180000305175781 12.40999984741211 L 0 8 L 7.569999694824219 8 L 10 0 L 12.430000305175781 8 L 20 8 Z</x:String>
+    <x:String x:Key="Icon_Star_Rate">F1 M 12.430000305175781 8 L 10 0 L 7.569999694824219 8 L 0 8 L 6.180000305175781 12.40999984741211 L 3.8299999237060547 20 L 10 15.309999465942383 L 16.18000030517578 20 L 13.829999923706055 12.40999984741211 L 20 8 L 12.430000305175781 8 Z</x:String>
+  </UserControl.Resources>
+
+  <utu:AutoLayout Background="{ThemeResource BackgroundBrush}"
+                  uen:Region.Attached="True">
+    <utu:AutoLayout utu:AutoLayout.PrimaryAlignment="Stretch">
+
+      <utu:NavigationBar Content="Uno Commerce"
+                         Background="{ThemeResource PrimaryBrush}"
+                         Style="{StaticResource ModalNavigationBarStyle}"
+                         x:Uid="Product_Detail_Navigation_Bar" />
+      <ScrollViewer utu:AutoLayout.CounterAlignment="Stretch"
+                    utu:AutoLayout.PrimaryAlignment="Stretch">
+        <utu:AutoLayout Background="{StaticResource SurfaceBrush}">
+
+          <uer:FeedView Source="{Binding Product}"
+                        utu:AutoLayout.PrimaryAlignment="Stretch">
+            <DataTemplate>
+              <utu:AutoLayout Background="{ThemeResource SurfaceBrush}"
+                              DataContext="{Binding Data}">
+                <utu:AutoLayout Spacing="10"
+                                Padding="16,16,16,16"
+                                Orientation="Horizontal">
+                  <TextBlock Foreground="{ThemeResource OnSurfaceBrush}"
+                             TextWrapping="Wrap"
+                             Text="{Binding Name}"
+                             utu:AutoLayout.CounterAlignment="Start"
+                             utu:AutoLayout.PrimaryAlignment="Stretch"
+                             Style="{StaticResource HeadlineMedium}" />
+                  <ToggleButton IsChecked="{Binding IsFavorite, Mode=TwoWay}"
+                                Command="{utu:AncestorBinding Path=DataContext.ToggleIsFavorite,
+																				AncestorType=uer:FeedView}"
+                                utu:AutoLayout.CounterAlignment="Start"
+                                Style="{StaticResource IconToggleButtonStyle}"
+                                x:Uid="Product_Detail_IconToggleButton">
+                    <ToggleButton.Content>
+                      <PathIcon Data="{StaticResource Icon_Star_Rate}" />
+                    </ToggleButton.Content>
+                    <um:ControlExtensions.AlternateContent>
+                      <PathIcon Data="{StaticResource Icon_Star_Outline}" />
+                    </um:ControlExtensions.AlternateContent>
+                  </ToggleButton>
+                </utu:AutoLayout>
+                <utu:AutoLayout Padding="16,16,16,16">
+                  <Image Source="{Binding Photo}"
+                         Stretch="Uniform"
+                         MaxHeight="300" />
+                  <!--utu:AutoLayout.PrimaryLength="379" />-->
+                </utu:AutoLayout>
+                <utu:AutoLayout Padding="16,16,16,16">
+                  <utu:AutoLayout Justify="SpaceBetween"
+                                  Orientation="Horizontal">
+                    <TextBlock Foreground="{ThemeResource OnSurfaceLowBrush}"
+                               Text="{Binding Brand}"
+                               utu:AutoLayout.CounterAlignment="Start"
+                               Style="{StaticResource BodyLarge}" />
+                    <TextBlock Foreground="{ThemeResource PrimaryBrush}"
+                               Text="{Binding Price}"
+                               utu:AutoLayout.CounterAlignment="Start"
+                               Style="{StaticResource BodyLarge}" />
+                  </utu:AutoLayout>
+                </utu:AutoLayout>
+                <utu:Divider Style="{StaticResource DividerStyle}" />
+                <utu:AutoLayout Spacing="10"
+                                Padding="16,32,16,32">
+                  <Button Content="add to cart"
+                          Command="{utu:AncestorBinding Path=DataContext.AddToCart,
+																		  AncestorType=uer:FeedView}"
+                          utu:AutoLayout.PrimaryLength="40"
+                          Style="{StaticResource FilledButtonStyle}"
+                          x:Uid="Product_Detail_Button">
+                    <um:ControlExtensions.Icon>
+                      <PathIcon Data="{StaticResource Icon_Shopping_Cart}" />
+                    </um:ControlExtensions.Icon>
+                  </Button>
+                  <Button Content="save for later"
+                          utu:AutoLayout.PrimaryLength="40"
+                          Style="{StaticResource OutlinedButtonStyle}"
+                          x:Uid="Product_Detail_Button" />
+                </utu:AutoLayout>
+                <utu:Divider Style="{StaticResource DividerStyle}" />
+                <utu:AutoLayout Spacing="8"
+                                Padding="16,32,16,16">
+                  <TextBlock Foreground="{ThemeResource OnSurfaceBrush}"
+                             Text="Product details"
+                             utu:AutoLayout.CounterAlignment="Start"
+                             Style="{StaticResource TitleLarge}"
+                             x:Uid="Product_Detail_Product_Details" />
+                  <TextBlock Foreground="{ThemeResource OnSurfaceMediumBrush}"
+                             TextWrapping="Wrap"
+                             Text="{Binding Description}"
+                             Style="{StaticResource BodyMedium}" />
+                </utu:AutoLayout>
+                <utu:AutoLayout Spacing="8"
+                                Padding="16,32,16,8">
+                  <TextBlock Foreground="{ThemeResource OnSurfaceBrush}"
+                             Text="Reviews"
+                             utu:AutoLayout.CounterAlignment="Start"
+                             Style="{StaticResource TitleLarge}"
+                             x:Uid="Product_Detail_Reviews" />
+                  <muxc:RatingControl MaxRating="5"
+                                      Value="{Binding Rating, Mode=TwoWay}"
+                                      utu:AutoLayout.CounterAlignment="Start"
+                                      x:Uid="Product_Detail_RatingControl" />
+                </utu:AutoLayout>
+              </utu:AutoLayout>
+            </DataTemplate>
+          </uer:FeedView>
+          <uer:FeedView Source="{Binding Reviews}"
+                        utu:AutoLayout.PrimaryAlignment="Stretch">
+            <DataTemplate>
+              <ListView ItemsSource="{Binding Data}"
+                        uen:Navigation.Request="ListItem"
+                        Style="{StaticResource ListViewStyle}">
+                <ListView.ItemsPanel>
+                  <ItemsPanelTemplate>
+                    <ItemsStackPanel Orientation="Vertical" />
+                  </ItemsPanelTemplate>
+                </ListView.ItemsPanel>
+                <ListView.ItemTemplate>
+                  <DataTemplate>
+                    <utu:AutoLayout PrimaryAxisAlignment="Center">
+                      <utu:AutoLayout Spacing="16"
+                                      Padding="16,16,16,16"
+                                      Orientation="Horizontal">
+                        <utu:AutoLayout utu:AutoLayout.CounterAlignment="Center"
+                                        utu:AutoLayout.CounterLength="60">
+                          <utu:AutoLayout Orientation="Horizontal"
+                                          utu:AutoLayout.CounterAlignment="Start"
+                                          utu:AutoLayout.PrimaryAlignment="Stretch">
+                            <Border CornerRadius="45"
+                                    utu:AutoLayout.CounterAlignment="Start"
+                                    utu:AutoLayout.PrimaryLength="60"
+                                    utu:AutoLayout.CounterLength="60">
+                              <Image Source="{Binding Photo}"
+                                     Stretch="UniformToFill" />
+                            </Border>
+                          </utu:AutoLayout>
+                        </utu:AutoLayout>
+                        <utu:AutoLayout utu:AutoLayout.CounterAlignment="Center"
+                                        utu:AutoLayout.PrimaryAlignment="Stretch">
+                          <utu:AutoLayout PrimaryAxisAlignment="Center">
+                            <utu:AutoLayout PrimaryAxisAlignment="Center">
+                              <TextBlock Foreground="{ThemeResource OnSurfaceBrush}"
+                                         TextWrapping="Wrap"
+                                         Text="{Binding Name}"
+                                         Style="{StaticResource BodyMedium}" />
+                              <TextBlock Foreground="{ThemeResource OnSurfaceMediumBrush}"
+                                         TextWrapping="Wrap"
+                                         Text="{Binding Message}"
+                                         Style="{StaticResource BodyMedium}" />
+                            </utu:AutoLayout>
+                          </utu:AutoLayout>
+                        </utu:AutoLayout>
+                      </utu:AutoLayout>
+                    </utu:AutoLayout>
+                  </DataTemplate>
+                </ListView.ItemTemplate>
+              </ListView>
+            </DataTemplate>
+          </uer:FeedView>
+
+        </utu:AutoLayout>
+      </ScrollViewer>
+    </utu:AutoLayout>
+  </utu:AutoLayout>
+</UserControl>

@@ -1,0 +1,190 @@
+﻿<Page x:Class="Commerce.ProfilePage"
+      xmlns:local="using:Commerce"
+      xmlns:uen="using:Uno.Extensions.Navigation.UI"
+      xmlns:uer="using:Uno.Extensions.Reactive.UI"
+      xmlns:utu="using:Uno.Toolkit.UI"
+      xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+      xmlns:um="using:Uno.Material"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      Background="{ThemeResource BackgroundBrush}"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+
+  <Page.Resources>
+    <x:String x:Key="Icon_Arrow_Right">F1 M 0 10 L 5 5 L 0 0 L 0 10 Z</x:String>
+    <x:String x:Key="Icon_Help">F1 M 10 0 C 4.480000019073486 0 0 4.480000019073486 0 10 C 0 15.519999980926514 4.480000019073486 20 10 20 C 15.519999980926514 20 20 15.519999980926514 20 10 C 20 4.480000019073486 15.519999980926514 0 10 0 Z M 11 17 L 9 17 L 9 15 L 11 15 L 11 17 Z M 13.069999694824219 9.25 L 12.170000076293945 10.170000076293945 C 11.450000047683716 10.900000095367432 11 11.5 11 13 L 9 13 L 9 12.5 C 9 11.399999976158142 9.450000047683716 10.400000095367432 10.170000076293945 9.670000076293945 L 11.40999984741211 8.40999984741211 C 11.779999852180481 8.049999833106995 12 7.550000011920929 12 7 C 12 5.899999976158142 11.100000023841858 5 10 5 C 8.899999976158142 5 8 5.899999976158142 8 7 L 6 7 C 6 4.789999961853027 7.789999961853027 3 10 3 C 12.210000038146973 3 14 4.789999961853027 14 7 C 14 7.879999995231628 13.639999687671661 8.680000007152557 13.069999694824219 9.25 Z</x:String>
+    <x:String x:Key="Icon_Local_Shipping">F1 M 19 4 L 16 4 L 16 0 L 2 0 C 0.8999999761581421 0 0 0.8999999761581421 0 2 L 0 13 L 2 13 C 2 14.659999966621399 3.340000033378601 16 5 16 C 6.659999966621399 16 8 14.659999966621399 8 13 L 14 13 C 14 14.659999966621399 15.340000033378601 16 17 16 C 18.6599999666214 16 20 14.659999966621399 20 13 L 22 13 L 22 8 L 19 4 Z M 5 14.5 C 4.1700000166893005 14.5 3.5 13.8299999833107 3.5 13 C 3.5 12.1700000166893 4.1700000166893005 11.5 5 11.5 C 5.8299999833106995 11.5 6.5 12.1700000166893 6.5 13 C 6.5 13.8299999833107 5.8299999833106995 14.5 5 14.5 Z M 18.5 5.5 L 20.459999084472656 8 L 16 8 L 16 5.5 L 18.5 5.5 Z M 17 14.5 C 16.1700000166893 14.5 15.5 13.8299999833107 15.5 13 C 15.5 12.1700000166893 16.1700000166893 11.5 17 11.5 C 17.8299999833107 11.5 18.5 12.1700000166893 18.5 13 C 18.5 13.8299999833107 17.8299999833107 14.5 17 14.5 Z</x:String>
+    <x:String x:Key="Icon_Person">F1 M 8 8 C 10.210000038146973 8 12 6.210000038146973 12 4 C 12 1.7899999618530273 10.210000038146973 0 8 0 C 5.789999961853027 0 4 1.7899999618530273 4 4 C 4 6.210000038146973 5.789999961853027 8 8 8 Z M 8 10 C 5.329999923706055 10 0 11.339999914169312 0 14 L 0 16 L 16 16 L 16 14 C 16 11.339999914169312 10.670000076293945 10 8 10 Z</x:String>
+    <x:String x:Key="Icon_Settings">F1 M 16.47800064086914 10.539999008178711 C 16.51800063997507 10.239998996257782 16.538002014160156 9.930000394582748 16.538002014160156 9.600000381469727 C 16.538002014160156 9.280000388622284 16.518000412732363 8.959999859333038 16.468000411987305 8.65999984741211 L 18.498001098632812 7.0799994468688965 C 18.67800110578537 6.93999944627285 18.728001937270164 6.669999793171883 18.61800193786621 6.46999979019165 L 16.698001861572266 3.1500000953674316 C 16.578001864254475 2.9300000965595245 16.328001707792282 2.8599998280406 16.108001708984375 2.929999828338623 L 13.717999458312988 3.8899998664855957 C 13.217999458312988 3.5099998712539673 12.688000500202179 3.1899998039007187 12.098000526428223 2.9499998092651367 L 11.73799991607666 0.4099998474121094 C 11.69799991697073 0.1699998527765274 11.498000368475914 0 11.258000373840332 0 L 7.418000221252441 0 C 7.178000226616859 0 6.987999953329563 0.1699998527765274 6.947999954223633 0.4099998474121094 L 6.588000297546387 2.9499998092651367 C 5.99800032377243 3.1899998039007187 5.458000421524048 3.519999861717224 4.968000411987305 3.8899998664855957 L 2.578000068664551 2.929999828338623 C 2.3580000698566437 2.8499998301267624 2.1080003902316093 2.9300000965595245 1.9880003929138184 3.1500000953674316 L 0.07800034433603287 6.46999979019165 C -0.04199965298175812 6.6799997836351395 -0.001999765634536743 6.93999944627285 0.1980002373456955 7.0799994468688965 L 2.2280001640319824 8.65999984741211 C 2.1780001632869244 8.959999859333038 2.13800048828125 9.29000037908554 2.13800048828125 9.600000381469727 C 2.13800048828125 9.910000383853912 2.1580001823604107 10.239998996257782 2.2080001831054688 10.539999008178711 L 0.17800025641918182 12.120000839233398 C -0.0019997507333755493 12.260000839829445 -0.05199963599443436 12.529999539256096 0.058000363409519196 12.729999542236328 L 1.9780001640319824 16.05000114440918 C 2.0980001613497734 16.270001143217087 2.348000317811966 16.340000458061695 2.568000316619873 16.270000457763672 L 4.958000183105469 15.309999465942383 C 5.458000183105469 15.689999461174011 5.9880000948905945 16.010000005364418 6.578000068664551 16.25 L 6.938000679016113 18.790000915527344 C 6.988000679761171 19.030000910162926 7.178000226616859 19.200000762939453 7.418000221252441 19.200000762939453 L 11.258000373840332 19.200000762939453 C 11.498000368475914 19.200000762939453 11.698000641539693 19.030000910162926 11.72800064086914 18.790000915527344 L 12.088000297546387 16.25 C 12.678000271320343 16.010000005364418 13.218001127243042 15.689999461174011 13.708001136779785 15.309999465942383 L 16.09800148010254 16.270000457763672 C 16.318001478910446 16.350000455975533 16.56800163537264 16.270001143217087 16.68800163269043 16.05000114440918 L 18.608001708984375 12.729999542236328 C 18.728001706302166 12.509999543428421 18.67800086736679 12.260000839829445 18.488000869750977 12.120000839233398 L 16.47800064086914 10.539999008178711 Z M 9.338000297546387 13.200000762939453 C 7.3580002784729 13.200000762939453 5.73799991607666 11.580000400543213 5.73799991607666 9.600000381469727 C 5.73799991607666 7.62000036239624 7.3580002784729 5.999999523162842 9.338000297546387 5.999999523162842 C 11.318000316619873 5.999999523162842 12.938000679016113 7.62000036239624 12.938000679016113 9.600000381469727 C 12.938000679016113 11.580000400543213 11.318000316619873 13.200000762939453 9.338000297546387 13.200000762939453 Z</x:String>
+  </Page.Resources>
+
+  <utu:AutoLayout Background="{ThemeResource BackgroundBrush}"
+                  uen:Region.Attached="True"
+                  MaxWidth="{StaticResource LandscapeMaxPageWidth}">
+    <utu:AutoLayout Background="{ThemeResource SurfaceBrush}"
+                    utu:AutoLayout.PrimaryAlignment="Stretch">
+      <uer:FeedView Source="{Binding Profile}">
+        <DataTemplate>
+          <utu:AutoLayout Spacing="16"
+                          Padding="32,48,32,8"
+                          DataContext="{Binding Data}">
+            <PersonPicture ProfilePicture="{Binding Avatar}"
+                           utu:AutoLayout.CounterAlignment="Start"
+                           utu:AutoLayout.PrimaryLength="60"
+                           utu:AutoLayout.CounterLength="60"
+                           x:Uid="Profile_PersonPicture" />
+            <TextBlock Foreground="{ThemeResource OnSurfaceBrush}"
+                       Text="{Binding FullName}"
+                       utu:AutoLayout.CounterAlignment="Start"
+                       Style="{StaticResource HeadlineSmall}" />
+          </utu:AutoLayout>
+        </DataTemplate>
+      </uer:FeedView>
+      <utu:AutoLayout Spacing="8"
+                      Padding="24,24,24,24"
+                      CornerRadius="4">
+        <utu:AutoLayout Orientation="Horizontal">
+          <utu:AutoLayout Padding="8,8,8,8"
+                          Justify="SpaceBetween"
+                          Orientation="Horizontal"
+                          utu:AutoLayout.CounterAlignment="Start"
+                          utu:AutoLayout.PrimaryAlignment="Stretch">
+            <utu:AutoLayout Padding="0,0,16,0"
+                            Orientation="Horizontal"
+                            utu:AutoLayout.CounterAlignment="Center">
+              <PathIcon Data="{StaticResource Icon_Person}"
+                        Foreground="{ThemeResource OnSurfaceLowBrush}"
+                        utu:AutoLayout.CounterAlignment="Start" />
+            </utu:AutoLayout>
+            <utu:AutoLayout Padding="0,2,0,2"
+                            Orientation="Horizontal"
+                            utu:AutoLayout.CounterAlignment="Center"
+                            utu:AutoLayout.PrimaryAlignment="Stretch">
+              <TextBlock Foreground="{ThemeResource OnSurfaceBrush}"
+                         Text="Account"
+                         utu:AutoLayout.CounterAlignment="Center"
+                         Style="{StaticResource BodyMedium}"
+                         x:Uid="Profile_Label" />
+            </utu:AutoLayout>
+            <utu:AutoLayout Padding="16,0,0,0"
+                            Orientation="Horizontal"
+                            utu:AutoLayout.CounterAlignment="Center">
+              <PathIcon Data="{StaticResource Icon_Arrow_Right}"
+                        Foreground="{ThemeResource OnSurfaceBrush}"
+                        utu:AutoLayout.CounterAlignment="Start" />
+            </utu:AutoLayout>
+          </utu:AutoLayout>
+        </utu:AutoLayout>
+        <utu:Divider Style="{StaticResource DividerStyle}" />
+        <utu:AutoLayout Orientation="Horizontal">
+          <utu:AutoLayout Padding="8,8,8,8"
+                          Justify="SpaceBetween"
+                          Orientation="Horizontal"
+                          utu:AutoLayout.CounterAlignment="Start"
+                          utu:AutoLayout.PrimaryAlignment="Stretch">
+            <utu:AutoLayout Padding="0,0,16,0"
+                            Orientation="Horizontal"
+                            utu:AutoLayout.CounterAlignment="Center">
+              <PathIcon Data="{StaticResource Icon_Settings}"
+                        Foreground="{ThemeResource OnSurfaceLowBrush}"
+                        utu:AutoLayout.CounterAlignment="Start" />
+            </utu:AutoLayout>
+            <utu:AutoLayout Padding="0,2,0,2"
+                            Orientation="Horizontal"
+                            utu:AutoLayout.CounterAlignment="Center"
+                            utu:AutoLayout.PrimaryAlignment="Stretch">
+              <TextBlock Foreground="{ThemeResource OnSurfaceBrush}"
+                         Text="Settings"
+                         utu:AutoLayout.CounterAlignment="Center"
+                         Style="{StaticResource BodyMedium}"
+                         x:Uid="Profile_Label" />
+            </utu:AutoLayout>
+            <utu:AutoLayout Padding="16,0,0,0"
+                            Orientation="Horizontal"
+                            utu:AutoLayout.CounterAlignment="Center">
+              <PathIcon Data="{StaticResource Icon_Arrow_Right}"
+                        Foreground="{ThemeResource OnSurfaceBrush}"
+                        utu:AutoLayout.CounterAlignment="Start" />
+            </utu:AutoLayout>
+          </utu:AutoLayout>
+        </utu:AutoLayout>
+        <utu:Divider Style="{StaticResource DividerStyle}" />
+        <utu:AutoLayout Orientation="Horizontal">
+          <utu:AutoLayout Padding="8,8,8,8"
+                          Justify="SpaceBetween"
+                          Orientation="Horizontal"
+                          utu:AutoLayout.CounterAlignment="Start"
+                          utu:AutoLayout.PrimaryAlignment="Stretch">
+            <utu:AutoLayout Padding="0,0,16,0"
+                            Orientation="Horizontal"
+                            utu:AutoLayout.CounterAlignment="Center">
+              <PathIcon Data="{StaticResource Icon_Local_Shipping}"
+                        Foreground="{ThemeResource OnSurfaceLowBrush}"
+                        utu:AutoLayout.CounterAlignment="Start" />
+            </utu:AutoLayout>
+            <utu:AutoLayout Padding="0,2,0,2"
+                            Orientation="Horizontal"
+                            utu:AutoLayout.CounterAlignment="Center"
+                            utu:AutoLayout.PrimaryAlignment="Stretch">
+              <TextBlock Foreground="{ThemeResource OnSurfaceBrush}"
+                         Text="Orders"
+                         utu:AutoLayout.CounterAlignment="Center"
+                         Style="{StaticResource BodyMedium}"
+                         x:Uid="Profile_Label" />
+            </utu:AutoLayout>
+            <utu:AutoLayout Padding="16,0,0,0"
+                            Orientation="Horizontal"
+                            utu:AutoLayout.CounterAlignment="Center">
+              <PathIcon Data="{StaticResource Icon_Arrow_Right}"
+                        Foreground="{ThemeResource OnSurfaceBrush}"
+                        utu:AutoLayout.CounterAlignment="Start" />
+            </utu:AutoLayout>
+          </utu:AutoLayout>
+        </utu:AutoLayout>
+        <utu:Divider Style="{StaticResource DividerStyle}" />
+        <utu:AutoLayout Orientation="Horizontal">
+          <utu:AutoLayout Padding="8,8,8,8"
+                          Justify="SpaceBetween"
+                          Orientation="Horizontal"
+                          utu:AutoLayout.CounterAlignment="Start"
+                          utu:AutoLayout.PrimaryAlignment="Stretch">
+            <utu:AutoLayout Padding="0,0,16,0"
+                            Orientation="Horizontal"
+                            utu:AutoLayout.CounterAlignment="Center">
+              <PathIcon Data="{StaticResource Icon_Help}"
+                        Foreground="{ThemeResource OnSurfaceLowBrush}"
+                        utu:AutoLayout.CounterAlignment="Start" />
+            </utu:AutoLayout>
+            <utu:AutoLayout Padding="0,2,0,2"
+                            Orientation="Horizontal"
+                            utu:AutoLayout.CounterAlignment="Center"
+                            utu:AutoLayout.PrimaryAlignment="Stretch">
+              <TextBlock Foreground="{ThemeResource OnSurfaceBrush}"
+                         Text="Help"
+                         utu:AutoLayout.CounterAlignment="Center"
+                         Style="{StaticResource BodyMedium}"
+                         x:Uid="Profile_Label" />
+            </utu:AutoLayout>
+            <utu:AutoLayout Padding="16,0,0,0"
+                            Orientation="Horizontal"
+                            utu:AutoLayout.CounterAlignment="Center">
+              <PathIcon Data="{StaticResource Icon_Arrow_Right}"
+                        Foreground="{ThemeResource OnSurfaceBrush}"
+                        utu:AutoLayout.CounterAlignment="Start" />
+            </utu:AutoLayout>
+          </utu:AutoLayout>
+        </utu:AutoLayout>
+      </utu:AutoLayout>
+      <utu:AutoLayout Padding="24,24,24,24"
+                      utu:AutoLayout.PrimaryAlignment="Stretch">
+        <Button Content="Log out"
+                utu:AutoLayout.PrimaryLength="40"
+                Style="{StaticResource OutlinedButtonStyle}"
+                x:Uid="Profile_Button"
+                Command="{Binding Logout}" />
+      </utu:AutoLayout>
+    </utu:AutoLayout>
+  </utu:AutoLayout>
+</Page>

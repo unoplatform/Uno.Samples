@@ -1,0 +1,222 @@
+<Project Sdk="Uno.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>$(TargetFrameworks);$(DotNetVersion);$(DotNetVersion)-browserwasm;$(DotNetVersion)-android;$(DotNetVersion)-ios;$(DotNetVersion)-maccatalyst;$(DotNetVersion)-desktop</TargetFrameworks>
+    <TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows')) or '$(EnableWindowsTargeting)' == 'true'">$(TargetFrameworks);$(DotNetVersion)-windows10.0.19041</TargetFrameworks>
+    <TargetFrameworks Condition="'$(OverrideTargetFramework)'!=''">$(OverrideTargetFramework)</TargetFrameworks>
+
+    <OutputType>Exe</OutputType>
+    <SingleProject>true</SingleProject>
+
+    <!-- Display name -->
+    <ApplicationTitle>Commerce</ApplicationTitle>
+    <!-- App Identifier -->
+    <ApplicationId>com.companyname.commerce</ApplicationId>
+    <!-- Versions -->
+    <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
+    <ApplicationVersion>1</ApplicationVersion>
+    <!--
+      If you encounter this error message:
+
+        error NETSDK1148: A referenced assembly was compiled using a newer version of Microsoft.Windows.SDK.NET.dll.
+        Please update to a newer .NET SDK in order to reference this assembly.
+
+      This means that the two packages below must be aligned with the "build" version number of
+      the "Microsoft.Windows.SDK.BuildTools" package above, and the "revision" version number
+      must be the highest found in https://www.nuget.org/packages/Microsoft.Windows.SDK.NET.Ref.
+    -->
+    <!-- <WindowsSdkPackageVersion>10.0.22621.28</WindowsSdkPackageVersion> -->
+  </PropertyGroup>
+  <!--<ItemGroup>
+    <Compile Remove="Business\CartService.cs" />
+    <Compile Remove="Business\DealService.cs" />
+    <Compile Remove="Business\ICartService.cs" />
+    <Compile Remove="Business\IDealService.cs" />
+    <Compile Remove="Business\IProductService.cs" />
+    <Compile Remove="Business\IProfileService.cs" />
+    <Compile Remove="Business\Models\Cart.cs" />
+    <Compile Remove="Business\Models\CartItem.cs" />
+    <Compile Remove="Business\Models\Product.cs" />
+    <Compile Remove="Business\Models\Profile.cs" />
+    <Compile Remove="Business\Models\Review.cs" />
+    <Compile Remove="Business\ProductServices.cs" />
+    <Compile Remove="Business\ProfileService.cs" />
+    <Compile Remove="Data\IProductEndpoint.cs" />
+    <Compile Remove="Data\Models\ProductData.cs" />
+    <Compile Remove="Data\Models\ProfileData.cs" />
+    <Compile Remove="Data\Models\ReviewData.cs" />
+    <Compile Remove="Data\ProductEndpoint.cs" />
+    <Compile Remove="Presentation\CartProductDetailsViewModel.cs" />
+    <Compile Remove="Presentation\CartViewModel.cs" />
+    <Compile Remove="Presentation\DealsViewModel.cs" />
+    <Compile Remove="Presentation\Filters.cs" />
+    <Compile Remove="Presentation\FiltersViewModel.cs" />
+    <Compile Remove="Presentation\LoginViewModel.cs" />
+    <Compile Remove="Presentation\ProductDetailsViewModel.cs" />
+    <Compile Remove="Presentation\ProductsViewModel.cs" />
+    <Compile Remove="Presentation\ProfileViewModel.cs" />
+    <Compile Remove="Presentation\ShellViewModel.cs" />
+    <Compile Remove="Styles\FeedView.xaml.cs" />
+    <Compile Remove="Styles\NavigationBar.xaml.cs" />
+    <Compile Remove="Views\CartFlyout.xaml.cs" />
+    <Compile Remove="Views\CartPage.xaml.cs" />
+    <Compile Remove="Views\CheckoutPage.xaml.cs" />
+    <Compile Remove="Views\DealsPage.xaml.cs" />
+    <Compile Remove="Views\FilterPage.xaml.cs" />
+    <Compile Remove="Views\HomePage.xaml.cs" />
+    <Compile Remove="Views\LoginPage.xaml.cs" />
+    <Compile Remove="Views\ProductControl.xaml.cs" />
+    <Compile Remove="Views\ProductDetailsPage.xaml.cs" />
+    <Compile Remove="Views\ProductsPage.xaml.cs" />
+    <Compile Remove="Views\ProfilePage.xaml.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Styles\FeedView.xaml" />
+    <None Remove="Styles\NavigationBar.xaml" />
+    <None Remove="Views\CartFlyout.xaml" />
+    <None Remove="Views\CartPage.xaml" />
+    <None Remove="Views\CheckoutPage.xaml" />
+    <None Remove="Views\DealsPage.xaml" />
+    <None Remove="Views\FilterPage.xaml" />
+    <None Remove="Views\HomePage.xaml" />
+    <None Remove="Views\LoginPage.xaml" />
+    <None Remove="Views\ProductControl.xaml" />
+    <None Remove="Views\ProductDetailsPage.xaml" />
+    <None Remove="Views\ProductsPage.xaml" />
+    <None Remove="Views\ProfilePage.xaml" />
+  </ItemGroup>-->
+
+  <ItemGroup>
+    <ProjectReference Include="..\Commerce.DataContracts\Commerce.DataContracts.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Styles\FeedView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Styles\FeedView.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Styles\NavigationBar.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Styles\NavigationBar.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Views\CartFlyout.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Views\CartFlyout.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Views\CartPage.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Views\CartPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Views\CheckoutPage.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Views\CheckoutPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Views\DealsPage.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Views\DealsPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Views\FilterPage.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Views\FilterPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Views\HomePage.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Views\HomePage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Views\LoginPage.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Views\LoginPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Views\ProductControl.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Views\ProductControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Views\ProductDetailsPage.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Views\ProductDetailsPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Views\ProductsPage.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Views\ProductsPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Views\ProfilePage.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Views\ProfilePage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+</Project>

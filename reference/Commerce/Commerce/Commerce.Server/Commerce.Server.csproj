@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>$(DotNetVersion)</TargetFramework>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Commerce\Commerce.csproj"
+                      SetTargetFramework="TargetFramework=$(DotNetVersion)-browserwasm"
+                      AdditionalProperties="OutputPath=$(MSBuildProjectDirectory)\$(OutputPath)"
+                      ReferenceOutputAssembly="false" />
+    <ProjectReference Include="..\Commerce.DataContracts\Commerce.DataContracts.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Swashbuckle.AspNetCore" />
+    <PackageReference Include="Uno.Wasm.Bootstrap.Server" />
+  </ItemGroup>
+
+</Project>
