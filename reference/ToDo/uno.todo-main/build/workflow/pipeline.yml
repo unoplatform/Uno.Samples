@@ -1,0 +1,59 @@
+trigger:
+  branches:
+    include:
+      - main
+      - beta
+      - release/beta/*
+      - stable
+      - release/stable/*
+
+pr: 
+  branches:
+    include:
+      - main
+      - beta
+      - release/beta/*
+      - stable
+      - release/stable/*
+
+variables:
+  # Path where packages (nuget or app packages) will be copied to.
+  PackageOutputPath: $(Build.ArtifactStagingDirectory)
+
+  IsCanaryBranch: $[startsWith(variables['Build.SourceBranch'], 'refs/heads/canaries/')]
+  IsReleaseBranch: $[or(eq(variables['Build.SourceBranch'], 'refs/heads/main'), startsWith(variables['Build.SourceBranch'], 'refs/heads/feature/'), startsWith(variables['Build.SourceBranch'], 'refs/heads/release/'))]
+
+  ANDROID_NDK_HOME: C:\Microsoft\AndroidNDK64\android-ndk-r16b
+  ANDROID_NDK_PATH: C:\Microsoft\AndroidNDK64\android-ndk-r16b
+  AndroidNdkDirectory: C:\Microsoft\AndroidNDK64\android-ndk-r16b
+
+jobs:
+- job: Windows
+  pool:
+    vmImage: windows-2022
+  
+  steps:
+  - template: templates/gitversion.yml
+  - template: templates/dotnet6-install-windows.yml
+
+   # This SDK version is needed as long as `uap10.0` will be supported in Uno.Core
+  - powershell: .\build\Install-WindowsSdkISO.ps1 18362
+    displayName: Install Windows SDK 18362
+
+  - task: MSBuild@1
+    inputs:
+      solution: src/ToDo.sln
+      msbuildArguments: /r /m /p:Configuration=Release "/p:PackageOutputPath=$(build.artifactstagingdirectory)\nuget" "/p:PackageVersion=%GITVERSION_FullSemVer%" "/p:InformationalVersion=%GITVERSION_InformationalVersion%" /detailedsummary /bl:$(build.artifactstagingdirectory)\todo.binlog
+      clean: false
+      restoreNugetPackages: false
+      logProjectEvents: false
+      createLogFile: false
+
+  - task: PublishBuildArtifacts@1
+    condition: always()
+    inputs:
+      PathtoPublish: $(build.artifactstagingdirectory)
+      ArtifactName: uno-ui-toolkit-drop
+      ArtifactType: Container
+
+- template: uitests-wasm.yml

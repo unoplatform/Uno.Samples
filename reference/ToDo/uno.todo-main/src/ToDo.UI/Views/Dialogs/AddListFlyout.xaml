@@ -1,0 +1,60 @@
+﻿<Page x:Class="ToDo.Views.Dialogs.AddListFlyout"
+	  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	  xmlns:local="using:ToDo.Views.Dialogs"
+	  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	  xmlns:uen="using:Uno.Extensions.Navigation.UI"
+	  xmlns:utu="using:Uno.Toolkit.UI"
+	  xmlns:um="using:Uno.Material"
+	  mc:Ignorable="d"
+	  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+	<Page.Resources>
+		<x:String x:Key="Icon_Add">F1 M 14 8 L 8 8 L 8 14 L 6 14 L 6 8 L 0 8 L 0 6 L 6 6 L 6 0 L 8 0 L 8 6 L 14 6 L 14 8 Z</x:String>
+	</Page.Resources>
+
+	<utu:AutoLayout Spacing="20"
+					Padding="20,20,20,20"
+					CornerRadius="8"
+					Background="{ThemeResource SurfaceBrush}">
+
+		<TextBlock x:Uid="AddListFlyout_PageTitle"
+			Foreground="{ThemeResource OnSurfaceBrush}"
+				   TextWrapping="Wrap"
+				   Text="New list"
+				   Style="{StaticResource TitleLarge}" />
+
+		<TextBox x:Uid="AddListFlyout_ListNameInput"
+				 PlaceholderText="Write the title"
+				 x:Name="ListNameText"
+				 Style="{StaticResource FilledTextBoxStyle}" />
+
+		<utu:AutoLayout Spacing="10" Orientation="Horizontal">
+
+			<utu:AutoLayout Spacing="10"
+							Orientation="Horizontal"
+							utu:AutoLayout.CounterAlignment="Start"
+							utu:AutoLayout.PrimaryAlignment="Stretch" />
+
+			<Button x:Uid="AddListFlyout_CancelButton"
+					Content="Cancel"
+					uen:Navigation.Request="-"
+					utu:AutoLayout.CounterAlignment="Start"
+					Style="{StaticResource TextButtonStyle}" />
+
+			<Button x:Uid="AddListFlyout_CreateButton"
+					Content="Create"
+					uen:Navigation.Request="-"
+					uen:Navigation.Data="{Binding Text, ElementName=ListNameText}"
+					utu:AutoLayout.CounterAlignment="Start"
+					IsEnabled="{Binding ElementName=ListNameText, Path=Text, Converter={StaticResource IsNotNullNorWhitespace}}"
+					Style="{StaticResource FilledButtonStyle}">
+				<um:ControlExtensions.Icon>
+					<PathIcon Data="{StaticResource Icon_Add}" />
+				</um:ControlExtensions.Icon>
+			</Button>
+
+		</utu:AutoLayout>
+	</utu:AutoLayout>
+</Page>

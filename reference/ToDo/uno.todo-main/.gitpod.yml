@@ -1,0 +1,41 @@
+image:
+  file: build/gitpod/.gitpod.Dockerfile
+
+ports:
+  # Default port for the SampleApp
+  - port: 8000
+    onOpen: open-preview
+
+  # Port for the Remote Control server
+  - port: 53487
+
+tasks:
+  # Mitigation for https://github.com/gitpod-io/gitpod/issues/6460 
+  - name: Postinstall .NET 6.0 and dev certificates
+    init: |
+      mkdir -p $DOTNET_ROOT && curl -fsSL https://dot.net/v1/dotnet-install.sh | bash /dev/stdin --channel $DOTNET_VERSION --install-dir $DOTNET_ROOT 
+      dotnet dev-certs https 
+
+  # This task is run during pre-build and it's log and built results are
+  # restored as part of the workspace initialization.
+  - prebuild: build/gitpod/build-wasm.sh
+    command: export NUGET_PACKAGES=/workspace/.nuget
+
+github:
+  prebuilds:
+    # enable for the master/default branch (defaults to true)
+    master: true
+    # enable for all branches in this repo (defaults to false)
+    branches: false
+    # enable for pull requests coming from this repo (defaults to true)
+    pullRequests: true
+    # enable for pull requests coming from forks (defaults to false)
+    pullRequestsFromForks: true
+    # add a check to pull requests (defaults to true)
+    addCheck: true
+    # add a "Review in Gitpod" button as a comment to pull requests (defaults to false)
+    addComment: true
+    # add a "Review in Gitpod" button to the pull request's description (defaults to false)
+    addBadge: false
+    # add a label once the prebuild is ready to pull requests (defaults to false)
+    addLabel: false

@@ -1,0 +1,7 @@
+<Project ToolsVersion="15.0" >
+
+	<!-- Uno.WinUI.MSAL references Uno.WinUI for windows10 tfm. This target
+		overrides the protection in uno.winui.targets that raises an error 
+		that breaks build -->
+	<Target Name="_WinAppSDKNotSupported" BeforeTargets="BeforeBuild" />
+</Project>

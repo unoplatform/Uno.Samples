@@ -1,0 +1,47 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<Nullable>enable</Nullable>
+
+		<IsPackable>false</IsPackable>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="coverlet.collector"  Version="3.1.0"/>
+		<PackageReference Include="Microsoft.NET.Test.Sdk"  Version="17.3.0"/>
+		<PackageReference Include="NUnit"  Version="3.13.2"/>
+		<PackageReference Include="NUnit3TestAdapter" Version="4.0.0"/>
+		<PackageReference Include="Uno.WinUI.MSAL" Version="$(UnoVersion)" />
+		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.0.0"/>
+		<PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.1"/>
+		<PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="6.0.0"/>
+		<PackageReference Include="Microsoft.Extensions.Logging" Version="6.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Console" Version="6.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Http" Version="6.0.0"/>
+		<PackageReference Include="Refit" Version="6.3.2" />
+		<PackageReference Include="Refit.HttpClientFactory" Version="6.3.2" />
+
+		<PackageReference Include="Uno.UI.Adapter.Microsoft.Extensions.Logging"  Version="$(UnoVersion)" />
+
+		<PackageReference Include="Uno.Extensions.Authentication" Version="$(UnoExtensionsVersion)" />
+		<PackageReference Include="Uno.Extensions.Configuration" Version="$(UnoExtensionsVersion)" />
+		<PackageReference Include="Uno.Extensions.Core" Version="$(UnoExtensionsVersion)" />
+		<PackageReference Include="Uno.Extensions.Hosting" Version="$(UnoExtensionsVersion)" />
+		<PackageReference Include="Uno.Extensions.Http" Version="$(UnoExtensionsVersion)" />
+		<PackageReference Include="Uno.Extensions.Http.Refit" Version="$(UnoExtensionsVersion)" />
+		<PackageReference Include="Uno.Extensions.Localization" Version="$(UnoExtensionsVersion)" />
+		<PackageReference Include="Uno.Extensions.Logging.Serilog" Version="$(UnoExtensionsVersion)" />
+		<PackageReference Include="Uno.Extensions.Navigation" Version="$(UnoExtensionsVersion)" />
+		<PackageReference Include="Uno.Extensions.Reactive" Version="$(UnoExtensionsVersion)" />
+		<PackageReference Include="Uno.Extensions.Reactive.Messaging" Version="$(UnoExtensionsVersion)" />
+		<PackageReference Include="Uno.Extensions.Reactive.WinUI" Version="$(UnoExtensionsVersion)" />
+		<PackageReference Include="Uno.Extensions.Serialization" Version="$(UnoExtensionsVersion)" />
+		<PackageReference Include="Uno.Extensions.Serialization.Http" Version="$(UnoExtensionsVersion)" />
+		<PackageReference Include="Uno.Extensions.Serialization.Refit" Version="$(UnoExtensionsVersion)" />
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\ToDo\ToDo.csproj" />
+	</ItemGroup>
+
+</Project>
