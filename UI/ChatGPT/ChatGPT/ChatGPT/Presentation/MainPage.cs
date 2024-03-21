@@ -42,7 +42,7 @@ public sealed partial class MainPage : Page
 							.Data(PowerIcon),
 						new TextBlock()
 							.Foreground(Colors.Red)
-							.Text("Stream Off")
+							.Text("Live Typing Off")
 					)
 			)
 			.ControlExtensions(
@@ -56,7 +56,7 @@ public sealed partial class MainPage : Page
 								.Data(PowerIcon),
 							new TextBlock()
 								.Foreground(Colors.Green)
-								.Text("Stream On")
+								.Text("Live Typing On")
 						)
 			);
 	

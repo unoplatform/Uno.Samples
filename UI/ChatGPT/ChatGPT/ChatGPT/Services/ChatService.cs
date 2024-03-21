@@ -11,7 +11,8 @@ public class ChatService(IChatCompletionService client) : IChatService
 {
 	private readonly IChatCompletionService _client = client;
 
-	private const string systemPrompt = "You are Uno ChatGPT Sample, a helpful assistant helping users to learn more about how to develop using Uno Platform.";
+	//System prompt is a brief instruction or context provided to the AI to guide its response or generation of text when using an API.
+	private const string systemPrompt = @"You are Uno ChatGPT Sample, a helpful assistant helping users to learn more about how to develop using Uno Platform.";
 
 	public async ValueTask<ChatResponse> AskAsync(ChatRequest chatRequest, CancellationToken ct = default)
 	{

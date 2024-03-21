@@ -57,9 +57,13 @@ public class App : Application
 					(context, services) =>
 					{
 						var section = context.Configuration.GetSection(nameof(AppConfig));
+
+						//Get API Key from appsettings.json
 						var apiKey = section[nameof(AppConfig.ApiKey)];
 						var useMockService = apiKey is null or { Length: 0 };
 
+						//If no API Key isn't provided a MockService with
+						//hard-coded responses will be provided to simulate AI's responses
 						if (useMockService)
 						{
 							services.AddSingleton<IChatService, MockChatService>();
