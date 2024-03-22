@@ -30,6 +30,8 @@ public class ShellViewModel
 	{
 		var currentCredentials = CredentialsSettings.Value;
 
+		//currentCredentials = new Credentials() { UserName = "aaaaaaa", Password = "aaaaaa" };
+
 		if (currentCredentials?.UserName is { Length: > 0 })
 		{
 			if (initialRoute is not null)
