@@ -31,6 +31,29 @@ The Commerce App is a sample application that demonstrates the use of ListFeed p
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/reference/Commerce)
 
+### SimpleCalculator App
+
+The SimpleCalculator App is a sample application that is designed to perform basic arithmetic operations. The app was built using 4 options - [C# Markup](https://aka.platform.uno/csharp-markup) or [XAML]() for the UI and [MVUX](https://aka.platform.uno/mvux) or [MVVM]() for state management.
+
+[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/reference/SimpleCalc)
+
+### Counter App
+
+Discover the simplicity and power of Uno.Extensions with the Counter App, a straightforward yet powerful demonstration of basic and advanced features of the Uno Platform. This app provides a hands-on experience with fundamental concepts such as state management, user interaction, and UI updates in real-time.
+
+[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/reference/Counter)
+
+### ToDo App
+
+Dive into the essentials of task management with the ToDo App, a meticulously designed sample application that showcases the power and flexibility of Uno.Extensions. By focusing on creating and managing a to-do list, this app demonstrates practical applications of core Uno.Extensions features, offering a hands-on experience in developing responsive, user-friendly interfaces across platforms.
+
+[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/reference/ToDo)
+
+### TubePlayer App
+
+The TubePlayer  App is a sample application that leverages the Uno Platform to recreate the core functionalities of YouTube. This app serves as a comprehensive tutorial for developers looking to understand how to use Uno.Extensions to create a rich, responsive video streaming service.
+
+[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/reference/TubePlayer)
 
 ### Advanced XBind
 
