@@ -1,3 +1,5 @@
+
+
 namespace ToDo.Presentation;
 
 public partial class SettingsViewModel
@@ -47,7 +49,9 @@ public partial class SettingsViewModel
 	}
 
 	public IFeed<UserContext?> CurrentUser => Feed<UserContext?>.Async(async ct => await _authService.GetCurrentUserAsync());
-	public IFeed<byte[]?> ProfilePicture => Feed<byte[]?>.Async(async ct => await _userSvc.GetAsync(await CurrentUser, ct));
+#nullable disable // TODO: Restore nullable check
+	public IFeed<byte[]> ProfilePicture => Feed<byte[]>.Async(async ct => await _userSvc.GetAsync(await CurrentUser, ct));
+#nullable restore
 
 	[Value]
 	public IState<DisplayCulture> SelectedCulture { get; }
