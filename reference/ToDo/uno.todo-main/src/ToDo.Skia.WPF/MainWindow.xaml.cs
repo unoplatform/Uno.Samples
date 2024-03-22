@@ -1,3 +1,4 @@
+using Uno.UI.Runtime.Skia.Wpf;
 using Window = System.Windows.Window;
 
 namespace ToDo.WPF;
@@ -8,6 +9,6 @@ public partial class MainWindow : Window
 	{
 		InitializeComponent();
 
-		root.Content = new global::Uno.UI.Skia.Platform.WpfHost(Dispatcher, () => new ToDo.App());
+		root.Content = new WpfHost(Dispatcher, () => new ToDo.App());
 	}
 }

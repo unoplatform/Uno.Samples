@@ -1,6 +1,5 @@
-using System;
 using GLib;
-using Uno.UI.Runtime.Skia;
+using Uno.UI.Runtime.Skia.Gtk;
 
 namespace ToDo.Skia.Gtk
 {
@@ -14,7 +13,7 @@ namespace ToDo.Skia.Gtk
 				expArgs.ExitApplication = true;
 			};
 
-			var host = new GtkHost(() => new App(), args);
+			var host = new GtkHost(() => new App());
 
 			host.Run();
 		}

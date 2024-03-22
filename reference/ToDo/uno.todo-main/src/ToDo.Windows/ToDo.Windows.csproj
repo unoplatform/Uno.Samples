@@ -11,6 +11,7 @@
 		<UseWinUI>true</UseWinUI>
 		<DefaultLanguage>en</DefaultLanguage>
 		<EnableMsixTooling>true</EnableMsixTooling>
+		<WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -62,22 +63,18 @@
 		<Manifest Include="$(ApplicationManifest)" />
 	</ItemGroup>
 	<ItemGroup>
-		<FrameworkReference Update="Microsoft.Windows.SDK.NET.Ref" RuntimeFrameworkVersion="10.0.22000.25" />
-		<FrameworkReference Update="Microsoft.Windows.SDK.NET.Ref" TargetingPackVersion="10.0.22000.25" />
-	</ItemGroup>
-	<ItemGroup>
-		<PackageReference Include="Microsoft.Identity.Client" Version="4.47.2" />
-		<PackageReference Include="Microsoft.WindowsAppSDK" Version="1.1.5" />
-		<PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.755" />
+		<PackageReference Include="Microsoft.Identity.Client" Version="4.59.0" />
+		<PackageReference Include="Microsoft.WindowsAppSDK" Version="1.5.240311000" />
+		<PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.3233" />
 		<PackageReference Include="Uno.Core.Extensions.Logging.Singleton" Version="4.0.1" />
 		<PackageReference Include="System.Net.Http.WinHttpHandler" Version="6.0.1" />
 
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.0.0"/>
-		<PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.1"/>
-		<PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="6.0.0"/>
-		<PackageReference Include="Microsoft.Extensions.Logging" Version="6.0.0" />
-		<PackageReference Include="Microsoft.Extensions.Logging.Console" Version="6.0.0" />
-		<PackageReference Include="Microsoft.Extensions.Http" Version="6.0.0"/>
+		<PackageReference Include="Microsoft.Extensions.Configuration" Version="8.0.0"/>
+		<PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="8.0.0"/>
+		<PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Console" Version="8.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Http" Version="8.0.0"/>
 		<PackageReference Include="Refit" Version="6.3.2" />
 		<PackageReference Include="Refit.HttpClientFactory" Version="6.3.2" />
 
@@ -135,4 +132,53 @@
 
 	<Import Project="..\ToDo.UI\ToDo.UI.projitems" Label="Shared" />
 
+
+	<!-- Workaround to avoid including Uno.Toolkit.UI XBFs in the PRI file -->
+	<Target Name="AdjustGetPackagingOutput1" AfterTargets="GetMrtPackagingOutputs">
+		<Message Importance="high" Text="Applying NuGet packaging workaround for dependent PRI files exclusion" />
+		<ItemGroup>
+			<_OtherPriFiles Include="@(PackagingOutputs)" Condition="'%(Extension)' == '.pri' and ('%(PackagingOutputs.ReferenceSourceTarget)' == 'ProjectReference' or '%(PackagingOutputs.NugetSourceType)'=='Package')" />
+			<PackagingOutputs Remove="@(_OtherPriFiles)" />
+		</ItemGroup>
+	</Target>
+
+	<Target Name="AdjustGetPackagingOutput2" BeforeTargets="AddPriPayloadFilesToCopyToOutputDirectoryItems">
+		<Message Importance="high" Text="Applying NuGet packaging workaround for dependent PRI files exclusion" />
+		<ItemGroup>
+			<_OtherPriFiles1 Include="@(_ReferenceRelatedPaths)" Condition="'%(Extension)' == '.pri' and ('%(_ReferenceRelatedPaths.ReferenceSourceTarget)' == 'ProjectReference' or '%(_ReferenceRelatedPaths.NugetSourceType)'=='Package')" />
+			<_ReferenceRelatedPaths Remove="@(_OtherPriFiles1)" />
+
+			<_OtherPriFiles2 Include="@(ReferenceCopyLocalPaths)" Condition="'%(Extension)' == '.pri' and ('%(ReferenceCopyLocalPaths.ReferenceSourceTarget)' == 'ProjectReference' or '%(ReferenceCopyLocalPaths.NugetSourceType)'=='Package')" />
+			<ReferenceCopyLocalPaths Remove="@(_OtherPriFiles2)" />
+		</ItemGroup>
+	</Target>
+
+	<!--
+  This is a temporary workaround to avoid error "NETSDK1152: Found multiple publish output files with the same relative path:"
+  for Microsoft.Web.WebView2.Core.dll, with one coming from MsixContent and the other from the Microsoft.Web.Webview2 Nuget package.
+  If both are present, we only keep the one from the NuGet package. See https://github.com/unoplatform/uno/issues/14555.
+-->
+	<Target Name="ResolveWebView2CoreDuplicates1" BeforeTargets="_ComputeResolvedFilesToPublishTypes" AfterTargets="ComputeFilesToPublish">
+		<Message Importance="high" Text ="Applying workaround to resolve Microsoft.Web.WebView2.Core.dll duplication in package (1)" />
+		<ItemGroup>
+			<_WebView2CoreFilesToExclude Include="@(ResolvedFileToPublish)" Condition="'%(Filename)' == 'Microsoft.Web.WebView2.Core'"/>
+		</ItemGroup>
+		<ItemGroup Condition="'@(_WebView2CoreFilesToExclude->Count())' &gt; 1">
+			<_WebView2CoreFilesToExclude Remove="@(_WebView2CoreFilesToExclude)" Condition="$([System.String]::Copy(%(FullPath)).Contains('.nuget'))"/>
+			<ResolvedFileToPublish Remove="@(_WebView2CoreFilesToExclude)" />
+		</ItemGroup>
+		<Message Importance="high" Text ="Removed: @(_WebView2CoreFilesToExclude)" />
+	</Target>
+
+	<Target Name="ResolveWebView2CoreDuplicates2" BeforeTargets="_ComputeAppxPackagePayload" AfterTargets="GetPackagingOutputs">
+		<Message Importance="high" Text ="Applying workaround to resolve Microsoft.Web.WebView2.Core.dll duplication in package (2)" />
+		<ItemGroup >
+			<_WebView2CoreOutputsToExclude Include="@(PackagingOutputs)" Condition="'%(Filename)' == 'Microsoft.Web.WebView2.Core'"/>
+		</ItemGroup>
+		<ItemGroup Condition="'@(_WebView2CoreOutputsToExclude->Count())' &gt; 1">
+			<_WebView2CoreOutputsToExclude Remove="@(_WebView2CoreOutputsToExclude)" Condition="$([System.String]::Copy(%(FullPath)).Contains('.nuget'))"/>
+			<PackagingOutputs Remove="@(_WebView2CoreOutputsToExclude)" />
+		</ItemGroup>
+		<Message Importance="high" Text ="Removed: @(_WebView2CoreOutputsToExclude)" />
+	</Target>
 </Project>

@@ -28,7 +28,7 @@ public class MockTaskListEndpoint : ITaskListEndpoint
 	{
 		if (data is null)
 		{
-			data = (await _dataService.ReadPackageFileAsync<TaskListData[]>(_listSerializer, ListDataFile)).ToList();
+			data = (await _dataService.ReadPackageFileAsync<TaskListData[]>(_listSerializer, ListDataFile))!.ToList();
 		}
 		return data;
 	}
@@ -42,7 +42,7 @@ public class MockTaskListEndpoint : ITaskListEndpoint
 
 		_ = await LoadAllTasks();
 
-		taskData[listId] = allTasks.Where(x=>x.ParentList?.Id==listId).ToList();
+		taskData[listId] = allTasks!.Where(x => x.ParentList?.Id == listId).ToList();
 		return taskData[listId];
 	}
 
@@ -50,7 +50,7 @@ public class MockTaskListEndpoint : ITaskListEndpoint
 	{
 		if (allTasks is null)
 		{
-			allTasks = (await _dataService.ReadPackageFileAsync<TaskData[]>(_taskSerializer, TasksDataFile)).ToList();
+			allTasks = (await _dataService.ReadPackageFileAsync<TaskData[]>(_taskSerializer, TasksDataFile))!.ToList();
 		}
 		return allTasks;
 	}
@@ -67,7 +67,7 @@ public class MockTaskListEndpoint : ITaskListEndpoint
 	public async Task<HttpResponseMessage> DeleteAsync(string todoTaskListId, CancellationToken ct)
 	{
 		_ = await Load();
-		var list = data.FirstOrDefault(x => x.Id == todoTaskListId);
+		var list = data?.FirstOrDefault(x => x.Id == todoTaskListId);
 		if (list is not null)
 		{
 			data?.Remove(list);
@@ -78,13 +78,13 @@ public class MockTaskListEndpoint : ITaskListEndpoint
 	public async Task<TaskReponseData<TaskListData>> GetAllAsync(CancellationToken ct)
 	{
 		_ = await Load();
-		return new TaskReponseData<TaskListData> { Value = data.ToList() };
+		return new TaskReponseData<TaskListData> { Value = data?.ToList() };
 	}
 
 	public async Task<TaskListData> GetAsync(string todoTaskListId, CancellationToken ct)
 	{
 		_ = await Load();
-		var list = data.FirstOrDefault(x => x.Id == todoTaskListId);
+		var list = data?.FirstOrDefault(x => x.Id == todoTaskListId);
 		if (list is not null)
 		{
 			return list;
@@ -97,7 +97,7 @@ public class MockTaskListEndpoint : ITaskListEndpoint
 	{
 		_ = await Load();
 
-		var list = data.FirstOrDefault(x => x.Id == todoTaskListId);
+		var list = data?.FirstOrDefault(x => x.Id == todoTaskListId);
 		if (list is not null)
 		{
 			list.DisplayName = todoList.DisplayName;
@@ -134,7 +134,7 @@ public class MockTaskListEndpoint : ITaskListEndpoint
 	{
 		var tasks = await LoadAllTasks();
 
-		if(string.IsNullOrWhiteSpace(displayName))
+		if (string.IsNullOrWhiteSpace(displayName))
 			return new TaskReponseData<TaskData> { Value = tasks.ToList() };
 
 		return new TaskReponseData<TaskData> { Value = tasks.Where(x => x.Title != null && x.Title.Contains(displayName)).ToList() };

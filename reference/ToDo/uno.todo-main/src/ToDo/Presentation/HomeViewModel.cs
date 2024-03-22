@@ -1,4 +1,6 @@
-﻿namespace ToDo.Presentation;
+﻿using IAuthenticationService = ToDo.Business.Services.IAuthenticationService;
+
+namespace ToDo.Presentation;
 
 public partial class HomeViewModel
 {
@@ -9,7 +11,7 @@ public partial class HomeViewModel
 	private readonly ITaskListService _listSvc;
 	private readonly IWritableOptions<ToDoApp> _appSettings;
 
-	private HomeViewModel(
+	public HomeViewModel(
 		INavigator navigator,
 		IStringLocalizer localizer,
 		IAuthenticationService authSvc,

@@ -1,4 +1,4 @@
-
+using IAuthenticationService = ToDo.Business.Services.IAuthenticationService;
 
 namespace ToDo.Presentation;
 
@@ -11,20 +11,20 @@ public partial class SettingsViewModel
 	private IAppTheme _appTheme;
 	private IWritableOptions<ToDoApp> _appSettings;
 
-	public IWritableOptions<LocalizationSettings> LocalizationSettings { get; }
+	public ILocalizationService LocalizationSettings { get; }
 
 	public DisplayCulture[] Cultures { get; }
 
 	public string[] AppThemes { get; }
 
 
-	private SettingsViewModel(
+	public SettingsViewModel(
 		NavigationRequest request,
 		INavigator navigator,
 		IAuthenticationService authService,
 		IUserProfilePictureService userSvc,
 		IOptions<LocalizationConfiguration> localizationConfiguration,
-		IWritableOptions<LocalizationSettings> localizationSettings,
+		ILocalizationService localizationSettings,
 		IStringLocalizer localizer,
 		IAppTheme appTheme,
 		IWritableOptions<ToDoApp> appSettings)
@@ -43,7 +43,7 @@ public partial class SettingsViewModel
 		SelectedAppTheme.Execute(ChangeAppTheme);
 
 		Cultures = localizationConfiguration.Value!.Cultures!.Select(c => new DisplayCulture(localizer[$"SettingsFlyout_LanguageLabel_{c}"], c)).ToArray();
-		SelectedCulture = State.Value(this, () => Cultures.FirstOrDefault(c => c.Culture == LocalizationSettings.Value?.CurrentCulture) ?? Cultures.First());
+		SelectedCulture = State.Value(this, () => Cultures.FirstOrDefault(c => c.Culture == LocalizationSettings.CurrentCulture.Name) ?? Cultures.First());
 
 		SelectedCulture.Execute(ChangeLanguage);
 	}
@@ -75,7 +75,8 @@ public partial class SettingsViewModel
 	{
 		if (culture is not null)
 		{
-			await LocalizationSettings.UpdateAsync(settings => settings with { CurrentCulture = culture.Culture });
+			var c = LocalizationSettings.SupportedCultures.First(c => c.Name == culture.Culture);
+			await LocalizationSettings.SetCurrentCultureAsync(c);
 		}
 	}
 

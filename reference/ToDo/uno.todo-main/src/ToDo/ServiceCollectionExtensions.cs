@@ -1,4 +1,6 @@
-﻿namespace ToDo;
+﻿using IAuthenticationService = ToDo.Business.Services.IAuthenticationService;
+
+namespace ToDo;
 
 public static class ServiceCollectionExtensions
 {
@@ -6,16 +8,16 @@ public static class ServiceCollectionExtensions
 		this IServiceCollection services,
 		HostBuilderContext context,
 		Action<IServiceProvider, RefitSettings>? settingsBuilder = null,
-		bool useMocks=false)
+		bool useMocks = false)
 	{
 		_ = services
 			// TEMP - this hsould be the default serialization options for content serialization > uno.extensions
 			.AddSingleton(new JsonSerializerOptions { DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault })
-			.AddNativeHandler()
-			.AddContentSerializer()
-			.AddRefitClient<ITaskEndpoint>(context, nameof(ITaskEndpoint))
-			.AddRefitClient<ITaskListEndpoint>(context, nameof(ITaskEndpoint))
-			.AddRefitClient<IUserProfilePictureEndpoint>(context, nameof(ITaskEndpoint));
+			//.AddNativeHandler()
+			//.AddContentSerializer()
+			.AddRefitClient<ITaskEndpoint>(context, name: nameof(ITaskEndpoint))
+			.AddRefitClient<ITaskListEndpoint>(context, name: nameof(ITaskEndpoint))
+			.AddRefitClient<IUserProfilePictureEndpoint>(context, name: nameof(ITaskEndpoint));
 
 		if (useMocks)
 		{

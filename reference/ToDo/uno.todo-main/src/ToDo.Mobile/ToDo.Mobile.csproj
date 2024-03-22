@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-		<TargetFrameworks>net8.0-android;net8.0-ios;net8.0-maccatalyst;net8.0-macos</TargetFrameworks>
+		<TargetFrameworks>net8.0-android;net8.0-ios;net8.0-maccatalyst</TargetFrameworks>
 
 		<SingleProject>true</SingleProject>
 		<OutputType>Exe</OutputType>
@@ -27,11 +27,11 @@
 
 	<ItemGroup>
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.0.0"/>
-		<PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.1"/>
-		<PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="6.0.0"/>
-		<PackageReference Include="Microsoft.Extensions.Logging" Version="6.0.0" />
-		<PackageReference Include="Microsoft.Extensions.Logging.Console" Version="6.0.0" />
-		<PackageReference Include="Microsoft.Extensions.Http" Version="6.0.0"/>
+		<PackageReference Include="Microsoft.Extensions.Configuration" Version="8.0.0"/>
+		<PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="8.0.0"/>
+		<PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Console" Version="8.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Http" Version="8.0.0"/>
 		<PackageReference Include="Refit" Version="6.3.2" />
 		<PackageReference Include="Refit.HttpClientFactory" Version="6.3.2" />
 
@@ -83,10 +83,10 @@
 				<MtouchExtraArgs>$(MtouchExtraArgs) --marshal-objectivec-exceptions:disable --registrar:static</MtouchExtraArgs>
 			</PropertyGroup>
 			<ItemGroup>
-				<PackageReference Include="Uno.Extensions.Logging.OSLog" Version="1.4.0" />
+				<PackageReference Include="Uno.Extensions.Logging.OSLog" Version="1.7.0" />
 
 				<!-- This is disabled because of https://github.com/AzureAD/microsoft-authentication-library-for-dotnet/issues/3127 -->
-				<PackageReference Include="Microsoft.Identity.Client" Version="4.47.2" ExcludeAssets="all" IncludeAssets="none" />
+				<PackageReference Include="Microsoft.Identity.Client" Version="4.59.0" ExcludeAssets="all" IncludeAssets="none" />
 			</ItemGroup>
 		</When>
 
@@ -102,10 +102,10 @@
 				<InvariantGlobalization>false</InvariantGlobalization>
 			</PropertyGroup>
 			<ItemGroup>
-				<PackageReference Include="Uno.Extensions.Logging.OSLog" Version="1.4.0" />
+				<PackageReference Include="Uno.Extensions.Logging.OSLog" Version="1.7.0" />
 
 				<!-- This is disabled because of https://github.com/AzureAD/microsoft-authentication-library-for-dotnet/issues/3127 -->
-				<PackageReference Include="Microsoft.Identity.Client" Version="4.47.2" ExcludeAssets="all" IncludeAssets="none" />
+				<PackageReference Include="Microsoft.Identity.Client" Version="4.59.0" ExcludeAssets="all" IncludeAssets="none" />
 			</ItemGroup>
 		</When>
 

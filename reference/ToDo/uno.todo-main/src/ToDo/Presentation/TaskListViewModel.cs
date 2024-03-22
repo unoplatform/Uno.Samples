@@ -9,7 +9,7 @@ public partial class TaskListViewModel
 	private readonly ITaskService _taskSvc;
 	private readonly ILogger _logger;
 
-	private TaskListViewModel(
+	public TaskListViewModel(
 		ILogger<TaskListViewModel> logger,
 		INavigator navigator,
 		ITaskListService listSvc,
@@ -83,7 +83,7 @@ public partial class TaskListViewModel
 			return;
 		}
 
-		var result= await _navigator.NavigateViewModelForResultAsync<RenameListViewModel, string>(this, qualifier: Qualifiers.Dialog, data: list, cancellation: ct).AsResult();
+		var result = await _navigator.NavigateViewModelForResultAsync<RenameListViewModel, string>(this, qualifier: Qualifiers.Dialog, data: list, cancellation: ct).AsResult();
 		if (result.IsSome(out var newListName) && !string.IsNullOrWhiteSpace(newListName))
 		{
 			list = list with { DisplayName = newListName };

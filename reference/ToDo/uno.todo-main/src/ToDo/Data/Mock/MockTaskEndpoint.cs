@@ -29,13 +29,13 @@ public class MockTaskEndpoint : ITaskEndpoint
 		return new TaskReponseData<TaskData> { Value = tasks.ToList() };
 	}
 
-	public async Task<TaskReponseData<TaskData>> GetAllAsync(CancellationToken ct) => await _listEndpoint.GetAllTasksAsync( ct: ct);
+	public async Task<TaskReponseData<TaskData>> GetAllAsync(CancellationToken ct) => await _listEndpoint.GetAllTasksAsync(ct: ct);
 
 	public async Task<TaskData> GetAsync(string listId, string taskId, CancellationToken ct)
 	{
 		var tasks = await GetAsync(listId, ct);
 
-		return tasks.Value.First(x => x.Id == taskId);
+		return tasks.Value!.First(x => x.Id == taskId);
 	}
 
 	public async Task<TaskReponseData<TaskData>> GetByFilterAsync(string displayName, CancellationToken ct) => await _listEndpoint.GetAllTasksAsync(displayName, ct);

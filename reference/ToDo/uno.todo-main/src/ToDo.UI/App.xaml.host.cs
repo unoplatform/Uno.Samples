@@ -4,7 +4,7 @@ namespace ToDo;
 
 public sealed partial class App : Application
 {
-	private  IHost? _host { get; set; }
+	private IHost? _host { get; set; }
 
 	private static IHost BuildAppHost()
 	{
@@ -45,7 +45,8 @@ public sealed partial class App : Application
 
 				// Register services for the application
 				.ConfigureServices(
-					(context, services) => {
+					(context, services) =>
+					{
 
 						var section = context.Configuration.GetSection(nameof(Mock));
 						var useMocks = bool.TryParse(section[nameof(Mock.IsEnabled)], out var isMocked) ? isMocked : false;
@@ -114,7 +115,7 @@ public sealed partial class App : Application
 			new ViewMap(ViewModel: typeof(ShellViewModel)),
 			new ViewMap<WelcomePage, WelcomeViewModel>(),
 			new DataViewMap<TaskListPage, TaskListViewModel, TaskList>(),
-			new DataViewMap<TaskPage,TaskViewModel, ToDoTask>(),
+			new DataViewMap<TaskPage, TaskViewModel, ToDoTask>(),
 			confirmDeleteListDialog,
 			confirmDeleteTaskDialog,
 			confirmSignOutDialog

@@ -1,4 +1,6 @@
-﻿namespace ToDo.Business.Mock;
+﻿using IAuthenticationService = ToDo.Business.Services.IAuthenticationService;
+
+namespace ToDo.Business.Mock;
 
 public class MockAuthenticationService : IAuthenticationService
 {

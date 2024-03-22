@@ -5,7 +5,7 @@ public partial class TaskViewModel
 	private readonly INavigator _navigator;
 	private readonly ITaskService _svc;
 
-	private TaskViewModel(
+	public TaskViewModel(
 		INavigator navigator,
 		ITaskService svc,
 		ToDoTask entity)
@@ -74,10 +74,10 @@ public partial class TaskViewModel
 		}
 
 		var result = await _navigator
-			.NavigateViewModelForResultAsync<ExpirationDateViewModel, PickedDate>(this, qualifier:Qualifiers.Dialog, data: new PickedDate(task.DueDateTime), cancellation: ct)
+			.NavigateViewModelForResultAsync<ExpirationDateViewModel, PickedDate>(this, qualifier: Qualifiers.Dialog, data: new PickedDate(task.DueDateTime), cancellation: ct)
 			.AsResult();
 
-		if (result.SomeOrDefault()?.Date is {} date)
+		if (result.SomeOrDefault()?.Date is { } date)
 		{
 			await _svc.UpdateAsync(task with { DueDateTime = date }, ct);
 			await Entity.UpdateValue(opt => opt.Map(task => task with { DueDateTime = date }), ct);
