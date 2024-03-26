@@ -1,4 +1,4 @@
-﻿global using System.Collections.Immutable;
+global using System.Collections.Immutable;
 global using System.Windows.Input;
 global using Microsoft.Extensions.DependencyInjection;
 global using Windows.Networking.Connectivity;
@@ -15,6 +15,7 @@ global using Uno.UI;
 global using Uno.Extensions.Markup;
 global using Uno.Material;
 global using Uno.Themes.Markup;
+global using Uno.Themes;
 global using Uno.Toolkit.UI;
 global using Uno.Toolkit.UI.Material;
 global using Windows.ApplicationModel;
