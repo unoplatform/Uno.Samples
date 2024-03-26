@@ -1,5 +1,4 @@
 namespace Commerce.Business.Models;
-using Commerce.Data.Models;
 
 public record Profile
 {

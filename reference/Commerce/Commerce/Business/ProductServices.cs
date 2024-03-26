@@ -1,8 +1,5 @@
-using CommunityToolkit.Mvvm.Messaging;
-//using Uno.Extensions.Reactive.Messaging;
-using Commerce.Business.Models;
-using Commerce.Data.Models;
-using Commerce.Data;
+﻿using CommunityToolkit.Mvvm.Messaging;
+using Uno.Extensions.Reactive.Messaging;
 
 namespace Commerce.Business;
 

@@ -1,5 +1,4 @@
-namespace Commerce.Business;
-using Commerce.Business.Models;
+﻿namespace Commerce.Business;
 
 public interface ICartService
 {

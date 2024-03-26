@@ -1,7 +1,4 @@
-namespace Commerce.Business;
-using Commerce.Business.Models;
-using Commerce.Data.Models;
-using Commerce.Data;
+﻿namespace Commerce.Business;
 
 public class DealService : IDealService
 {

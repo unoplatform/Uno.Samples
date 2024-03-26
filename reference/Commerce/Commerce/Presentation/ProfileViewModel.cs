@@ -1,8 +1,4 @@
-using Commerce.Business;
-using Commerce.Business.Models;
-using Commerce;
-
-namespace Commerce.Presentation;
+﻿namespace Commerce.ViewModels;
 
 public partial class ProfileViewModel
 {

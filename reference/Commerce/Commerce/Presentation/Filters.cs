@@ -1,5 +1,4 @@
-namespace Commerce.Presentation;
-using Commerce.Business.Models;
+﻿namespace Commerce.ViewModels;
 
 public record Filters(bool Shoes, bool Accessories, bool Headwear, bool InStockOnly)
 {

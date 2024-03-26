@@ -1,4 +1,5 @@
-namespace Commerce.Presentation;
+﻿
+namespace Commerce.ViewModels;
 
 public class ShellViewModel
 {
@@ -28,6 +29,8 @@ public class ShellViewModel
 	public async Task Start(Route? initialRoute = null)
 	{
 		var currentCredentials = CredentialsSettings.Value;
+
+		currentCredentials = new Credentials() { UserName = "aaaaaaa", Password = "aaaaaa" };
 
 		if (currentCredentials?.UserName is { Length: > 0 })
 		{
@@ -60,6 +63,7 @@ public class ShellViewModel
 			var loginResult = await response.Result;
 			if (loginResult.IsSome(out var creds) && creds?.UserName is { Length: > 0 })
 			{
+				//This is not being updated with provided credentials
 				await CredentialsSettings.UpdateAsync(c => creds);
 
 				_ = Start();

@@ -1,6 +1,4 @@
-namespace Commerce.Presentation;
-using Commerce.Business;
-using Commerce.Business.Models;
+﻿namespace Commerce.ViewModels;
 
 public partial record CartViewModel(ICartService CartService)
 {

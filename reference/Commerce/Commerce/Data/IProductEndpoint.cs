@@ -1,5 +1,4 @@
-namespace Commerce.Data;
-using Commerce.Data.Models;
+﻿namespace Commerce.Data;
 
 public interface IProductEndpoint
 {

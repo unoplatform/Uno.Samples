@@ -1,10 +1,10 @@
-namespace Commerce.Data;
-using Commerce.Data.Models;
+﻿namespace Commerce.Data;
 
 public class ProductEndpoint : IProductEndpoint
 {
-	public const string ProductDataFile = "Commerce/products.json";
-	private const string ReviewDataFile = "Commerce/reviews.json";
+	//TODO: not working outside Assets folder
+	public const string ProductDataFile = "Assets/products.json";
+	private const string ReviewDataFile = "Assets/reviews.json";
 
 	private readonly IStorage _dataService;
 	private readonly ISerializer _serializer;

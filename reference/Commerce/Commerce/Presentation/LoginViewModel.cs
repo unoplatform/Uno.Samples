@@ -1,6 +1,6 @@
-using System.Windows.Input;
+﻿using System.Windows.Input;
 
-namespace Commerce.Presentation;
+namespace Commerce.ViewModels;
 
 public partial record LoginViewModel
 {
