@@ -1,8 +1,12 @@
 <Project Sdk="Uno.Sdk">
   <PropertyGroup>
-    <TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows')) or '$(EnableWindowsTargeting)' == 'true'">$(TargetFrameworks);$(DotNetVersion)-windows10.0.19041</TargetFrameworks>
-    <TargetFrameworks>$(TargetFrameworks);$(DotNetVersion);$(DotNetVersion)-android;$(DotNetVersion)-ios;$(DotNetVersion)-maccatalyst;$(DotNetVersion)-browserwasm;$(DotNetVersion)-desktop</TargetFrameworks>
-    <TargetFrameworks Condition="'$(OverrideTargetFramework)'!=''">$(OverrideTargetFramework)</TargetFrameworks>
+    <TargetFrameworks>
+      $(DotNetVersion)-browserwasm;
+      $(DotNetVersion)-android;
+      $(DotNetVersion)-maccatalyst;
+      $(DotNetVersion)-windows10.0.19041;
+      $(DotNetVersion)-desktop;
+    </TargetFrameworks>
 
     <OutputType>Exe</OutputType>
     <SingleProject>true</SingleProject>
@@ -25,6 +29,22 @@
       must be the highest found in https://www.nuget.org/packages/Microsoft.Windows.SDK.NET.Ref.
     -->
     <!-- <WindowsSdkPackageVersion>10.0.22621.28</WindowsSdkPackageVersion> -->
+
+    <!--
+      UnoFeatures let's you quickly add and manage implicit package references based on the features you want to use.
+      https://aka.platform.uno/singleproject-features
+    -->
+    <UnoFeatures>
+      Mvvm;
+    </UnoFeatures>
   </PropertyGroup>
+  <ItemGroup>
+    <None Remove="Assets\logo.svg" />
+  </ItemGroup>
+  <ItemGroup>
+    <UnoImage Include="Assets\logo.svg">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </UnoImage>
+  </ItemGroup>
 
 </Project>
