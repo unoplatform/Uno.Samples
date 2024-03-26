@@ -15,17 +15,17 @@ public sealed partial class MainPage : Page
                             .HorizontalAlignment(HorizontalAlignment.Center)
                             .Width(150)
                             .Height(150)
-                            .Source("ms-appx:///Counter/Assets/logo.png"),
+                            .Source("ms-appx:///Assets/logo.png"),
                         new TextBox()
                             .Margin(12)
                             .HorizontalAlignment(HorizontalAlignment.Center)
-                            .TextAlignment(Microsoft.UI.Xaml.TextAlignment.Center)
+                            .TextAlignment(TextAlignment.Center)
                             .PlaceholderText("Step Size")
-                            .Text(x => x.Bind(() => vm.Step).TwoWay()),
+                            .Text(x => x.Binding(() => vm.Step).TwoWay()),
                         new TextBlock()
                             .Margin(12)
                             .HorizontalAlignment(HorizontalAlignment.Center)
-                            .TextAlignment(Microsoft.UI.Xaml.TextAlignment.Center)
+                            .TextAlignment(TextAlignment.Center)
                             .Text(() => vm.Count, txt => $"Counter: {txt}"),
                         new Button()
                             .Margin(12)
