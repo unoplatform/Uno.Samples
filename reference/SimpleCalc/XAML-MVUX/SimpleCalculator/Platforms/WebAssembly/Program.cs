@@ -1,4 +1,4 @@
-namespace SimpleCalculator.Wasm;
+namespace SimpleCalculator;
 
 public class Program
 {

@@ -1,12 +1,14 @@
 using Uno.UI.Runtime.Skia;
 
-namespace SimpleCalculator.Skia.Gtk;
+namespace SimpleCalculator;
 
 public class Program
 {
     [STAThread]
     public static void Main(string[] args)
     {
+        App.InitializeLogging();
+
         var host = SkiaHostBuilder.Create()
             .App(() => new App())
             .UseX11()
