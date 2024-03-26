@@ -1,8 +1,3 @@
-using Uno.Extensions.Markup;
-using Uno.Material;
-using Uno.Themes.Markup;
-using Uno.Toolkit.UI;
-using Uno.Themes;
 using BrushBuilder = System.Action<Uno.Extensions.Markup.IDependencyPropertyBuilder<Microsoft.UI.Xaml.Media.Brush>>;
 
 namespace SimpleCalculator;
@@ -49,7 +44,7 @@ public sealed partial class MainPage : Page
             .HorizontalAlignment(HorizontalAlignment.Center)
             .Background(Theme.Brushes.Surface.Default)
             .Style(Theme.ToggleButton.Styles.Icon)
-            .IsChecked(x => x.Bind(() => vm.IsDark).TwoWay())
+            .IsChecked(x => x.Binding(() => vm.IsDark).TwoWay())
             .Content
             (
                 new PathIcon()
