@@ -1,0 +1,14 @@
+﻿global using System.Collections.Immutable;
+global using Microsoft.Extensions.DependencyInjection;
+global using Microsoft.Extensions.Hosting;
+global using Microsoft.Extensions.Localization;
+global using Microsoft.Extensions.Logging;
+global using Microsoft.Extensions.Options;
+global using ToDo.Models;
+global using ToDo.Infrastructure;
+global using ToDo.Presentation;
+global using ToDo.DataContracts;
+global using ToDo.DataContracts.Serialization;
+global using ToDo.Services.Caching;
+global using ToDo.Services.Endpoints;
+global using ApplicationExecutionState = Windows.ApplicationModel.Activation.ApplicationExecutionState;
