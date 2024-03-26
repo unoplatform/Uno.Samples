@@ -1,5 +1,4 @@
 namespace Commerce.Business;
-using Commerce.Business.Models;
 
 public interface IProductService
 {

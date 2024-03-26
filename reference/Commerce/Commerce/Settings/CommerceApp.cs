@@ -1,6 +1,6 @@
-namespace Commerce;
+﻿namespace Commerce;
 
 public record CommerceApp
 {
-    public bool? IsDark { get; init; }
+	public bool? IsDark { get; init; }
 }

@@ -1,6 +1,5 @@
-namespace Commerce.Presentation;
-using Commerce.Business;
-using Commerce.Business.Models;
+﻿namespace Commerce.ViewModels;
+
 
 public partial class CartProductDetailsViewModel : ProductDetailsViewModel
 {

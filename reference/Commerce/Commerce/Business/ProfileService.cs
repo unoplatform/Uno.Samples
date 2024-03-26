@@ -1,6 +1,4 @@
-namespace Commerce.Business;
-using Commerce.Business.Models;
-using Commerce.Data.Models;
+﻿namespace Commerce.Business;
 
 public class ProfileService : IProfileService
 {

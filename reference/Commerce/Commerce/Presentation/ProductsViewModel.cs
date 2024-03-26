@@ -1,7 +1,4 @@
-using Commerce.Business;
-using Commerce.Business.Models;
-
-namespace Commerce.Presentation;
+﻿namespace Commerce.ViewModels;
 
 public partial class ProductsViewModel
 {

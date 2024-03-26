@@ -1,3 +1,4 @@
+
 namespace Commerce
 {
     public record AppConfig

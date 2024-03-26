@@ -1,9 +1,7 @@
-using CommunityToolkit.Mvvm.Messaging;
-//using Uno.Extensions.Reactive.Messaging;
-using Commerce.Business;
-using Commerce.Business.Models;
+﻿using CommunityToolkit.Mvvm.Messaging;
+using Uno.Extensions.Reactive.Messaging;
 
-namespace Commerce.Presentation;
+namespace Commerce.ViewModels;
 
 public partial class DealsViewModel
 {
