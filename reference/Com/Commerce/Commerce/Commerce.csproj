@@ -1,4 +1,4 @@
-<Project Sdk="Uno.Sdk">
+﻿<Project Sdk="Uno.Sdk">
   <PropertyGroup>
     <TargetFrameworks>$(DotNetVersion)-browserwasm;$(DotNetVersion)-android;$(DotNetVersion)-ios;$(DotNetVersion)-maccatalyst;$(DotNetVersion)-desktop;$(DotNetVersion)</TargetFrameworks>
     <TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows')) or '$(EnableWindowsTargeting)' == 'true'">$(TargetFrameworks);$(DotNetVersion)-windows10.0.19041</TargetFrameworks>
@@ -36,9 +36,19 @@
     <PackageReference Include="Uno.Extensions.Reactive.Messaging" />
     <PackageReference Include="Uno.Extensions.Reactive.WinUI" />
   </ItemGroup>
+
   <ItemGroup>
-    <Folder Include="Serialization\" />
-    <Folder Include="Services\Caching\" />
-    <Folder Include="Services\Endpoints\" />
+    <Content Update="Assets\products.json">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\reviews.json">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Content>
+    <Content Update="products.json">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Content>
+    <Content Update="reviews.json">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 </Project>
