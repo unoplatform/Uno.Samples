@@ -1,12 +1,14 @@
 using Uno.UI.Runtime.Skia;
 
-namespace Counter.Skia.Gtk;
+namespace Counter;
 
 public class Program
 {
     [STAThread]
     public static void Main(string[] args)
     {
+        App.InitializeLogging();
+
         var host = SkiaHostBuilder.Create()
             .App(() => new App())
             .UseX11()

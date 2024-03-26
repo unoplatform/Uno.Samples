@@ -1,4 +1,4 @@
-namespace Counter.Wasm;
+namespace Counter;
 
 public class Program
 {
