@@ -3,6 +3,7 @@
     <TargetFrameworks>
       $(DotNetVersion)-browserwasm;
       $(DotNetVersion)-android;
+      $(DotNetVersion)-ios;
       $(DotNetVersion)-maccatalyst;
       $(DotNetVersion)-windows10.0.19041;
       $(DotNetVersion)-desktop;
@@ -37,6 +38,7 @@
     <UnoFeatures>
       Hosting;
       Mvux;
+      Mvvm;
       Configuration;
       Http;
       Serialization;
@@ -44,7 +46,14 @@
       Authentication;
       Navigation;
       ExtensionsCore;
+      Material;
+      Toolkit;
     </UnoFeatures>
   </PropertyGroup>
-
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Configuration" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" />
+  </ItemGroup>
+  
 </Project>

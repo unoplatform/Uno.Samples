@@ -100,7 +100,7 @@ public partial class App : Application
         Host = await builder.NavigateAsync<Shell>
             (initialNavigate: async (services, navigator) =>
             {
-                var auth = services.GetRequiredService<IAuthenticationService>();
+                var auth = services.GetRequiredService<ToDo.Business.Services.IAuthenticationService>();
                 var authenticated = await auth.RefreshAsync();
                 if (authenticated)
                 {
