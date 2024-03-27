@@ -51,7 +51,7 @@ Dive into the essentials of task management with the ToDo App, a meticulously de
 
 ### TubePlayer App
 
-The TubePlayer  App is a sample application that leverages the Uno Platform to recreate the core functionalities of YouTube. This app serves as a comprehensive tutorial for developers looking to understand how to use Uno.Extensions to create a rich, responsive video streaming service.
+The TubePlayer App is a sample application that leverages Uno Platform to recreate the core functionalities of YouTube. This app serves as a comprehensive tutorial for developers to create a rich, responsive video streaming service.
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/reference/TubePlayer)
 
