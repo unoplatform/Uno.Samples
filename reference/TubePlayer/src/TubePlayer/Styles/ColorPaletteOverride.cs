@@ -1,5 +1,4 @@
-using Microsoft.UI.Xaml;
-using Uno.Extensions.Markup;
+using Theme = Uno.Themes.Markup.Theme;
 
 namespace TubePlayer.Styles;
 

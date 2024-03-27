@@ -1,15 +1,6 @@
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Media;
-using Microsoft.UI.Xaml.Media.Imaging;
-using Microsoft.UI.Xaml.Navigation;
-using System;
-using Uno.Extensions.Markup;
-using Uno.Extensions.Navigation.UI;
-using Uno.Material;
 using Uno.Themes;
-using Uno.Toolkit.UI;
 using Path = Microsoft.UI.Xaml.Shapes.Path;
+using Theme = Uno.Themes.Markup.Theme;
 
 namespace TubePlayer.Presentation;
 
@@ -52,7 +43,7 @@ public partial class MainPage : Page
                                     .Children
                                     (
                                         new Image()
-                                            .Source("ms-appx:///TubePlayer/Assets/navigation_bar.png")
+                                            .Source("ms-appx:///Assets/navigation_bar.png")
                                             .Stretch(Stretch.UniformToFill)
                                             .AutoLayout(primaryAlignment: AutoLayoutPrimaryAlignment.Stretch)
                                     )

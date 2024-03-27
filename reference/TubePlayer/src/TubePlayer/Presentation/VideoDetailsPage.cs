@@ -1,10 +1,4 @@
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Media;
-using Microsoft.UI.Xaml.Navigation;
-using System;
-using Uno.Extensions.Markup;
-using Uno.Toolkit.UI;
+using Theme = Uno.Themes.Markup.Theme;
 
 namespace TubePlayer.Presentation;
 
