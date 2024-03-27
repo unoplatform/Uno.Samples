@@ -166,7 +166,8 @@ public partial class PasswordDialogBox : ContentView
 #if WINDOWS
                 handler.PlatformView.BorderThickness = new Microsoft.UI.Xaml.Thickness(0);
 #elif IOS || MACCATALYST
-                handler.PlatformView.BorderStyle = UIKit.UITextBorderStyle.None;
+                // TODO: Disabled to fix CI
+                //handler.PlatformView.BorderStyle = UIKit.UITextBorderStyle.None;
 #endif
             }
         }
