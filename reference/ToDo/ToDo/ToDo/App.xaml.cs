@@ -13,7 +13,7 @@ public partial class App : Application
         this.InitializeComponent();
     }
 
-    protected Window? MainWindow { get; private set; }
+    public Window? MainWindow { get; private set; }
     protected IHost? Host { get; private set; }
 
     protected async override void OnLaunched(LaunchActivatedEventArgs args)
@@ -26,68 +26,38 @@ public partial class App : Application
 #endif
                 .UseConfiguration(configure: configBuilder =>
                     configBuilder
+                        // Load configuration information from appconfig.json
                         .EmbeddedSource<App>()
-                        .Section<AppConfig>()
+                        .EmbeddedSource<App>("platform")
+
+                        // Load OAuth configuration
+                        .Section<Auth>()
+
+                        // Load Mock configuration
+                        .Section<Mock>()
+
+                        // Enable app settings
+                        .Section<ToDoApp>()
                 )
                 // Enable localization (see appsettings.json for supported languages)
                 .UseLocalization()
                 // Register Json serializers (ISerializer and ISerializer)
-                .UseSerialization((context, services) => services
-                    .AddContentSerializer(context)
-                    .AddJsonTypeInfo(WeatherForecastContext.Default.IImmutableListWeatherForecast))
-                .UseHttp((context, services) => services
-                    // Register HttpClient
-#if DEBUG
-                    // DelegatingHandler will be automatically injected into Refit Client
-                    .AddTransient<DelegatingHandler, DebugHttpHandler>()
+                .UseSerialization()
+                .ConfigureServices(
+                    (context, services) => {
+
+                        var section = context.Configuration.GetSection(nameof(Mock));
+                        var useMocks = bool.TryParse(section[nameof(Mock.IsEnabled)], out var isMocked) ? isMocked : false;
+#if USE_MOCKS
+                        // This is required for UI Testing where USE_MOCKS is enabled
+                        useMocks=true;;
 #endif
-                    .AddSingleton<IWeatherCache, WeatherCache>()
-                    .AddRefitClient<IApiClient>(context))
-                .UseAuthentication(auth =>
-    auth.AddCustom(custom =>
-            custom
-                .Login((sp, dispatcher, credentials, cancellationToken) =>
-                {
-                    // TODO: Write code to process credentials that are passed into the LoginAsync method
-                    if (credentials?.TryGetValue(nameof(LoginModel.Username), out var username) ?? false &&
-                        !username.IsNullOrEmpty())
-                    {
-                        // Return IDictionary containing any tokens used by service calls or in the app
-                        credentials ??= new Dictionary<string, string>();
-                        credentials[TokenCacheExtensions.AccessTokenKey] = "SampleToken";
-                        credentials[TokenCacheExtensions.RefreshTokenKey] = "RefreshToken";
-                        credentials["Expiry"] = DateTime.Now.AddMinutes(5).ToString("g");
-                        return ValueTask.FromResult<IDictionary<string, string>?>(credentials);
-                    }
 
-                    // Return null/default to fail the LoginAsync method
-                    return ValueTask.FromResult<IDictionary<string, string>?>(default);
-                })
-                .Refresh((sp, tokenDictionary, cancellationToken) =>
-                {
-                    // TODO: Write code to refresh tokens using the currently stored tokens
-                    if ((tokenDictionary?.TryGetValue(TokenCacheExtensions.RefreshTokenKey, out var refreshToken) ?? false) &&
-                        !refreshToken.IsNullOrEmpty() &&
-                        (tokenDictionary?.TryGetValue("Expiry", out var expiry) ?? false) &&
-                        DateTime.TryParse(expiry, out var tokenExpiry) &&
-                        tokenExpiry > DateTime.Now)
-                    {
-                        // Return IDictionary containing any tokens used by service calls or in the app
-                        tokenDictionary ??= new Dictionary<string, string>();
-                        tokenDictionary[TokenCacheExtensions.AccessTokenKey] = "NewSampleToken";
-                        tokenDictionary["Expiry"] = DateTime.Now.AddMinutes(5).ToString("g");
-                        return ValueTask.FromResult<IDictionary<string, string>?>(tokenDictionary);
-                    }
-
-                    // Return null/default to fail the Refresh method
-                    return ValueTask.FromResult<IDictionary<string, string>?>(default);
-                }), name: "CustomAuth")
-                )
-                .ConfigureServices((context, services) =>
-                {
-                    // TODO: Register your services
-                    //services.AddSingleton<IMyService, MyService>();
-                })
+                        services
+                            .AddScoped<IAppTheme, AppTheme>()
+                            .AddEndpoints(context, useMocks: useMocks)
+                            .AddServices(useMocks: useMocks);
+                    })
                 .UseNavigation(ReactiveViewModelMappings.ViewModelMappings, RegisterRoutes)
             );
         MainWindow = builder.Window;
@@ -97,40 +67,81 @@ public partial class App : Application
 #endif
         MainWindow.SetWindowIcon();
 
-        Host = await builder.NavigateAsync<Shell>
-            (initialNavigate: async (services, navigator) =>
-            {
-                var auth = services.GetRequiredService<ToDo.Business.Services.IAuthenticationService>();
-                var authenticated = await auth.RefreshAsync();
-                if (authenticated)
-                {
-                    await navigator.NavigateViewModelAsync<MainModel>(this, qualifier: Qualifiers.Nested);
-                }
-                else
-                {
-                    await navigator.NavigateViewModelAsync<LoginModel>(this, qualifier: Qualifiers.Nested);
-                }
-            });
+        Host = await builder.NavigateAsync<Shell>();
     }
 
     private static void RegisterRoutes(IViewRegistry views, IRouteRegistry routes)
     {
+        LocalizableMessageDialogViewMap BuildDialogViewMap(string section, bool delayUserInput, int defaultButtonIndex, params (object Id, string labelKeyPath)[] buttons)
+        {
+            return new LocalizableMessageDialogViewMap
+            (
+                Content: localizer => localizer![ResourceKey(ResourceKeys.DialogContent)],
+                Title: localizer => localizer![ResourceKey(ResourceKeys.DialogTitle)],
+                DelayUserInput: delayUserInput,
+                DefaultButtonIndex: defaultButtonIndex,
+                Buttons: buttons
+                    .Select(x => new LocalizableDialogAction(LabelProvider: localizer => localizer![ResourceKey(x.labelKeyPath)], Id: x.Id))
+                    .ToArray()
+            );
+            string ResourceKey(string keyPath)
+            {
+                // map absolute/relative path accordingly
+                return keyPath.StartsWith("./") ? keyPath.Substring(2) : $"Dialog_{section}_{keyPath}";
+            }
+        }
+
+        var deleteButton = (DialogResults.Affirmative, ResourceKeys.DeleteButton);
+        var cancelButton = (DialogResults.Negative, ResourceKeys.CancelButton);
+        var confirmDeleteListDialog = BuildDialogViewMap(Dialog.ConfirmDeleteList, true, 0, deleteButton, cancelButton);
+        var confirmDeleteTaskDialog = BuildDialogViewMap(Dialog.ConfirmDeleteTask, true, 0, deleteButton, cancelButton);
+        var confirmSignOutDialog = BuildDialogViewMap(Dialog.ConfirmSignOut, true, 0, (DialogResults.Affirmative, ResourceKeys.SignOutButton), cancelButton);
+
         views.Register(
-            new ViewMap(ViewModel: typeof(ShellModel)),
-            new ViewMap<LoginPage, LoginModel>(),
-            new ViewMap<MainPage, MainModel>(),
-            new DataViewMap<SecondPage, SecondModel, Entity>()
+            // Dialogs and Flyouts
+            new ViewMap<AddTaskFlyout, AddTaskViewModel>(),
+            new ViewMap<AddListFlyout, AddListViewModel>(),
+            new ViewMap<ExpirationDateFlyout, ExpirationDateViewModel>(Data: new DataMap<PickedDate>()),
+            new ViewMap<RenameListFlyout, RenameListViewModel>(),
+
+            // Views
+            new ViewMap<HomePage, HomeViewModel>(),
+            new ViewMap<TaskSearchFlyout>(),
+            new ViewMap<SearchPage, SearchViewModel>(),
+            new ViewMap<SettingsFlyout, SettingsViewModel>(),
+            new ViewMap(ViewModel: typeof(ShellViewModel)),
+            new ViewMap<WelcomePage, WelcomeViewModel>(),
+            new DataViewMap<TaskListPage, TaskListViewModel, TaskList>(),
+            new DataViewMap<TaskPage, TaskViewModel, ToDoTask>(),
+            confirmDeleteListDialog,
+            confirmDeleteTaskDialog,
+            confirmSignOutDialog
         );
 
         routes.Register(
-            new RouteMap("", View: views.FindByViewModel<ShellModel>(),
-                Nested:
-                [
-                    new ("Login", View: views.FindByViewModel<LoginModel>()),
-                    new ("Main", View: views.FindByViewModel<MainModel>()),
-                    new ("Second", View: views.FindByViewModel<SecondModel>()),
-                ]
-            )
+            new RouteMap("", View: views.FindByViewModel<ShellViewModel>(), Nested: new RouteMap[]
+            {
+                new("Welcome", View: views.FindByViewModel<WelcomeViewModel>()),
+                new("Home", View: views.FindByViewModel<HomeViewModel>()),
+                new("TaskList", View: views.FindByViewModel<TaskListViewModel>(), Nested: new[]
+                {
+                    new RouteMap("ToDo", IsDefault:true),
+                    new RouteMap("Completed")
+                }),
+                new("Task", View: views.FindByViewModel<TaskViewModel>(), DependsOn:"TaskList"),
+                new("TaskSearch", View: views.FindByView<TaskSearchFlyout>(), Nested: new RouteMap[]
+                {
+                    new("Search", View: views.FindByViewModel<SearchViewModel>(), IsDefault: true)
+                }),
+                new("Settings", View: views.FindByViewModel<SettingsViewModel>()),
+                new("AddTask", View: views.FindByViewModel<AddTaskViewModel>()),
+                new("AddList", View: views.FindByViewModel<AddListViewModel>()),
+                new("ExpirationDate", View: views.FindByViewModel<ExpirationDateViewModel>()),
+                new("RenameList", View: views.FindByViewModel<RenameListViewModel>()),
+                new(Dialog.ConfirmDeleteList, confirmDeleteListDialog),
+                new(Dialog.ConfirmDeleteTask, confirmDeleteTaskDialog),
+                new(Dialog.ConfirmSignOut, confirmSignOutDialog)
+            })
         );
     }
 }

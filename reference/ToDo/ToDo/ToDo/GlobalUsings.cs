@@ -1,4 +1,4 @@
-﻿global using System;
+global using System;
 global using System.Collections.Generic;
 global using System.Collections.Immutable;
 global using System.Diagnostics.Contracts;
@@ -27,6 +27,9 @@ global using ToDo.Business.Mock;
 global using ToDo.Business.Models;
 global using ToDo.Business.Services;
 global using ToDo.Configuration;
+global using ToDo.Views;
+global using ToDo.Views.Dialogs;
+global using ToDo.Presentation;
 global using ToDo.Data;
 global using ToDo.Data.Models;
 global using ToDo.Presentation.Dialogs;
