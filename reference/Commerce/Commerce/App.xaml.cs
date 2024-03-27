@@ -1,5 +1,5 @@
 using Uno.Extensions.Toolkit;
-//using Uno.Resizetizer;
+using Uno.Resizetizer;
 using Windows.Media.Protection.PlayReady;
 
 namespace Commerce;
@@ -98,10 +98,9 @@ public partial class App : Application
 #if DEBUG
         MainWindow.EnableHotReload();
 #endif
-        //MainWindow.SetWindowIcon();
+        MainWindow.SetWindowIcon();
 
-        //Host = await builder.NavigateAsync<Shell>();
-        Host = await MainWindow.InitializeNavigationAsync(async () => builder.Build());
+        Host = await builder.NavigateAsync<Shell>();
     }
 
     private static void RegisterRoutes(IViewRegistry views, IRouteRegistry routes)

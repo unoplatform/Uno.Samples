@@ -49,19 +49,22 @@
       ExtensionsCore;
     </UnoFeatures>
   </PropertyGroup>
+
   <ItemGroup>
-    <Content Update="Assets\products.json">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Assets\reviews.json">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Content>
-    <Content Update="products.json">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Content>
-    <Content Update="reviews.json">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Content>
+    <Content Remove="appsettings.json" />
+    <Content Remove="products.json" />
+    <Content Remove="reviews.json" />
   </ItemGroup>
 
+<ItemGroup>
+    <EmbeddedResource Include="appsettings.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="products.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="reviews.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    </ItemGroup>
 </Project>
