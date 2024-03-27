@@ -3,8 +3,8 @@
 public class ProductEndpoint : IProductEndpoint
 {
 	//TODO: not working outside Assets folder
-	public const string ProductDataFile = "Assets/products.json";
-	private const string ReviewDataFile = "Assets/reviews.json";
+	public const string ProductDataFile = "products.json";
+	private const string ReviewDataFile = "reviews.json";
 
 	private readonly IStorage _dataService;
 	private readonly ISerializer _serializer;
