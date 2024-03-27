@@ -1,4 +1,8 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿<!-- WPF target is broken due to: 
+2>C:\samples\reference\ToDo\src\ToDo.Skia.WPF\Uno.UI.SourceGenerators\Uno.UI.SourceGenerators.BindableTypeProviders.BindableTypeProvidersSourceGenerator\BindableMetadata.g.cs(13711,88,13711,100): error CS0433: The type 'CoreWebView2' exists in both 'Microsoft.Web.WebView2.Core, Version=1.0.864.35, Culture=neutral, PublicKeyToken=2a8ab48044d2601e' and 'Uno.UI, Version=255.255.255.255, Culture=neutral, PublicKeyToken=null'
+which is why this target has been removed from the solution
+-->
+<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
 		<OutputType Condition="'$(Configuration)'=='Release'">WinExe</OutputType>
 		<OutputType Condition="'$(Configuration)'=='Debug'">Exe</OutputType>
