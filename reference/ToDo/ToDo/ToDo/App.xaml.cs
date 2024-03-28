@@ -109,7 +109,7 @@ public partial class App : Application
             new ViewMap<TaskSearchFlyout>(),
             new ViewMap<SearchPage, SearchViewModel>(),
             new ViewMap<SettingsFlyout, SettingsViewModel>(),
-            new ViewMap(ViewModel: typeof(ShellViewModel)),
+            new ViewMap<Shell, ShellViewModel>(),
             new ViewMap<WelcomePage, WelcomeViewModel>(),
             new DataViewMap<TaskListPage, TaskListViewModel, TaskList>(),
             new DataViewMap<TaskPage, TaskViewModel, ToDoTask>(),
