@@ -1,10 +1,9 @@
-## Updating SimpleCalc Source Code
+# SimpleCalculator
 
-There is a shared source code for all the SimpleCalc solutions that are in the `resources` folder. To update the source code, uncomment the `Import` element in the `SimpleCalculator.csproj` for the solution you want to make changes to. When the solution is built the relevant shared resources will be copied into the solution.
+This is a Simple Calculator app designed to perform basic arithmetic operations. The app was built using 4 options - [C# Markup](https://aka.platform.uno/csharp-markup) or [XAML]() for the UI and [MVUX](https://aka.platform.uno/mvux) or [MVVM]() for state management
 
-  <!-- Disabling source code updating - uncomment and do build to update source code from shared resources -->
-  <!-- <Import Project="..\..\resources\shared-resources.targets" Condition="Exists('..\..\resources\shared-resources.targets')" /> -->
+![SimpleCalculator Image](SimpleCalculator-Image.png)
 
-Make changes to the shared source code in the `resources` folder and then build the solution. The shared source code will be copied into the solution. Commit the changes to the solution and the shared source code.
-
-Don't forget to update the other solutions that will be affected eg if you make changes to the XAML, make sure both the XAML solutions are updated.
+## Learn More
+- [C# Markup](https://aka.platform.uno/csharp-markup) 
+- [MVUX](https://aka.platform.uno/mvux)
