@@ -15,9 +15,9 @@ public static class ServiceCollectionExtensions
 			.AddSingleton(new JsonSerializerOptions { DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault })
 			.AddNativeHandler(context)
 			.AddContentSerializer(context)
-			.AddRefitClient<ITaskEndpoint>(context, nameof(ITaskEndpoint))
-			.AddRefitClient<ITaskListEndpoint>(context, nameof(ITaskEndpoint))
-			.AddRefitClient<IUserProfilePictureEndpoint>(context, nameof(ITaskEndpoint));
+			.AddRefitClient<ITaskEndpoint>(context)
+			.AddRefitClient<ITaskListEndpoint>(context)
+			.AddRefitClient<IUserProfilePictureEndpoint>(context);
 
 		if (useMocks)
 		{

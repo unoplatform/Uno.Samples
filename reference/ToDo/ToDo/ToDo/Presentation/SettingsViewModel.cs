@@ -25,7 +25,7 @@ public partial class SettingsViewModel
 		IAuthenticationService authService,
 		IUserProfilePictureService userSvc,
 		IOptions<LocalizationConfiguration> localizationConfiguration,
-		IWritableOptions<LocalizationService> localizationSettings,
+		IWritableOptions<LocalizationService> localizationService,
 		IStringLocalizer localizer,
 		IAppTheme appTheme,
 		IWritableOptions<ToDoApp> appSettings)
@@ -44,7 +44,7 @@ public partial class SettingsViewModel
 		SelectedAppTheme.Execute(ChangeAppTheme);
 
 		Cultures = localizationConfiguration.Value!.Cultures!.Select(c => new DisplayCulture(localizer[$"SettingsFlyout_LanguageLabel_{c}"], c)).ToArray();
-		SelectedCulture = State.Value(this, () => Cultures.FirstOrDefault(c => c.Culture == LocalizationService.Value?.CurrentCulture) ?? Cultures.First());
+		SelectedCulture = State.Value(this, () => Cultures.FirstOrDefault(c => c.Culture.Equals(LocalizationService.Value?.CurrentCulture)) ?? Cultures.First());
 
 		SelectedCulture.Execute(ChangeLanguage);
 	}
@@ -72,12 +72,15 @@ public partial class SettingsViewModel
 
 	private async ValueTask ChangeLanguage(DisplayCulture? culture, CancellationToken ct)
 	{
-		if (culture is not null)
-		{
-			await LocalizationService.UpdateAsync(settings => settings with { CurrentCulture = culture.Culture });
-		}
-	}
-
+        if (culture is not null)
+        {
+            await LocalizationService.UpdateAsync(settings =>
+            {
+                settings.SetCurrentCultureAsync(new CultureInfo(culture.Culture));
+                return settings;
+            });
+        }
+    }
 
 	private async ValueTask ChangeAppTheme(string? appTheme, CancellationToken ct)
 	{
