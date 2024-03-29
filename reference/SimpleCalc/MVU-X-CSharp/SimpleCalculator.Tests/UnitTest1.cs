@@ -10,6 +10,7 @@ public class Tests
     [TestCase("1+4=×2=−1=÷3=", "3", "9 ÷ 3 =")]
     [TestCase("1++×+4÷×2−1=−−−÷3=", "3", "9 ÷ 3 =")]
     [TestCase("C%±+−÷×=", "0", "  ")]
+    [TestCase("", "0", "  ")]
     public void OperationTest(string input, string output, string equation)
     {
         Calculator c = new();

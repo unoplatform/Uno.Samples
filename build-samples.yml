@@ -32,7 +32,7 @@ steps:
 
       $folderPath = [System.IO.Path]::GetDirectoryName("${{ parameters.path }}");
 
-      $testProject = Get-Item -Path $folderPath\**\*.Tests.csproj;
+      $testProject = Get-ChildItem -Path $folderPath -Recurse -Filter *.Tests.csproj | Where-Object { $_.Name -notmatch '\.UI\.Tests\.csproj' }
 
       Write-Host "Test project - $testProject.FullName"
 
