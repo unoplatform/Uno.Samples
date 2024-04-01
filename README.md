@@ -33,13 +33,14 @@ The Commerce App is a sample application that demonstrates the use of ListFeed p
 
 ### SimpleCalculator App
 
-The SimpleCalculator App is a sample application that is designed to perform basic arithmetic operations. The app was built using 4 options - [C# Markup](https://aka.platform.uno/csharp-markup) or [XAML]() for the UI and [MVUX](https://aka.platform.uno/mvux) or [MVVM]() for state management.
+The SimpleCalculator App is a sample application that is designed to perform basic arithmetic operations. The app was built using the four variants of the [Simple Calc workshop](https://aka.platform.uno/simplecalc-workshop), combining markup language (XAML or C# Markup) and presentation framework (MVVM or MVUX).
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/reference/SimpleCalc)
 
 ### Counter App
 
 Discover the simplicity and power of Uno.Extensions with the Counter App, a straightforward yet powerful demonstration of basic and advanced features of the Uno Platform. This app provides a hands-on experience with fundamental concepts such as state management, user interaction, and UI updates in real-time.
+This sample app was built using the four variants of the [Counter workshop](https://aka.platform.uno/counter-tutorial), combining markup language (XAML or C# Markup) and presentation framework (MVVM or MVUX).
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/reference/Counter)
 
@@ -51,7 +52,8 @@ Dive into the essentials of task management with the ToDo App, a meticulously de
 
 ### TubePlayer App
 
-The TubePlayer App is a sample application that leverages Uno Platform to recreate the core functionalities of YouTube. This app serves as a comprehensive tutorial for developers to create a rich, responsive video streaming service.
+The TubePlayer App is a sample application that leverages Uno Platform to recreate the core functionalities of YouTube. This app serves as a comprehensive tutorial for developers to create a rich video streaming service.
+This sample app was built following the [Tube Player worshop](https://aka.platform.uno/tubeplayer-workshop).
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/reference/TubePlayer)
 
