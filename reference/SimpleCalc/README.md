@@ -1,6 +1,6 @@
-# SimpleCalculator
+# SimpleCalc
 
-This is a Simple Calculator app designed to perform basic arithmetic operations. The app was built using 4 options - [C# Markup](https://aka.platform.uno/csharp-markup) or [XAML]() for the UI and [MVUX](https://aka.platform.uno/mvux) or [MVVM]() for state management
+The SimpleCalc App is a sample application that is designed to perform basic arithmetic operations. The app was built using the four variants of the [Simple Calc workshop](https://aka.platform.uno/simplecalc-workshop), combining markup language (XAML or C# Markup) and presentation framework (MVVM or MVUX).
 
 ![SimpleCalculator Image](SimpleCalculator-Image.png)
 
