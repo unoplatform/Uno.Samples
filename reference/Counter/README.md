@@ -1,5 +1,8 @@
 # Counter App
 
-Counter App is a simple counter application with Uno Platform. The application will have a Button that increments the counter, a TextBox where the user can enter the step size, and a TextBlock that displays the current value of the counter.
+Discover the simplicity and power of Uno.Extensions with the Counter App, a straightforward yet powerful demonstration of basic and advanced features of the Uno Platform. This app provides a hands-on experience with fundamental concepts such as state management, user interaction, and UI updates in real-time.
+This sample app was built using the four variants of the [Counter workshop](https://aka.platform.uno/counter-tutorial), combining markup language (XAML or C# Markup) and presentation framework (MVVM or MVUX).
 
-Tutorial: [Create the Counter App](https://platform.uno/docs/articles/getting-started/counterapp/get-started-counter.html)
+[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/reference/Counter)
+
+![CounterApp Image](counterApp.png)
