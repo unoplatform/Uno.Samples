@@ -31,9 +31,9 @@ The Commerce App is a sample application that demonstrates the use of ListFeed p
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/reference/Commerce)
 
-### SimpleCalculator App
+### SimpleCalc App
 
-The SimpleCalculator App is a sample application that is designed to perform basic arithmetic operations. The app was built using the four variants of the [Simple Calc workshop](https://aka.platform.uno/simplecalc-workshop), combining markup language (XAML or C# Markup) and presentation framework (MVVM or MVUX).
+The SimpleCalc App is a sample application that is designed to perform basic arithmetic operations. The app was built using the four variants of the [Simple Calc workshop](https://aka.platform.uno/simplecalc-workshop), combining markup language (XAML or C# Markup) and presentation framework (MVVM or MVUX).
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/reference/SimpleCalc)
 
@@ -52,7 +52,7 @@ Dive into the essentials of task management with the ToDo App, a meticulously de
 
 ### TubePlayer App
 
-The TubePlayer App is a sample application that leverages Uno Platform to recreate the core functionalities of YouTube. This app serves as a comprehensive tutorial for developers to create a rich video streaming service.
+The TubePlayer App is a sample application that enables the user to search for, and stream, Youtube videos. This app was made using tools, libraries, and patterns available in the Uno Platform, that are there to help rapidly build high-quality applications.
 This sample app was built following the [Tube Player worshop](https://aka.platform.uno/tubeplayer-workshop).
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/reference/TubePlayer)
