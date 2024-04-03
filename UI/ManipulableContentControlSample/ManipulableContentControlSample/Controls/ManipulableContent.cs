@@ -5,7 +5,7 @@ using Windows.Foundation;
 namespace ManipulableContentControlSample.Controls;
 
 [TemplatePart(Name = "PART_Presenter", Type = typeof(ContentPresenter))]
-public class ManipulableContent : ContentControl
+public partial class ManipulableContent : ContentControl
 {
     private ContentPresenter? _presenter;
 
@@ -41,10 +41,10 @@ public class ManipulableContent : ContentControl
     DependencyProperty.Register(nameof(IsPanAllowed), typeof(bool), typeof(ManipulableContent), new PropertyMetadata(defaultValue: true));
 
     public static readonly DependencyProperty HorizontalOffsetProperty =
-    DependencyProperty.Register(nameof(HorizontalOffset), typeof(double), typeof(ManipulableContent), new PropertyMetadata(-200.0d));
+    DependencyProperty.Register(nameof(HorizontalOffset), typeof(double), typeof(ManipulableContent), new PropertyMetadata(0.0d));
 
     public static readonly DependencyProperty VerticalOffsetProperty =
-    DependencyProperty.Register(nameof(VerticalOffset), typeof(double), typeof(ManipulableContent), new PropertyMetadata(-100.0d));
+    DependencyProperty.Register(nameof(VerticalOffset), typeof(double), typeof(ManipulableContent), new PropertyMetadata(0.0d));
 
     public bool IsActive
     {
@@ -273,5 +273,16 @@ public class ManipulableContent : ContentControl
     {
         var delta = pointerProperties.MouseWheelDelta * PanWheelRatio;
         return delta;
+    }
+
+    public void ResetZoom()
+    {
+        ZoomLevel = 1;
+    }
+
+    public void ResetOffset()
+    {
+        HorizontalOffset = 0;
+        VerticalOffset = 0;
     }
 }
