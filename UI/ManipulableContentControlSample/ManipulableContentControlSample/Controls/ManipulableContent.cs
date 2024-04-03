@@ -23,7 +23,7 @@ public partial class ManipulableContent : ContentControl
     DependencyProperty.Register(nameof(MinZoomLevel), typeof(double), typeof(ManipulableContent), new PropertyMetadata(0.25d));
 
     public static readonly DependencyProperty MaxZoomLevelProperty =
-    DependencyProperty.Register(nameof(MaxZoomLevel), typeof(double), typeof(ManipulableContent), new PropertyMetadata(7.5d));
+    DependencyProperty.Register(nameof(MaxZoomLevel), typeof(double), typeof(ManipulableContent), new PropertyMetadata(200d));
 
     public static readonly DependencyProperty HorizontalZoomCenterProperty =
     DependencyProperty.Register(nameof(HorizontalZoomCenter), typeof(double), typeof(ManipulableContent), new PropertyMetadata(0.0d));

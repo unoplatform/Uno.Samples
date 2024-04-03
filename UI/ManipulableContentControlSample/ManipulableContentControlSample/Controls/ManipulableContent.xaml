@@ -7,22 +7,59 @@
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="ctl:ManipulableContent">
-					<Border Background="{TemplateBinding Background}">
-						<ContentPresenter
-							x:Name="PART_Presenter"
-							Margin="{TemplateBinding Padding}"
-							HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-							VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-							Content="{TemplateBinding Content}"
-							ContentTemplate="{TemplateBinding ContentTemplate}">
-							<ContentPresenter.RenderTransform>
-								<TransformGroup>
-									<ScaleTransform CenterX="{TemplateBinding HorizontalZoomCenter}" CenterY="{TemplateBinding VerticalZoomCenter}" ScaleX="{TemplateBinding ZoomLevel}" ScaleY="{TemplateBinding ZoomLevel}" />
-									<TranslateTransform X="{TemplateBinding HorizontalOffset}" Y="{TemplateBinding VerticalOffset}" />
-								</TransformGroup>
-							</ContentPresenter.RenderTransform>
-						</ContentPresenter>
-					</Border>
+					<Grid>
+						<Grid.RowDefinitions>
+							<RowDefinition Height="*" />
+							<RowDefinition Height="Auto" />
+						</Grid.RowDefinitions>
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="*" />
+							<ColumnDefinition Width="Auto" />
+						</Grid.ColumnDefinitions>
+						<Border
+							Grid.Row="0"
+							Grid.Column="0"
+							Background="{TemplateBinding Background}">
+							<ContentPresenter
+								x:Name="PART_Presenter"
+								Margin="{TemplateBinding Padding}"
+								HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+								VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+								Content="{TemplateBinding Content}"
+								ContentTemplate="{TemplateBinding ContentTemplate}">
+								<ContentPresenter.RenderTransform>
+									<TransformGroup>
+										<ScaleTransform CenterX="{TemplateBinding HorizontalZoomCenter}" CenterY="{TemplateBinding VerticalZoomCenter}" ScaleX="{TemplateBinding ZoomLevel}" ScaleY="{TemplateBinding ZoomLevel}" />
+										<TranslateTransform X="{TemplateBinding HorizontalOffset}" Y="{TemplateBinding VerticalOffset}" />
+									</TransformGroup>
+								</ContentPresenter.RenderTransform>
+							</ContentPresenter>
+						</Border>
+						<!--  Vertical ScrollBar  -->
+						<ScrollBar
+							Grid.Row="0"
+							Grid.Column="1"
+							LargeChange="100"
+							Maximum="{TemplateBinding ActualHeight}"
+							Minimum="0"
+							Orientation="Vertical"
+							SmallChange="10"
+							ViewportSize="{Binding ActualHeight, ElementName=PART_Presenter, Mode=OneWay}"
+							Visibility="Visible"
+							Value="{TemplateBinding VerticalOffset}" />
+						<!--  Horizontal ScrollBar  -->
+						<ScrollBar
+							Grid.Row="1"
+							Grid.Column="0"
+							LargeChange="100"
+							Maximum="{TemplateBinding ActualWidth}"
+							Minimum="0"
+							Orientation="Horizontal"
+							SmallChange="10"
+							ViewportSize="{Binding ActualWidth, ElementName=PART_Presenter, Mode=OneWay}"
+							Visibility="Visible"
+							Value="{TemplateBinding HorizontalOffset}" />
+					</Grid>
 				</ControlTemplate>
 			</Setter.Value>
 		</Setter>
