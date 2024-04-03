@@ -9,10 +9,6 @@ The design template makes it easy to jump-start or learn Uno Platform-powered mo
 
 In addition, the sample code utilizes [Uno.Extensions](https://platform.uno/docs/articles/external/uno.extensions/doc/Overview/ExtensionsOverviewAndGettingStarted.html) and establishes the best practices for cross-platform application design and development considering multiple screen sizes, accessibility, enforcing brand guidelines, and more. 
 
-Finally, you can use the [Uno To Do Figma template design]((https://www.figma.com/community/file/1110780207444745729)) together with the [Uno Platform for Figma plugin](https://www.figma.com/community/plugin/1045528009520465828/Uno-Platform) LivePreview feature to experience the app before even coding it. Export design assets and get clean, responsive XAML true to the way the app was designed.
-
-https://user-images.githubusercontent.com/16295702/170085831-e8457ddd-888e-4aff-bb68-30ed136dd108.mp4
-
 ## Getting Started
 See the complete [documentation](https://platform.uno/docs/articles/external/figma-docs/getting-started-uno-figma.html) for starting designing and building Uno Platform Applications With Figma.
 
