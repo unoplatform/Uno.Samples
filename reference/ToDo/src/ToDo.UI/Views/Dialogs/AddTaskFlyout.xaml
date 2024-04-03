@@ -1,0 +1,54 @@
+﻿<Page x:Class="ToDo.Views.Dialogs.AddTaskFlyout"
+	  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	  xmlns:uen="using:Uno.Extensions.Navigation.UI"
+	  xmlns:uer="using:Uno.Extensions.Reactive.UI"
+	  xmlns:utu="using:Uno.Toolkit.UI"
+	  xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+	  xmlns:um="using:Uno.Material"
+	  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	  mc:Ignorable="d"
+	  Background="{ThemeResource BackgroundBrush}">
+
+	<utu:AutoLayout Spacing="20"
+					Padding="20,20,20,20"
+					CornerRadius="8"
+					Background="{ThemeResource SurfaceBrush}">
+		
+		<TextBlock x:Uid="AddTaskFlyout_Title"
+			Foreground="{ThemeResource OnSurfaceBrush}"
+				   TextWrapping="Wrap"
+				   Text="Add a task"
+				   Style="{StaticResource TitleLarge}" />
+
+		<TextBox x:Uid="AddTaskFlyout_InputTextBox"
+				 PlaceholderText="Add a task"
+				 x:Name="InputTextBox"
+				 Text="{Binding Title, Mode=TwoWay}"
+				 Style="{StaticResource FilledTextBoxStyle}" />
+
+		<utu:AutoLayout Spacing="10"
+						Orientation="Horizontal">
+			<utu:AutoLayout Spacing="10"
+							Orientation="Horizontal"
+							utu:AutoLayout.CounterAlignment="Start"
+							utu:AutoLayout.PrimaryAlignment="Stretch" />
+
+			<Button x:Uid="AddTaskFlyout_CancelButton"
+					Content="Cancel"
+					uen:Navigation.Request="-"
+					utu:AutoLayout.CounterAlignment="Start"
+					Style="{StaticResource TextButtonStyle}" />
+
+			<Button x:Uid="AddTaskFlyout_CreateButton"
+					Content="Create"
+					uen:Navigation.Request="-"
+					uen:Navigation.Data="{Binding ElementName=InputTextBox, Path=Text}"
+					utu:AutoLayout.CounterAlignment="Start"
+					IsEnabled="{Binding ElementName=InputTextBox, Path=Text, Converter={StaticResource IsNotNullNorWhitespace}}"
+					Style="{StaticResource FilledButtonStyle}" />
+		</utu:AutoLayout>
+	</utu:AutoLayout>
+
+</Page>
