@@ -1,0 +1,44 @@
+﻿<Page
+	x:Class="ManipulableContentControlSample.MainPage"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:controls="using:ManipulableContentControlSample.Controls"
+	xmlns:local="using:ManipulableContentControlSample"
+	Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="*" />
+			<RowDefinition Height="100" />
+		</Grid.RowDefinitions>
+		<Grid Grid.Row="0" Background="CadetBlue">
+			<Grid.RowDefinitions>
+				<RowDefinition Height="*" />
+			</Grid.RowDefinitions>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="Auto" />
+			</Grid.ColumnDefinitions>
+			<!--  utu:SafeArea.Insets="VisibleBounds"  -->
+			<controls:ManipulableContent
+				x:Name="mContent"
+				Background="Transparent"
+				IsActive="{Binding Selected, ElementName=swEnable}">
+				<StackPanel>
+					<Image Source="/Assets/Icons/icon.svg" />
+					<TextBlock
+						HorizontalAlignment="Center"
+						AutomationProperties.AutomationId="HelloTextBlock"
+						Text="Hello Uno Platform" />
+				</StackPanel>
+			</controls:ManipulableContent>
+		</Grid>
+		<StackPanel
+			Grid.Row="1"
+			Background="Purple"
+			Orientation="Horizontal"
+			Spacing="4">
+			<ToggleSwitch x:Name="swEnable" />
+			<Button Content="Reset Zoom" />
+			<Button Content="Center Content" />
+		</StackPanel>
+	</Grid>
+</Page>
