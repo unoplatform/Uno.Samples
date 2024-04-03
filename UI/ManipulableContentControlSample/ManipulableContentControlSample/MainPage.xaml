@@ -1,13 +1,73 @@
-﻿<Page x:Class="ManipulableContentControlSample.MainPage"
-      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:local="using:ManipulableContentControlSample"
-      Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-  <StackPanel
-        HorizontalAlignment="Center"
-        VerticalAlignment="Center">
-    <TextBlock AutomationProperties.AutomationId="HelloTextBlock"
-          Text="Hello Uno Platform"
-          HorizontalAlignment="Center" />
-  </StackPanel>
+﻿<Page
+	x:Class="ManipulableContentControlSample.MainPage"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:controls="using:ManipulableContentControlSample.Controls"
+	xmlns:local="using:ManipulableContentControlSample"
+	Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="*" />
+			<RowDefinition Height="Auto" />
+		</Grid.RowDefinitions>
+		<StackPanel
+			Grid.Row="0"
+			Padding="10"
+			Background="Purple"
+			Spacing="15">
+			<TextBlock FontSize="16" Text="Using ManipulableContent Control" />
+
+			<TextBlock>
+				The control allows its content to be manipulated by mouse events.<LineBreak />
+				Use MouseWheel to scroll vertically.<LineBreak />
+				Press shift and turn MouseWheel to scroll horizontally.<LineBreak />
+				Press Control and turn MouseWheel to Zoom.</TextBlock>
+		</StackPanel>
+		<Grid Grid.Row="1" Background="CadetBlue">
+			<Grid.RowDefinitions>
+				<RowDefinition Height="*" />
+			</Grid.RowDefinitions>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="*" />
+			</Grid.ColumnDefinitions>
+			<!--  utu:SafeArea.Insets="VisibleBounds"  -->
+			<controls:ManipulableContent
+				x:Name="mContent"
+				HorizontalAlignment="Stretch"
+				VerticalAlignment="Stretch"
+				Background="Transparent"
+				IsActive="{Binding IsOn, ElementName=swEnable}">
+				<StackPanel>
+					<Image Source="/Assets/Icons/icon.svg" />
+					<TextBlock
+						HorizontalAlignment="Center"
+						AutomationProperties.AutomationId="HelloTextBlock"
+						Text="Hello Uno Platform" />
+				</StackPanel>
+			</controls:ManipulableContent>
+		</Grid>
+		<StackPanel
+			Grid.Row="2"
+			Padding="10"
+			Background="Purple"
+			Orientation="Horizontal"
+			Spacing="8">
+			<ToggleSwitch x:Name="swEnable" />
+			<Button Click="ResetZoom" Content="Reset Zoom" />
+			<Button Click="ResetOffset" Content="Reset Offset" />
+			<TextBlock>
+				<Run Text="VerticalOffset:" />
+				<Run Text="{Binding VerticalOffset, ElementName=mContent}" /><LineBreak />
+				<Run Text="HorizontalOffset:" />
+				<Run Text="{Binding HorizontalOffset, ElementName=mContent}" /><LineBreak />
+				<Run Text="Zoom Level:" />
+				<Run Text="{Binding ZoomLevel, ElementName=mContent}" /><LineBreak />
+				<Run Text="VerticalZoomCenter:" />
+				<Run Text="{Binding VerticalZoomCenter, ElementName=mContent}" /><LineBreak />
+				<Run Text="HorizontalZoomCenter:" />
+				<Run Text="{Binding HorizontalZoomCenter, ElementName=mContent}" /><LineBreak />
+			</TextBlock>
+		</StackPanel>
+	</Grid>
 </Page>

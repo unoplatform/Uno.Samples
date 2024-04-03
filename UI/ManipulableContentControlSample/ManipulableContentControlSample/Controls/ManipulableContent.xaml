@@ -1,0 +1,31 @@
+﻿<ResourceDictionary
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:ctl="using:ManipulableContentControlSample.Controls">
+
+	<Style TargetType="ctl:ManipulableContent">
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="ctl:ManipulableContent">
+					<Border Background="{TemplateBinding Background}">
+						<ContentPresenter
+							x:Name="PART_Presenter"
+							Margin="{TemplateBinding Padding}"
+							HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+							VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+							Content="{TemplateBinding Content}"
+							ContentTemplate="{TemplateBinding ContentTemplate}">
+							<ContentPresenter.RenderTransform>
+								<TransformGroup>
+									<ScaleTransform CenterX="{TemplateBinding HorizontalZoomCenter}" CenterY="{TemplateBinding VerticalZoomCenter}" ScaleX="{TemplateBinding ZoomLevel}" ScaleY="{TemplateBinding ZoomLevel}" />
+									<TranslateTransform X="{TemplateBinding HorizontalOffset}" Y="{TemplateBinding VerticalOffset}" />
+								</TransformGroup>
+							</ContentPresenter.RenderTransform>
+						</ContentPresenter>
+					</Border>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+
+</ResourceDictionary>
