@@ -37,27 +37,38 @@
 						</Border>
 						<!--  Vertical ScrollBar  -->
 						<ScrollBar
+							x:Name="PART_scrollV"
 							Grid.Row="0"
 							Grid.Column="1"
+							HorizontalAlignment="Right"
+							VerticalAlignment="Stretch"
 							LargeChange="100"
-							Maximum="{TemplateBinding ActualHeight}"
-							Minimum="0"
+							Maximum="{TemplateBinding VerticalMaxScroll}"
+							Minimum="{TemplateBinding VerticalMinScroll}"
 							Orientation="Vertical"
 							SmallChange="10"
-							ViewportSize="{Binding ActualHeight, ElementName=PART_Presenter, Mode=OneWay}"
-							Visibility="Visible"
+							ViewportSize="{TemplateBinding ViewPortHeight}"
 							Value="{TemplateBinding VerticalOffset}" />
 						<!--  Horizontal ScrollBar  -->
+						<TextBlock
+							HorizontalAlignment="Stretch"
+							VerticalAlignment="Center"
+							FontSize="16"
+							Foreground="Red"
+							Text="{Binding Value, ElementName=PART_scrollH}" />
 						<ScrollBar
+							x:Name="PART_scrollH"
 							Grid.Row="1"
 							Grid.Column="0"
+							HorizontalAlignment="Stretch"
+							VerticalAlignment="Bottom"
+							IndicatorMode="MouseIndicator"
 							LargeChange="100"
-							Maximum="{TemplateBinding ActualWidth}"
-							Minimum="0"
+							Maximum="{TemplateBinding HorizontalMaxScroll}"
+							Minimum="{TemplateBinding HorizontalMinScroll}"
 							Orientation="Horizontal"
 							SmallChange="10"
-							ViewportSize="{Binding ActualWidth, ElementName=PART_Presenter, Mode=OneWay}"
-							Visibility="Visible"
+							ViewportSize="{TemplateBinding ViewPortWidth}"
 							Value="{TemplateBinding HorizontalOffset}" />
 					</Grid>
 				</ControlTemplate>
