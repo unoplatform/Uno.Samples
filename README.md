@@ -33,27 +33,27 @@ The Commerce App is a sample application that demonstrates the use of ListFeed p
 
 ### SimpleCalc App
 
-The SimpleCalc App is a sample application that is designed to perform basic arithmetic operations. The app was built using the four variants of the [Simple Calc workshop](https://aka.platform.uno/simplecalc-workshop), combining markup language (XAML or C# Markup) and presentation framework (MVVM or MVUX).
+The SimpleCalc App is a sample application designed to perform basic arithmetic operations. App was built using the four variants of the [Simple Calc workshop](https://aka.platform.uno/simplecalc-workshop), combining different markup languages (XAML or C# Markup) and presentation frameworks (MVVM or MVUX).
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/reference/SimpleCalc)
 
 ### Counter App
 
-Discover the simplicity and power of Uno.Extensions with the Counter App, a straightforward yet powerful demonstration of basic and advanced features of the Uno Platform. This app provides a hands-on experience with fundamental concepts such as state management, user interaction, and UI updates in real-time.
+Experience the simplicity and power of Uno.Extensions through the Counter App, a straightforward yet powerful demonstration of both basic and advanced features of the Uno Platform. This app provides a hands-on experience with fundamental concepts such as state management, user interaction, and real-time UI updates.
 This sample app was built using the four variants of the [Counter workshop](https://aka.platform.uno/counter-tutorial), combining markup language (XAML or C# Markup) and presentation framework (MVVM or MVUX).
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/reference/Counter)
 
 ### ToDo App
 
-Dive into the essentials of task management with the ToDo App, a meticulously designed sample application that showcases the power and flexibility of Uno.Extensions. By focusing on creating and managing a to-do list, this app demonstrates practical applications of core Uno.Extensions features, offering a hands-on experience in developing responsive, user-friendly interfaces across platforms.
+Dive into the essentials of task management with the ToDo App, a meticulously crafted sample application that highlights the power and flexibility of Uno.Extensions. By emphasizing the creation and organization of to-do lists, this app showcases practical applications of essential Uno.Extensions features, offering a hands-on experience in crafting responsive and user-friendly interfaces across multiple platforms.
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/reference/ToDo)
 
 ### TubePlayer App
 
-The TubePlayer App is a sample application that enables the user to search for, and stream, Youtube videos. This app was made using tools, libraries, and patterns available in the Uno Platform, that are there to help rapidly build high-quality applications.
-This sample app was built following the [Tube Player worshop](https://aka.platform.uno/tubeplayer-workshop).
+The TubePlayer App is a sample application that allows users to search for, and stream Youtube videos. This app was created using the tools, libraries, and patterns provided by the Uno Platform, designed to facilitate the rapid development of high-quality applications.
+This sample app was built following the [Tube Player workshop](https://aka.platform.uno/tubeplayer-workshop).
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/reference/TubePlayer)
 
