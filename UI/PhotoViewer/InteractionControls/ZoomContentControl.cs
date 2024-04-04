@@ -2,7 +2,6 @@ using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
-using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Input;
 using Windows.Foundation;
 
@@ -189,7 +188,25 @@ public partial class ZoomContentControl : ContentControl
 
         RegisterPropertyChangedCallback(ZoomLevelProperty, (s, e) => { UpdateScrollLimits(); });
 
+        RegisterPropertyChangedCallback(HorizontalOffsetProperty, UpdateVerticalScrollBarValue);
+        RegisterPropertyChangedCallback(VerticalOffsetProperty, UpdateHorizontalScrollBarValue);
+
         RegisterPropertyChangedCallback(IsActiveProperty, IsActiveChanged);
+    }
+
+    private void UpdateVerticalScrollBarValue(DependencyObject sender, DependencyProperty dp)
+    {
+        if (_scrollV is not null)
+        {
+            _scrollV.Value = VerticalOffset;
+        }
+    }
+    private void UpdateHorizontalScrollBarValue(DependencyObject sender, DependencyProperty dp)
+    {
+        if (_scrollH is not null)
+        {
+            _scrollH.Value = HorizontalOffset;
+        }
     }
 
     private void IsActiveChanged(DependencyObject sender, DependencyProperty dp)
@@ -273,22 +290,22 @@ public partial class ZoomContentControl : ContentControl
         HorizontalOffset = e.NewValue;
     }
 
-    private void ApplyBindings()
-    {
-        if (_scrollV is not null)
-        {
-            var sVBinding = new Binding { Path = new PropertyPath("VerticalOffset"), Mode = BindingMode.TwoWay };
-            sVBinding.Source = this;
-            _scrollV.SetBinding(ScrollBar.ValueProperty, sVBinding);
-        }
+    //private void ApplyBindings()
+    //{
+    //    if (_scrollV is not null)
+    //    {
+    //        var sVBinding = new Binding { Path = new PropertyPath("VerticalOffset"), Mode = BindingMode.TwoWay };
+    //        sVBinding.Source = this;
+    //        _scrollV.SetBinding(ScrollBar.ValueProperty, sVBinding);
+    //    }
 
-        if (_scrollH is not null)
-        {
-            var sHBinding = new Binding { Path = new PropertyPath("HorizontalOffset"), Mode = BindingMode.TwoWay };
-            sHBinding.Source = this;
-            _scrollH.SetBinding(ScrollBar.ValueProperty, sHBinding);
-        }
-    }
+    //    if (_scrollH is not null)
+    //    {
+    //        var sHBinding = new Binding { Path = new PropertyPath("HorizontalOffset"), Mode = BindingMode.TwoWay };
+    //        sHBinding.Source = this;
+    //        _scrollH.SetBinding(ScrollBar.ValueProperty, sHBinding);
+    //    }
+    //}
 
 
     private uint _capturedPointerId;

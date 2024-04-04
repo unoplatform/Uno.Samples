@@ -3,80 +3,73 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:ctl="using:InteractionControls">
 
-  <Style x:Key="DefaultZoomContentControlStyle"  TargetType="ctl:ZoomContentControl">
-    <Setter Property="Template">
-      <Setter.Value>
-        <ControlTemplate TargetType="ctl:ZoomContentControl">
-          <Grid>
-            <Grid.RowDefinitions>
-              <RowDefinition Height="*" />
-              <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-              <ColumnDefinition Width="*" />
-              <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
-            <Border
+	<Style x:Key="DefaultZoomContentControlStyle" TargetType="ctl:ZoomContentControl">
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="ctl:ZoomContentControl">
+					<Grid>
+						<Grid.RowDefinitions>
+							<RowDefinition Height="*" />
+							<RowDefinition Height="Auto" />
+						</Grid.RowDefinitions>
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="*" />
+							<ColumnDefinition Width="Auto" />
+						</Grid.ColumnDefinitions>
+						<Border
 							Grid.Row="0"
 							Grid.Column="0"
 							Background="{TemplateBinding Background}">
-              <ContentPresenter
+							<ContentPresenter
 								x:Name="PART_Presenter"
 								Margin="{TemplateBinding Padding}"
 								HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
 								VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
 								Content="{TemplateBinding Content}"
 								ContentTemplate="{TemplateBinding ContentTemplate}">
-                <ContentPresenter.RenderTransform>
-                  <TransformGroup>
-                    <ScaleTransform CenterX="{TemplateBinding HorizontalZoomCenter}" CenterY="{TemplateBinding VerticalZoomCenter}" ScaleX="{TemplateBinding ZoomLevel}" ScaleY="{TemplateBinding ZoomLevel}" />
-                    <TranslateTransform X="{TemplateBinding HorizontalOffset}" Y="{TemplateBinding VerticalOffset}" />
-                  </TransformGroup>
-                </ContentPresenter.RenderTransform>
-              </ContentPresenter>
-            </Border>
-            <!--  Vertical ScrollBar  -->
-            <ScrollBar
+								<ContentPresenter.RenderTransform>
+									<TransformGroup>
+										<ScaleTransform CenterX="{TemplateBinding HorizontalZoomCenter}" CenterY="{TemplateBinding VerticalZoomCenter}" ScaleX="{TemplateBinding ZoomLevel}" ScaleY="{TemplateBinding ZoomLevel}" />
+										<TranslateTransform X="{TemplateBinding HorizontalOffset}" Y="{TemplateBinding VerticalOffset}" />
+									</TransformGroup>
+								</ContentPresenter.RenderTransform>
+							</ContentPresenter>
+						</Border>
+						<!--  Vertical ScrollBar  -->
+						<ScrollBar
 							x:Name="PART_scrollV"
 							Grid.Row="0"
 							Grid.Column="1"
 							HorizontalAlignment="Right"
 							VerticalAlignment="Stretch"
-							LargeChange="100"
+							IndicatorMode="MouseIndicator"
+							LargeChange="10"
 							Maximum="{TemplateBinding VerticalMaxScroll}"
 							Minimum="{TemplateBinding VerticalMinScroll}"
 							Orientation="Vertical"
-							SmallChange="10"
-							ViewportSize="{TemplateBinding ViewPortHeight}"
-							Value="{TemplateBinding VerticalOffset}" />
-            <!--  Horizontal ScrollBar  -->
-            <TextBlock
-							HorizontalAlignment="Stretch"
-							VerticalAlignment="Center"
-							FontSize="16"
-							Foreground="Red"
-							Text="{Binding Value, ElementName=PART_scrollH}" />
-            <ScrollBar
+							SmallChange="1"
+							ViewportSize="{TemplateBinding ViewPortHeight}" />
+						<!--  Horizontal ScrollBar  -->
+						<ScrollBar
 							x:Name="PART_scrollH"
 							Grid.Row="1"
 							Grid.Column="0"
 							HorizontalAlignment="Stretch"
 							VerticalAlignment="Bottom"
 							IndicatorMode="MouseIndicator"
-							LargeChange="100"
+							LargeChange="10"
 							Maximum="{TemplateBinding HorizontalMaxScroll}"
 							Minimum="{TemplateBinding HorizontalMinScroll}"
 							Orientation="Horizontal"
-							SmallChange="10"
-							ViewportSize="{TemplateBinding ViewPortWidth}"
-							Value="{TemplateBinding HorizontalOffset}" />
-          </Grid>
-        </ControlTemplate>
-      </Setter.Value>
-    </Setter>
-  </Style>
+							SmallChange="1"
+							ViewportSize="{TemplateBinding ViewPortWidth}" />
+					</Grid>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
 
-  <Style TargetType="ctl:ZoomContentControl" BasedOn="{StaticResource DefaultZoomContentControlStyle}"   />
+	<Style BasedOn="{StaticResource DefaultZoomContentControlStyle}" TargetType="ctl:ZoomContentControl" />
 
 
 </ResourceDictionary>
