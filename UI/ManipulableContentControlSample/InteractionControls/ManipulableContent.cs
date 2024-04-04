@@ -1,10 +1,12 @@
 using Microsoft.UI.Input;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Input;
 using Windows.Foundation;
 
-namespace ManipulableContentControlSample.Controls;
+namespace InteractionControls;
 
 [TemplatePart(Name = "PART_Presenter", Type = typeof(ContentPresenter))]
 [TemplatePart(Name = "PART_scrollV", Type = typeof(ScrollBar))]
@@ -68,7 +70,7 @@ public partial class ManipulableContent : ContentControl
     DependencyProperty.Register(nameof(ViewPortWidth), typeof(double), typeof(ManipulableContent), new PropertyMetadata(0.0d));
 
     public static readonly DependencyProperty ViewPortHeightProperty =
-    DependencyProperty.Register(nameof(ViewPortHeight), typeof(double), typeof(ManipulableContent), new PropertyMetadata(0.0d));    
+    DependencyProperty.Register(nameof(ViewPortHeight), typeof(double), typeof(ManipulableContent), new PropertyMetadata(0.0d));
 
     public bool IsActive
     {
@@ -182,7 +184,7 @@ public partial class ManipulableContent : ContentControl
         RegisterPropertyChangedCallback(MinZoomLevelProperty, CoerceZoomLevel);
         RegisterPropertyChangedCallback(MaxZoomLevelProperty, CoerceZoomLevel);
 
-        RegisterPropertyChangedCallback(ZoomLevelProperty, (s, e) => { UpdateScrollLimits();}) ;
+        RegisterPropertyChangedCallback(ZoomLevelProperty, (s, e) => { UpdateScrollLimits(); });
     }
 
     private void UpdateScrollLimits()
@@ -243,7 +245,7 @@ public partial class ManipulableContent : ContentControl
 
         if (_scrollH is not null)
         {
-             _scrollH.Scroll += _scrollH_Scroll;
+            _scrollH.Scroll += _scrollH_Scroll;
         }
     }
 
@@ -261,8 +263,8 @@ public partial class ManipulableContent : ContentControl
     {
         if (_scrollV is not null)
         {
-            var sVBinding = new Binding { Path = new PropertyPath("VerticalOffset"), Mode = BindingMode.TwoWay};
-            sVBinding.Source = this; 
+            var sVBinding = new Binding { Path = new PropertyPath("VerticalOffset"), Mode = BindingMode.TwoWay };
+            sVBinding.Source = this;
             _scrollV.SetBinding(ScrollBar.ValueProperty, sVBinding);
         }
 
@@ -407,7 +409,7 @@ public partial class ManipulableContent : ContentControl
 
     public void ResetZoom()
     {
-        if(IsAllowedToWork)
+        if (IsAllowedToWork)
         {
             ZoomLevel = 1;
             HorizontalZoomCenter = 0;
@@ -417,7 +419,7 @@ public partial class ManipulableContent : ContentControl
 
     public void ResetOffset()
     {
-        if(IsAllowedToWork)
+        if (IsAllowedToWork)
         {
             HorizontalOffset = 0;
             VerticalOffset = 0;
