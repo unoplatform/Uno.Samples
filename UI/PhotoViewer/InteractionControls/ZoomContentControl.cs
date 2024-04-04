@@ -68,6 +68,12 @@ public partial class ZoomContentControl : ContentControl
     public static readonly DependencyProperty HorizontalMinScrollProperty =
     DependencyProperty.Register(nameof(HorizontalMinScroll), typeof(double), typeof(ZoomContentControl), new PropertyMetadata(0.0d));
 
+    public static readonly DependencyProperty HorizontalScrollValueProperty =
+    DependencyProperty.Register(nameof(HorizontalScrollValue), typeof(double), typeof(ZoomContentControl), new PropertyMetadata(0.0d));
+
+    public static readonly DependencyProperty VerticalScrollValueProperty =
+    DependencyProperty.Register(nameof(VerticalScrollValue), typeof(double), typeof(ZoomContentControl), new PropertyMetadata(0.0d));
+
     public static readonly DependencyProperty ViewPortWidthProperty =
     DependencyProperty.Register(nameof(ViewPortWidth), typeof(double), typeof(ZoomContentControl), new PropertyMetadata(0.0d));
 
@@ -166,6 +172,19 @@ public partial class ZoomContentControl : ContentControl
         get => (double)GetValue(HorizontalMinScrollProperty);
         set => SetValue(HorizontalMinScrollProperty, value);
     }
+
+    public double HorizontalScrollValue
+    {
+        get => (double)GetValue(HorizontalScrollValueProperty);
+        set => SetValue(HorizontalScrollValueProperty, value);
+    }
+
+    public double VerticalScrollValue
+    {
+        get => (double)GetValue(VerticalScrollValueProperty);
+        set => SetValue(VerticalScrollValueProperty, value);
+    }
+
     public double ViewPortHeight
     {
         get => (double)GetValue(ViewPortHeightProperty);
@@ -194,20 +213,11 @@ public partial class ZoomContentControl : ContentControl
         RegisterPropertyChangedCallback(IsActiveProperty, IsActiveChanged);
     }
 
-    private void UpdateVerticalScrollBarValue(DependencyObject sender, DependencyProperty dp)
-    {
-        if (_scrollV is not null)
-        {
-            _scrollV.Value = VerticalOffset;
-        }
-    }
-    private void UpdateHorizontalScrollBarValue(DependencyObject sender, DependencyProperty dp)
-    {
-        if (_scrollH is not null)
-        {
-            _scrollH.Value = HorizontalOffset;
-        }
-    }
+    //Slide move is always on the opposite direction of the drag
+    private void UpdateVerticalScrollBarValue(DependencyObject sender, DependencyProperty dp) => VerticalScrollValue = -1 * VerticalOffset;
+
+    //Slide move is always on the opposite direction of the drag
+    private void UpdateHorizontalScrollBarValue(DependencyObject sender, DependencyProperty dp) => HorizontalScrollValue = -1 * HorizontalOffset;
 
     private void IsActiveChanged(DependencyObject sender, DependencyProperty dp)
     {
@@ -216,16 +226,23 @@ public partial class ZoomContentControl : ContentControl
             ResetOffset();
             ResetZoom();
         }
+        if (_scrollH is not null)
+        {
+            _scrollH.Visibility = IsActive ? Visibility.Visible : Visibility.Collapsed;
+        }
+        if (_scrollV is not null)
+        {
+            _scrollV.Visibility = IsActive ? Visibility.Visible : Visibility.Collapsed;
+        }
     }
 
     private void UpdateScrollLimits()
     {
-        //min and max are inverted to slide on the opposite direction of the drag
-        HorizontalMinScroll = this.ActualWidth * ZoomLevel;
-        VerticalMinScroll = this.ActualHeight * ZoomLevel;
+        HorizontalMaxScroll = this.ActualWidth * ZoomLevel;
+        VerticalMaxScroll = this.ActualHeight * ZoomLevel;
 
-        HorizontalMaxScroll = -1 * HorizontalMinScroll;
-        VerticalMaxScroll = -1 * VerticalMinScroll;
+        HorizontalMinScroll = -1 * HorizontalMaxScroll;
+        VerticalMinScroll = -1 * VerticalMaxScroll;
     }
 
     private void CoerceZoomLevel(DependencyObject sender, DependencyProperty dp)
@@ -261,11 +278,12 @@ public partial class ZoomContentControl : ContentControl
         _scrollH = GetTemplateChild("PART_scrollH") as ScrollBar;
 
         RegisterToControlEvents();
+
         ResetOffset();
         ResetZoom();
         RegisterPointerHandlers();
     }
-
+    #region ScrollBars Events
     private void RegisterToControlEvents()
     {
         //due to templatebinding there's no TwoWay mode. We need to manually update the values
@@ -282,31 +300,16 @@ public partial class ZoomContentControl : ContentControl
 
     private void _scrollV_Scroll(object sender, ScrollEventArgs e)
     {
-        VerticalOffset = e.NewValue;
+        //TemplateBinding doesn't support TwoWay mode. We need to manually update the values
+        VerticalOffset = -1 * e.NewValue;
     }
 
     private void _scrollH_Scroll(object sender, ScrollEventArgs e)
     {
-        HorizontalOffset = e.NewValue;
+        //TemplateBinding doesn't support TwoWay mode. We need to manually update the values
+        HorizontalOffset = -1 * e.NewValue;
     }
-
-    //private void ApplyBindings()
-    //{
-    //    if (_scrollV is not null)
-    //    {
-    //        var sVBinding = new Binding { Path = new PropertyPath("VerticalOffset"), Mode = BindingMode.TwoWay };
-    //        sVBinding.Source = this;
-    //        _scrollV.SetBinding(ScrollBar.ValueProperty, sVBinding);
-    //    }
-
-    //    if (_scrollH is not null)
-    //    {
-    //        var sHBinding = new Binding { Path = new PropertyPath("HorizontalOffset"), Mode = BindingMode.TwoWay };
-    //        sHBinding.Source = this;
-    //        _scrollH.SetBinding(ScrollBar.ValueProperty, sHBinding);
-    //    }
-    //}
-
+    #endregion
 
     private uint _capturedPointerId;
     private Point _referencePosition;
@@ -438,20 +441,14 @@ public partial class ZoomContentControl : ContentControl
 
     public void ResetZoom()
     {
-        if (IsAllowedToWork)
-        {
-            ZoomLevel = 1;
-            HorizontalZoomCenter = 0;
-            VerticalZoomCenter = 0;
-        }
+        ZoomLevel = 1;
+        HorizontalZoomCenter = 0;
+        VerticalZoomCenter = 0;
     }
 
     public void ResetOffset()
     {
-        if (IsAllowedToWork)
-        {
-            HorizontalOffset = 0;
-            VerticalOffset = 0;
-        }
+        HorizontalOffset = 0;
+        VerticalOffset = 0;
     }
 }
