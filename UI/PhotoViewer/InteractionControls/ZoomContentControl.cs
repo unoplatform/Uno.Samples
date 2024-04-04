@@ -226,6 +226,14 @@ public partial class ZoomContentControl : ContentControl
             ResetOffset();
             ResetZoom();
         }
+        if (_scrollH is not null)
+        {
+            _scrollH.Visibility = IsActive ? Visibility.Visible : Visibility.Collapsed;
+        }
+        if (_scrollV is not null)
+        {
+            _scrollV.Visibility = IsActive ? Visibility.Visible : Visibility.Collapsed;
+        }
     }
 
     private void UpdateScrollLimits()
@@ -433,20 +441,14 @@ public partial class ZoomContentControl : ContentControl
 
     public void ResetZoom()
     {
-        if (IsAllowedToWork)
-        {
-            ZoomLevel = 1;
-            HorizontalZoomCenter = 0;
-            VerticalZoomCenter = 0;
-        }
+        ZoomLevel = 1;
+        HorizontalZoomCenter = 0;
+        VerticalZoomCenter = 0;
     }
 
     public void ResetOffset()
     {
-        if (IsAllowedToWork)
-        {
-            HorizontalOffset = 0;
-            VerticalOffset = 0;
-        }
+        HorizontalOffset = 0;
+        VerticalOffset = 0;
     }
 }
