@@ -16,6 +16,9 @@ public partial class ZoomContentControl : ContentControl
     private ContentPresenter? _presenter;
     private ScrollBar? _scrollV;
     private ScrollBar? _scrollH;
+    private bool IsAllowedToWork => (IsEnabled && IsActive && _presenter is not null);
+
+    public bool ResetWhenNotActive { get; set; } = true;
 
     #region Dependency Properties
     public static readonly DependencyProperty IsActiveProperty =
@@ -185,6 +188,17 @@ public partial class ZoomContentControl : ContentControl
         RegisterPropertyChangedCallback(MaxZoomLevelProperty, CoerceZoomLevel);
 
         RegisterPropertyChangedCallback(ZoomLevelProperty, (s, e) => { UpdateScrollLimits(); });
+
+        RegisterPropertyChangedCallback(IsActiveProperty, IsActiveChanged);
+    }
+
+    private void IsActiveChanged(DependencyObject sender, DependencyProperty dp)
+    {
+        if (ResetWhenNotActive && !IsActive)
+        {
+            ResetOffset();
+            ResetZoom();
+        }
     }
 
     private void UpdateScrollLimits()
@@ -293,8 +307,6 @@ public partial class ZoomContentControl : ContentControl
         PointerMoved += OnPointerMoved;
         PointerWheelChanged += OnPointerWheelChanged;
     }
-
-    private bool IsAllowedToWork => (IsEnabled && IsActive && _presenter is not null);
 
     private void OnPointerPressed(object sender, PointerRoutedEventArgs e)
     {
