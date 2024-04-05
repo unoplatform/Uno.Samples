@@ -1,15 +1,10 @@
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Media;
-using Microsoft.UI.Xaml.Navigation;
-using System;
-using Uno.Extensions.Markup;
-using Uno.Toolkit.UI;
+using Theme = Uno.Themes.Markup.Theme;
 
 namespace TubePlayer.Presentation;
 
 public partial class VideoDetailsPage : Page
 {
+
     private MediaPlayerElement? youtubePlayer;
 
     public VideoDetailsPage()
@@ -68,7 +63,7 @@ public partial class VideoDetailsPage : Page
                                     .TransportControls
                                     (
                                         new MediaTransportControls()
-
+                                            .IsCompact(true)
                                     ),
                                 new ScrollViewer()
                                     .AutoLayout(primaryAlignment: AutoLayoutPrimaryAlignment.Stretch)
@@ -149,22 +144,20 @@ public partial class VideoDetailsPage : Page
                                                     .TextWrapping(TextWrapping.Wrap)
                                                     .Text(() => vm.Video.Channel.Snippet?.Description)
                                                     .Margin(16)
-                                                    .Width(400)
-                                                    .Foreground(Theme.Brushes.OnSurface.Medium)
+                                                    .Foreground(Theme.Brushes.OnSurface.Variant.Default)
                                                     .Style(Theme.TextBlock.Styles.BodySmall)
                                                     .AutoLayout(counterAlignment: AutoLayoutAlignment.Start)
-                                            )
                                     )
                             )
                     )
-            ))
-            ;
+            )));
     }
 
-    protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
+    protected async override void OnNavigatingFrom(NavigatingCancelEventArgs e)
     {
         base.OnNavigatingFrom(e);
 
         youtubePlayer?.MediaPlayer.Pause();
     }
+
 }

@@ -24,9 +24,9 @@ global using Uno.Toolkit.UI.Material;
 global using Windows.ApplicationModel;
 global using ApplicationExecutionState = Windows.ApplicationModel.Activation.ApplicationExecutionState;
 global using Color = Windows.UI.Color;
-
-global using TubePlayer.Services.Models;
+global using System.Text.Json;
 global using TubePlayer.Business;
-global using Microsoft.UI.Text;
+global using TubePlayer.Services.Models;
 global using Refit;
+global using TubePlayer.Models;
 global using TubePlayer.Services;

@@ -1,3 +1,5 @@
+using Microsoft.UI.Xaml.Controls;
+
 namespace TubePlayer.Presentation;
 
 public class ShellModel
