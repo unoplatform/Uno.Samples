@@ -3,6 +3,7 @@
 	  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	  xmlns:local="using:UnoGoodReads.Views"
 	  xmlns:um="using:Uno.Material"
+	  xmlns:ut="using:Uno.Themes"
 	  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	  xmlns:utu="using:Uno.Toolkit.UI"
@@ -38,9 +39,9 @@
             <utu:AutoLayout utu:AutoLayout.PrimaryAlignment="Stretch">
                 <utu:AutoLayout Background="{ThemeResource SecondaryBrush}" Spacing="8" Padding="16,16,8,16" PrimaryAxisAlignment="Center" Orientation="Horizontal">
                     <TextBox Background="{ThemeResource SurfaceBrush}" PlaceholderText="Title, Author, ISBN" utu:AutoLayout.CounterAlignment="Center" utu:AutoLayout.PrimaryAlignment="Stretch" Height="56" Style="{StaticResource OutlinedTextBoxStyle}">
-                        <um:ControlExtensions.Icon>
+                        <ut:ControlExtensions.Icon>
                             <PathIcon Data="{StaticResource Icon_Search}" Foreground="{ThemeResource OnSurfaceVariantBrush}" />
-                        </um:ControlExtensions.Icon>
+                        </ut:ControlExtensions.Icon>
                     </TextBox>
                     <Button utu:AutoLayout.CounterAlignment="Center" Style="{StaticResource IconButtonStyle}">
                         <PathIcon Data="{StaticResource Icon_Camera_Alt}" />
@@ -71,9 +72,9 @@
                                                     <TextBlock Foreground="{ThemeResource OnSurfaceBrush}" Text="{Binding Title}" utu:AutoLayout.CounterAlignment="Start" />
                                                     <TextBlock Foreground="{ThemeResource OnSurfaceVariantBrush}" Text="{Binding Author, Converter={StaticResource AuthorConverter}}" utu:AutoLayout.CounterAlignment="Start" Style="{StaticResource BodySmall}" />
                                                     <Button Foreground="{ThemeResource OnPrimaryBrush}" Background="{ThemeResource TertiaryBrush}" Content="{Binding State, Converter={StaticResource StateConverter}}" utu:AutoLayout.CounterAlignment="Start" CornerRadius="4">
-                                                        <um:ControlExtensions.Icon>
+                                                        <ut:ControlExtensions.Icon>
                                                             <PathIcon Data="{StaticResource Icon_Arrow_Drop_Down}" Foreground="{ThemeResource OnPrimaryBrush}" />
-                                                        </um:ControlExtensions.Icon>
+                                                        </ut:ControlExtensions.Icon>
                                                     </Button>
                                                     <utu:AutoLayout Orientation="Horizontal" utu:AutoLayout.CounterAlignment="Start">
                                                         <TextBlock Foreground="{ThemeResource OnSurfaceVariantBrush}" Text="Rate this Book" Width="80" Style="{StaticResource CaptionSmall}" />

@@ -1,5 +1,6 @@
 using Uno.Extensions.Markup;
 using Uno.Material;
+using Uno.Themes;
 using Uno.Themes.Markup;
 using Uno.Toolkit.UI;
 using BrushBuilder = System.Action<Uno.Extensions.Markup.IDependencyPropertyBuilder<Microsoft.UI.Xaml.Media.Brush>>;
