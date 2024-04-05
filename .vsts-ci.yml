@@ -1,48 +1,50 @@
 jobs:
-- job: VS_Latest
-  timeoutInMinutes: 600
+- template: build/update-readme-samples-list.yml
 
-  pool:
-    vmImage: windows-2022
+# - job: VS_Latest
+#   timeoutInMinutes: 600
 
-  steps:
-  - checkout: self
-    clean: true
+#   pool:
+#     vmImage: windows-2022
+
+#   steps:
+#   - checkout: self
+#     clean: true
   
-  - powershell: |
-      if($env:System_PullRequest_TargetBranch -eq $null) { $TargetBranch = "master" } else { $TargetBranch = $env:System_PullRequest_TargetBranch; }
+#   - powershell: |
+#       if($env:System_PullRequest_TargetBranch -eq $null) { $TargetBranch = "master" } else { $TargetBranch = $env:System_PullRequest_TargetBranch; }
 
-      $dict = New-Object 'System.Collections.Generic.Dictionary[String,System.Collections.Generic.Dictionary[String,String]]'
-      $samples = Get-ChildItem -Path **\*.sln -Recurse | Where-Object {$_.FullName -notmatch "\\ArchivedProjects\\"}
-      foreach($sample in $samples){
+#       $dict = New-Object 'System.Collections.Generic.Dictionary[String,System.Collections.Generic.Dictionary[String,String]]'
+#       $samples = Get-ChildItem -Path **\*.sln -Recurse | Where-Object {$_.FullName -notmatch "\\ArchivedProjects\\"}
+#       foreach($sample in $samples){
 
-        $solutionPath=[System.IO.Path]::GetDirectoryName($sample.FullName);
-        Write-Host "$solutionPath"
+#         $solutionPath=[System.IO.Path]::GetDirectoryName($sample.FullName);
+#         Write-Host "$solutionPath"
 
-        git diff --quiet HEAD "origin/$TargetBranch" -- "$solutionPath"
+#         git diff --quiet HEAD "origin/$TargetBranch" -- "$solutionPath"
 
-        # Only build if there a change in the solution path for the current PR, if we're not in a PR
-        if( ("$env:System_PullRequest_PullRequestId" -eq '') -or ($global:LASTEXITCODE -ne 0)) {
-          Write-Host "Adding $solutionPath"
-          $item = New-Object 'System.Collections.Generic.Dictionary[String,String]'
-          $item.Add("solutionPath", $sample.FullName)
-          $name = $sample.Name.Split(".")[0]
-          if(!$dict.ContainsKey($name)){
-            $dict.Add($name, $item)
-          }
-        }
-        $global:LASTEXITCODE = 0
+#         # Only build if there a change in the solution path for the current PR, if we're not in a PR
+#         if( ("$env:System_PullRequest_PullRequestId" -eq '') -or ($global:LASTEXITCODE -ne 0)) {
+#           Write-Host "Adding $solutionPath"
+#           $item = New-Object 'System.Collections.Generic.Dictionary[String,String]'
+#           $item.Add("solutionPath", $sample.FullName)
+#           $name = $sample.Name.Split(".")[0]
+#           if(!$dict.ContainsKey($name)){
+#             $dict.Add($name, $item)
+#           }
+#         }
+#         $global:LASTEXITCODE = 0
 
-      }
+#       }
 
-      $SolutionsJson = $dict | ConvertTo-Json -Compress
+#       $SolutionsJson = $dict | ConvertTo-Json -Compress
       
-      Write-Host $SolutionsJson
-      Write-Host "##vso[task.setvariable variable=samplesJson;isOutput=true]$SolutionsJson"
-    name: generateJson
-    displayName: Generate Json of Samples
+#       Write-Host $SolutionsJson
+#       Write-Host "##vso[task.setvariable variable=samplesJson;isOutput=true]$SolutionsJson"
+#     name: generateJson
+#     displayName: Generate Json of Samples
 
-- template: .azure-pipelines.BuildMatrix.yml
+# - template: .azure-pipelines.BuildMatrix.yml
 
   # - task: PublishBuildArtifacts@1
   #   inputs:

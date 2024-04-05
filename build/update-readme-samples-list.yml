@@ -1,0 +1,54 @@
+jobs:
+- job: update_readme
+  displayName: 'Update Samples List in ReadMe.md'
+
+  pool:
+    vmImage: 'ubuntu-latest'
+
+  steps:
+  - checkout: self
+    persistCredentials: true
+
+  - script: |
+      git config --global user.email "ci@ci.com"
+      git config --global user.name "ci"
+    displayName: 'Configure Git'
+
+  - task: PowerShell@2
+    inputs:
+      targetType: 'inline'
+      script: |
+        $insertAtLineNumber = 26 # Update this line number as needed
+        $readmePath = "README.md"
+        $samplesListPath = "doc/includes/samples-list.md"
+        $readmeContent = Get-Content -Path $readmePath
+        $samplesListContent = Get-Content -Path $samplesListPath -Raw
+        $beforeInsertion = $readmeContent[0..($insertAtLineNumber-2)]
+        $afterInsertion = $readmeContent[$insertAtLineNumber..$readmeContent.Length]
+        $combinedContent = $beforeInsertion + $samplesListContent + $afterInsertion
+        $combinedContent | Set-Content -Path $readmePath
+    displayName: 'Update ReadMe.md'
+
+  - task: PowerShell@2
+    inputs:
+      targetType: 'inline'
+      script: |
+        $branchName = "$(System.PullRequest.SourceBranch)"
+        if ([string]::IsNullOrEmpty($branchName)) {
+          $branchName = "master"
+        }
+        
+        git fetch origin "${branchName}:${branchName}"
+        git checkout $branchName
+        
+        git add .
+        $status = git status --porcelain
+        if ($status) {
+          git commit -m "Automatically update ReadMe.md with samples-list content"
+          git push origin $branchName
+        } else {
+          Write-Host "No changes to commit."
+        }
+    displayName: 'Commit and Push changes'
+    env:
+      SYSTEM_PULLREQUEST_SOURCEBRANCH: $(System.PullRequest.SourceBranch)
