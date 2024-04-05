@@ -390,7 +390,7 @@ public partial class ZoomContentControl : ContentControl
             return; // Don't handle the event when the control is disabled.
         }
 
-        var pointerPoint = e.GetCurrentPoint(_presenter);
+        var pointerPoint = e.GetCurrentPoint(this);
         var pointerProperties = pointerPoint.Properties;
         var pointerPosition = pointerPoint.Position;
 
@@ -412,12 +412,8 @@ public partial class ZoomContentControl : ContentControl
 
             var hzc = HorizontalZoomCenter;
             var vzc = VerticalZoomCenter;
-            var newPointerPosX = ((pointerPosition.X - hzc) * changeRatio) + hzc;
-            var newPointerPosY = ((pointerPosition.Y - vzc) * changeRatio) + vzc;
 
             ZoomLevel *= changeRatio;
-            HorizontalOffset += newPointerPosX - pointerPosition.X;
-            VerticalOffset += newPointerPosY - pointerPosition.Y;
             HorizontalZoomCenter = pointerPosition.X;
             VerticalZoomCenter = pointerPosition.Y;
             return;
