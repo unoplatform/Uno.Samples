@@ -1,4 +1,4 @@
-namespace TubePlayer.Services;
+using Refit;
 
 [Headers(
     "Content-Type: application/json",

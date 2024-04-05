@@ -15,11 +15,6 @@ public class YoutubeServiceMock : IYoutubeService
         _channels = channelsData.Items!.ToDictionary(channel => channel.Id!, StringComparer.OrdinalIgnoreCase);
     }
 
-    public Task<string?> GetVideoSourceUrl(string videoId, CancellationToken ct)
-    {
-        return Task.FromResult<string?>(default);
-    }
-
     public Task<YoutubeVideoSet> SearchVideos(string searchQuery, string nextPageToken, uint maxResult, CancellationToken ct)
     {
         var filtered = _details
@@ -35,4 +30,9 @@ public class YoutubeServiceMock : IYoutubeService
 
         return Task.FromResult(result);
     }
+    public Task<string?> GetVideoSourceUrl(string videoId, CancellationToken ct)
+    {
+        return Task.FromResult<string?>(default);
+    }
+
 }

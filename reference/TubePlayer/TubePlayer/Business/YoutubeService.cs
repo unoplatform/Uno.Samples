@@ -61,24 +61,23 @@ public class YoutubeService(IYoutubeEndpoint client, IYoutubePlayerEndpoint play
         return new(videoSet.ToImmutableList(), resultData?.NextPageToken ?? string.Empty);
     }
 
-
     public async Task<string?> GetVideoSourceUrl(string videoId, CancellationToken ct)
     {
         var streamVideo = $$"""
-                {
-                    "videoId": "{{videoId}}",
-                    "context": {
-                        "client": {
-                            "clientName": "ANDROID_TESTSUITE",
-                            "clientVersion": "1.9",
-                            "androidSdkVersion": 30,
-                            "hl": "en",
-                            "gl": "US",
-                            "utcOffsetMinutes": 0
-                        }
+            {
+                "videoId": "{{videoId}}",
+                "context": {
+                    "client": {
+                        "clientName": "ANDROID_TESTSUITE",
+                        "clientVersion": "1.9",
+                        "androidSdkVersion": 30,
+                        "hl": "en",
+                        "gl": "US",
+                        "utcOffsetMinutes": 0
                     }
                 }
-                """;
+            }
+            """;
 
         // Get the available stream data
         var streamData = await playerClient.GetStreamData(streamVideo, ct);
@@ -95,4 +94,5 @@ public class YoutubeService(IYoutubeEndpoint client, IYoutubePlayerEndpoint play
 
         return streamUrl;
     }
+
 }

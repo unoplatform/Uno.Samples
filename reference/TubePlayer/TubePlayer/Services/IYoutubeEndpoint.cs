@@ -1,3 +1,6 @@
+using Refit;
+using TubePlayer.Services.Models;
+
 namespace TubePlayer.Services;
 
 [Headers("Content-Type: application/json")]

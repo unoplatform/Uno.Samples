@@ -5,6 +5,7 @@ namespace TubePlayer.Presentation;
 public partial record MainModel(IYoutubeService YoutubeService)
 {
     public IState<string> SearchTerm => State<string>.Value(this, () => "Uno Platform");
+
     public IListFeed<YoutubeVideo> VideoSearchResults => SearchTerm
         .Where(searchTerm => searchTerm is { Length: > 0 })
         .SelectPaginatedByCursorAsync(
@@ -15,4 +16,5 @@ public partial record MainModel(IYoutubeService YoutubeService)
 
                 return new PageResult<string, YoutubeVideo>(videoSet.Videos, videoSet.NextPageToken);
             });
+
 }
