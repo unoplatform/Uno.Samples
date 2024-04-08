@@ -1,13 +1,13 @@
-﻿<Project Sdk="Uno.Sdk">
+<Project Sdk="Uno.Sdk">
   <PropertyGroup>
     <TargetFrameworks>
-		net8.0-android;
-		net8.0-ios;
-		net8.0-maccatalyst;
-		net8.0-windows10.0.19041;
-		net8.0-desktop;
-		net8.0-browserwasm;
-	</TargetFrameworks>
+      net8.0-android;
+      net8.0-ios;
+      net8.0-maccatalyst;
+      net8.0-windows10.0.19041;
+      net8.0-desktop;
+      net8.0-browserwasm;
+    </TargetFrameworks>
 
     <OutputType>Exe</OutputType>
     <UnoSingleProject>true</UnoSingleProject>
@@ -50,17 +50,21 @@
       ExtensionsCore;
     </UnoFeatures>
   </PropertyGroup>
-
-<ItemGroup>
+  <ItemGroup>
+    <None Remove="appsettings.development.json" />
+    <None Remove="appsettings.json" />
+    <None Remove="products.json" />
+    <None Remove="reviews.json" />
+  </ItemGroup>
+  <ItemGroup>
     <EmbeddedResource Include="appsettings.development.json" />
-    <EmbeddedResource Include="appsettings.json">
-        <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </EmbeddedResource>
+    <EmbeddedResource Include="appsettings.json" />
     <EmbeddedResource Include="products.json">
-        <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="reviews.json">
-        <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    </ItemGroup>
+  </ItemGroup>
+
 </Project>
