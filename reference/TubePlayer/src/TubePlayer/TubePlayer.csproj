@@ -1,22 +1,21 @@
 <Project Sdk="Uno.Sdk">
   <PropertyGroup>
     <TargetFrameworks>
-      net8.0-browserwasm;
       net8.0-android;
       net8.0-ios;
       net8.0-maccatalyst;
       net8.0-windows10.0.19041;
       net8.0-desktop;
-      net8.0;
+      net8.0-browserwasm;
     </TargetFrameworks>
 
     <OutputType>Exe</OutputType>
-    <SingleProject>true</SingleProject>
+    <UnoSingleProject>true</UnoSingleProject>
 
     <!-- Display name -->
     <ApplicationTitle>TubePlayer</ApplicationTitle>
     <!-- App Identifier -->
-    <ApplicationId>com.companyname.tubeplayer</ApplicationId>
+    <ApplicationId>com.companyname.TubePlayer</ApplicationId>
     <!-- Versions -->
     <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
     <ApplicationVersion>1</ApplicationVersion>
@@ -45,8 +44,19 @@
       Configuration;
       Navigation;
       Http;
+      Serialization;
+      Localization;
       MediaElement;
     </UnoFeatures>
   </PropertyGroup>
+  <ItemGroup>
+    <None Remove="appsettings.development.json" />
+    <None Remove="appsettings.json" />
+    <None Remove="Assets\navigation_bar.svg" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="appsettings.development.json" />
+    <EmbeddedResource Include="appsettings.json" />
+  </ItemGroup>
 
 </Project>
