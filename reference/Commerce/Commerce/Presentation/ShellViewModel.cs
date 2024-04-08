@@ -30,8 +30,6 @@ public class ShellViewModel
 	{
 		var currentCredentials = CredentialsSettings.Value;
 
-		currentCredentials = new Credentials() { UserName = "aaaaaaa", Password = "aaaaaa" };
-
 		if (currentCredentials?.UserName is { Length: > 0 })
 		{
 			if (initialRoute is not null)
@@ -63,7 +61,6 @@ public class ShellViewModel
 			var loginResult = await response.Result;
 			if (loginResult.IsSome(out var creds) && creds?.UserName is { Length: > 0 })
 			{
-				//This is not being updated with provided credentials
 				await CredentialsSettings.UpdateAsync(c => creds);
 
 				_ = Start();

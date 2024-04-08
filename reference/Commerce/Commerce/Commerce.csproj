@@ -51,21 +51,16 @@
     </UnoFeatures>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Content Remove="appsettings.json" />
-    <Content Remove="products.json" />
-    <Content Remove="reviews.json" />
-  </ItemGroup>
-
 <ItemGroup>
+    <EmbeddedResource Include="appsettings.development.json" />
     <EmbeddedResource Include="appsettings.json">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="products.json">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="reviews.json">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </EmbeddedResource>
     </ItemGroup>
 </Project>
