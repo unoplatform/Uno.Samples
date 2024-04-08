@@ -1,5 +1,3 @@
-using Theme = Uno.Themes.Markup.Theme;
-
 namespace TubePlayer.Presentation;
 
 public sealed partial class Shell : UserControl, IContentControlProvider

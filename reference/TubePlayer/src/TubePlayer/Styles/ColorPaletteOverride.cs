@@ -1,5 +1,3 @@
-using Theme = Uno.Themes.Markup.Theme;
-
 namespace TubePlayer.Styles;
 
 public partial class ColorPaletteOverride : ResourceDictionary

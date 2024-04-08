@@ -1,6 +1,4 @@
-using Uno.Themes;
 using Path = Microsoft.UI.Xaml.Shapes.Path;
-using Theme = Uno.Themes.Markup.Theme;
 
 namespace TubePlayer.Presentation;
 
