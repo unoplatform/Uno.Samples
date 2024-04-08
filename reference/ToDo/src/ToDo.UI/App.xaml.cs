@@ -35,11 +35,8 @@ public sealed partial class App : Application
 		}
 #endif
 
-#if NET5_0_OR_GREATER && WINDOWS && !HAS_UNO
 		_window = new Window();
-#else
-		_window = Microsoft.UI.Xaml.Window.Current;
-#endif
+
 		var appRoot = new Shell();
 		appRoot.SplashScreen.Initialize(_window, args);
 
