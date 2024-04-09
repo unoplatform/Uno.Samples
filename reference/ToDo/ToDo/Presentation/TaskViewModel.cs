@@ -1,11 +1,11 @@
-﻿namespace ToDo.Presentation;
+namespace ToDo.Presentation;
 
 public partial class TaskViewModel
 {
 	private readonly INavigator _navigator;
 	private readonly ITaskService _svc;
 
-	private TaskViewModel(
+	public TaskViewModel(
 		INavigator navigator,
 		ITaskService svc,
 		ToDoTask entity)

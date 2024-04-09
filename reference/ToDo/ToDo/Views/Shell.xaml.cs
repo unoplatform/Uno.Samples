@@ -1,12 +1,12 @@
-﻿using Uno.Toolkit.UI;
+using Uno.Toolkit.UI;
 
 namespace ToDo.Views;
 
-public sealed partial class Shell : UserControl
+public sealed partial class Shell : UserControl, IContentControlProvider
 {
-	public ExtendedSplashScreen SplashScreen => Splash;
+    public ContentControl ContentControl => Splash;
 
-	public Shell()
+    public Shell()
 	{
 		this.InitializeComponent();
 	}

@@ -1,4 +1,4 @@
-﻿
+
 
 namespace ToDo.Presentation;
 
@@ -9,7 +9,7 @@ public partial class TaskListViewModel
 	private readonly ITaskService _taskSvc;
 	private readonly ILogger _logger;
 
-	private TaskListViewModel(
+	public TaskListViewModel(
 		ILogger<TaskListViewModel> logger,
 		INavigator navigator,
 		ITaskListService listSvc,

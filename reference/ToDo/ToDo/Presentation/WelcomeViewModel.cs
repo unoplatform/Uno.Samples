@@ -8,7 +8,7 @@ public partial class WelcomeViewModel
 	private readonly INavigator _navigator;
 	private readonly IDispatcher _dispatcher;
 
-	private WelcomeViewModel(
+	public WelcomeViewModel(
 		IDispatcher dispatcher,
 		INavigator navigator,
 		IAuthenticationService authService)

@@ -19,7 +19,7 @@ public partial class SettingsViewModel
 	public string[] AppThemes { get; }
 
 
-	private SettingsViewModel(
+	public SettingsViewModel(
 		NavigationRequest request,
 		INavigator navigator,
 		IAuthenticationService authService,

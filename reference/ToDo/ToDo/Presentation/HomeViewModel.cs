@@ -11,7 +11,7 @@ public partial class HomeViewModel
 	private readonly ITaskListService _listSvc;
 	private readonly IWritableOptions<ToDoApp> _appSettings;
 
-	private HomeViewModel(
+	public HomeViewModel(
 		INavigator navigator,
 		IStringLocalizer localizer,
 		IAuthenticationService authSvc,
