@@ -3,6 +3,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
 using System;
+using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 
@@ -111,20 +112,20 @@ namespace SplashScreenSample
         private Frame WaitWithSplashScreen<T>() where T : Page, new()
         {
             var shell = new Shell();
-            if (shell.IsSplashCapable)
+            if (Shell.IsSplashCapable)
             {
                 _window.Content = shell;
-                var page = new T();
 
                 Frame rootFrame = new Frame();
-                void PageLoad(object s, RoutedEventArgs e)
+                async void PageNavigated(object s, NavigationEventArgs e)
                 {
+                    await Task.Delay(3000);
                     _window.Content = rootFrame;
-                    page.Loaded -= PageLoad;
+                    rootFrame.Navigated -= PageNavigated;
                 };
 
-                page.Loaded += PageLoad;
-                rootFrame.Content = page;
+                rootFrame.Navigated += PageNavigated;
+                rootFrame.Navigate(typeof(T));
                 return rootFrame;
             }
             else

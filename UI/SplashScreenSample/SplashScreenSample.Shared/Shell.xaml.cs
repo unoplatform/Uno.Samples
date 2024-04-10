@@ -10,14 +10,14 @@ namespace SplashScreenSample
 {
     public sealed partial class Shell : UserControl
     {
-#if NET6_0_OR_GREATER && WINDOWS && !HAS_UNO
-        public bool IsSplashCapable => true;
-#else
-        public bool IsSplashCapable => false;
-#endif
+        public static bool IsSplashCapable = false;
+
         public Shell()
         {
             this.InitializeComponent();
+#if NET6_0_OR_GREATER && WINDOWS && !HAS_UNO
+            IsSplashCapable = true;
+#endif
         }
     }
 }

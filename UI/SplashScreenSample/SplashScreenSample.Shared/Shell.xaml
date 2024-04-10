@@ -12,13 +12,13 @@
                                   Platforms="Windows">
             <utu:ExtendedSplashScreen.LoadingContentTemplate>
                 <DataTemplate>
-                    <Grid>
-                        <StackPanel Orientation="Vertical">
+					<Grid Padding="0,72" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+                        <StackPanel Spacing="48" Orientation="Vertical">
                             <!--  Splash Screen Image  -->
                             <Viewbox x:Name="SplashScreenImageViewbox"
                                      Width="270"
                                      Height="185"
-                                     HorizontalAlignment="Center"
+									 HorizontalAlignment="Center"
                                      VerticalAlignment="Center"
                                      Stretch="None">
                                 <Image x:Name="SplashScreenImage"
@@ -27,7 +27,6 @@
 
                             <!--  App Name  -->
                             <TextBlock x:Name="SplashScreenAppName"
-                                       Margin="0,164,0,0"
                                        HorizontalAlignment="Center"
                                        VerticalAlignment="Center"
                                        FontSize="20"
@@ -38,8 +37,8 @@
 
                             <!--  Loading Indicator  -->
                             <ProgressRing x:Name="SplashScreenLoadingIndicator"
-                                          Margin="0,0,0,48"
                                           VerticalAlignment="Bottom"
+										  HorizontalAlignment="Center"
                                           IsActive="True"
                                           IsIndeterminate="True" />
                         </StackPanel>
