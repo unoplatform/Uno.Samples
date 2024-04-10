@@ -58,7 +58,7 @@ namespace SplashScreenSample
             if (rootFrame == null)
             {
                 // Create a Frame to act as the navigation context and navigate to the first page
-                rootFrame = new Frame();
+                rootFrame = WaitWithSplashScreen<MainPage>();
 
                 rootFrame.NavigationFailed += OnNavigationFailed;
 
@@ -66,9 +66,6 @@ namespace SplashScreenSample
                 {
                     // TODO: Load state from previously suspended application
                 }
-
-                // Place the frame in the current Window
-                _window.Content = rootFrame;
             }
 
 #if !(NET6_0_OR_GREATER && WINDOWS)
@@ -109,6 +106,34 @@ namespace SplashScreenSample
             var deferral = e.SuspendingOperation.GetDeferral();
             //TODO: Save application state and stop any background activity
             deferral.Complete();
+        }
+
+        private Frame WaitWithSplashScreen<T>() where T : Page, new()
+        {
+            var shell = new Shell();
+            if (shell.IsSplashCapable)
+            {
+                _window.Content = shell;
+                var page = new T();
+
+                Frame rootFrame = new Frame();
+                void PageLoad(object s, RoutedEventArgs e)
+                {
+                    _window.Content = rootFrame;
+                    page.Loaded -= PageLoad;
+                };
+
+                page.Loaded += PageLoad;
+                rootFrame.Content = page;
+                return rootFrame;
+            }
+            else
+            {
+                var page = new T();
+                Frame rootFrame = new Frame();
+                rootFrame.Navigate(typeof(T));
+                return rootFrame;
+            }
         }
 
         /// <summary>
