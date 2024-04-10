@@ -1,0 +1,51 @@
+<UserControl
+    x:Class="SplashScreenSample.Shell"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:SplashScreenSample"
+    xmlns:utu="using:Uno.Toolkit.UI"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006">
+
+    <Grid>
+        <utu:ExtendedSplashScreen x:Name="Splash"
+                                  Platforms="Windows">
+            <utu:ExtendedSplashScreen.LoadingContentTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <StackPanel Orientation="Vertical">
+                            <!--  Splash Screen Image  -->
+                            <Viewbox x:Name="SplashScreenImageViewbox"
+                                     Width="270"
+                                     Height="185"
+                                     HorizontalAlignment="Center"
+                                     VerticalAlignment="Center"
+                                     Stretch="None">
+                                <Image x:Name="SplashScreenImage"
+                                       Source="Assets/SplashScreen.png" />
+                            </Viewbox>
+
+                            <!--  App Name  -->
+                            <TextBlock x:Name="SplashScreenAppName"
+                                       Margin="0,164,0,0"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"
+                                       FontSize="20"
+                                       LineHeight="32">
+                                <Run FontWeight="SemiBold" 
+                                     Text="SplashScreenSample" />
+                            </TextBlock>
+
+                            <!--  Loading Indicator  -->
+                            <ProgressRing x:Name="SplashScreenLoadingIndicator"
+                                          Margin="0,0,0,48"
+                                          VerticalAlignment="Bottom"
+                                          IsActive="True"
+                                          IsIndeterminate="True" />
+                        </StackPanel>
+                    </Grid>
+                </DataTemplate>
+            </utu:ExtendedSplashScreen.LoadingContentTemplate>
+        </utu:ExtendedSplashScreen>
+    </Grid>
+</UserControl>
