@@ -7,7 +7,7 @@
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="ctl:ZoomContentControl">
-					<Grid>
+					<Grid x:Name="PART_Grid">
 						<Grid.RowDefinitions>
 							<RowDefinition Height="*" />
 							<RowDefinition Height="Auto" />
@@ -16,25 +16,23 @@
 							<ColumnDefinition Width="*" />
 							<ColumnDefinition Width="Auto" />
 						</Grid.ColumnDefinitions>
-						<Border
+						<ContentPresenter
+							x:Name="PART_Presenter"
 							Grid.Row="0"
 							Grid.Column="0"
-							Background="{TemplateBinding Background}">
-							<ContentPresenter
-								x:Name="PART_Presenter"
-								Margin="{TemplateBinding Padding}"
-								HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-								VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-								Content="{TemplateBinding Content}"
-								ContentTemplate="{TemplateBinding ContentTemplate}">
-								<ContentPresenter.RenderTransform>
-									<TransformGroup>
-										<ScaleTransform CenterX="{TemplateBinding HorizontalZoomCenter}" CenterY="{TemplateBinding VerticalZoomCenter}" ScaleX="{TemplateBinding ZoomLevel}" ScaleY="{TemplateBinding ZoomLevel}" />
-										<TranslateTransform X="{TemplateBinding HorizontalOffset}" Y="{TemplateBinding VerticalOffset}" />
-									</TransformGroup>
-								</ContentPresenter.RenderTransform>
-							</ContentPresenter>
-						</Border>
+							Margin="0"
+							Padding="0"
+							HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+							VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+							Content="{TemplateBinding Content}"
+							ContentTemplate="{TemplateBinding ContentTemplate}">
+							<ContentPresenter.RenderTransform>
+								<TransformGroup>
+									<ScaleTransform CenterX="{TemplateBinding HorizontalZoomCenter}" CenterY="{TemplateBinding VerticalZoomCenter}" ScaleX="{TemplateBinding ZoomLevel}" ScaleY="{TemplateBinding ZoomLevel}" />
+									<TranslateTransform X="{TemplateBinding HorizontalOffset}" Y="{TemplateBinding VerticalOffset}" />
+								</TransformGroup>
+							</ContentPresenter.RenderTransform>
+						</ContentPresenter>
 						<!--  Vertical ScrollBar  -->
 						<ScrollBar
 							x:Name="PART_scrollV"
@@ -49,6 +47,7 @@
 							Orientation="Vertical"
 							SmallChange="1"
 							ViewportSize="{TemplateBinding ViewPortHeight}"
+							Visibility="{TemplateBinding IsActive}"
 							Value="{TemplateBinding VerticalScrollValue}" />
 						<!--  Horizontal ScrollBar  -->
 						<ScrollBar
@@ -64,6 +63,7 @@
 							Orientation="Horizontal"
 							SmallChange="1"
 							ViewportSize="{TemplateBinding ViewPortWidth}"
+							Visibility="{TemplateBinding IsActive}"
 							Value="{TemplateBinding HorizontalScrollValue}" />
 					</Grid>
 				</ControlTemplate>

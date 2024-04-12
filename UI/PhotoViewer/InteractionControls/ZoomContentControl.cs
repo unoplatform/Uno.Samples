@@ -7,14 +7,18 @@ using Windows.Foundation;
 
 namespace InteractionControls;
 
+[TemplatePart(Name = "PART_Grid", Type = typeof(Grid))]
 [TemplatePart(Name = "PART_Presenter", Type = typeof(ContentPresenter))]
 [TemplatePart(Name = "PART_scrollV", Type = typeof(ScrollBar))]
 [TemplatePart(Name = "PART_scrollH", Type = typeof(ScrollBar))]
 public partial class ZoomContentControl : ContentControl
 {
+    private Grid? _grid;
     private ContentPresenter? _presenter;
     private ScrollBar? _scrollV;
     private ScrollBar? _scrollH;
+    private Canvas _canvas = new Canvas();
+
     private bool IsAllowedToWork => (IsEnabled && IsActive && _presenter is not null);
 
     public bool ResetWhenNotActive { get; set; } = true;
@@ -157,16 +161,19 @@ public partial class ZoomContentControl : ContentControl
         get => (double)GetValue(VerticalMaxScrollProperty);
         set => SetValue(VerticalMaxScrollProperty, value);
     }
+
     public double VerticalMinScroll
     {
         get => (double)GetValue(VerticalMinScrollProperty);
         set => SetValue(VerticalMinScrollProperty, value);
     }
+
     public double HorizontalMaxScroll
     {
         get => (double)GetValue(HorizontalMaxScrollProperty);
         set => SetValue(HorizontalMaxScrollProperty, value);
     }
+
     public double HorizontalMinScroll
     {
         get => (double)GetValue(HorizontalMinScrollProperty);
@@ -190,6 +197,7 @@ public partial class ZoomContentControl : ContentControl
         get => (double)GetValue(ViewPortHeightProperty);
         set => SetValue(ViewPortHeightProperty, value);
     }
+
     public double ViewPortWidth
     {
         get => (double)GetValue(ViewPortWidthProperty);
@@ -205,7 +213,7 @@ public partial class ZoomContentControl : ContentControl
         RegisterPropertyChangedCallback(MinZoomLevelProperty, CoerceZoomLevel);
         RegisterPropertyChangedCallback(MaxZoomLevelProperty, CoerceZoomLevel);
 
-        RegisterPropertyChangedCallback(ZoomLevelProperty, (s, e) => { UpdateScrollLimits(); });
+        RegisterPropertyChangedCallback(ZoomLevelProperty, (s, e) => UpdateScrollLimits());
 
         RegisterPropertyChangedCallback(HorizontalOffsetProperty, UpdateVerticalScrollBarValue);
         RegisterPropertyChangedCallback(VerticalOffsetProperty, UpdateHorizontalScrollBarValue);
@@ -233,6 +241,26 @@ public partial class ZoomContentControl : ContentControl
         if (_scrollV is not null)
         {
             _scrollV.Visibility = IsActive ? Visibility.Visible : Visibility.Collapsed;
+        }
+
+        if (_grid is not null)
+        {
+            if (IsActive)
+            {
+                _grid.Children.Remove(_presenter);
+                _grid.Children.Add(_canvas);
+                _canvas.Children.Add(_presenter);
+                Grid.SetRow(_canvas, 0);
+                Grid.SetColumn(_canvas, 0);
+            }
+            else
+            {
+                _canvas.Children.Remove(_presenter);
+                _grid.Children.Remove(_canvas);
+                _grid.Children.Add(_presenter);
+                Grid.SetRow(_presenter, 0);
+                Grid.SetColumn(_presenter, 0);
+            }
         }
     }
 
@@ -273,6 +301,7 @@ public partial class ZoomContentControl : ContentControl
 
     protected override void OnApplyTemplate()
     {
+        _grid = GetTemplateChild("PART_Grid") as Grid;
         _presenter = GetTemplateChild("PART_Presenter") as ContentPresenter;
         _scrollV = GetTemplateChild("PART_scrollV") as ScrollBar;
         _scrollH = GetTemplateChild("PART_scrollH") as ScrollBar;
@@ -284,31 +313,26 @@ public partial class ZoomContentControl : ContentControl
         RegisterPointerHandlers();
     }
     #region ScrollBars Events
+
     private void RegisterToControlEvents()
     {
         //due to templatebinding there's no TwoWay mode. We need to manually update the values
         if (_scrollV is not null)
         {
-            _scrollV.Scroll += _scrollV_Scroll;
+            _scrollV.Scroll += ScrollV_Scroll;
         }
 
         if (_scrollH is not null)
         {
-            _scrollH.Scroll += _scrollH_Scroll;
+            _scrollH.Scroll += ScrollH_Scroll;
         }
     }
 
-    private void _scrollV_Scroll(object sender, ScrollEventArgs e)
-    {
-        //TemplateBinding doesn't support TwoWay mode. We need to manually update the values
-        VerticalOffset = -1 * e.NewValue;
-    }
+    //TemplateBinding doesn't support TwoWay mode. We need to manually update the values
+    private void ScrollV_Scroll(object sender, ScrollEventArgs e) => VerticalOffset = -1 * e.NewValue;
 
-    private void _scrollH_Scroll(object sender, ScrollEventArgs e)
-    {
-        //TemplateBinding doesn't support TwoWay mode. We need to manually update the values
-        HorizontalOffset = -1 * e.NewValue;
-    }
+    private void ScrollH_Scroll(object sender, ScrollEventArgs e) => HorizontalOffset = -1 * e.NewValue;
+
     #endregion
 
     private uint _capturedPointerId;
@@ -410,9 +434,6 @@ public partial class ZoomContentControl : ContentControl
         {
             e.Handled = true;
 
-            var hzc = HorizontalZoomCenter;
-            var vzc = VerticalZoomCenter;
-
             ZoomLevel *= changeRatio;
             HorizontalZoomCenter = pointerPosition.X;
             VerticalZoomCenter = pointerPosition.Y;
@@ -446,5 +467,11 @@ public partial class ZoomContentControl : ContentControl
     {
         HorizontalOffset = 0;
         VerticalOffset = 0;
+    }
+
+    public void Centralize()
+    {
+        HorizontalOffset = (ActualWidth / 2) - (ViewPortWidth / 2);
+        VerticalOffset = (ActualHeight / 2) - (ViewPortHeight / 2);
     }
 }
