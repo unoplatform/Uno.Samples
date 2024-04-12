@@ -1,0 +1,137 @@
+jobs:
+- job: update_readme
+  displayName: 'Keep Samples List in sync in README.md'
+  # TODO: Changes will be made in a following PR to fix the related errors 
+  #       and enable Spell Checking and Markdown Linting
+  #       Related issue: https://github.com/unoplatform/uno-private/issues/286
+  #
+  # dependsOn: 
+  #   - spell_checking
+  #   - markdown_linting
+
+  pool:
+    vmImage: 'ubuntu-latest'
+
+  steps:
+  - checkout: self
+    persistCredentials: true
+
+  - powershell: |
+      # Determine the context of the build (PR or push) and set the target branch accordingly
+      $isPR = "$env:BUILD_REASON" -eq "PullRequest"
+
+      # Normalize the branch names based on context
+      $sourceBranch = $isPR ? $env:SYSTEM_PULLREQUEST_SOURCEBRANCH -replace 'refs/heads/', '' : $env:BUILD_SOURCEBRANCH -replace 'refs/heads/', ''
+      $targetBranch = $isPR ? $env:SYSTEM_PULLREQUEST_TARGETBRANCH -replace 'refs/heads/', '' : 'master'
+      Write-Host "Build context determined: $(if ($isPR) { 'Pull Request from ' + $sourceBranch + ' to ' + $targetBranch } else { 'Direct push to ' + $sourceBranch + ', comparing with master'})"
+
+      # Fetch both branches
+      git fetch origin "${sourceBranch}:${sourceBranch}"
+      git fetch origin "${targetBranch}:${targetBranch}"
+
+      # Configure Git with Uno Platform Devops user
+      git config --global user.name "Uno Platform Devops"
+      git config --global user.email "devops@platform.uno"
+      Write-Host "Git configured with Uno Platform Devops user."
+
+      # Check for changes in samples-list.md between the branches
+      $changesFound = git diff --name-only origin/$targetBranch origin/$sourceBranch -- doc/includes/samples-list.md
+
+      if ($changesFound) {
+        Write-Host "Changes detected in samples-list.md between the branches."
+        $changesFound = $true
+      } else {
+        Write-Host "No changes detected in samples-list.md between the branches."
+        $changesFound = $false
+      }
+
+      # Output variables for other scripts to use
+      Write-Host "##vso[task.setvariable variable=branchName]$sourceBranch"
+      Write-Host "##vso[task.setvariable variable=changesFound]$changesFound"
+    displayName: 'Configure Git and Check Changes in samples-list.md'
+    condition: succeeded()
+
+  - powershell: |
+      $readmePath = "README.md"
+      $samplesListPath = "doc/includes/samples-list.md"
+      
+      # Read the samples list and README.md content
+      $samplesListContent = Get-Content -Path $samplesListPath -Raw
+      $readmeContent = Get-Content -Path $readmePath -Raw
+      
+      # Split the content into an array of lines
+      $samplesListLines = $samplesListContent -split "`r`n|`n"
+      
+      # Initialize $startIndex to -1 to indicate 'not found'
+      $startIndex = -1
+      for ($i = 0; $i -lt $samplesListLines.Length; $i++) {
+          if ($samplesListLines[$i] -match "^## Reference Samples") {
+              $startIndex = $i
+              break
+          }
+      }
+      
+      if ($startIndex -ne -1) {
+          # Copy everything from "## Reference Samples" to the end of the array
+          $samplesListContentAfter = $samplesListLines[$startIndex..($samplesListLines.Length - 1)] -join "`n"
+      } else {
+          # If "## Reference Samples" is not found, throw an error
+          throw "The section '## Reference Samples' was not found in samples-list.md."
+          $changesMade = $false
+          Write-Host "##vso[task.setvariable variable=changesMade]$changesMade"
+      }
+      
+      # Define the start and end tags for the replacement area in README.md
+      $startTag = "<!-- START - Samples List -->"
+      $endTag = "<!-- END - Samples List -->"
+      
+      # Prepare the replacement content with the new samples list
+      $replacement = "${startTag}`r`n${samplesListContentAfter}`r`n${endTag}"
+      
+      # Replace the content between start and end tags in README.md
+      $pattern = [regex]::Escape($startTag) + '.*?' + [regex]::Escape($endTag)
+      $newReadmeContent = [regex]::Replace($readmeContent, $pattern, $replacement, [System.Text.RegularExpressions.RegexOptions]::Singleline)
+      
+      # Check if an update is necessary
+      if ($newReadmeContent -ne $readmeContent) {
+          # Content is different, update README.md and indicate changes
+          $newReadmeContent | Set-Content -Path $readmePath
+          $changesMade = $true
+          Write-Host "Changes were detected and applied to README.md."
+      } else {
+          # Content is the same, no update needed
+          $changesMade = $false
+          Write-Host "No changes were necessary for README.md; it's already up to date."
+      }
+      
+      # Output the changesMade variable for other scripts to use
+      Write-Host "##vso[task.setvariable variable=changesMade]$changesMade"
+    displayName: 'Update ReadMe.md with samples-list.md content'
+
+  - powershell: |
+      $branchName = $env:BRANCHNAME
+      
+      # Attempt to fetch and checkout the branch
+      try {
+        git fetch origin "${branchName}:${branchName}"
+        git checkout $branchName
+      } catch {
+        throw "Error fetching and checking out branch ${branchName}"
+      }
+      
+      # Add changes and check for status
+      git add .
+      $status = git status --porcelain
+      if ($status) {
+        # Attempt to commit and push changes
+        try {
+          git commit -m "docs: Automatically update ReadMe.md with samples-list content"
+          git push origin $branchName
+        } catch {
+          throw "Error committing and pushing changes to ${branchName}"
+        }
+      } else {
+        throw "No changes to commit, and the script requires changes to proceed."
+      }
+    displayName: 'Commit and Push changes'
+    condition: and(succeeded(), eq(variables['changesFound'], 'true'), eq(variables['changesMade'], 'true'))

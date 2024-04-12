@@ -15,14 +15,22 @@ See a complete list of code samples [below](#samples). Some of the samples have 
 
 ## What is the Uno Platform?
 
-The Uno Platform is a UI Platform for building single-codebase applications for Windows, Web/WebAssembly, iOS, macOS, Android and Linux. 
+The Uno Platform is a UI Platform for building single-codebase applications for Windows, Web/WebAssembly, iOS, macOS, Android and Linux.
 
-It allows C# and Windows XAML code to run on all target platforms, while allowing you control of every pixel. It comes with support for Fluent, Material and Cupertino design systems out of the box. Uno Platform implements a growing number of the UWP APIs, such as **Windows.UI.Xaml**, to enable UWP and WinUI applications to run on on all platforms with native performance. 
+It allows C# and Windows XAML code to run on all target platforms, while allowing you control of every pixel. It comes with support for Fluent, Material and Cupertino design systems out of the box. Uno Platform implements a growing number of the UWP APIs, such as **Windows.UI.Xaml**, to enable UWP and WinUI applications to run on on all platforms with native performance.
 
 Use the UWP/WinUI tooling from Windows in [Visual Studio](https://www.visualstudio.com/), such as [XAML Hot Reload](https://docs.microsoft.com/en-us/visualstudio/xaml-tools/xaml-hot-reload?view=vs-2019) and [C# Edit and Continue](https://docs.microsoft.com/en-us/visualstudio/debugger/how-to-use-edit-and-continue-csharp), build your application as much as possible on Windows, then validate that your application runs on iOS, Android, macOS and WebAssembly.
 
 Visit [our documentation](https://platform.uno/docs/articles/intro.html) for more details.
 
+<!-- To ensure the samples list remains synchronized between the general Uno Platform documentation and the main README in this repository, we are automatically including doc/includes/samples-list.md via the CI build process. 
+
+REASON: GitHub Markdown currently does not support direct includes, preventing the list from being displayed directly on the GitHub Uno.Samples repository page.
+
+IMPORTANT: DO NOT UPDATE THE LIST BELOW MANUALLY, ONLY do the changes in doc/includes/samples-list.md.
+ The automated inclusion of the samples list takes place immediately following this message. Please do not remove the tags surrounding the list below; these are essential for ensuring that updates to samples-list.md are accurately reflected in this document (Related script used: build/stage-update-readme-samples-list.yml). -->
+
+<!-- START - Samples List -->
 ## Samples
 
 ### Commerce App
@@ -462,8 +470,8 @@ Visit [our documentation](https://platform.uno/docs/articles/intro.html) for mor
 ### XamlBrewer SkiaSharp
 Port of the XAML Brewer WinUI3 SkiaSharp Sample application ([blog post](https://xamlbrewer.wordpress.com/2023/09/25/getting-started-with-skiasharp-in-winui-3/) and [source code](https://github.com/XamlBrewer/XamlBrewer.WinUI3.SkiaSharp.Sample))
 
-[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/XamlBrewerUnoApp) 
-
+[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/XamlBrewerUnoApp)
+<!-- END - Samples List -->
 
 ## Uno Platform Samples - Issues
 If you encounter any issues with these samples above, please open an issue [here](https://github.com/unoplatform/uno/issues).
@@ -474,4 +482,3 @@ Thanks go to these wonderful people (List made with [contrib.rocks](https://cont
 [![Uno.Samples Contributors](https://contrib.rocks/image?repo=unoplatform/Uno.Samples)](https://github.com/unoplatform/Uno.Samples/graphs/contributors)
 
 💖 Thank you.
-

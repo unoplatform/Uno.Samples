@@ -1,49 +1,33 @@
-jobs:
-- job: VS_Latest
-  timeoutInMinutes: 600
+trigger:
+  branches:
+    include:
+      - master
+      - feature/*
 
-  pool:
-    vmImage: windows-2022
+pr:
+  branches:
+    include:
+      - master
+      - feature/*
 
-  steps:
-  - checkout: self
-    clean: true
-  
-  - powershell: |
-      if($env:System_PullRequest_TargetBranch -eq $null) { $TargetBranch = "master" } else { $TargetBranch = $env:System_PullRequest_TargetBranch; }
+stages:
+- stage: Determine_Changes
+  displayName: Determine Changes
+  jobs:
+  - template: build/stage-determine-changes.yml
 
-      $dict = New-Object 'System.Collections.Generic.Dictionary[String,System.Collections.Generic.Dictionary[String,String]]'
-      $samples = Get-ChildItem -Path **\*.sln -Recurse | Where-Object {$_.FullName -notmatch "\\ArchivedProjects\\"}
-      foreach($sample in $samples){
+- stage: Docs_Validations
+  displayName: Docs Validations
+  dependsOn: Determine_Changes
+  # Trigger this stage when docs files are changed
+  condition: or(eq(dependencies.Determine_Changes.outputs['evaluate_changes.DetermineChanges.docsOnly'], 'true'), eq(dependencies.Determine_Changes.outputs['evaluate_changes.DetermineChanges.mixedChanges'], 'true'))
+  jobs:
+  - template: build/stage-docs-validations.yml
 
-        $solutionPath=[System.IO.Path]::GetDirectoryName($sample.FullName);
-        Write-Host "$solutionPath"
-
-        git diff --quiet HEAD "origin/$TargetBranch" -- "$solutionPath"
-
-        # Only build if there a change in the solution path for the current PR, if we're not in a PR
-        if( ("$env:System_PullRequest_PullRequestId" -eq '') -or ($global:LASTEXITCODE -ne 0)) {
-          Write-Host "Adding $solutionPath"
-          $item = New-Object 'System.Collections.Generic.Dictionary[String,String]'
-          $item.Add("solutionPath", $sample.FullName)
-          $name = $sample.Name.Split(".")[0]
-          if(!$dict.ContainsKey($name)){
-            $dict.Add($name, $item)
-          }
-        }
-        $global:LASTEXITCODE = 0
-
-      }
-
-      $SolutionsJson = $dict | ConvertTo-Json -Compress
-      
-      Write-Host $SolutionsJson
-      Write-Host "##vso[task.setvariable variable=samplesJson;isOutput=true]$SolutionsJson"
-    name: generateJson
-    displayName: Generate Json of Samples
-
-- template: .azure-pipelines.BuildMatrix.yml
-
-  # - task: PublishBuildArtifacts@1
-  #   inputs:
-  #     pathtoPublish: $(Build.ArtifactStagingDirectory)
+- stage: Build_Samples
+  displayName: Build Samples
+  dependsOn: Determine_Changes
+  # Don't trigger this stage if only docs files are changed
+  condition: ne(dependencies.Determine_Changes.outputs['evaluate_changes.DetermineChanges.docsOnly'], 'true')
+  jobs:
+    - template: build/stage-build-samples.yml

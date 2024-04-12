@@ -1,0 +1,107 @@
+jobs:
+- job: PrepareBuildList
+  displayName: Prepare Build List
+  timeoutInMinutes: 600
+  pool:
+    vmImage: windows-2022
+  steps:
+  - checkout: self
+    clean: true
+  - powershell: |
+      # Determine the context of the build (PR or push)
+      $isPR = "$(Build.Reason)" -eq "PullRequest"
+
+      # Normalize the branch names based on context and set the target branch accordingly
+      if ($isPR) {
+        $targetBranch = "$(System.PullRequest.TargetBranch)" -replace 'refs/heads/', ''
+      } else {
+        $targetBranch = "master"
+      }
+      Write-Host "Build context determined: $(if ($isPR) { 'Pull Request targeting ' + $targetBranch } else { 'Push to master' })"
+
+      # Initialize a dictionary to keep track of solutions that have changed and need building.
+      $dict = New-Object 'System.Collections.Generic.Dictionary[String,System.Collections.Generic.Dictionary[String,String]]'
+      $samples = Get-ChildItem -Path **\*.sln -Recurse | Where-Object { $_.FullName -notmatch "\\ArchivedProjects\\" }
+      foreach ($sample in $samples) {
+        $solutionPath = [System.IO.Path]::GetDirectoryName($sample.FullName)
+        Write-Host "Evaluating $solutionPath"
+
+        # Perform a git diff to check for changes in the solution path relative to the target branch.
+        git diff --quiet HEAD "origin/$targetBranch" -- "$solutionPath"
+        if ($env:System_PullRequest_PullRequestId -eq '' -or $LASTEXITCODE -ne 0) {
+          Write-Host "Changes detected, adding $solutionPath to build list"
+          $item = New-Object 'System.Collections.Generic.Dictionary[String,String]'
+          $item.Add("solutionPath", $sample.FullName)
+          $name = $sample.Name.Split(".")[0]
+          if (!$dict.ContainsKey($name)) {
+            $dict.Add($name, $item)
+          }
+        }
+        $LASTEXITCODE = 0  # Reset last exit code to ensure accurate detection for each iteration.
+      }
+
+      # Convert the dictionary of changed solutions to JSON and output it for subsequent jobs.
+      $solutionsJson = $dict | ConvertTo-Json -Compress
+      Write-Host "JSON of changed solutions: $solutionsJson"
+      Write-Host "##vso[task.setvariable variable=samplesJson;isOutput=true]$solutionsJson"
+    name: passJsonOutput
+    displayName: 'Generate Json of Samples'
+
+- job: BuildSamples
+  displayName: Build
+  dependsOn: PrepareBuildList
+  # Condition to ensure this job only runs if the previous job succeeded and there are changes in the samples solutions.
+  condition: and(succeeded(), ne(dependencies.PrepareBuildList.outputs['passJsonOutput.samplesJson'], '{}'))
+  pool:
+    vmImage: 'windows-2022'
+  strategy:
+    # Implementing matrix strategy based on changes detected in previous PrepareBuildList job.
+    matrix: $[ dependencies.PrepareBuildList.outputs['passJsonOutput.samplesJson'] ]
+  variables:
+    UseDotNetNativeToolchain: false
+  steps:
+  - checkout: self
+    clean: true
+  - template: templates/dotnet-install-windows.yml
+
+  # Conditionally apply configurations for builds from the 'canaries' branch.
+  - ${{ if startsWith(variables['Build.SourceBranch'], 'refs/heads/canaries') }}:
+    - template: .vsts-ci.canaries.yml
+      parameters:
+        solution: $(solutionPath)
+
+  # Build the project and handle build validation.
+  - powershell: |
+      Set-PSDebug -Trace 1
+      Write-Host "Starting build for $(solutionPath)"
+      # NOTE: Currently, the CI just validates that the sample builds, and we don't publish actual apps.
+      # In future, if we publish actual apps, it could happen that AndroidAddKeepAlives=false may cause issues.
+      # So it will be safer to remove it. For now, we set it to false as it makes the build much faster.
+      dotnet build $(solutionPath) /p:AndroidAddKeepAlives=false /p:Configuration=Release /p:WasmShellMonoRuntimeExecutionMode=Interpreter /p:PublishTrimmed=false /p:WasmShellILLinkerEnabled=false /p:EnableCoreMrtTooling=false /p:RunAOTCompilation=false /p:MtouchUseLlvm=false "/bl:$(build.artifactstagingdirectory)\$(Agent.JobName).binlog"
+
+      # Locate test projects and execute tests if applicable.
+      $folderPath = [System.IO.Path]::GetDirectoryName("$(solutionPath)")
+      $testProject = Get-Item -Path $folderPath\**\*.Tests.csproj -ErrorAction SilentlyContinue
+      if ($testProject) {
+          Write-Host "Testing project: $($testProject.FullName)"
+          & dotnet test $testProject.FullName -c Release --collect "XPlat code coverage" --logger trx --no-build
+      } else {
+          Write-Host "No tests found for project: $($folderPath)"
+      }
+
+      # Ensure the build fails on error.
+      if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+      # Configure Git to handle long paths and clean the repository to avoid disk space issues.
+      git config --system core.longpaths true
+      git clean -fdx
+      Write-Host "Cleanup complete, preparing for next operations."
+    displayName: Build Sample
+
+  - task: PublishBuildArtifacts@1
+    condition: always()
+    retryCountOnTaskFailure: 3
+    inputs:
+      PathtoPublish: $(build.artifactstagingdirectory)
+      ArtifactName: samples
+      ArtifactType: Container
