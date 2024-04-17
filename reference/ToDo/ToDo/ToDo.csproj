@@ -51,8 +51,7 @@
     </UnoFeatures>
   </PropertyGroup>
   <ItemGroup>
-    <None Remove="appsettings.development.json" />
-    <None Remove="appsettings.json" />
+    <None Remove="Assets\Images\back.svg" />
     <None Remove="Mock\lists.json" />
     <None Remove="Mock\profilePicture.json" />
     <None Remove="Mock\tasks.json" />
@@ -61,8 +60,6 @@
     <None Remove="Strings\fr\Resources.resw" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="appsettings.development.json" />
-    <EmbeddedResource Include="appsettings.json" />
     <EmbeddedResource Include="Mock\lists.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
@@ -77,6 +74,11 @@
     <PackageReference Include="Microsoft.Extensions.Configuration" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Binder" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" />
+    <PackageReference Include="SkiaSharp.Views.Uno.WinUI" />
+    <PackageReference Include="SkiaSharp.Skottie" />
+  </ItemGroup>
+  <ItemGroup>
+    <UnoImage Include="Assets\Images\back.svg" />
   </ItemGroup>
 
 </Project>
