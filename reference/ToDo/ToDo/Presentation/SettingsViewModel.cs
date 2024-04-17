@@ -12,7 +12,7 @@ public partial class SettingsViewModel
 	private IAppTheme _appTheme;
 	private IWritableOptions<ToDoApp> _appSettings;
 
-	public IWritableOptions<LocalizationService> LocalizationService { get; }
+	public ILocalizationService LocalizationService { get; }
 
 	public DisplayCulture[] Cultures { get; }
 
@@ -25,7 +25,7 @@ public partial class SettingsViewModel
 		IAuthenticationService authService,
 		IUserProfilePictureService userSvc,
 		IOptions<LocalizationConfiguration> localizationConfiguration,
-		IWritableOptions<LocalizationService> localizationService,
+		ILocalizationService localizationService,
 		IStringLocalizer localizer,
 		IAppTheme appTheme,
 		IWritableOptions<ToDoApp> appSettings)
@@ -34,7 +34,7 @@ public partial class SettingsViewModel
 		_navigator = navigator;
 		_authService = authService;
 		_userSvc = userSvc;
-        LocalizationService = localizationService;
+		LocalizationService = localizationService;
 		_appTheme = appTheme;
 		_appSettings = appSettings;
 
@@ -44,7 +44,7 @@ public partial class SettingsViewModel
 		SelectedAppTheme.Execute(ChangeAppTheme);
 
 		Cultures = localizationConfiguration.Value!.Cultures!.Select(c => new DisplayCulture(localizer[$"SettingsFlyout_LanguageLabel_{c}"], c)).ToArray();
-		SelectedCulture = State.Value(this, () => Cultures.FirstOrDefault(c => c.Culture.Equals(LocalizationService.Value?.CurrentCulture)) ?? Cultures.First());
+		SelectedCulture = State.Value(this, () => Cultures.FirstOrDefault(c => c.Culture.Equals(LocalizationService.CurrentCulture)) ?? Cultures.First());
 
 		SelectedCulture.Execute(ChangeLanguage);
 	}
@@ -72,15 +72,11 @@ public partial class SettingsViewModel
 
 	private async ValueTask ChangeLanguage(DisplayCulture? culture, CancellationToken ct)
 	{
-        if (culture is not null)
-        {
-            await LocalizationService.UpdateAsync(settings =>
-            {
-                settings.SetCurrentCultureAsync(new CultureInfo(culture.Culture));
-                return settings;
-            });
-        }
-    }
+		if (culture is not null)
+		{
+			await LocalizationService.SetCurrentCultureAsync(new CultureInfo(culture.Culture));
+		}
+	}
 
 	private async ValueTask ChangeAppTheme(string? appTheme, CancellationToken ct)
 	{
