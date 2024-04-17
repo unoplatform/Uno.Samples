@@ -51,20 +51,19 @@
     </UnoFeatures>
   </PropertyGroup>
   <ItemGroup>
-    <None Remove="appsettings.development.json" />
-    <None Remove="appsettings.json" />
     <None Remove="products.json" />
     <None Remove="reviews.json" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="appsettings.development.json" />
-    <EmbeddedResource Include="appsettings.json" />
     <EmbeddedResource Include="products.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="reviews.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)' == 'net8.0-windows10.0.19041'">
+    <PackageReference Include="SkiaSharp.Views.WinUI" />
   </ItemGroup>
 
 </Project>
