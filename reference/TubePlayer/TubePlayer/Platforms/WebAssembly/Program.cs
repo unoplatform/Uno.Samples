@@ -1,4 +1,4 @@
-namespace TubePlayer.Wasm;
+namespace TubePlayer;
 
 public class Program
 {
@@ -6,7 +6,7 @@ public class Program
 
     public static int Main(string[] args)
     {
-        Microsoft.UI.Xaml.Application.Start(_ => _app = new AppHead());
+        Microsoft.UI.Xaml.Application.Start(_ => _app = new App());
 
         return 0;
     }
