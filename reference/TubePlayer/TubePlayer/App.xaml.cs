@@ -1,8 +1,6 @@
 using System.Text.Json;
 
-//Add Uno.Resizetizer once the issue with the latest version is resolved
-
-//using Uno.Resizetizer;
+using Uno.Resizetizer;
 
 namespace TubePlayer;
 
@@ -78,7 +76,7 @@ public partial class App : Application
 #if DEBUG
         MainWindow.EnableHotReload();
 #endif
-        //MainWindow.SetWindowIcon();
+        MainWindow.SetWindowIcon();
 
         Host = await builder.NavigateAsync<Shell>();
     }

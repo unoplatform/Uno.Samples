@@ -1,4 +1,4 @@
-﻿namespace TubePlayer.Presentation;
+namespace TubePlayer.Presentation;
 
 public sealed partial class Shell : UserControl, IContentControlProvider
 {
@@ -8,7 +8,7 @@ public sealed partial class Shell : UserControl, IContentControlProvider
             new Border()
                 .Child(
                     new ExtendedSplashScreen()
-                        .Assign(out var splash)
+                        .Name(out var splash)
                         .HorizontalAlignment(HorizontalAlignment.Stretch)
                         .VerticalAlignment(VerticalAlignment.Stretch)
                         .HorizontalContentAlignment(HorizontalAlignment.Stretch)
