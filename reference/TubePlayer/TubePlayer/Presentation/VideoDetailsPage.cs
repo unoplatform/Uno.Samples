@@ -57,7 +57,10 @@ public partial class VideoDetailsPage : Page
                                             )
                                     ),
                                 new MediaPlayerElement()
-                                    .Assign(mediaPlayerElement => youtubePlayer = mediaPlayerElement)
+                                    .Name(out var mediaPlayerElement, (val) =>
+                                    {
+                                        youtubePlayer = val;
+                                    })
                                     .AutoPlay(true)
                                     .Source(() => vm.VideoSource)
                                     .PosterSource(() => vm.Video.Details.Snippet?.Thumbnails?.Medium?.Url!)
