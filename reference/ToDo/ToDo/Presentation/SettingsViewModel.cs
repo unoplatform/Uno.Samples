@@ -9,8 +9,8 @@ public partial class SettingsViewModel
 	private readonly IUserProfilePictureService _userSvc;
 	private readonly INavigator _sourceNavigator;
 	private readonly INavigator _navigator;
-	private IAppTheme _appTheme;
 	private IWritableOptions<ToDoApp> _appSettings;
+	private IThemeService _themeService;
 
 	public ILocalizationService LocalizationService { get; }
 
@@ -27,19 +27,21 @@ public partial class SettingsViewModel
 		IOptions<LocalizationConfiguration> localizationConfiguration,
 		ILocalizationService localizationService,
 		IStringLocalizer localizer,
-		IAppTheme appTheme,
-		IWritableOptions<ToDoApp> appSettings)
+		IWritableOptions<ToDoApp> appSettings,
+		IThemeService themeService)
 	{
 		_sourceNavigator = request?.Source ?? navigator;
 		_navigator = navigator;
 		_authService = authService;
 		_userSvc = userSvc;
 		LocalizationService = localizationService;
-		_appTheme = appTheme;
 		_appSettings = appSettings;
+		_themeService = themeService;
+
+		var isDark = true;//themeService.IsDark;
 
 		AppThemes = new string[] { localizer["SettingsFlyout_ThemeLight"], localizer["SettingsFlyout_ThemeDark"] };
-		SelectedAppTheme = State.Value(this, () => AppThemes[appTheme.IsDark ? 1 : 0]);
+		SelectedAppTheme = State.Value(this, () => AppThemes[isDark ? 1 : 0]);
 
 		SelectedAppTheme.Execute(ChangeAppTheme);
 
@@ -83,7 +85,7 @@ public partial class SettingsViewModel
 		if (appTheme is { Length: > 0 })
 		{
 			var isDark = Array.IndexOf(AppThemes, appTheme) == 1;
-			await _appTheme.SetThemeAsync(isDark);
+			await _themeService.SetThemeAsync(isDark ? Uno.Extensions.Toolkit.AppTheme.Dark : Uno.Extensions.Toolkit.AppTheme.Light);
 			await _appSettings.UpdateAsync(s => s with { IsDark = isDark });
 		}
 	}
