@@ -43,35 +43,30 @@
 		<utu:AutoLayout x:Name="NarrowWelcomeContent"
 						Visibility="Collapsed"
 						Padding="10,10,10,10">
-			<utu:AutoLayout Padding="20,60,20,60"
-							Orientation="Horizontal"
-							utu:AutoLayout.PrimaryAlignment="Stretch">
-				<Image Source="ms-appx:///Assets/Welcome/welcome_uno.png"
-					   Stretch="Uniform"
-					   utu:AutoLayout.CounterAlignment="Start"
-					   utu:AutoLayout.PrimaryAlignment="Stretch"
-					   utu:AutoLayout.CounterLength="310" />
-			</utu:AutoLayout>
+			<Image Source="ms-appx:///Assets/Welcome/welcome_uno.png"
+				   Margin="20,60,20,60"
+				   Stretch="Uniform"
+				   utu:AutoLayout.PrimaryAlignment="Stretch" />
 			<utu:AutoLayout Spacing="20"
-							Padding="0,40,0,40">
-				<TextBlock Foreground="{ThemeResource OnSecondaryMediumBrush}"
-						   TextAlignment="Center"
-						   TextWrapping="Wrap"
-						   Text="Welcome to&#xA;Uno To Do!"
-						   Style="{StaticResource HeadlineSmall}"
-						   x:Uid="WelcomePage_Welcome" />
-				<TextBlock Foreground="{StaticResource PrimaryVariantLightBrush}"
-						   TextAlignment="Center"
-						   TextWrapping="Wrap"
-						   Text="Start using the best to-do app"
-						   Style="{StaticResource TitleSmall}"
-						   x:Uid="WelcomePage_Line2" />
-			</utu:AutoLayout>
-			<Button Content="Get started"
-					x:Uid="WelcomePage_GetStarted"
-					AutomationProperties.AutomationId="WelcomePage_Button_Narrow"
-					Command="{Binding GetStarted}"
-					Style="{StaticResource FilledButtonStyle}" />
+						Padding="0,40,0,40">
+			<TextBlock Foreground="{ThemeResource OnSecondaryMediumBrush}"
+					   TextAlignment="Center"
+					   TextWrapping="Wrap"
+					   Text="Welcome to&#xA;Uno To Do!"
+					   Style="{StaticResource HeadlineSmall}"
+					   x:Uid="WelcomePage_Welcome" />
+			<TextBlock Foreground="{StaticResource PrimaryVariantLightBrush}"
+					   TextAlignment="Center"
+					   TextWrapping="Wrap"
+					   Text="Start using the best to-do app"
+					   Style="{StaticResource TitleSmall}"
+					   x:Uid="WelcomePage_Line2" />
+		</utu:AutoLayout>
+		<Button Content="Get started"
+				x:Uid="WelcomePage_GetStarted"
+				AutomationProperties.AutomationId="WelcomePage_Button_Narrow"
+				Command="{Binding GetStarted}"
+				Style="{StaticResource FilledButtonStyle}" />
 		</utu:AutoLayout>
 
 		<utu:AutoLayout x:Name="WideWelcomeContent"
