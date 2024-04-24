@@ -5,3 +5,7 @@ The Simple Calc workshop is here to help you get started building an app for Des
 This app was developed using Uno Platform and draws inspiration from [@adolfomarinucci's](https://x.com/adolfomarinucci) [Calculator project.](https://github.com/adospace/reactorui-maui/tree/main/samples/Calculator)
 
 ![SimpleCalculator light Image](simplecalculator-light.png) ![SimpleCalculator dark Image](simplecalculator-dark.png)
+
+## Workshop
+
+For a deeper understanding, you can also explore the [Simple Calc workshop](https://aka.platform.uno/simplecalc-workshop), where you'll be guided through the entire app creation process. Each module is accompanied by detailed explanations to ensure a comprehensive learning experience.
