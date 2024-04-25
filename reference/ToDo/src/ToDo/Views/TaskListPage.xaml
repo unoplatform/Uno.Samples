@@ -69,49 +69,43 @@
 															utu:AutoLayout.CounterAlignment="Start"
 															utu:AutoLayout.CounterLength="40">
 												<CheckBox IsChecked="{Binding IsCompleted}"
-															Command="{controls:AncestralBinding Path=ToggleIsCompleted,
-																								AncestorType=uer:FeedView}"
-															CommandParameter="{Binding}"
-															utu:AutoLayout.CounterAlignment="Start"
-															Style="{StaticResource CheckBoxStyle}" />
+														  Command="{controls:AncestralBinding Path=ToggleIsCompleted,
+														  									AncestorType=uer:FeedView}"
+														  CommandParameter="{Binding}"
+														  utu:AutoLayout.CounterAlignment="Start"
+														  Style="{StaticResource CheckBoxStyle}" />
 											</utu:AutoLayout>
 										</utu:AutoLayout>
 										<utu:AutoLayout utu:AutoLayout.CounterAlignment="Center"
-														utu:AutoLayout.PrimaryAlignment="Stretch"
-														utu:AutoLayout.CounterLength="60">
+														utu:AutoLayout.PrimaryAlignment="Stretch">
 											<utu:AutoLayout PrimaryAxisAlignment="Center" utu:AutoLayout.PrimaryLength="60">
 												<utu:AutoLayout PrimaryAxisAlignment="Center" utu:AutoLayout.CounterAlignment="Start">
 													<TextBlock Foreground="{ThemeResource OnSurfaceBrush}"
-																 Text="{Binding Title}"
-																 MaxLines="1"
-																 utu:AutoLayout.CounterAlignment="Start"
-																 Style="{StaticResource TitleMedium}" />
+															   Text="{Binding Title}"
+															   MaxLines="1"
+															   utu:AutoLayout.CounterAlignment="Start"
+															   Style="{StaticResource TitleMedium}" />
 													<TextBlock Foreground="{ThemeResource OnSurfaceBrush}"
-																 Text="{Binding DueDateTime.DateTime, Converter={StaticResource TaskDueDateFormatter}}"
-																 utu:AutoLayout.CounterAlignment="Start"
-																 Visibility="{Binding DueDateTime.DateTime, Converter={StaticResource IsNotNull}}"
-																 Style="{StaticResource BodyMedium}" />
+															   Text="{Binding DueDateTime.DateTime, Converter={StaticResource TaskDueDateFormatter}}"
+															   utu:AutoLayout.CounterAlignment="Start"
+															   Visibility="{Binding DueDateTime.DateTime, Converter={StaticResource IsNotNull}}"
+															   Style="{StaticResource BodyMedium}" />
 												</utu:AutoLayout>
 											</utu:AutoLayout>
 										</utu:AutoLayout>
-										<utu:AutoLayout Padding="0,0,10,0"
-														Orientation="Horizontal"
-														utu:AutoLayout.CounterAlignment="Center">
-											<utu:AutoLayout PrimaryAxisAlignment="End" Orientation="Horizontal">
-												<ToggleButton utu:AutoLayout.CounterAlignment="Start"
-																IsChecked="{Binding IsImportant}"
-																Command="{controls:AncestralBinding Path=ToggleIsImportant,
-																									AncestorType=uer:FeedView}"
-																CommandParameter="{Binding}"
-																Style="{StaticResource IconToggleButtonStyle}">
-													<ToggleButton.Content>
-														<PathIcon Foreground="{StaticResource OnSurfaceLowBrush}" Data="{StaticResource Icon_Star_Rate}" />
-													</ToggleButton.Content>
-													<ut:ControlExtensions.AlternateContent>
-														<PathIcon Foreground="{StaticResource ErrorBrush}" Data="{StaticResource Icon_Star_Rate}" />
-													</ut:ControlExtensions.AlternateContent>
-												</ToggleButton>
-											</utu:AutoLayout>
+										<utu:AutoLayout PrimaryAxisAlignment="End">
+											<ToggleButton utu:AutoLayout.CounterAlignment="Start"
+														  IsChecked="{Binding IsImportant}"
+														  Command="{controls:AncestralBinding Path=ToggleIsImportant,
+														  									AncestorType=uer:FeedView}"
+														  CommandParameter="{Binding}">
+												<ToggleButton.Content>
+													<PathIcon Foreground="{StaticResource OnSurfaceLowBrush}" Data="{StaticResource Icon_Star_Rate}" />
+												</ToggleButton.Content>
+												<ut:ControlExtensions.AlternateContent>
+													<PathIcon Foreground="{StaticResource ErrorBrush}" Data="{StaticResource Icon_Star_Rate}" />
+												</ut:ControlExtensions.AlternateContent>
+											</ToggleButton>
 										</utu:AutoLayout>
 									</utu:AutoLayout>
 								</utu:AutoLayout>
@@ -169,9 +163,9 @@
 		<utu:AutoLayout Background="{Binding Entity.Value, Converter={StaticResource TaskListSurfaceBrushConverter}}">
 			<utu:AutoLayout utu:AutoLayout.PrimaryAlignment="Stretch">
 				<utu:NavigationBar Content="{Binding Entity.DisplayName}"
-									 Background="{Binding Entity.Value, Converter={StaticResource TaskListSurfaceBrushConverter}}"
-									 Foreground="{ThemeResource OnPrimaryBrush}"
-									 Style="{StaticResource NavigationBarStyle}">
+								   Background="{Binding Entity.Value, Converter={StaticResource TaskListSurfaceBrushConverter}}"
+								   Foreground="{ThemeResource OnPrimaryBrush}"
+								   Style="{StaticResource NavigationBarStyle}">
 					<utu:NavigationBar.MainCommand>
 						<AppBarButton Foreground="{ThemeResource OnPrimaryBrush}">
 							<AppBarButton.Icon>
@@ -181,15 +175,15 @@
 					</utu:NavigationBar.MainCommand>
 					<utu:NavigationBar.PrimaryCommands>
 						<AppBarButton Command="{Binding RenameList}"
-										Foreground="{ThemeResource OnPrimaryBrush}"
-										Visibility="{Binding Entity.Value, Converter={StaticResource TaskListVisibilityConverter}}">
+									  Foreground="{ThemeResource OnPrimaryBrush}"
+									  Visibility="{Binding Entity.Value, Converter={StaticResource TaskListVisibilityConverter}}">
 							<AppBarButton.Icon>
 								<BitmapIcon UriSource="ms-appx:///Assets/Icons/drive_file_rename_outline.png" />
 							</AppBarButton.Icon>
 						</AppBarButton>
 						<AppBarButton Command="{Binding DeleteList}"
-										Foreground="{ThemeResource OnPrimaryBrush}"
-										Visibility="{Binding Entity.Value, Converter={StaticResource TaskListVisibilityConverter}}">
+									  Foreground="{ThemeResource OnPrimaryBrush}"
+									  Visibility="{Binding Entity.Value, Converter={StaticResource TaskListVisibilityConverter}}">
 							<AppBarButton.Icon>
 								<BitmapIcon UriSource="ms-appx:///Assets/Icons/delete_outline.png" />
 							</AppBarButton.Icon>
@@ -197,8 +191,8 @@
 					</utu:NavigationBar.PrimaryCommands>
 				</utu:NavigationBar>
 				<Grid utu:AutoLayout.CounterAlignment="Stretch"
-						utu:AutoLayout.PrimaryAlignment="Stretch"
-						uen:Region.Attached="True">
+					  utu:AutoLayout.PrimaryAlignment="Stretch"
+					  uen:Region.Attached="True">
 					<utu:AutoLayout utu:AutoLayout.PrimaryAlignment="Stretch">
 						<utu:TabBar uen:Region.Attached="True"
 									Background="{Binding Entity.Value, Converter={StaticResource TaskListSurfaceBrushConverter}}"
@@ -212,13 +206,9 @@
 											uen:Region.Name="Completed"
 											utu:AutoLayout.PrimaryAlignment="Stretch" />
 						</utu:TabBar>
-						<utu:AutoLayout Spacing="10"
-										Padding="20,10,20,0"
-										utu:AutoLayout.PrimaryAlignment="Stretch">
-							<Grid utu:AutoLayout.CounterAlignment="Stretch"
-									utu:AutoLayout.PrimaryAlignment="Stretch"
-									uen:Region.Attached="True"
-									uen:Region.Navigator="Visibility">
+
+						<utu:AutoLayout uen:Region.Attached="True"
+										uen:Region.Navigator="Visibility">
 
 								<!--
 									TODO: Both FeedView should be set to collapsed by default
@@ -227,51 +217,47 @@
 									it over the top of the CompletedTasks, since they're currently
 									both visible by default
 								-->
-								<uer:FeedView Source="{Binding CompletedTasks}"
-												utu:AutoLayout.CounterAlignment="Start"
-												utu:AutoLayout.PrimaryAlignment="Stretch"
-												uen:Region.Name="Completed"
-												Visibility="Visible">
-									<DataTemplate>
-										<ListView ItemsSource="{Binding Data}"
-													uen:Navigation.Request="Task"
-													SelectionMode="None"
-													IsItemClickEnabled="True"
-													Style="{StaticResource TaskListViewStyle}" />
-									</DataTemplate>
-								</uer:FeedView>
+							<uer:FeedView Source="{Binding CompletedTasks}"
+										  utu:AutoLayout.CounterAlignment="Start"
+										  utu:AutoLayout.PrimaryAlignment="Stretch"
+										  uen:Region.Name="Completed"
+										  Visibility="Visible">
+								<DataTemplate>
+									<ListView ItemsSource="{Binding Data}"
+											  uen:Navigation.Request="Task"
+											  SelectionMode="None"
+											  IsItemClickEnabled="True"
+											  Style="{StaticResource TaskListViewStyle}" />
+								</DataTemplate>
+							</uer:FeedView>
 
 								<!--
 									Since both FeedView are Visible at the moment we need a layer
 									in between because there are on top of each other
 								-->
-								<Border Visibility="{Binding Path=Visibility, ElementName=ActiveTasks}"
-										VerticalAlignment="Stretch"
-										HorizontalAlignment="Stretch"
-										Background="{Binding Entity.Value, Converter={StaticResource TaskListSurfaceBrushConverter}}" />
+							<Border Visibility="{Binding Path=Visibility, ElementName=ActiveTasks}"
+									VerticalAlignment="Stretch"
+									HorizontalAlignment="Stretch"
+									Background="{Binding Entity.Value, Converter={StaticResource TaskListSurfaceBrushConverter}}" />
 
-								<uer:FeedView x:Name="ActiveTasks"
-												Source="{Binding ActiveTasks}"
-												utu:AutoLayout.CounterAlignment="Start"
-												utu:AutoLayout.PrimaryAlignment="Stretch"
-												uen:Region.Name="ToDo"
-												Visibility="Visible">
-									<DataTemplate>
-										<ListView ItemsSource="{Binding Data}"
-													uen:Navigation.Request="Task"
-													SelectionMode="None"
-													IsItemClickEnabled="True"
-													Style="{StaticResource TaskListViewStyle}" />
-									</DataTemplate>
-								</uer:FeedView>
-
-
-							</Grid>
+							<uer:FeedView x:Name="ActiveTasks"
+										  Source="{Binding ActiveTasks}"
+										  utu:AutoLayout.CounterAlignment="Start"
+										  utu:AutoLayout.PrimaryAlignment="Stretch"
+										  uen:Region.Name="ToDo"
+										  Visibility="Visible">
+								<DataTemplate>
+									<ListView ItemsSource="{Binding Data}"
+											  uen:Navigation.Request="Task"
+											  SelectionMode="None"
+											  IsItemClickEnabled="True"
+											  Style="{StaticResource TaskListViewStyle}" />
+								</DataTemplate>
+							</uer:FeedView>
 						</utu:AutoLayout>
 					</utu:AutoLayout>
 				</Grid>
 				<utu:AutoLayout Margin="0,0,0,20"
-								Padding="20,0,20,0"
 								utu:AutoLayout.PrimaryLength="60">
 					<Button x:Uid="TaskListPage_CreateTaskButton"
 							Content="Add a task"
@@ -289,8 +275,8 @@
 		</utu:AutoLayout>
 
 		<Grid Grid.Column="1"
-				x:Name="TaskDetailsGrid"
-				Visibility="Collapsed">
+			  x:Name="TaskDetailsGrid"
+			  Visibility="Collapsed">
 			<ContentControl x:Name="TaskDetails"
 							uen:Region.Attached="false"
 							Grid.Column="1"
