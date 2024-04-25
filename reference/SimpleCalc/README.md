@@ -4,7 +4,7 @@ The Simple Calc workshop is here to help you get started building an app for Des
 
 This app was developed using Uno Platform and draws inspiration from [@adolfomarinucci's](https://x.com/adolfomarinucci) [Calculator project.](https://github.com/adospace/reactorui-maui/tree/main/samples/Calculator)
 
-![SimpleCalculator light Image](simplecalculator-light.png) ![SimpleCalculator dark Image](simplecalculator-dark.png)
+![SimpleCalculator light Image](doc/assets/iphone14-light.png) ![SimpleCalculator dark Image](doc/assets/iphone14-dark.png)
 
 ## Workshop
 
