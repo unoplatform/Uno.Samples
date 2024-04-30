@@ -19,7 +19,7 @@ public sealed partial class MainPage : Page
 
     public void CustomWindowSample() { } // => new CustomWindow().Activate();
 
-    public void FullScreenModeSample() { } // => new FullScreenModeWindow().Activate();
+    public void FullScreenModeSample() => new FullScreenModeWindow().Activate();
 
     public void MinimizeMaximizeSample() => new MinimizeMaximizeWindow().Activate();
 
