@@ -9,12 +9,14 @@
     d:DesignHeight="300"
     d:DesignWidth="400">
 
-  <Grid>
+  <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Padding="20" ColumnSpacing="16">
     <Grid.ColumnDefinitions>
       <ColumnDefinition Width="Auto" />
       <ColumnDefinition Width="*" />
+      <ColumnDefinition Width="Auto" />
     </Grid.ColumnDefinitions>
-    <Image Source="ms-appx:///Assets/unologo.png" Width="80" />
-    <TextBlock Text="{x:Bind Text, Mode=OneWay}" Style="{ThemeResource HeaderTextBlockStyle}" Grid.Column="1" />
+    <Image Source="ms-appx:///Assets/unologo.png" Grid.Column="2" Width="64" VerticalAlignment="Center" />
+    <FontIcon Glyph="{x:Bind Glyph, Mode=OneWay}" Grid.Column="0" FontSize="60" />
+    <TextBlock Text="{x:Bind Text, Mode=OneWay}" Style="{ThemeResource HeaderTextBlockStyle}" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" />
   </Grid>
 </UserControl>

@@ -9,7 +9,7 @@ public sealed partial class MainPage : Page
         this.InitializeComponent();
     }
 
-    public void BasicWindow()
+    public void BasicWindowSample()
     {
         var window = new Window();
         var textBlock = new TextBlock() { Text = "Hello, from second window!", FontSize = 60 };
@@ -17,11 +17,13 @@ public sealed partial class MainPage : Page
         window.Activate();
     }
 
-    public void CustomWindow() => new CustomWindow().Activate();
+    public void CustomWindowSample() { } // => new CustomWindow().Activate();
 
-    public void FullScreenModeSample() => new FullScreenModeWindow().Activate();
+    public void FullScreenModeSample() { } // => new FullScreenModeWindow().Activate();
 
-    public void MinimizeMaximizeSample() => new MinimizeMaximizeWindow().Activate();
+    public void MinimizeMaximizeSample() { } // => new MinimizeMaximizeWindow().Activate();
+
+    public void WindowTitleSample() { } // => new WindowTitleWindow().Activate();
 
     public void StayOnTopSample() => new StayOnTopWindow().Activate();
 }

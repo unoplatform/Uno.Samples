@@ -2,10 +2,16 @@ namespace WindowingSamples.Controls;
 
 public sealed partial class WindowTitleControl : UserControl
 {
-    public WindowTitleControl()
+    public WindowTitleControl() => InitializeComponent();
+
+    public string Glyph
     {
-        this.InitializeComponent();
+        get => (string)GetValue(GlyphProperty);
+        set => SetValue(GlyphProperty, value);
     }
+
+    public static readonly DependencyProperty GlyphProperty =
+        DependencyProperty.Register(nameof(Glyph), typeof(string), typeof(WindowTitleControl), new PropertyMetadata(""));
 
     public string Text
     {
