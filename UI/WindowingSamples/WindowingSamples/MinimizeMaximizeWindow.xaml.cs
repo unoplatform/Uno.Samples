@@ -16,9 +16,9 @@ public sealed partial class MinimizeMaximizeWindow : Window
         _presenter = (OverlappedPresenter)AppWindow.Presenter;
     }
 
-    public void Minimize() => _presenter.Minimize();
+    public void MinimizeClick(object sender, RoutedEventArgs args) => _presenter.Minimize();
 
-    public void Restore() => _presenter.Restore();
+    public void RestoreClick(object sender, RoutedEventArgs args) => _presenter.Restore();
 
-    public void Maximize() => _presenter.Maximize();
+    public void MaximizeClick(object sender, RoutedEventArgs args) => _presenter.Maximize();
 }

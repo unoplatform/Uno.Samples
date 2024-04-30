@@ -10,5 +10,10 @@ public sealed partial class FullScreenModeWindow : Window
     public FullScreenModeWindow()
     {
         InitializeComponent();
+
+        // Set the window to full screen mode
+        AppWindow.SetPresenter(AppWindowPresenterKind.FullScreen);
     }
+
+    public void CloseClick(object sender, RoutedEventArgs args) => Close();
 }
