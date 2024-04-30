@@ -1,0 +1,58 @@
+﻿<Page x:Class="WindowingSamples.MainPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:local="using:WindowingSamples"
+      Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+  <StackPanel
+        HorizontalAlignment="Center"
+        VerticalAlignment="Center" Spacing="8">
+    <StackPanel.Resources>
+      <Style TargetType="Button" BasedOn="{StaticResource DefaultButtonStyle}">
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="MaxWidth" Value="200" />
+      </Style>
+    </StackPanel.Resources>
+    <Grid>
+
+      <Image Source="ms-appx:///Assets/unologo.png" Width="80" />
+    </Grid>
+    <TextBlock Text="Windowing Samples" HorizontalAlignment="Center" Style="{ThemeResource TitleTextBlockStyle}" />
+    <Button Click="{x:Bind BasicWindow}">
+      <StackPanel Orientation="Horizontal" Spacing="8">
+        <FontIcon HorizontalAlignment="Left" FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE15B;" />
+        <TextBlock Text="Basic window" HorizontalAlignment="Center" />
+      </StackPanel>
+    </Button>
+    <Button Click="{x:Bind CustomWindow}">
+      <StackPanel Orientation="Horizontal" Spacing="8">
+        <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE161;" />
+        <TextBlock Text="Custom window" />
+      </StackPanel>
+    </Button>
+    <Button Click="{x:Bind FullScreenModeSample}">
+      <StackPanel Orientation="Horizontal" Spacing="8">
+        <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE740;" />
+        <TextBlock Text="Full screen mode" />
+      </StackPanel>
+    </Button>
+    <Button Click="{x:Bind WindowTitleSample}">
+      <StackPanel Orientation="Horizontal" Spacing="8">
+        <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE737;" />
+        <TextBlock Text="Window title" />
+      </StackPanel>
+    </Button>
+    <Button Click="{x:Bind MinimizeMaximizeSample}">
+      <StackPanel Orientation="Horizontal" Spacing="8">
+        <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xEE49;" />
+        <TextBlock Text="Maximize/minimize" />
+      </StackPanel>
+    </Button>
+    <Button Click="{x:Bind StayOnTopSample}">
+      <StackPanel Orientation="Horizontal" Spacing="8">
+        <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE7B5;" />
+        <TextBlock Text="Stay on top" />
+      </StackPanel>
+    </Button>
+  </StackPanel>
+</Page>
