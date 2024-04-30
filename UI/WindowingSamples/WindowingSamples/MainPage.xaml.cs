@@ -4,10 +4,7 @@ namespace WindowingSamples;
 
 public sealed partial class MainPage : Page
 {
-    public MainPage()
-    {
-        this.InitializeComponent();
-    }
+    public MainPage() => InitializeComponent();
 
     public void BasicWindowSample()
     {
@@ -39,11 +36,11 @@ public sealed partial class MainPage : Page
 
     public void CustomWindowSample() => new CustomWindow().Activate();
 
-public void FullScreenModeSample() => new FullScreenModeWindow().Activate();
+    public void FullScreenModeSample() => new FullScreenModeWindow().Activate();
 
-public void MinimizeMaximizeSample() => new MinimizeMaximizeWindow().Activate();
+    public void MinimizeMaximizeSample() => new MinimizeMaximizeWindow().Activate();
 
-public void WindowTitleSample() => new WindowTitleWindow().Activate();
+    public void WindowTitleSample() => new WindowTitleWindow().Activate();
 
-public void StayOnTopSample() => new StayOnTopWindow().Activate();
+    public void StayOnTopSample() => new StayOnTopWindow().Activate();
 }
