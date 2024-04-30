@@ -37,7 +37,7 @@ public sealed partial class MainPage : Page
         window.Activate();
     }
 
-    public void CustomWindowSample() { } // => new CustomWindow().Activate();
+    public void CustomWindowSample() => new CustomWindow().Activate();
 
 public void FullScreenModeSample() => new FullScreenModeWindow().Activate();
 
