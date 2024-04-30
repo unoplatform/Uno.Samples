@@ -10,7 +10,7 @@ public sealed partial class WindowTitleWindow : Window
     public WindowTitleWindow()
     {
         InitializeComponent();
-        AppWindow.Title = "Test Window Title";
+        WindowTitle = "Test Window Title";
     }
 
     public string WindowTitle

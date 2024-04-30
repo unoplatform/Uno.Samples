@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Window
-    x:Class="WindowingSamples.WindowTitleWindow"
+    x:Class="WindowingSamples.MinimizeMaximizeWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:controls="using:WindowingSamples.Controls"
@@ -13,11 +13,12 @@
       <RowDefinition Height="Auto" />
       <RowDefinition Height="*" />
     </Grid.RowDefinitions>
-    <controls:WindowTitleControl Text="Window title" Glyph="&#xE7B5;" />
+    <controls:WindowTitleControl Text="Minimize/maximize" Glyph="&#xEE49;" />
 
     <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1" Spacing="8">
-      <TextBlock HorizontalAlignment="Center" Text="Type to change the window title" FontSize="20" />
-      <TextBox Width="320" Grid.Row="1" FontSize="24" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{x:Bind WindowTitle, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+      <Button Click="{x:Bind Maximize}" HorizontalAlignment="Stretch" Content="Maximize" />
+      <Button Click="{x:Bind Restore}" HorizontalAlignment="Stretch" Content="Restore"/>
+      <Button Click="{x:Bind Minimize}" HorizontalAlignment="Stretch" Content="Minimize"/>
     </StackPanel>
   </Grid>
 </Window>
