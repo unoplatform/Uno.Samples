@@ -23,7 +23,7 @@ public sealed partial class MainPage : Page
 
     public void MinimizeMaximizeSample() { } // => new MinimizeMaximizeWindow().Activate();
 
-    public void WindowTitleSample() { } // => new WindowTitleWindow().Activate();
+    public void WindowTitleSample() => new WindowTitleWindow().Activate();
 
     public void StayOnTopSample() => new StayOnTopWindow().Activate();
 }
