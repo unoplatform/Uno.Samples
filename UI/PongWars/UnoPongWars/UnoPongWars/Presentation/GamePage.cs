@@ -61,10 +61,6 @@ public sealed partial class GamePage : Page
                             .Minimum(10)
 #endif
                             .Grid(row: 2)
-                            //.Background(new SolidColorBrush(Colors.White))
-                            //.Resources(config => config
-                            //    .Add(Theme.Slider.Resources.Default.Thumb.Background.Default, new SolidColorBrush(Colors.White))
-                            //)
                             .Value(x => x.Binding(() => vm.Speed).TwoWay())
             )));
     }
