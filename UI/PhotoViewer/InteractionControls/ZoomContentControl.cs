@@ -3,6 +3,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Input;
+using Microsoft.UI.Xaml.Media;
 using Windows.Foundation;
 
 namespace InteractionControls;
@@ -245,8 +246,6 @@ public partial class ZoomContentControl : ContentControl
         RegisterPropertyChangedCallback(MinZoomLevelProperty, CoerceZoomLevel);
         RegisterPropertyChangedCallback(MaxZoomLevelProperty, CoerceZoomLevel);
 
-        RegisterPropertyChangedCallback(ZoomLevelProperty, (s, e) => UpdateScrollLimits());
-
         RegisterPropertyChangedCallback(HorizontalOffsetProperty, UpdateVerticalScrollBarValue);
         RegisterPropertyChangedCallback(VerticalOffsetProperty, UpdateHorizontalScrollBarValue);
 
@@ -257,6 +256,7 @@ public partial class ZoomContentControl : ContentControl
     {
         CoerceZoomLevel(sender, dp);
         ZoomString = $"{(ZoomLevel * 100):0.##}%";
+        UpdateScrollLimits();
     }
 
     //Slide move is always on the opposite direction of the drag
@@ -471,11 +471,19 @@ public partial class ZoomContentControl : ContentControl
             e.KeyModifiers.HasFlag(Windows.System.VirtualKeyModifiers.Control) &&
             IsZoomAllowed)
         {
+            SetZoomCenterPoint();
             e.Handled = true;
 
+            if (_presenter is UIElement { } uiEl)
+            {
+                var center = GetCenter(uiEl);
+                var pointerPos = e.GetCurrentPoint(uiEl).Position;
+
+                HorizontalOffset += (pointerPos.X - center.X) * (changeRatio - 1) * PanWheelRatio;
+                VerticalOffset += (pointerPos.Y - center.Y) * (changeRatio - 1) * PanWheelRatio;
+            }             
+
             ZoomLevel *= changeRatio;
-            HorizontalZoomCenter = pointerPosition.X;
-            VerticalZoomCenter = pointerPosition.Y;
             return;
         }
 
@@ -498,8 +506,13 @@ public partial class ZoomContentControl : ContentControl
     public void ResetZoom()
     {
         ZoomLevel = 1;
-        HorizontalZoomCenter = 0;
-        VerticalZoomCenter = 0;
+        SetZoomCenterPoint();
+    }
+
+    private void SetZoomCenterPoint()
+    {
+        HorizontalZoomCenter = _presenter?.ActualWidth / 2 ?? 0;
+        VerticalZoomCenter = _presenter?.ActualHeight / 2 ?? 0;
     }
 
     public void ResetOffset()
@@ -512,5 +525,22 @@ public partial class ZoomContentControl : ContentControl
     {
         HorizontalOffset = (ActualWidth / 2) - (ViewPortWidth / 2);
         VerticalOffset = (ActualHeight / 2) - (ViewPortHeight / 2);
+    }
+
+    public static Point GetCenter(UIElement element)
+    {
+        if (element == null)
+        {
+            throw new ArgumentNullException(nameof(element));
+        }
+
+        double centerX = element.RenderSize.Width / 2;
+        double centerY = element.RenderSize.Height / 2;
+
+        // Convert local coordinates to screen coordinates
+        GeneralTransform transform = element.TransformToVisual(null);
+        Point centerPoint = transform.TransformPoint(new Point(centerX, centerY));
+
+        return centerPoint;
     }
 }
