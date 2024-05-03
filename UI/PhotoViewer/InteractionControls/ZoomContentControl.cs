@@ -8,6 +8,7 @@ using Windows.Foundation;
 namespace InteractionControls;
 
 [TemplatePart(Name = Parts.RootGrid, Type = typeof(Grid))]
+[TemplatePart(Name = Parts.Panel, Type = typeof(StackPanel))]
 [TemplatePart(Name = Parts.Presenter, Type = typeof(ContentPresenter))]
 [TemplatePart(Name = Parts.VerticalScrollBar, Type = typeof(ScrollBar))]
 [TemplatePart(Name = Parts.HorizontalScrollBar, Type = typeof(ScrollBar))]
@@ -16,6 +17,7 @@ public partial class ZoomContentControl : ContentControl
     private static class Parts
     {
         public const string RootGrid = "PART_RootGrid";
+        public const string Panel = "PART_Panel";
 
         public const string Presenter = "PART_Presenter";
 
@@ -24,6 +26,7 @@ public partial class ZoomContentControl : ContentControl
     }
 
     private Grid? _grid;
+    private StackPanel? _panel;
     private ContentPresenter? _presenter;
     private ScrollBar? _scrollV;
     private ScrollBar? _scrollH;
@@ -40,8 +43,15 @@ public partial class ZoomContentControl : ContentControl
     public static readonly DependencyProperty IsZoomAllowedProperty =
     DependencyProperty.Register(nameof(IsZoomAllowed), typeof(bool), typeof(ZoomContentControl), new PropertyMetadata(defaultValue: true));
 
+    public static readonly DependencyProperty IsPanelVisibleProperty =
+    DependencyProperty.Register(nameof(IsPanelVisible), typeof(bool), typeof(ZoomContentControl), new PropertyMetadata(defaultValue: true));
+
+
     public static readonly DependencyProperty ZoomLevelProperty =
     DependencyProperty.Register(nameof(ZoomLevel), typeof(double), typeof(ZoomContentControl), new PropertyMetadata(1d));
+
+    public static readonly DependencyProperty ZoomStringProperty =
+    DependencyProperty.Register(nameof(ZoomString), typeof(string), typeof(ZoomContentControl), new PropertyMetadata("100.00%"));
 
     public static readonly DependencyProperty MinZoomLevelProperty =
     DependencyProperty.Register(nameof(MinZoomLevel), typeof(double), typeof(ZoomContentControl), new PropertyMetadata(0.25d));
@@ -106,10 +116,22 @@ public partial class ZoomContentControl : ContentControl
         set => SetValue(IsZoomAllowedProperty, value);
     }
 
+    public bool IsPanelVisible
+    {
+        get => (bool)GetValue(IsPanelVisibleProperty);
+        set => SetValue(IsPanelVisibleProperty, value);
+    }
+
     public double ZoomLevel
     {
         get => (double)GetValue(ZoomLevelProperty);
         set => SetValue(ZoomLevelProperty, value);
+    }
+
+    public string ZoomString
+    {
+        get => (string)GetValue(ZoomStringProperty);
+        set => SetValue(ZoomStringProperty, value);
     }
 
     public double MinZoomLevel
@@ -219,7 +241,7 @@ public partial class ZoomContentControl : ContentControl
     private void RegisterPropertyHandlers()
     {
         // Register for property changed events.
-        RegisterPropertyChangedCallback(ZoomLevelProperty, CoerceZoomLevel);
+        RegisterPropertyChangedCallback(ZoomLevelProperty, ZoomLevelChanged);
         RegisterPropertyChangedCallback(MinZoomLevelProperty, CoerceZoomLevel);
         RegisterPropertyChangedCallback(MaxZoomLevelProperty, CoerceZoomLevel);
 
@@ -229,6 +251,12 @@ public partial class ZoomContentControl : ContentControl
         RegisterPropertyChangedCallback(VerticalOffsetProperty, UpdateHorizontalScrollBarValue);
 
         RegisterPropertyChangedCallback(IsActiveProperty, IsActiveChanged);
+    }
+
+    private void ZoomLevelChanged(DependencyObject sender, DependencyProperty dp)
+    {
+        CoerceZoomLevel(sender, dp);
+        ZoomString = $"{(ZoomLevel * 100):0.##}%";
     }
 
     //Slide move is always on the opposite direction of the drag
@@ -312,6 +340,7 @@ public partial class ZoomContentControl : ContentControl
     protected override void OnApplyTemplate()
     {
         _grid = GetTemplateChild(Parts.RootGrid) as Grid;
+        _panel = GetTemplateChild(Parts.Panel) as StackPanel;
         _presenter = GetTemplateChild(Parts.Presenter) as ContentPresenter;
         _scrollV = GetTemplateChild(Parts.VerticalScrollBar) as ScrollBar;
         _scrollH = GetTemplateChild(Parts.HorizontalScrollBar) as ScrollBar;
