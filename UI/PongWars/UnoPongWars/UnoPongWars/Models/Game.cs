@@ -2,7 +2,7 @@ using System.Runtime.CompilerServices;
 using Uno.Extensions.Specialized;
 using Windows.Foundation;
 
-namespace UnoPongWars.Business.Models;
+namespace UnoPongWars.Models;
 
 public record Game(int Width, int Height)
 {

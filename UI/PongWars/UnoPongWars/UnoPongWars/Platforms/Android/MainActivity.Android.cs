@@ -5,7 +5,6 @@ using Android.Views;
 using Android.Widget;
 
 namespace UnoPongWars.Droid;
-
 [Activity(
     MainLauncher = true,
     ConfigurationChanges = global::Uno.UI.ActivityHelper.AllConfigChanges,

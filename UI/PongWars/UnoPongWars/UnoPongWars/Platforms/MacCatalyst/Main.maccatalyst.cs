@@ -1,7 +1,6 @@
 using UIKit;
 
 namespace UnoPongWars.MacCatalyst;
-
 public class EntryPoint
 {
     // This is the main entry point of the application.
