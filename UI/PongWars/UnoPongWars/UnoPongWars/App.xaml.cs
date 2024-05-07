@@ -1,7 +1,6 @@
 using Uno.Resizetizer;
 
 namespace UnoPongWars;
-
 public partial class App : Application
 {
     /// <summary>
@@ -24,7 +23,7 @@ public partial class App : Application
 
         // Load Uno.UI.Toolkit and Material Resources
         Resources.Build(r => r.Merged(
-            new  MaterialToolkitTheme(
+            new MaterialToolkitTheme(
                     new Styles.ColorPaletteOverride(),
                     new Styles.MaterialFontsOverride())));
         var builder = this.CreateBuilder(args)
@@ -70,20 +69,6 @@ public partial class App : Application
                         .EmbeddedSource<App>()
                         .Section<AppConfig>()
                 )
-                // Enable localization (see appsettings.json for supported languages)
-                .UseLocalization()
-                // Register Json serializers (ISerializer and ISerializer)
-                .UseSerialization((context, services) => services
-                    .AddContentSerializer(context)
-                    .AddJsonTypeInfo(WeatherForecastContext.Default.IImmutableListWeatherForecast))
-                .UseHttp((context, services) => services
-                    // Register HttpClient
-#if DEBUG
-                    // DelegatingHandler will be automatically injected into Refit Client
-                    .AddTransient<DelegatingHandler, DebugHttpHandler>()
-#endif
-                    .AddSingleton<IWeatherCache, WeatherCache>()
-                    .AddRefitClient<IApiClient>(context))
                 .ConfigureServices((context, services) =>
                 {
                     // TODO: Register your services
@@ -112,7 +97,7 @@ public partial class App : Application
             new RouteMap("", View: views.FindByViewModel<ShellModel>(),
                 Nested:
                 [
-                    new RouteMap("Main", View: views.FindByViewModel<GameModel>()),
+                    new ("Main", View: views.FindByViewModel<GameModel>()),
                 ]
             )
         );

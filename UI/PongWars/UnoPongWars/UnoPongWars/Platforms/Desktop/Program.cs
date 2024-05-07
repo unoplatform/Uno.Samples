@@ -1,7 +1,6 @@
 using Uno.UI.Runtime.Skia;
 
 namespace UnoPongWars;
-
 public class Program
 {
     [STAThread]
