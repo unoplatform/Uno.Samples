@@ -17,34 +17,37 @@ public sealed partial class GamePage : Page
             .SafeArea(SafeArea.InsetMask.All)
             .Background(Theme.Brushes.Background.Default)
             .Content(
-                new Grid()
-                .RowDefinitions("*,auto,auto")
+                new Grid().Name(out var grid)
+                .Margin(20)
+                .RowDefinitions("*,Auto,Auto").Name(out var rows)
                 .Children(
-                     new Viewbox()
-                     .HorizontalAlignment(HorizontalAlignment.Center)
-                     .Child(
-                        new ItemsRepeater()
+                        new ItemsRepeater().Name(out var itemsRepeater)
+                            .MinWidth(160)
+                            .MinHeight(160)
                             .ItemsSource(() => vm.Cells)
                             .VerticalAlignment(VerticalAlignment.Center)
-                            .Width(160)
-                            .Height(160)
+                            .HorizontalAlignment(HorizontalAlignment.Center)
                             .Layout(new UniformGridLayout()
-                                .MaximumRowsOrColumns(16))
+                                .MinItemWidth(10)
+                                .MinItemHeight(10)
+                                .MaximumRowsOrColumns(16)
+                                .Orientation(Orientation.Vertical)
+                                .ItemsStretch(UniformGridLayoutItemsStretch.Uniform))
                             .ItemTemplate<Cell>(cell =>
                                 new Grid()
                                 .Children(
                                     new Rectangle()
-                                        .Width(10)
-                                        .Height(10)
+                                        .VerticalAlignment(VerticalAlignment.Stretch)
+                                        .HorizontalAlignment(HorizontalAlignment.Stretch)
                                         .Fill(x => x.Binding(() => cell)
                                             .Convert(cell => new SolidColorBrush(CellColor(cell)))),
                                     new Ellipse()
-                                        .Width(10)
-                                        .Height(10)
+                                        .VerticalAlignment(VerticalAlignment.Stretch)
+                                        .HorizontalAlignment(HorizontalAlignment.Stretch)
                                         .Fill(x => x.Binding(() => cell)
                                             .Convert(cell => new SolidColorBrush(PlayerColor(cell))))
                                         .Visibility(x => x.Binding(() => cell)
-                                            .Convert(cell => cell.HasBall ? Visibility.Visible : Visibility.Collapsed))))),
+                                            .Convert(cell => cell.HasBall ? Visibility.Visible : Visibility.Collapsed)))),
                         new TextBlock()
                             .Text(x => x.Binding(() => vm.Score))
                             .HorizontalAlignment(HorizontalAlignment.Center)
@@ -61,7 +64,20 @@ public sealed partial class GamePage : Page
                             .Minimum(10)
 #endif
                             .Grid(row: 2)
-                            .Value(x => x.Binding(() => vm.Speed).TwoWay())
-            )));
+                            .Value(x => x.Binding(() => vm.Speed).TwoWay())))
+            .SizeChanged += async (s, e) =>
+            {
+                if (itemsRepeater != null)
+                {
+                    // Calculate the minimum size for the ItemsRepeater to maintain its square aspect ratio.
+                    // This ensures that the ItemsRepeater does not extend outside the bounds of the Grid, particularly during
+                    // scenarios such as window resizing or device orientation changes, which affect layout dimensions.
+                    var size = Math.Min(grid.ActualWidth, rows.RowDefinitions[0].ActualHeight);
+                    itemsRepeater.Height = size;
+                    itemsRepeater.Width = size;
+                    itemsRepeater.UpdateLayout();
+                }
+            }
+        );
     }
 }
