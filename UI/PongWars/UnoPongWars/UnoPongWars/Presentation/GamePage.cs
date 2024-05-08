@@ -18,6 +18,7 @@ public sealed partial class GamePage : Page
             .Background(Theme.Brushes.Background.Default)
             .Content(
                 new Grid()
+                .Margin(20)
                 .RowDefinitions("*,auto,auto")
                 .Children(
                      new Viewbox()
@@ -29,6 +30,7 @@ public sealed partial class GamePage : Page
                             .Width(160)
                             .Height(160)
                             .Layout(new UniformGridLayout()
+                                .Orientation(Orientation.Vertical)
                                 .MaximumRowsOrColumns(16))
                             .ItemTemplate<Cell>(cell =>
                                 new Grid()
