@@ -1,0 +1,44 @@
+<Project Sdk="Uno.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>
+      net8.0-android;
+      net8.0-ios;
+    </TargetFrameworks>
+
+    <OutputType>Exe</OutputType>
+    <UnoSingleProject>true</UnoSingleProject>
+
+    <!-- Display name -->
+    <ApplicationTitle>DevExpressApp</ApplicationTitle>
+    <!-- App Identifier -->
+    <ApplicationId>com.companyname.DevExpressApp</ApplicationId>
+    <!-- Versions -->
+    <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
+    <ApplicationVersion>1</ApplicationVersion>
+
+    <!--
+      UnoFeatures let's you quickly add and manage implicit package references based on the features you want to use.
+      https://aka.platform.uno/singleproject-features
+    -->
+    <UnoFeatures>
+      Material;
+      Hosting;
+      Toolkit;
+      Logging;
+      MauiEmbedding;
+      MVUX;
+      Mvvm;
+      Configuration;
+      Http;
+      Serialization;
+      Localization;
+      Navigation;
+      ExtensionsCore;
+    </UnoFeatures>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DevExpressApp.MauiControls\DevExpressApp.MauiControls.csproj" />
+  </ItemGroup>
+
+</Project>

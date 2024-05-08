@@ -1,0 +1,38 @@
+﻿<Page x:Class="DevExpressApp.Presentation.MainPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:local="using:DevExpressApp.Presentation"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      mc:Ignorable="d"
+      xmlns:controls="using:DevExpressApp.MauiControls"
+      xmlns:uen="using:Uno.Extensions.Navigation.UI"
+      xmlns:utu="using:Uno.Toolkit.UI"
+      NavigationCacheMode="Required"
+      Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+  <Grid utu:SafeArea.Insets="All">
+    <NavigationView uen:Region.Attached="True"
+                    Grid.Row="1">
+      <NavigationView.MenuItems>
+        <NavigationViewItem Content="DataGrid"
+                            uen:Region.Name="DataGrid" />
+        <NavigationViewItem Content="Chart"
+                            uen:Region.Name="Chart" />
+      </NavigationView.MenuItems>
+      <Grid uen:Region.Attached="True"
+            uen:Region.Navigator="Visibility"
+            Margin="20,40,0,0">
+        <embed:MauiHost uen:Region.Name="DataGrid"
+                        xmlns:embed="using:Uno.Extensions.Maui"
+                        Source="controls:DataGridControl"
+                        Visibility="Collapsed" />
+        <embed:MauiHost uen:Region.Name="Chart"
+                        xmlns:embed="using:Uno.Extensions.Maui"
+                        Source="controls:ChartControl"
+                        Visibility="Collapsed" />
+      </Grid>
+    </NavigationView>
+  </Grid>
+
+</Page>
