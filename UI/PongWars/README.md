@@ -8,7 +8,7 @@ The app harnesses the power of [Uno Platform](https://platform.uno) to run nativ
 
 [C# Markup](https://aka.platform.uno/csharp-markup) was used for the user interface. State management is facilitated by [MVUX](https://aka.platform.uno/mvux), a robust library that promotes the unidirectional flow of immutable data. [Records](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/record) are used to manage state and ensure immutability.
 
-The game's theme is customized using Uno Platform colors through [Material Colors and Brushes](https://aka.platform.uno/material-colors), built with [Uno Platform Material 3.0 library](https://aka.platform.uno/uno-material-colors) and supports [Light/Dark theme](https://aka.platform.uno/working-with-themes). Additionally, it includes a speed slider with Material theming, adding a touch of interactivity to the game.
+The game's theme is customized using Uno Platform colors through [Material Colors and Brushes](https://aka.platform.uno/material-colors), built with [Uno Platform Material 3.0 library](https://aka.platform.uno/material-getting-started) and supports [Light/Dark theme](https://aka.platform.uno/working-with-themes). Additionally, it includes a speed slider with Material theming, adding a touch of interactivity to the game.
 
 ## Codebase
 
