@@ -1,0 +1,39 @@
+﻿<Page x:Class="Binding.MainPage"
+	  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	  xmlns:local="using:Binding"
+	  xmlns:um="using:Uno.Material"
+	  xmlns:utu="using:Uno.Toolkit.UI"
+	  x:Name="page"
+	  Background="{ThemeResource BackgroundBrush}">
+
+	<Page.DataContext>
+		<local:MainViewModel />
+	</Page.DataContext>
+
+	<StackPanel HorizontalAlignment="Center"
+				VerticalAlignment="Center"
+				utu:SafeArea.Insets="VisibleBounds">
+		<ListView ItemsSource="{Binding Items}">
+			<ListView.ItemTemplate>
+				<DataTemplate>
+					<StackPanel Orientation="Horizontal" Spacing="8">
+						<TextBlock VerticalAlignment="Center" Text="{Binding}" />
+						<Button Command="{utu:ItemsControlBinding Path=DataContext.RemoveItemCommand}"
+								CommandParameter="{Binding}"
+								Content="Delete" />
+						<StackPanel.ContextFlyout>
+							<MenuFlyout>
+								<MenuFlyout.Items>
+									<MenuFlyoutItem Command="{Binding DataContext.RemoveItemCommand, ElementName=page}"
+													CommandParameter="{Binding}"
+													Text="Delete" />
+								</MenuFlyout.Items>
+							</MenuFlyout>
+						</StackPanel.ContextFlyout>
+					</StackPanel>
+				</DataTemplate>
+			</ListView.ItemTemplate>
+		</ListView>
+	</StackPanel>
+</Page>
