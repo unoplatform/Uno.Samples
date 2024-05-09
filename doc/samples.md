@@ -431,3 +431,9 @@ Demo of the usage of WebRTC in Uno WebAssembly. This sample establishes a direct
 Port of the XAML Brewer WinUI3 SkiaSharp Sample application ([blog post](https://xamlbrewer.wordpress.com/2023/09/25/getting-started-with-skiasharp-in-winui-3/) and [source code](https://github.com/XamlBrewer/XamlBrewer.WinUI3.SkiaSharp.Sample)).
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/XamlBrewerUnoApp)
+
+### Windowing samples
+
+Provides example on the usage of multi-window APIs in Uno Platform apps.
+
+[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/WindowingSamples)
