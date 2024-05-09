@@ -282,6 +282,12 @@ An example that demonstrates the use of `PipsPager` with a `FlipView`, in an app
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/PetAdoptUI)
 
+### Uno PongWars
+
+Uno PongWars is a simple minigame that draws inspiration from the [PongWars HTML/JavaScript sample](https://github.com/vnglst/pong-wars), reimagined with the modern capabilities of [Uno Platform](https://platform.uno). Set in the backdrop of the eternal conflict between day and night, good and bad. This sample showcases Material design for a visually appealing experience. It demonstrates the use of [C# Markup](https://aka.platform.uno/csharp-markup) for UI development and [MVUX](https://aka.platform.uno/mvux) for state management, highlighting how Uno Platform enables building responsive games across Web (WebAssembly), Windows, Linux, Mac Catalyst, iOS, and Android from a single codebase. Explore interactive elements like a speed slider and adaptable theme colors, all running natively across platforms.
+
+[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/PongWars)
+
 ### SkiaSharp Test
 
 An example of the Uno implementation of SkiaSharp creating a basic canvas with text.
