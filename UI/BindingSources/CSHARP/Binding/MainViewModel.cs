@@ -7,8 +7,8 @@ public class MainViewModel : INotifyPropertyChanged
 {
 	public event PropertyChangedEventHandler? PropertyChanged;
 
-	private ObservableCollection<string>? _items;
-	public ObservableCollection<string>? Items
+	private ObservableCollection<Item>? _items;
+	public ObservableCollection<Item>? Items
 	{
 		get { return _items; }
 		set
@@ -22,20 +22,19 @@ public class MainViewModel : INotifyPropertyChanged
 
 	public MainViewModel()
 	{
-		Items =
-		[
-			"Item 1",
-			"Item 2",
-			"Item 3",
-			"Item 4"
-		];
+		Items = new ObservableCollection<Item>
+		{
+			new Item { Text = "Item 1" },
+			new Item { Text = "Item 2" },
+			new Item { Text = "Item 3" }
+		};
 
 		RemoveItemCommand = new RelayCommand(RemoveItem);
 	}
 
 	private void RemoveItem(object? obj)
 	{
-		if (obj is string itemToRemove && Items is { Count: > 0})
+		if (obj is Item itemToRemove && Items is { Count: > 0})
 		{
 			Items.Remove(itemToRemove);
 		}
@@ -45,6 +44,11 @@ public class MainViewModel : INotifyPropertyChanged
 	{
 		PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 	}
+}
+
+public class Item
+{
+    public string? Text { get; set; }
 }
 
 public class RelayCommand : ICommand

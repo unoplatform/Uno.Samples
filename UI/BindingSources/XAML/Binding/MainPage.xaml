@@ -18,13 +18,20 @@
 			<ListView.ItemTemplate>
 				<DataTemplate>
 					<StackPanel Orientation="Horizontal" Spacing="8">
-						<TextBlock VerticalAlignment="Center" Text="{Binding}" />
+						<TextBlock VerticalAlignment="Center" Text="{Binding Text}" />
 						<Button Command="{utu:ItemsControlBinding Path=DataContext.RemoveItemCommand}"
 								CommandParameter="{Binding}"
+								Content="Delete" />
+
+						<!--  RelativeSource as TemplatedParent works on Windows but not on Uno  -->
+						<!--  RelativeSource as Self works on Uno but not on Windows  -->
+						<Button Command="{utu:ItemsControlBinding Path=DataContext.RemoveItemCommand}"
+								CommandParameter="{Binding DataContext, RelativeSource={RelativeSource Mode=Self}}"
 								Content="Delete" />
 						<StackPanel.ContextFlyout>
 							<MenuFlyout>
 								<MenuFlyout.Items>
+									<!--  The Command bind doesn't work on Uno  -->
 									<MenuFlyoutItem Command="{Binding DataContext.RemoveItemCommand, ElementName=page}"
 													CommandParameter="{Binding}"
 													Text="Delete" />
