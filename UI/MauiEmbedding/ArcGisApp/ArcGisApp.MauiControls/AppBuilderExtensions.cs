@@ -14,11 +14,11 @@ public static class AppBuilderExtensions
                 fonts.AddFont("ArcGisApp/Assets/Fonts/OpenSansSemibold.ttf", "OpenSansSemibold");
             })
             .UseArcGISRuntime(
-                //config => config
-                //    .UseLicense("[Your ArcGIS Maps SDK License key]")
-                //    .UseApiKey("[Your ArcGIS location services API Key]")
-                //    .ConfigureAuthentication(auth => auth
-                //        .UseDefaultChallengeHandler() // Use the default authentication dialog
-                //    )
+            //config => config
+            //    .UseLicense("[Your ArcGIS Maps SDK License key]")
+            //    .UseApiKey("[Your ArcGIS location services API Key]")
+            //    .ConfigureAuthentication(auth => auth
+            //        .UseDefaultChallengeHandler() // Use the default authentication dialog
+            //    )
             );
 }

@@ -6,9 +6,9 @@ namespace ArcGisApp.MauiControls;
 
 public partial class EmbeddedControl : ContentView
 {
-	public EmbeddedControl()
-	{
-		InitializeComponent();
+    public EmbeddedControl()
+    {
+        InitializeComponent();
 
         var myMap = new Map()
         {
