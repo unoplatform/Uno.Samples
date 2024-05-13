@@ -2,13 +2,13 @@ namespace UnoPongWars.Presentation;
 
 public sealed partial class GamePage : Page
 {
-    private readonly Color UnoBleu = Color.FromArgb(255, 27, 154, 249);
-    private readonly Color UnoVert = Color.FromArgb(255, 107, 227, 173);
+    private readonly Color Blue = Color.FromArgb(255, 27, 154, 249);
+    private readonly Color Green = Color.FromArgb(255, 107, 227, 173);
 
     public object ViewModel { get; set; }
 
-    public Color PlayerColor(Cell cell) => cell.Player == 0 ? UnoBleu : UnoVert;
-    public Color CellColor(Cell cell) => cell.Player == 0 ? UnoVert : UnoBleu;
+    public Color PlayerColor(Cell cell) => cell.Player == 0 ? Blue : Green;
+    public Color CellColor(Cell cell) => cell.Player == 0 ? Green : Blue;
 
     public GamePage()
     {
