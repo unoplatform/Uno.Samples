@@ -32,23 +32,9 @@ public sealed partial class GamePage : Page
                             .Layout(new UniformGridLayout()
                                 .Orientation(Orientation.Vertical)
                                 .MaximumRowsOrColumns(16))
-                            .ItemTemplate<Cell>(cell =>
-                                new Grid()
-                                .Children(
-                                    new Rectangle()
-                                        .Width(10)
-                                        .Height(10)
-                                        .Fill(x => x.Binding(() => cell)
-                                            .Convert(cell => new SolidColorBrush(CellColor(cell)))),
-                                    new Ellipse()
-                                        .Width(10)
-                                        .Height(10)
-                                        .Fill(x => x.Binding(() => cell)
-                                            .Convert(cell => new SolidColorBrush(PlayerColor(cell))))
-                                        .Visibility(x => x.Binding(() => cell)
-                                            .Convert(cell => cell.HasBall ? Visibility.Visible : Visibility.Collapsed))))),
+                            .ItemTemplate<Cell>(cell => CellTemplate(cell))),
                         new TextBlock()
-                            .Text(x => x.Binding(() => vm.Score))
+                            .Text(() => vm.Score)
                             .HorizontalAlignment(HorizontalAlignment.Center)
                             .Style(Theme.TextBlock.Styles.HeadlineSmall)
                             .Margin(10)
@@ -66,4 +52,17 @@ public sealed partial class GamePage : Page
                             .Value(x => x.Binding(() => vm.Speed).TwoWay())
             )));
     }
+
+    private Grid CellTemplate(Cell cell) 
+        => new Grid()
+            .Children(
+                new Rectangle()
+                    .Width(10)
+                    .Height(10)
+                    .Fill(() => new SolidColorBrush(CellColor(cell))),
+                new Ellipse()
+                    .Width(10)
+                    .Height(10)
+                    .Fill(() => new SolidColorBrush(PlayerColor(cell)))
+                    .Visibility(() => cell, cell => cell.HasBall ? Visibility.Visible : Visibility.Collapsed));
 }
