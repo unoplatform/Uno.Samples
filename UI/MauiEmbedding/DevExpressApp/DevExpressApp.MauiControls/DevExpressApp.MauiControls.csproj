@@ -16,12 +16,19 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="DataGridControl.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.Maui.Controls" />
     <PackageReference Include="Microsoft.Maui.Controls.Compatibility" />
   </ItemGroup>
 
   <ItemGroup>
     <Page Include="ChartControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="DataGridControl.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
