@@ -26,8 +26,8 @@ public sealed partial class MainPage : Page
 											.Content("Delete")
 											.CommandParameter(() => item)
 											.Command(x => x
-														   // Since we have the `page` alias provided by the DataContext method
-														   // We can use it as the binding source
+														   // Since we have access to the `page` and `vm` alias from the DataContext method
+														   // We can take advantage of them and use them on our binding expression
 														   .Source(page)
 														   .DataContext()
 														   .Binding(() => vm.RemoveItemCommand)
@@ -59,6 +59,8 @@ public sealed partial class MainPage : Page
 							  // Since we we don't have access to the page alias here (as we have on line #30)
 							  // We need to set `this` as the source
 							  .Source(this)
+
+							  // Here we specify the DataContext type so that we can access the ViewModel alias in the Binding method
 							  .DataContext<MainViewModel>()
 							  .Binding(vm => vm.RemoveItemCommand)
 			   );
@@ -74,6 +76,8 @@ public sealed partial class MainPage : Page
 									   // Since we we don't have access to the page alias here (as we have on line #30)
 									   // We need to set `this` as the source
 									   .Source(this)
+
+									   // Here we specify the DataContext type so that we can access the ViewModel alias in the Binding method
 									   .DataContext<MainViewModel>()
 									   .Binding(vm => vm.RemoveItemCommand)
 						)
