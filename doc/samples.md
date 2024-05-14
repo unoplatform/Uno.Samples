@@ -434,6 +434,6 @@ Port of the XAML Brewer WinUI3 SkiaSharp Sample application ([blog post](https:/
 
 ### Windowing samples
 
-Provides example on the usage of multi-window APIs in Uno Platform apps.
+Provides examples of the usage of multi-window APIs in Uno Platform apps.
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/WindowingSamples)
