@@ -18,51 +18,52 @@ public sealed partial class GamePage : Page
             .Background(Theme.Brushes.Background.Default)
             .Content(
                 new Grid()
-                .Margin(20)
-                .RowDefinitions("*,auto,auto")
-                .Children(
-                     new Viewbox()
-                     .HorizontalAlignment(HorizontalAlignment.Center)
-                     .Child(
-                        new ItemsRepeater()
-                            .ItemsSource(() => vm.Cells)
-                            .VerticalAlignment(VerticalAlignment.Center)
-                            .Width(160)
-                            .Height(160)
-                            .Layout(new UniformGridLayout()
-                                .Orientation(Orientation.Vertical)
-                                .MaximumRowsOrColumns(16))
-                            .ItemTemplate<Cell>(cell => CellTemplate(cell))),
-                        new TextBlock()
-                            .Text(() => vm.Score)
+                    .Margin(20)
+                    .RowDefinitions("*,auto,auto")
+                    .Children(
+                        new Viewbox()
                             .HorizontalAlignment(HorizontalAlignment.Center)
-                            .Style(Theme.TextBlock.Styles.HeadlineSmall)
-                            .Margin(10)
-                            .Grid(row: 1),
-                        new Slider()
-                            .MaxWidth(400)
-                            .Margin(16)
-                            .Maximum(1000)
+                            .Child(
+                                new ItemsRepeater()
+                                    .ItemsSource(() => vm.Cells)
+                                    .VerticalAlignment(VerticalAlignment.Center)
+                                    .Width(160)
+                                    .Height(160)
+                                    .Layout(
+                                        new UniformGridLayout()
+                                            .Orientation(Orientation.Vertical)
+                                            .MaximumRowsOrColumns(16))
+                                    .ItemTemplate<Cell>(cell => CellTemplate(cell))),
+                                new TextBlock()
+                                    .Text(() => vm.Score)
+                                    .HorizontalAlignment(HorizontalAlignment.Center)
+                                    .Style(Theme.TextBlock.Styles.HeadlineSmall)
+                                    .Margin(10)
+                                    .Grid(row: 1),
+                                new Slider()
+                                    .MaxWidth(400)
+                                    .Margin(16)
+                                    .Maximum(1000)
 #if __ANDROID__
-                            .Minimum(100)
+                                    .Minimum(100)
 #else
-                            .Minimum(10)
+                                    .Minimum(10)
 #endif
-                            .Grid(row: 2)
-                            .Value(x => x.Binding(() => vm.Speed).TwoWay())
+                                    .Grid(row: 2)
+                                    .Value(x => x.Binding(() => vm.Speed).TwoWay())
             )));
     }
 
-    private Grid CellTemplate(Cell cell) 
+    private Grid CellTemplate(Cell cell)
         => new Grid()
             .Children(
                 new Rectangle()
                     .Width(10)
                     .Height(10)
-                    .Fill(() => new SolidColorBrush(CellColor(cell))),
+                    .Fill(() => cell, cell => new SolidColorBrush(CellColor(cell))),
                 new Ellipse()
                     .Width(10)
                     .Height(10)
-                    .Fill(() => new SolidColorBrush(PlayerColor(cell)))
+                    .Fill(() => cell, cell => new SolidColorBrush(PlayerColor(cell)))
                     .Visibility(() => cell, cell => cell.HasBall ? Visibility.Visible : Visibility.Collapsed));
 }
