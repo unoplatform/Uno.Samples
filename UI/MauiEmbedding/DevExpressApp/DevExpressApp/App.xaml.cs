@@ -22,10 +22,8 @@ public partial class App : Application
         var builder = this.CreateBuilder(args)
             // Add navigation support for toolkit controls such as TabBar and NavigationView
             .UseToolkitNavigation()
-#if MAUI_EMBEDDING
             .UseMauiEmbedding<MauiControls.App>(maui => maui
                 .UseMauiControls())
-#endif
             .Configure(host => host
 #if DEBUG
                 // Switch to Development environment when running in DEBUG
@@ -55,12 +53,13 @@ public partial class App : Application
                     //logBuilder.XamlBindingLogLevel(LogLevel.Debug);
                     //// Binder memory references tracking
                     //logBuilder.BinderMemoryReferenceLogLevel(LogLevel.Debug);
-                    //// DevServer and HotReload related
+                    //// RemoteControl and HotReload related
                     //logBuilder.HotReloadCoreLogLevel(LogLevel.Information);
                     //// Debug JS interop
                     //logBuilder.WebAssemblyLogLevel(LogLevel.Debug);
 
                 }, enableUnoLogging: true)
+                .UseSerilog(consoleLoggingEnabled: true, fileLoggingEnabled: true)
                 .UseConfiguration(configure: configBuilder =>
                     configBuilder
                         .EmbeddedSource<App>()
@@ -68,50 +67,29 @@ public partial class App : Application
                 )
                 // Enable localization (see appsettings.json for supported languages)
                 .UseLocalization()
-                // Register Json serializers (ISerializer and ISerializer)
-                .UseSerialization((context, services) => services
-                    .AddContentSerializer(context)
-                    .AddJsonTypeInfo(WeatherForecastContext.Default.IImmutableListWeatherForecast))
-                .UseHttp((context, services) => services
-                    // Register HttpClient
-#if DEBUG
-                    // DelegatingHandler will be automatically injected into Refit Client
-                    .AddTransient<DelegatingHandler, DebugHttpHandler>()
-#endif
-                    .AddSingleton<IWeatherCache, WeatherCache>()
-                    .AddRefitClient<IApiClient>(context))
-                .ConfigureServices((context, services) =>
-                {
+                .ConfigureServices((context, services) => {
                     // TODO: Register your services
                     //services.AddSingleton<IMyService, MyService>();
                 })
-                .UseNavigation(ReactiveViewModelMappings.ViewModelMappings, RegisterRoutes)
+                .UseNavigation(RegisterRoutes)
             );
         MainWindow = builder.Window;
 
-#if DEBUG
-        MainWindow.EnableHotReload();
-#endif
-        MainWindow.SetWindowIcon();
-
         Host = await builder.NavigateAsync<Shell>();
     }
-
     private static void RegisterRoutes(IViewRegistry views, IRouteRegistry routes)
     {
         views.Register(
-            new ViewMap(ViewModel: typeof(ShellModel)),
-            new ViewMap<MainPage, MainModel>(),
-            new DataViewMap<SecondPage, SecondModel, Entity>()
+            new ViewMap(ViewModel: typeof(ShellViewModel)),
+            new ViewMap<MainPage, MainViewModel>()
         );
 
         routes.Register(
-            new RouteMap("", View: views.FindByViewModel<ShellModel>(),
-                Nested:
-                [
-                    new ("Main", View: views.FindByViewModel<MainModel>()),
-                    new ("Second", View: views.FindByViewModel<SecondModel>()),
-                ]
+            new RouteMap("", View: views.FindByViewModel<ShellViewModel>(),
+                Nested: new RouteMap[]
+                {
+                    new RouteMap("Main", View: views.FindByViewModel<MainViewModel>())
+                }
             )
         );
     }
