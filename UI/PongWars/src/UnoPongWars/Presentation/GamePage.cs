@@ -19,7 +19,7 @@ public sealed partial class GamePage : Page
             .Content(
                 new Grid()
                     .Margin(20)
-                    .RowDefinitions("*,auto,auto")
+                    .RowDefinitions("*,Auto,Auto")
                     .Children(
                         new Viewbox()
                             .HorizontalAlignment(HorizontalAlignment.Center)
