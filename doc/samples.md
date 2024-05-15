@@ -428,6 +428,12 @@ Demo of the usage of WebRTC in Uno WebAssembly. This sample establishes a direct
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/WebRTC)
 
+### Windowing samples
+
+Provides examples of the usage of multi-window APIs in Uno Platform apps.
+
+[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/WindowingSamples)
+
 ### XAML Basics: ListView
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/XamlBasics/ListViewSample)
