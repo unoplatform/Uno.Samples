@@ -8,11 +8,11 @@ Most windowing features are currently available on desktop targets of [Uno Platf
 
 ## Codebase
 
-* [**CustomWindow.xaml & CustomWindow.xaml.cs**](WindowingSamples/CustomWindow.xaml.cs): Implementation of a custom window type.
-* [**FullScreenModeWindow.xaml & FullScreenModeWindow.xaml.cs**](WindowingSamples/FullScreenModeWindow.xaml.cs): Window set to display in full-screen mode.
-* [**MinimizeMaximizeWindow.xaml & MinimizeMaximizeWindow.xaml.cs**](WindowingSamples/MinimizeMaximizeWindow.xaml.cs): Minimizing and maximizing a window.
-* [**StayOnTopWindow.xaml & StayOnTopWindow.xaml.cs**](WindowingSamples/StayOnTopWindow.xaml.cs): Window that always stays on top of other content.
-* [**WindowTitleWindow.xaml & WindowTitleWindow.xaml.cs**](WindowingSamples/WindowTitleWindow.xaml.cs): Customizing the Window title.
+* [**CustomWindow.xaml & CustomWindow.xaml.cs**](src/WindowingSamples/CustomWindow.xaml.cs): Implementation of a custom window type.
+* [**FullScreenModeWindow.xaml & FullScreenModeWindow.xaml.cs**](src/WindowingSamples/FullScreenModeWindow.xaml.cs): Window set to display in full-screen mode.
+* [**MinimizeMaximizeWindow.xaml & MinimizeMaximizeWindow.xaml.cs**](src/WindowingSamples/MinimizeMaximizeWindow.xaml.cs): Minimizing and maximizing a window.
+* [**StayOnTopWindow.xaml & StayOnTopWindow.xaml.cs**](src/WindowingSamples/StayOnTopWindow.xaml.cs): Window that always stays on top of other content.
+* [**WindowTitleWindow.xaml & WindowTitleWindow.xaml.cs**](src/WindowingSamples/WindowTitleWindow.xaml.cs): Customizing the Window title.
 
 ## What is the Uno Platform
 
