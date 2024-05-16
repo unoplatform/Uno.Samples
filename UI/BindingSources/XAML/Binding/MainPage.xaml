@@ -24,13 +24,18 @@
 
 						<!--  RelativeSource as TemplatedParent works on Windows but not on Uno  -->
 						<!--  RelativeSource as Self works on Uno but not on Windows  -->
+						<!--  Should be fixed by https://github.com/unoplatform/uno/pull/12732  -->
 						<Button Command="{utu:ItemsControlBinding Path=DataContext.RemoveItemCommand}"
 								CommandParameter="{Binding DataContext, RelativeSource={RelativeSource Mode=Self}}"
 								Content="Delete" />
 						<StackPanel.ContextFlyout>
 							<MenuFlyout>
 								<MenuFlyout.Items>
-									<!--  The Command bind doesn't work on Uno  -->
+									<!--  Using AcestorBinding inside the Flyout doesn't work  -->
+									<!--  https://github.com/unoplatform/uno.toolkit.ui/issues/1135  -->
+
+									<!--  Using ElementName on Uno doesn't work  -->
+									<!--  https://github.com/unoplatform/uno/issues/16743  -->
 									<MenuFlyoutItem Command="{Binding DataContext.RemoveItemCommand, ElementName=page}"
 													CommandParameter="{Binding}"
 													Text="Delete" />

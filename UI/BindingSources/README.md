@@ -1,4 +1,4 @@
-# ItemTemplate Command Samples
+# DataTemplate Binding Samples
 
 This repository contains concise examples demonstrating how to execute commands with parameters within an ItemTemplate using both XAML and C# Markup. These samples aim to address a common request and illustrate a typical scenario encountered in Uno Platform development.
 

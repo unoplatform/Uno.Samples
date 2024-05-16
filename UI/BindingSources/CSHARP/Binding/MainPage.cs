@@ -51,7 +51,7 @@ public sealed partial class MainPage : Page
 			   .Content("Delete")
 			   // RelativeSource as TemplatedParent works on Windows but not on Uno
 			   // RelativeSource as Self works on Uno but not on Windows
-			   // https://github.com/unoplatform/uno/pull/12732
+			   // Should be fixed by https://github.com/unoplatform/uno/pull/12732
 			   .CommandParameter(x => x.RelativeSource<Button>(RelativeSourceMode.Self)
 									   .Binding(btn => btn.DataContext)
 			   )
