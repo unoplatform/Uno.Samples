@@ -44,6 +44,8 @@ public sealed partial class GamePage : Page
                                     .MaxWidth(400)
                                     .Margin(16)
                                     .Maximum(1000)
+
+// Adjusting minimum slider value for Android to address the UI layer performance concerns specific to this platform
 #if __ANDROID__
                                     .Minimum(100)
 #else
