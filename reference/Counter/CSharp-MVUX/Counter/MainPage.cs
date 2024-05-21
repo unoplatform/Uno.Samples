@@ -30,7 +30,7 @@ public sealed partial class MainPage : Page
                         new Button()
                             .Margin(12)
                             .HorizontalAlignment(HorizontalAlignment.Center)
-                            .Command(() => vm.IncrementCommand)
+                            .Command(() => vm.IncrementCounter)
                             .Content("Increment Counter by Step Size")
                     )
             )
