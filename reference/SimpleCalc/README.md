@@ -1,10 +1,11 @@
-## Updating SimpleCalc Source Code
+# Simple Calculator
 
-There is a shared source code for all the SimpleCalc solutions that are in the `resources` folder. To update the source code, uncomment the `Import` element in the `SimpleCalculator.csproj` for the solution you want to make changes to. When the solution is built the relevant shared resources will be copied into the solution.
+The Simple Calc workshop is here to help you get started building an app for Desktop, Mobile, and Web with Uno Platform. This workshop is designed to help you get your developer environment set up to start building your first app, while learning about the tools, libraries, and patterns that will help you to build your apps with the Uno Platform.
 
-  <!-- Disabling source code updating - uncomment and do build to update source code from shared resources -->
-  <!-- <Import Project="..\..\resources\shared-resources.targets" Condition="Exists('..\..\resources\shared-resources.targets')" /> -->
+This app was developed using Uno Platform and draws inspiration from [@adolfomarinucci's](https://x.com/adolfomarinucci) [Calculator project.](https://github.com/adospace/reactorui-maui/tree/main/samples/Calculator)
 
-Make changes to the shared source code in the `resources` folder and then build the solution. The shared source code will be copied into the solution. Commit the changes to the solution and the shared source code.
+![SimpleCalculator light Image](doc/assets/iphone14-light.png) ![SimpleCalculator dark Image](doc/assets/iphone14-dark.png)
 
-Don't forget to update the other solutions that will be affected eg if you make changes to the XAML, make sure both the XAML solutions are updated.
+## Workshop
+
+For a deeper understanding, you can also explore the [Simple Calc workshop](https://aka.platform.uno/simplecalc-workshop), where you'll be guided through the entire app creation process. Each module is accompanied by detailed explanations to ensure a comprehensive learning experience.
