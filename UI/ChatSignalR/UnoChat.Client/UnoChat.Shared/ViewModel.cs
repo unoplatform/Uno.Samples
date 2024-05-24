@@ -209,6 +209,7 @@ namespace UnoChat.Client
 
         private IDisposable ShouldSendModelsAddedToAllMessagesToMessageObserver(IObserver<Model> messageObserver)
         {
+#if !__WASM__
             return Observable
                 .FromEvent<NotifyCollectionChangedEventHandler, NotifyCollectionChangedEventArgs>(
                     handler => (s, e) => handler(e),
@@ -220,6 +221,18 @@ namespace UnoChat.Client
                 .Delay(TimeSpan.FromMilliseconds(10), Schedulers.Default) // Wait for the list view to have been updated
                 .ObserveOn(Schedulers.Dispatcher)
                 .Subscribe(messageObserver);
+#else
+            return Observable
+                .FromEvent<NotifyCollectionChangedEventHandler, NotifyCollectionChangedEventArgs>(
+                    handler => (s, e) => handler(e),
+                    handler => _allMessages.CollectionChanged += handler,
+                    handler => _allMessages.CollectionChanged -= handler)
+                .Where(args => args.Action == NotifyCollectionChangedAction.Add)
+                .Select(args => args.NewItems.OfType<Message.Model>().FirstOrDefault())
+                .Where(model => model != null)
+                .ObserveOn(Schedulers.Dispatcher)
+                .Subscribe(messageObserver);
+#endif
         }
 
         public IDisposable Activate(IObservable<object> messageToSendBoxReturn, IObserver<string> themeObserver, IObserver<Message.Model> messageObserver)
