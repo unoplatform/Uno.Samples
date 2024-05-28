@@ -65,7 +65,6 @@ public partial class MainPage : Page
                                 new TextBox()
                                     .Background(Theme.Brushes.Surface.Variant.Default)
                                     .Text(b => b.Binding(() => vm.SearchTerm).TwoWay().UpdateSourceTrigger(UpdateSourceTrigger.PropertyChanged))
-                                    .Height(40)
                                     .PlaceholderText("Search")
                                     .CornerRadius(20)
                                     .BorderThickness(0)
