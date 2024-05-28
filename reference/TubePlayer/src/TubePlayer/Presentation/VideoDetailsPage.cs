@@ -56,6 +56,9 @@ public partial class VideoDetailsPage : Page
                                                     .Foreground(Theme.Brushes.OnSurface.Default)
                                             )
                                     ),
+                                // MediaPlayerElement currently isn't supported on Skia Desktop, videos are not be playable 
+                                // It is listed as a future improvement: https://platform.uno/docs/articles/controls/MediaPlayerElement.html#future-improvement
+                                // Related issue: https://github.com/unoplatform/Uno.Samples/issues/725
                                 new MediaPlayerElement()
                                     .Name(out var mediaPlayerElement, (val) => youtubePlayer = val)
                                     .AutoPlay(true)
