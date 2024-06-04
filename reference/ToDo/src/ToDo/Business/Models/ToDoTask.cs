@@ -1,4 +1,4 @@
-﻿namespace ToDo.Business.Models;
+namespace ToDo.Business.Models;
 
 public partial record ToDoTask
 {

@@ -1,4 +1,4 @@
-﻿using IAuthenticationService = ToDo.Business.Services.IAuthenticationService;
+using IAuthenticationService = ToDo.Business.IAuthenticationService;
 
 namespace ToDo.Presentation;
 
