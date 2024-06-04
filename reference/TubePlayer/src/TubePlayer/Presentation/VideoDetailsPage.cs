@@ -46,6 +46,7 @@ public partial class VideoDetailsPage : Page
                                 new NavigationBar()
                                     .HorizontalContentAlignment(HorizontalAlignment.Left)
                                     .Content("Video")
+#if !__ANDROID__ && !__IOS__
                                     .MainCommand
                                     (
                                         new AppBarButton()
@@ -55,7 +56,10 @@ public partial class VideoDetailsPage : Page
                                                     .Data(StaticResource.Get<Geometry>("Icon_Arrow_Back"))
                                                     .Foreground(Theme.Brushes.OnSurface.Default)
                                             )
-                                    ),
+                                    )
+#endif
+                                    ,
+
                                 // MediaPlayerElement currently isn't supported on Skia Desktop, videos are not be playable 
                                 // It is listed as a future improvement: https://platform.uno/docs/articles/controls/MediaPlayerElement.html#future-improvement
                                 // Related issue: https://github.com/unoplatform/Uno.Samples/issues/725
