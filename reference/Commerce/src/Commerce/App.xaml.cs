@@ -71,13 +71,14 @@ public partial class App : Application
                 // Register Json serializers (ISerializer and ISerializer)
                 .UseSerialization((context, services) => services
                     .AddContentSerializer(context))
-                .UseHttp((context, services) => services
-                    // Register HttpClient
+                .UseHttp(
 #if DEBUG
-                    // DelegatingHandler will be automatically injected into Refit Client
-                    .AddTransient<DelegatingHandler, DebugHttpHandler>()
+                    (context, services) => services
+                        // Register HttpClient
+                        // DelegatingHandler will be automatically injected into Refit Client
+                        .AddTransient<DelegatingHandler, DebugHttpHandler>()
 #endif
-                        )
+                )
                 .ConfigureServices((context, services) =>
                 {
                     services
