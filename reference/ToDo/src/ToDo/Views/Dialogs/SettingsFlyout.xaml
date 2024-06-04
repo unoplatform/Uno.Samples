@@ -49,7 +49,7 @@
 											Orientation="Horizontal"
 											utu:AutoLayout.PrimaryAlignment="Stretch" />
 							<PersonPicture DisplayName="{Binding CurrentUser.Name}"
-										   ProfilePicture="{Binding ProfilePicture, Converter={StaticResource  BitmapSourceConverter}}"
+										   ProfilePicture="{Binding ProfilePicture, Converter={StaticResource BitmapSourceConverter}}"
 										   utu:AutoLayout.CounterAlignment="Start" />
 							<utu:AutoLayout Spacing="10"
 											Padding="20,15,20,15"
@@ -86,26 +86,6 @@
 									   Foreground="{ThemeResource PrimaryBrush}"
 									   Style="{StaticResource LabelLarge}" />
 							<utu:AutoLayout Spacing="20">
-								<!-- Commenting the Color Palette Section for now -->
-								<!-- Can be added again when it's implemented : https://github.com/unoplatform/uno.todo/issues/147 -->
-								<!--<utu:AutoLayout Spacing="5">
-							<TextBlock x:Uid="SettingsFlyout_PaletteSection"
-									   Text="Color palette"
-									   Foreground="{ThemeResource OnSurfaceBrush}"
-									   utu:AutoLayout.CounterAlignment="Start"
-									   Style="{StaticResource BodySmall}" />
-							<utu:ChipGroup x:Name="ColorPaletteChipGroup"
-										   SelectionMode="Single"
-										   ItemChecked="{x:Bind UpdateAppColorPalette}"
-										   Style="{StaticResource FilterChipGroupStyle}">
-								<utu:Chip x:Uid="SettingsFlyout_PalettePurple" Content="Purple"
-										  Style="{StaticResource FilterChipStyle}" />
-								<utu:Chip x:Uid="SettingsFlyout_PaletteBlue" Content="Blue"
-										  Style="{StaticResource FilterChipStyle}" />
-								<utu:Chip x:Uid="SettingsFlyout_PaletteYellow" Content="Yellow"
-										  Style="{StaticResource FilterChipStyle}" />
-							</utu:ChipGroup>
-						</utu:AutoLayout>-->
 								<utu:AutoLayout Spacing="5">
 									<TextBlock x:Uid="SettingsFlyout_LanguageLabel"
 											   Foreground="{ThemeResource OnSurfaceBrush}"

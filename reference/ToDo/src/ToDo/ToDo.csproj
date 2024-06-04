@@ -3,7 +3,6 @@
     <TargetFrameworks>
       net8.0-android;
       net8.0-ios;
-      net8.0-maccatalyst;
       net8.0-windows10.0.19041;
       net8.0-desktop;
       net8.0-browserwasm;
@@ -49,39 +48,21 @@
       AuthenticationMsal;
       Navigation;
       ExtensionsCore;
+      Skia;
     </UnoFeatures>
   </PropertyGroup>
+
   <ItemGroup>
-    <None Remove="Assets\Images\back.svg" />
-    <None Remove="Mock\lists.json" />
-    <!--<Content Include="Mock\lists.json" />-->
-    <None Remove="Mock\profilePicture.json" />
-    <None Remove="Mock\tasks.json" />
-    <!--<Content Include="Mock\tasks.json" />-->
-    <None Remove="Strings\en\Resources.resw" />
-    <None Remove="Strings\es\Resources.resw" />
-    <None Remove="Strings\fr\Resources.resw" />
+    <Content Include="Mock\*.json" />
   </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Mock\lists.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Mock\profilePicture.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Mock\tasks.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-  </ItemGroup>
+
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Configuration" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Binder" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" />
-    <PackageReference Include="SkiaSharp.Views.Uno.WinUI" />
-    <PackageReference Include="SkiaSharp.Skottie" />
   </ItemGroup>
-  <ItemGroup>
+<!--  <ItemGroup>
     <UnoImage Include="Assets\Images\back.svg" />
-  </ItemGroup>
+  </ItemGroup>-->
 
 </Project>

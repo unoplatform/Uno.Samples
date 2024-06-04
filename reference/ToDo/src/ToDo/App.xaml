@@ -1,57 +1,52 @@
 ﻿<Application x:Class="ToDo.App"
-       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-       xmlns:wasm="http://platform.uno/wasm"
-       xmlns:utum="using:Uno.Toolkit.UI.Material"
-       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-       xmlns:converters="using:ToDo.Converters"
-       mc:Ignorable="wasm">
+			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:wasm="http://platform.uno/wasm"
+			 xmlns:utum="using:Uno.Toolkit.UI.Material"
+			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 xmlns:converters="using:ToDo.Converters"
+			 mc:Ignorable="wasm">
 
-  <Application.Resources>
-    <ResourceDictionary>
-      <ResourceDictionary.MergedDictionaries>
-        <!-- Load WinUI resources -->
-        <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
-        <utum:MaterialToolkitTheme
-          ColorOverrideSource="ms-appx:///Styles/ColorPaletteOverride.xaml">
-          <!-- NOTE: You can override the default Roboto font by providing your font assets here. -->
-           <utum:MaterialToolkitTheme.FontOverrideDictionary>
-            <ResourceDictionary>
-              <FontFamily x:Key="MaterialLightFontFamily">ms-appx:///Uno.Fonts.Roboto/Fonts/Roboto-Light.ttf#Roboto</FontFamily>
-              <FontFamily x:Key="MaterialMediumFontFamily">ms-appx:///Uno.Fonts.Roboto/Fonts/Roboto-Medium.ttf#Roboto</FontFamily>
-              <FontFamily x:Key="MaterialRegularFontFamily">ms-appx:///Uno.Fonts.Roboto/Fonts/Roboto-Regular.ttf#Roboto</FontFamily>
-            </ResourceDictionary>
-          </utum:MaterialToolkitTheme.FontOverrideDictionary> 
-        </utum:MaterialToolkitTheme>
+	<Application.Resources>
+		<ResourceDictionary>
+			<ResourceDictionary.MergedDictionaries>
+				<!-- Load WinUI resources -->
+				<XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
 
-        <ResourceDictionary>
-          <ResourceDictionary.ThemeDictionaries>
-            <ResourceDictionary x:Key="Light">
-              <Color x:Key="OverlayColor">#51000000</Color>
-            </ResourceDictionary>
-            <ResourceDictionary x:Key="Dark">
-              <Color x:Key="OverlayColor">#51FFFFFF</Color>
-            </ResourceDictionary>
-          </ResourceDictionary.ThemeDictionaries>
-        </ResourceDictionary>
+				<!-- Load Material Toolkit resources -->
+				<MaterialToolkitTheme xmlns="using:Uno.Toolkit.UI.Material"
+									  ColorOverrideSource="ms-appx:///Styles/ColorPaletteOverride.xaml"
+									  FontOverrideSource="ms-appx:///Styles/MaterialFontsOverride.xaml" />
 
-        <!-- Application's custom styles -->
-        <ResourceDictionary Source="ms-appx:///Styles/FeedView.xaml" />
-        <ResourceDictionary Source="ms-appx:///Styles/NavigationBar.xaml" />
-        <ResourceDictionary Source="ms-appx:///Styles/NavigationView.xaml" />
-        
-      </ResourceDictionary.MergedDictionaries>
+				<ResourceDictionary>
+					<ResourceDictionary.ThemeDictionaries>
+						<ResourceDictionary x:Key="Light">
+							<Color x:Key="OverlayColor">#51000000</Color>
+						</ResourceDictionary>
+						<ResourceDictionary x:Key="Dark">
+							<Color x:Key="OverlayColor">#51FFFFFF</Color>
+						</ResourceDictionary>
+					</ResourceDictionary.ThemeDictionaries>
+				</ResourceDictionary>
 
-      <x:Double x:Key="LandscapeMaxPageWidth">500</x:Double>
+				<!-- Application's custom styles -->
+				<ResourceDictionary Source="ms-appx:///Styles/FeedView.xaml" />
+				<ResourceDictionary Source="ms-appx:///Styles/NavigationBar.xaml" />
+				<ResourceDictionary Source="ms-appx:///Styles/NavigationView.xaml" />
 
-      <!-- To override the default FlyoutLightDismissOverlayBackground resource -->
-      <SolidColorBrush x:Key="FlyoutLightDismissOverlayBackground"
+			</ResourceDictionary.MergedDictionaries>
+
+			<x:Double x:Key="LandscapeMaxPageWidth">500</x:Double>
+
+			<!-- To override the default FlyoutLightDismissOverlayBackground resource -->
+			<SolidColorBrush x:Key="FlyoutLightDismissOverlayBackground"
 							 Color="{ThemeResource OverlayColor}" />
-      <x:Double x:Key="WideMinWindowWidth">800</x:Double>
-      <x:Double x:Key="ExtraWideMinWindowWidth">1000</x:Double>
+			
+			<x:Double x:Key="WideMinWindowWidth">800</x:Double>
+			<x:Double x:Key="ExtraWideMinWindowWidth">1000</x:Double>
 
-      <converters:FormatConverter x:Key="FormatConverter" />
-      <converters:StringFormatter x:Key="StringFormatter" />
+			<converters:FormatConverter x:Key="FormatConverter" />
+			<converters:StringFormatter x:Key="StringFormatter" />
       <converters:StringCompareConverter x:Key="IsNullOrEmpty" Comparison="IsNullOrEmpty" />
       <converters:StringCompareConverter x:Key="IsNullOrWhitespace" Comparison="IsNullOrWhitespace" />
       <converters:StringCompareConverter x:Key="IsEqualToParameterValue" Comparison="IsEqualToParameterValue" />
@@ -60,11 +55,11 @@
       <converters:StringCompareConverter x:Key="IsNotEqualToParameterValue" Comparison="IsEqualToParameterValue" InvertResult="True" />
       <converters:ReferenceConverter x:Key="IsNull" ConversionMode="IsNull" />
       <converters:ReferenceConverter x:Key="IsNotNull" ConversionMode="IsNotNull" />
-      <converters:BitmapSourceConverter x:Key="BitmapSourceConverter" />
+			<converters:BitmapSourceConverter x:Key="BitmapSourceConverter" />
 
-    </ResourceDictionary>
-  </Application.Resources>
+		</ResourceDictionary>
+	</Application.Resources>
 
-  <!-- Add resources here -->
+	<!-- Add resources here -->
 
 </Application>

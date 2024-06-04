@@ -46,7 +46,7 @@ public partial class SettingsViewModel
 		SelectedAppTheme.Execute(ChangeAppTheme);
 
 		Cultures = localizationConfiguration.Value!.Cultures!.Select(c => new DisplayCulture(localizer[$"SettingsFlyout_LanguageLabel_{c}"], c)).ToArray();
-		SelectedCulture = State.Value(this, () => Cultures.FirstOrDefault(c => c.Culture.Equals(LocalizationService.CurrentCulture)) ?? Cultures.First());
+		SelectedCulture = State.Value(this, () => Cultures.FirstOrDefault(c => c.Culture.Equals(LocalizationService.CurrentCulture.ToString())) ?? Cultures.First());
 
 		SelectedCulture.Execute(ChangeLanguage);
 	}
