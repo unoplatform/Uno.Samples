@@ -20,7 +20,7 @@
 						<utu:AutoLayout Background="{ThemeResource SurfaceBrush}"
 										CornerRadius="12">
 							<Image Source="{Binding Photo}"
-								   Stretch="UniformToFill"
+								   Stretch="Uniform"
 								   utu:AutoLayout.PrimaryAlignment="Stretch" />
 							<utu:AutoLayout>
 								<utu:AutoLayout Spacing="16"
@@ -80,8 +80,10 @@
 
 	<Grid>
 		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="*" x:Name="DealsColumn" />
-			<ColumnDefinition Width="0" x:Name="DetailsColumn" />
+			<ColumnDefinition Width="*"
+							  x:Name="DealsColumn" />
+			<ColumnDefinition Width="0"
+							  x:Name="DetailsColumn" />
 		</Grid.ColumnDefinitions>
 
 		<VisualStateManager.VisualStateGroups>
@@ -107,11 +109,11 @@
 							utu:AutoLayout.PrimaryAlignment="Stretch">
 
 				<utu:NavigationBar Content="Uno Commerce"
-								   Background="{ThemeResource PrimaryBrush}"
-								   Style="{StaticResource ModalNavigationBarStyle}"
+								   utu:SafeArea.Insets="Top"
 								   x:Uid="Deals_Navigation_Bar">
 					<utu:NavigationBar.PrimaryCommands>
-						<AppBarButton Label="Refresh" Command="{Binding ElementName=DealsFeedView, Path=State.Refresh}" />
+						<AppBarButton Label="Refresh"
+									  Command="{Binding ElementName=DealsFeedView, Path=State.Refresh}" />
 					</utu:NavigationBar.PrimaryCommands>
 				</utu:NavigationBar>
 
@@ -179,8 +181,7 @@
 											  SelectionMode="None"
 											  IsItemClickEnabled="True"
 											  uen:Navigation.Request="DealsProduct"
-											  Style="{StaticResource ListViewStyle}">
-									</ListView>
+											  Style="{StaticResource ListViewStyle}" />
 								</Grid>
 							</UserControl>
 						</DataTemplate>
@@ -232,7 +233,7 @@
 											  SelectionMode="None"
 											  IsItemClickEnabled="True"
 											  uen:Navigation.Request="DealsProduct"
-											  Style="{StaticResource ListViewStyle}" >
+											  Style="{StaticResource ListViewStyle}">
 
 										<ListView.Footer>
 											<ProgressBar IsIndeterminate="{Binding Data.ExtendedProperties.IsLoadingMoreItems}"
