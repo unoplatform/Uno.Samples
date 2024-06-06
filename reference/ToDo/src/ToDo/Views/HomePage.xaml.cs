@@ -14,7 +14,7 @@ public sealed partial class HomePage : Page
 	private bool? LastIsWide { get; set; }
 	private void HomePage_SizeChanged(object sender, SizeChangedEventArgs args)
 	{
-		var isWide = (App.Current as App)?.Window?.Content?.ActualSize.X > (double)App.Current.Resources[ResourceKeys.WideMinWindowWidth];
+		var isWide = (App.Current as App)?.MainWindow?.Content?.ActualSize.X > (double)App.Current.Resources[ResourceKeys.WideMinWindowWidth];
 		if (!LastIsWide.HasValue || LastIsWide.Value != isWide)
 		{
 			LastIsWide = isWide;
