@@ -1,3 +1,5 @@
+using Uno.Resizetizer;
+
 namespace ToDo;
 
 public partial class App : Application
