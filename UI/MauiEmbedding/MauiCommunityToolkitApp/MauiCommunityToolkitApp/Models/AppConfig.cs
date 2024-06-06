@@ -1,4 +1,4 @@
-namespace MauiCommunityToolkitApp.Business.Models;
+namespace MauiCommunityToolkitApp.Models;
 
 public record AppConfig
 {

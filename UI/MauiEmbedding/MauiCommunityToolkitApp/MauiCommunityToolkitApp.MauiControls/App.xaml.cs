@@ -1,4 +1,4 @@
-﻿namespace MauiCommunityToolkitApp.MauiControls;
+namespace MauiCommunityToolkitApp.MauiControls;
 
 public partial class App : Application
 {

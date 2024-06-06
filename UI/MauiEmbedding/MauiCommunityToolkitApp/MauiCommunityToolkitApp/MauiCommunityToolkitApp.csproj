@@ -13,7 +13,7 @@
     <!-- Display name -->
     <ApplicationTitle>MauiCommunityToolkitApp</ApplicationTitle>
     <!-- App Identifier -->
-    <ApplicationId>com.companyname.mauicommunitytoolkitapp</ApplicationId>
+    <ApplicationId>com.companyname.MauiCommunityToolkitApp</ApplicationId>
     <!-- Versions -->
     <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
     <ApplicationVersion>1</ApplicationVersion>
@@ -34,12 +34,10 @@
       https://aka.platform.uno/singleproject-features
     -->
     <UnoFeatures>
-      MauiEmbedding;
-      Material;
       Hosting;
       Toolkit;
       Logging;
-      Serilog;
+      MauiEmbedding;
       MVUX;
       Configuration;
       Http;
@@ -49,39 +47,28 @@
     </UnoFeatures>
   </PropertyGroup>
   <!--<ItemGroup>
-    <None Remove="presentation\DrawingViewContent.xaml" />
-    <None Remove="presentation\MainPage.xaml" />
-    <None Remove="presentation\Shell.xaml" />
+    <None Remove="Presentation\DrawingViewContent.xaml" />
   </ItemGroup>-->
-  <!--<ItemGroup>
-    <None Remove="presentation\DrawingViewContent.xaml" />
-    <None Remove="presentation\MainPage.xaml" />
-    <None Remove="presentation\Shell.xaml" />
-    <None Remove="Strings\es\Resources.resw" />
-    <None Remove="Strings\fr\Resources.resw" />
-    <None Remove="Strings\pt-BR\Resources.resw" />
-  </ItemGroup>-->
-  <ItemGroup>
-    <PackageReference Include="CommunityToolkit.Mvvm" />
-  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\MauiCommunityToolkitApp.MauiControls\MauiCommunityToolkitApp.MauiControls.csproj" />
   </ItemGroup>
 
-  <!--<ItemGroup>
-    <UpToDateCheckInput Remove="presentation\MainPage.xaml" />
-  </ItemGroup>-->
-
   <ItemGroup>
-    <Page Update="Presentation\MainPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
+    <PackageReference Include="CommunityToolkit.Maui"/>
+    <PackageReference Include="CommunityToolkit.Mvvm" />
+    <PackageReference Include="Microsoft.Maui.Controls" />
+    <PackageReference Include="Microsoft.Maui.Controls.Compatibility" />
   </ItemGroup>
 
-  <!--
   <ItemGroup>
-    <UpToDateCheckInput Remove="presentation\DrawingViewContent.xaml" />
+    <None Update="Presentation\DrawingViewContent.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </None>
+  </ItemGroup>
+
+  <!--<ItemGroup>
+    <UpToDateCheckInput Remove="Presentation\DrawingViewContent.xaml" />
   </ItemGroup>-->
 
   <ItemGroup>
@@ -89,23 +76,4 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
-
-  <!--<ItemGroup>
-    <UpToDateCheckInput Remove="presentation\Shell.xaml" />
-  </ItemGroup>-->
-
-  <ItemGroup>
-    <Page Update="Presentation\Shell.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-
-  <!--<ItemGroup>
-    <UpToDateCheckInput Remove="presentation\DrawingViewContent.xaml" />
-  </ItemGroup>-->
-
-  <!--<ItemGroup>
-    <UpToDateCheckInput Remove="presentation\Shell.xaml" />
-  </ItemGroup>-->
-
 </Project>

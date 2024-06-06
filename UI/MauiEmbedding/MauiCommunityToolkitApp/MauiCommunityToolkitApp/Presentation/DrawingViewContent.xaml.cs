@@ -1,4 +1,4 @@
-using Microsoft.UI.Xaml;
+﻿using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Data;
@@ -18,8 +18,8 @@ using Windows.Foundation.Collections;
 namespace MauiCommunityToolkitApp.Presentation;
 public sealed partial class DrawingViewContent : UserControl
 {
-    public DrawingViewContent()
-    {
-        this.InitializeComponent();
-    }
+	public DrawingViewContent()
+	{
+		this.InitializeComponent();
+	}
 }

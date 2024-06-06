@@ -5,7 +5,6 @@ using Android.Views;
 using Android.Widget;
 
 namespace MauiCommunityToolkitApp.Droid;
-
 [Activity(
     MainLauncher = true,
     ConfigurationChanges = global::Uno.UI.ActivityHelper.AllConfigChanges,
