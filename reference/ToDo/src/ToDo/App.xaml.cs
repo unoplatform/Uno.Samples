@@ -51,11 +51,11 @@ public partial class App : Application
                         useMocks=true;;
 #endif
                         services
-                            .AddScoped<IAppTheme, AppTheme>()
                             .AddEndpoints(context, useMocks: useMocks)
                             .AddServices(useMocks: useMocks);
                     })
                 .UseNavigation(ReactiveViewModelMappings.ViewModelMappings, RegisterRoutes)
+                .UseThemeSwitching()
             );
         MainWindow = builder.Window;
 
@@ -63,9 +63,6 @@ public partial class App : Application
         MainWindow.EnableHotReload();
 #endif
         MainWindow.SetWindowIcon();
-
-        //TODO: Initialise the theme service?
-        MainWindow.GetThemeService();
 
         Host = await builder.NavigateAsync<Shell>();
     }
