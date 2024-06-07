@@ -19,7 +19,7 @@
 		<x:String x:Key="Icon_Drive_File_Rename_Outline">F1 M 15.40999984741211 1.7950000762939453 L 14.200000762939453 0.5849999785423279 C 13.420000791549683 -0.19499999284744263 12.149999856948853 -0.19499999284744263 11.369999885559082 0.5849999785423279 L 8.6899995803833 3.2649998664855957 L 0 11.954999923706055 L 0 15.994999885559082 L 4.039999961853027 15.994999885559082 L 12.779999732971191 7.255000114440918 L 15.40999984741211 4.625 C 16.19999986886978 3.8450000286102295 16.19999986886978 2.575000047683716 15.40999984741211 1.7950000762939453 L 15.40999984741211 1.7950000762939453 Z M 3.2100000381469727 13.994999885559082 L 2 13.994999885559082 L 2 12.785000801086426 L 10.65999984741211 4.125 L 11.869999885559082 5.335000038146973 L 3.2100000381469727 13.994999885559082 Z M 8 15.994999885559082 L 12 11.994999885559082 L 18 11.994999885559082 L 18 15.994999885559082 L 8 15.994999885559082 Z</x:String>
 		<x:String x:Key="Icon_Star_Rate">F1 M 12.430000305175781 8 L 10 0 L 7.569999694824219 8 L 0 8 L 6.180000305175781 12.40999984741211 L 3.8299999237060547 20 L 10 15.309999465942383 L 16.18000030517578 20 L 13.829999923706055 12.40999984741211 L 20 8 L 12.430000305175781 8 Z</x:String>
 
-		<StaticResource x:Key="DefaultTaskListSurfaceBrush" ResourceKey="PrimaryVariantLightBrush" />
+    <StaticResource x:Key="DefaultTaskListSurfaceBrush" ResourceKey="PrimaryVariantDarkBrush" />
 		<StaticResource x:Key="ImportantTaskListSurfaceBrush" ResourceKey="ErrorBrush" />
 
 		<!-- note: in order to use converter in Page.Background, that resource needs to be declared globally. -->
@@ -49,7 +49,7 @@
 			<Setter Property="ItemTemplate">
 				<Setter.Value>
 					<DataTemplate>
-						<SwipeControl Margin="0,5">
+            <SwipeControl Margin="0,5" CornerRadius="10">
 							<SwipeControl.RightItems>
 								<SwipeItems Mode="Reveal">
 									<SwipeItem Foreground="{ThemeResource SurfaceBrush}" Background="{ThemeResource ErrorBrush}">
@@ -60,7 +60,7 @@
 								</SwipeItems>
 							</SwipeControl.RightItems>
 							<SwipeControl.Content>
-								<utu:AutoLayout PrimaryAxisAlignment="Center" Background="{ThemeResource OnPrimaryBrush}">
+								<utu:AutoLayout PrimaryAxisAlignment="Center" Background="{ThemeResource SurfaceBrush}">
 									<utu:AutoLayout Spacing="5" Orientation="Horizontal">
 										<utu:AutoLayout Padding="10,0,0,0" utu:AutoLayout.CounterAlignment="Center">
 											<utu:AutoLayout Spacing="16"
@@ -85,7 +85,7 @@
 															   MaxLines="1"
 															   utu:AutoLayout.CounterAlignment="Start"
 															   Style="{StaticResource TitleMedium}" />
-													<TextBlock Foreground="{ThemeResource OnSurfaceBrush}"
+													<TextBlock Foreground="{ThemeResource OnSurfaceMediumBrush}"
 															   Text="{Binding DueDateTime.DateTime, Converter={StaticResource TaskDueDateFormatter}}"
 															   utu:AutoLayout.CounterAlignment="Start"
 															   Visibility="{Binding DueDateTime.DateTime, Converter={StaticResource IsNotNull}}"
@@ -104,10 +104,10 @@
 															  CommandParameter="{Binding}"
 															  Style="{StaticResource IconToggleButtonStyle}">
 													<ToggleButton.Content>
-														<PathIcon Foreground="{StaticResource OnSurfaceLowBrush}" Data="{StaticResource Icon_Star_Rate}" />
+														<PathIcon Foreground="{ThemeResource OnSurfaceLowBrush}" Data="{StaticResource Icon_Star_Rate}" />
 													</ToggleButton.Content>
 													<ut:ControlExtensions.AlternateContent>
-														<PathIcon Foreground="{StaticResource ErrorBrush}" Data="{StaticResource Icon_Star_Rate}" />
+														<PathIcon Foreground="{ThemeResource ErrorBrush}" Data="{StaticResource Icon_Star_Rate}" />
 													</ut:ControlExtensions.AlternateContent>
 												</ToggleButton>
 											</utu:AutoLayout>
@@ -276,8 +276,8 @@
 							Content="Add a task"
 							Command="{Binding CreateTask}"
 							HorizontalContentAlignment="Left"
-							Foreground="{StaticResource OnPrimaryBrush}"
-							Background="{StaticResource OnSurfaceFocusedBrush}"
+							Foreground="{ThemeResource OnPrimaryBrush}"
+							Background="{ThemeResource OnSurfaceFocusedBrush}"
 							Style="{StaticResource TextButtonStyle}">
 						<ut:ControlExtensions.Icon>
 							<PathIcon Data="{StaticResource Icon_Add}" />
