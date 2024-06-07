@@ -46,10 +46,6 @@
       Navigation;
     </UnoFeatures>
   </PropertyGroup>
-  <!--<ItemGroup>
-    <None Remove="Presentation\DrawingViewContent.xaml" />
-  </ItemGroup>-->
-
   <ItemGroup>
     <ProjectReference Include="..\MauiCommunityToolkitApp.MauiControls\MauiCommunityToolkitApp.MauiControls.csproj" />
   </ItemGroup>
@@ -59,21 +55,6 @@
     <PackageReference Include="CommunityToolkit.Mvvm" />
     <PackageReference Include="Microsoft.Maui.Controls" />
     <PackageReference Include="Microsoft.Maui.Controls.Compatibility" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="Presentation\DrawingViewContent.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </None>
-  </ItemGroup>
-
-  <!--<ItemGroup>
-    <UpToDateCheckInput Remove="Presentation\DrawingViewContent.xaml" />
-  </ItemGroup>-->
-
-  <ItemGroup>
-    <Page Update="Presentation\DrawingViewContent.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
+    <PackageReference Include="Microsoft.Maui.Graphics"/>
   </ItemGroup>
 </Project>
