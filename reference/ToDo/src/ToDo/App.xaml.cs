@@ -51,6 +51,7 @@ public partial class App : Application
                         useMocks=true;;
 #endif
                         services
+                            .AddScoped<IAppTheme, AppTheme>()
                             .AddEndpoints(context, useMocks: useMocks)
                             .AddServices(useMocks: useMocks);
                     })
