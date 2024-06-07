@@ -16,7 +16,7 @@ public partial class App : Application
     protected Window? MainWindow { get; private set; }
     protected IHost? Host { get; private set; }
 
-    protected async override void OnLaunched(LaunchActivatedEventArgs args)
+    protected override async void OnLaunched(LaunchActivatedEventArgs args)
     {
         var builder = this.CreateBuilder(args)
             // Add navigation support for toolkit controls such as TabBar and NavigationView
@@ -70,15 +70,14 @@ public partial class App : Application
                 // Register Json serializers (ISerializer and ISerializer)
                 .UseSerialization((context, services) => services
                     .AddContentSerializer(context)
-                    .AddJsonTypeInfo(WeatherForecastContext.Default.IImmutableListWeatherForecast))
+                   )
                 .UseHttp((context, services) => services
                     // Register HttpClient
 #if DEBUG
                     // DelegatingHandler will be automatically injected into Refit Client
                     .AddTransient<DelegatingHandler, DebugHttpHandler>()
 #endif
-                    .AddSingleton<IWeatherCache, WeatherCache>()
-                    .AddRefitClient<IApiClient>(context))
+                   )
                 .ConfigureServices((context, services) =>
                 {
                     // TODO: Register your services
@@ -100,8 +99,7 @@ public partial class App : Application
     {
         views.Register(
             new ViewMap(ViewModel: typeof(ShellModel)),
-            new ViewMap<MainPage, MainModel>(),
-            new DataViewMap<SecondPage, SecondModel, Entity>()
+            new ViewMap<MainPage, MainModel>()
         );
 
         routes.Register(
@@ -109,7 +107,6 @@ public partial class App : Application
                 Nested:
                 [
                     new ("Main", View: views.FindByViewModel<MainModel>()),
-                    new ("Second", View: views.FindByViewModel<SecondModel>()),
                 ]
             )
         );

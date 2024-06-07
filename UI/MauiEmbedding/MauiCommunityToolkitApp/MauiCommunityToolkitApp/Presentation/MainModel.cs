@@ -31,10 +31,4 @@ public partial record MainModel
     public async Task Counter(CancellationToken ct) =>
         await Count.Update(x => ++x, ct);
 
-    public async Task GoToSecond()
-    {
-        var name = await Name;
-        await _navigator.NavigateViewModelAsync<SecondModel>(this, data: new Entity(name!));
-    }
-
 }
