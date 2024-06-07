@@ -20,7 +20,7 @@ namespace UnoBackgroundWorker.Presentation
             worker.WorkerSupportsCancellation = true;
 
             // Handle the events of the BackgroundWorker
-            worker.DoWork += Worker_DoWork; ;
+            worker.DoWork += Worker_DoWork;
             worker.ProgressChanged += Worker_ProgressChanged;
             worker.RunWorkerCompleted += Worker_RunWorkerCompleted;
         }
