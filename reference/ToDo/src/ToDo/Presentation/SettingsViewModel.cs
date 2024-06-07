@@ -9,7 +9,7 @@ public partial class SettingsViewModel
     private readonly IUserProfilePictureService _userSvc;
     private readonly INavigator _sourceNavigator;
     private readonly INavigator _navigator;
-    private IThemeService _themeService;
+    private readonly IThemeService _themeService;
 
     public ILocalizationService LocalizationSettings { get; }
 
