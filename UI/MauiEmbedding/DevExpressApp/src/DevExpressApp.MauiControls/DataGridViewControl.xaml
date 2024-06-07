@@ -3,17 +3,22 @@
             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
             xmlns:dxg="clr-namespace:DevExpress.Maui.DataGrid;assembly=DevExpress.Maui.DataGrid"
             x:Class="DevExpressApp.MauiControls.DataGridViewControl">
-  <dxg:DataGridView ItemsSource="{Binding Employees}"
+  <!-- =============================================================== -->
+  <!-- ===== IMPORTANT: TODO: Uncomment to test the DevExpressApp ==== -->
+  <!-- ===== after you added the DevExpress NuGet Feed URL =========== -->
+  <!-- ===== (https://nuget.devexpress.com/#feed-url) ================ -->
+  <!-- =============================================================== -->
+  <!--<dxg:DataGridView ItemsSource="{Binding Employees}"
                     EditorShowMode="DoubleTap"
                     AllowDragDropRows="True">
     <dxg:DataGridView.Columns>
       <dxg:ImageColumn FieldName="Photo"
                        Width="100" />
-      <!-- Can be removed and replaced by the commented TemplateColumn below when https://github.com/unoplatform/uno.extensions/issues/2328 is fixed -->
+      --><!-- Can be removed and replaced by the commented TemplateColumn below when https://github.com/unoplatform/uno.extensions/issues/2328 is fixed --><!--
       <dxg:TextColumn FieldName="Name"
                       MinWidth="200"
                       VerticalContentAlignment="Center" />
-      <!--<dxg:TemplateColumn FieldName="Name"
+      --><!--<dxg:TemplateColumn FieldName="Name"
                           Caption="Employee"
                           MinWidth="200">
         <dxg:TemplateColumn.DisplayTemplate>
@@ -37,7 +42,7 @@
             </Grid>
           </DataTemplate>
         </dxg:TemplateColumn.DisplayTemplate>
-      </dxg:TemplateColumn>-->
+      </dxg:TemplateColumn>--><!--
       <dxg:TextColumn FieldName="Phone"
                       MinWidth="130"
                       VerticalContentAlignment="Center" />
@@ -52,10 +57,10 @@
                           Caption="Access Level"
                           MinWidth="140"
                           VerticalContentAlignment="Center" />
-      <!-- Can be added back when https://github.com/unoplatform/uno.extensions/issues/2328 is fixed -->
+      --><!-- Can be added back when https://github.com/unoplatform/uno.extensions/issues/2328 is fixed -->
       <!--<dxg:CheckBoxColumn FieldName="OnVacation"
                           MinWidth="130"
-                          VerticalContentAlignment="Center" />-->
+                          VerticalContentAlignment="Center" />--><!--
     </dxg:DataGridView.Columns>
-  </dxg:DataGridView>
+  </dxg:DataGridView>-->
 </ScrollView>
