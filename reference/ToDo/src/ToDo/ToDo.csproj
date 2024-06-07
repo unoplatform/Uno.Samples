@@ -46,11 +46,24 @@
       Serialization;
       Localization;
       Navigation;
+      ThemeService;
     </UnoFeatures>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" />
   </ItemGroup>
-    
+
+  <ItemGroup>
+    <EmbeddedResource Include="lists.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="profilePicture.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="tasks.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+
 </Project>
