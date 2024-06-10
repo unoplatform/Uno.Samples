@@ -1,0 +1,40 @@
+﻿<Page x:Class="DevExpressApp.Presentation.MainPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:local="using:DevExpressApp.Presentation"
+      xmlns:uen="using:Uno.Extensions.Navigation.UI"
+      xmlns:utu="using:Uno.Toolkit.UI"
+      NavigationCacheMode="Required"
+      Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+<!--
+This sample code requires the DevExpress NuGet packages.
+In order to access the NuGet packages you do need to create an account at DevExpress website (https://www.devexpress.com/MyAccount/Register).
+Once you have an account with DevExpress, you need to visit the DevExpress NuGet Feed URL page (https://nuget.devexpress.com/#feed-url)
+to retrieve a NuGet feed that's associated with your account.
+You can either add this as a NuGet feed in Visual Studio or use a nuget.config file.
+
+To summarize in order to test this sample app:
+ 1. Create a DevExpress account and obtain the necessary licenses for the DevExpress packages.
+ 2. Add your DevExpress NuGet feed URL to the project (https://nuget.devexpress.com/#feed-url).
+ 3. Look for comments marked with "IMPORTANT: TODO: Uncomment to test the DevExpressApp" and uncomment the corresponding code blocks.
+-->
+
+  <Grid utu:SafeArea.Insets="VisibleBounds">
+    <NavigationView x:Name="NavigationView"
+                    uen:Region.Attached="True"
+                    IsSettingsVisible="False"
+                    IsBackButtonVisible="Collapsed"
+                    PaneDisplayMode="Top">
+      <NavigationView.MenuItems>
+        <NavigationViewItem Content="DataGridView"
+                            uen:Region.Name="DataGridView" />
+        <NavigationViewItem Content="ChartView"
+                            uen:Region.Name="ChartView" />
+      </NavigationView.MenuItems>
+
+      <Grid uen:Region.Attached="True"
+            uen:Region.Navigator="Visibility" />
+    </NavigationView>
+  </Grid>
+</Page>

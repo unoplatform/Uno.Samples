@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ScrollView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+            xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+            xmlns:dxg="clr-namespace:DevExpress.Maui.DataGrid;assembly=DevExpress.Maui.DataGrid"
+            x:Class="DevExpressApp.MauiControls.DataGridViewControl">
+  <!-- =============================================================== -->
+  <!-- ===== IMPORTANT: TODO: Uncomment to test the DevExpressApp ==== -->
+  <!-- ===== after you added the DevExpress NuGet Feed URL =========== -->
+  <!-- ===== (https://nuget.devexpress.com/#feed-url) ================ -->
+  <!-- =============================================================== -->
+  <!--<dxg:DataGridView ItemsSource="{Binding Employees}"
+                    EditorShowMode="DoubleTap"
+                    AllowDragDropRows="True">
+    <dxg:DataGridView.Columns>
+      <dxg:ImageColumn FieldName="Photo"
+                       Width="100" />
+      --><!-- Can be removed and replaced by the commented TemplateColumn below when https://github.com/unoplatform/uno.extensions/issues/2328 is fixed --><!--
+      <dxg:TextColumn FieldName="Name"
+                      MinWidth="200"
+                      VerticalContentAlignment="Center" />
+      --><!--<dxg:TemplateColumn FieldName="Name"
+                          Caption="Employee"
+                          MinWidth="200">
+        <dxg:TemplateColumn.DisplayTemplate>
+          <DataTemplate>
+            <Grid VerticalOptions="Center"
+                  Padding="15, 0, 0, 0"
+                  RowDefinitions="Auto, Auto, Auto">
+              <Label Text="{Binding Item.Name}"
+                     FontSize="18"
+                     FontAttributes="Bold"
+                     TextColor="{DynamicResource GridCellFontColor}"
+                     Grid.Row="0" />
+              <Label Text="{Binding Item.Position, StringFormat = 'Job Title: {0}'}"
+                     FontSize="Small"
+                     TextColor="{DynamicResource GridCellFontColor}"
+                     Grid.Row="1" />
+              <Label Text="{Binding Item.HireDate, StringFormat = 'Hire Date: {0:d}'}"
+                     FontSize="Small"
+                     TextColor="{DynamicResource GridCellFontColor}"
+                     Grid.Row="2" />
+            </Grid>
+          </DataTemplate>
+        </dxg:TemplateColumn.DisplayTemplate>
+      </dxg:TemplateColumn>--><!--
+      <dxg:TextColumn FieldName="Phone"
+                      MinWidth="130"
+                      VerticalContentAlignment="Center" />
+      <dxg:TextColumn FieldName="Address"
+                      MinWidth="150"
+                      VerticalContentAlignment="Center" />
+      <dxg:DateColumn FieldName="BirthDate"
+                      MinWidth="120"
+                      DisplayFormat="d"
+                      VerticalContentAlignment="Center" />
+      <dxg:ComboBoxColumn FieldName="Access"
+                          Caption="Access Level"
+                          MinWidth="140"
+                          VerticalContentAlignment="Center" />
+      --><!-- Can be added back when https://github.com/unoplatform/uno.extensions/issues/2328 is fixed -->
+      <!--<dxg:CheckBoxColumn FieldName="OnVacation"
+                          MinWidth="130"
+                          VerticalContentAlignment="Center" />--><!--
+    </dxg:DataGridView.Columns>
+  </dxg:DataGridView>-->
+</ScrollView>
