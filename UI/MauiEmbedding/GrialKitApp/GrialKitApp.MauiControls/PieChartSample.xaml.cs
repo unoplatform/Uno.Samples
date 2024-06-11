@@ -1,4 +1,4 @@
-﻿namespace GrialKitApp.MauiControls;
+namespace GrialKitApp.MauiControls;
 
 public partial class PieChartSample : ContentPage
 {
@@ -7,6 +7,6 @@ public partial class PieChartSample : ContentPage
 		InitializeComponent();
 
         // TODO: Uncomment
-        //chart.BindingContext = SampleData.Ring();
+        chart.BindingContext = SampleData.Ring();
     }
 }

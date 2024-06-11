@@ -1,4 +1,4 @@
-﻿namespace GrialKitApp.MauiControls;
+namespace GrialKitApp.MauiControls;
 
 public partial class AreaChartSample : ContentPage
 {
@@ -7,6 +7,6 @@ public partial class AreaChartSample : ContentPage
 		InitializeComponent();
 
         // TODO: Uncomment
-        //chart.BindingContext = SampleData.MultiseriesWithLabels();
+        chart.BindingContext = SampleData.MultiseriesWithLabels();
     }
 }
