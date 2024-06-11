@@ -8,6 +8,7 @@ public sealed partial class MainPage : Page
 	{
 		this.DataContext<BindableMainModel>((page, vm) => page
 			.Background(ThemeResource.Get<Brush>("ApplicationPageBackgroundThemeBrush"))
+			.SafeArea(SafeArea.InsetMask.All)
 			.Content(
 				new Grid()
 					.BorderBrush(Colors.Gray)

@@ -2,7 +2,7 @@
 
 This is a ChatGPT Sample app using the OpenAI SDK. The app was built using [C# Markup](https://aka.platform.uno/csharp-markup) for the UI and [MVUX](https://aka.platform.uno/mvux) for state management, encouraging the flow of immutable data. [Records](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/record) are used to manage state and ensure immutability.
 
-![ChatGPT Image](ChatGPT-Image.png)
+![ChatGPT Image](doc/assets/ChatGPT-Image.png)
 
 ## Getting Started
 
