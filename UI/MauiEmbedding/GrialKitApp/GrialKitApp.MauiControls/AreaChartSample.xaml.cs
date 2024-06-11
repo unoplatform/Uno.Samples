@@ -6,7 +6,6 @@ public partial class AreaChartSample : ContentPage
 	{
 		InitializeComponent();
 
-        // TODO: Uncomment
         chart.BindingContext = SampleData.MultiseriesWithLabels();
     }
 }

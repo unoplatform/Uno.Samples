@@ -6,7 +6,6 @@ public partial class BarMultiSeriesSample : ContentPage
 	{
 		InitializeComponent();
 
-		// TODO: Uncomment
 		chart.BindingContext = SampleData.MultiSeriesBar();
 
     }

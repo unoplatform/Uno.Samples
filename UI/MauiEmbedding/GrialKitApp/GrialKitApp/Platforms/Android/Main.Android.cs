@@ -11,7 +11,7 @@ using Android.Widget;
 using Com.Nostra13.Universalimageloader.Core;
 using Microsoft.UI.Xaml.Media;
 
-namespace GrialKitApp.Droid;
+namespace GrialKitApp.Platforms.Android;
 [global::Android.App.ApplicationAttribute(
     Label = " GrialControlsTestBed",
     Icon = "@mipmap/icon",
