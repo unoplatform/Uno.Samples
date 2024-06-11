@@ -1,7 +1,4 @@
-﻿using ChatGPT.Business;
-using ChatGPT.Services;
-
-namespace ChatGPT.Presentation;
+﻿namespace ChatGPT.Presentation;
 
 public partial record MainModel
 {

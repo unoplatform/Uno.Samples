@@ -1,6 +1,4 @@
-﻿using ChatGPT.Business;
-
-namespace ChatGPT.Presentation;
+﻿namespace ChatGPT.Presentation;
 
 public partial record Message(Guid Id, Source Source, Status Status, string? Content)
 {
