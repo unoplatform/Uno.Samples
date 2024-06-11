@@ -21,12 +21,12 @@ This is a ChatGPT Sample app using the OpenAI SDK. The app was built using [C# M
 
 ## Codebase
 
- * [**MainPage.cs**](ChatGPT/ChatGPT/Presentation/MainPage.cs): Defines the main user interface using C# Markup.
- * [**MainModel.cs**](ChatGPT/ChatGPT/Presentation/MainModel.cs): Handle user input and methods to interact with the AI.
- * [**ChatService.cs**](ChatGPT/ChatGPT/Services/ChatService.cs): Manages communication with the OpenAI API using the OpenAI SDK. This file contains the code responsible for making requests to the OpenAI API and handling the responses.
- * [**Message.cs**](ChatGPT/ChatGPT/Presentation/Message.cs): Record that represents a message sent by the user or the AI.
- * [**ChatRequest.cs**](ChatGPT/ChatGPT/Business/ChatRequest.cs): Record representing a request sent to the ChatGPT model.
- * [**ChatResponse.cs**](ChatGPT/ChatGPT/Business/ChatResponse.cs): Record representing a response received from the ChatGPT model.
+ * [**MainPage.cs**](src/ChatGPT/Presentation/MainPage.cs): Defines the main user interface using C# Markup.
+ * [**MainModel.cs**](src/ChatGPT/Presentation/MainModel.cs): Handle user input and methods to interact with the AI.
+ * [**ChatService.cs**](src/ChatGPT/Services/ChatService.cs): Manages communication with the OpenAI API using the OpenAI SDK. This file contains the code responsible for making requests to the OpenAI API and handling the responses.
+ * [**Message.cs**](src/ChatGPT/Presentation/Message.cs): Record that represents a message sent by the user or the AI.
+ * [**ChatRequest.cs**](src/ChatGPT/Business/ChatRequest.cs): Record representing a request sent to the ChatGPT model.
+ * [**ChatResponse.cs**](src/ChatGPT/Business/ChatResponse.cs): Record representing a response received from the ChatGPT model.
 
 ## Architecture Diagram
 
@@ -75,4 +75,4 @@ Steps description:
 ## Learn More
 - [C# Markup](https://aka.platform.uno/csharp-markup) 
 - [MVUX](https://aka.platform.uno/mvux)
-- [Using Immutable Records with MVUX](RecordsGuidance.md)
+- [How to write Records with MVUX](https://platform.uno/docs/articles/external/uno.extensions/doc/Learn/Mvux/WorkingWithRecords.html)
