@@ -130,19 +130,23 @@
 								</utu:AutoLayout>
 								<utu:AutoLayout Spacing="5"
                                 utu:AutoLayout.CounterAlignment="Start">
-									<TextBlock x:Uid="SettingsFlyout_ThemeLabel"
+                  <TextBlock x:Uid="SettingsFlyout_ThemeLabel"
 											    Foreground="{ThemeResource OnSurfaceBrush}"
 											    Text="Mode"
 											    utu:AutoLayout.CounterAlignment="Start"
 											    Style="{StaticResource BodySmall}" />
-                  <!-- Using two separate buttons instead of ChipGroup to avoid having to access ThemeService.IsDark
-                        Related issue: https://github.com/unoplatform/uno.extensions/issues/2334 -->
-                  <Button x:Uid="SettingsFlyout_ThemeLight"
-                          Content="Light"
-                          Command="{Binding ChangeToLight}" />
-                  <Button x:Uid="SettingsFlyout_ThemeDark"
-                          Content="Dark"
-                          Command="{Binding ChangeToDark}" />
+                  <utu:ChipGroup x:Name="ThemeChipGroup"
+												   SelectionMode="Single"
+												   ItemsSource="{Binding AppThemes}"
+												   SelectedItem="{Binding SelectedAppTheme, Mode=TwoWay}"
+                           ItemClick="ThemeChipGroup_ItemClick"
+												   Style="{StaticResource FilterChipGroupStyle}">
+                    <utu:ChipGroup.ItemTemplate>
+                      <DataTemplate>
+                        <TextBlock Text="{Binding}" />
+                      </DataTemplate>
+                    </utu:ChipGroup.ItemTemplate>
+                  </utu:ChipGroup>
                 </utu:AutoLayout>
 							</utu:AutoLayout>
 							<utu:AutoLayout Spacing="5"

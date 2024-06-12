@@ -11,9 +11,13 @@ public partial class SettingsViewModel
     private readonly INavigator _navigator;
     private readonly IThemeService _themeService;
 
+    private bool _isDark;
+
     public ILocalizationService LocalizationSettings { get; }
 
     public DisplayCulture[] Cultures { get; }
+
+    public string[] AppThemes { get; }
 
     public SettingsViewModel(
         NavigationRequest request,
@@ -23,7 +27,8 @@ public partial class SettingsViewModel
         IOptions<LocalizationConfiguration> localizationConfiguration,
         ILocalizationService localizationSettings,
         IStringLocalizer localizer,
-        IThemeService themeService)
+        IThemeService themeService,
+        IDispatcher dispatcher)
     {
         _sourceNavigator = request?.Source ?? navigator;
         _navigator = navigator;
@@ -31,6 +36,12 @@ public partial class SettingsViewModel
         _userSvc = userSvc;
         LocalizationSettings = localizationSettings;
         _themeService = themeService;
+
+        AppThemes = new string[] { localizer["SettingsFlyout_ThemeLight"], localizer["SettingsFlyout_ThemeDark"] };
+
+        _ = dispatcher.TryEnqueue(() => {
+            _isDark = _themeService.IsDark;
+        });
 
         Cultures = localizationConfiguration.Value!.Cultures!.Select(c => new DisplayCulture(localizer[$"SettingsFlyout_LanguageLabel_{c}"], c)).ToArray();
         SelectedCulture = State.Value(this, () => Cultures.FirstOrDefault(c => c.Culture == LocalizationSettings.CurrentCulture.ToString()) ?? Cultures.First());
@@ -46,6 +57,9 @@ public partial class SettingsViewModel
     [Value]
     public IState<DisplayCulture> SelectedCulture { get; }
 
+    [Value]
+    public IState<string> SelectedAppTheme => State.Value(this, () => AppThemes[_isDark ? 1 : 0]);
+
     public async ValueTask SignOut(CancellationToken ct)
     {
         var result = await _navigator.ShowMessageDialogAsync<object>(this, Dialog.ConfirmSignOut, cancellation: ct);
@@ -57,16 +71,12 @@ public partial class SettingsViewModel
         }
     }
 
-    public async ValueTask ChangeToLight(CancellationToken ct)
+    public async ValueTask ChangeAppTheme(CancellationToken ct)
     {
-        await _themeService.SetThemeAsync(AppTheme.Light);
-        WeakReferenceMessenger.Default.Send(new ThemeChangedMessage(AppTheme.Light));
-    }
-
-    public async ValueTask ChangeToDark(CancellationToken ct)
-    {
-        await _themeService.SetThemeAsync(AppTheme.Dark);
-        WeakReferenceMessenger.Default.Send(new ThemeChangedMessage(AppTheme.Dark));
+        var currentTheme = _themeService.Theme;
+        var newTheme = currentTheme == AppTheme.Dark ? AppTheme.Light : AppTheme.Dark;
+        await _themeService.SetThemeAsync(newTheme);
+        WeakReferenceMessenger.Default.Send(new ThemeChangedMessage(newTheme));
     }
 
     private async ValueTask ChangeLanguage(DisplayCulture? culture, CancellationToken ct)

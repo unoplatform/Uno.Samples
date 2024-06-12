@@ -12,6 +12,14 @@ public sealed partial class SettingsFlyout : Flyout, IRecipient<ThemeChangedMess
         WeakReferenceMessenger.Default.Register(this);
     }
 
+    private void ThemeChipGroup_ItemClick(object sender, ChipItemEventArgs e)
+    {
+        if (FlyoutControl.DataContext is BindableSettingsViewModel viewModel)
+        {
+            viewModel.ChangeAppTheme.Execute(null);
+        }
+    }
+
     void IRecipient<ThemeChangedMessage>.Receive(ThemeChangedMessage message)
     {
         // Workaround for https://github.com/unoplatform/uno/issues/15287
