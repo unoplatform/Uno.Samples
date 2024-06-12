@@ -36,9 +36,9 @@
 			<utu:AutoLayout>
 				<utu:AutoLayout utu:AutoLayout.PrimaryAlignment="Stretch">
 					<utu:NavigationBar x:Uid="SettingsFlyout_NavigationBar"
-									   Content="Settings"
-									   uen:Navigation.Request="-"
-									   Style="{StaticResource RootModalNavigationBarStyle}" />
+									    Content="Settings"
+									    uen:Navigation.Request="-"
+									    Style="{StaticResource RootModalNavigationBarStyle}" />
 					<utu:AutoLayout Padding="20,15,20,0">
 						<utu:AutoLayout Spacing="10"
 										Padding="0,0,0,10"
@@ -48,23 +48,23 @@
 											Orientation="Horizontal"
 											utu:AutoLayout.PrimaryAlignment="Stretch" />
 							<PersonPicture DisplayName="{Binding CurrentUser.Name}"
-										   ProfilePicture="{Binding ProfilePicture, Converter={StaticResource  BitmapSourceConverter}}"
-										   utu:AutoLayout.CounterAlignment="Start" />
+										    ProfilePicture="{Binding ProfilePicture, Converter={StaticResource  BitmapSourceConverter}}"
+										    utu:AutoLayout.CounterAlignment="Start" />
 							<utu:AutoLayout Spacing="10"
 											Padding="20,15,20,15"
 											Orientation="Horizontal"
 											utu:AutoLayout.PrimaryAlignment="Stretch" />
 						</utu:AutoLayout>
 						<TextBlock Foreground="{ThemeResource OnSurfaceBrush}"
-								   TextAlignment="Center"
-								   TextWrapping="Wrap"
-								   Text="{Binding CurrentUser.Name}"
-								   Style="{StaticResource TitleLarge}" />
+								    TextAlignment="Center"
+								    TextWrapping="Wrap"
+								    Text="{Binding CurrentUser.Name}"
+								    Style="{StaticResource TitleLarge}" />
 						<TextBlock Foreground="{ThemeResource OnSurfaceMediumBrush}"
-								   TextAlignment="Center"
-								   TextWrapping="Wrap"
-								   Text="{Binding CurrentUser.Email}"
-								   Style="{StaticResource BodyMedium}" />
+								    TextAlignment="Center"
+								    TextWrapping="Wrap"
+								    Text="{Binding CurrentUser.Email}"
+								    Style="{StaticResource BodyMedium}" />
 						<Button x:Uid="SettingsFlyout_SignOutButton"
 								Content="sign out"
 								Command="{Binding SignOut}"
@@ -80,23 +80,23 @@
 								<utu:Divider Style="{StaticResource DividerStyle}" />
 							</utu:AutoLayout>
 							<TextBlock x:Uid="SettingsFlyout_GeneralSection"
-									   Text="General"
-									   TextWrapping="Wrap"
-									   Foreground="{ThemeResource PrimaryBrush}"
-									   Style="{StaticResource LabelLarge}" />
+									    Text="General"
+									    TextWrapping="Wrap"
+									    Foreground="{ThemeResource PrimaryBrush}"
+									    Style="{StaticResource LabelLarge}" />
 							<utu:AutoLayout Spacing="20">
 								<!-- Commenting the Color Palette Section for now -->
 								<!-- Can be added again when it's implemented : https://github.com/unoplatform/uno.todo/issues/147 -->
 								<!--<utu:AutoLayout Spacing="5">
 							<TextBlock x:Uid="SettingsFlyout_PaletteSection"
-									   Text="Color palette"
-									   Foreground="{ThemeResource OnSurfaceBrush}"
-									   utu:AutoLayout.CounterAlignment="Start"
-									   Style="{StaticResource BodySmall}" />
+									    Text="Color palette"
+									    Foreground="{ThemeResource OnSurfaceBrush}"
+									    utu:AutoLayout.CounterAlignment="Start"
+									    Style="{StaticResource BodySmall}" />
 							<utu:ChipGroup x:Name="ColorPaletteChipGroup"
-										   SelectionMode="Single"
-										   ItemChecked="{x:Bind UpdateAppColorPalette}"
-										   Style="{StaticResource FilterChipGroupStyle}">
+										    SelectionMode="Single"
+										    ItemChecked="{x:Bind UpdateAppColorPalette}"
+										    Style="{StaticResource FilterChipGroupStyle}">
 								<utu:Chip x:Uid="SettingsFlyout_PalettePurple" Content="Purple"
 										  Style="{StaticResource FilterChipStyle}" />
 								<utu:Chip x:Uid="SettingsFlyout_PaletteBlue" Content="Blue"
@@ -107,15 +107,15 @@
 						</utu:AutoLayout>-->
 								<utu:AutoLayout Spacing="5">
 									<TextBlock x:Uid="SettingsFlyout_LanguageLabel"
-											   Foreground="{ThemeResource OnSurfaceBrush}"
-											   Text="Language"
-											   utu:AutoLayout.CounterAlignment="Start"
-											   Style="{StaticResource BodySmall}" />
+											    Foreground="{ThemeResource OnSurfaceBrush}"
+											    Text="Language"
+											    utu:AutoLayout.CounterAlignment="Start"
+											    Style="{StaticResource BodySmall}" />
 									<utu:ChipGroup x:Name="LanguageChipGroup"
-												   SelectionMode="Single"
-												   ItemsSource="{Binding Cultures}"
-												   SelectedItem="{Binding SelectedCulture, Mode=TwoWay}"
-												   Style="{StaticResource FilterChipGroupStyle}">
+												    SelectionMode="Single"
+												    ItemsSource="{Binding Cultures}"
+												    SelectedItem="{Binding SelectedCulture, Mode=TwoWay}"
+												    Style="{StaticResource FilterChipGroupStyle}">
 										<utu:ChipGroup.ItemTemplate>
 											<DataTemplate>
 												<TextBlock Text="{Binding Display}" />
@@ -123,52 +123,50 @@
 										</utu:ChipGroup.ItemTemplate>
 									</utu:ChipGroup>
 									<TextBlock x:Uid="SettingsFlyout_NoteToRestart"
-											   Foreground="{ThemeResource OnSurfaceLowBrush}"
-											   Text="Change will be applied at next app restart"
-											   utu:AutoLayout.CounterAlignment="Start"
-											   Style="{StaticResource BodyMedium}" />
+											    Foreground="{ThemeResource OnSurfaceLowBrush}"
+											    Text="Change will be applied at next app restart"
+											    utu:AutoLayout.CounterAlignment="Start"
+											    Style="{StaticResource BodyMedium}" />
 								</utu:AutoLayout>
-								<utu:AutoLayout Spacing="5">
+								<utu:AutoLayout Spacing="5"
+                                utu:AutoLayout.CounterAlignment="Start">
 									<TextBlock x:Uid="SettingsFlyout_ThemeLabel"
-											   Foreground="{ThemeResource OnSurfaceBrush}"
-											   Text="Mode"
-											   utu:AutoLayout.CounterAlignment="Start"
-											   Style="{StaticResource BodySmall}" />
-									<utu:ChipGroup x:Name="ThemeChipGroup"
-												   SelectionMode="Single"
-												   ItemsSource="{Binding AppThemes}"
-												   SelectedItem="{Binding SelectedAppTheme, Mode=TwoWay}"
-												   Style="{StaticResource FilterChipGroupStyle}">
-										<utu:ChipGroup.ItemTemplate>
-											<DataTemplate>
-												<TextBlock Text="{Binding}" />
-											</DataTemplate>
-										</utu:ChipGroup.ItemTemplate>
-									</utu:ChipGroup>
-								</utu:AutoLayout>
+											    Foreground="{ThemeResource OnSurfaceBrush}"
+											    Text="Mode"
+											    utu:AutoLayout.CounterAlignment="Start"
+											    Style="{StaticResource BodySmall}" />
+                  <!-- Using two separate buttons instead of ChipGroup to avoid having to access ThemeService.IsDark
+                        Related issue: https://github.com/unoplatform/uno.extensions/issues/2334 -->
+                  <Button x:Uid="SettingsFlyout_ThemeLight"
+                          Content="Light"
+                          Command="{Binding ChangeToLight}" />
+                  <Button x:Uid="SettingsFlyout_ThemeDark"
+                          Content="Dark"
+                          Command="{Binding ChangeToDark}" />
+                </utu:AutoLayout>
 							</utu:AutoLayout>
 							<utu:AutoLayout Spacing="5"
 											Padding="0,10,0,10">
 								<utu:Divider Style="{StaticResource DividerStyle}" />
 							</utu:AutoLayout>
 							<TextBlock x:Uid="SettingsFlyout_AboutSection"
-									   Foreground="{ThemeResource PrimaryBrush}"
-									   TextWrapping="Wrap"
-									   Text="About"
-									   Style="{StaticResource LabelLarge}" />
+									    Foreground="{ThemeResource PrimaryBrush}"
+									    TextWrapping="Wrap"
+									    Text="About"
+									    Style="{StaticResource LabelLarge}" />
 							<utu:AutoLayout Spacing="5"
 											Margin="0,0,0,24"
 											Orientation="Horizontal">
 								<TextBlock x:Uid="SettingsFlyout_VersionLabel"
-										   Text="Version"
-										   Foreground="{ThemeResource OnSurfaceBrush}"
-										   utu:AutoLayout.PrimaryAlignment="Stretch"
-										   Style="{StaticResource TitleMedium}" />
+										    Text="Version"
+										    Foreground="{ThemeResource OnSurfaceBrush}"
+										    utu:AutoLayout.PrimaryAlignment="Stretch"
+										    Style="{StaticResource TitleMedium}" />
 								<TextBlock Foreground="{ThemeResource PrimaryBrush}"
-										   TextAlignment="End"
-										   Text="1.0"
-										   utu:AutoLayout.PrimaryAlignment="Stretch"
-										   Style="{StaticResource TitleMedium}" />
+										    TextAlignment="End"
+										    Text="1.0"
+										    utu:AutoLayout.PrimaryAlignment="Stretch"
+										    Style="{StaticResource TitleMedium}" />
 							</utu:AutoLayout>
 						</utu:AutoLayout>
 					</utu:AutoLayout>

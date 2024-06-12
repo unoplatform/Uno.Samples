@@ -15,9 +15,6 @@ public partial class SettingsViewModel
 
     public DisplayCulture[] Cultures { get; }
 
-    public string[] AppThemes { get; }
-
-
     public SettingsViewModel(
         NavigationRequest request,
         INavigator navigator,
@@ -35,8 +32,6 @@ public partial class SettingsViewModel
         LocalizationSettings = localizationSettings;
         _themeService = themeService;
 
-        AppThemes = new string[] { localizer["SettingsFlyout_ThemeLight"], localizer["SettingsFlyout_ThemeDark"] };
-
         Cultures = localizationConfiguration.Value!.Cultures!.Select(c => new DisplayCulture(localizer[$"SettingsFlyout_LanguageLabel_{c}"], c)).ToArray();
         SelectedCulture = State.Value(this, () => Cultures.FirstOrDefault(c => c.Culture == LocalizationSettings.CurrentCulture.ToString()) ?? Cultures.First());
 
@@ -51,9 +46,6 @@ public partial class SettingsViewModel
     [Value]
     public IState<DisplayCulture> SelectedCulture { get; }
 
-    [Value]
-    public IState<string> SelectedAppTheme => State.Value(this, () => AppThemes[_themeService.IsDark ? 1 : 0]);
-
     public async ValueTask SignOut(CancellationToken ct)
     {
         var result = await _navigator.ShowMessageDialogAsync<object>(this, Dialog.ConfirmSignOut, cancellation: ct);
@@ -65,6 +57,18 @@ public partial class SettingsViewModel
         }
     }
 
+    public async ValueTask ChangeToLight(CancellationToken ct)
+    {
+        await _themeService.SetThemeAsync(AppTheme.Light);
+        WeakReferenceMessenger.Default.Send(new ThemeChangedMessage(AppTheme.Light));
+    }
+
+    public async ValueTask ChangeToDark(CancellationToken ct)
+    {
+        await _themeService.SetThemeAsync(AppTheme.Dark);
+        WeakReferenceMessenger.Default.Send(new ThemeChangedMessage(AppTheme.Dark));
+    }
+
     private async ValueTask ChangeLanguage(DisplayCulture? culture, CancellationToken ct)
     {
         if (culture is not null)
@@ -72,14 +76,6 @@ public partial class SettingsViewModel
             var c = LocalizationSettings.SupportedCultures.First(c => c.Name == culture.Culture);
             await LocalizationSettings.SetCurrentCultureAsync(c);
         }
-    }
-
-
-    private async ValueTask ChangeAppTheme(CancellationToken ct)
-    {
-        var currentTheme = _themeService.Theme;
-        var newTheme = currentTheme == AppTheme.Dark ? AppTheme.Light : AppTheme.Dark;
-        await _themeService.SetThemeAsync(newTheme);
     }
 
     public partial record DisplayCulture(string Display, string Culture);
