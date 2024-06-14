@@ -185,6 +185,12 @@ An implementation of the UWP `Maps` control with a custom slider that binds the 
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/MapControlSample)
 
+### Media Gallery
+
+Implementation of a class that enables saving media files into gallery on Android, iOS and Mac Catalyst.
+
+[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/MediaGallery)
+
 ### .NET MAUI Embedding
 
 Multiple samples that demonstrate third-party control libraries embedded in Uno Platform applications using .NET MAUI Embedding.
