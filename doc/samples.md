@@ -410,11 +410,33 @@ An example showing how to set up the [`Uno.Toolkit.Material`](https://github.com
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/UnoMaterialToolkitSample) | [Consult the documentation](https://aka.platform.uno/toolkit-material-getting-started)
 
-### WCT DataGrid
+### Windows Community Toolkit
 
-A dynamic grid view ported from the Windows Community Toolkit that allows for x:Bind.
+The [Windows Community Toolkit](https://learn.microsoft.com/windows/communitytoolkit/) is a collection of helper functions, custom controls, and app services. It simplifies and demonstrates common developer patterns when building experiences for Windows.
 
-[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/UnoWCTDataGridSample) | [Follow the tutorial](https://aka.platform.uno/install-uno-community-toolkit)
+> [!IMPORTANT]
+> **Here is the [Migration Guide from v7 to v8 for Windows Community Toolkit](https://github.com/CommunityToolkit/Windows/wiki/Migration-Guide-from-v7-to-v8) for additional information on what changed lately between these versions.**
+>
+> For some controls (`DataGrid`, `Carousel`, ect...) you will need to use **version 7.x** for them as they are no longer available in the latest 8.x version of Windows Community Toolkit. The complete list of changes is available in the [migration guide](https://github.com/CommunityToolkit/Windows/wiki/Migration-Guide-from-v7-to-v8).
+>
+> For additional information, here are the releases notes for Windows Community Toolkit:
+>
+> - [Release notes for version 7.x](https://github.com/CommunityToolkit/WindowsCommunityToolkit/releases)
+> - [Release notes for version 8.x](https://github.com/CommunityToolkit/Windows/releases)
+
+Depending on the version of the Windows Community Toolkit you want to use, the samples below provide examples of implementation.
+
+#### For WCT version 8.x
+
+This sample showcases the `SettingsCard` control, that can be used to display settings in your experience. It uses the default styling found in Windows 11 and is easy to use, meets all accessibility standards and will make your settings page look great!
+
+[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/WindowsCommunityToolkit/Version-8.x/UnoWCTSettingsCardSample) | [Follow the tutorial](https://aka.platform.uno/install-uno-community-toolkit)
+
+#### For WCT version 7.x
+
+This sample showcases the `DataGrid` control, a dynamic grid view ported from the Windows Community Toolkit that allows for x:Bind.
+
+[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/WindowsCommunityToolkit/Version-7.x/UnoWCTDataGridSample) | [Follow the tutorial](https://aka.platform.uno/install-uno-community-toolkit)
 
 ### WCT DataGrid, TreeView, TabView
 
