@@ -12,7 +12,7 @@ public sealed partial class SettingsFlyout : Flyout, IRecipient<ThemeChangedMess
         WeakReferenceMessenger.Default.Register(this);
     }
 
-    private void ThemeChipGroup_ItemClick(object sender, ChipItemEventArgs e)
+    private void ThemeChipGroup_ItemChecked(object sender, ChipItemEventArgs e)
     {
         if (FlyoutControl.DataContext is BindableSettingsViewModel viewModel)
         {
