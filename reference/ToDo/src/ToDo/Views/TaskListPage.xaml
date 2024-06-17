@@ -146,9 +146,9 @@
 					</VisualState.Setters>
 				</VisualState>
 				<VisualState x:Name="Wide">
-					<VisualState.StateTriggers>
-						<AdaptiveTrigger MinWindowWidth="{StaticResource WideMinWindowWidth}" />
-					</VisualState.StateTriggers>
+          <VisualState.StateTriggers>
+            <AdaptiveTrigger MinWindowWidth="{StaticResource WideMinWindowWidth}" />
+          </VisualState.StateTriggers>
 					<VisualState.Setters>
 						<Setter Target="TaskListColumn.Width" Value="*" />
 						<Setter Target="TaskListColumn.MinWidth" Value="300" />
@@ -156,19 +156,12 @@
 						<Setter Target="TaskDetailsGrid.Visibility" Value="Visible" />
 						<Setter Target="TaskDetails.(uen:Region.Attached)" Value="true" />
 					</VisualState.Setters>
-				</VisualState>
+        </VisualState>
 				<VisualState x:Name="Narrow">
-					<VisualState.StateTriggers>
-						<AdaptiveTrigger MinWindowWidth="0" />
-					</VisualState.StateTriggers>
-					<VisualState.Setters>
-						<Setter Target="TaskListColumn.Width" Value="*" />
-						<Setter Target="TaskListColumn.MinWidth" Value="300" />
-						<Setter Target="TaskColumn.Width" Value="2*" />
-						<Setter Target="TaskDetailsGrid.Visibility" Value="Collapsed" />
-						<Setter Target="TaskDetails.(uen:Region.Attached)" Value="false" />
-					</VisualState.Setters>
-				</VisualState>
+          <VisualState.StateTriggers>
+            <AdaptiveTrigger MinWindowWidth="0" />
+          </VisualState.StateTriggers>
+        </VisualState>
 			</VisualStateGroup>
 		</VisualStateManager.VisualStateGroups>
 
