@@ -6,6 +6,10 @@ internal record ThemeChangedMessage(AppTheme Theme)
 
 public sealed partial class SettingsFlyout : Flyout, IRecipient<ThemeChangedMessage>
 {
+#if ANDROID
+    private bool _isThemeInitialized = false;
+#endif
+
 	public SettingsFlyout()
 	{
 		this.InitializeComponent();
@@ -16,7 +20,15 @@ public sealed partial class SettingsFlyout : Flyout, IRecipient<ThemeChangedMess
     {
         if (FlyoutControl.DataContext is BindableSettingsViewModel viewModel)
         {
+#if ANDROID
+            if (_isThemeInitialized)
+            {
+                viewModel.ChangeAppTheme.Execute(null);
+            }
+            _isThemeInitialized = true;
+#else
             viewModel.ChangeAppTheme.Execute(null);
+#endif
         }
     }
 
