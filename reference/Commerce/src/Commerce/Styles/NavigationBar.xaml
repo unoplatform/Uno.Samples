@@ -1,0 +1,24 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+					xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+					xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+					xmlns:utu="using:Uno.Toolkit.UI">
+
+	<Style x:Key="PrimaryAppBarButtonStyle"
+		   BasedOn="{StaticResource MaterialAppBarButtonStyle}"
+		   TargetType="AppBarButton">
+		<Setter Property="Foreground" Value="{ThemeResource OnPrimaryBrush}" />
+	</Style>
+
+	<Style x:Key="PrimaryNavigationBarStyle"
+		   BasedOn="{StaticResource MaterialNavigationBarStyle}"
+		   TargetType="utu:NavigationBar">
+		<Setter Property="Background" Value="{ThemeResource PrimaryBrush}" />
+		<Setter Property="Foreground" Value="{ThemeResource OnPrimaryBrush}" />
+		<Setter Property="MainCommandStyle" Value="{StaticResource PrimaryAppBarButtonStyle}" />
+  </Style>
+
+	<Style TargetType="utu:NavigationBar"
+		   BasedOn="{StaticResource PrimaryNavigationBarStyle}" />
+	<Style TargetType="AppBarButton"
+		   BasedOn="{StaticResource PrimaryAppBarButtonStyle}" />
+</ResourceDictionary>
