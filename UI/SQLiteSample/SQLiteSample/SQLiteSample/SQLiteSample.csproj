@@ -1,0 +1,64 @@
+<Project Sdk="Uno.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>
+      net8.0-android;
+      net8.0-ios;
+      net8.0-maccatalyst;
+      net8.0-windows10.0.19041;
+      net8.0-desktop;
+      net8.0-browserwasm;
+    </TargetFrameworks>
+
+    <OutputType>Exe</OutputType>
+    <UnoSingleProject>true</UnoSingleProject>
+
+    <!-- Display name -->
+    <ApplicationTitle>SQLiteSample</ApplicationTitle>
+    <!-- App Identifier -->
+    <ApplicationId>com.companyname.sqlitesample</ApplicationId>
+    <!-- Versions -->
+    <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
+    <ApplicationVersion>1</ApplicationVersion>
+    <!--
+      If you encounter this error message:
+
+        error NETSDK1148: A referenced assembly was compiled using a newer version of Microsoft.Windows.SDK.NET.dll.
+        Please update to a newer .NET SDK in order to reference this assembly.
+
+      This means that the two packages below must be aligned with the "build" version number of
+      the "Microsoft.Windows.SDK.BuildTools" package above, and the "revision" version number
+      must be the highest found in https://www.nuget.org/packages/Microsoft.Windows.SDK.NET.Ref.
+    -->
+    <!-- <WindowsSdkPackageVersion>10.0.22621.28</WindowsSdkPackageVersion> -->
+
+    <!--
+      UnoFeatures let's you quickly add and manage implicit package references based on the features you want to use.
+      https://aka.platform.uno/singleproject-features
+    -->
+    <UnoFeatures>
+    </UnoFeatures>
+  </PropertyGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)'=='net8.0-browserwasm'">
+    <!-- Wasm-->
+    <PackageReference Include="Uno.sqlite-wasm" />
+    <PackageReference Include="Uno.SQLitePCLRaw.provider.wasm" />
+    <PackageReference Include="SQLitePCLRaw.bundle_green" IncludeAssets="none" />
+    <PackageReference Include="SQLitePCLRaw.bundle_sqlite3" />
+    <PackageReference Include="SQLitePCLRaw.provider.sqlite3" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)'=='net8.0-ios' OR '$(TargetFramework)'=='net8.0-android' OR '$(TargetFramework)'=='net8.0-maccatalyst'">
+    <PackageReference Include="SQLitePCLRaw.bundle_green" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="sqlite-net-pcl" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <WasmShellMonoEnvironment Include="MONO_GC_PARAMS" Value="soft-heap-limit=512m,nursery-size=64m,evacuation-threshold=66,major=marksweep" />
+    <WasmShellMonoEnvironment Include="MONO_LOG_LEVEL" Value="debug" />
+    <WasmShellMonoEnvironment Include="MONO_LOG_MASK" Value="all" />
+  </ItemGroup>
+</Project>
