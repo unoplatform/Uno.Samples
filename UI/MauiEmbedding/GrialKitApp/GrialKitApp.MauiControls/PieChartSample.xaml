@@ -4,42 +4,40 @@
              x:Class="GrialKitApp.MauiControls.PieChartSample"
              xmlns:grial="http://uxdivers.com/grial"
              Title="PieChartSample">
- <ContentPage.Resources>
-		<!-- TODO: Uncomment -->
-		<!--<grial:ChartTheme x:Key="PieTheme">
-            <SolidColorBrush Color="#F9B300" />
-            <SolidColorBrush Color="#FF602E" />
-            <SolidColorBrush Color="#B146C2" />
-            <SolidColorBrush Color="#5AC8FA" />
-            <SolidColorBrush Color="#46C771" />
-            <SolidColorBrush Color="#3F75FF" />
-        </grial:ChartTheme>-->
-    </ContentPage.Resources>
+  <ContentPage.Resources>
+    <grial:ChartTheme x:Key="PieTheme">
+      <SolidColorBrush Color="#F9B300" />
+      <SolidColorBrush Color="#FF602E" />
+      <SolidColorBrush Color="#B146C2" />
+      <SolidColorBrush Color="#5AC8FA" />
+      <SolidColorBrush Color="#46C771" />
+      <SolidColorBrush Color="#3F75FF" />
+    </grial:ChartTheme>
+  </ContentPage.Resources>
 
-    <VerticalStackLayout Padding="30">
+  <VerticalStackLayout Padding="30">
 
-		<Label Text="PieChart (Search for TODO and uncomment code)" />
-		<!-- TODO: Uncomment -->
-		<!--<grial:PieChart
-            x:Name="chart"
-            HeightRequest="400"
-            BackgroundColor="Transparent"
-            IsAnimated="False"
-            LabelFontColor="DimGray"
-            LabelFontSize="12"
-            StrokeSize="0"
-            Theme="{ StaticResource PieTheme }">
+    <Label Text="PieChart (Search for TODO and uncomment code)" />
+    <grial:PieChart x:Name="chart"
+                    HeightRequest="400"
+                    BackgroundColor="Transparent"
+                    IsAnimated="False"
+                    LabelFontColor="DimGray"
+                    LabelFontSize="12"
+                    StrokeSize="0"
+                    Theme="{ StaticResource PieTheme }">
 
-            <grial:PieSeries
-                InnerRadius="{ Binding Value, Source={x:Reference radius} }"
-                ItemsSource="{ Binding . }"
-                Radius="120"
-                ValuePath="Value"
-            />
-        </grial:PieChart>-->
+      <grial:PieSeries InnerRadius="{ Binding Value, Source={x:Reference radius} }"
+                       ItemsSource="{ Binding . }"
+                       Radius="120"
+                       ValuePath="Value" />
+    </grial:PieChart>
 
-        <Label Text="{Binding Value, Source={x:Reference radius}, StringFormat='InnerRadius: {0:F2}'}" />
-        <Slider Maximum=".9" Minimum="0" Value="0.8" x:Name="radius" />
+    <Label Text="{Binding Value, Source={x:Reference radius}, StringFormat='InnerRadius: {0:F2}'}" />
+    <Slider Maximum=".9"
+            Minimum="0"
+            Value="0.8"
+            x:Name="radius" />
 
-    </VerticalStackLayout>
+  </VerticalStackLayout>
 </ContentPage>
