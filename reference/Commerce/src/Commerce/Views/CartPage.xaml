@@ -18,9 +18,18 @@
 		<x:String x:Key="Icon_Remove">F1 M 14 2 L 0 2 L 0 0 L 14 0 L 14 2 Z</x:String>
 	</Page.Resources>
 
-	<utu:AutoLayout Background="{ThemeResource BackgroundBrush}">
+<utu:AutoLayout Background="{ThemeResource BackgroundBrush}">
 		<utu:NavigationBar Content="Your Cart"
-						   x:Uid="Cart_Navigation_Bar" />
+										   x:Uid="Cart_Navigation_Bar">
+			<utu:NavigationBar.MainCommand>
+				<AppBarButton>
+					<AppBarButton.Icon>
+						<BitmapIcon UriSource="ms-appx:///Assets/Icons/close.png" />
+					</AppBarButton.Icon>
+				</AppBarButton>
+			</utu:NavigationBar.MainCommand>
+		</utu:NavigationBar>
+
 		<uer:FeedView Source="{Binding Cart}"
 					  utu:AutoLayout.PrimaryAlignment="Stretch">
 			<DataTemplate>
@@ -200,7 +209,7 @@
 								</utu:AutoLayout>
 							</utu:AutoLayout>
 							<utu:AutoLayout Padding="16,16,16,16">
-								<Button Content="checkout"
+								<Button Content="Checkout"
 										uen:Navigation.Request="Checkout"
 										utu:AutoLayout.PrimaryLength="40"
 										Style="{StaticResource FilledButtonStyle}"

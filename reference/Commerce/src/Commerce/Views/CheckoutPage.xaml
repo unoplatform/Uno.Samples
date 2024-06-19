@@ -15,7 +15,15 @@
 			<RowDefinition Height="Auto" />
 			<RowDefinition />
 		</Grid.RowDefinitions>
-		<utu:NavigationBar Content="Checkout" />
+		<utu:NavigationBar Content="Checkout">
+			<utu:NavigationBar.MainCommand>
+				<AppBarButton>
+					<AppBarButton.Icon>
+						<BitmapIcon UriSource="ms-appx:///Assets/Icons/back.png" />
+					</AppBarButton.Icon>
+				</AppBarButton>
+			</utu:NavigationBar.MainCommand>
+		</utu:NavigationBar>
 		<StackPanel Grid.Row="1">
 			<TextBlock Text="Checkout"
 					   FontSize="32"

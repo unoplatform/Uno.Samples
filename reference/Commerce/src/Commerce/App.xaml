@@ -11,6 +11,8 @@
       <ResourceDictionary.MergedDictionaries>
         <!-- Load WinUI resources -->
         <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
+
+        <!-- Load Material Toolkit resources -->
         <utum:MaterialToolkitTheme ColorOverrideSource="ms-appx:///Styles/ColorPaletteOverride.xaml">
           <!-- NOTE: You can override the default Roboto font by providing your font assets here. -->
           <!-- <utum:MaterialToolkitTheme.FontOverrideDictionary>
@@ -21,9 +23,13 @@
             </ResourceDictionary>
           </utum:MaterialToolkitTheme.FontOverrideDictionary> -->
         </utum:MaterialToolkitTheme>
+
+        <!-- Application's custom styles -->
         <ResourceDictionary Source="ms-appx:///Styles/NavigationBar.xaml" />
       </ResourceDictionary.MergedDictionaries>
+      
       <x:Double x:Key="LandscapeMaxPageWidth">500</x:Double>
+      
     </ResourceDictionary>
   </Application.Resources>
 
