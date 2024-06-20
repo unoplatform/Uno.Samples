@@ -1,4 +1,4 @@
-﻿namespace ToDo.Business.Services;
+namespace ToDo.Business;
 
 public interface IAuthenticationService: IAuthenticationTokenProvider
 {

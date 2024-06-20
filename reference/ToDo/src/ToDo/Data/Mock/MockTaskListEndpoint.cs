@@ -1,9 +1,9 @@
-﻿namespace ToDo.Data.Mock;
+namespace ToDo.Data.Mock;
 
 public class MockTaskListEndpoint : ITaskListEndpoint
 {
-	private const string ListDataFile = "Mock/lists.json";
-	private const string TasksDataFile = "Mock/tasks.json";
+	private const string ListDataFile = "Assets/lists.json";
+	private const string TasksDataFile = "Assets/tasks.json";
 
 
 	private readonly ISerializer<TaskListData> _listSerializer;
@@ -50,7 +50,7 @@ public class MockTaskListEndpoint : ITaskListEndpoint
 	{
 		if (allTasks is null)
 		{
-			allTasks = (await _dataService.ReadPackageFileAsync<TaskData[]>(_taskSerializer, TasksDataFile))!.ToList();
+            allTasks = (await _dataService.ReadPackageFileAsync<TaskData[]>(_taskSerializer, TasksDataFile))!.ToList();
 		}
 		return allTasks;
 	}

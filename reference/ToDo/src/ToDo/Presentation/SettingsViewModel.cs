@@ -1,5 +1,5 @@
 using Dialog = ToDo.Presentation.Dialogs.Dialog;
-using IAuthenticationService = ToDo.Business.Services.IAuthenticationService;
+using IAuthenticationService = ToDo.Business.IAuthenticationService;
 
 namespace ToDo.Presentation;
 
@@ -9,15 +9,15 @@ public partial class SettingsViewModel
     private readonly IUserProfilePictureService _userSvc;
     private readonly INavigator _sourceNavigator;
     private readonly INavigator _navigator;
-    private IAppTheme _appTheme;
-    private IWritableOptions<ToDoApp> _appSettings;
+    private readonly IThemeService _themeService;
+
+    private bool _isDark;
 
     public ILocalizationService LocalizationSettings { get; }
 
     public DisplayCulture[] Cultures { get; }
 
     public string[] AppThemes { get; }
-
 
     public SettingsViewModel(
         NavigationRequest request,
@@ -27,24 +27,24 @@ public partial class SettingsViewModel
         IOptions<LocalizationConfiguration> localizationConfiguration,
         ILocalizationService localizationSettings,
         IStringLocalizer localizer,
-        IAppTheme appTheme,
-        IWritableOptions<ToDoApp> appSettings)
+        IThemeService themeService,
+        IDispatcher dispatcher)
     {
         _sourceNavigator = request?.Source ?? navigator;
         _navigator = navigator;
         _authService = authService;
         _userSvc = userSvc;
         LocalizationSettings = localizationSettings;
-        _appTheme = appTheme;
-        _appSettings = appSettings;
+        _themeService = themeService;
 
         AppThemes = new string[] { localizer["SettingsFlyout_ThemeLight"], localizer["SettingsFlyout_ThemeDark"] };
-        SelectedAppTheme = State.Value(this, () => AppThemes[appTheme.IsDark ? 1 : 0]);
 
-        SelectedAppTheme.Execute(ChangeAppTheme);
+        _ = dispatcher.TryEnqueue(() => {
+            _isDark = _themeService.IsDark;
+        });
 
         Cultures = localizationConfiguration.Value!.Cultures!.Select(c => new DisplayCulture(localizer[$"SettingsFlyout_LanguageLabel_{c}"], c)).ToArray();
-        SelectedCulture = State.Value(this, () => Cultures.FirstOrDefault(c => c.Culture == LocalizationSettings.CurrentCulture.Name) ?? Cultures.First());
+        SelectedCulture = State.Value(this, () => Cultures.FirstOrDefault(c => c.Culture == LocalizationSettings.CurrentCulture.ToString()) ?? Cultures.First());
 
         SelectedCulture.Execute(ChangeLanguage);
     }
@@ -58,8 +58,7 @@ public partial class SettingsViewModel
     public IState<DisplayCulture> SelectedCulture { get; }
 
     [Value]
-    public IState<string> SelectedAppTheme { get; }
-
+    public IState<string> SelectedAppTheme => State.Value(this, () => AppThemes[_isDark ? 1 : 0]);
 
     public async ValueTask SignOut(CancellationToken ct)
     {
@@ -72,23 +71,20 @@ public partial class SettingsViewModel
         }
     }
 
+    public async ValueTask ChangeAppTheme(CancellationToken ct)
+    {
+        var currentTheme = _themeService.Theme;
+        var newTheme = currentTheme == AppTheme.Dark ? AppTheme.Light : AppTheme.Dark;
+        await _themeService.SetThemeAsync(newTheme);
+        WeakReferenceMessenger.Default.Send(new ThemeChangedMessage(newTheme));
+    }
+
     private async ValueTask ChangeLanguage(DisplayCulture? culture, CancellationToken ct)
     {
         if (culture is not null)
         {
             var c = LocalizationSettings.SupportedCultures.First(c => c.Name == culture.Culture);
             await LocalizationSettings.SetCurrentCultureAsync(c);
-        }
-    }
-
-
-    private async ValueTask ChangeAppTheme(string? appTheme, CancellationToken ct)
-    {
-        if (appTheme is { Length: > 0 })
-        {
-            var isDark = Array.IndexOf(AppThemes, appTheme) == 1;
-            await _appTheme.SetThemeAsync(isDark);
-            await _appSettings.UpdateAsync(s => s with { IsDark = isDark });
         }
     }
 
