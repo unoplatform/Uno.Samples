@@ -10,13 +10,13 @@ public sealed partial class SettingsFlyout : Flyout, IRecipient<ThemeChangedMess
     private bool _isThemeInitialized = false;
 #endif
 
-	public SettingsFlyout()
-	{
-		this.InitializeComponent();
+    public SettingsFlyout()
+    {
+        this.InitializeComponent();
         WeakReferenceMessenger.Default.Register(this);
     }
 
-    private void ThemeChipGroup_ItemChecked(object sender, ChipItemEventArgs e)
+    private void ThemeChipGroup_ItemClick(object sender, ChipItemEventArgs e)
     {
         if (FlyoutControl.DataContext is BindableSettingsViewModel viewModel)
         {
@@ -40,7 +40,7 @@ public sealed partial class SettingsFlyout : Flyout, IRecipient<ThemeChangedMess
         {
             try
             {
-                FlyoutRoot.RequestedTheme = message.Theme == AppTheme.Light ? ElementTheme.Light : ElementTheme.Dark;
+                FlyoutControl.RequestedTheme = message.Theme == AppTheme.Light ? ElementTheme.Light : ElementTheme.Dark;
             }
             catch (Exception)
             {
