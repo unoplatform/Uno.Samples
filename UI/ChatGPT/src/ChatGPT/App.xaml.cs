@@ -42,17 +42,15 @@ public partial class App : Application
 				{
 					var section = context.Configuration.GetSection(nameof(AppConfig));
 					var apiKey = section[nameof(AppConfig.ApiKey)];
-					var useMockService = apiKey is null or { Length: 0 };
 
-					if (useMockService)
+					if (apiKey is null or { Length: 0 })
 					{
 						services.AddSingleton<IChatService, MockChatService>();
 					}
 					else
 					{
 						services
-							.AddSingleton<OpenAiOptions, ChatAiOptions>()
-							.AddSingleton<IChatCompletionService, OpenAIService>()
+							.AddSingleton(new ChatClient("gpt-3.5-turbo", apiKey))
 							.AddSingleton<IChatService, ChatService>();
 					}
 

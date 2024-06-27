@@ -1,39 +1,37 @@
-﻿using ChatGPT.Business;
-using OpenAI.Interfaces;
-using OpenAI.ObjectModels;
-using OpenAI.ObjectModels.RequestModels;
-using OpenAI.ObjectModels.ResponseModels;
+﻿using System.ClientModel;
 using System.Runtime.CompilerServices;
 using System.Text;
 
 namespace ChatGPT.Services;
-public class ChatService(IChatCompletionService client) : IChatService
+public class ChatService : IChatService
 {
-	private readonly IChatCompletionService _client = client;
-
 	private const string systemPrompt = "You are Uno ChatGPT Sample, a helpful assistant helping users to learn more about how to develop using Uno Platform.";
+
+	private readonly ChatClient _client;
+
+	public ChatService(ChatClient client)
+	{
+		_client = client;
+	}
 
 	public async ValueTask<ChatResponse> AskAsync(ChatRequest chatRequest, CancellationToken ct = default)
 	{
 		try
 		{
 			var request = ToCompletionRequest(chatRequest);
-			var result = await _client.CreateCompletion(request, cancellationToken: ct);
+			ChatCompletion result = await _client.CompleteChatAsync(request);
 
-			if (result.Successful)
+			return result.FinishReason switch
 			{
-				var response = result.Choices.Select(choice => choice.Message.Content);
-
-				return new ChatResponse(string.Join("", response));
-			}
-			else
-			{
-				return new ChatResponse(result.Error?.Message, IsError: true);
-			}
+				ChatFinishReason.Stop => new ChatResponse(result.ToString()),
+				ChatFinishReason.Length => new ChatResponse("Incomplete model output due to MaxTokens parameter or token limit exceeded.", IsError: true),
+				ChatFinishReason.ContentFilter => new ChatResponse("Omitted content due to a content filter flag.", IsError: true),
+				_ => new ChatResponse(result.FinishReason.ToString())
+			};
 		}
-		catch (Exception)
+		catch (Exception ex)
 		{
-			return new ChatResponse(IsError: true);
+			return new ChatResponse($"Something went wrong: {ex.Message}", IsError: true);
 		}
 	}
 
@@ -43,56 +41,46 @@ public class ChatService(IChatCompletionService client) : IChatService
 		var response = new ChatResponse();
 		var content = new StringBuilder();
 
-		IAsyncEnumerator<ChatCompletionCreateResponse>? responseStream = default;
+		IAsyncEnumerator<StreamingChatCompletionUpdate>? responseStream = default;
+
 		while (!response.IsError)
 		{
 			try
 			{
-				responseStream ??= _client.CreateCompletionAsStream(request).GetAsyncEnumerator(ct);
+				responseStream ??= _client.CompleteChatStreamingAsync(request).GetAsyncEnumerator(ct);
+
 				if (await responseStream.MoveNextAsync())
 				{
-					if (responseStream.Current.Successful)
+					foreach (var updatePart in responseStream.Current.ContentUpdate)
 					{
-						foreach (var choice in responseStream.Current.Choices)
-						{
-							content.Append(choice.Message.Content);
-						}
-						response = response with { Message = content.ToString() };
+						content.Append(updatePart.Text);
 					}
-					else
-					{
-						response = response with { Message = responseStream.Current.Error?.Message, IsError = true };
-					}
+
+					response = response with { Message = content.ToString() };
 				}
 				else
 				{
 					yield break;
 				}
 			}
-			catch (Exception)
+			catch (Exception ex)
 			{
-				response = response with { IsError = true };
+				response = response with { Message = $"Something went wrong: {ex.Message}", IsError = true };
 			}
 
 			yield return response;
 		}
 	}
 
-	private ChatCompletionCreateRequest ToCompletionRequest(ChatRequest request)
-	{
-		var history = request.History;
-		var requestMessages = new List<ChatMessage>(history.Count + 1)
-		{
-			ChatMessage.FromSystem(systemPrompt)
-		};
-		requestMessages.AddRange(history.Select(entry => entry.IsUser
-			? ChatMessage.FromUser(entry.Message)
-			: ChatMessage.FromAssistant(entry.Message)));
+	private ChatMessage[] ToCompletionRequest(ChatRequest request)
+		=> request.History
+			.Select(ConvertMessage)
+			.Prepend(ChatMessage.CreateSystemMessage(systemPrompt))
+			.ToArray();
+	
 
-		return new ChatCompletionCreateRequest()
-		{
-			Messages = requestMessages,
-			Model = Models.Gpt_3_5_Turbo
-		};
-	}
+	private ChatMessage ConvertMessage(ChatEntry entry)
+		=> entry.IsUser
+			? ChatMessage.CreateUserMessage(entry.Message)
+			: ChatMessage.CreateAssistantMessage(entry.Message);
 }

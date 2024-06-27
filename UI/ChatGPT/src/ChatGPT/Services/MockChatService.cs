@@ -1,5 +1,4 @@
-﻿using ChatGPT.Business;
-using System.Runtime.CompilerServices;
+﻿using System.Runtime.CompilerServices;
 using System.Text;
 
 namespace ChatGPT.Services;
