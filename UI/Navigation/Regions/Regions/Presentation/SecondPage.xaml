@@ -1,0 +1,41 @@
+﻿<Page x:Class="Regions.Presentation.SecondPage"
+	  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	  xmlns:local="using:Regions.Presentation"
+	  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	  xmlns:uen="using:Uno.Extensions.Navigation.UI"
+	  xmlns:um="using:Uno.Material"
+	  xmlns:utu="using:Uno.Toolkit.UI"
+	  Background="{ThemeResource BackgroundBrush}">
+
+	<Grid x:Name="ParentGrid">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition />
+		</Grid.RowDefinitions>
+		<utu:NavigationBar Content="Second Page" />
+
+		<Grid Grid.Row="1">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="*" />
+				<ColumnDefinition Width="*" />
+			</Grid.ColumnDefinitions>
+			<Grid>
+				<Button uen:Navigation.Request="Fourth" Content="Fourth" />
+
+			</Grid>
+			<Grid x:Name="DetailsGrid"
+				  Grid.Column="1"
+				  Background="LightPink">
+				<ContentControl x:Name="Details"
+								Grid.Column="1"
+								HorizontalAlignment="Stretch"
+								VerticalAlignment="Stretch"
+								HorizontalContentAlignment="Stretch"
+								VerticalContentAlignment="Stretch"
+								uen:Region.Attached="True" />
+			</Grid>
+		</Grid>
+	</Grid>
+</Page>

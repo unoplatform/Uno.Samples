@@ -1,0 +1,49 @@
+﻿<Page x:Class="Regions.Presentation.MainPage"
+	  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	  xmlns:local="using:Regions.Presentation"
+	  xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+	  xmlns:uen="using:Uno.Extensions.Navigation.UI"
+	  xmlns:um="using:Uno.Material"
+	  xmlns:utu="using:Uno.Toolkit.UI"
+	  Background="{ThemeResource BackgroundBrush}"
+	  NavigationCacheMode="Required">
+
+	<Grid utu:SafeArea.Insets="VisibleBounds">
+
+		<muxc:NavigationView Grid.Row="1"
+							 uen:Region.Attached="True"
+							 IsBackButtonVisible="Collapsed"
+							 IsPaneOpen="True"
+							 IsSettingsVisible="False"
+							 OpenPaneLength="200"
+							 PaneDisplayMode="Auto">
+			<muxc:NavigationView.MenuItems>
+
+				<muxc:NavigationViewItem uen:Region.Name="First" Content="First Page">
+					<muxc:NavigationViewItem.Icon>
+						<SymbolIcon Symbol="Accept" />
+					</muxc:NavigationViewItem.Icon>
+				</muxc:NavigationViewItem>
+
+				<muxc:NavigationViewItem uen:Region.Name="Second" Content="Second Page">
+					<muxc:NavigationViewItem.Icon>
+						<SymbolIcon Symbol="Share" />
+					</muxc:NavigationViewItem.Icon>
+				</muxc:NavigationViewItem>
+
+				<muxc:NavigationViewItem uen:Region.Name="Third" Content="Third Page">
+					<muxc:NavigationViewItem.Icon>
+						<SymbolIcon Symbol="OutlineStar" />
+					</muxc:NavigationViewItem.Icon>
+				</muxc:NavigationViewItem>
+
+			</muxc:NavigationView.MenuItems>
+
+			<Grid x:Name="NavigationGrid"
+				  Grid.Column="1"
+				  uen:Region.Attached="True"
+				  uen:Region.Navigator="Visibility" />
+		</muxc:NavigationView>
+	</Grid>
+</Page>
