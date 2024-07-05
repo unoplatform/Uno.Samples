@@ -5,39 +5,29 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:uen="using:Uno.Extensions.Navigation.UI"
         xmlns:utu="using:Uno.Toolkit.UI"
-        xmlns:controls="using:ToDo.Controls"
         Placement="Full"
         LightDismissOverlayMode="On"
         FlyoutPresenterStyle="{StaticResource FlyoutPresenterStyle}">
 
-  <UserControl x:Name="FlyoutControl">
-    <Grid x:Name="FlyoutRoot"
-          Background="{ThemeResource SurfaceBrush}">
-      <VisualStateManager.VisualStateGroups>
-        <VisualStateGroup>
-          <VisualState x:Name="Wide">
-            <VisualState.StateTriggers>
-              <AdaptiveTrigger MinWindowWidth="{StaticResource WideMinWindowWidth}" />
-            </VisualState.StateTriggers>
-            <VisualState.Setters>
-              <Setter Target="FlyoutRoot.MinWidth"
-                      Value="500" />
-              <Setter Target="FlyoutRoot.CornerRadius"
-                      Value="28" />
-              <Setter Target="FlyoutRoot.HorizontalAlignment"
-                      Value="Center" />
-              <Setter Target="FlyoutRoot.VerticalAlignment"
-                      Value="Center" />
-            </VisualState.Setters>
-          </VisualState>
-        </VisualStateGroup>
-      </VisualStateManager.VisualStateGroups>
+    <Border x:Name="FlyoutRoot"
+            Background="{ThemeResource SurfaceBrush}"
+            MinWidth="{utu:Responsive Narrow=0, Wide=500}"
+            CornerRadius="{utu:Responsive Narrow=0, Wide=28}"
+            HorizontalAlignment="{utu:Responsive Narrow=Stretch, Wide=Center}"
+            VerticalAlignment="{utu:Responsive Narrow=Stretch, Wide=Center}">
 
       <utu:AutoLayout>
         <utu:NavigationBar x:Uid="SettingsFlyout_NavigationBar"
                            Content="Settings"
-                           uen:Navigation.Request="-"
-                           Style="{StaticResource RootModalNavigationBarStyle}" />
+                           uen:Navigation.Request="-">
+          <utu:NavigationBar.MainCommand>
+            <AppBarButton Foreground="{ThemeResource OnSurfaceBrush}">
+              <AppBarButton.Icon>
+                <BitmapIcon UriSource="ms-appx:///Assets/Icons/close.png" />
+              </AppBarButton.Icon>
+            </AppBarButton>
+          </utu:NavigationBar.MainCommand>
+        </utu:NavigationBar>
         <utu:AutoLayout Spacing="12"
                         Margin="20,10,20,0">
           <utu:AutoLayout PrimaryAxisAlignment="Center"
@@ -45,7 +35,9 @@
             <PersonPicture DisplayName="{Binding CurrentUser.Name}"
                            ProfilePicture="{Binding ProfilePicture, Converter={StaticResource BitmapSourceConverter}}"
                            Width="60"
-                           Height="60" />
+                           Height="60"
+                           Background="{ThemeResource PrimaryBrush}"
+                           Foreground="{ThemeResource SurfaceBrush}" />
           </utu:AutoLayout>
           <utu:AutoLayout>
             <TextBlock Text="{Binding CurrentUser.Name}"
@@ -147,6 +139,6 @@
           </utu:AutoLayout>
         </utu:AutoLayout>
       </utu:AutoLayout>
-    </Grid>
-  </UserControl>
+    </Border>
+
 </Flyout>

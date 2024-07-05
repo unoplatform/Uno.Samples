@@ -1,5 +1,3 @@
-﻿
-
 using Dialog = ToDo.Presentation.Dialogs.Dialog;
 
 namespace ToDo.Presentation;
