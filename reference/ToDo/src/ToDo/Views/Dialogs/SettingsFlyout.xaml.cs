@@ -10,15 +10,15 @@ public sealed partial class SettingsFlyout : Flyout, IRecipient<ThemeChangedMess
     private bool _isThemeInitialized = false;
 #endif
 
-	public SettingsFlyout()
-	{
-		this.InitializeComponent();
+    public SettingsFlyout()
+    {
+        this.InitializeComponent();
         WeakReferenceMessenger.Default.Register(this);
     }
 
     private void ThemeChipGroup_ItemChecked(object sender, ChipItemEventArgs e)
     {
-        if (FlyoutControl.DataContext is BindableSettingsViewModel viewModel)
+        if (FlyoutRoot.DataContext is BindableSettingsViewModel viewModel)
         {
 #if ANDROID
             if (_isThemeInitialized)
