@@ -4,8 +4,10 @@ The [Windows Community Toolkit](https://learn.microsoft.com/windows/communitytoo
 
 Depending on the version of the Windows Community Toolkit you want to use, the samples below provide examples of implementation:
 
-- **[For WCT version 8.x](Version-8.x/UnoWCTSettingsCardSample):** This sample showcases the `SettingsCard` control, but the same implementation can be followed for any of the Windows Community Toolkit components supported out of the box.
-- **[For WCT version 7.x](Version-7.x/UnoWCTDataGridSample):** This sample showcases the `DataGrid` control, but the same implementation can be followed for any of the Uno ported Windows Community Toolkit components.
+- **[For WCT version 8.x](Version-8.x/UnoWCTSettingsCardSample):** This sample showcases the `SettingsCard` control, but the same implementation can be followed for **other\*** Windows Community Toolkit components supported out of the box.
+- **[For WCT version 7.x](Version-7.x/UnoWCTDataGridSample):** This sample showcases the `DataGrid` control, but the same implementation can be followed for **other\*** Uno ported Windows Community Toolkit components.
+
+**\* See the [non-Windows platform compatibility](https://aka.platform.uno/install-uno-community-toolkit#non-windows-platform-compatibility) documentation for more details.**
 
 > [!NOTE]
 > For more details on how to use Windows Community Toolkit, complete tutorials are available [here](https://aka.platform.uno/install-uno-community-toolkit).
