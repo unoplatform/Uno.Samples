@@ -8,6 +8,5 @@ public class ShellViewModel
         INavigator navigator)
     {
         _navigator = navigator;
-        // Add code here to initialize or attach event handlers to singleton services
     }
 }

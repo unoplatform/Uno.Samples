@@ -15,8 +15,4 @@ public partial class MainViewModel : ObservableObject
     }
     public string? Title { get; }
 
-    public ICommand GoToSecond { get; }
-
-    
-
 }
