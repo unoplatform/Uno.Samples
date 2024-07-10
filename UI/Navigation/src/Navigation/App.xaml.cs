@@ -48,7 +48,9 @@ public partial class App : Application
 			new ViewMap(ViewModel: typeof(ShellViewModel)),
 			new ViewMap<MainPage, MainViewModel>(),
 			new ViewMap<PageNavigation>(),
-			new ViewMap<SamplePage>()
+			new ViewMap<SamplePage>(),
+			new ViewMap<CControlNavigationPage>(),
+			new DataViewMap<CControlRightPage, CControlRightViewModel, Entity>()
 		);
 
 		routes.Register(
@@ -58,8 +60,19 @@ public partial class App : Application
 					new ("Main", View: views.FindByViewModel<MainViewModel>(),
 						Nested:
 						[
+							#region Page Navigation
+
 							new ("PageNavigation", View: views.FindByView<PageNavigation>(), IsDefault: true),
-							new ("Sample", View: views.FindByView<SamplePage>(), DependsOn: "PageNavigation")
+							new ("Sample", View: views.FindByView<SamplePage>(), DependsOn: "PageNavigation"),
+
+							#endregion
+
+							#region ContentControl Navigation
+
+							new ("CControlNavigation", View: views.FindByView<CControlNavigationPage>()),
+							new ("CControlRight", View: views.FindByView<CControlRightPage>(), DependsOn: "CControlNavigation")
+
+							#endregion
 						]
 					)
 				]

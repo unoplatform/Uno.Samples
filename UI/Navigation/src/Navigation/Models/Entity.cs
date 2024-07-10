@@ -1,3 +1,11 @@
 namespace Navigation.Models;
 
-public record Entity(string Name);
+public class Entity
+{
+	public string? Name { get; set; }
+
+	public Entity(string name)
+	{
+		Name = name;
+	}
+}
