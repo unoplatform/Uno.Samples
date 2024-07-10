@@ -50,7 +50,9 @@ public partial class App : Application
 			new ViewMap<PageNavigation>(),
 			new ViewMap<SamplePage>(),
 			new ViewMap<CControlNavigationPage>(),
-			new DataViewMap<CControlRightPage, CControlRightViewModel, Entity>()
+			new DataViewMap<CControlRightPage, CControlRightViewModel, Entity>(),
+			new ViewMap<TabBarNavigationPage>(),
+			new ViewMap<TabBarItem3>()
 		);
 
 		routes.Register(
@@ -61,17 +63,24 @@ public partial class App : Application
 						Nested:
 						[
 							#region Page Navigation
-
 							new ("PageNavigation", View: views.FindByView<PageNavigation>(), IsDefault: true),
 							new ("Sample", View: views.FindByView<SamplePage>(), DependsOn: "PageNavigation"),
-
 							#endregion
 
 							#region ContentControl Navigation
-
 							new ("CControlNavigation", View: views.FindByView<CControlNavigationPage>()),
-							new ("CControlRight", View: views.FindByView<CControlRightPage>(), DependsOn: "CControlNavigation")
-
+							new ("CControlRight", View: views.FindByView<CControlRightPage>(), DependsOn: "CControlNavigation"),
+							#endregion
+						
+							#region TabBar Navigation
+							new ("TabBarNavigation", View: views.FindByView<TabBarNavigationPage>(),
+								Nested:
+								[
+									new ("TBOne"),
+									new ("TBTwo", IsDefault: true),
+									new ("TBThree", View: views.FindByView<TabBarItem3>())
+								]
+							)
 							#endregion
 						]
 					)
