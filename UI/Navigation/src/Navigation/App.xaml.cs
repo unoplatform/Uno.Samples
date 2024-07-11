@@ -52,7 +52,10 @@ public partial class App : Application
 			new ViewMap<CControlNavigationPage>(),
 			new DataViewMap<CControlRightPage, CControlRightViewModel, Entity>(),
 			new ViewMap<TabBarNavigationPage>(),
-			new ViewMap<TabBarItem3>()
+			new ViewMap<TabBarItem3>(),
+			new ViewMap<TabBarWithDataPage, TabBarWithDataViewModel>(),
+			new DataViewMap<FirstTabBarItemWithDataPage, FirstTabBarItemWithDataViewModel, Entity>(),
+			new DataViewMap<SecondTabBarItemWithDataPage, SecondTabBarItemWithDataViewModel, Entity>()
 		);
 
 		routes.Register(
@@ -79,6 +82,16 @@ public partial class App : Application
 									new ("TBOne"),
 									new ("TBTwo", IsDefault: true),
 									new ("TBThree", View: views.FindByView<TabBarItem3>())
+								]
+							),
+							#endregion
+
+							#region TabBar with Data Navigation
+							new ("TabBarWithData", View: views.FindByViewModel<TabBarWithDataViewModel>(),
+								Nested:
+								[
+									new ("TBDataOne", View: views.FindByViewModel<FirstTabBarItemWithDataViewModel>()),
+									new ("TBDataTwo", View: views.FindByViewModel<SecondTabBarItemWithDataViewModel>())
 								]
 							)
 							#endregion
