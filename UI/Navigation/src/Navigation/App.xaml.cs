@@ -55,7 +55,9 @@ public partial class App : Application
 			new ViewMap<TabBarItem3>(),
 			new ViewMap<TabBarWithDataPage, TabBarWithDataViewModel>(),
 			new DataViewMap<FirstTabBarItemWithDataPage, FirstTabBarItemWithDataViewModel, Entity>(),
-			new DataViewMap<SecondTabBarItemWithDataPage, SecondTabBarItemWithDataViewModel, Entity>()
+			new DataViewMap<SecondTabBarItemWithDataPage, SecondTabBarItemWithDataViewModel, Entity>(),
+			new ViewMap<RequestValueMainPage, RequestValueMainViewModel>(),
+			new ResultDataViewMap<RequestValueSecondPage, RequestValueSecondViewModel, Entity>()
 		);
 
 		routes.Register(
@@ -93,7 +95,12 @@ public partial class App : Application
 									new ("TBDataOne", View: views.FindByViewModel<FirstTabBarItemWithDataViewModel>()),
 									new ("TBDataTwo", View: views.FindByViewModel<SecondTabBarItemWithDataViewModel>())
 								]
-							)
+							),
+							#endregion
+
+							#region Request a Value
+							new ("RequestValueMain", View: views.FindByViewModel<RequestValueMainViewModel>()),
+							new ("RequestValueSecond", View: views.FindByViewModel<RequestValueSecondViewModel>(), DependsOn: "RequestValueMain"),
 							#endregion
 						]
 					)
