@@ -47,8 +47,6 @@ public partial class App : Application
 		views.Register(
 			new ViewMap(ViewModel: typeof(ShellViewModel)),
 			new ViewMap<MainPage, MainViewModel>(),
-<<<<<<< Updated upstream
-			new ViewMap<PageNavigation>(),
 			new ViewMap<SamplePage>(),
 			new ViewMap<CControlNavigationPage>(),
 			new DataViewMap<CControlRightPage, CControlRightViewModel, Entity>(),
@@ -58,11 +56,9 @@ public partial class App : Application
 			new DataViewMap<FirstTabBarItemWithDataPage, FirstTabBarItemWithDataViewModel, Entity>(),
 			new DataViewMap<SecondTabBarItemWithDataPage, SecondTabBarItemWithDataViewModel, Entity>(),
 			new ViewMap<RequestValueMainPage, RequestValueMainViewModel>(),
-			new ResultDataViewMap<RequestValueSecondPage, RequestValueSecondViewModel, Entity>()
-=======
+			new ResultDataViewMap<RequestValueSecondPage, RequestValueSecondViewModel, Entity>(),
 			new ViewMap<PageNavigation, PageNavigationViewModel>(),
 			new ViewMap<SamplePage>()
->>>>>>> Stashed changes
 		);
 
 		routes.Register(
