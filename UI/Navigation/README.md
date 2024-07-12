@@ -9,4 +9,4 @@ This repository provides simple, to-the-point code samples for the [Uno Platform
 - [Navigate with XAML]()
 - [Navigate via Code]()
 
-If you encounter any issues with these samples above, please open an issue [here](https://github.com/unoplatform/Uno.Samples/issues/new) .
+If you encounter any issues with these samples above, please open an issue [here](https://github.com/unoplatform/Uno.Samples/issues/new).

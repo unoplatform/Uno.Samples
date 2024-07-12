@@ -28,6 +28,11 @@
 
 			<!--  The Navigation.Request attached property is used to navigate to the SamplePage  -->
 			<Button uen:Navigation.Request="Sample" Content="Navigate via Xaml" />
-		</StackPanel>
+
+            <!-- New button using Navigation via code behind -->
+            <Button Command="{Binding NavigateCommand}"
+                    Content="Navigate via code behind" />
+            
+        </StackPanel>
 	</Grid>
 </Page>
