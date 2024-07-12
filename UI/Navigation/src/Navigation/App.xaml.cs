@@ -44,6 +44,17 @@ public partial class App : Application
 
 	private static void RegisterRoutes(IViewRegistry views, IRouteRegistry routes)
 	{
+
+		var messageDialog = new MessageDialogViewMap(
+			Title: "This is Uno",
+			Content: "Hello Uno.Extensions",
+			Buttons: new[]
+			{
+				new DialogAction(Label: "Yes"),
+				new DialogAction(Label: "No")
+			}
+		);
+
 		views.Register(
 			new ViewMap(ViewModel: typeof(ShellViewModel)),
 			new ViewMap<MainPage, MainViewModel>(),
@@ -58,7 +69,8 @@ public partial class App : Application
 			new ViewMap<RequestValueMainPage, RequestValueMainViewModel>(),
 			new ResultDataViewMap<RequestValueSecondPage, RequestValueSecondViewModel, Entity>(),
 			new ViewMap<PageNavigation, PageNavigationViewModel>(),
-			new ViewMap<SamplePage>()
+			new ViewMap<SamplePage>(),
+			messageDialog
 		);
 
 		routes.Register(
@@ -71,6 +83,7 @@ public partial class App : Application
 							#region Page Navigation
 							new ("PageNavigation", View: views.FindByView<PageNavigation>(), IsDefault: true),
 							new ("Sample", View: views.FindByView<SamplePage>(), DependsOn: "PageNavigation"),
+							new ("MyMessage", View: messageDialog),
 							#endregion
 
 							#region ContentControl Navigation
