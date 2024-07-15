@@ -27,15 +27,11 @@
 				   Source="ms-appx:///Assets/logo.png" />
 
 			<!--  The Navigation.Request attached property is used to navigate to the SamplePage  -->
-			<Button uen:Navigation.Request="Sample" Content="Navigate via Xaml" />
+			<Button uen:Navigation.Request="Sample" Content="Navigate via XAML" />
 
-            <!-- New button using Navigation via code behind -->
+            <!--  Using Navigation via code behind  -->
             <Button Command="{Binding NavigateCommand}"
                     Content="Navigate via code behind" />
-
-            <!-- Button to show Message Dialog -->
-            <Button Content="Show Simple Message Dialog"
-                    Command="{Binding ShowSimpleDialogCommand}" />
 
         </StackPanel>
 	</Grid>

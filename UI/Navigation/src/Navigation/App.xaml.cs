@@ -48,11 +48,11 @@ public partial class App : Application
 		var messageDialog = new MessageDialogViewMap(
 			Title: "This is Uno",
 			Content: "Hello Uno.Extensions",
-			Buttons: new[]
-			{
-				new DialogAction(Label: "Yes"),
-				new DialogAction(Label: "No")
-			}
+			Buttons:
+			[
+				new DialogAction(Label: "Ok"),
+				new DialogAction(Label: "Cancel")
+			]
 		);
 
 		views.Register(
@@ -69,7 +69,7 @@ public partial class App : Application
 			new ViewMap<RequestValueMainPage, RequestValueMainViewModel>(),
 			new ResultDataViewMap<RequestValueSecondPage, RequestValueSecondViewModel, Entity>(),
 			new ViewMap<PageNavigation, PageNavigationViewModel>(),
-			new ViewMap<SamplePage>(),
+			new ViewMap<MessageDialogPage, MessageDialogViewModel>(),
 			messageDialog
 		);
 
@@ -83,7 +83,6 @@ public partial class App : Application
 							#region Page Navigation
 							new ("PageNavigation", View: views.FindByView<PageNavigation>(), IsDefault: true),
 							new ("Sample", View: views.FindByView<SamplePage>(), DependsOn: "PageNavigation"),
-							new ("MyMessage", View: messageDialog),
 							#endregion
 
 							#region ContentControl Navigation
@@ -115,6 +114,11 @@ public partial class App : Application
 							#region Request a Value
 							new ("RequestValueMain", View: views.FindByViewModel<RequestValueMainViewModel>()),
 							new ("RequestValueSecond", View: views.FindByViewModel<RequestValueSecondViewModel>(), DependsOn: "RequestValueMain"),
+							#endregion
+
+							#region Message Dialog
+							new ("MessageDialog", View: views.FindByViewModel<MessageDialogViewModel>()),
+							new ("MyMessage", View: messageDialog),
 							#endregion
 						]
 					)
