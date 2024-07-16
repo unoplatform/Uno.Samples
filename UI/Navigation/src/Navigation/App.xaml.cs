@@ -70,6 +70,9 @@ public partial class App : Application
 			new ResultDataViewMap<RequestValueSecondPage, RequestValueSecondViewModel, Entity>(),
 			new ViewMap<PageNavigation, PageNavigationViewModel>(),
 			new ViewMap<MessageDialogPage, MessageDialogViewModel>(),
+			new ViewMap<ModalDialogPage, ModalDialogViewModel>(),
+			new ViewMap<ModalDialogSecondPage>(),
+			new ViewMap<ModalContentDialog>(),
 			messageDialog
 		);
 
@@ -119,6 +122,12 @@ public partial class App : Application
 							#region Message Dialog
 							new ("MessageDialog", View: views.FindByViewModel<MessageDialogViewModel>()),
 							new ("MyMessage", View: messageDialog),
+							#endregion
+
+							#region Modal Dialog
+							new ("ModalDialog", View: views.FindByViewModel<ModalDialogViewModel>()),
+							new ("ModalDialogSecond", View: views.FindByView<ModalDialogSecondPage>()),
+							new ("ModalContentDialog", View: views.FindByView<ModalContentDialog>()),
 							#endregion
 						]
 					)
