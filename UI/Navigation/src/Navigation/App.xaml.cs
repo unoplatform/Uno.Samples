@@ -44,7 +44,6 @@ public partial class App : Application
 
 	private static void RegisterRoutes(IViewRegistry views, IRouteRegistry routes)
 	{
-
 		var messageDialog = new MessageDialogViewMap(
 			Title: "This is Uno",
 			Content: "Hello Uno.Extensions",
