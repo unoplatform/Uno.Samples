@@ -27,8 +27,7 @@ public partial class App : Application
 #endif
 				.ConfigureServices((context, services) =>
 				{
-					// TODO: Register your services
-					//services.AddSingleton<IMyService, MyService>();
+					services.AddSingleton<IQueryUserService, QueryUserService>();
 				})
 				.UseNavigation(RegisterRoutes)
 			);
@@ -72,7 +71,28 @@ public partial class App : Application
 			new ViewMap<ModalDialogPage, ModalDialogViewModel>(),
 			new ViewMap<ModalDialogSecondPage>(),
 			new ViewMap<ModalContentDialog>(),
-			messageDialog
+			messageDialog,
+
+			// FIXME: Using the URL address bar to navigate doesn't work
+			// eg: http://localhost:5000/Main/ToFromQuery?QueryUser.Id=2b64071a-2c8a-45e4-9f48-3eb7d7aace41
+			new DataViewMap<ToFromQueryPage, ToFromQueryViewModel, QueryUser>(
+				ToQuery: user => new Dictionary<string, string>
+				{
+					{ "QueryUser.Id", $"{user.Id}" }
+				},
+				FromQuery: async (sp, query) =>
+				{
+					var userService = sp.GetRequiredService<IQueryUserService>();
+
+					if (Guid.TryParse($"{query["QueryUser.Id"]}", out var guid))
+					{
+						var user = userService.GetById(guid);
+						return user ?? new QueryUser(guid, "User not found");
+					}
+
+					return new QueryUser(guid, "User not found");
+				}
+			)
 		);
 
 		routes.Register(
@@ -127,6 +147,10 @@ public partial class App : Application
 							new ("ModalDialog", View: views.FindByViewModel<ModalDialogViewModel>()),
 							new ("ModalDialogSecond", View: views.FindByView<ModalDialogSecondPage>()),
 							new ("ModalContentDialog", View: views.FindByView<ModalContentDialog>()),
+							#endregion
+
+							#region ToFromQuery
+							new ("ToFromQuery", View: views.FindByViewModel<ToFromQueryViewModel>())
 							#endregion
 						]
 					)
