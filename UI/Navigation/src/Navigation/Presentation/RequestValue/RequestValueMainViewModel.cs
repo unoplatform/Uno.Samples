@@ -5,18 +5,19 @@ public partial class RequestValueMainViewModel : ObservableObject
 	private INavigator _navigator;
 
 	[ObservableProperty]
-	private Entity? entity = new("[Not set]");
+	private Entity entity;
+
+	private bool _initialized = false;
 
 	public RequestValueMainViewModel(INavigator navigator)
 	{
 		_navigator = navigator;
+		Entity = new("[Not set]");
 	}
 
-	public ICommand GoToSecondPage => new AsyncRelayCommand(GoToSecondView);
-
+	[RelayCommand]
 	public async Task GoToSecondView()
 	{
-		// FIXME: UI not being updated on Windows
 		Entity = await _navigator.GetDataAsync<Entity>(this);
 	}
 }
