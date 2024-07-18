@@ -1,8 +1,3 @@
 namespace Navigation.Presentation;
 
-public partial class MainViewModel : ObservableObject
-{
-	public MainViewModel()
-	{
-	}
-}
+public class MainViewModel { }

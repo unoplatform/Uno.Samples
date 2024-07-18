@@ -24,9 +24,8 @@ public partial class RequestValueSecondViewModel : ObservableObject
 			new Entity("Entity 4")
 		];
 
-	public ICommand GoBackWithResult => new AsyncRelayCommand(GoBackToView);
-
-	public async Task GoBackToView()
+	[RelayCommand]
+	private async Task GoBackToView()
 		=> await _navigator.NavigateBackWithResultAsync(this, data: Entity);
 	
 }

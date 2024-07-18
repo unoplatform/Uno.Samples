@@ -1,6 +1,6 @@
 ﻿namespace Navigation.Presentation;
 
-public class PageNavigationViewModel : ObservableObject
+public partial class PageNavigationViewModel
 {
 	private readonly INavigator _navigator;
 
@@ -9,11 +9,8 @@ public class PageNavigationViewModel : ObservableObject
 		_navigator = navigator;
 	}
 
-	public ICommand NavigateCommand => new AsyncRelayCommand(NavigateToSamplePage);
-
-	private Task NavigateToSamplePage()
-	{
-		return _navigator.NavigateViewAsync<SamplePage>(this);
-	}
+	[RelayCommand]
+	private async Task NavigateToSample()
+		=> await _navigator.NavigateViewAsync<SamplePage>(this);
 
 }

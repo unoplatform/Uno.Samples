@@ -1,6 +1,6 @@
 ﻿namespace Navigation.Presentation;
 
-public class TabBarWithDataViewModel
+public partial class TabBarWithDataViewModel
 {
 	private INavigator _navigator;
 
@@ -15,18 +15,16 @@ public class TabBarWithDataViewModel
 
 	public Entity Entity { get; set; }
 
-	public ICommand GoToFirstTab => new AsyncRelayCommand(GoToFirstView);
-
-	public ICommand GoToSecondTab => new AsyncRelayCommand(GoToSecondView);
-
 	private async void Initialize()
 	{
-		await GoToFirstView();
+		await GoToFirstTab();
 	}
 
-	private async Task GoToFirstView() 
+	[RelayCommand]
+	private async Task GoToFirstTab() 
 		=> await _navigator.NavigateRouteAsync(this, route: "./TBDataOne", data: Entity);
 	
-	private async Task GoToSecondView()
+	[RelayCommand]
+	private async Task GoToSecondTab()
 		=> await _navigator.NavigateRouteAsync(this, route: "./TBDataTwo", data: Entity);
 }

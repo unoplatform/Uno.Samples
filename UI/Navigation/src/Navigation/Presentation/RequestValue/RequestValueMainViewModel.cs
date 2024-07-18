@@ -16,8 +16,13 @@ public partial class RequestValueMainViewModel : ObservableObject
 	}
 
 	[RelayCommand]
-	public async Task GoToSecondView()
+	private async Task GoToSecondView()
 	{
-		Entity = await _navigator.GetDataAsync<Entity>(this);
+		var newEntity = await _navigator.GetDataAsync<Entity>(this);
+
+		if (newEntity is { })
+		{
+			Entity = newEntity;
+		}
 	}
 }
