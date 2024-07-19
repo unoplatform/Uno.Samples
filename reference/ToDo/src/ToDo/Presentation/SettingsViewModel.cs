@@ -38,10 +38,12 @@ public partial class SettingsViewModel
         _themeService = themeService;
 
         AppThemes = new string[] { localizer["SettingsFlyout_ThemeLight"], localizer["SettingsFlyout_ThemeDark"] };
-
-        _ = dispatcher.TryEnqueue(() => {
-            _isDark = _themeService.IsDark;
-        });
+        
+#if WINDOWS
+        _ = dispatcher.TryEnqueue(() => { _isDark = _themeService.IsDark; });
+#else
+        _isDark = _themeService.IsDark;
+#endif
 
         Cultures = localizationConfiguration.Value!.Cultures!.Select(c => new DisplayCulture(localizer[$"SettingsFlyout_LanguageLabel_{c}"], c)).ToArray();
         SelectedCulture = State.Value(this, () => Cultures.FirstOrDefault(c => c.Culture == LocalizationSettings.CurrentCulture.ToString()) ?? Cultures.First());
