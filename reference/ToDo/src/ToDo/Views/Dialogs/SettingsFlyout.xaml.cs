@@ -23,11 +23,11 @@ public sealed partial class SettingsFlyout : Flyout, IRecipient<ThemeChangedMess
 #if ANDROID
             if (_isThemeInitialized)
             {
-                viewModel.ChangeAppTheme.Execute(null);
+                viewModel.ChangeAppTheme.Execute(e.Item);
             }
             _isThemeInitialized = true;
 #else
-            viewModel.ChangeAppTheme.Execute(null);
+            viewModel.ChangeAppTheme.Execute(e.Item);
 #endif
         }
     }
