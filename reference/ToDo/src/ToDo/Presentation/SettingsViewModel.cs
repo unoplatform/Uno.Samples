@@ -10,7 +10,6 @@ public partial class SettingsViewModel
     private readonly INavigator _sourceNavigator;
     private readonly INavigator _navigator;
     private readonly IThemeService _themeService;
-    private bool _isDark;
     private readonly IDispatcher _dispatcher;
 
     public ILocalizationService LocalizationSettings { get; }
@@ -39,8 +38,6 @@ public partial class SettingsViewModel
         _dispatcher = dispatcher;
 
         AppThemes = new string[] { localizer["SettingsFlyout_ThemeLight"], localizer["SettingsFlyout_ThemeDark"] };
-        
-        _ = dispatcher.TryEnqueue(() => { _isDark = _themeService.IsDark; });
 
         Cultures = localizationConfiguration.Value!.Cultures!.Select(c => new DisplayCulture(localizer[$"SettingsFlyout_LanguageLabel_{c}"], c)).ToArray();
         SelectedCulture = State.Value(this, () => Cultures.FirstOrDefault(c => c.Culture == LocalizationSettings.CurrentCulture.ToString()) ?? Cultures.First());
@@ -59,7 +56,7 @@ public partial class SettingsViewModel
     [Value]
     public IState<string> SelectedAppTheme => State.Async(this, async ct =>
     {
-        var isDark = await _dispatcher.ExecuteAsync(async _ => await Task.FromResult(_themeService.IsDark), ct);
+        var isDark = await _dispatcher.ExecuteAsync(async _ => _themeService.IsDark, ct);
         return AppThemes[isDark ? 1 : 0];
     });
 
@@ -77,8 +74,12 @@ public partial class SettingsViewModel
     public async ValueTask ChangeAppTheme(string selectedTheme, CancellationToken ct)
     {
         var newTheme = selectedTheme == AppThemes[1] ? AppTheme.Dark : AppTheme.Light;
-        await _themeService.SetThemeAsync(newTheme);
-        WeakReferenceMessenger.Default.Send(new ThemeChangedMessage(newTheme));
+        var currentTheme = _themeService.IsDark ? AppThemes[1] : AppThemes[0];
+        if (selectedTheme != currentTheme)
+        {
+            await _themeService.SetThemeAsync(newTheme);
+            WeakReferenceMessenger.Default.Send(new ThemeChangedMessage(newTheme));
+        }
     }
 
     private async ValueTask ChangeLanguage(DisplayCulture? culture, CancellationToken ct)
