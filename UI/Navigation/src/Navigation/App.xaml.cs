@@ -56,7 +56,6 @@ public partial class App : Application
 		views.Register(
 			new ViewMap(ViewModel: typeof(ShellViewModel)),
 			new ViewMap<MainPage, MainViewModel>(),
-			new ViewMap<SamplePage>(),
 			new ViewMap<CControlNavigationPage>(),
 			new DataViewMap<CControlRightPage, CControlRightViewModel, Entity>(),
 			new ViewMap<TabBarNavigationPage>(),
@@ -67,6 +66,12 @@ public partial class App : Application
 			new ViewMap<RequestValueMainPage, RequestValueMainViewModel>(),
 			new ResultDataViewMap<RequestValueSecondPage, RequestValueSecondViewModel, Entity>(),
 			new ViewMap<PageNavigation, PageNavigationViewModel>(),
+			new ViewMap<PageNavigationTwo, PageNavigationTwoViewModel>(),
+			new ViewMap<PageNavigationThree, PageNavigationThreeViewModel>(),
+			new ViewMap<PageNavigationFour, PageNavigationFourViewModel>(),
+			new ViewMap<PageNavigationFive, PageNavigationFiveViewModel>(),
+			new ViewMap<PageNavigationSix, PageNavigationSixViewModel>(),
+			new ViewMap<PageNavigationSeven, PageNavigationSevenViewModel>(),
 			new ViewMap<MessageDialogPage, MessageDialogViewModel>(),
 			new ViewMap<ModalDialogPage, ModalDialogViewModel>(),
 			new ViewMap<ModalDialogSecondPage>(),
@@ -103,8 +108,13 @@ public partial class App : Application
 						Nested:
 						[
 							#region Page Navigation
-							new ("PageNavigation", View: views.FindByView<PageNavigation>(), IsDefault: true),
-							new ("Sample", View: views.FindByView<SamplePage>(), DependsOn: "PageNavigation"),
+							new ("PageNavigation", View: views.FindByViewModel<PageNavigationViewModel>(), IsDefault: true),
+							new ("PageNavigationTwo", View: views.FindByViewModel<PageNavigationTwoViewModel>(), DependsOn: "PageNavigation"),
+							new ("PageNavigationThree", View: views.FindByViewModel<PageNavigationThreeViewModel>(), DependsOn: "PageNavigationTwo"),
+							new ("PageNavigationFour", View: views.FindByViewModel<PageNavigationFourViewModel>(), DependsOn: "PageNavigationThree"),
+							new ("PageNavigationFive", View: views.FindByViewModel<PageNavigationFiveViewModel>(), DependsOn: "PageNavigationFour"),
+							new ("PageNavigationSix", View: views.FindByViewModel<PageNavigationSixViewModel>(), DependsOn: "PageNavigationFive"),
+							new ("PageNavigationSeven", View: views.FindByViewModel<PageNavigationSevenViewModel>(), DependsOn: "PageNavigationSix"),
 							#endregion
 
 							#region ContentControl Navigation
