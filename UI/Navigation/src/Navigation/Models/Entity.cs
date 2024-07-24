@@ -1,8 +1,10 @@
 namespace Navigation.Models;
 
-public class Entity
+// TODO: Should be a record
+public partial class Entity : ObservableObject
 {
-	public string? Name { get; set; }
+	[ObservableProperty]
+	private string? name;
 
 	public Entity(string name)
 	{
