@@ -17,7 +17,10 @@
 
 		<utu:NavigationBar Content="Message Dialog" />
 
-		<StackPanel Grid.Row="1"
+        <TextBlock x:Name="MessageDialogResultText"
+                   Grid.Row="1" />
+
+        <StackPanel Grid.Row="1"
 					HorizontalAlignment="Center"
 					VerticalAlignment="Center"
 					Spacing="16">
@@ -33,6 +36,13 @@
 			<!--  Button to show Message Dialog with code behind  -->
 			<Button Command="{Binding ShowSimpleDialogCommand}" Content="Show Message Dialog with code behind" />
 
-		</StackPanel>
+            <Button Content="MessageDialog Codebehind (route override)"
+                    Click="MessageDialogCodebehindRouteOverrideClick" />
+
+            <!--  Button to show Message Dialog that disappears aftrer 2 secs  -->
+            <Button Content="MessageDialog Codebehind (cancel after 2s)"
+                    Click="MessageDialogCodebehindCancelClick" />
+
+        </StackPanel>
 	</Grid>
 </Page>

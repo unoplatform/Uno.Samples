@@ -37,6 +37,15 @@
 
 			<!--  Show Content Dialog with XAML  -->
 			<Button uen:Navigation.Request="!ModalContentDialog" Content="Show Content Dialog with XAML" />
-		</StackPanel>
+
+            <!--  Show Disappearing Flyout  -->
+            <Button Content="Flyout requesting data with cancellation (2s)"
+                    Click="FlyoutRequestingDataWithCancelClick" />
+            
+            <TextBlock Text="{Binding FlyoutData.Id}" />
+            <Button uen:Navigation.Request="!ModalDialogSecond"
+                    uen:Navigation.Data="{Binding FlyoutData, Mode=TwoWay}"
+                    Content="Complex Flyout from Xaml" />
+        </StackPanel>
 	</Grid>
 </Page>
