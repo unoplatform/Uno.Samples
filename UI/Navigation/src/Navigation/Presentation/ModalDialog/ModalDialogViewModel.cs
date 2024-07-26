@@ -1,12 +1,13 @@
 ﻿namespace Navigation.Presentation;
 
-public partial class ModalDialogViewModel
+public partial class ModalDialogViewModel : ObservableObject
 {
 	private readonly INavigator _navigator;
 
 	public ModalDialogViewModel(INavigator navigator)
 	{
 		_navigator = navigator;
+		flyoutData = new DialogsFlyoutsData();
 	}
 
 	[RelayCommand]
@@ -16,4 +17,14 @@ public partial class ModalDialogViewModel
 	[RelayCommand]
 	private async Task ShowContentDialog()
 		=> await _navigator.NavigateRouteAsync(this, route: "ModalContentDialog", qualifier: Qualifiers.Dialog);
+
+	[ObservableProperty]
+	private DialogsFlyoutsData flyoutData;
+
 }
+
+public class DialogsFlyoutsData
+{
+	public Guid Id { get; } = Guid.NewGuid();
+}
+

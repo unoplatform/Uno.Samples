@@ -76,6 +76,9 @@ public partial class App : Application
 			new ViewMap<ModalDialogPage, ModalDialogViewModel>(),
 			new ViewMap<ModalDialogSecondPage>(),
 			new ViewMap<ModalContentDialog>(),
+			new ViewMap<ComplexFlyoutPage>(ResultData: typeof(DialogsFlyoutsData)),
+			new ViewMap<ComplexFlyoutPageOne, ComplexFlyoutOneViewModel>(),
+			new ViewMap<ComplexFlyoutPageTwo, ComplexFlyoutTwoViewModel>(),
 			messageDialog,
 
 			// FIXME: Using the URL address bar to navigate doesn't work
@@ -157,6 +160,11 @@ public partial class App : Application
 							new ("ModalDialog", View: views.FindByViewModel<ModalDialogViewModel>()),
 							new ("ModalDialogSecond", View: views.FindByView<ModalDialogSecondPage>()),
 							new ("ModalContentDialog", View: views.FindByView<ModalContentDialog>()),
+							new ("ComplexFlyout", View: views.FindByView<ComplexFlyoutPage>(), Nested:
+							[
+								new ("ComplexFlyoutOne", View: views.FindByViewModel<ComplexFlyoutOneViewModel>(), IsDefault:true),
+								new ("ComplexFlyoutSecond", View: views.FindByViewModel<ComplexFlyoutTwoViewModel>(), DependsOn: "ComplexFlyoutOne")
+							]),
 							#endregion
 
 							#region ToFromQuery
