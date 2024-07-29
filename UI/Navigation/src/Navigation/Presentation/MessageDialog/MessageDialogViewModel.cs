@@ -1,6 +1,6 @@
 ﻿namespace Navigation.Presentation;
 
-public partial class MessageDialogViewModel
+public partial class MessageDialogViewModel : ObservableObject
 {
 	private readonly INavigator _navigator;
 
@@ -22,4 +22,23 @@ public partial class MessageDialogViewModel
 				new DialogAction("Cancel")
 			]);
 	}
+
+	[RelayCommand]
+	private async Task MessageDialogCodebehindRouteOverride()
+	{
+		var messageDialogResult = await _navigator.ShowMessageDialogAsync<string>(this, route: "LocalizedConfirm", content: "Override content", title: "Override title");
+		MessageDialogResultText = $"Message dialog result: {messageDialogResult}";
+	}
+
+	[RelayCommand]
+	private async Task MessageDialogCodebehindCancel()
+	{
+		var cancelSource = new CancellationTokenSource(TimeSpan.FromSeconds(2));
+		var messageDialogResult = await _navigator.ShowMessageDialogAsync<string>(this, content: "This is Content", title: "This is title", cancellation: cancelSource.Token);
+		MessageDialogResultText = $"Message dialog result: {messageDialogResult}";
+	}
+
+	[ObservableProperty]
+	private string messageDialogResultText;
+
 }

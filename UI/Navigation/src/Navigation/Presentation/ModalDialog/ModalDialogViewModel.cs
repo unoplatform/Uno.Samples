@@ -21,6 +21,13 @@ public partial class ModalDialogViewModel : ObservableObject
 	[ObservableProperty]
 	private DialogsFlyoutsData flyoutData;
 
+	[RelayCommand]
+	private async Task FlyoutRequestingDataWithCancel()
+	{
+		var cancelSource = new CancellationTokenSource(TimeSpan.FromSeconds(2));
+		var result = await _navigator.NavigateRouteForResultAsync<Widget>(new object(), "!ModalDialogSecond", cancellation: cancelSource.Token).AsResult();
+	}
+
 }
 
 public class DialogsFlyoutsData

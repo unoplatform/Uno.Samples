@@ -38,14 +38,14 @@
 			<!--  Show Content Dialog with XAML  -->
 			<Button uen:Navigation.Request="!ModalContentDialog" Content="Show Content Dialog with XAML" />
 
-            <!--  Show Disappearing Flyout  -->
+			<!--  Show Disappearing Flyout  -->
             <Button Content="Flyout requesting data with cancellation (2s)"
-                    Click="FlyoutRequestingDataWithCancelClick" />
+                    Command="{Binding FlyoutRequestingDataWithCancelCommand}" />
             
-            <TextBlock Text="{Binding FlyoutData.Id}" />
-            <Button uen:Navigation.Request="!ComplexFlyout"
-                    uen:Navigation.Data="{Binding FlyoutData, Mode=TwoWay}"
-                    Content="Complex Flyout from Xaml" />
-        </StackPanel>
+			<TextBlock Text="{Binding FlyoutData.Id}" />
+			<Button uen:Navigation.Request="!ComplexFlyout"
+					uen:Navigation.Data="{Binding FlyoutData, Mode=TwoWay}"
+					Content="Complex Flyout from Xaml" />
+		</StackPanel>
 	</Grid>
 </Page>
