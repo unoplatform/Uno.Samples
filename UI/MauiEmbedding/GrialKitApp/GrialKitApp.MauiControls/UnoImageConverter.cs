@@ -1,7 +1,6 @@
 using System.Globalization;
 
 namespace GrialKitApp;
-
 public class UnoImageConverter : IValueConverter
 {
     public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)

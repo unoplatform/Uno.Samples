@@ -1,4 +1,4 @@
-﻿namespace GrialKitApp.MauiControls;
+namespace GrialKitApp.MauiControls;
 
 public partial class BarMultiSeriesSample : ContentPage
 {
@@ -6,8 +6,7 @@ public partial class BarMultiSeriesSample : ContentPage
 	{
 		InitializeComponent();
 
-		// TODO: Uncomment
-		//chart.BindingContext = SampleData.MultiSeriesBar();
+		chart.BindingContext = SampleData.MultiSeriesBar();
 
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace GrialKitApp.MauiControls;
+namespace GrialKitApp.MauiControls;
 
 public partial class LineChartSample : ContentPage
 {
@@ -6,7 +6,6 @@ public partial class LineChartSample : ContentPage
 	{
 		InitializeComponent();
 
-        // TODO: Uncomment
-        //chart.BindingContext = SampleData.Line();
+        chart.BindingContext = SampleData.Line();
     }
 }
