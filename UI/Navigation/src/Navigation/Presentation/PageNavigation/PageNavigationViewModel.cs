@@ -10,9 +10,9 @@ public partial class PageNavigationViewModel : ObservableObject
 	}
 
 	[RelayCommand]
-	public async Task GoToTwo()
+	public async Task Navigate()
 	{
-		await _navigator.NavigateViewModelAsync<PageNavigationTwoViewModel>(this);
+		await _navigator.NavigateViewAsync<SamplePage>(this);
 	}
 
 }

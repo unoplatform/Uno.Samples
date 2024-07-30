@@ -66,12 +66,7 @@ public partial class App : Application
 			new ViewMap<RequestValueMainPage, RequestValueMainViewModel>(),
 			new ResultDataViewMap<RequestValueSecondPage, RequestValueSecondViewModel, Entity>(),
 			new ViewMap<PageNavigation, PageNavigationViewModel>(),
-			new ViewMap<PageNavigationTwo, PageNavigationTwoViewModel>(),
-			new ViewMap<PageNavigationThree, PageNavigationThreeViewModel>(),
-			new ViewMap<PageNavigationFour, PageNavigationFourViewModel>(),
-			new ViewMap<PageNavigationFive, PageNavigationFiveViewModel>(),
-			new ViewMap<PageNavigationSix, PageNavigationSixViewModel>(),
-			new ViewMap<PageNavigationSeven, PageNavigationSevenViewModel>(),
+			new ViewMap<SamplePage>(),
 			new ViewMap<MessageDialogPage, MessageDialogViewModel>(),
 			new ViewMap<ModalDialogPage, ModalDialogViewModel>(),
 			new ViewMap<ModalDialogSecondPage>(),
@@ -117,12 +112,7 @@ public partial class App : Application
 						[
 							#region Page Navigation
 							new ("PageNavigation", View: views.FindByViewModel<PageNavigationViewModel>(), IsDefault: true),
-							new ("PageNavigationTwo", View: views.FindByViewModel<PageNavigationTwoViewModel>(), DependsOn: "PageNavigation"),
-							new ("PageNavigationThree", View: views.FindByViewModel<PageNavigationThreeViewModel>(), DependsOn: "PageNavigationTwo"),
-							new ("PageNavigationFour", View: views.FindByViewModel<PageNavigationFourViewModel>(), DependsOn: "PageNavigationThree"),
-							new ("PageNavigationFive", View: views.FindByViewModel<PageNavigationFiveViewModel>(), DependsOn: "PageNavigationFour"),
-							new ("PageNavigationSix", View: views.FindByViewModel<PageNavigationSixViewModel>(), DependsOn: "PageNavigationFive"),
-							new ("PageNavigationSeven", View: views.FindByViewModel<PageNavigationSevenViewModel>(), DependsOn: "PageNavigationSix"),
+							new ("Sample", View: views.FindByView<SamplePage>(), DependsOn: "PageNavigation"),
 							#endregion
 
 							#region ContentControl Navigation
