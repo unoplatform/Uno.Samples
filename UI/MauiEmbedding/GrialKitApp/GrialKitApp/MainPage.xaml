@@ -1,0 +1,47 @@
+﻿<Page x:Class="GrialKitApp.MainPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:local="using:GrialKitApp"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:controls="using:GrialKitApp.MauiControls"
+      mc:Ignorable="d"
+      xmlns:utu="using:Uno.Toolkit.UI"
+      xmlns:uen="using:Uno.Extensions.Navigation.UI"
+      NavigationCacheMode="Required"
+      Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+  <Grid utu:SafeArea.Insets="All">
+    <NavigationView uen:Region.Attached="True">
+      <NavigationView.MenuItems>
+        <NavigationViewItem Content="Area Chart"
+                            uen:Region.Name="AreaChart" />
+        <NavigationViewItem Content="Bar Chart"
+                            uen:Region.Name="BarChart" />
+        <NavigationViewItem Content="Bar Multi Series"
+                            uen:Region.Name="BarMultiSeries" />
+        <NavigationViewItem Content="Line Chart"
+                            uen:Region.Name="LineChart" />
+        <NavigationViewItem Content="Pie Chart"
+                            uen:Region.Name="PieChart" />
+      </NavigationView.MenuItems>
+      <Grid uen:Region.Attached="True"
+            uen:Region.Navigator="Visibility">
+        <embed:MauiHost uen:Region.Name="AreaChart"
+                        xmlns:embed="using:Uno.Extensions.Maui"
+                        Source="controls:AreaChartSample" />
+        <embed:MauiHost uen:Region.Name="BarChart"
+                        xmlns:embed="using:Uno.Extensions.Maui"
+                        Source="controls:BarChartSample" />
+        <embed:MauiHost uen:Region.Name="BarMultiSeries"
+                        xmlns:embed="using:Uno.Extensions.Maui"
+                        Source="controls:BarMultiSeriesSample" />
+        <embed:MauiHost uen:Region.Name="LineChart"
+                        xmlns:embed="using:Uno.Extensions.Maui"
+                        Source="controls:LineChartSample" />
+        <embed:MauiHost uen:Region.Name="PieChart"
+                        xmlns:embed="using:Uno.Extensions.Maui"
+                        Source="controls:PieChartSample" />
+      </Grid>
+    </NavigationView>
+  </Grid>
+</Page>
