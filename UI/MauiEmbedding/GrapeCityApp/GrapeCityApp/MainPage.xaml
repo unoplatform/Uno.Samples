@@ -1,0 +1,17 @@
+﻿<Page x:Class="GrapeCityApp.MainPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:local="using:GrapeCityApp"
+      xmlns:controls="using:GrapeCityApp.MauiControls"
+      Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+  <StackPanel
+        HorizontalAlignment="Center"
+        VerticalAlignment="Center">
+    <TextBlock AutomationProperties.AutomationId="HelloTextBlock"
+          Text="Hello Uno Platform"
+          HorizontalAlignment="Center" />
+    <embed:MauiHost x:Name="MauiHostElement"
+            xmlns:embed="using:Uno.Extensions.Maui"
+            Source="controls:EmbeddedControl" />
+  </StackPanel>
+</Page>
