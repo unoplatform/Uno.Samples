@@ -79,6 +79,11 @@ public partial class App : Application
 			new ViewMap<ComplexFlyoutPage>(ResultData: typeof(DialogsFlyoutsData)),
 			new ViewMap<ComplexFlyoutPageOne, ComplexFlyoutOneViewModel>(),
 			new ViewMap<ComplexFlyoutPageTwo, ComplexFlyoutTwoViewModel>(),
+			new ViewMap<FlyoutDrawerPage>(),
+			new ViewMap<NavFlyout>(),
+			new ViewMap<FirstPage>(),
+			new ViewMap<SecondPage>(),
+			new ViewMap<ThirdPage>(),
 			messageDialog,
 
 			// FIXME: Using the URL address bar to navigate doesn't work
@@ -168,7 +173,18 @@ public partial class App : Application
 							#endregion
 
 							#region ToFromQuery
-							new ("ToFromQuery", View: views.FindByViewModel<ToFromQueryViewModel>())
+							new ("ToFromQuery", View: views.FindByViewModel<ToFromQueryViewModel>()),
+							#endregion
+
+							#region Flyout Drawer
+							new ("FlyoutDrawer", View: views.FindByView<FlyoutDrawerPage>(),
+								Nested:
+								[
+									new ("First", View: views.FindByView<FirstPage>()),
+									new ("Second", View: views.FindByView<SecondPage>()),
+									new ("Third", View: views.FindByView<ThirdPage>())
+								]),
+							new ("NavFlyout", View: views.FindByView<NavFlyout>()),
 							#endregion
 						]
 					)
