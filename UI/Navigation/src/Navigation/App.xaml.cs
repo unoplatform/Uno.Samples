@@ -79,6 +79,10 @@ public partial class App : Application
 			new ViewMap<FirstPage>(),
 			new ViewMap<SecondPage>(),
 			new ViewMap<ThirdPage>(),
+			new ViewMap<BreadcrumbNavigation, BreadcrumbViewModel>(),
+			new ViewMap<FirstPage, FirstPageViewModel>(),
+			new ViewMap<SecondPage, SecondPageViewModel>(),
+			new ViewMap<ThirdPage, ThirdPageViewModel>(),
 			messageDialog,
 
 			// FIXME: Using the URL address bar to navigate doesn't work
