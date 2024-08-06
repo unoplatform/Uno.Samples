@@ -1,0 +1,85 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:converters="using:UnoChat.Converters"
+    xmlns:local="using:UnoChat.Views"
+    xmlns:models="using:UnoChat.Models">
+
+    <ResourceDictionary.ThemeDictionaries>
+        <ResourceDictionary x:Key="Dark">
+            <SolidColorBrush x:Key="ToMessageBackgroundBrush" Color="#333333" />
+            <SolidColorBrush x:Key="ToMessageForegroundBrush" Color="White" />
+            <SolidColorBrush x:Key="CogenityTitleTextBrush" Color="White" />
+            <SolidColorBrush x:Key="CogenitySubTitleTextBrush" Color="#FFC3FF68" />
+            <SolidColorBrush x:Key="CogenityDotBrush" Color="#FFFF6600" />
+        </ResourceDictionary>
+        <ResourceDictionary x:Key="Light">
+            <SolidColorBrush x:Key="ToMessageBackgroundBrush" Color="#ececec" />
+            <SolidColorBrush x:Key="ToMessageForegroundBrush" Color="Black" />
+            <SolidColorBrush x:Key="CogenityTitleTextBrush" Color="Black" />
+            <SolidColorBrush x:Key="CogenitySubTitleTextBrush" Color="#FFFF6600" />
+            <SolidColorBrush x:Key="CogenityDotBrush" Color="#FFFF6600" />
+        </ResourceDictionary>
+    </ResourceDictionary.ThemeDictionaries>
+    <converters:StringFormatConverter x:Key="StringFormatConverter" />
+    <converters:StringEqualityConverter x:Key="StringEqualityConverter" />
+    <DataTemplate x:Key="FromMessageTemplate">
+        <Grid>
+            <Border
+                Margin="16,8,0,8"
+                Padding="12"
+                HorizontalAlignment="Right"
+                Background="#3671e7"
+                CornerRadius="12,12,0,12">
+                <TextBlock
+                    Foreground="White"
+                    Text="{Binding Path=Text}"
+                    TextWrapping="WrapWholeWords" />
+            </Border>
+        </Grid>
+    </DataTemplate>
+    <DataTemplate x:Key="ToMessageTemplate">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Border
+                Grid.Row="0"
+                Margin="0,8,16,8"
+                Padding="12"
+                HorizontalAlignment="Left"
+                Background="{ThemeResource ToMessageBackgroundBrush}"
+                CornerRadius="12,12,12,0">
+                <TextBlock
+                    Foreground="{ThemeResource ToMessageForegroundBrush}"
+                    Style="{StaticResource BodyTextBlockStyle}"
+                    Text="{Binding Path=Text}"
+                    TextWrapping="WrapWholeWords" />
+            </Border>
+            <StackPanel Grid.Row="1" Orientation="Horizontal">
+                <TextBlock
+                    Foreground="{ThemeResource ToMessageForegroundBrush}"
+                    Style="{StaticResource CaptionTextBlockStyle}"
+                    Text="{Binding Path=Sender.Name}"
+                    TextWrapping="NoWrap" />
+                <TextBlock
+                    Margin="4,0"
+                    Foreground="{ThemeResource ToMessageForegroundBrush}"
+                    Style="{StaticResource CaptionTextBlockStyle}"
+                    Text="·"
+                    TextWrapping="NoWrap" />
+                <TextBlock
+                    Margin="0,0,4,0"
+                    Foreground="{ThemeResource ToMessageForegroundBrush}"
+                    Style="{StaticResource CaptionTextBlockStyle}"
+                    Text="{Binding Path=ReceivedAt, Converter={StaticResource StringFormatConverter}, ConverterParameter=[0:t]}"
+                    TextWrapping="NoWrap" />
+            </StackPanel>
+        </Grid>
+    </DataTemplate>
+    <models:MessageTemplateSelector
+        x:Name="MessageTemplateSelector"
+        FromTemplate="{StaticResource FromMessageTemplate}"
+        ToTemplate="{StaticResource ToMessageTemplate}" />
+</ResourceDictionary>
