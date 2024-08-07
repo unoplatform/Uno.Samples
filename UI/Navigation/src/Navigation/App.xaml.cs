@@ -31,6 +31,11 @@ public partial class App : Application
 				.ConfigureServices((context, services) =>
 				{
 					services.AddSingleton<IQueryUserService, QueryUserService>();
+					services.AddTransient<BreadcrumbViewModel>();
+					services.AddTransient<FirstPageViewModel>();
+					services.AddTransient<SecondPageViewModel>();
+					services.AddTransient<ThirdPageViewModel>();
+					services.AddTransient<BaseBreadcrumbViewModel>();
 				})
 				.UseNavigation(RegisterRoutes)
 			);
@@ -122,18 +127,18 @@ public partial class App : Application
 					new ("Main", View: views.FindByViewModel<MainViewModel>(),
 						Nested:
 						[
-							#region Page Navigation
-							new ("PageNavigation", View: views.FindByViewModel<PageNavigationViewModel>(), IsDefault: true),
+                            #region Page Navigation
+                            new ("PageNavigation", View: views.FindByViewModel<PageNavigationViewModel>(), IsDefault: true),
 							new ("Sample", View: views.FindByView<SamplePage>(), DependsOn: "PageNavigation"),
-							#endregion
+                            #endregion
 
-							#region ContentControl Navigation
-							new ("CControlNavigation", View: views.FindByView<CControlNavigationPage>()),
+                            #region ContentControl Navigation
+                            new ("CControlNavigation", View: views.FindByView<CControlNavigationPage>()),
 							new ("CControlRight", View: views.FindByView<CControlRightPage>(), DependsOn: "CControlNavigation"),
-							#endregion
-						
-							#region TabBar Navigation
-							new ("TabBarNavigation", View: views.FindByView<TabBarNavigationPage>(),
+                            #endregion
+
+                            #region TabBar Navigation
+                            new ("TabBarNavigation", View: views.FindByView<TabBarNavigationPage>(),
 								Nested:
 								[
 									new ("TBOne"),
@@ -141,30 +146,30 @@ public partial class App : Application
 									new ("TBThree", View: views.FindByView<TabBarItem3>())
 								]
 							),
-							#endregion
+                            #endregion
 
-							#region TabBar with Data Navigation
-							new ("TabBarWithData", View: views.FindByViewModel<TabBarWithDataViewModel>(),
+                            #region TabBar with Data Navigation
+                            new ("TabBarWithData", View: views.FindByViewModel<TabBarWithDataViewModel>(),
 								Nested:
 								[
 									new ("TBDataOne", View: views.FindByViewModel<FirstTabBarItemWithDataViewModel>()),
 									new ("TBDataTwo", View: views.FindByViewModel<SecondTabBarItemWithDataViewModel>())
 								]
 							),
-							#endregion
+                            #endregion
 
-							#region Request a Value
-							new ("RequestValueMain", View: views.FindByViewModel<RequestValueMainViewModel>()),
+                            #region Request a Value
+                            new ("RequestValueMain", View: views.FindByViewModel<RequestValueMainViewModel>()),
 							new ("RequestValueSecond", View: views.FindByViewModel<RequestValueSecondViewModel>(), DependsOn: "RequestValueMain"),
-							#endregion
+                            #endregion
 
-							#region Message Dialog
-							new ("MessageDialog", View: views.FindByViewModel<MessageDialogViewModel>()),
+                            #region Message Dialog
+                            new ("MessageDialog", View: views.FindByViewModel<MessageDialogViewModel>()),
 							new ("MyMessage", View: messageDialog),
-							#endregion
+                            #endregion
 
-							#region Modal Dialog
-							new ("ModalDialog", View: views.FindByViewModel<ModalDialogViewModel>()),
+                            #region Modal Dialog
+                            new ("ModalDialog", View: views.FindByViewModel<ModalDialogViewModel>()),
 							new ("ModalDialogSecond", View: views.FindByView<ModalDialogSecondPage>()),
 							new ("ModalContentDialog", View: views.FindByView<ModalContentDialog>()),
 							new ("ComplexFlyout", View: views.FindByView<ComplexFlyoutPage>(), Nested:
@@ -172,14 +177,14 @@ public partial class App : Application
 								new ("ComplexFlyoutOne", View: views.FindByViewModel<ComplexFlyoutOneViewModel>(), IsDefault:true),
 								new ("ComplexFlyoutSecond", View: views.FindByViewModel<ComplexFlyoutTwoViewModel>(), DependsOn: "ComplexFlyoutOne")
 							]),
-							#endregion
+                            #endregion
 
-							#region ToFromQuery
-							new ("ToFromQuery", View: views.FindByViewModel<ToFromQueryViewModel>()),
-							#endregion
+                            #region ToFromQuery
+                            new ("ToFromQuery", View: views.FindByViewModel<ToFromQueryViewModel>()),
+                            #endregion
 
-							#region Flyout Drawer
-							new ("FlyoutDrawer", View: views.FindByView<FlyoutDrawerPage>(),
+                            #region Flyout Drawer
+                            new ("FlyoutDrawer", View: views.FindByView<FlyoutDrawerPage>(),
 								Nested:
 								[
 									new ("First", View: views.FindByView<FirstPage>()),
@@ -187,15 +192,15 @@ public partial class App : Application
 									new ("Third", View: views.FindByView<ThirdPage>())
 								]),
 							new ("NavFlyout", View: views.FindByView<NavFlyout>()),
-							#endregion
+                            #endregion
 
-							#region Breadcrumb Navigation
-							new ("BreadcrumbNavigation", View: views.FindByViewModel<BreadcrumbViewModel>()),
+                            #region Breadcrumb Navigation
+                            new ("BreadcrumbNavigation", View: views.FindByViewModel<BreadcrumbViewModel>()),
 							new ("FirstBreadcrumb", View: views.FindByViewModel<FirstPageViewModel>(), DependsOn: "BreadcrumbNavigation"),
 							new ("SecondBreadcrumb", View: views.FindByViewModel<SecondPageViewModel>(), DependsOn: "FirstBreadcrumb"),
 							new ("ThirdBreadcrumb", View: views.FindByViewModel<ThirdPageViewModel>(), DependsOn: "SecondBreadcrumb"),
-							#endregion
-						]
+                            #endregion
+                        ]
 					)
 				]
 			)

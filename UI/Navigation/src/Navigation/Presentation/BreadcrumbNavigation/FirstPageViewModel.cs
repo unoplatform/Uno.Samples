@@ -1,46 +1,11 @@
 ﻿namespace Navigation.Presentation;
 
-public partial class FirstPageViewModel : ObservableObject
+public partial class FirstPageViewModel : BaseBreadcrumbViewModel
 {
-	private readonly IRouteNotifier _notifier;
 	private readonly INavigator _navigator;
-
-	[ObservableProperty]
-	private ICollection<string> breadcrumbs;
-
 	public FirstPageViewModel(IRouteNotifier notifier, INavigator navigator)
+		: base(notifier, navigator)
 	{
-		_notifier = notifier;
-		_notifier.RouteChanged += RouteChanged;
 		_navigator = navigator;
-
-		breadcrumbs = [];
-	}
-
-	private void RouteChanged(object? sender, RouteChangedEventArgs e)
-	{
-		if (e.Navigator is FrameNavigator navigator)
-		{
-			if (navigator.FullRoute is { } fullRoute)
-			{
-				var paths = fullRoute.Path?.Split('/', StringSplitOptions.RemoveEmptyEntries).ToList();
-
-				if (fullRoute.Base is { Length: > 0 })
-				{
-					paths?.Insert(0, fullRoute.Base);
-				}
-
-				if (paths is { Count: > 0 })
-				{
-					Breadcrumbs = paths;
-				}
-			}
-		}
-	}
-
-	[RelayCommand]
-	public async Task NavigateBreadcrumb(string route)
-	{
-		await _navigator.NavigateRouteAsync(this, route, qualifier: Qualifiers.ClearBackStack);
 	}
 }
