@@ -80,9 +80,9 @@ public partial class App : Application
 			new ViewMap<SecondPage>(),
 			new ViewMap<ThirdPage>(),
 			new ViewMap<BreadcrumbNavigation, BreadcrumbViewModel>(),
-			new ViewMap<FirstPage, FirstPageViewModel>(),
-			new ViewMap<SecondPage, SecondPageViewModel>(),
-			new ViewMap<ThirdPage, ThirdPageViewModel>(),
+			new ViewMap<FirstBreadcrumbPage, FirstPageViewModel>(),
+			new ViewMap<SecondBreadcrumbPage, SecondPageViewModel>(),
+			new ViewMap<ThirdBreadcrumbPage, ThirdPageViewModel>(),
 			messageDialog,
 
 			// FIXME: Using the URL address bar to navigate doesn't work
@@ -179,6 +179,13 @@ public partial class App : Application
 									new ("Third", View: views.FindByView<ThirdPage>())
 								]),
 							new ("NavFlyout", View: views.FindByView<NavFlyout>()),
+							#endregion
+
+							#region Breadcrumb Navigation
+							new ("BreadcrumbNavigation", View: views.FindByViewModel<BreadcrumbViewModel>()),
+							new ("FirstBreadcrumb", View: views.FindByViewModel<FirstPageViewModel>(), DependsOn: "BreadcrumbNavigation"),
+							new ("SecondBreadcrumb", View: views.FindByViewModel<SecondPageViewModel>(), DependsOn: "FirstBreadcrumb"),
+							new ("ThirdBreadcrumb", View: views.FindByViewModel<ThirdPageViewModel>(), DependsOn: "SecondBreadcrumb"),
 							#endregion
 						]
 					)

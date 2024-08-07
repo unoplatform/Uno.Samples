@@ -3,10 +3,11 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Linq;
 using System;
+using Uno.Extensions.Navigation;
 
 namespace Navigation.Presentation;
 
-public class BreadcrumbViewModel : INotifyPropertyChanged
+public partial class BreadcrumbViewModel : INotifyPropertyChanged
 {
 	private readonly IRouteNotifier _notifier;
 	private ObservableCollection<string> _breadcrumbs = new ObservableCollection<string>();
@@ -21,10 +22,11 @@ public class BreadcrumbViewModel : INotifyPropertyChanged
 		}
 	}
 
-	public BreadcrumbViewModel(IRouteNotifier notifier)
+	public BreadcrumbViewModel(IRouteNotifier notifier, INavigator navigator)
 	{
 		_notifier = notifier;
 		_notifier.RouteChanged += RouteChanged;
+		_navigator = navigator;
 	}
 
 	private async void RouteChanged(object? sender, RouteChangedEventArgs e)
@@ -40,5 +42,19 @@ public class BreadcrumbViewModel : INotifyPropertyChanged
 	protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
 	{
 		PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+	}
+
+	private readonly INavigator _navigator;
+
+	[RelayCommand]
+	public async Task NavigateToFirst()
+	{
+		await _navigator.NavigateViewAsync<FirstBreadcrumbPage>(this);
+	}
+
+	[RelayCommand]
+	public async Task NavigateBreadcrumb()
+	{
+		await _navigator.NavigateRouteAsync(this, "");
 	}
 }
