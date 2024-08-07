@@ -1,56 +1,47 @@
-﻿using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
-
-namespace Navigation.Presentation;
+﻿namespace Navigation.Presentation;
 
 public partial class ThirdPageViewModel : ObservableObject
 {
 	private readonly IRouteNotifier _notifier;
-	private ObservableCollection<string> _breadcrumbs = new ObservableCollection<string>();
+	private readonly INavigator _navigator;
 
-	public ObservableCollection<string> Breadcrumbs
-	{
-		get => _breadcrumbs;
-		set
-		{
-			_breadcrumbs = value;
-			OnPropertyChanged();
-		}
-	}
+	[ObservableProperty]
+	private ICollection<string> breadcrumbs;
 
 	public ThirdPageViewModel(IRouteNotifier notifier, INavigator navigator)
 	{
 		_notifier = notifier;
 		_notifier.RouteChanged += RouteChanged;
 		_navigator = navigator;
+
+		breadcrumbs = [];
 	}
 
-	private async void RouteChanged(object? sender, RouteChangedEventArgs e)
+	private void RouteChanged(object? sender, RouteChangedEventArgs e)
 	{
-		var fullRoute = ((FrameNavigator)e.Navigator).FullRoute;
-		var paths = fullRoute?.Path?.Split('/').ToList();
-		paths.Insert(0, fullRoute.Base);
-		Breadcrumbs = new ObservableCollection<string>(paths);
+		if (e.Navigator is FrameNavigator navigator)
+		{
+			if (navigator.FullRoute is { } fullRoute)
+			{
+				var paths = fullRoute.Path?.Split('/', StringSplitOptions.RemoveEmptyEntries).ToList();
+
+				if (fullRoute.Base is { Length: > 0 })
+				{
+					paths?.Insert(0, fullRoute.Base);
+				}
+
+				if (paths is { Count: > 0 })
+				{
+					Breadcrumbs = paths;
+				}
+			}
+		}
 	}
-
-	public event PropertyChangedEventHandler PropertyChanged;
-
-	protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
-	{
-		PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-	}
-
-	private readonly INavigator _navigator;
 
 	[RelayCommand]
-	private async Task GoBack()
-		=> await _navigator.GoBack(this);
-
-	[RelayCommand]
-	public async Task NavigateBreadcrumb()
+	public async Task NavigateBreadcrumb(string route)
 	{
-		await _navigator.NavigateRouteAsync(this, "");
+		await _navigator.NavigateRouteAsync(this, route, qualifier: Qualifiers.ClearBackStack);
 	}
 
 }
