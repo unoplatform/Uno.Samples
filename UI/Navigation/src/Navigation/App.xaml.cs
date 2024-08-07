@@ -1,3 +1,4 @@
+using ShowMeTheXAML;
 using Uno.Resizetizer;
 
 namespace Navigation;
@@ -9,6 +10,8 @@ public partial class App : Application
 	/// </summary>
 	public App()
 	{
+		ConfigureXamlDisplay();
+
 		this.InitializeComponent();
 	}
 
@@ -39,6 +42,11 @@ public partial class App : Application
 		MainWindow.SetWindowIcon();
 
 		Host = await builder.NavigateAsync<Shell>();
+	}
+
+	private void ConfigureXamlDisplay()
+	{
+		XamlDisplay.Init(GetType().Assembly);
 	}
 
 	private static void RegisterRoutes(IViewRegistry views, IRouteRegistry routes)

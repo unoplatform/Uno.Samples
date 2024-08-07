@@ -4,12 +4,13 @@
 	  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	  xmlns:local="using:Navigation.Presentation"
 	  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	  xmlns:smtx="using:ShowMeTheXAML"
 	  xmlns:uen="using:Uno.Extensions.Navigation.UI"
 	  xmlns:utu="using:Uno.Toolkit.UI"
 	  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
 	  mc:Ignorable="d">
 
-	<Grid utu:SafeArea.Insets="VisibleBounds">
+	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto" />
 			<RowDefinition />
@@ -27,7 +28,9 @@
 				   Source="ms-appx:///Assets/logo.png" />
 
 			<!--  The Navigation.Request attached property is used to navigate to the SamplePage  -->
-			<Button uen:Navigation.Request="Sample" Content="Navigate via XAML" />
+			<smtx:XamlDisplay Style="{StaticResource XamlDisplayBelowStyle}" UniqueKey="Material_CheckBoxSamplePage_NoContent">
+				<Button uen:Navigation.Request="Sample" Content="Navigate via XAML" />
+			</smtx:XamlDisplay>
 
 			<!--  Using Navigation via code behind  -->
 			<Button Command="{Binding NavigateCommand}" Content="Navigate via code behind" />

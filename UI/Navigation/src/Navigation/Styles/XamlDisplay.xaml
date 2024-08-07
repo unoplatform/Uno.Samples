@@ -1,0 +1,166 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+					xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+					xmlns:smtx="using:ShowMeTheXAML">
+
+	<ResourceDictionary.ThemeDictionaries>
+		<ResourceDictionary x:Key="Default">
+			<SolidColorBrush x:Key="SampleSecondBackgroundBrush"
+							 Opacity="0.1"
+							 Color="{ThemeResource OnTertiaryContainerColor}" />
+			<SolidColorBrush x:Key="SampleThirdBackgroundBrush"
+							 Opacity="0.02"
+							 Color="{ThemeResource OnSurfaceColor}" />
+			<SolidColorBrush x:Key="SampleFourthBackgroundBrush"
+							 Opacity="0.5"
+							 Color="{ThemeResource OutlineColor}" />
+			<SolidColorBrush x:Key="DividerBrush"
+							 Opacity="0.13"
+							 Color="{ThemeResource OnSurfaceColor}" />
+		</ResourceDictionary>
+
+		<ResourceDictionary x:Key="Light">
+			<SolidColorBrush x:Key="SampleSecondBackgroundBrush"
+							 Opacity="0.1"
+							 Color="{ThemeResource OnTertiaryContainerColor}" />
+			<SolidColorBrush x:Key="SampleThirdBackgroundBrush"
+							 Opacity="0.02"
+							 Color="{ThemeResource OnSurfaceColor}" />
+			<SolidColorBrush x:Key="SampleFourthBackgroundBrush"
+							 Opacity="0.5"
+							 Color="{ThemeResource OutlineColor}" />
+			<SolidColorBrush x:Key="DividerBrush"
+							 Opacity="0.13"
+							 Color="{ThemeResource OnSurfaceColor}" />
+		</ResourceDictionary>
+	</ResourceDictionary.ThemeDictionaries>
+
+	<smtx:NiceFormatter x:Key="NiceFormatter" />
+
+	<Style x:Key="BaseXamlDisplayStyle" TargetType="smtx:XamlDisplay">
+		<Setter Property="Margin" Value="0,10,0,0" />
+		<Setter Property="Formatter" Value="{StaticResource NiceFormatter}" />
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="smtx:XamlDisplay">
+					<StackPanel Orientation="Horizontal">
+						<ContentPresenter Content="{TemplateBinding Content}" />
+						<Button Content="{TemplateBinding Xaml}" Style="{StaticResource SeeXamlFlyoutButtonStyle}" />
+					</StackPanel>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+
+	<Style x:Key="ExpandingXamlDisplayStyle" TargetType="smtx:XamlDisplay">
+		<Setter Property="Margin" Value="0,16,0,0" />
+		<Setter Property="BorderBrush" Value="{ThemeResource DividerBrush}" />
+		<Setter Property="BorderThickness" Value="1" />
+		<Setter Property="Formatter" Value="{x:Null}" />
+		<Setter Property="Background" Value="{ThemeResource SampleSecondBackgroundBrush}" />
+
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="smtx:XamlDisplay">
+					<Grid Margin="0,16,0,0"
+						  BorderBrush="{TemplateBinding BorderBrush}"
+						  BorderThickness="{TemplateBinding BorderThickness}">
+
+						<Grid.RowDefinitions>
+							<RowDefinition Height="Auto" />
+							<RowDefinition Height="Auto" />
+						</Grid.RowDefinitions>
+
+						<!--  Content  -->
+						<ContentPresenter x:Name="MainContent"
+										  Padding="16"
+										  Background="{TemplateBinding Background}"
+										  Content="{TemplateBinding Content}" />
+
+						<Grid Grid.Row="1"
+							  Padding="16"
+							  Background="{ThemeResource SampleFourthBackgroundBrush}">
+							<Button Margin="{TemplateBinding Padding}"
+									Content="{TemplateBinding Xaml}"
+									Style="{StaticResource SeeXamlFlyoutButtonStyle}" />
+						</Grid>
+					</Grid>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+
+	<Style x:Key="XamlDisplayOnTheSideStyle"
+		   BasedOn="{StaticResource BaseXamlDisplayStyle}"
+		   TargetType="smtx:XamlDisplay">
+		<Setter Property="Padding" Value="5,0,0,0" />
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="smtx:XamlDisplay">
+					<StackPanel Orientation="Horizontal">
+						<ContentPresenter Content="{TemplateBinding Content}" />
+						<Button Margin="{TemplateBinding Padding}"
+								Content="{TemplateBinding Xaml}"
+								Style="{StaticResource SeeXamlFlyoutButtonStyle}" />
+					</StackPanel>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+
+	<Style x:Key="XamlDisplayBelowStyle"
+		   BasedOn="{StaticResource BaseXamlDisplayStyle}"
+		   TargetType="smtx:XamlDisplay">
+		<Setter Property="Padding" Value="0,5,0,0" />
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="smtx:XamlDisplay">
+					<StackPanel Orientation="Vertical">
+						<ContentPresenter Content="{TemplateBinding Content}" />
+						<Button Margin="{TemplateBinding Padding}"
+								Content="{TemplateBinding Xaml}"
+								Style="{StaticResource SeeXamlFlyoutButtonStyle}" />
+					</StackPanel>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+
+	<Style x:Key="ContentOnlyXamlDisplayStyle"
+		   BasedOn="{StaticResource BaseXamlDisplayStyle}"
+		   TargetType="smtx:XamlDisplay">
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="smtx:XamlDisplay">
+					<ContentPresenter Content="{TemplateBinding Content}" />
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+
+	<Style x:Key="SourceOnlyXamlDisplayStyle"
+		   BasedOn="{StaticResource BaseXamlDisplayStyle}"
+		   TargetType="smtx:XamlDisplay">
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="smtx:XamlDisplay">
+					<Button Content="{TemplateBinding Xaml}" Style="{StaticResource SeeXamlFlyoutButtonStyle}" />
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+
+	<Style x:Key="DefaultXamlPresenterStyle" TargetType="smtx:XamlPresenter">
+		<Setter Property="Formatter" Value="{StaticResource NiceFormatter}" />
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="smtx:XamlPresenter">
+					<Button Content="{TemplateBinding Xaml}" Style="{StaticResource SeeXamlFlyoutButtonStyle}" />
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+
+	<Style BasedOn="{StaticResource XamlDisplayOnTheSideStyle}" TargetType="smtx:XamlDisplay" />
+
+	<Style BasedOn="{StaticResource DefaultXamlPresenterStyle}" TargetType="smtx:XamlPresenter" />
+</ResourceDictionary>
