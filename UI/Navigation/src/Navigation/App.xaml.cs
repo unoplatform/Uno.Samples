@@ -1,4 +1,3 @@
-using ShowMeTheXAML;
 using Uno.Resizetizer;
 
 namespace Navigation;
@@ -10,8 +9,6 @@ public partial class App : Application
 	/// </summary>
 	public App()
 	{
-		ConfigureXamlDisplay();
-
 		this.InitializeComponent();
 	}
 
@@ -31,11 +28,6 @@ public partial class App : Application
 				.ConfigureServices((context, services) =>
 				{
 					services.AddSingleton<IQueryUserService, QueryUserService>();
-					services.AddTransient<BreadcrumbViewModel>();
-					services.AddTransient<FirstPageViewModel>();
-					services.AddTransient<SecondPageViewModel>();
-					services.AddTransient<ThirdPageViewModel>();
-					services.AddTransient<BaseBreadcrumbViewModel>();
 				})
 				.UseNavigation(RegisterRoutes)
 			);
@@ -49,10 +41,6 @@ public partial class App : Application
 		Host = await builder.NavigateAsync<Shell>();
 	}
 
-	private void ConfigureXamlDisplay()
-	{
-		XamlDisplay.Init(GetType().Assembly);
-	}
 
 	private static void RegisterRoutes(IViewRegistry views, IRouteRegistry routes)
 	{
