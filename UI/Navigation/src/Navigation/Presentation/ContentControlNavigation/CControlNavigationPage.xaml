@@ -1,0 +1,44 @@
+﻿<Page x:Class="Navigation.Presentation.CControlNavigationPage"
+	  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	  xmlns:local="using:Navigation"
+	  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	  xmlns:uen="using:Uno.Extensions.Navigation.UI"
+	  xmlns:utu="using:Uno.Toolkit.UI"
+	  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+	  mc:Ignorable="d">
+
+	<Grid x:Name="ParentGrid">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition />
+		</Grid.RowDefinitions>
+		<utu:NavigationBar Content="ContentControl Navigation Page" />
+
+		<Grid Grid.Row="1">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="*" />
+				<ColumnDefinition Width="*" />
+			</Grid.ColumnDefinitions>
+
+			<ListView Grid.Row="1"
+					  uen:Navigation.Request="CControlRight"
+					  ItemsSource="{x:Bind Items}">
+				<ListView.ItemTemplate>
+					<DataTemplate>
+						<TextBlock FontSize="30" Text="{Binding Name}" />
+					</DataTemplate>
+				</ListView.ItemTemplate>
+			</ListView>
+
+			<Grid Grid.Column="1" Background="AliceBlue">
+				<ContentControl HorizontalAlignment="Stretch"
+								VerticalAlignment="Stretch"
+								HorizontalContentAlignment="Stretch"
+								VerticalContentAlignment="Stretch"
+								uen:Region.Attached="True" />
+			</Grid>
+		</Grid>
+	</Grid>
+</Page>

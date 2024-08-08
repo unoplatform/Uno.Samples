@@ -1,0 +1,45 @@
+﻿<Page x:Class="Navigation.Presentation.ComplexFlyoutPageOne"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:local="using:Navigation.Presentation"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:uen="using:Uno.Extensions.Navigation.UI"
+      xmlns:utu="using:Uno.Toolkit.UI"
+      xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+      Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+      mc:Ignorable="d">
+
+    <Grid utu:SafeArea.Insets="VisibleBounds">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <utu:NavigationBar Content="Show Dialog" />
+
+        <StackPanel Grid.Row="1"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Spacing="16">
+            <Button AutomationProperties.AutomationId="ComplexFlyoutFirstPageSecondButton"
+                    uen:Navigation.Request="ComplexFlyoutSecond"
+                    Content="Second page" />
+            <Button AutomationProperties.AutomationId="ComplexFlyoutFirstPageCloseButton"
+                    Content="Close dialog"
+                    Command="{Binding CloseCommand}" />
+
+            <Border Background="Green">
+                <muxc:ItemsRepeater ItemsSource="{Binding Items}"
+                                    uen:Navigation.Request="-">
+                    <muxc:ItemsRepeater.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <TextBlock Text="{Binding Id}" />
+                            </Grid>
+                        </DataTemplate>
+                    </muxc:ItemsRepeater.ItemTemplate>
+                </muxc:ItemsRepeater>
+            </Border>
+        </StackPanel>
+    </Grid>
+</Page>
