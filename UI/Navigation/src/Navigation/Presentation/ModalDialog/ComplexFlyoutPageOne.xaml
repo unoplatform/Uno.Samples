@@ -15,7 +15,15 @@
             <RowDefinition Height="Auto" />
             <RowDefinition />
         </Grid.RowDefinitions>
-        <utu:NavigationBar Content="Show Dialog" />
+        <utu:NavigationBar Content="Complex Flyout One" Background="{ThemeResource PrimaryBrush}" Foreground="{ThemeResource OnPrimaryBrush}">
+            <utu:NavigationBar.MainCommand>
+                <AppBarButton Foreground="{ThemeResource OnPrimaryBrush}">
+                    <AppBarButton.Icon>
+                        <BitmapIcon UriSource="ms-appx:///Assets/Images/close.png" />
+                    </AppBarButton.Icon>
+                </AppBarButton>
+            </utu:NavigationBar.MainCommand>
+        </utu:NavigationBar>
 
         <StackPanel Grid.Row="1"
                     HorizontalAlignment="Center"
@@ -25,8 +33,9 @@
                     uen:Navigation.Request="ComplexFlyoutSecond"
                     Content="Second page" />
             <Button AutomationProperties.AutomationId="ComplexFlyoutFirstPageCloseButton"
-                    Content="Close dialog"
+                    Content="Close flyout"
                     Command="{Binding CloseCommand}" />
+            <TextBlock Text="Click on one of the values below." />
 
             <Border Background="Green">
                 <muxc:ItemsRepeater ItemsSource="{Binding Items}"

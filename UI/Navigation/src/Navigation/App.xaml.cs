@@ -54,6 +54,18 @@ public partial class App : Application
 			]
 		);
 
+		//var localizedDialog = new LocalizableMessageDialogViewMap(
+		//		Content: localizer => "[localized]Confirm this message?",
+		//		Title: localizer => "[localized]Confirm?",
+		//		DelayUserInput: true,
+		//		DefaultButtonIndex: 1,
+		//		Buttons: new LocalizableDialogAction[]
+		//		{
+		//			new(LabelProvider: localizer=> localizer!["Y"],Id:"Y"),
+		//			new(LabelProvider: localizer=> localizer!["N"], Id:"N")
+		//		}
+		//	);
+
 		views.Register(
 			new ViewMap(ViewModel: typeof(ShellViewModel)),
 			new ViewMap<MainPage, MainViewModel>(),
@@ -85,6 +97,7 @@ public partial class App : Application
 			new ViewMap<SecondBreadcrumbPage, SecondPageViewModel>(),
 			new ViewMap<ThirdBreadcrumbPage, ThirdPageViewModel>(),
 			messageDialog,
+			//localizedDialog,
 
 			// FIXME: Using the URL address bar to navigate doesn't work
 			// eg: http://localhost:5000/Main/ToFromQuery?QueryUser.Id=2b64071a-2c8a-45e4-9f48-3eb7d7aace41

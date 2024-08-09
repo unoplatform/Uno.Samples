@@ -15,14 +15,25 @@
             <RowDefinition Height="Auto" />
             <RowDefinition />
         </Grid.RowDefinitions>
-        <utu:NavigationBar Content="Show Dialog" />
+        <utu:NavigationBar Content="Complex Flyout Two"
+                           Background="{ThemeResource PrimaryBrush}"
+                           Foreground="{ThemeResource OnPrimaryBrush}">
+            <utu:NavigationBar.MainCommand>
+                <AppBarButton Foreground="{ThemeResource OnPrimaryBrush}">
+                    <AppBarButton.Icon>
+                        <BitmapIcon UriSource="ms-appx:///Assets/Images/back.png" />
+                    </AppBarButton.Icon>
+                </AppBarButton>
+            </utu:NavigationBar.MainCommand>
+        </utu:NavigationBar>
+
 
         <StackPanel Grid.Row="1"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Spacing="16">
             <Button AutomationProperties.AutomationId="ComplexFlyoutSecondPageCloseButton"
-                    Content="Close dialog"
+                    Content="Close flyout"
                     Command="{Binding CloseCommand}" />
         </StackPanel>
     </Grid>
