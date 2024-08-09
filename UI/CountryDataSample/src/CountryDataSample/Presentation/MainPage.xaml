@@ -1,0 +1,98 @@
+﻿<Page
+    x:Class="CountryDataSample.Presentation.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:business="using:CountryDataSample.Business"
+    xmlns:converters="using:CountryDataSample.Business.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:CountryDataSample.Presentation"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:toolkit="using:Uno.UI.Toolkit"
+    xmlns:uen="using:Uno.Extensions.Navigation.UI"
+    xmlns:utu="using:Uno.Toolkit.UI"
+    Background="{ThemeResource BackgroundBrush}"
+    NavigationCacheMode="Required"
+    mc:Ignorable="d">
+
+    <Page.Resources>
+        <converters:CountryToStatesConverter x:Key="CountryToStatesConverter" UIParameter="{x:Bind shippingState, Mode=OneWay}" />
+    </Page.Resources>
+
+    <Grid utu:SafeArea.Insets="All">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <utu:NavigationBar Content="{Binding Title}" />
+
+        <StackPanel
+            Grid.Row="1"
+            Padding="0"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            Spacing="16">
+
+            <toolkit:ElevatedView
+                Padding="10"
+                Background="#5946D2"
+                CornerRadius="5">
+
+                <StackPanel Spacing="5">
+                    <TextBlock
+                        HorizontalAlignment="Center"
+                        FontSize="18"
+                        FontWeight="ExtraBold"
+                        HorizontalTextAlignment="DetectFromContent"
+                        Text="Shipping Address" />
+                    <utu:Divider />
+
+                    <TextBox
+                        Background="{ThemeResource BackgroundBrush}"
+                        Header="Address Line 1: "
+                        PlaceholderText="Apartment no, Street..."
+                        Text="{Binding Address.AddressOne, Mode=TwoWay}" />
+
+                    <TextBox
+                        Background="{ThemeResource BackgroundBrush}"
+                        Header="Address Line 2: "
+                        PlaceholderText="Additional street info.."
+                        Text="{Binding Address.AddressTwo, Mode=TwoWay}" />
+
+                    <ComboBox
+                        x:Name="shippingCountry"
+                        Background="{ThemeResource BackgroundBrush}"
+                        ItemsSource="{x:Bind business:CountryConstants.CountryNames}"
+                        PlaceholderText="Country"
+                        SelectedItem="{Binding Address.Country, Mode=TwoWay}" />
+
+                    <ComboBox
+                        x:Name="shippingState"
+                        Background="{ThemeResource BackgroundBrush}"
+                        ItemsSource="{Binding SelectedItem, ElementName=shippingCountry, Converter={StaticResource CountryToStatesConverter}}"
+                        PlaceholderText="State"
+                        SelectedItem="{Binding Address.State, Mode=TwoWay}" />
+                    <TextBox
+                        x:Name="City"
+                        Background="{ThemeResource BackgroundBrush}"
+                        Header="City: "
+                        PlaceholderText="City..."
+                        Text="{Binding Address.City, Mode=TwoWay}" />
+
+                    <TextBox
+                        Background="{ThemeResource BackgroundBrush}"
+                        Header="Zip/Postal Code: "
+                        PlaceholderText="Enter postal or zip code"
+                        Text="{Binding Address.PostalCode, Mode=TwoWay}" />
+
+                </StackPanel>
+
+            </toolkit:ElevatedView>
+
+            <Button
+                HorizontalAlignment="Center"
+                AutomationProperties.AutomationId="SecondPageButton"
+                Command="{Binding GoToSecond}"
+                Content="Go to Second Page" />
+        </StackPanel>
+    </Grid>
+</Page>
