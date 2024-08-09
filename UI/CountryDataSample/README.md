@@ -1,13 +1,14 @@
 # CountryDataSample
 
-...
+Enter and display address information using real countries and states from the [CountryData.Standard nuget package](https://www.nuget.org/packages/CountryData.Standard).
 
-![CountryDataSample Image](doc/assets/countryDataSample.png)
+![CountryDataSample Image](doc/assets/countryDataSampleInputs.png)
+![CountryDataSample Image](doc/assets/countryDataSampleCard.png)
 
 ## Codebase
 
-* [**...**](src/CountryDataSample/): ...
-* [**...**](src/CountryDataSample/): ...
+* [**CountryConstants.cs**](src/CountryDataSample/Business/CountryConstants.cs): Helper class that gets and preps the country information from CountryData.Standard.
+* [**MainPage.xaml**](src/CountryDataSample/Presentation/MainPage.xaml): Page with inputs bound to all the country data.
 
 ## What is the Uno Platform
 

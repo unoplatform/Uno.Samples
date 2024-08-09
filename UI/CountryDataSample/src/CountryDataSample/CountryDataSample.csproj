@@ -42,8 +42,18 @@
       Material;
     </UnoFeatures>
   </PropertyGroup>
+  
   <ItemGroup>
     <PackageReference Include="CountryData.Standard" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="appsettings.development.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
   </ItemGroup>
 
 </Project>
