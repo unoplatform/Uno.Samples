@@ -24,13 +24,6 @@ public partial class MessageDialogViewModel : ObservableObject
 	}
 
 	[RelayCommand]
-	private async Task MessageDialogCodebehindRouteOverride()
-	{
-		var messageDialogResult = await _navigator.ShowMessageDialogAsync<string>(this, route: "LocalizedConfirm", content: "Override content", title: "Override title");
-		MessageDialogResultText = $"Message dialog result: {messageDialogResult}";
-	}
-
-	[RelayCommand]
 	private async Task MessageDialogCodebehindCancel()
 	{
 		var cancelSource = new CancellationTokenSource(TimeSpan.FromSeconds(2));
