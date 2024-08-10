@@ -60,7 +60,10 @@ public sealed partial class MainPage : Page
     {
         if (_colors == null)
         {
-            var fields = typeof(Colors).GetTypeInfo().DeclaredFields.Select(f => f.Name);
+            var fields = typeof(Colors).GetTypeInfo().DeclaredFields
+                .Where(f => !(f.Name.StartsWith('_') && char.IsLower(f.Name[1])))
+                .Select(f => f.Name);
+
             var properties = typeof(Colors).GetTypeInfo().DeclaredProperties.Select(f => f.Name);
 
             _colors = properties.Concat(fields).ToArray();
