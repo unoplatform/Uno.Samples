@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -19,6 +19,7 @@ using Windows.Foundation.Collections;
 using System.Collections.ObjectModel;
 using Windows.Storage;
 using Microsoft.Extensions.Options;
+using EFCoreSQLiteSample.Models;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 

@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
@@ -114,7 +114,7 @@ namespace EFCoreSQLiteSample
         /// <summary>
         /// Configures global Uno Platform logging
         /// </summary>
-        private static void InitializeLogging()
+        public static void InitializeLogging()
         {
 #if DEBUG
             // Logging is disabled by default for release builds, as it incurs a significant

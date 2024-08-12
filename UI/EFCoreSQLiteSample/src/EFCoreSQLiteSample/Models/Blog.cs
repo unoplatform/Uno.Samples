@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
-namespace EFCoreSQLiteSample
+namespace EFCoreSQLiteSample.Models
 {
     public class Blog
     {
