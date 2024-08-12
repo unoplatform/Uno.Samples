@@ -1,3 +1,4 @@
+using EFCoreSQLiteSample.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System.IO;
@@ -5,7 +6,7 @@ using Windows.Storage;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
-namespace EFCoreSQLiteSample.Models
+namespace EFCoreSQLiteSample
 {
     public class BloggingContext : DbContext
     {
