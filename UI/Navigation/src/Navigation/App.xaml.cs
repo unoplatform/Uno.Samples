@@ -80,10 +80,6 @@ public partial class App : Application
 			new ViewMap<FirstPage>(),
 			new ViewMap<SecondPage>(),
 			new ViewMap<ThirdPage>(),
-			new ViewMap<BreadcrumbNavigation, BreadcrumbViewModel>(),
-			new ViewMap<FirstBreadcrumbPage, FirstPageViewModel>(),
-			new ViewMap<SecondBreadcrumbPage, SecondPageViewModel>(),
-			new ViewMap<ThirdBreadcrumbPage, ThirdPageViewModel>(),
 			messageDialog,
 
 			// FIXME: Using the URL address bar to navigate doesn't work
@@ -116,17 +112,17 @@ public partial class App : Application
 						Nested:
 						[
                             #region Page Navigation
-                            new ("PageNavigation", View: views.FindByViewModel<PageNavigationViewModel>(), IsDefault: true),
+							new ("PageNavigation", View: views.FindByViewModel<PageNavigationViewModel>(), IsDefault: true),
 							new ("Sample", View: views.FindByView<SamplePage>(), DependsOn: "PageNavigation"),
                             #endregion
 
                             #region ContentControl Navigation
-                            new ("CControlNavigation", View: views.FindByView<CControlNavigationPage>()),
+							new ("CControlNavigation", View: views.FindByView<CControlNavigationPage>()),
 							new ("CControlRight", View: views.FindByView<CControlRightPage>(), DependsOn: "CControlNavigation"),
                             #endregion
 
                             #region TabBar Navigation
-                            new ("TabBarNavigation", View: views.FindByView<TabBarNavigationPage>(),
+							new ("TabBarNavigation", View: views.FindByView<TabBarNavigationPage>(),
 								Nested:
 								[
 									new ("TBOne"),
@@ -137,7 +133,7 @@ public partial class App : Application
                             #endregion
 
                             #region TabBar with Data Navigation
-                            new ("TabBarWithData", View: views.FindByViewModel<TabBarWithDataViewModel>(),
+							new ("TabBarWithData", View: views.FindByViewModel<TabBarWithDataViewModel>(),
 								Nested:
 								[
 									new ("TBDataOne", View: views.FindByViewModel<FirstTabBarItemWithDataViewModel>()),
@@ -147,17 +143,17 @@ public partial class App : Application
                             #endregion
 
                             #region Request a Value
-                            new ("RequestValueMain", View: views.FindByViewModel<RequestValueMainViewModel>()),
+							new ("RequestValueMain", View: views.FindByViewModel<RequestValueMainViewModel>()),
 							new ("RequestValueSecond", View: views.FindByViewModel<RequestValueSecondViewModel>(), DependsOn: "RequestValueMain"),
                             #endregion
 
                             #region Message Dialog
-                            new ("MessageDialog", View: views.FindByViewModel<MessageDialogViewModel>()),
+							new ("MessageDialog", View: views.FindByViewModel<MessageDialogViewModel>()),
 							new ("MyMessage", View: messageDialog),
                             #endregion
 
                             #region Modal Dialog
-                            new ("ModalDialog", View: views.FindByViewModel<ModalDialogViewModel>()),
+							new ("ModalDialog", View: views.FindByViewModel<ModalDialogViewModel>()),
 							new ("ModalDialogSecond", View: views.FindByView<ModalDialogSecondPage>()),
 							new ("ModalContentDialog", View: views.FindByView<ModalContentDialog>()),
 							new ("ComplexFlyout", View: views.FindByView<ComplexFlyoutPage>(), Nested:
@@ -168,11 +164,11 @@ public partial class App : Application
                             #endregion
 
                             #region ToFromQuery
-                            new ("ToFromQuery", View: views.FindByViewModel<ToFromQueryViewModel>()),
+							new ("ToFromQuery", View: views.FindByViewModel<ToFromQueryViewModel>()),
                             #endregion
 
                             #region Flyout Drawer
-                            new ("FlyoutDrawer", View: views.FindByView<FlyoutDrawerPage>(),
+							new ("FlyoutDrawer", View: views.FindByView<FlyoutDrawerPage>(),
 								Nested:
 								[
 									new ("First", View: views.FindByView<FirstPage>()),
@@ -182,12 +178,6 @@ public partial class App : Application
 							new ("NavFlyout", View: views.FindByView<NavFlyout>()),
                             #endregion
 
-                            #region Breadcrumb Navigation
-                            new ("BreadcrumbNavigation", View: views.FindByViewModel<BreadcrumbViewModel>()),
-							new ("FirstBreadcrumb", View: views.FindByViewModel<FirstPageViewModel>(), DependsOn: "BreadcrumbNavigation"),
-							new ("SecondBreadcrumb", View: views.FindByViewModel<SecondPageViewModel>(), DependsOn: "FirstBreadcrumb"),
-							new ("ThirdBreadcrumb", View: views.FindByViewModel<ThirdPageViewModel>(), DependsOn: "SecondBreadcrumb"),
-                            #endregion
                         ]
 					)
 				]
