@@ -262,6 +262,12 @@ An example of a toggle that allows you to switch between Native UI Controls and 
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/NativeStylesSwitch)
 
+### Navigation (Uno.Extensions)
+
+An example series demonstrating the use of various Navigation features.
+
+[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/Navigation)
+
 ### Neumorphism
 
 An example of an app containing an animated lock that you can unlock.
