@@ -1,0 +1,190 @@
+﻿<Page
+    x:Class="SQLiteOneDriveInvoiceSample.Views.Settings"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <ScrollViewer HorizontalScrollMode="Enabled" VerticalScrollMode="Enabled">
+        <Grid>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*" />
+                <ColumnDefinition Width="3*" />
+            </Grid.ColumnDefinitions>
+
+
+
+            <Border
+                x:Name="msGraphPanel"
+                Grid.Row="0"
+                Background="Transparent">
+                <StackPanel
+                    Margin="10"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch">
+
+                    <Border
+                        Margin="0,5"
+                        Background="{ThemeResource SecondaryGradientStyle}"
+                        BorderBrush="{ThemeResource Gray-Bg}"
+                        BorderThickness="2"
+                        CornerRadius="3">
+                        <StackPanel Padding="5">
+                            <TextBlock
+                                Margin="0,10"
+                                Style="{StaticResource TitleLabelStyle}"
+                                Text="Connect to OneDrive" />
+                            <ToggleSwitch
+                                Header="Connect to Microsoft account"
+                                IsOn="{Binding IsSignedIn}"
+                                OffContent="SignIn"
+                                OnContent="SignOut"
+                                Toggled="ToggleSwitch_Toggled" />
+
+                            <TextBlock
+                                Margin="0,10"
+                                Style="{StaticResource TitleLabelStyle}"
+                                Text="OneDrive User Details " />
+
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="2*" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Style="{StaticResource SimpleLabelStyle}" Text="Name : " />
+                                <TextBlock
+                                    Grid.Column="1"
+                                    Style="{StaticResource DescriptionLabelStyle}"
+                                    Text="{Binding Username}" />
+                            </Grid>
+
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="2*" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Style="{StaticResource SimpleLabelStyle}" Text="Email : " />
+                                <TextBlock
+                                    Grid.Column="1"
+                                    Style="{StaticResource DescriptionLabelStyle}"
+                                    Text="{Binding UserEmail}" />
+                            </Grid>
+
+                        </StackPanel>
+                    </Border>
+                    <Border
+                        Margin="0,5"
+                        Background="{ThemeResource SecondaryGradientStyle}"
+                        BorderBrush="{ThemeResource Gray-Bg}"
+                        BorderThickness="2"
+                        CornerRadius="3">
+                        <StackPanel Padding="5">
+                            <TextBlock
+                                Margin="0,10"
+                                Style="{StaticResource TitleLabelStyle}"
+                                Text="Back Up Or Restore Database " />
+
+                            <Button
+                                x:Name="backUpBtn"
+                                Margin="0,5"
+                                Padding="10"
+                                Click="BackUpButtonClicked"
+                                Content="Back Up Database"
+                                Style="{StaticResource GradientButtonStyle}" />
+                            <Button
+                                x:Name="restoreBtn"
+                                Margin="0,5"
+                                Padding="10"
+                                Click="RestoreButtonClicked"
+                                Content="Restore Database"
+                                Style="{StaticResource GradientButtonStyle}" />
+
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </Border>
+
+            <Border
+                x:Name="userDetails"
+                Margin="10"
+                HorizontalAlignment="Stretch"
+                Background="{ThemeResource SecondaryGradientStyle}"
+                BorderBrush="{ThemeResource Gray-Bg}"
+                BorderThickness="2"
+                CornerRadius="3">
+                <StackPanel Margin="0,5" Padding="5">
+                    <TextBlock Style="{StaticResource TitleLabelStyle}" Text="User Bank Details" />
+                    <StackPanel x:Name="UserAccountForm" Margin="0,5">
+                        <TextBox PlaceholderText="* Bank account holder name" Text="{Binding UserAccount.Holder, Mode=TwoWay}" />
+                        <TextBox PlaceholderText="* Bank name" Text="{Binding UserAccount.BankName, Mode=TwoWay}" />
+                        <TextBox PlaceholderText="Bank account number" Text="{Binding UserAccount.Number, Mode=TwoWay}" />
+                        <TextBox PlaceholderText="Bank account IBAN" Text="{Binding UserAccount.Iban, Mode=TwoWay}" />
+                        <TextBox PlaceholderText="Bank  Routing Number" Text="{Binding UserAccount.RoutingNumber, Mode=TwoWay}" />
+                        <TextBox PlaceholderText="Bank SWIFT Number" Text="{Binding UserAccount.SwiftNumber, Mode=TwoWay}" />
+                        <TextBox PlaceholderText="Currency (Max 4 Length)" Text="{Binding UserAccount.Currency, Mode=TwoWay}" />
+
+                        <Button Click="SaveAccountDetailsClicked" Content="Save Changes" />
+                    </StackPanel>
+
+                    <TextBlock
+                        Margin="0,5"
+                        Style="{StaticResource TitleLabelStyle}"
+                        Text="User Address Details" />
+                    <StackPanel x:Name="UserAddressForm">
+                        <TextBox PlaceholderText="* Address Line One" Text="{Binding UserAddress.AddressOne, Mode=TwoWay}" />
+                        <TextBox PlaceholderText="* Address Line Two" Text="{Binding UserAddress.AddressTwo}" />
+                        <TextBox PlaceholderText="City" Text="{Binding UserAddress.City, Mode=TwoWay}" />
+                        <TextBox PlaceholderText="State" Text="{Binding UserAddress.State, Mode=TwoWay}" />
+                        <TextBox PlaceholderText="Country" Text="{Binding UserAddress.Country, Mode=TwoWay}" />
+                        <TextBox PlaceholderText="Postal Code" Text="{Binding UserAddress.PostalCode, Mode=TwoWay}" />
+                        <CheckBox
+                            Checked="AddressChecked"
+                            Content="Is Address Billing "
+                            Indeterminate="AddressIndeterminate"
+                            IsChecked="True"
+                            Unchecked="AddressUnChecked" />
+
+                        <Button Click="SaveAddressDetailsClicked" Content="Save Changes" />
+                    </StackPanel>
+
+                </StackPanel>
+            </Border>
+
+
+
+        </Grid>
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState x:Name="WideState">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="641" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="msGraphPanel.(Grid.Column)" Value="0" />
+                        <Setter Target="userDetails.(Grid.Column)" Value="1" />
+                        <Setter Target="userDetails.(Grid.RowSpan)" Value="2" />
+                        <Setter Target="msGraphPanel.(Grid.RowSpan)" Value="2" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="NarrowState">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="msGraphPanel.(Grid.Row)" Value="0" />
+                        <Setter Target="userDetails.(Grid.Row)" Value="1" />
+                        <Setter Target="userDetails.(Grid.ColumnSpan)" Value="2" />
+                        <Setter Target="msGraphPanel.(Grid.ColumnSpan)" Value="2" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+    </ScrollViewer>
+</Page>
