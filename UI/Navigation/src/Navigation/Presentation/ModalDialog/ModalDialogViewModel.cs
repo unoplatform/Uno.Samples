@@ -27,11 +27,9 @@ public partial class ModalDialogViewModel : ObservableObject
 		var cancelSource = new CancellationTokenSource(TimeSpan.FromSeconds(2));
 		var result = await _navigator.NavigateRouteForResultAsync<Widget>(new object(), "!ModalDialogSecond", cancellation: cancelSource.Token).AsResult();
 	}
-
 }
 
 public class DialogsFlyoutsData
 {
 	public Guid Id { get; } = Guid.NewGuid();
 }
-

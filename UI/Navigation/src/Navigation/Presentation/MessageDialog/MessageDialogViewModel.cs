@@ -33,5 +33,4 @@ public partial class MessageDialogViewModel : ObservableObject
 
 	[ObservableProperty]
 	private string messageDialogResultText;
-
 }

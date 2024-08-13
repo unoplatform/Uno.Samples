@@ -14,5 +14,4 @@ public partial class PageNavigationViewModel : ObservableObject
 	{
 		await _navigator.NavigateViewAsync<SamplePage>(this);
 	}
-
 }

@@ -16,7 +16,7 @@ public partial class RequestValueSecondViewModel : ObservableObject
 		Entity = new("");
 	}
 
-	public ObservableCollection<Entity> Entities { get; } =
+	public List<Entity> Entities { get; } =
 		[
 			new Entity("Entity 1"),
 			new Entity("Entity 2"),
@@ -27,5 +27,4 @@ public partial class RequestValueSecondViewModel : ObservableObject
 	[RelayCommand]
 	private async Task GoBackToView()
 		=> await _navigator.NavigateBackWithResultAsync(this, data: Entity);
-	
 }

@@ -84,6 +84,7 @@ public partial class App : Application
 
 			// FIXME: Using the URL address bar to navigate doesn't work
 			// eg: http://localhost:5000/Main/ToFromQuery?QueryUser.Id=2b64071a-2c8a-45e4-9f48-3eb7d7aace41
+			// https://github.com/unoplatform/uno.extensions/issues/2488
 			new DataViewMap<ToFromQueryPage, ToFromQueryViewModel, QueryUser>(
 				ToQuery: user => new Dictionary<string, string>
 				{
@@ -111,17 +112,17 @@ public partial class App : Application
 					new ("Main", View: views.FindByViewModel<MainViewModel>(),
 						Nested:
 						[
-                            #region Page Navigation
+							#region Page Navigation
 							new ("PageNavigation", View: views.FindByViewModel<PageNavigationViewModel>(), IsDefault: true),
 							new ("Sample", View: views.FindByView<SamplePage>(), DependsOn: "PageNavigation"),
-                            #endregion
+							#endregion
 
-                            #region ContentControl Navigation
+							#region ContentControl Navigation
 							new ("CControlNavigation", View: views.FindByView<CControlNavigationPage>()),
 							new ("CControlRight", View: views.FindByView<CControlRightPage>(), DependsOn: "CControlNavigation"),
-                            #endregion
+							#endregion
 
-                            #region TabBar Navigation
+							#region TabBar Navigation
 							new ("TabBarNavigation", View: views.FindByView<TabBarNavigationPage>(),
 								Nested:
 								[
@@ -130,9 +131,9 @@ public partial class App : Application
 									new ("TBThree", View: views.FindByView<TabBarItem3>())
 								]
 							),
-                            #endregion
+							#endregion
 
-                            #region TabBar with Data Navigation
+							#region TabBar with Data Navigation
 							new ("TabBarWithData", View: views.FindByViewModel<TabBarWithDataViewModel>(),
 								Nested:
 								[
@@ -140,19 +141,19 @@ public partial class App : Application
 									new ("TBDataTwo", View: views.FindByViewModel<SecondTabBarItemWithDataViewModel>())
 								]
 							),
-                            #endregion
+							#endregion
 
-                            #region Request a Value
+							#region Request a Value
 							new ("RequestValueMain", View: views.FindByViewModel<RequestValueMainViewModel>()),
 							new ("RequestValueSecond", View: views.FindByViewModel<RequestValueSecondViewModel>(), DependsOn: "RequestValueMain"),
-                            #endregion
+							#endregion
 
-                            #region Message Dialog
+							#region Message Dialog
 							new ("MessageDialog", View: views.FindByViewModel<MessageDialogViewModel>()),
 							new ("MyMessage", View: messageDialog),
-                            #endregion
+							#endregion
 
-                            #region Modal Dialog
+							#region Modal Dialog
 							new ("ModalDialog", View: views.FindByViewModel<ModalDialogViewModel>()),
 							new ("ModalDialogSecond", View: views.FindByView<ModalDialogSecondPage>()),
 							new ("ModalContentDialog", View: views.FindByView<ModalContentDialog>()),
@@ -161,13 +162,13 @@ public partial class App : Application
 								new ("ComplexFlyoutOne", View: views.FindByViewModel<ComplexFlyoutOneViewModel>(), IsDefault:true),
 								new ("ComplexFlyoutSecond", View: views.FindByViewModel<ComplexFlyoutTwoViewModel>(), DependsOn: "ComplexFlyoutOne")
 							]),
-                            #endregion
+							#endregion
 
-                            #region ToFromQuery
+							#region ToFromQuery
 							new ("ToFromQuery", View: views.FindByViewModel<ToFromQueryViewModel>()),
-                            #endregion
+							#endregion
 
-                            #region Flyout Drawer
+							#region Flyout Drawer
 							new ("FlyoutDrawer", View: views.FindByView<FlyoutDrawerPage>(),
 								Nested:
 								[
@@ -176,9 +177,8 @@ public partial class App : Application
 									new ("Third", View: views.FindByView<ThirdPage>())
 								]),
 							new ("NavFlyout", View: views.FindByView<NavFlyout>()),
-                            #endregion
-
-                        ]
+							#endregion
+						]
 					)
 				]
 			)

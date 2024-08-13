@@ -16,16 +16,13 @@ public partial class ComplexFlyoutOneViewModel
 		new DialogsFlyoutsData()
 	};
 
-	public ComplexFlyoutOneViewModel(
-		INavigator navigator)
+	public ComplexFlyoutOneViewModel(INavigator navigator)
 	{
 
 		Navigator = navigator;
 
 		CloseCommand = new AsyncRelayCommand(Close);
 	}
-
-
 
 	public async Task Close()
 	{

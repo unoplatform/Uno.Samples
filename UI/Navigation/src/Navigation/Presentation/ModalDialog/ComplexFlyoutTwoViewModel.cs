@@ -8,12 +8,9 @@ public class ComplexFlyoutTwoViewModel
 
 	public string? Name { get; set; }
 
-	public ComplexFlyoutTwoViewModel(
-		INavigator navigator)
+	public ComplexFlyoutTwoViewModel(INavigator navigator)
 	{
-
 		Navigator = navigator;
-
 		CloseCommand = new AsyncRelayCommand(Close);
 	}
 
