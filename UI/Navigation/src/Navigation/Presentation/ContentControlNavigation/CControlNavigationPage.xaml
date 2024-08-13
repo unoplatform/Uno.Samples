@@ -9,6 +9,11 @@
 	  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
 	  mc:Ignorable="d">
 
+	<Page.Resources>
+		<GridLength x:Key="ZeroWidth">0</GridLength>
+		<GridLength x:Key="StarWidth">*</GridLength>
+	</Page.Resources>
+
 	<Grid x:Name="ParentGrid">
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto" />
@@ -19,7 +24,7 @@
 		<Grid Grid.Row="1">
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="*" />
-				<ColumnDefinition Width="*" />
+				<ColumnDefinition Width="{utu:Responsive Narrow={StaticResource ZeroWidth}, Wide={StaticResource StarWidth}}" />
 			</Grid.ColumnDefinitions>
 
 			<ListView Grid.Row="1"
@@ -32,12 +37,16 @@
 				</ListView.ItemTemplate>
 			</ListView>
 
-			<Grid Grid.Column="1" Background="AliceBlue">
+			<Grid Grid.Column="1"
+				  Background="AliceBlue"
+				  Visibility="{utu:Responsive Narrow=Collapsed,
+											  Wide=Visible}">
 				<ContentControl HorizontalAlignment="Stretch"
 								VerticalAlignment="Stretch"
 								HorizontalContentAlignment="Stretch"
 								VerticalContentAlignment="Stretch"
-								uen:Region.Attached="True" />
+								uen:Region.Attached="{utu:Responsive Narrow=False,
+																	 Wide=True}" />
 			</Grid>
 		</Grid>
 	</Grid>
