@@ -32,21 +32,20 @@
 					  ItemsSource="{x:Bind Items}">
 				<ListView.ItemTemplate>
 					<DataTemplate>
-						<TextBlock FontSize="30" Text="{Binding Name}" />
+						<TextBlock FontSize="30"
+								   Text="{Binding Name}" />
 					</DataTemplate>
 				</ListView.ItemTemplate>
 			</ListView>
 
 			<Grid Grid.Column="1"
 				  Background="AliceBlue"
-				  Visibility="{utu:Responsive Narrow=Collapsed,
-											  Wide=Visible}">
+				  Visibility="{utu:Responsive Narrow=Collapsed, Wide=Visible}">
 				<ContentControl HorizontalAlignment="Stretch"
 								VerticalAlignment="Stretch"
 								HorizontalContentAlignment="Stretch"
 								VerticalContentAlignment="Stretch"
-								uen:Region.Attached="{utu:Responsive Narrow=False,
-																	 Wide=True}" />
+								uen:Region.Attached="{utu:Responsive Narrow=False, Wide=True}" />
 			</Grid>
 		</Grid>
 	</Grid>

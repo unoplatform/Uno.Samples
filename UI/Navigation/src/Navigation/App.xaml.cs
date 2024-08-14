@@ -1,5 +1,3 @@
-using Uno.Resizetizer;
-
 namespace Navigation;
 public partial class App : Application
 {

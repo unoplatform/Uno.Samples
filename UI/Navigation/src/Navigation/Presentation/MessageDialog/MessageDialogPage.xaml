@@ -17,7 +17,8 @@
 
 		<utu:NavigationBar Content="Message Dialog" />
 
-		<TextBlock x:Name="MessageDialogResultText" Grid.Row="1" />
+		<TextBlock x:Name="MessageDialogResultText"
+				   Grid.Row="1" />
 
 		<StackPanel Grid.Row="1"
 					HorizontalAlignment="Center"
@@ -30,13 +31,16 @@
 				   Source="ms-appx:///Assets/logo.png" />
 
 			<!--  Button to show Message Dialog with XAML  -->
-			<Button uen:Navigation.Request="MyMessage" Content="Show Message Dialog with XAML" />
+			<Button uen:Navigation.Request="MyMessage"
+					Content="Show Message Dialog with XAML" />
 
 			<!--  Button to show Message Dialog with code behind  -->
-			<Button Command="{Binding ShowSimpleDialogCommand}" Content="Show Message Dialog with code behind" />
+			<Button Command="{Binding ShowSimpleDialogCommand}"
+					Content="Show Message Dialog with code behind" />
 
 			<!--  Button to show Message Dialog that disappears aftrer 2 secs  -->
-			<Button Command="{Binding MessageDialogCodebehindCancelCommand}" Content="MessageDialog Codebehind (cancel after 2s)" />
+			<Button Command="{Binding MessageDialogCodebehindCancelCommand}"
+					Content="MessageDialog Codebehind (cancel after 2s)" />
 
 		</StackPanel>
 	</Grid>

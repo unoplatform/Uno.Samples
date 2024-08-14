@@ -31,81 +31,91 @@
 				Style="{StaticResource PaneToggleButtonStyle}" />
 
 		<TextBlock Text="Navigation Samples"
-					Grid.Row="0"
-					Grid.Column="1"
-					HorizontalAlignment="Center"
-					VerticalAlignment="Center"
-					FontSize="24"
-					FontWeight="Bold"
-					Canvas.ZIndex="10"
-					Margin="0,0,10,0" />
+				   Grid.Row="0"
+				   Grid.Column="1"
+				   HorizontalAlignment="Center"
+				   VerticalAlignment="Center"
+				   FontSize="24"
+				   FontWeight="Bold"
+				   Canvas.ZIndex="10"
+				   Margin="0,0,10,0" />
 
 		<muxc:NavigationView x:Name="NavigationViewControl"
-							Grid.Row="1"
-							Grid.ColumnSpan="3"
-							uen:Region.Attached="True"
-							IsBackButtonVisible="Collapsed"
-							IsPaneOpen="True"
-							IsSettingsVisible="False"
-							IsPaneToggleButtonVisible="False">
-            
+							 Grid.Row="1"
+							 Grid.ColumnSpan="3"
+							 uen:Region.Attached="True"
+							 IsBackButtonVisible="Collapsed"
+							 IsPaneOpen="True"
+							 IsSettingsVisible="False"
+							 IsPaneToggleButtonVisible="False">
+
 			<muxc:NavigationView.MenuItems>
 
-				<muxc:NavigationViewItem uen:Region.Name="./PageNavigation" Content="Page Navigation">
+				<muxc:NavigationViewItem uen:Region.Name="./PageNavigation"
+										 Content="Page Navigation">
 					<muxc:NavigationViewItem.Icon>
 						<SymbolIcon Symbol="Page" />
 					</muxc:NavigationViewItem.Icon>
 				</muxc:NavigationViewItem>
 
-				<muxc:NavigationViewItem uen:Region.Name="RequestValueMain" Content="Request Value">
+				<muxc:NavigationViewItem uen:Region.Name="RequestValueMain"
+										 Content="Request Value">
 					<muxc:NavigationViewItem.Icon>
 						<SymbolIcon Symbol="Remote" />
 					</muxc:NavigationViewItem.Icon>
 				</muxc:NavigationViewItem>
 
-				<muxc:NavigationViewItem uen:Region.Name="CControlNavigation" Content="Content Control Navigation">
+				<muxc:NavigationViewItem uen:Region.Name="CControlNavigation"
+										 Content="Content Control Navigation">
 					<muxc:NavigationViewItem.Icon>
 						<SymbolIcon Symbol="DockRight" />
 					</muxc:NavigationViewItem.Icon>
 				</muxc:NavigationViewItem>
 
-				<muxc:NavigationViewItem uen:Region.Name="TabBarNavigation" Content="TabBar Navigation">
+				<muxc:NavigationViewItem uen:Region.Name="TabBarNavigation"
+										 Content="TabBar Navigation">
 					<muxc:NavigationViewItem.Icon>
 						<SymbolIcon Symbol="SwitchApps" />
 					</muxc:NavigationViewItem.Icon>
 				</muxc:NavigationViewItem>
 
-				<muxc:NavigationViewItem uen:Region.Name="TabBarWithData" Content="TabBar With Data">
+				<muxc:NavigationViewItem uen:Region.Name="TabBarWithData"
+										 Content="TabBar With Data">
 					<muxc:NavigationViewItem.Icon>
 						<SymbolIcon Symbol="DockBottom" />
 					</muxc:NavigationViewItem.Icon>
 				</muxc:NavigationViewItem>
 
-				<muxc:NavigationViewItem uen:Region.Name="MessageDialog" Content="Message Dialog">
+				<muxc:NavigationViewItem uen:Region.Name="MessageDialog"
+										 Content="Message Dialog">
 					<muxc:NavigationViewItem.Icon>
 						<SymbolIcon Symbol="Message" />
 					</muxc:NavigationViewItem.Icon>
 				</muxc:NavigationViewItem>
 
-				<muxc:NavigationViewItem uen:Region.Name="ModalDialog" Content="Display Dialog">
+				<muxc:NavigationViewItem uen:Region.Name="ModalDialog"
+										 Content="Display Dialog">
 					<muxc:NavigationViewItem.Icon>
 						<SymbolIcon Symbol="NewWindow" />
 					</muxc:NavigationViewItem.Icon>
 				</muxc:NavigationViewItem>
 
-				<muxc:NavigationViewItem uen:Region.Name="FlyoutDrawer" Content="Flyout Drawer">
+				<muxc:NavigationViewItem uen:Region.Name="FlyoutDrawer"
+										 Content="Flyout Drawer">
 					<muxc:NavigationViewItem.Icon>
 						<SymbolIcon Symbol="NewWindow" />
 					</muxc:NavigationViewItem.Icon>
 				</muxc:NavigationViewItem>
 
-				<muxc:NavigationViewItem uen:Region.Name="./ToFromQuery?QueryUser.Id=8a5c5b2e-ff96-474b-9e4d-65bde598f6bc" Content="FromQuery User 1">
+				<muxc:NavigationViewItem uen:Region.Name="./ToFromQuery?QueryUser.Id=8a5c5b2e-ff96-474b-9e4d-65bde598f6bc"
+										 Content="FromQuery User 1">
 					<muxc:NavigationViewItem.Icon>
 						<SymbolIcon Symbol="Link" />
 					</muxc:NavigationViewItem.Icon>
 				</muxc:NavigationViewItem>
 
-				<muxc:NavigationViewItem uen:Region.Name="./ToFromQuery?QueryUser.Id=2b64071a-2c8a-45e4-9f48-3eb7d7aace41" Content="FromQuery User 2">
+				<muxc:NavigationViewItem uen:Region.Name="./ToFromQuery?QueryUser.Id=2b64071a-2c8a-45e4-9f48-3eb7d7aace41"
+										 Content="FromQuery User 2">
 					<muxc:NavigationViewItem.Icon>
 						<SymbolIcon Symbol="Link" />
 					</muxc:NavigationViewItem.Icon>
@@ -113,7 +123,8 @@
 
 			</muxc:NavigationView.MenuItems>
 
-			<Grid uen:Region.Attached="True" uen:Region.Navigator="Visibility" />
+			<Grid uen:Region.Attached="True"
+				  uen:Region.Navigator="Visibility" />
 		</muxc:NavigationView>
 	</Grid>
 </Page>

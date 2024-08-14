@@ -1,6 +1,4 @@
-﻿using System.Collections.ObjectModel;
-
-namespace Navigation.Presentation;
+﻿namespace Navigation.Presentation;
 
 public partial class RequestValueSecondViewModel : ObservableObject
 {

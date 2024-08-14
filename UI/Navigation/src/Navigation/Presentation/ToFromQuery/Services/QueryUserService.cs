@@ -18,7 +18,7 @@ public class QueryUserService : IQueryUserService
 		return _users.FirstOrDefault(user => user.Id == id);
 	}
 
-	private Guid ConvertFromString(string value) 
+	private Guid ConvertFromString(string value)
 	{
 		Guid guid = Guid.Parse(value);
 		return guid;
