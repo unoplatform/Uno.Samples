@@ -7,9 +7,6 @@ using SkiaSharp.Views.Windows;
 
 namespace SkottieSample;
 
-/// <summary>
-/// An empty page that can be used on its own or navigated to within a Frame.
-/// </summary>
 public sealed partial class MainPage : Page
 {
     private Stopwatch _watch = new Stopwatch();
@@ -25,7 +22,7 @@ public sealed partial class MainPage : Page
 
     private async Task Load()
     {
-        var file = await Windows.Storage.StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Assets/LottieLogo1.json"));
+        var file = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Assets/LottieLogo1.json"));
         using var stream = await file.OpenReadAsync();
 
         using var fileStream = new SKManagedStream(stream.AsStream());
