@@ -1,4 +1,6 @@
-﻿namespace MauiCommunityToolkitApp.Presentation;
+using CommunityToolkit.Mvvm.ComponentModel;
+
+namespace MauiCommunityToolkitApp.Presentation;
 partial class DrawingViewViewModel : ObservableObject
 {
 	[ObservableProperty]

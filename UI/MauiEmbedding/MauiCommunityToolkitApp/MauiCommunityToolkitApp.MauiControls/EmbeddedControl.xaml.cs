@@ -1,8 +1,8 @@
 namespace MauiCommunityToolkitApp.MauiControls;
 
-public partial class App : Application
+public partial class EmbeddedControl : ContentView
 {
-    public App()
+    public EmbeddedControl()
     {
         InitializeComponent();
     }
