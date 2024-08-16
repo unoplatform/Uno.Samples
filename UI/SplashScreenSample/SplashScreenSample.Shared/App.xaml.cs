@@ -3,6 +3,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
 using System;
+using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 
@@ -58,7 +59,7 @@ namespace SplashScreenSample
             if (rootFrame == null)
             {
                 // Create a Frame to act as the navigation context and navigate to the first page
-                rootFrame = new Frame();
+                rootFrame = WaitWithSplashScreen<MainPage>();
 
                 rootFrame.NavigationFailed += OnNavigationFailed;
 
@@ -66,9 +67,6 @@ namespace SplashScreenSample
                 {
                     // TODO: Load state from previously suspended application
                 }
-
-                // Place the frame in the current Window
-                _window.Content = rootFrame;
             }
 
 #if !(NET6_0_OR_GREATER && WINDOWS)
@@ -109,6 +107,34 @@ namespace SplashScreenSample
             var deferral = e.SuspendingOperation.GetDeferral();
             //TODO: Save application state and stop any background activity
             deferral.Complete();
+        }
+
+        private Frame WaitWithSplashScreen<T>() where T : Page, new()
+        {
+            var shell = new Shell();
+            if (Shell.IsSplashCapable)
+            {
+                _window.Content = shell;
+
+                Frame rootFrame = new Frame();
+                async void PageNavigated(object s, NavigationEventArgs e)
+                {
+                    await Task.Delay(3000);
+                    _window.Content = rootFrame;
+                    rootFrame.Navigated -= PageNavigated;
+                };
+
+                rootFrame.Navigated += PageNavigated;
+                rootFrame.Navigate(typeof(T));
+                return rootFrame;
+            }
+            else
+            {
+                var page = new T();
+                Frame rootFrame = new Frame();
+                rootFrame.Navigate(typeof(T));
+                return rootFrame;
+            }
         }
 
         /// <summary>
