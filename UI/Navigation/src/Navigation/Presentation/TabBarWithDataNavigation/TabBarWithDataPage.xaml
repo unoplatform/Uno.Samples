@@ -1,0 +1,46 @@
+﻿<Page x:Class="Navigation.Presentation.TabBarWithDataPage"
+	  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	  xmlns:local="using:Navigation"
+	  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	  xmlns:uen="using:Uno.Extensions.Navigation.UI"
+	  xmlns:utu="using:Uno.Toolkit.UI"
+	  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+	  mc:Ignorable="d">
+
+	<Grid uen:Region.Attached="True">
+
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="*" />
+			<RowDefinition Height="Auto" />
+		</Grid.RowDefinitions>
+
+		<utu:NavigationBar Content="TabBar Navigation with Data"
+						   Style="{StaticResource MaterialNavigationBarStyle}">
+			<utu:NavigationBar.MainCommand>
+				<AppBarButton Foreground="{ThemeResource OnSurfaceInverseBrush}">
+					<AppBarButton.Icon>
+						<BitmapIcon UriSource="ms-appx:///Assets/Images/back.png" />
+					</AppBarButton.Icon>
+				</AppBarButton>
+			</utu:NavigationBar.MainCommand>
+		</utu:NavigationBar>
+
+		<Grid Grid.Row="1"
+			  uen:Region.Attached="True"
+			  uen:Region.Navigator="Visibility" />
+
+		<utu:TabBar Grid.Row="2"
+					VerticalAlignment="Bottom"
+					uen:Region.Attached="True">
+			<utu:TabBar.Items>
+				<utu:TabBarItem Command="{Binding GoToFirstTabCommand}"
+								Content="One" />
+				<utu:TabBarItem Command="{Binding GoToSecondTabCommand}"
+								Content="Two" />
+			</utu:TabBar.Items>
+		</utu:TabBar>
+	</Grid>
+</Page>

@@ -1,0 +1,22 @@
+﻿<Flyout x:Class="Navigation.Presentation.NavFlyout"
+		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+		xmlns:local="using:Navigation.Presentation"
+		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:uen="using:Uno.Extensions.Navigation.UI"
+		xmlns:utu="using:Uno.Toolkit.UI"
+		FlyoutPresenterStyle="{StaticResource RightDrawerFlyoutPresenterStyle}"
+		Placement="Full"
+		mc:Ignorable="d">
+
+	<StackPanel>
+		<TextBlock Text="Flyout" />
+		<Button uen:Navigation.Request="First"
+				Content="First Page" />
+		<Button uen:Navigation.Request="Second"
+				Content="Second Page" />
+		<Button uen:Navigation.Request="Third"
+				Content="Third Page" />
+	</StackPanel>
+</Flyout>

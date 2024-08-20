@@ -1,0 +1,56 @@
+﻿<Page x:Class="Navigation.Presentation.ComplexFlyoutPageOne"
+	  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	  xmlns:local="using:Navigation.Presentation"
+	  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	  xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+	  xmlns:uen="using:Uno.Extensions.Navigation.UI"
+	  xmlns:utu="using:Uno.Toolkit.UI"
+	  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+	  mc:Ignorable="d">
+
+	<Grid utu:SafeArea.Insets="VisibleBounds">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition />
+		</Grid.RowDefinitions>
+		<utu:NavigationBar Background="{ThemeResource PrimaryBrush}"
+						   Content="Complex Flyout One"
+						   Foreground="{ThemeResource OnPrimaryBrush}">
+			<utu:NavigationBar.MainCommand>
+				<AppBarButton Foreground="{ThemeResource OnPrimaryBrush}">
+					<AppBarButton.Icon>
+						<BitmapIcon UriSource="ms-appx:///Assets/Images/close.png" />
+					</AppBarButton.Icon>
+				</AppBarButton>
+			</utu:NavigationBar.MainCommand>
+		</utu:NavigationBar>
+
+		<StackPanel Grid.Row="1"
+					HorizontalAlignment="Center"
+					VerticalAlignment="Center"
+					Spacing="16">
+			<Button uen:Navigation.Request="ComplexFlyoutSecond"
+					AutomationProperties.AutomationId="ComplexFlyoutFirstPageSecondButton"
+					Content="Second page" />
+			<Button AutomationProperties.AutomationId="ComplexFlyoutFirstPageCloseButton"
+					Command="{Binding CloseCommand}"
+					Content="Close flyout" />
+			<TextBlock Text="Click on one of the values below." />
+
+			<Border Background="Green">
+				<muxc:ItemsRepeater uen:Navigation.Request="-"
+									ItemsSource="{Binding Items}">
+					<muxc:ItemsRepeater.ItemTemplate>
+						<DataTemplate>
+							<Grid>
+								<TextBlock Text="{Binding Id}" />
+							</Grid>
+						</DataTemplate>
+					</muxc:ItemsRepeater.ItemTemplate>
+				</muxc:ItemsRepeater>
+			</Border>
+		</StackPanel>
+	</Grid>
+</Page>
