@@ -145,7 +145,20 @@ var itemsWhichShouldBeDoneByToday =
     where !item.IsDone && item.DeadLine <= DateTime.Now
     select item).ToList();
 ```
-Of course you can also use the method chaining instead of the query language. The core idea is, that `Query()` returns you a `IQueryable`, which let's you use all the power of LINQ and friends. And there you have it, the easy and rapid power of **LiteDB** paired with the easiness and power of the **UNO Platform**.
+Of course you can also use the method chaining instead of the query language. The core idea is, that `Query()` returns you a `IQueryable`, which let's you use all the power of LINQ and friends. And there you have it, the easy and rapid power of **LiteDB** paired with the easiness and power of the **Uno Platform**.
+
+## File System Initialization on WebAssembly
+
+On WebAssembly, the file system is initialized asynchronously while the application is launching. Attempts to access the file system before this operation finalizes (e.g. during `Application.OnLaunched` or while the main page of the application is navigated to) may have unexpected results and could even cause a crash.
+
+To prevent this, make sure to perform and await an asynchronous operation on `ApplicationData.Current.LocalFolder` first. A good example would be to store the database in a nested `Data` folder, which needs to be asynchronously created first:
+
+```csharp
+var localFolder = Windows.Storage.ApplicationData.Current.LocalFolder;
+var dataFolder = await localFolder.CreateFolderAsync("Data", CreationCollisionOption.OpenIfExists);
+var dbPath = System.IO.Path.Combine(dataFolder.Path, "save.db");
+var liteDb = new LiteDatabase(dbPath);
+```
 
 ## LiteDB `async`
 One thing you might have noticed until now: All the methods I used are **synchrnous**. There is no `await liteDatabase.GetCollection<TodoItem>().ToListAsync()` or friends. You should consider the asynchrnous paradigm. If you have a regular desktop application or even the WASM head, `async` makes sense, as it doesn't block the UI thread. **LiteDB** itself doesn't offer asynchrnous operations, but there is a community project, which does that: [litedb-async](https://github.com/mlockett42/litedb-async).
