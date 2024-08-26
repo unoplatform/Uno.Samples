@@ -14,7 +14,7 @@ public partial class VideoDetailsPage : Page
 
     public VideoDetailsPage()
     {
-        this.DataContext<BindableVideoDetailsModel>((page, vm) => page
+        this.DataContext<VideoDetailsViewModel>((page, vm) => page
             .Background(Theme.Brushes.Background.Default)
             .NavigationCacheMode(NavigationCacheMode.Required)
             .StatusBar

@@ -30,3 +30,4 @@ global using TubePlayer.Business;
 global using Microsoft.UI.Text;
 global using Refit;
 global using TubePlayer.Services;
+[assembly: Uno.Extensions.Reactive.Config.BindableGenerationTool(3)]

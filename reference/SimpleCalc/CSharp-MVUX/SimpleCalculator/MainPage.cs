@@ -10,7 +10,7 @@ public sealed partial class MainPage : Page
 {
 	public MainPage()
 	{
-		this.DataContext(new BindableMainModel(this.GetThemeService()), (page, vm)
+		this.DataContext(new MainViewModel(this.GetThemeService()), (page, vm)
 			=> page
 			.Resources(r => r
 				.Add(AppIcons.Dark)
@@ -39,7 +39,7 @@ public sealed partial class MainPage : Page
 		);
 	}
 
-	private ToggleButton Header(BindableMainModel vm)
+	private ToggleButton Header(MainViewModel vm)
 		=> new ToggleButton()
 			.Grid(row: 0)
 			.Margin(8, 24, 8, 0)
@@ -63,7 +63,7 @@ public sealed partial class MainPage : Page
 					.Foreground(Theme.Brushes.Primary.Default)
 			);
 
-	private StackPanel Output(BindableMainModel vm) =>
+	private StackPanel Output(MainViewModel vm) =>
 		new StackPanel()
 		.Grid(row: 2)
 		.Spacing(16)
@@ -75,21 +75,21 @@ public sealed partial class MainPage : Page
 			Result(vm)
 		);
 
-	private TextBlock Equation(BindableMainModel vm) =>
+	private TextBlock Equation(MainViewModel vm) =>
 		new TextBlock()
 		.Text(() => vm.Calculator.Equation)
 		.HorizontalAlignment(HorizontalAlignment.Right)
 		.Foreground(Theme.Brushes.OnSecondary.Container.Default)
 		.Style(Theme.TextBlock.Styles.DisplaySmall);
 
-	private TextBlock Result(BindableMainModel vm) =>
+	private TextBlock Result(MainViewModel vm) =>
 		new TextBlock()
 		.Text(() => vm.Calculator.Output)
 		.HorizontalAlignment(HorizontalAlignment.Right)
 		.Foreground(Theme.Brushes.OnBackground.Default)
 		.Style(Theme.TextBlock.Styles.DisplayLarge);
 
-	private Grid KeyPad(BindableMainModel vm)
+	private Grid KeyPad(MainViewModel vm)
 		=> new Grid()
 		.Grid(row: 3)
 		.RowSpacing(16)
@@ -132,7 +132,7 @@ public sealed partial class MainPage : Page
 		);
 
 	private Button KeyPadButton(
-			BindableMainModel vm,
+			MainViewModel vm,
 			int gridRow,
 			int gridColumn,
 			object content,
@@ -150,7 +150,7 @@ public sealed partial class MainPage : Page
 			.Style(Theme.Button.Styles.Elevated);
 
 	private Button KeyPadPrimaryButton(
-			BindableMainModel vm,
+			MainViewModel vm,
 			int gridRow,
 			int gridColumn,
 			object content,
@@ -167,7 +167,7 @@ public sealed partial class MainPage : Page
 			.Style(Theme.Button.Styles.Filled);
 
 	private Button KeyPadSecondaryButton(
-			BindableMainModel vm,
+			MainViewModel vm,
 			int gridRow,
 			int gridColumn,
 			object content,
