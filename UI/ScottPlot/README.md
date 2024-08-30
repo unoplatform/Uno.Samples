@@ -1,38 +1,26 @@
-# ScottPlot Quickstart Sample
+# ScottPlot Samples
 
 [ScottPlot](https://scottplot.net/) is a free and open-source plotting library for .NET that makes it easy to interactively display large datasets. Line plots, bar charts, pie graphs, scatter plots, and more can be created with just a few lines of code.
 
-This sample app was created by following the [ScottPlot Uno Platform Quickstart documentation](https://scottplot.net/quickstart/unoplatform).
+## Quickstart sample
 
-## Screenshots
+[This sample](/QuickstartSample/) app was created by following the [ScottPlot Uno Platform Quickstart documentation](https://scottplot.net/quickstart/unoplatform).
 
-### Windows
+![ScottPlot Quickstart Sample App](doc/assets/Quickstart-Sample.gif)
 
-![ScottPlot Quickstart Sample App - Windows](doc/assets/scottplot-winui-quickstart.png)
+### Screenshots
 
-### WebAssembly
+| | | |
+|:-------------------------:|:-------------------------:|:-------------------------:|
+|<img width="500" alt="ScottPlot Quickstart Sample App - Windows" src="doc/assets/scottplot-winui-quickstart.png">  **Windows** |  <img width="500" alt="ScottPlot Quickstart Sample App - WebAssembly" src="doc/assets/unoplatform-quickstart-webassembly.png"> **WebAssembly** |<img width="500" alt="ScottPlot Quickstart Sample App - Android" src="doc/assets/unoplatform-quickstart-android.png"> **Android** |
+|<img width="500" alt="ScottPlot Quickstart Sample App - iOS" src="doc/assets/unoplatform-quickstart-iOS.png"> **iOS** |  <img width="500" alt="ScottPlot Quickstart Sample App - Mac Catalyst" src="doc/assets/unoplatform-quickstart-mac-catalyst.png"> **Mac Catalyst** |<img width="500" alt="ScottPlot Quickstart Sample App - Desktop" src="doc/assets/unoplatform-quickstart-desktop.png"> **Desktop** |
+|<img width="500" alt="ScottPlot Quickstart Sample App - Desktop WSL" src="doc/assets/unoplatform-quickstart-desktop-wsl.png"> **Desktop WSL** | | |
 
-![ScottPlot Quickstart Sample App - WebAssembly](doc/assets/unoplatform-quickstart-webassembly.png)
+## Signal plot with 5 million points sample
 
-### Android
+[This sample](/SignalPlotFiveMillionPointsSample/) app was created the same way by following the [ScottPlot Uno Platform Quickstart documentation](https://scottplot.net/quickstart/unoplatform). Only the code-behind defers to display a signal plot with 5 million random points.
 
-![ScottPlot Quickstart Sample App - Android](doc/assets/unoplatform-quickstart-android.png)
-
-### iOS
-
-![ScottPlot Quickstart Sample App - iOS](doc/assets/unoplatform-quickstart-iOS.png)
-
-### Mac Catalyst
-
-![ScottPlot Quickstart Sample App - Mac Catalyst](doc/assets/unoplatform-quickstart-mac-catalyst.png)
-
-### Desktop
-
-![ScottPlot Quickstart Sample App - Desktop](doc/assets/unoplatform-quickstart-desktop.png)
-
-### Desktop WSL
-
-![ScottPlot Quickstart Sample App - Desktop WSL](doc/assets/unoplatform-quickstart-desktop-wsl.png)
+![ScottPlot Demo Sample App - Signal plot with 5 million points](doc/assets/FiveMillionPoints-Sample.gif)
 
 ## What is the Uno Platform
 
