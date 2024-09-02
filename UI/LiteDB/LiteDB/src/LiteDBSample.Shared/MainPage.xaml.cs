@@ -5,6 +5,7 @@ using Windows.Storage;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using LiteDB;
+using Microsoft.UI.Xaml.Navigation;
 
 namespace LiteDBSample
 {
@@ -21,7 +22,20 @@ namespace LiteDBSample
 			_todoItems = new ObservableCollection<TodoItem>();
 		}
 
-		private LiteDatabase _liteDatabase;
+        protected override async void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+
+            // Before the database is accessed for the first time on WASM, the filesystem needs to be
+            // initialized, otherwise data might be lost. Ensure that any asynchronous operation is
+			// awaited before creating/accessing the database, as await will wait for the initialization to complete.
+            // See https://platform.uno/docs/articles/features/file-management.html#webassembly-file-system for more information.
+            var localFolder = Windows.Storage.ApplicationData.Current.LocalFolder;
+			var data = await localFolder.CreateFolderAsync("Data", CreationCollisionOption.OpenIfExists);
+            LoadFromDatabase(this, null);
+        }
+
+        private LiteDatabase _liteDatabase;
 
 		private LiteDatabase LiteDatabase
 		{
@@ -36,7 +50,7 @@ namespace LiteDBSample
 			}
 		}
 
-		private static string DbPath => System.IO.Path.Combine(ApplicationData.Current.LocalFolder.Path, "save.db");
+		private static string DbPath => System.IO.Path.Combine(ApplicationData.Current.LocalFolder.Path, "Data", "save.db");
 
 		private void LoadFromDatabase(object sender, RoutedEventArgs args)
 		{
