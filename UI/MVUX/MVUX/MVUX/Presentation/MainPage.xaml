@@ -6,7 +6,8 @@
       xmlns:uen="using:Uno.Extensions.Navigation.UI"
       xmlns:utu="using:Uno.Toolkit.UI"
       Background="{ThemeResource BackgroundBrush}"
-      NavigationCacheMode="Required">
+      NavigationCacheMode="Required"
+      xmlns:mvux="using:Uno.Extensions.Reactive.UI">
 
   <Grid utu:SafeArea.Insets="VisibleBounds">
 
@@ -30,7 +31,7 @@
             Margin="10,0,0,0"
             Style="{StaticResource PaneToggleButtonStyle}" />
 
-    <TextBlock Text="Navigation Samples"
+    <TextBlock Text="MVUX Samples"
                Grid.Row="0"
                Grid.Column="1"
                HorizontalAlignment="Center"
@@ -51,8 +52,8 @@
 
       <muxc:NavigationView.MenuItems>
 
-        <muxc:NavigationViewItem uen:Region.Name="./MainPage"
-                                 Content="Page Navigation">
+        <muxc:NavigationViewItem uen:Region.Name="ListFeed"
+                                 Content="ListFeed Page">
           <muxc:NavigationViewItem.Icon>
             <SymbolIcon Symbol="Page" />
           </muxc:NavigationViewItem.Icon>

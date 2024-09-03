@@ -1,3 +1,4 @@
+using MVUX.Presentation.ListFeedSample;
 using Uno.Resizetizer;
 
 namespace MVUX;
@@ -98,7 +99,7 @@ public partial class App : Application
         views.Register(
             new ViewMap(ViewModel: typeof(ShellModel)),
             new ViewMap<MainPage, MainModel>(),
-            new DataViewMap<SecondPage, SecondModel, Entity>()
+            new ViewMap<ListFeedPage, ListFeedModel>()
         );
 
         routes.Register(
@@ -106,7 +107,7 @@ public partial class App : Application
                 Nested:
                 [
                     new ("Main", View: views.FindByViewModel<MainModel>(), IsDefault:true),
-                    new ("Second", View: views.FindByViewModel<SecondModel>()),
+                    new ("ListFeed", View: views.FindByViewModel<ListFeedModel>()),
                 ]
             )
         );
