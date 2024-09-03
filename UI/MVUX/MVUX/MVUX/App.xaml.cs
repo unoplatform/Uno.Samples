@@ -1,4 +1,5 @@
 using MVUX.Presentation.ListFeedSample;
+using MVUX.Presentation.RefreshListFeed;
 using Uno.Resizetizer;
 
 namespace MVUX;
@@ -99,7 +100,8 @@ public partial class App : Application
         views.Register(
             new ViewMap(ViewModel: typeof(ShellModel)),
             new ViewMap<MainPage, MainModel>(),
-            new ViewMap<ListFeedPage, ListFeedModel>()
+            new ViewMap<ListFeedPage, ListFeedModel>(),
+            new ViewMap<SignalPage, RefreshSignalModel>()
         );
 
         routes.Register(
@@ -108,6 +110,7 @@ public partial class App : Application
                 [
                     new ("Main", View: views.FindByViewModel<MainModel>(), IsDefault:true),
                     new ("ListFeed", View: views.FindByViewModel<ListFeedModel>()),
+                    new ("RefreshSignal", View: views.FindByViewModel<RefreshSignalModel>()),
                 ]
             )
         );
