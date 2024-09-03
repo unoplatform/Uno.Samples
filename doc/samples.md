@@ -304,7 +304,7 @@ Uno PongWars is a simple minigame that draws inspiration from the [PongWars HTML
 
 [ScottPlot](https://scottplot.net/) is a free and open-source plotting library for .NET that makes it easy to interactively display large datasets. Line plots, bar charts, pie graphs, scatter plots, and more can be created with just a few lines of code.
 
-This sample app was created by following the [ScottPlot Uno Platform Quickstart documentation](https://scottplot.net/quickstart/unoplatform).
+Two sample apps are available and created by following the [ScottPlot Uno Platform Quickstart documentation](https://scottplot.net/quickstart/unoplatform). The first one is the Quickstart sample and the second one only defers in terms of code-behind to display a signal plot with 5 million random points.
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/ScottPlot) | [Follow the quickstart tutorial](https://scottplot.net/quickstart/unoplatform)
 
