@@ -2,7 +2,6 @@ namespace MVUX.Presentation.ListFeedSample;
 
 public partial record ListFeedModel
 {
-    public partial record Person(string FirstName, string LastName);
     public IListFeed<Person> People { get; }
     public ListFeedModel()
     {

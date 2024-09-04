@@ -1,3 +1,4 @@
+using MVUX.Presentation.FeedSample;
 using MVUX.Presentation.ListFeedSample;
 using MVUX.Presentation.RefreshListFeed;
 using MVUX.Presentation.StateSample;
@@ -103,6 +104,7 @@ public partial class App : Application
             new ViewMap<MainPage, MainModel>(),
             new ViewMap<ListFeedPage, ListFeedModel>(),
             new ViewMap<SignalPage, RefreshSignalModel>(),
+            new ViewMap<FeedPage, FeedModel>(),
             new ViewMap<StatePage, StateModel>()
         );
 
@@ -113,6 +115,7 @@ public partial class App : Application
                     new ("Main", View: views.FindByViewModel<MainModel>(), IsDefault:true),
                     new ("ListFeed", View: views.FindByViewModel<ListFeedModel>()),
                     new ("RefreshSignal", View: views.FindByViewModel<RefreshSignalModel>()),
+                    new ("Feed", View: views.FindByViewModel<FeedModel>()),
                     new ("State", View: views.FindByViewModel<StateModel>()),
                 ]
             )
