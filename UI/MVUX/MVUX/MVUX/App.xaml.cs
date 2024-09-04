@@ -1,3 +1,4 @@
+using MVUX.Presentation.FeedSample;
 using MVUX.Presentation.ListFeedSample;
 using MVUX.Presentation.PaginationSample;
 using MVUX.Presentation.RefreshListFeed;
@@ -105,7 +106,8 @@ public partial class App : Application
             new ViewMap<ListFeedPage, ListFeedModel>(),
             new ViewMap<SignalPage, RefreshSignalModel>(),
             new ViewMap<StatePage, StateModel>(),
-            new ViewMap<PaginationMainPage, PaginationPeopleModel>()
+            new ViewMap<PaginationMainPage, PaginationPeopleModel>(),
+            new ViewMap<FeedPage, FeedModel>()
         );
 
         routes.Register(
@@ -115,6 +117,7 @@ public partial class App : Application
                     new ("Main", View: views.FindByViewModel<MainModel>(), IsDefault:true),
                     new ("ListFeed", View: views.FindByViewModel<ListFeedModel>()),
                     new ("RefreshSignal", View: views.FindByViewModel<RefreshSignalModel>()),
+                    new ("Feed", View: views.FindByViewModel<FeedModel>()),
                     new ("State", View: views.FindByViewModel<StateModel>()),
                     new ("Pagination", View: views.FindByViewModel<PaginationPeopleModel>()),
                 ]

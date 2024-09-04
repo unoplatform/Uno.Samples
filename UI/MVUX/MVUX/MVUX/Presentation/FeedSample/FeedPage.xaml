@@ -1,0 +1,23 @@
+﻿<Page x:Class="MVUX.Presentation.FeedSample.FeedPage"
+	  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	  xmlns:mvux="using:Uno.Extensions.Reactive.UI"
+	  xmlns:utu="using:Uno.Toolkit.UI"
+	  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+	<Grid utu:SafeArea.Insets="Bottom,Top">
+		<mvux:FeedView Source="{Binding Person}">
+			<DataTemplate>
+				<StackPanel>
+					<TextBlock Text="Selected Person:"
+							   FontWeight="Bold"
+							   FontSize="16" />
+					<TextBlock Text="{Binding Data.FirstName}"
+							   FontSize="14" />
+					<TextBlock Text="{Binding Data.LastName}"
+							   FontSize="14" />
+				</StackPanel>
+			</DataTemplate>
+		</mvux:FeedView>
+	</Grid>
+</Page>
