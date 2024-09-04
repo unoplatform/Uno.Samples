@@ -1,4 +1,5 @@
 using MVUX.Presentation.ListFeedSample;
+using MVUX.Presentation.PaginationSample;
 using MVUX.Presentation.RefreshListFeed;
 using MVUX.Presentation.StateSample;
 using Uno.Resizetizer;
@@ -103,7 +104,8 @@ public partial class App : Application
             new ViewMap<MainPage, MainModel>(),
             new ViewMap<ListFeedPage, ListFeedModel>(),
             new ViewMap<SignalPage, RefreshSignalModel>(),
-            new ViewMap<StatePage, StateModel>()
+            new ViewMap<StatePage, StateModel>(),
+            new ViewMap<PaginationMainPage, PaginationPeopleModel>()
         );
 
         routes.Register(
@@ -114,6 +116,7 @@ public partial class App : Application
                     new ("ListFeed", View: views.FindByViewModel<ListFeedModel>()),
                     new ("RefreshSignal", View: views.FindByViewModel<RefreshSignalModel>()),
                     new ("State", View: views.FindByViewModel<StateModel>()),
+                    new ("Pagination", View: views.FindByViewModel<PaginationPeopleModel>()),
                 ]
             )
         );
