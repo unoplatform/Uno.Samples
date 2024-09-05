@@ -86,7 +86,7 @@ public partial class App : Application
                 .ConfigureServices((context, services) =>
                 {
                     // TODO: Register your services
-                    //services.AddSingleton<IMyService, MyService>();
+                    services.AddSingleton<IStateService, StateService>();
                 })
                 .UseNavigation(ReactiveViewModelMappings.ViewModelMappings, RegisterRoutes)
             );
@@ -122,7 +122,7 @@ public partial class App : Application
                     new ("RefreshSignal", View: views.FindByViewModel<RefreshSignalModel>()),
                     new ("Feed", View: views.FindByViewModel<FeedModel>()),
                     new ("State", View: views.FindByViewModel<StateModel>()),
-                    new ("Selection", View: views.FindByViewModel<SelectionModel>())
+                    new ("Selection", View: views.FindByViewModel<SelectionModel>()),
                     new ("Pagination", View: views.FindByViewModel<PaginationPeopleModel>()),
                 ]
             )
