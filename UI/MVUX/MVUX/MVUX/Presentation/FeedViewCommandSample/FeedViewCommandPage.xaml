@@ -1,0 +1,34 @@
+﻿<Page x:Class="MVUX.Presentation.FeedViewCommandSample.FeedViewCommandPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:local="using:MVUX.Presentation.FeedViewCommandSample"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mvux="using:Uno.Extensions.Reactive.UI"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:utu="using:Uno.Toolkit.UI"
+      mc:Ignorable="d"
+      Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+  <Grid Padding="20">
+
+    <mvux:FeedView Source="{Binding Items}">
+        <DataTemplate>
+          <ListView ItemsSource="{Binding Data}"
+                    Margin="0, 10, 0, 10">
+            <ListView.ItemTemplate>
+              <DataTemplate>
+                <StackPanel Orientation="Horizontal">
+                  <TextBlock Text="{Binding Text}"
+                             VerticalAlignment="Center" />
+                  <Button Content="Delete"
+                          Command="{utu:AncestorBinding AncestorType=mvux:FeedView, Path=DataContext.RemoveItem}"
+                          CommandParameter="{Binding}" />
+                </StackPanel>
+              </DataTemplate>
+            </ListView.ItemTemplate>
+          </ListView>
+        </DataTemplate>
+    </mvux:FeedView>
+
+  </Grid>
+</Page>
