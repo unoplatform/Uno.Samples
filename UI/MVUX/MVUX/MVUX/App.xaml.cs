@@ -1,4 +1,4 @@
-
+using MVUX.Presentation.FeedViewSample;
 using Uno.Resizetizer;
 using SelectionModel = MVUX.Presentation.SelectionSample.SelectionModel;
 
@@ -106,8 +106,9 @@ public partial class App : Application
             new ViewMap<SelectionPage, SelectionModel>(),
             new ViewMap<PaginationMainPage, PaginationPeopleModel>(),
             new ViewMap<FeedPage, FeedModel>(),
-            new ViewMap<FeedViewCommandPage, FeedViewCommandModel>()
-        );
+            new ViewMap<FeedViewCommandPage, FeedViewCommandModel>(),
+            new ViewMap<FeedViewPage, FeedViewModel>()
+		);
 
         routes.Register(
             new RouteMap("", View: views.FindByViewModel<ShellModel>(),
@@ -121,7 +122,8 @@ public partial class App : Application
                     new ("Selection", View: views.FindByViewModel<SelectionModel>()),
                     new ("Pagination", View: views.FindByViewModel<PaginationPeopleModel>()),
                     new ("FeedViewCommand", View: views.FindByViewModel<FeedViewCommandModel>()),
-                ]
+                    new ("FeedView", View: views.FindByViewModel<FeedViewModel>()),
+				]
             )
         );
     }
