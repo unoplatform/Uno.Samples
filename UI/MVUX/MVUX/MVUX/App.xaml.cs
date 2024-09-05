@@ -122,7 +122,7 @@ public partial class App : Application
                     new ("RefreshSignal", View: views.FindByViewModel<RefreshSignalModel>()),
                     new ("Feed", View: views.FindByViewModel<FeedModel>()),
                     new ("State", View: views.FindByViewModel<StateModel>()),
-                    new ("Selection", View: views.FindByViewModel<SelectionModel>())
+                    new ("Selection", View: views.FindByViewModel<SelectionModel>()),
                     new ("Pagination", View: views.FindByViewModel<PaginationPeopleModel>()),
                 ]
             )
