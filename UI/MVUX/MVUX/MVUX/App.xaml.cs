@@ -2,8 +2,10 @@ using MVUX.Presentation.FeedSample;
 using MVUX.Presentation.ListFeedSample;
 using MVUX.Presentation.PaginationSample;
 using MVUX.Presentation.RefreshListFeed;
+using MVUX.Presentation.SelectionSample;
 using MVUX.Presentation.StateSample;
 using Uno.Resizetizer;
+using SelectionModel = MVUX.Presentation.SelectionSample.SelectionModel;
 
 namespace MVUX;
 
@@ -106,6 +108,7 @@ public partial class App : Application
             new ViewMap<ListFeedPage, ListFeedModel>(),
             new ViewMap<SignalPage, RefreshSignalModel>(),
             new ViewMap<StatePage, StateModel>(),
+            new ViewMap<SelectionPage, SelectionModel>(),
             new ViewMap<PaginationMainPage, PaginationPeopleModel>(),
             new ViewMap<FeedPage, FeedModel>()
         );
@@ -119,6 +122,7 @@ public partial class App : Application
                     new ("RefreshSignal", View: views.FindByViewModel<RefreshSignalModel>()),
                     new ("Feed", View: views.FindByViewModel<FeedModel>()),
                     new ("State", View: views.FindByViewModel<StateModel>()),
+                    new ("Selection", View: views.FindByViewModel<SelectionModel>())
                     new ("Pagination", View: views.FindByViewModel<PaginationPeopleModel>()),
                 ]
             )
