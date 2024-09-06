@@ -10,7 +10,7 @@ public partial record UpdateStateModel
 
 	// Update State with item
 	public ValueTask ChangeValueWithItem(string item, CancellationToken ct)
-		=> Number.UpdateAsync(c => Convert.ToInt32(item), ct);
+		=> Number.UpdateAsync(_ => Convert.ToInt32(item), ct);
 
 	// Updating state from a command w/ accessing previous value
 	public ValueTask ChangeValueIfGreaterThan(CancellationToken ct)
