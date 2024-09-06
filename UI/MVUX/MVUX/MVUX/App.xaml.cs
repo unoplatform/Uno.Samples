@@ -82,7 +82,8 @@ public partial class App : Application
                 {
                     // TODO: Register your services
                     services.AddSingleton<IStateService, StateService>();
-                })
+					services.AddSingleton<IPaginationPeopleService, PaginationPeopleService>();
+				})
                 .UseNavigation(ReactiveViewModelMappings.ViewModelMappings, RegisterRoutes)
             );
         MainWindow = builder.Window;

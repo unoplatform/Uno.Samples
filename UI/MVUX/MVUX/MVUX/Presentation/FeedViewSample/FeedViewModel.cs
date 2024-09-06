@@ -1,4 +1,4 @@
-﻿using Uno.Extensions.Reactive;
+using Uno.Extensions.Reactive;
 
 namespace MVUX.Presentation.FeedViewSample;
 
@@ -23,7 +23,7 @@ public partial record FeedViewModel
 	
 	private async ValueTask<Person> GetRandomPersonAsync(CancellationToken ct)
 	{
-		await Task.Delay(2000, ct);
+		await Task.Delay(10000, ct);
 		
 		var people = new[]
 		{
@@ -37,7 +37,7 @@ public partial record FeedViewModel
 	
 	private async ValueTask<Person> ThrowErrorAsync(CancellationToken ct)
 	{
-		await Task.Delay(2000, ct);
+		await Task.Delay(10000, ct);
 		throw new Exception("An error occurred while fetching the person details.");
 	}
 }
