@@ -6,7 +6,6 @@ namespace MVUX.Presentation.SelectionSample
 		public SelectionPage()
 		{
 			this.InitializeComponent();
-			this.DataContext = new BindableSelectionModel();
 		}
 	}
 }
