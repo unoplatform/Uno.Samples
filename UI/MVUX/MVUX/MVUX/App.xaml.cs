@@ -104,16 +104,20 @@ public partial class App : Application
 			new RouteMap("", View: views.FindByViewModel<ShellModel>(),
 				Nested:
 				[
-					new ("Main", View: views.FindByViewModel<MainModel>(), IsDefault:true),
-					new ("ListFeed", View: views.FindByViewModel<ListFeedModel>()),
-					new ("RefreshSignal", View: views.FindByViewModel<RefreshSignalModel>()),
-					new ("Feed", View: views.FindByViewModel<FeedModel>()),
-					new ("State", View: views.FindByViewModel<StateModel>()),
-					new ("UpdateState", View: views.FindByViewModel<UpdateStateModel>()),
-					new ("Selection", View: views.FindByViewModel<SelectionModel>()),
-					new ("Pagination", View: views.FindByViewModel<PaginationPeopleModel>()),
-					new ("FeedViewCommand", View: views.FindByViewModel<FeedViewCommandModel>()),
-					new ("FeedView", View: views.FindByViewModel<FeedViewModel>()),
+					new ("Main", View: views.FindByViewModel<MainModel>(), IsDefault: true,
+						Nested:
+						[
+							new ("ListFeed", View: views.FindByViewModel<ListFeedModel>(), IsDefault: true),
+							new ("RefreshSignal", View: views.FindByViewModel<RefreshSignalModel>()),
+							new ("Feed", View: views.FindByViewModel<FeedModel>()),
+							new ("State", View: views.FindByViewModel<StateModel>()),
+							new ("UpdateState", View: views.FindByViewModel<UpdateStateModel>()),
+							new ("Selection", View: views.FindByViewModel<SelectionModel>()),
+							new ("Pagination", View: views.FindByViewModel<PaginationPeopleModel>()),
+							new ("FeedViewCommand", View: views.FindByViewModel<FeedViewCommandModel>()),
+							new ("FeedView", View: views.FindByViewModel<FeedViewModel>())
+						]
+					)
 				]
 			)
 		);
