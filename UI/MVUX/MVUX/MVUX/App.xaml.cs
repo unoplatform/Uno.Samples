@@ -1,4 +1,3 @@
-using MVUX.Presentation.FeedViewSample;
 using Uno.Resizetizer;
 using SelectionModel = MVUX.Presentation.SelectionSample.SelectionModel;
 
@@ -39,23 +38,6 @@ public partial class App : Application
 
 						// Default filters for core Uno Platform namespaces
 						.CoreLogLevel(LogLevel.Warning);
-
-					// Uno Platform namespace filter groups
-					// Uncomment individual methods to see more detailed logging
-					//// Generic Xaml events
-					//logBuilder.XamlLogLevel(LogLevel.Debug);
-					//// Layout specific messages
-					//logBuilder.XamlLayoutLogLevel(LogLevel.Debug);
-					//// Storage messages
-					//logBuilder.StorageLogLevel(LogLevel.Debug);
-					//// Binding related messages
-					//logBuilder.XamlBindingLogLevel(LogLevel.Debug);
-					//// Binder memory references tracking
-					//logBuilder.BinderMemoryReferenceLogLevel(LogLevel.Debug);
-					//// DevServer and HotReload related
-					//logBuilder.HotReloadCoreLogLevel(LogLevel.Information);
-					//// Debug JS interop
-					//logBuilder.WebAssemblyLogLevel(LogLevel.Debug);
 
 				}, enableUnoLogging: true)
 				.UseSerilog(consoleLoggingEnabled: true, fileLoggingEnabled: true)
