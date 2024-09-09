@@ -10,7 +10,13 @@
 	  d:DesignWidth="400">
 
   <StackPanel utu:SafeArea.Insets="Bottom,Top">
-	<TextBlock Text="How many people are currently in the hall?" />
+
+		<TextBlock Text="This sample displays uses an IState &lt;T> where T is a record type holding the number of attendants present in the hall, to get or set the crowdedness in a wedding hall."
+				   Margin="10"
+				   FontSize="16"
+				   TextWrapping="Wrap" />
+	  
+		<TextBlock Text="How many people are currently in the hall?" />
 	<TextBox DataContext="{Binding HallCrowdedness}"
 			 Text="{Binding NumberOfPeopleInHall, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 

@@ -11,10 +11,15 @@
 
   <Grid Padding="20">
 
-	<mvux:FeedView Source="{Binding Items}">
+		<TextBlock Text="This sample demonstrates how to execute a command on an item within a list in a FeedView."
+				   Margin="10"
+				   FontSize="16"
+				   TextWrapping="Wrap" />
+
+		<mvux:FeedView Source="{Binding Items}">
 		<DataTemplate>
 		  <ListView ItemsSource="{Binding Data}"
-					Margin="0, 10, 0, 10">
+					Margin="0, 50, 0, 10">
 			<ListView.ItemTemplate>
 			  <DataTemplate>
 				<StackPanel Orientation="Horizontal">
