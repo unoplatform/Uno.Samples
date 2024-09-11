@@ -17,19 +17,29 @@
 			<mvux:FeedView Source="{Binding DefaultPerson}">
 				<mvux:FeedView.ValueTemplate>
 					<DataTemplate>
-						<StackPanel>
-							<TextBlock Text="Selected Person Details:"
-									   FontWeight="Bold"
-									   FontSize="16" />
-							<TextBlock>
-								<Run Text="First Name:" />
-								<Run Text="{Binding Data.FirstName}" />
-							</TextBlock>
-							<TextBlock>
-								<Run Text="Last Name:" />
-								<Run Text="{Binding Data.LastName}" />
-							</TextBlock>
-						</StackPanel>
+						<Grid>
+							<Grid.RowDefinitions>
+								<RowDefinition Height="Auto" />
+								<RowDefinition />
+							</Grid.RowDefinitions>
+							<StackPanel Grid.Row="1">
+								<TextBlock Text="Selected Person Details:"
+										   FontWeight="Bold"
+										   FontSize="16" />
+								<TextBlock>
+									<Run Text="First Name:" />
+									<Run Text="{Binding Data.FirstName}" />
+								</TextBlock>
+								<TextBlock>
+									<Run Text="Last Name:" />
+									<Run Text="{Binding Data.LastName}" />
+								</TextBlock>
+								<Button Grid.Row="0"
+										Content="Refresh"
+										Command="{Binding Refresh}"
+										Margin="10" />
+							</StackPanel>
+						</Grid>
 					</DataTemplate>
 				</mvux:FeedView.ValueTemplate>
 			</mvux:FeedView>
@@ -39,19 +49,31 @@
 			<mvux:FeedView Source="{Binding CustomLoadingPerson}">
 				<mvux:FeedView.ValueTemplate>
 					<DataTemplate>
-						<StackPanel>
-							<TextBlock Text="Selected Person Details:"
-									   FontWeight="Bold"
-									   FontSize="16" />
-							<TextBlock>
-								<Run Text="First Name:" />
-								<Run Text="{Binding Data.FirstName}" />
-							</TextBlock>
-							<TextBlock>
-								<Run Text="Last Name:" />
-								<Run Text="{Binding Data.LastName}" />
-							</TextBlock>
-						</StackPanel>
+						<Grid>
+							<Grid.RowDefinitions>
+								<RowDefinition Height="Auto" />
+								<RowDefinition />
+							</Grid.RowDefinitions>
+							<StackPanel Grid.Row="1">
+								<TextBlock Text="Selected Person Details:"
+										   FontWeight="Bold"
+										   FontSize="16" />
+								<TextBlock>
+									<Run Text="First Name:" />
+									<Run Text="{Binding Data.FirstName}" />
+								</TextBlock>
+								<TextBlock>
+									<Run Text="Last Name:" />
+									<Run Text="{Binding Data.LastName}" />
+
+								</TextBlock>
+
+								<Button Grid.Row="0"
+										Content="Refresh"
+										Command="{Binding Refresh}"
+										Margin="10" />
+							</StackPanel>
+						</Grid>
 					</DataTemplate>
 				</mvux:FeedView.ValueTemplate>
 
