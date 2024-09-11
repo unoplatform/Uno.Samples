@@ -51,7 +51,6 @@ public partial class App : Application
 				.ConfigureServices((context, services) =>
 				{
 					// TODO: Register your services
-					services.AddSingleton<IStateService, StateService>();
 					services.AddSingleton<IPaginationPeopleService, PaginationPeopleService>();
 				})
 				.UseNavigation(ReactiveViewModelMappings.ViewModelMappings, RegisterRoutes)
@@ -73,7 +72,6 @@ public partial class App : Application
 			new ViewMap<MainPage, MainModel>(),
 			new ViewMap<ListFeedPage, ListFeedModel>(),
 			new ViewMap<SignalPage, RefreshSignalModel>(),
-			new ViewMap<StatePage, StateModel>(),
 			new ViewMap<UpdateStatePage, UpdateStateModel>(),
 			new ViewMap<SelectionPage, SelectionModel>(),
 			new ViewMap<PaginationMainPage, PaginationPeopleModel>(),
@@ -92,7 +90,6 @@ public partial class App : Application
 							new ("ListFeed", View: views.FindByViewModel<ListFeedModel>(), IsDefault: true),
 							new ("RefreshSignal", View: views.FindByViewModel<RefreshSignalModel>()),
 							new ("Feed", View: views.FindByViewModel<FeedModel>()),
-							new ("State", View: views.FindByViewModel<StateModel>()),
 							new ("UpdateState", View: views.FindByViewModel<UpdateStateModel>()),
 							new ("Selection", View: views.FindByViewModel<SelectionModel>()),
 							new ("Pagination", View: views.FindByViewModel<PaginationPeopleModel>()),

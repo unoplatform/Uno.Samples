@@ -13,6 +13,5 @@ global using MVUX.Presentation.ListFeedSample;
 global using MVUX.Presentation.PaginationSample;
 global using MVUX.Presentation.RefreshListFeed;
 global using MVUX.Presentation.SelectionSample;
-global using MVUX.Presentation.StateSample;
 global using MVUX.Presentation.UpdateStateSample;
 global using MVUX.Presentation.FeedViewSample;
