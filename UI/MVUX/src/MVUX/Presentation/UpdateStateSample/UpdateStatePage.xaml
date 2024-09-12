@@ -1,0 +1,45 @@
+﻿<Page x:Class="MVUX.Presentation.UpdateStateSample.UpdateStatePage"
+	  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	  xmlns:local="using:MVUX.Presentation.UpdateStateSample"
+	  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	  xmlns:utu="using:Uno.Toolkit.UI"
+	  mc:Ignorable="d"
+	  d:DesignHeight="300"
+	  d:DesignWidth="400">
+
+	<StackPanel utu:SafeArea.Insets="Bottom,Top" Spacing="24">
+		<TextBlock VerticalAlignment="Top"
+				   Margin="12"
+				   FontSize="32"
+				   HorizontalAlignment="Center"
+				   TextAlignment="Center">
+			<Run Text="IState&lt;int&gt;: " /><Run Text="{Binding Number}" />
+		</TextBlock>
+		<StackPanel Spacing="16">
+			<StackPanel>
+				<TextBlock HorizontalAlignment="Center" Text="Showcase how to update the `State` in a `Command`" />
+				<Button Margin="12"
+						HorizontalAlignment="Center"
+						Command="{Binding ChangeValue}"
+						Content="Update the State with a random number" />
+			</StackPanel>
+			<StackPanel>
+				<TextBlock HorizontalAlignment="Center" Text="Showcase how to update the `State` in a `Command` with parameter" />
+				<Button Margin="12"
+						HorizontalAlignment="Center"
+						Command="{Binding ChangeValueWithItem}"
+						CommandParameter="5"
+						Content="Update the State with the value '5'" />
+			</StackPanel>
+			<StackPanel>
+				<TextBlock HorizontalAlignment="Center" Text="Showcase how to update the `State` in a `Command` accessing previous value" />
+				<Button Margin="12"
+						HorizontalAlignment="Center"
+						Command="{Binding ChangeValueIfGreaterThan}"
+						Content="Update the State if new number is greater than actual" />
+			</StackPanel>
+		</StackPanel>
+	</StackPanel>
+</Page>

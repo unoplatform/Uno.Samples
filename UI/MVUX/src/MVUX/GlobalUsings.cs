@@ -1,0 +1,18 @@
+global using System.Collections.Immutable;
+global using Microsoft.Extensions.DependencyInjection;
+global using Microsoft.Extensions.Hosting;
+global using Microsoft.Extensions.Localization;
+global using Microsoft.Extensions.Logging;
+global using Microsoft.Extensions.Options;
+global using MVUX.Models;
+global using MVUX.Presentation;
+global using ApplicationExecutionState = Windows.ApplicationModel.Activation.ApplicationExecutionState;
+global using MVUX.Presentation.FeedViewCommandSample;
+global using MVUX.Presentation.FeedSample;
+global using MVUX.Presentation.ListFeedSample;
+global using MVUX.Presentation.PaginationSample;
+global using MVUX.Presentation.RefreshListFeed;
+global using MVUX.Presentation.SelectionSample;
+global using MVUX.Presentation.UpdateStateSample;
+global using MVUX.Presentation.FeedViewSample;
+global using MVUX.Presentation.IMessengerSample;

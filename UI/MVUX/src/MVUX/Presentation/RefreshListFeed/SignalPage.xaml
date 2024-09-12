@@ -1,0 +1,30 @@
+﻿<Page x:Class="MVUX.Presentation.RefreshListFeed.SignalPage"
+	  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	  xmlns:local="using:MVUX.Presentation.RefreshListFeed"
+	  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	  mc:Ignorable="d"
+	  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+	<ScrollViewer>
+		<StackPanel>
+			<TextBlock Text="This sample demonstrates how to refresh a list using a Signal in MVUX. Clicking the button will refresh the list of items."
+					   Margin="10"
+					   FontSize="16"
+					   TextWrapping="Wrap" />
+
+			<ListView ItemsSource="{Binding SimpleList}">
+				<ListView.ItemTemplate>
+					<DataTemplate>
+						<TextBlock Text="{Binding}"
+								   HorizontalAlignment="Center" />
+					</DataTemplate>
+				</ListView.ItemTemplate>
+			</ListView>
+			<Button Content="Refresh List"
+					Command="{Binding RefreshList}"
+					HorizontalAlignment="Center" />
+		</StackPanel>
+	</ScrollViewer>
+</Page>

@@ -1,0 +1,26 @@
+﻿<Page x:Class="MVUX.Presentation.FeedSample.FeedPage"
+	  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	  xmlns:utu="using:Uno.Toolkit.UI"
+	  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+	
+	<Grid utu:SafeArea.Insets="Bottom,Top">
+		<StackPanel>
+			<TextBlock Text="This sample demonstrates the use of MVUX feeds by randomly selecting a person from a list."
+					   Margin="10"
+					   FontSize="16"
+					   TextWrapping="Wrap" />
+			<TextBlock Text="Randomly Selected Person:"
+					   FontWeight="Bold"
+					   FontSize="16" />
+			<TextBlock>
+				<Run Text="First Name:" />
+				<Run Text="{Binding Person.Value.FirstName}" />
+			</TextBlock>
+			<TextBlock>
+				<Run Text="Last Name:" />
+				<Run Text="{Binding Person.Value.LastName}" />
+			</TextBlock>
+		</StackPanel>
+	</Grid>
+</Page>
