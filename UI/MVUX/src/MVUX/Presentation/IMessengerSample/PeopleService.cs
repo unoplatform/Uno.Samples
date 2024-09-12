@@ -43,7 +43,6 @@ public class PeopleService : IPeopleService
         if (_people.Add(newPerson))
         {
             Messenger.Send(new EntityMessage<Person>(EntityChange.Created, newPerson));
-            Console.WriteLine($"Person {newPerson.FirstName} {newPerson.LastName} added");
 		}
 	}
 
