@@ -18,5 +18,7 @@ This repository provides simple, to-the-point code samples for [MVUX](https://pl
   - Docs: [How-To: Use a FeedView](https://platform.uno/docs/articles/external/uno.extensions/doc/Learn/Mvux/Tutorials/HowTo-SimpleFeed.html#using-a-feedview)
 - [FeedView Command](src/MVUX/Presentation/FeedViewCommandSample)
   - Docs: [FeedViewCommand]()
+- [Update  Feed using IMessenger](src/MVUX/Presentation/IMessengerSample)
+  - Docs: [Messaging](xref:Uno.Extensions.Mvux.Advanced.Messaging)
 
 If you encounter any issues with these samples above, please open an issue [here](https://github.com/unoplatform/Uno.Samples/issues/new).
