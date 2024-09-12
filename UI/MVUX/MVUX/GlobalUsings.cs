@@ -15,3 +15,4 @@ global using MVUX.Presentation.RefreshListFeed;
 global using MVUX.Presentation.SelectionSample;
 global using MVUX.Presentation.UpdateStateSample;
 global using MVUX.Presentation.FeedViewSample;
+global using MVUX.Presentation.IMessengerSample;

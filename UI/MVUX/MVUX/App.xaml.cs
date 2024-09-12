@@ -52,6 +52,7 @@ public partial class App : Application
 				{
 					// TODO: Register your services
 					services.AddSingleton<IPaginationPeopleService, PaginationPeopleService>();
+					services.AddSingleton<IPeopleService, PeopleService>();
 				})
 				.UseNavigation(ReactiveViewModelMappings.ViewModelMappings, RegisterRoutes)
 			);
@@ -71,13 +72,14 @@ public partial class App : Application
 			new ViewMap(ViewModel: typeof(ShellModel)),
 			new ViewMap<MainPage, MainModel>(),
 			new ViewMap<ListFeedPage, ListFeedModel>(),
-			new ViewMap<SignalPage, RefreshSignalModel>(),
+			// new ViewMap<SignalPage, RefreshSignalModel>(),
 			new ViewMap<UpdateStatePage, UpdateStateModel>(),
 			new ViewMap<SelectionPage, SelectionModel>(),
 			new ViewMap<PaginationMainPage, PaginationPeopleModel>(),
 			new ViewMap<FeedPage, FeedModel>(),
 			new ViewMap<FeedViewCommandPage, FeedViewCommandModel>(),
-			new ViewMap<FeedViewPage, FeedViewModel>()
+			new ViewMap<FeedViewPage, FeedViewModel>(),
+			new ViewMap<MessagingPage, PeopleModel>()
 		);
 
 		routes.Register(
@@ -88,13 +90,14 @@ public partial class App : Application
 						Nested:
 						[
 							new ("ListFeed", View: views.FindByViewModel<ListFeedModel>(), IsDefault: true),
-							new ("RefreshSignal", View: views.FindByViewModel<RefreshSignalModel>()),
+							// new ("RefreshSignal", View: views.FindByViewModel<RefreshSignalModel>()),
 							new ("Feed", View: views.FindByViewModel<FeedModel>()),
 							new ("UpdateState", View: views.FindByViewModel<UpdateStateModel>()),
 							new ("Selection", View: views.FindByViewModel<SelectionModel>()),
 							new ("Pagination", View: views.FindByViewModel<PaginationPeopleModel>()),
 							new ("FeedViewCommand", View: views.FindByViewModel<FeedViewCommandModel>()),
-							new ("FeedView", View: views.FindByViewModel<FeedViewModel>())
+							new ("FeedView", View: views.FindByViewModel<FeedViewModel>()),
+							new ("Messenger", View: views.FindByViewModel<PeopleModel>())
 						]
 					)
 				]
