@@ -1,3 +1,4 @@
+using CommunityToolkit.Mvvm.Messaging;
 using Uno.Resizetizer;
 using SelectionModel = MVUX.Presentation.SelectionSample.SelectionModel;
 
@@ -53,6 +54,7 @@ public partial class App : Application
 					// TODO: Register your services
 					services.AddSingleton<IPaginationPeopleService, PaginationPeopleService>();
 					services.AddSingleton<IPeopleService, PeopleService>();
+					services.AddSingleton<IMessenger, WeakReferenceMessenger>();
 				})
 				.UseNavigation(ReactiveViewModelMappings.ViewModelMappings, RegisterRoutes)
 			);
