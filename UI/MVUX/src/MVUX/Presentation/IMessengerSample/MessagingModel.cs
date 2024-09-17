@@ -2,11 +2,11 @@ using CommunityToolkit.Mvvm.Messaging;
 
 namespace MVUX.Presentation.IMessengerSample;
 
-public partial record PeopleModel
+public partial record MessagingModel
 {
     protected IPeopleService PeopleService { get; }
 
-    public PeopleModel(IPeopleService peopleService, IMessenger messenger)
+    public MessagingModel(IPeopleService peopleService, IMessenger messenger)
     {
         PeopleService = peopleService;
 

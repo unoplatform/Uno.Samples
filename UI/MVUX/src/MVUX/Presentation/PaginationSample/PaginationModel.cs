@@ -3,7 +3,7 @@ using Uno.Extensions.Reactive.Sources;
 
 namespace MVUX.Presentation.PaginationSample;
 
-public partial record PaginationPeopleModel(IPaginationPeopleService PeopleService)
+public partial record PaginationModel(IPaginationPeopleService PeopleService)
 {
 	const uint DefaultPageSize = 20;
 

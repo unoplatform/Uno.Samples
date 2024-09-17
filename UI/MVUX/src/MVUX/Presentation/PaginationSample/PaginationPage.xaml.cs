@@ -1,7 +1,7 @@
 namespace MVUX.Presentation.PaginationSample;
-public sealed partial class PaginationMainPage : Page
+public sealed partial class PaginationPage : Page
 {
-	public PaginationMainPage()
+	public PaginationPage()
 	{
 		this.InitializeComponent();
 	}

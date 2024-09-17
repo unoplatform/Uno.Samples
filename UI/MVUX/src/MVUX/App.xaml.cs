@@ -77,11 +77,11 @@ public partial class App : Application
 			// new ViewMap<SignalPage, RefreshSignalModel>(),
 			new ViewMap<UpdateStatePage, UpdateStateModel>(),
 			new ViewMap<SelectionPage, SelectionModel>(),
-			new ViewMap<PaginationMainPage, PaginationPeopleModel>(),
+			new ViewMap<PaginationPage, PaginationModel>(),
 			new ViewMap<FeedPage, FeedModel>(),
 			new ViewMap<FeedViewCommandPage, FeedViewCommandModel>(),
 			new ViewMap<FeedViewPage, FeedViewModel>(),
-			new ViewMap<MessagingPage, PeopleModel>()
+			new ViewMap<MessagingPage, MessagingModel>()
 		);
 
 		routes.Register(
@@ -96,10 +96,10 @@ public partial class App : Application
 							new ("Feed", View: views.FindByViewModel<FeedModel>()),
 							new ("UpdateState", View: views.FindByViewModel<UpdateStateModel>()),
 							new ("Selection", View: views.FindByViewModel<SelectionModel>()),
-							new ("Pagination", View: views.FindByViewModel<PaginationPeopleModel>()),
+							new ("Pagination", View: views.FindByViewModel<PaginationModel>()),
 							new ("FeedViewCommand", View: views.FindByViewModel<FeedViewCommandModel>()),
 							new ("FeedView", View: views.FindByViewModel<FeedViewModel>()),
-							new ("Messenger", View: views.FindByViewModel<PeopleModel>())
+							new ("Messenger", View: views.FindByViewModel<MessagingModel>())
 						]
 					)
 				]
