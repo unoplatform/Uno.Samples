@@ -15,8 +15,7 @@ public partial record FeedModel
 		{
 			await Task.Delay(2000, ct); // Simulate network delay
 						
-			return _people[Random.Shared.Next(people.Length)];
+			return _people[Random.Shared.Next(_people.Length)];
 		});
-	}
 	
 }

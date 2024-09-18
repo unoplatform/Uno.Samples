@@ -51,7 +51,7 @@ public class PeopleService : IPeopleService
 
         if (_people.RemoveWhere(person => person.Id == personId) > 0)
         {
-            Messenger.Send(new EntityMessage<Person>(EntityChange.Deleted, Person.EmptyPerson() with { Id = personId }));
+            Messenger.Send(new EntityMessage<Person>(EntityChange.Deleted, Person.Empty with { Id = personId }));
         }
     }
 

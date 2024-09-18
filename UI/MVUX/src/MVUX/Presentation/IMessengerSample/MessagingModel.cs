@@ -18,7 +18,7 @@ public partial record MessagingModel
         .Async(this, PeopleService.GetPeople)
         .Selection(SelectedPerson);
 
-    public IState<Person> NewPerson => State<Person>.Value(this, Person.EmptyPerson);
+    public IState<Person> NewPerson => State<Person>.Empty(this);
 
     public IState<Person> SelectedPerson => State<Person>.Empty(this);
 
@@ -29,7 +29,7 @@ public partial record MessagingModel
 
         await PeopleService.AddPerson(newPerson, ct);
 
-        await NewPerson.Update(old => Person.EmptyPerson(), ct);
+        await NewPerson.Update(old => Person.Empty, ct);
     }
 
     public async ValueTask RemovePerson(Person person, CancellationToken ct = default)
