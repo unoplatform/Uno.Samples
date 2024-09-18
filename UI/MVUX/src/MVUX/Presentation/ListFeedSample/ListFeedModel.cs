@@ -11,7 +11,4 @@ public partial record ListFeedModel
 			new Person("Luke", "Skywalker")
 		);
 	});
-	public ListFeedModel()
-	{
-	}
 }

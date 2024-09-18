@@ -5,10 +5,6 @@ namespace MVUX
 		private readonly Signal _refreshList = new();
 		private int _updateCounter = 0;
 		
-		public RefreshSignalModel()
-		{
-		}
-		
 		public IListFeed<string> SimpleList => ListFeed.Async(GetStringsAsync, _refreshList);
 		
 		public async ValueTask<IImmutableList<string>> GetStringsAsync(CancellationToken ct)
@@ -25,9 +21,6 @@ namespace MVUX
 		}
 		
 		public async ValueTask RefreshList()
-		{
-			_refreshList.Raise(); 
-			await Task.Delay(1000);
-		}
+			=> _refreshList.Raise(); 
 	}
 }

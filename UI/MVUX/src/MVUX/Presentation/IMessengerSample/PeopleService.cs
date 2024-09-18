@@ -4,8 +4,7 @@ namespace MVUX.Presentation.IMessengerSample;
 
 public partial record Person(int Id, string FirstName, string LastName)
 {
-    public static Person EmptyPerson() =>
-      new Person(Id: default, FirstName: string.Empty, LastName: string.Empty);
+    public static Person Empty { get; } = new Person(Id: default, FirstName: string.Empty, LastName: string.Empty);
 }
 
 public interface IPeopleService
