@@ -10,10 +10,7 @@ public partial class FeedViewCommandModel
 
 	public async ValueTask RemoveItem(Item item)
 	{
-		if (item != null)
-		{
-			await Items.UpdateAsync(currentItems => currentItems.Remove(item));
-		}
+		await Items.UpdateAsync(currentItems => currentItems.Remove(item));
 	}
 }
 
