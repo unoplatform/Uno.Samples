@@ -74,7 +74,6 @@ public partial class App : Application
 			new ViewMap(ViewModel: typeof(ShellModel)),
 			new ViewMap<MainPage, MainModel>(),
 			new ViewMap<ListFeedPage, ListFeedModel>(),
-			// new ViewMap<SignalPage, RefreshSignalModel>(),
 			new ViewMap<UpdateStatePage, UpdateStateModel>(),
 			new ViewMap<SelectionPage, SelectionModel>(),
 			new ViewMap<PaginationPage, PaginationModel>(),
@@ -92,7 +91,6 @@ public partial class App : Application
 						Nested:
 						[
 							new ("ListFeed", View: views.FindByViewModel<ListFeedModel>(), IsDefault: true),
-							// new ("RefreshSignal", View: views.FindByViewModel<RefreshSignalModel>()),
 							new ("Feed", View: views.FindByViewModel<FeedModel>()),
 							new ("UpdateState", View: views.FindByViewModel<UpdateStateModel>()),
 							new ("Selection", View: views.FindByViewModel<SelectionModel>()),
