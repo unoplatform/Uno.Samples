@@ -18,10 +18,8 @@ public partial record UpdateStateModel
 			{
 				var newValue = GetRandomNumber();
 				return newValue > number ? newValue : number;
-			}, ct); 
-
-	private readonly Random _random = new();
-
+			}, ct);
+	
 	private int GetRandomNumber()
-		=> _random.Next(0, 100);
+		=> Random.Shared.Next(0, 100);
 }
