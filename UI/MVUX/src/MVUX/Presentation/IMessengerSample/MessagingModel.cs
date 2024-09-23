@@ -2,23 +2,14 @@ using CommunityToolkit.Mvvm.Messaging;
 
 namespace MVUX.Presentation.IMessengerSample;
 
-public partial record MessagingModel
+public partial record MessagingModel(IPeopleService PeopleService, IMessenger Messenger)
 {
-    protected IPeopleService PeopleService { get; }
+	public IListState<Person> People => ListState
+		.Async(this, PeopleService.GetPeople)
+		.Selection(SelectedPerson)
+		.Observe(Messenger, person => person.Id);
 
-    public MessagingModel(IPeopleService peopleService, IMessenger messenger)
-    {
-        PeopleService = peopleService;
-
-        messenger.Observe(People, person => person.Id);
-    }
-
-    public IListState<Person> People =>
-        ListState
-        .Async(this, PeopleService.GetPeople)
-        .Selection(SelectedPerson);
-
-    public IState<Person> NewPerson => State<Person>.Empty(this);
+	public IState<Person> NewPerson => State<Person>.Empty(this);
 
     public IState<Person> SelectedPerson => State<Person>.Empty(this);
 
