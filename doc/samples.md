@@ -191,7 +191,7 @@ Implementation of a class that enables saving media files into gallery on Androi
 
 ### MVUX Samples
 
-An implementation of simple, to-the-point code samples for [MVUX](https://platform.uno/docs/articles/external/uno.extensions/doc/Learn/Mvux/Overview.html?tabs=viewmodel%2Cmodel) topics.
+An implementation of simple, to-the-point code samples for [MVUX](https://aka.platform.uno/mvux) topics.
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/MVUX)
 
