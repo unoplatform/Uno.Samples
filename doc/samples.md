@@ -187,7 +187,9 @@ An implementation of the UWP `Maps` control with a custom slider that binds the 
 
 ### Media Gallery
 
-Implementation of a class that enables saving media files into gallery on Android, iOS and Mac Catalyst.
+Implementation of a class that enables saving media files into a gallery on Android, iOS, and Mac Catalyst.
+
+[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/MediaGallery)
 
 ### MVUX Samples
 
