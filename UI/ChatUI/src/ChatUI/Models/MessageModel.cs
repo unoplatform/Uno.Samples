@@ -1,23 +1,20 @@
-using System.Threading;
-using System.Threading.Tasks;
 using ChatUI.Services;
-using Uno.Extensions.Reactive;
 
 namespace ChatUI.Models;
 
 public partial record MessageModel(IMessageService MessageService)
 {
-	public IListState<Message> Messages => ListState
-		.Async(this, MessageService.GetMessages);
+    public IListState<Message> Messages => ListState
+        .Async(this, MessageService.GetMessages);
 
-	public IState<Message> NewMessage => State<Message>.Value(this, () => Message.Empty);
+    public IState<Message> NewMessage => State<Message>.Value(this, () => Message.Empty);
 
-	public async ValueTask AddMessage(Message newMessage, CancellationToken ct)
-	{
-		await MessageService.AddMessage(newMessage, ct);
+    public async ValueTask AddMessage(Message newMessage, CancellationToken ct)
+    {
+        await MessageService.AddMessage(newMessage, ct);
 
-		await Messages.InsertAsync(newMessage, ct);
+        await Messages.InsertAsync(newMessage, ct);
 
-		await NewMessage.Update(old => Message.Empty, ct);
-	}
+        await NewMessage.Update(old => Message.Empty, ct);
+    }
 }

@@ -104,6 +104,12 @@ Demonstrates the use of [SignalR](https://docs.microsoft.com/en-us/aspnet/core/s
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/ChatSignalR)
 
+### ChatUI
+
+A chat app featuring a UI template that's ready to connect to a service with real data. The app leverages MVUX to manage incoming data efficiently.
+
+[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/ChatUI)
+
 ### Control Library
 
 An example of creating a custom control library and calling a control from your shared project.
