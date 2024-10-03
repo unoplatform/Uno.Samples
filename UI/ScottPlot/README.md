@@ -4,7 +4,7 @@
 
 ## Quickstart sample
 
-[This sample](/QuickstartSample/) app was created by following the [ScottPlot Uno Platform Quickstart documentation](https://scottplot.net/quickstart/unoplatform).
+[This sample](./QuickstartSample/) app was created by following the [ScottPlot Uno Platform Quickstart documentation](https://scottplot.net/quickstart/unoplatform).
 
 ![ScottPlot Quickstart Sample App](doc/assets/Quickstart-Sample.gif)
 
@@ -18,13 +18,13 @@
 
 ## Signal plot with 5 million points sample
 
-[This sample](/SignalPlotFiveMillionPointsSample/) app was created the same way by following the [ScottPlot Uno Platform Quickstart documentation](https://scottplot.net/quickstart/unoplatform). Only the code-behind defers to display a signal plot with 5 million random points.
+[This sample](./SignalPlotFiveMillionPointsSample/) app was created the same way by following the [ScottPlot Uno Platform Quickstart documentation](https://scottplot.net/quickstart/unoplatform). Only the code-behind defers to display a signal plot with 5 million random points.
 
 ![ScottPlot Demo Sample App - Signal plot with 5 million points](doc/assets/FiveMillionPoints-Sample.gif)
 
 ## SQLite Data Persistence and Large Dataset Visualization Sample
 
-[This sample](/DataPersistedSample/) demonstrates how to combine SQLite for database-driven data persistence with ScottPlot for visualizing large datasets. It showcases how to handle and visualize different plot types while persisting the data in a database for long-term storage:
+[This sample](./DataPersistedSample/) demonstrates how to combine SQLite for database-driven data persistence with ScottPlot for visualizing large datasets. It showcases how to handle and visualize different plot types while persisting the data in a database for long-term storage:
 
 - **SignalPlot and SignalConst**: These are the most memory-efficient for large datasets with evenly spaced X-values.
 - **ScatterPlot (with downsampling)**: Ideal for non-uniform X-values, using downsampling to optimize performance.
