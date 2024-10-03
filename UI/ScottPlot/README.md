@@ -22,6 +22,19 @@
 
 ![ScottPlot Demo Sample App - Signal plot with 5 million points](doc/assets/FiveMillionPoints-Sample.gif)
 
+## SQLite Data Persistence and Large Dataset Visualization Sample
+
+[This sample](/DataPersistedSample/) demonstrates how to combine SQLite for database-driven data persistence with ScottPlot for visualizing large datasets. It showcases how to handle and visualize different plot types while persisting the data in a database for long-term storage:
+
+- **SignalPlot and SignalConst**: These are the most memory-efficient for large datasets with evenly spaced X-values.
+- **ScatterPlot (with downsampling)**: Ideal for non-uniform X-values, using downsampling to optimize performance.
+- **Heatmap**: Suitable for visualizing 2D grid data.
+
+The chosen plot types above prioritize performance and visualization quality, especially for platforms like WebAssembly with resource constraints.
+Other plot types were excluded for this sample due to potential performance issues with large datasets based on ScottPlot documentation.
+
+![ScottPlot Demo Sample App - SQLite Data Persistence with ScottPlot](doc/assets/DataPersisted-Sample.gif)
+
 ## What is the Uno Platform
 
 [Uno Platform](https://platform.uno) is an open-source .NET platform for building single codebase native mobile, web, desktop, and embedded apps quickly.
