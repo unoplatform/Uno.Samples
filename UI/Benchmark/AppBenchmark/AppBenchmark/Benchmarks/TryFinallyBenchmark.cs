@@ -1,77 +1,73 @@
-﻿using BenchmarkDotNet.Attributes;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using BenchmarkDotNet.Attributes;
 
-namespace SamplesApp.Benchmarks.Suite.TryFinally
+namespace SamplesApp.Benchmarks.Suite.TryFinally;
+
+public class TryFinallyBenchmark
 {
-    public class TryFinallyBenchmark
+    [Benchmark(Baseline = true)]
+    public void SingleCall()
     {
-        [Benchmark(Baseline = true)]
-        public void SingleCall()
+        for (int i = 0; i < 100; i++)
         {
-            for (int i = 0; i < 100; i++)
-            {
-                MyTesting.SingleCall();
-            }
-        }
-
-
-        [Benchmark()]
-        public void WithTryFinallyOneMethod()
-        {
-            for (int i = 0; i < 100; i++)
-            {
-                MyTesting.WithTryFinallyOneMethod();
-            }
-        }
-
-        [Benchmark()]
-        public void WithTryFinallyTwoMethods()
-        {
-            for (int i = 0; i < 100; i++)
-            {
-                MyTesting.WithTryFinallyTwoMethods();
-            }
+            MyTesting.SingleCall();
         }
     }
 
-    public class MyTesting
-    {
-        public static int counter;
 
-        public static void SingleCall()
+    [Benchmark()]
+    public void WithTryFinallyOneMethod()
+    {
+        for (int i = 0; i < 100; i++)
+        {
+            MyTesting.WithTryFinallyOneMethod();
+        }
+    }
+
+    [Benchmark()]
+    public void WithTryFinallyTwoMethods()
+    {
+        for (int i = 0; i < 100; i++)
+        {
+            MyTesting.WithTryFinallyTwoMethods();
+        }
+    }
+}
+
+public class MyTesting
+{
+    public static int counter;
+
+    public static void SingleCall()
+    {
+        MyMethod();
+    }
+
+    public static void WithTryFinallyOneMethod()
+    {
+        try
         {
             MyMethod();
         }
-
-        public static void WithTryFinallyOneMethod()
+        finally
         {
-            try
-            {
-                MyMethod();
-            }
-            finally
-            {
-                counter++;
-            }
+            counter++;
         }
+    }
 
-        public static void WithTryFinallyTwoMethods()
+    public static void WithTryFinallyTwoMethods()
+    {
+        try
         {
-            try
-            {
-                MyMethod();
-                MyMethod();
-            }
-            finally
-            {
-                counter++;
-            }
+            MyMethod();
+            MyMethod();
         }
+        finally
+        {
+            counter++;
+        }
+    }
 
-        private static void MyMethod()
-        {
-        }
+    private static void MyMethod()
+    {
     }
 }
