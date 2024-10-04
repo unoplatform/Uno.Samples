@@ -6,14 +6,14 @@ namespace Uno.Samples;
 /// </summary>
 public enum MediaFileType
 {
-	/// <summary>
-	/// Image media file type.
-	/// </summary>
-	Image,
+    /// <summary>
+    /// Image media file type.
+    /// </summary>
+    Image,
 
-	/// <summary>
-	/// Video media file type.
-	/// </summary>
-	Video,
+    /// <summary>
+    /// Video media file type.
+    /// </summary>
+    Video,
 }
 #endif
