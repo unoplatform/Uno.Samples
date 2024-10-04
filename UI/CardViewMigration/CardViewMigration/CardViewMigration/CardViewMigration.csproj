@@ -26,19 +26,20 @@
       the "Microsoft.Windows.SDK.BuildTools" package above, and the "revision" version number
       must be the highest found in https://www.nuget.org/packages/Microsoft.Windows.SDK.NET.Ref.
     -->
-    <!-- <WindowsSdkPackageVersion>10.0.22621.28</WindowsSdkPackageVersion> -->
+
+    <!-- Uno Platform 5.4 has been updated to use WinAppSDK 1.6, which necessitates a temporary version adjustment until newer versions of .NET 8 SDKs are released. -->
+    <!-- Comment this WindowsSdkPackageVersion line again once .NET SDK version 8.0.403 or later is available. -->
+    <!-- For more details, refer to: https://aka.platform.uno/migrate-from-previous#uno-platform-54 -->
+    <WindowsSdkPackageVersion>10.0.19041.38</WindowsSdkPackageVersion>
 
     <!--
       UnoFeatures let's you quickly add and manage implicit package references based on the features you want to use.
       https://aka.platform.uno/singleproject-features
     -->
     <UnoFeatures>
-      Toolkit
+      Toolkit;
+      Mvvm;
     </UnoFeatures>
   </PropertyGroup>
-
-  <ItemGroup>
-    <PackageReference Include="CommunityToolkit.Mvvm" />
-  </ItemGroup>
 
 </Project>
