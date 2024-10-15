@@ -22,11 +22,8 @@
 								CommandParameter="{Binding}"
 								Content="Delete" />
 
-						<!--  RelativeSource as TemplatedParent works on Windows but not on Uno  -->
-						<!--  RelativeSource as Self works on Uno but not on Windows  -->
-						<!--  Should be fixed by https://github.com/unoplatform/uno/pull/12732  -->
 						<Button Command="{utu:ItemsControlBinding Path=DataContext.RemoveItemCommand}"
-								CommandParameter="{Binding DataContext, RelativeSource={RelativeSource Mode=Self}}"
+								CommandParameter="{Binding DataContext, RelativeSource={RelativeSource Mode=TemplatedParent}}"
 								Content="Delete" />
 						<StackPanel.ContextFlyout>
 							<MenuFlyout>

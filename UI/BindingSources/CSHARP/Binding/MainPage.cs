@@ -52,7 +52,7 @@ public sealed partial class MainPage : Page
 			   // RelativeSource as TemplatedParent works on Windows but not on Uno
 			   // RelativeSource as Self works on Uno but not on Windows
 			   // Should be fixed by https://github.com/unoplatform/uno/pull/12732
-			   .CommandParameter(x => x.RelativeSource<Button>(RelativeSourceMode.Self)
+			   .CommandParameter(x => x.RelativeSource<Button>(RelativeSourceMode.TemplatedParent)
 									   .Binding(btn => btn.DataContext)
 			   )
 			   .Command(x => x
