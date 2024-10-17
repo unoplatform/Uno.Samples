@@ -220,6 +220,18 @@ Embeds the [DevExpress .NET MAUI Controls](https://aka.platform.uno/maui-embeddi
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/MauiEmbedding/DevExpressApp)
 
+### GLCanvasElement Samples
+
+Samples showcasing the usage of GLCanvasElement:
+
+- GLCanvasElementSimpleTriangle: A sample that draws a simple triangle with GLCanvasElement.
+
+  [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/GLCanvasElementSamples/GLCanvasElementSimpleTriangle)
+
+- GLCanvasElementRotatingCube: A sample that draws a continuously-rotating 3D cube.
+
+  [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/GLCanvasElementSamples/GLCanvasElementRotatingCube)
+
 #### GrapeCity ComponentOne .NET MAUI Controls
 
 Embeds the [GrapeCity ComponentOne .NET MAUI Controls](https://aka.platform.uno/maui-embedding-tutorial-grapecity) in an Uno Platform application.
