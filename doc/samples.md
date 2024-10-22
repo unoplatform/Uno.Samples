@@ -343,6 +343,12 @@ Three sample apps are available:
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/ScottPlot) | [Follow the quickstart tutorial](https://scottplot.net/quickstart/unoplatform)
 
+### SKCanvasElementShowcase
+
+A sample showcasing the usage of SKCanvasElement:
+
+  [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/SKCanvasElementShowcase)
+
 ### SkiaSharp Test
 
 An example of the Uno implementation of SkiaSharp creating a basic canvas with text.
