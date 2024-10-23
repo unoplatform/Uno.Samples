@@ -63,7 +63,9 @@ public partial class TaskViewModel
     {
         if (await Entity is { } task)
         {
-            await _svc.UpdateAsync(task with { DueDateTime = null }, ct);
+            var updatedTask = task with { DueDateTime = null };
+            await _svc.UpdateAsync(updatedTask, ct);
+            await Entity.UpdateValue(opt => opt.Map(_ => updatedTask), ct);
         }
     }
 
