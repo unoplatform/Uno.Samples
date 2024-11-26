@@ -50,7 +50,7 @@
 			  VerticalAlignment="Stretch">
 			<Grid.RowDefinitions>
 				<RowDefinition Height="Auto" />
-				<RowDefinition Height="*" />
+        <RowDefinition Height="{utu:Responsive Narrow='*', Wide='Auto'}" />
 				<RowDefinition Height="Auto" />
 				<RowDefinition Height="Auto" />
 			</Grid.RowDefinitions>
@@ -58,7 +58,7 @@
 			<!-- Header -->
 			<ToggleButton Grid.Row="0"
 						  Background="{ThemeResource SurfaceBrush}"
-						  Margin="8,24,8,0"
+						  Margin="{utu:Responsive Narrow='8,24,8,0', Wide='8,8,8,0'}"
 						  HorizontalAlignment="Center"
 						  Style="{StaticResource IconToggleButtonStyle}"
 						  IsChecked="{Binding IsDark, Mode=TwoWay}"
@@ -76,157 +76,158 @@
 
 			<!-- Output -->
 			<StackPanel Grid.Row="2"
-						Spacing="16"
-						Padding="16,8"
+						Spacing="{utu:Responsive Narrow=16, Wide=2}"
+						Padding="{utu:Responsive Narrow='16,8', Wide='16,4'}"
 						HorizontalAlignment="Stretch">
 				<TextBlock Text="{Binding Calculator.Equation}"
 						   HorizontalAlignment="Right"
-						   Foreground="{ThemeResource OnSecondaryContainerBrush}"
-						   Style="{StaticResource DisplaySmall}" />
+               FontSize="{utu:Responsive Narrow=36, Wide=20}"
+						   Foreground="{ThemeResource OnSecondaryContainerBrush}" />
 				<TextBlock Text="{Binding Calculator.Output}"
 						   HorizontalAlignment="Right"
-						   Foreground="{ThemeResource OnBackgroundBrush}"
-						   Style="{StaticResource DisplayLarge}" />
+               FontSize="{utu:Responsive Narrow=57, Wide=35}"
+						   Foreground="{ThemeResource OnBackgroundBrush}" />
 			</StackPanel>
 
 			<!-- Keypad -->
 			<Grid Grid.Row="3"
-				  RowSpacing="16"
-				  ColumnSpacing="16"
-				  Padding="16"
+				  RowSpacing="{utu:Responsive Narrow=16, Wide=8}"
+				  ColumnSpacing="{utu:Responsive Narrow=16, Wide=8}"
+				  Padding="{utu:Responsive Narrow=16, Wide='16,4'}"
 				  MaxHeight="500">
 				<Grid.RowDefinitions>
 					<RowDefinition Height="*" />
 					<RowDefinition Height="*" />
 					<RowDefinition Height="*" />
 					<RowDefinition Height="*" />
-					<RowDefinition Height="*" />
-				</Grid.RowDefinitions>
+          <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition Width="*" />
 					<ColumnDefinition Width="*" />
 					<ColumnDefinition Width="*" />
 					<ColumnDefinition Width="*" />
+          <ColumnDefinition Width="{utu:Responsive Narrow=0, Wide='*'}" />
 				</Grid.ColumnDefinitions>
 
 				<!-- Row 0 -->
-				<Button Grid.Row="0"
-						Grid.Column="0"
+				<Button Height="{utu:Responsive Narrow=72, Wide=40}" Grid.Row="0"
+						Grid.Column="{utu:Responsive Narrow=0, Wide=3}"
 						Command="{Binding InputCommand}"
 						CommandParameter="C"
 						Content="C"
 						Style="{StaticResource KeypadSecondaryButton}" />
-				<Button Grid.Row="0"
-						Grid.Column="1"
+				<Button Height="{utu:Responsive Narrow=72, Wide=40}" Grid.Row="{utu:Responsive Narrow=0, Wide=1}"
+						Grid.Column="{utu:Responsive Narrow=1, Wide=3}"
 						Command="{Binding InputCommand}"
 						CommandParameter="±"
 						Content="±"
 						Style="{StaticResource KeypadSecondaryButton}" />
-				<Button Grid.Row="0"
-						Grid.Column="2"
+        <Button Height="{utu:Responsive Narrow=72, Wide=40}" Grid.Row="{utu:Responsive Narrow=0, Wide=2}"
+						Grid.Column="{utu:Responsive Narrow=2, Wide=3}"
 						Command="{Binding InputCommand}"
 						CommandParameter="%"
 						Content="%"
 						Style="{StaticResource KeypadSecondaryButton}" />
-				<Button Grid.Row="0"
-						Grid.Column="3"
+				<Button Height="{utu:Responsive Narrow=72, Wide=40}" Grid.Row="0"
+						Grid.Column="{utu:Responsive Narrow=3, Wide=4}"
 						Command="{Binding InputCommand}"
 						CommandParameter="÷"
 						Content="÷"
 						Style="{StaticResource KeypadPrimaryButton}" />
 
 				<!-- Row 1 -->
-				<Button Grid.Row="1"
+        <Button Height="{utu:Responsive Narrow=72, Wide=40}" Grid.Row="{utu:Responsive Narrow=1, Wide=0}"
 						Grid.Column="0"
 						Command="{Binding InputCommand}"
 						CommandParameter="7"
 						Content="7"
 						Style="{StaticResource KeypadButton}" />
-				<Button Grid.Row="1"
+        <Button Height="{utu:Responsive Narrow=72, Wide=40}" Grid.Row="{utu:Responsive Narrow=1, Wide=0}"
 						Grid.Column="1"
 						Command="{Binding InputCommand}"
 						CommandParameter="8"
 						Content="8"
 						Style="{StaticResource KeypadButton}" />
-				<Button Grid.Row="1"
+        <Button Height="{utu:Responsive Narrow=72, Wide=40}" Grid.Row="{utu:Responsive Narrow=1, Wide=0}"
 						Grid.Column="2"
 						Command="{Binding InputCommand}"
 						CommandParameter="9"
 						Content="9"
 						Style="{StaticResource KeypadButton}" />
-				<Button Grid.Row="1"
-						Grid.Column="3"
+        <Button Height="{utu:Responsive Narrow=72, Wide=40}" Grid.Row="1"
+						Grid.Column="{utu:Responsive Narrow=3, Wide=4}"
 						Command="{Binding InputCommand}"
 						CommandParameter="×"
 						Content="×"
 						Style="{StaticResource KeypadPrimaryButton}" />
 
 				<!-- Row 2 -->
-				<Button Grid.Row="2"
+        <Button Height="{utu:Responsive Narrow=72, Wide=40}" Grid.Row="{utu:Responsive Narrow=2, Wide=1}"
 						Grid.Column="0"
 						Command="{Binding InputCommand}"
 						CommandParameter="4"
 						Content="4"
 						Style="{StaticResource KeypadButton}" />
-				<Button Grid.Row="2"
+        <Button Height="{utu:Responsive Narrow=72, Wide=40}" Grid.Row="{utu:Responsive Narrow=2, Wide=1}"
 						Grid.Column="1"
 						Command="{Binding InputCommand}"
 						CommandParameter="5"
 						Content="5"
 						Style="{StaticResource KeypadButton}" />
-				<Button Grid.Row="2"
+        <Button Height="{utu:Responsive Narrow=72, Wide=40}" Grid.Row="{utu:Responsive Narrow=2, Wide=1}"
 						Grid.Column="2"
 						Command="{Binding InputCommand}"
 						CommandParameter="6"
 						Content="6"
 						Style="{StaticResource KeypadButton}" />
-				<Button Grid.Row="2"
-						Grid.Column="3"
+				<Button Height="{utu:Responsive Narrow=72, Wide=40}" Grid.Row="2"
+						Grid.Column="{utu:Responsive Narrow=3, Wide=4}"
 						Command="{Binding InputCommand}"
 						CommandParameter="−"
 						Content="−"
 						Style="{StaticResource KeypadPrimaryButton}" />
 
 				<!-- Row 3 -->
-				<Button Grid.Row="3"
+        <Button Height="{utu:Responsive Narrow=72, Wide=40}" Grid.Row="{utu:Responsive Narrow=3, Wide=2}"
 						Grid.Column="0"
 						Command="{Binding InputCommand}"
 						CommandParameter="1"
 						Content="1"
 						Style="{StaticResource KeypadButton}" />
-				<Button Grid.Row="3"
+        <Button Height="{utu:Responsive Narrow=72, Wide=40}" Grid.Row="{utu:Responsive Narrow=3, Wide=2}"
 						Grid.Column="1"
 						Command="{Binding InputCommand}"
 						CommandParameter="2"
 						Content="2"
 						Style="{StaticResource KeypadButton}" />
-				<Button Grid.Row="3"
+        <Button Height="{utu:Responsive Narrow=72, Wide=40}" Grid.Row="{utu:Responsive Narrow=3, Wide=2}"
 						Grid.Column="2"
 						Command="{Binding InputCommand}"
 						CommandParameter="3"
 						Content="3"
 						Style="{StaticResource KeypadButton}" />
-				<Button Grid.Row="3"
-						Grid.Column="3"
+				<Button Height="{utu:Responsive Narrow=72, Wide=40}" Grid.Row="3"
+						Grid.Column="{utu:Responsive Narrow=3, Wide=4}"
 						Command="{Binding InputCommand}"
 						CommandParameter="+"
 						Content="+"
 						Style="{StaticResource KeypadPrimaryButton}" />
 
 				<!-- Row 4 -->
-				<Button Grid.Row="4"
+        <Button Height="{utu:Responsive Narrow=72, Wide=40}" Grid.Row="{utu:Responsive Narrow=4, Wide=3}"
 						Grid.Column="0"
 						Command="{Binding InputCommand}"
 						CommandParameter="."
 						Content="."
 						Style="{StaticResource KeypadButton}" />
-				<Button Grid.Row="4"
+        <Button Height="{utu:Responsive Narrow=72, Wide=40}" Grid.Row="{utu:Responsive Narrow=4, Wide=3}"
 						Grid.Column="1"
 						Command="{Binding InputCommand}"
 						CommandParameter="0"
 						Content="0"
 						Style="{StaticResource KeypadButton}" />
-				<Button Grid.Row="4"
+        <Button Height="{utu:Responsive Narrow=72, Wide=40}" Grid.Row="{utu:Responsive Narrow=4, Wide=3}"
 						Grid.Column="2"
 						Command="{Binding InputCommand}"
 						CommandParameter="back"
@@ -236,7 +237,7 @@
 								  FontSize="36" />
 					</Button.Content>
 				</Button>
-				<Button Grid.Row="4"
+        <Button Height="{utu:Responsive Narrow=72, Wide=40}" Grid.Row="{utu:Responsive Narrow=4, Wide=3}"
 						Grid.Column="3"
 						Command="{Binding InputCommand}"
 						CommandParameter="="
