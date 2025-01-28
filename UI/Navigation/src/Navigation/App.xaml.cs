@@ -79,7 +79,7 @@ public partial class App : Application
 			new ViewMap<SecondPage>(),
 			new ViewMap<ThirdPage>(),
 			messageDialog,
-
+			new ViewMap<ToFromQueryMainPage, ToFromQueryMainViewModel>(),
 			// FIXME: Using the URL address bar to navigate doesn't work
 			// eg: http://localhost:5000/Main/ToFromQuery?QueryUser.Id=2b64071a-2c8a-45e4-9f48-3eb7d7aace41
 			// https://github.com/unoplatform/uno.extensions/issues/2488
@@ -163,7 +163,8 @@ public partial class App : Application
 							#endregion
 
 							#region ToFromQuery
-							new ("ToFromQuery", View: views.FindByViewModel<ToFromQueryViewModel>()),
+							new ("ToFromQueryMain", View: views.FindByViewModel<ToFromQueryMainViewModel>()),
+							new ("ToFromQuery", View: views.FindByViewModel<ToFromQueryViewModel>(), DependsOn: "ToFromQueryMain"),
 							#endregion
 
 							#region Flyout Drawer

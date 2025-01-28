@@ -1,10 +1,11 @@
-﻿<Page x:Class="Navigation.Presentation.ToFromQueryPage"
+﻿<Page x:Class="Navigation.Presentation.ToFromQueryMainPage"
 	  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	  xmlns:local="using:Navigation.Presentation"
 	  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	  xmlns:utu="using:Uno.Toolkit.UI"
+	  xmlns:uen="using:Uno.Extensions.Navigation.UI"
 	  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
 	  mc:Ignorable="d">
 
@@ -14,7 +15,7 @@
 			<RowDefinition />
 		</Grid.RowDefinitions>
 
-		<utu:NavigationBar Content="FromQuery/ToQuery User Page">
+		<utu:NavigationBar Content="FromQuery/ToQuery Page">
 			<utu:NavigationBar.MainCommand>
 				<AppBarButton>
 					<AppBarButton.Icon>
@@ -34,15 +35,16 @@
 				   HorizontalAlignment="Center"
 				   Source="ms-appx:///Assets/logo.png" />
 
-			<TextBlock HorizontalAlignment="Center"
-					   Style="{StaticResource TitleLarge}">
-				<Run Text="User Id: " /><Run Text="{Binding User.Id}" />
-			</TextBlock>
+			<Button Content="See User 1"
+					HorizontalAlignment="Center"
+					uen:Navigation.Data="{Binding User1}"
+					uen:Navigation.Request="ToFromQuery" />
 
-			<TextBlock HorizontalAlignment="Center"
-					   Style="{StaticResource TitleLarge}">
-				<Run Text="User name: " /><Run Text="{Binding User.Name}" />
-			</TextBlock>
+			<Button Content="See User 2"
+					HorizontalAlignment="Center"
+					uen:Navigation.Data="{Binding User2}"
+					uen:Navigation.Request="ToFromQuery" />
+
 		</StackPanel>
 	</Grid>
 </Page>
