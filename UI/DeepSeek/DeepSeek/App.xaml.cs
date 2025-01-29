@@ -1,3 +1,5 @@
+using DeepSeek.Business.Models;
+using DeepSeek.Services;
 using Uno.Resizetizer;
 
 namespace DeepSeek;
@@ -44,23 +46,6 @@ public partial class App : Application
                         // Default filters for core Uno Platform namespaces
                         .CoreLogLevel(LogLevel.Warning);
 
-                    // Uno Platform namespace filter groups
-                    // Uncomment individual methods to see more detailed logging
-                    //// Generic Xaml events
-                    //logBuilder.XamlLogLevel(LogLevel.Debug);
-                    //// Layout specific messages
-                    //logBuilder.XamlLayoutLogLevel(LogLevel.Debug);
-                    //// Storage messages
-                    //logBuilder.StorageLogLevel(LogLevel.Debug);
-                    //// Binding related messages
-                    //logBuilder.XamlBindingLogLevel(LogLevel.Debug);
-                    //// Binder memory references tracking
-                    //logBuilder.BinderMemoryReferenceLogLevel(LogLevel.Debug);
-                    //// DevServer and HotReload related
-                    //logBuilder.HotReloadCoreLogLevel(LogLevel.Information);
-                    //// Debug JS interop
-                    //logBuilder.WebAssemblyLogLevel(LogLevel.Debug);
-
                 }, enableUnoLogging: true)
                 .UseConfiguration(configure: configBuilder =>
                     configBuilder
@@ -77,12 +62,22 @@ public partial class App : Application
                     // DelegatingHandler will be automatically injected into Refit Client
                     .AddTransient<DelegatingHandler, DebugHttpHandler>()
 #endif
-                    .AddSingleton<IWeatherCache, WeatherCache>()
-                    .AddRefitClient<IApiClient>(context))
+                    .AddRefitClient<IDeepSeekApiClient>(context,
+                                                        configure: (builder, options)
+                                                            => builder.ConfigureHttpClient(client => 
+                                                                {
+                                                                    var section = context.Configuration.GetSection(nameof(AppConfig));
+                                                                    var apiKey = section[nameof(AppConfig.ApiKey)];
+                                                                    var baseUrl = section[nameof(AppConfig.BaseUrl)];
+
+                                                                    client.DefaultRequestHeaders.Add("Authorization", $"Bearer {apiKey}");
+                                                                    client.BaseAddress = new Uri(baseUrl);
+                                                                })
+                    )
+                )
                 .ConfigureServices((context, services) =>
                 {
-                    // TODO: Register your services
-                    //services.AddSingleton<IMyService, MyService>();
+                    services.AddSingleton<IChatService, ChatService>();
                 })
             );
         MainWindow = builder.Window;
