@@ -24,7 +24,7 @@ public partial class App : Application
             new XamlControlsResources()));
         MainWindow = new Window();
 #if DEBUG
-        MainWindow.EnableHotReload();
+        MainWindow.UseStudio();
 #endif
 
 
