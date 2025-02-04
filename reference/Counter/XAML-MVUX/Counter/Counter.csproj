@@ -1,13 +1,6 @@
 <Project Sdk="Uno.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>
-      net8.0-android;
-      net8.0-ios;
-      net8.0-maccatalyst;
-      net8.0-windows10.0.19041;
-      net8.0-desktop;
-      net8.0-browserwasm;
-    </TargetFrameworks>
+    <TargetFrameworks>net9.0-android;net9.0-ios;net9.0-maccatalyst;net9.0-windows10.0.26100;net9.0-browserwasm;net9.0-desktop</TargetFrameworks>
 
     <OutputType>Exe</OutputType>
     <UnoSingleProject>true</UnoSingleProject>
@@ -29,11 +22,7 @@
       the "Microsoft.Windows.SDK.BuildTools" package above, and the "revision" version number
       must be the highest found in https://www.nuget.org/packages/Microsoft.Windows.SDK.NET.Ref.
     -->
-
-    <!-- Uno Platform 5.4 has been updated to use WinAppSDK 1.6, which necessitates a temporary version adjustment until newer versions of .NET 8 SDKs are released. -->
-    <!-- Comment this WindowsSdkPackageVersion line again once .NET SDK version 8.0.403 or later is available. -->
-    <!-- For more details, refer to: https://aka.platform.uno/migrate-from-previous#uno-platform-54 -->
-    <WindowsSdkPackageVersion>10.0.19041.38</WindowsSdkPackageVersion>
+    <!-- <WindowsSdkPackageVersion>10.0.22621.28</WindowsSdkPackageVersion> -->
 
     <!--
       UnoFeatures let's you quickly add and manage implicit package references based on the features you want to use.
