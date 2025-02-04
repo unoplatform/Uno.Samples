@@ -47,7 +47,7 @@
     <WasmShellLoadAllSatelliteResources>true</WasmShellLoadAllSatelliteResources>
   </PropertyGroup>
 
-  <Target Name="Issue109289_Workaround" AfterTargets="_BrowserWasmWriteRspForLinking" Condition=" '$(NETCoreSdkVersion)' == '9.0.100' " >
+  <Target Name="Issue109289_Workaround" AfterTargets="_BrowserWasmWriteRspForLinking" Condition=" '$(NETCoreSdkVersion)' == '9.0.101' " >
     <ItemGroup>
       <_WasmLinkStepArgs Remove="@(_EmccLinkStepArgs)" />
       <_EmccLinkStepArgs Remove="&quot;%(_WasmNativeFileForLinking.Identity)&quot;" />
