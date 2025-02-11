@@ -22,7 +22,6 @@
       the "Microsoft.Windows.SDK.BuildTools" package above, and the "revision" version number
       must be the highest found in https://www.nuget.org/packages/Microsoft.Windows.SDK.NET.Ref.
     -->
-
     <!--<WindowsSdkPackageVersion>10.0.22621.28</WindowsSdkPackageVersion>-->
 
     <!--
@@ -44,25 +43,8 @@
       Navigation;
       ExtensionsCore;
     </UnoFeatures>
-    <WasmShellLoadAllSatelliteResources>true</WasmShellLoadAllSatelliteResources>
   </PropertyGroup>
 
-  <Target Name="Issue109289_Workaround" AfterTargets="_BrowserWasmWriteRspForLinking" Condition=" '$(NETCoreSdkVersion)' == '9.0.101' " >
-    <ItemGroup>
-      <_WasmLinkStepArgs Remove="@(_EmccLinkStepArgs)" />
-      <_EmccLinkStepArgs Remove="&quot;%(_WasmNativeFileForLinking.Identity)&quot;" />
-      <_WasmLinkDependencies Remove="@(_WasmNativeFileForLinking)" />
-
-      <_SkiaSharpToReorder Include="@(_WasmNativeFileForLinking)" Condition="$([System.String]::Copy('%(FullPath)').Contains('SkiaSharp'))" />
-      <_WasmNativeFileForLinking Remove="@(_SkiaSharpToReorder)" />
-      <_WasmNativeFileForLinking Include="@(_SkiaSharpToReorder)" />
-
-      <_EmccLinkStepArgs Include="&quot;%(_WasmNativeFileForLinking.Identity)&quot;" />
-      <_WasmLinkDependencies Include="@(_WasmNativeFileForLinking)" />
-      <_WasmLinkStepArgs Include="@(_EmccLinkStepArgs)" />
-    </ItemGroup>
-  </Target>
-  
   <ItemGroup>
     <None Remove="products.json" />
     <Content Include="products.json" />
