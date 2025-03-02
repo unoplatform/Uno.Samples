@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows')) or '$(EnableWindowsTargeting)' == 'true'">net9.0-windows10.0.26100</TargetFrameworks>
+		<TargetFrameworks>
+			net9.0;
+			net9.0-android;
+			net9.0-ios;
+			net9.0-maccatalyst;
+			$(TargetFrameworks);
+		</TargetFrameworks>
+		<TargetFrameworks Condition="'$(OverrideTargetFrameworks)'!=''">$(OverrideTargetFrameworks)</TargetFrameworks>
+
+		<UseMaui>true</UseMaui>
+		<SingleProject>true</SingleProject>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<!-- TODO: Uncomment -->
+		<PackageReference Include="Telerik.UI.for.Maui" />
+		<PackageReference Include="Microsoft.Maui.Controls" />
+		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" />
+	</ItemGroup>
+
+</Project>
