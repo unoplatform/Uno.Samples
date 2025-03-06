@@ -1,7 +1,9 @@
-﻿using Microsoft.Maui.Controls;
+using Microsoft.Maui.Controls;
 using Microsoft.Maui.Graphics;
-// TODO: Uncomment
-//using Telerik.Maui.Controls.Compatibility.Primitives;
+
+#if HAS_TELERIK
+using Telerik.Maui.Controls.Compatibility.Primitives;
+#endif
 using AppTheme = Microsoft.Maui.ApplicationModel.AppTheme;
 using MauiApplication = Microsoft.Maui.Controls.Application;
 
@@ -22,11 +24,12 @@ public partial class User : ObservableObject
     [ObservableProperty]
     private string? imageSourcePath;
 
-    // TODO: Uncomment
-    //[ObservableProperty]
-    //private BadgeType activityStatus;
+#if HAS_TELERIK
+	[ObservableProperty]
+	private BadgeType activityStatus;
+#endif
 
-    [ObservableProperty]
+	[ObservableProperty]
     private string? unreadMessagesText;
 
     [ObservableProperty]

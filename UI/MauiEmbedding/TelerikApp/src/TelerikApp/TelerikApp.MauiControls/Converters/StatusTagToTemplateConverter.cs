@@ -1,4 +1,4 @@
-﻿using System.Globalization;
+using System.Globalization;
 using TelerikApp.MauiControls.Common;
 
 namespace TelerikApp.MauiControls.Converters;

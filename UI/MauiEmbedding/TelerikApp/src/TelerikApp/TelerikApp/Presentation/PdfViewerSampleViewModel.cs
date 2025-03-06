@@ -1,12 +1,13 @@
-﻿// TODO: Uncomment
+#if HAS_TELERIK
 using Telerik.Maui.Controls.PdfViewer;
+#endif
 
 namespace TelerikApp.Presentation;
 
 internal partial class PdfViewerSampleViewModel : ObservableObject
 {
-    // TODO: Uncomment
-    public PdfViewerSampleViewModel()
+#if HAS_TELERIK
+	public PdfViewerSampleViewModel()
     {
        var assembly = typeof(PdfViewerSampleViewModel).Assembly;
        var resourceName = assembly.GetManifestResourceNames().FirstOrDefault(x => x.EndsWith("pdfviewer-firstlook.pdf"));
@@ -20,4 +21,5 @@ internal partial class PdfViewerSampleViewModel : ObservableObject
 
     [ObservableProperty]
     private DocumentSource? source;
+#endif
 }

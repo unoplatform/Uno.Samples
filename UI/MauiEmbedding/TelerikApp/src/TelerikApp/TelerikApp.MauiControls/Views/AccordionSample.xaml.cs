@@ -2,11 +2,13 @@ namespace TelerikApp.MauiControls;
 
 public partial class AccordionSample : ContentView
 {
-    // TODO: Uncomment
-    static void Preserve()
+#if HAS_TELERIK
+	static void Preserve()
     {
         _ = new Telerik.Maui.Controls.AccordionItem();
     }
+#endif
+
     public AccordionSample()
     {
         InitializeComponent();

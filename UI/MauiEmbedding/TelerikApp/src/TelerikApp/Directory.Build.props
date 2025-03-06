@@ -12,5 +12,9 @@
       PRI257: Ignore default language (en) not being one of the included resources (eg en-us, en-uk)
     -->
     <NoWarn>$(NoWarn);NU1507;NETSDK1201;NETSDK1023;PRI257</NoWarn>
+	<EnableTelerik>true</EnableTelerik>
+	<EnableTelerik Condition="'$(EnableTelerik)'!='true'">false</EnableTelerik>
+
+	<DefineConstants Condition="'$(EnableTelerik)'=='true'">$(DefineConstants);HAS_TELERIK</DefineConstants>
   </PropertyGroup>
 </Project>

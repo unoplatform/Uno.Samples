@@ -1,6 +1,8 @@
-﻿using System.Xml.Serialization;
-// TODO: Uncomment
-//using Telerik.Maui.Controls.Compatibility.Common.DataAnnotations;
+using System.Xml.Serialization;
+
+#if HAS_TELERIK
+using Telerik.Maui.Controls.Compatibility.Common.DataAnnotations;
+#endif
 
 namespace TelerikApp.Business.Models;
 
@@ -23,7 +25,9 @@ public class Order : ObservableObject
     private string? shipRegion;
 
     [XmlAttribute(AttributeName = "OrderID")]
-    // TODO: Uncomment: [DisplayOptions (Header = "Order ID", PlaceholderText = "Order ID")]
+#if HAS_TELERIK
+	[DisplayOptions (Header = "Order ID", PlaceholderText = "Order ID")]
+#endif
     public int OrderID
     {
         get => this.orderID;
@@ -31,7 +35,9 @@ public class Order : ObservableObject
     }
 
     [XmlAttribute(AttributeName = "ShipName")]
-    // TODO: Uncomment: [DisplayOptions (Header = "Ship Name", PlaceholderText = "Ship Name")]
+#if HAS_TELERIK
+	[DisplayOptions (Header = "Ship Name", PlaceholderText = "Ship Name")]
+#endif
     public string? ShipName
     {
         get => this.shipName;
@@ -39,7 +45,9 @@ public class Order : ObservableObject
     }
 
     [XmlAttribute(AttributeName = "CustomerID")]
-    // TODO: Uncomment: [DisplayOptions (Header = "Customer ID", PlaceholderText = "Customer ID")]
+#if HAS_TELERIK
+	[DisplayOptions (Header = "Customer ID", PlaceholderText = "Customer ID")]
+#endif
     public string? CustomerID
     {
         get => this.customerID;
@@ -61,7 +69,9 @@ public class Order : ObservableObject
     }
 
     [XmlAttribute(AttributeName = "OrderDate")]
-    // TODO: Uncomment: [DisplayOptions (Header = "Order Date", PlaceholderText = "Order Date")]
+#if HAS_TELERIK
+	[DisplayOptions (Header = "Order Date", PlaceholderText = "Order Date")]
+#endif
     public DateTime OrderDate
     {
         get => this.orderDate;
@@ -76,23 +86,29 @@ public class Order : ObservableObject
     }
 
     [XmlAttribute(AttributeName = "ShippedDate")]
-    // TODO: Uncomment: [DisplayOptions (Header = "Shipped Date", PlaceholderText = "Shipped Date")]
-    public DateTime ShippedDate
+#if HAS_TELERIK
+	[DisplayOptions (Header = "Shipped Date", PlaceholderText = "Shipped Date")]
+#endif
+	public DateTime ShippedDate
     {
         get => this.shippedDate;
         set => this.SetProperty(ref this.shippedDate, value);
     }
 
     [XmlAttribute(AttributeName = "ShipVia")]
-    // TODO: Uncomment: [DisplayOptions (Header = "Ship Via", PlaceholderText = "Ship Via")]
-    public double ShipVia
+#if HAS_TELERIK
+	[DisplayOptions (Header = "Ship Via", PlaceholderText = "Ship Via")]
+#endif
+	public double ShipVia
     {
         get => this.shipVia;
         set => this.SetProperty(ref this.shipVia, value);
     }
 
     [XmlAttribute(AttributeName = "Freight")]
-    // TODO: Uncomment: [DisplayOptions (Header = "Freight", PlaceholderText = "Freight")]
+#if HAS_TELERIK
+	[DisplayOptions (Header = "Freight", PlaceholderText = "Freight")]
+#endif
     public double Freight
     {
         get => this.freight;

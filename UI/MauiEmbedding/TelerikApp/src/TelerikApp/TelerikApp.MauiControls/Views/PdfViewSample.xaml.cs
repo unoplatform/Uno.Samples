@@ -9,8 +9,8 @@ public partial class PdfViewSample : ContentView
 		InitializeComponent();
 	}
 
-    // TODO: Uncomment
-    protected override void OnBindingContextChanged()
+#if HAS_TELERIK
+	protected override void OnBindingContextChanged()
     {
        if (BindingContext is null)
            return;
@@ -27,4 +27,5 @@ public partial class PdfViewSample : ContentView
        });
        this.pdfViewer.Source = streamFunc;
     }
+#endif
 }
