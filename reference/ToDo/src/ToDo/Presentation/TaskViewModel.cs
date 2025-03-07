@@ -1,4 +1,4 @@
-﻿using Dialog = ToDo.Presentation.Dialogs.Dialog;
+using Dialog = ToDo.Presentation.Dialogs.Dialog;
 
 namespace ToDo.Presentation;
 
@@ -39,7 +39,9 @@ public partial class TaskViewModel
     {
         if (await Entity is { } task)
         {
-            await _svc.UpdateAsync(task.ToggleIsImportant(), ct);
+            var updatedTask = task.ToggleIsImportant();
+            await _svc.UpdateAsync(updatedTask, ct);
+            await Entity.UpdateValue(opt => opt.Map(_ => updatedTask), ct);
         }
     }
 
