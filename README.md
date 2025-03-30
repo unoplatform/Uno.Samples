@@ -1,9 +1,12 @@
+---
+uid: Uno.Samples.Readme
+---
 # Uno Platform Samples
 
 This repository provides simple, to-the-point code [samples](#samples) for the [Uno Platform](https://platform.uno/).
 
 <p align="center">
- <img width="50" src="https://uno-assets.platform.uno/logos/uno_background.png" />
+ <img width="50" src="https://uno-assets.platform.uno/logos/uno_background.png" alt="Colorful but simple Uno Platform logo with interlocking blue, pink, green, and purple shapes." />
 </p>
 
 <h2 align="center">Pixel-Perfect. Multi-Platform. C# & Windows XAML. Today.</h2>
@@ -29,9 +32,10 @@ Visit [our documentation](https://aka.platform.uno/uno-docs-intro) for more deta
 
 ## Samples
 
-See a complete list of code samples [here](doc/samples.md). Some of the samples have accompanying step-by-step [workshops](https://aka.platform.uno/counter-tutorial) or [tutorials](https://aka.platform.uno/tutorials-intro) in the official Uno Platform documentation.
+See a complete list of code samples [here](xref:Uno.Samples). Some of the samples have accompanying step-by-step [workshops](https://aka.platform.uno/counter-tutorial) or [tutorials](https://aka.platform.uno/tutorials-intro) in the official Uno Platform documentation.
 
 ### Uno Platform Samples - Issues
+
 If you encounter any issues with these samples above, please open an issue [here](https://github.com/unoplatform/uno/issues).
 
 ## Have other questions? Feature requests? Issues?
@@ -39,6 +43,7 @@ If you encounter any issues with these samples above, please open an issue [here
 Make sure to visit our [FAQ](https://aka.platform.uno/uno-faq), [create an issue](https://github.com/unoplatform/uno/issues), [open a GitHub Discussion](https://github.com/unoplatform/uno/discussions) or visit our [Discord Server](https://platform.uno/uno-discord) - where our engineering team and community will be able to help you.
 
 ## Contributors
+
 Thanks go to these wonderful people (List made with [contrib.rocks](https://contrib.rocks)):
 
 [![Uno.Samples Contributors](https://contrib.rocks/image?repo=unoplatform/Uno.Samples)](https://github.com/unoplatform/Uno.Samples/graphs/contributors)
