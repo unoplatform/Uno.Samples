@@ -1,6 +1,3 @@
-using CommunityToolkit.Mvvm.Messaging;
-using Microsoft.Extensions.DependencyInjection;
-
 namespace MessagingPeopleApp
 {
     public class App : Application
