@@ -1,3 +1,4 @@
+using Uno.UI.Hosting;
 using Uno.UI.Runtime.Skia.AppleUIKit;
 
 namespace ToDo.iOS;
@@ -9,7 +10,11 @@ public class EntryPoint
     {
         // if you want to use a different Application Delegate class from "AppDelegate"
         // you can specify it here.
-        var host = new AppleUIKitHost(() => new App());
+        var host = UnoPlatformHostBuilder.Create()
+            .App(() => new App())
+            .UseAppleUIKit()
+            .Build();
+
         host.Run();
     }
 }

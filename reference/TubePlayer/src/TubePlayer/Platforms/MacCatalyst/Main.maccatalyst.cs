@@ -1,4 +1,4 @@
-using UIKit;
+using Uno.UI.Hosting;
 
 namespace TubePlayer.MacCatalyst;
 
@@ -9,6 +9,11 @@ public class EntryPoint
     {
         // if you want to use a different Application Delegate class from "AppDelegate"
         // you can specify it here.
-        UIApplication.Main(args, null, typeof(App));
+        var host = UnoPlatformHostBuilder.Create()
+            .App(() => new App())
+            .UseAppleUIKit()
+            .Build();
+
+        host.Run();
     }
 }

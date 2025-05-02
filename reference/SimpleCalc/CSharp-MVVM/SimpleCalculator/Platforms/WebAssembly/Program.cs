@@ -1,4 +1,4 @@
-using Uno.UI.Runtime.Skia.WebAssembly.Browser;
+using Uno.UI.Hosting;
 
 namespace SimpleCalculator;
 
@@ -9,9 +9,12 @@ public class Program
     public static async Task<int> Main(string[] args)
     {
         App.InitializeLogging();
+        var host = UnoPlatformHostBuilder.Create()
+            .App(() => new App())
+            .UseWebAssembly()
+            .Build();
 
-        var host = new WebAssemblyBrowserHost(() => _app = new App());
-        await host.Run();
+        await host.RunAsync();
 
         return 0;
     }

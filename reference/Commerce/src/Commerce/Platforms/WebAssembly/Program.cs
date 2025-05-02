@@ -1,15 +1,17 @@
-using Uno.UI.Runtime.Skia.WebAssembly.Browser;
+using Uno.UI.Hosting;
 
 namespace Commerce;
 
 public class Program
 {
-    private static App? _app;
-
     public static async Task<int> Main(string[] args)
     {
-        var host = new WebAssemblyBrowserHost(() => _app = new App());
-        await host.Run();
+        var host = UnoPlatformHostBuilder.Create()
+            .App(() => new App())
+            .UseWebAssembly()
+            .Build();
+
+        await host.RunAsync();
 
         return 0;
     }
