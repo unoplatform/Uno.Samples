@@ -1,7 +1,10 @@
 using System.Diagnostics;
+using System.Globalization;
 using Uno.Disposables;
 using Uno.UI.NativeElementHosting;
 using Uno.WinUI.Runtime.Skia.X11;
+using Windows.Win32;
+using Windows.Win32.Foundation;
 namespace NativeElementHostingDesktop;
 
 public sealed partial class MainPage : Page
@@ -19,10 +22,45 @@ public sealed partial class MainPage : Page
         {
             cp.Content = await OpenXterm();
         }
+        if (OperatingSystem.IsWindows())
+        {
+            cp.Content = OpenPowershell();
+        }
         else
         {
             cp.Content = "Failed to load! This sample is only for Windows and Linux.";
         }
+    }
+
+    private Win32NativeWindow OpenPowershell()
+    {
+        var windowTitle = Random.Shared.NextInt64().ToString(CultureInfo.InvariantCulture);
+        var process = new Process
+        {
+            StartInfo = new ProcessStartInfo
+            {
+                FileName = "powershell.exe",
+                Arguments = $"-NoExit -Command \"$Host.UI.RawUI.WindowTitle = '{windowTitle}'\"",
+                UseShellExecute = true
+            }
+        };
+
+        process.Start();
+
+        HWND hwnd = default;
+        var success = SpinWait.SpinUntil(() =>
+        {
+            hwnd = PInvoke.FindWindow(null, windowTitle);
+            return hwnd != HWND.Null;
+        }, TimeSpan.FromSeconds(5));
+
+
+        if (!success)
+        {
+            throw new InvalidOperationException("Could not find the HWND spawned by the created process.");
+        }
+
+        return new Win32NativeWindow(hwnd);
     }
 
     private Task<X11NativeWindow> OpenXterm()
