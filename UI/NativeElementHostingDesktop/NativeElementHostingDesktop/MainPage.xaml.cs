@@ -24,7 +24,7 @@ public sealed partial class MainPage : Page
         }
         if (OperatingSystem.IsWindows())
         {
-            cp.Content = OpenPowershell();
+            cp.Content = await OpenPowershell();
         }
         else
         {
@@ -32,7 +32,7 @@ public sealed partial class MainPage : Page
         }
     }
 
-    private Win32NativeWindow OpenPowershell()
+    private Task<Win32NativeWindow> OpenPowershell()
     {
         var windowTitle = Random.Shared.NextInt64().ToString(CultureInfo.InvariantCulture);
         var process = new Process
@@ -47,20 +47,22 @@ public sealed partial class MainPage : Page
 
         process.Start();
 
-        HWND hwnd = default;
-        var success = SpinWait.SpinUntil(() =>
+        var tcs = new TaskCompletionSource<Win32NativeWindow>();
+
+        _ = Task.Run(() =>
         {
-            hwnd = PInvoke.FindWindow(null, windowTitle);
-            return hwnd != HWND.Null;
-        }, TimeSpan.FromSeconds(5));
-
-
-        if (!success)
-        {
-            throw new InvalidOperationException("Could not find the HWND spawned by the created process.");
-        }
-
-        return new Win32NativeWindow(hwnd);
+            while (true)
+            {
+                var hwnd = PInvoke.FindWindow(null, windowTitle);
+                if (hwnd != HWND.Null)
+                {
+                    tcs.TrySetResult(new Win32NativeWindow(hwnd));
+                    return;
+                }
+            }
+        });
+        
+        return tcs.Task;
     }
 
     private Task<X11NativeWindow> OpenXterm()
@@ -91,7 +93,7 @@ public sealed partial class MainPage : Page
             {
                 var display = XLib.XOpenDisplay(IntPtr.Zero);
                 // This will 
-                X11NativeWindow windowXid = FindWindowByPid(display, process.Id, XLib.XDefaultRootWindow(display));
+                X11NativeWindow windowXid = FindX11WindowByPid(display, process.Id, XLib.XDefaultRootWindow(display));
                 _ = XLib.XCloseDisplay(display);
                 if (windowXid.WindowId != IntPtr.Zero)
                 {
@@ -105,7 +107,7 @@ public sealed partial class MainPage : Page
     }
 
     // Only supported on ICCCM-conformant X11 window managers
-    private unsafe X11NativeWindow FindWindowByPid(IntPtr display, int pid, IntPtr windowToStartSearchingFrom)
+    private unsafe X11NativeWindow FindX11WindowByPid(IntPtr display, int pid, IntPtr windowToStartSearchingFrom)
     {
         _ = XLib.XGetWindowProperty(
             display,
@@ -138,7 +140,7 @@ public sealed partial class MainPage : Page
         var children = new Span<IntPtr>((void*)childrenPtr, nchildren);
         foreach (var child in children)
         {
-            var childRet = FindWindowByPid(display, pid, child);
+            var childRet = FindX11WindowByPid(display, pid, child);
             if (childRet.WindowId != IntPtr.Zero)
             {
                 return childRet;
