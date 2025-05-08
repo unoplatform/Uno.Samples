@@ -10,6 +10,12 @@ Browse the complete list below:
 
 ## Reference Samples
 
+### Chefs App
+
+The [Chefs app](xref:Uno.Chefs.Overview) is an engaging recipe platform where you can explore a wide variety of recipes with step-by-step instructions, video tutorials, nutritional details with charts, and user reviews. You can save your favorite recipes, filter options based on your preferences, and even discover nearby contributors on the maps. The app also offers an exciting opportunity to learn from the [Recipe Books](xref:Uno.Recipes.Overview) section, where you'll find specially selected collections that show how powerful Uno Platform features are applied in real-world scenarios, providing you with practical insights and examples to enhance your development skills.
+
+[Browse source](https://github.com/unoplatform/uno.chefs)
+
 ### Counter App
 
 Experience the simplicity and power of Uno.Extensions through the Counter App, a straightforward yet powerful demonstration of both basic and advanced features of the Uno Platform. This app provides a hands-on experience with fundamental concepts such as state management, user interaction, and real-time UI updates.
