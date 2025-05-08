@@ -1,6 +1,5 @@
 using System.Diagnostics;
 using System.Globalization;
-using Uno.Disposables;
 using Uno.UI.NativeElementHosting;
 using Uno.WinUI.Runtime.Skia.X11;
 using Windows.Win32;
@@ -122,7 +121,6 @@ public sealed partial class MainPage : Page
             out var nitems,
             out var _,
             out var prop);
-        using var atomsDisposable = Disposable.Create(() => XLib.XFree(prop));
 
         if (actualFormat == 32 && nitems > 0)
         {
@@ -130,12 +128,16 @@ public sealed partial class MainPage : Page
             var windowPid = *(int*)prop;
             if (windowPid == pid)
             {
+                _ = XLib.XFree(prop);
                 return new X11NativeWindow(windowToStartSearchingFrom);
             }
         }
+        else
+        {
+            _ = XLib.XFree(prop);
+        }
 
         _ = XLib.XQueryTree(display, windowToStartSearchingFrom, out _, out _, out var childrenPtr, out int nchildren);
-        using var childrenDisposable = Disposable.Create(() => XLib.XFree(childrenPtr));
 
         var children = new Span<IntPtr>((void*)childrenPtr, nchildren);
         foreach (var child in children)
@@ -143,10 +145,12 @@ public sealed partial class MainPage : Page
             var childRet = FindX11WindowByPid(display, pid, child);
             if (childRet.WindowId != IntPtr.Zero)
             {
+                _ = XLib.XFree(childrenPtr);
                 return childRet;
             }
         }
-
+        
+        _ = XLib.XFree(childrenPtr);
         return new X11NativeWindow(IntPtr.Zero);
     }
 }
