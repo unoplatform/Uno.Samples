@@ -112,7 +112,7 @@ public partial class App : Application
 						[
 							#region Page Navigation
 							new ("PageNavigation", View: views.FindByViewModel<PageNavigationViewModel>(), IsDefault: true),
-							new ("Sample", View: views.FindByView<SamplePage>(), DependsOn: "PageNavigation"),
+							new ("Sample", View: views.FindByView<SamplePage>()),
 							#endregion
 
 							#region ContentControl Navigation
@@ -143,7 +143,7 @@ public partial class App : Application
 
 							#region Request a Value
 							new ("RequestValueMain", View: views.FindByViewModel<RequestValueMainViewModel>()),
-							new ("RequestValueSecond", View: views.FindByViewModel<RequestValueSecondViewModel>(), DependsOn: "RequestValueMain"),
+							new ("RequestValueSecond", View: views.FindByViewModel<RequestValueSecondViewModel>()),
 							#endregion
 
 							#region Message Dialog
@@ -158,13 +158,13 @@ public partial class App : Application
 							new ("ComplexFlyout", View: views.FindByView<ComplexFlyoutPage>(), Nested:
 							[
 								new ("ComplexFlyoutOne", View: views.FindByViewModel<ComplexFlyoutOneViewModel>(), IsDefault:true),
-								new ("ComplexFlyoutSecond", View: views.FindByViewModel<ComplexFlyoutTwoViewModel>(), DependsOn: "ComplexFlyoutOne")
+								new ("ComplexFlyoutSecond", View: views.FindByViewModel<ComplexFlyoutTwoViewModel>())
 							]),
 							#endregion
 
 							#region ToFromQuery
 							new ("ToFromQueryMain", View: views.FindByViewModel<ToFromQueryMainViewModel>()),
-							new ("ToFromQuery", View: views.FindByViewModel<ToFromQueryViewModel>(), DependsOn: "ToFromQueryMain"),
+							new ("ToFromQuery", View: views.FindByViewModel<ToFromQueryViewModel>()),
 							#endregion
 
 							#region Flyout Drawer
