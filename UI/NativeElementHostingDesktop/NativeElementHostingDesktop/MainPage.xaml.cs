@@ -21,7 +21,7 @@ public sealed partial class MainPage : Page
         {
             cp.Content = await OpenXterm();
         }
-        if (OperatingSystem.IsWindows())
+        else if (OperatingSystem.IsWindows())
         {
             cp.Content = await OpenPowershell();
         }
