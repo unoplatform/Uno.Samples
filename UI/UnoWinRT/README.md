@@ -6,7 +6,7 @@ This sample demonstrates how to use the [Uno.WinRT](https://www.nuget.org/packag
 
 The `Uno.WinRT` NuGet package provides WinRT API support for .NET applications even outside of Uno Platform, such as .NET Android, .NET iOS, MAUI, or Blazor WASM.
 
-This sample showcases the `Uno.WinRT` package usage in a plain .NET Android app which displays the accelerometer sensor readings.
+This sample showcases the `Uno.WinRT` package usage in a plain .NET Android and .NET iOS apps which display the accelerometer sensor readings.
 
 ## Usage
 
