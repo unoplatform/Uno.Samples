@@ -1,0 +1,28 @@
+{
+  // Use IntelliSense to find out which attributes exist for C# debugging
+  // Use hover for the description of the existing attributes
+  // For further information visit https://github.com/OmniSharp/omnisharp-vscode/blob/master/debugger-launchjson.md
+  "version": "0.2.0",
+  "configurations": [
+    {
+      // Use IntelliSense to find out which attributes exist for C# debugging
+      // Use hover for the description of the existing attributes
+      // For further information visit https://github.com/OmniSharp/omnisharp-vscode/blob/master/debugger-launchjson.md
+      "name": "Uno Platform Desktop Debug",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "build-desktop",
+      // If you have changed target frameworks, make sure to update the program path.
+      "program": "${workspaceFolder}/NativeElementHostingDesktop/bin/Debug/net9.0-desktop/NativeElementHostingDesktop.dll",
+      "args": [],
+      "launchSettingsProfile": "NativeElementHostingDesktop (Desktop)",
+      "env": {
+        "DOTNET_MODIFIABLE_ASSEMBLIES": "debug"
+      },
+      "cwd": "${workspaceFolder}/NativeElementHostingDesktop",
+      // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
+      "console": "internalConsole",
+      "stopAtEntry": false
+    },
+  ]
+}
