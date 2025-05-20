@@ -25,6 +25,7 @@ public class SKCanvasElementImpl : SKCanvasElement
 	private void SampleChanged(int newIndex)
 	{
 		Sample = Math.Min(Math.Max(0, newIndex), SampleCount - 1);
+        Invalidate();
 	}
 
 	protected override void RenderOverride(SKCanvas canvas, Size area)
