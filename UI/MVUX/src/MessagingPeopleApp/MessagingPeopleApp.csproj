@@ -1,0 +1,35 @@
+<Project Sdk="Uno.Sdk">
+	<PropertyGroup>
+		<TargetFrameworks>net9.0-desktop;net9.0-windows10.0.19041;net9.0;net9.0-ios;net9.0-android;net9.0-maccatalyst</TargetFrameworks>
+
+		<UnoFeatures>
+			Hosting;
+			Toolkit;
+			MVUX;
+			Logging;
+		</UnoFeatures>
+	</PropertyGroup>
+
+	<!--<ItemGroup>
+		<PackageReference Include="Uno.Extensions.Reactive.Messaging" />
+		<PackageReference Include="Uno.Toolkit.WinUI" />
+		<PackageReference Include="Uno.WinUI" />
+		<PackageReference Include="Uno.Resizetizer" />
+		<PackageReference Include="Uno.Extensions.Hosting.WinUI" />
+		<PackageReference Include="Uno.Extensions.Reactive.WinUI" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Console" />
+	</ItemGroup>-->
+
+	<ItemGroup>
+		<!--<UnoImage Include="Assets\Images\*" />-->
+		<UnoIcon Include="Assets\Icons\*" />
+		<UnoIcon Include="Assets\Icons\iconapp.svg"
+				ForegroundFile="Assets\Icons\appconfig.svg"
+				ForegroundScale="0.65"
+				Color="#00000000" />
+		<UnoSplashScreen
+			Include="Assets\Splash\splash_screen.svg"
+			BaseSize="128,128"
+			Color="#086AD1" />
+	</ItemGroup>
+</Project>
