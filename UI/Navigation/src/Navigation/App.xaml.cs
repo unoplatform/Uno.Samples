@@ -107,7 +107,7 @@ public partial class App : Application
 			new RouteMap("", View: views.FindByViewModel<ShellViewModel>(),
 				Nested:
 				[
-					new ("Main", View: views.FindByViewModel<MainViewModel>(),
+					new ("Main", View: views.FindByViewModel<MainViewModel>(), IsDefault: true,
 						Nested:
 						[
 							#region Page Navigation
