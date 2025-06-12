@@ -1,4 +1,4 @@
-﻿namespace MauiCommunityToolkitApp.Presentation;
+namespace MauiCommunityToolkitApp.Presentation;
 
 public sealed partial class MainPage : Page
 {
