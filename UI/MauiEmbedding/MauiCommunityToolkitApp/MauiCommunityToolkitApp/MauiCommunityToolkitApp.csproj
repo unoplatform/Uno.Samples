@@ -48,7 +48,7 @@
 
   <ItemGroup>
 	<ProjectReference Include="..\MauiCommunityToolkitApp.MauiControls\MauiCommunityToolkitApp.MauiControls.csproj" />
-	<PackageReference Include="Uno.Extensions.Maui.WinUI.Runtime.Skia" />
+	<PackageReference Condition="$(IsAndroid) or $(IsIOS)" Include="Uno.Extensions.Maui.WinUI.Runtime.Skia" />
   </ItemGroup>
 
 </Project>
