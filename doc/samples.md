@@ -30,6 +30,12 @@ This sample app was built following the [Tube Player workshop](https://aka.platf
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/reference/TubePlayer)
 
+### Chefs App
+
+The [Chefs app](xref:Uno.Chefs.Overview) is an engaging recipe platform where you can explore a wide variety of recipes with step-by-step instructions, video tutorials, nutritional details with charts, and user reviews. You can save your favorite recipes, filter options based on your preferences, and even discover nearby contributors on the maps. The app also offers an exciting opportunity to learn from the [Recipe Books](xref:Uno.Recipes.Overview) section, where you'll find specially selected collections that show how powerful Uno Platform features are applied in real-world scenarios, providing you with practical insights and examples to enhance your development skills.
+
+[Browse source](https://github.com/unoplatform/uno.chefs)
+
 ### Commerce App
 
 The Commerce App is a sample application that demonstrates the use of ListFeed pagination, FeedViews, and other features provided by Uno.Extensions. It illustrates how these features can be applied to create an application complete with a shopping cart, products, and more.
@@ -43,7 +49,7 @@ This Sample App Contents can be reviewed [here](xref:Uno.Workshops.ToDo-App.Over
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/reference/ToDo)
 
-## Other Samples
+### Other Samples
 
 ### Advanced XBind
 
