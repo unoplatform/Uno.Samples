@@ -13,6 +13,9 @@
 	<Grid utu:SafeArea.Insets="All">
 		<NavigationView uen:Region.Attached="True">
 			<NavigationView.MenuItems>
+				<NavigationViewItem uen:Region.Name="Welcome"
+									IsSelected="True"
+									Content="Welcome" />
 				<NavigationViewItem uen:Region.Name="Avatar"
 									Content="Avatar" />
 				<NavigationViewItem uen:Region.Name="DrawingView"
@@ -25,7 +28,17 @@
 									Content="Snackbar" />
 			</NavigationView.MenuItems>
 			<Grid uen:Region.Attached="True"
-				  uen:Region.Navigator="Visibility">
+				  uen:Region.Navigator="Visibility"
+				  Padding="0,60">
+				<Grid uen:Region.Name="Welcome">
+					<StackPanel HorizontalAlignment="Center"
+								VerticalAlignment="Center">
+						<TextBlock Text="Welcome to MauiCommunityToolkitApp!"
+								   FontSize="24" />
+						<TextBlock Text="Select a control from the menu on the left to see it in action."
+								   FontSize="18" />
+					</StackPanel>
+				</Grid>
 				<embed:MauiHost xmlns:embed="using:Uno.Extensions.Maui"
 								uen:Region.Name="Avatar"
 								Source="controls:AvatarControl"
