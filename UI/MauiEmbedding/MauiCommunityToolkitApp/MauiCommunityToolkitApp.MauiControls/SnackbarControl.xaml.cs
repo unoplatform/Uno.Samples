@@ -1,8 +1,8 @@
+using System.Reflection;
 using CommunityToolkit.Maui.Alerts;
 using CommunityToolkit.Maui.Core;
 using CommunityToolkit.Maui.Extensions;
 using Font = Microsoft.Maui.Font;
-using System.Reflection;
 
 namespace MauiCommunityToolkitApp.MauiControls;
 
