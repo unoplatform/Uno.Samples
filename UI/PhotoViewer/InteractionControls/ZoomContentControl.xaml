@@ -7,7 +7,7 @@
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="ctl:ZoomContentControl">
-					<Grid x:Name="PART_Grid">
+					<Grid x:Name="PART_RootGrid" Background="Transparent">
 						<Grid.RowDefinitions>
 							<RowDefinition Height="*" />
 							<RowDefinition Height="Auto" />
@@ -35,7 +35,7 @@
 						</ContentPresenter>
 						<!--  Vertical ScrollBar  -->
 						<ScrollBar
-							x:Name="PART_scrollV"
+							x:Name="PART_ScrollV"
 							Grid.Row="0"
 							Grid.Column="1"
 							HorizontalAlignment="Right"
@@ -51,7 +51,7 @@
 							Value="{TemplateBinding VerticalScrollValue}" />
 						<!--  Horizontal ScrollBar  -->
 						<ScrollBar
-							x:Name="PART_scrollH"
+							x:Name="PART_ScrollH"
 							Grid.Row="1"
 							Grid.Column="0"
 							HorizontalAlignment="Stretch"
