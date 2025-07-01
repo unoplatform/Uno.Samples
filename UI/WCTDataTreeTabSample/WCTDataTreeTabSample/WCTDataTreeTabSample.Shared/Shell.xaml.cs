@@ -19,6 +19,12 @@ public sealed partial class Shell : Page
 		App.NavigateTo(typeof(TreeViewPage));
 	}
 
+	private void NavViewToggleButton_Click(object sender, RoutedEventArgs e)
+	{
+		NavView.IsPaneVisible = !NavView.IsPaneVisible;
+		NavView.IsPaneOpen = NavView.IsPaneVisible;
+	}
+
 
 	private void NavView_ItemInvoked(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewItemInvokedEventArgs args)
 	{
