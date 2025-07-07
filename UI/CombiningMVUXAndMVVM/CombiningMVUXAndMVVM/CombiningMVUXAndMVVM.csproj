@@ -1,0 +1,42 @@
+<Project Sdk="Uno.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>net9.0-android;net9.0-ios;net9.0-browserwasm;net9.0-desktop</TargetFrameworks>
+
+    <OutputType>Exe</OutputType>
+    <UnoSingleProject>true</UnoSingleProject>
+
+    <!-- Display name -->
+    <ApplicationTitle>CombiningMVUXAndMVVM</ApplicationTitle>
+    <!-- App Identifier -->
+    <ApplicationId>com.companyname.CombiningMVUXAndMVVM</ApplicationId>
+    <!-- Versions -->
+    <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
+    <ApplicationVersion>1</ApplicationVersion>
+    <!-- Package Publisher -->
+    <ApplicationPublisher>andre</ApplicationPublisher>
+    <!-- Package Description -->
+    <Description>CombiningMVUXAndMVVM powered by Uno Platform.</Description>
+
+    <!--
+      UnoFeatures let's you quickly add and manage implicit package references based on the features you want to use.
+      https://aka.platform.uno/singleproject-features
+    -->
+    <UnoFeatures>
+        Material;
+        Dsp;
+        Hosting;
+        Toolkit;
+        Logging;
+        MVUX;
+        MVVM;
+        Configuration;
+        HttpKiota;
+        Serialization;
+        Localization;
+        Navigation;
+        ThemeService;
+        SkiaRenderer;
+    </UnoFeatures>
+  </PropertyGroup>
+
+</Project>
