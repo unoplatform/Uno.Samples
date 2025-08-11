@@ -50,7 +50,7 @@ public partial class App : Application
 					else
 					{
 						services
-							.AddSingleton(new ChatClient("gpt-3.5-turbo", apiKey))
+							.AddSingleton(new ChatClient("gpt-5", apiKey))
 							.AddSingleton<IChatService, ChatService>();
 					}
 
