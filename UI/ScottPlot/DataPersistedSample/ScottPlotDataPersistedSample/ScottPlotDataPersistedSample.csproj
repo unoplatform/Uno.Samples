@@ -1,6 +1,6 @@
 <Project Sdk="Uno.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net8.0-android;net8.0-ios;net8.0-maccatalyst;net8.0-windows10.0.19041;net8.0-browserwasm;net8.0-desktop</TargetFrameworks>
+    <TargetFrameworks>net9.0-android;net9.0-ios;net9.0-windows10.0.26100;net9.0-browserwasm;net9.0-desktop</TargetFrameworks>
 
     <OutputType>Exe</OutputType>
     <UnoSingleProject>true</UnoSingleProject>
@@ -47,14 +47,14 @@
   </ItemGroup>
 
   <!-- For WebAssembly -->
-  <ItemGroup Condition="'$(TargetFramework)'=='net8.0-browserwasm'">
+  <ItemGroup Condition="'$(TargetFramework)'=='net9.0-browserwasm'">
     <PackageReference Include="Uno.SQLitePCLRaw.provider.wasm" />
     <!-- The SQLitePCLRaw.bundle_green must be exlcuded explicitly as it does not work properly with WebAssembly, but cannot be removed as it is a transitive dependency of sqlite-net-pcl. Adding this last reference ensure that the proper native library is loaded. -->
     <PackageReference Include="SQLitePCLRaw.bundle_green" IncludeAssets="none" />
   </ItemGroup>
 
   <!-- For iOS, Android and MacCatalyst -->
-  <ItemGroup Condition="'$(TargetFramework)'=='net8.0-ios' OR '$(TargetFramework)'=='net8.0-android' OR '$(TargetFramework)'=='net8.0-maccatalyst'">
+  <ItemGroup Condition="'$(TargetFramework)'=='net9.0-ios' OR '$(TargetFramework)'=='net9.0-android' OR '$(TargetFramework)'=='net9.0-maccatalyst'">
     <PackageReference Include="SQLitePCLRaw.bundle_green" />
   </ItemGroup>
 
