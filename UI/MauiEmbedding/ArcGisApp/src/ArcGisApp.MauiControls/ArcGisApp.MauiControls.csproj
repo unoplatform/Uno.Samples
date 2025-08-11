@@ -1,12 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows')) or '$(EnableWindowsTargeting)' == 'true'">net8.0-windows10.0.19041</TargetFrameworks>
+    <TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows')) or '$(EnableWindowsTargeting)' == 'true'">net9.0-windows10.0.26100</TargetFrameworks>
     <TargetFrameworks>
       net8.0;
-      net8.0-android;
-      net8.0-ios;
-      net8.0-maccatalyst;
+      net9.0-android;
+      net9.0-ios;
+      
       $(TargetFrameworks);
     </TargetFrameworks>
 

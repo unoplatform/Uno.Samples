@@ -3,8 +3,8 @@
     <TargetFrameworks>
       net9.0-android;
       net9.0-ios;
-      net9.0-maccatalyst;
-      net9.0-windows10.0.19041;
+      
+      net9.0-windows10.0.26100;
       net9.0-desktop;
       net9.0-browserwasm;
     </TargetFrameworks>
@@ -48,7 +48,7 @@
     <PackageReference Include="SQLitePCLRaw.provider.sqlite3" />
   </ItemGroup>
 
-  <ItemGroup Condition="'$(TargetFramework)'=='net9.0-ios' OR '$(TargetFramework)'=='net9.0-android' OR '$(TargetFramework)'=='net9.0-maccatalyst'">
+  <ItemGroup Condition="'$(TargetFramework)'=='net9.0-ios' OR '$(TargetFramework)'=='net9.0-android'">
     <PackageReference Include="SQLitePCLRaw.bundle_green" />
   </ItemGroup>
 
