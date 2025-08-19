@@ -1,12 +1,10 @@
-using System;
 using Windows.Foundation;
-using Microsoft.UI.Xaml;
 using Uno.WinUI.Graphics2DSK;
 using SkiaSharp;
 
-namespace SKCanvasElementShowcase;
+namespace SKCanvasElementShowcase.Presentation;
 
-public class SKCanvasElementImpl : SKCanvasElement
+public partial class SKCanvasElementImpl : SKCanvasElement
 {
 	public static int SampleCount => 3;
 
