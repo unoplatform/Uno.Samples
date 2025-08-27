@@ -1,26 +1,25 @@
 ﻿<Page x:Class="SKCanvasElementShowcase.Presentation.MainPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:utu="using:Uno.Toolkit.UI"
       NavigationCacheMode="Required"
       Background="{ThemeResource BackgroundBrush}">
-    <Grid>
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
-            <TextBlock Text="Slide the slider to see different samples" />
-            <Slider Grid.Row="1" x:Name="slider" Minimum="0" Maximum="{x:Bind MaxSampleIndex}" />
-            <Border Grid.Row="2" x:Name="border">
-                <TextBlock>
-                    <Run Text="This sample is only supported with the" />
-                    <Hyperlink NavigateUri="https://aka.platform.uno/skia-rendering">
-                        <Run Text="Skia Rendering" />
-                    </Hyperlink>
-                    <Run>feature.</Run>
-                </TextBlock>
-            </Border>
-        </Grid>
+    <Grid utu:SafeArea.Insets="VisibleBounds">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <TextBlock Text="Slide the slider to see different samples" />
+        <Slider Grid.Row="1" x:Name="slider" Minimum="0" Maximum="{x:Bind MaxSampleIndex}" />
+        <Border Grid.Row="2" x:Name="border">
+            <TextBlock>
+                <Run Text="This sample is only supported with the" />
+                <Hyperlink NavigateUri="https://aka.platform.uno/skia-rendering">
+                    <Run Text="Skia Rendering" />
+                </Hyperlink>
+                <Run>feature.</Run>
+            </TextBlock>
+        </Border>
     </Grid>
 </Page>
