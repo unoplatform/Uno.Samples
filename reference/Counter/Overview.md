@@ -1,3 +1,6 @@
+---
+uid: Uno.Workshops.Counter.Overview
+---
 # Counter App
 
 Discover the simplicity and power of Uno.Extensions with the Counter App, a straightforward yet powerful demonstration of basic and advanced features of the Uno Platform. This app provides a hands-on experience with fundamental concepts such as state management, user interaction, and UI updates in real-time.
@@ -20,4 +23,4 @@ This sample app was built using the four variants of the [Counter workshop](http
 ## What is the Uno Platform
 
 [Uno Platform](https://platform.uno) is an open-source .NET platform for building single codebase native mobile, web, desktop, and embedded apps quickly.
-For additional information about Uno Platform or if you have any feedback to share, please refer to the [README.md](../../README.md) file in this Samples repository.
+For additional information about Uno Platform or if you have any feedback to share, please refer to the [README.md](xref:Uno.Samples.Readme) file in this Samples repository.
