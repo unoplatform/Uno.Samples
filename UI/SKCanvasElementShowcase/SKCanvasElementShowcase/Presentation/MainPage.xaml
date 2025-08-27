@@ -7,11 +7,19 @@
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
-            <Slider Grid.Row="0" x:Name="slider" Header="Slide the slider to see different samples" Minimum="0" Maximum="{x:Bind MaxSampleIndex}" />
-            <Border Grid.Row="1" x:Name="border">
-                <TextBlock Text="This sample is only supported on skia." />
+            <TextBlock Text="Slide the slider to see different samples" />
+            <Slider Grid.Row="1" x:Name="slider" Minimum="0" Maximum="{x:Bind MaxSampleIndex}" />
+            <Border Grid.Row="2" x:Name="border">
+                <TextBlock>
+                    <Run Text="This sample is only supported with the" />
+                    <Hyperlink NavigateUri="https://aka.platform.uno/skia-rendering">
+                        <Run Text="Skia Rendering" />
+                    </Hyperlink>
+                    <Run>feature.</Run>
+                </TextBlock>
             </Border>
         </Grid>
     </Grid>
