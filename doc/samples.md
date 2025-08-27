@@ -349,11 +349,11 @@ Three sample apps are available:
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/ScottPlot) | [Follow the quickstart tutorial](https://scottplot.net/quickstart/unoplatform)
 
-### SKCanvasElementShowcase
+### SKCanvasElement Showcase
 
-A sample showcasing the usage of SKCanvasElement:
+A sample demonstrating how to use `SKCanvasElement`.
 
-  [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/SKCanvasElementShowcase)
+[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/SKCanvasElementShowcase) | [Read the documentation](https://aka.platform.uno/skcanvaselement)
 
 ### SkiaSharp Test
 
