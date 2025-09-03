@@ -12,8 +12,6 @@ public static class ServiceCollectionExtensions
 		bool useMocks=false)
 	{
         _ = services
-            // TEMP - this hsould be the default serialization options for content serialization > uno.extensions
-            .AddSingleton(new JsonSerializerOptions { DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault })
             .AddNativeHandler(context)
             .AddContentSerializer(context)
             .AddRefitClient<ITaskEndpoint>(context, name: nameof(ITaskEndpoint))

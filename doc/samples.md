@@ -13,7 +13,7 @@ Browse the complete list below:
 ### Counter App
 
 Experience the simplicity and power of Uno.Extensions through the Counter App, a straightforward yet powerful demonstration of both basic and advanced features of the Uno Platform. This app provides a hands-on experience with fundamental concepts such as state management, user interaction, and real-time UI updates.
-This sample app was built using the four variants of the [Counter workshop](https://aka.platform.uno/counter-tutorial), combining markup language (XAML or C# Markup) and presentation framework (MVVM or MVUX).
+This sample app was built using the four variants of the [Counter workshop](xref:Uno.Workshop.Counter), combining markup language (XAML or C# Markup) and presentation framework (MVVM or MVUX).
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/reference/Counter)
 
@@ -25,7 +25,7 @@ The SimpleCalc App is a sample application designed to perform basic arithmetic 
 
 ### TubePlayer App
 
-The TubePlayer App is a sample application that allows users to search for, and stream Youtube videos. This app was created using the tools, libraries, and patterns provided by the Uno Platform, designed to facilitate the rapid development of high-quality applications.
+The TubePlayer App is a sample application that allows users to search for, and stream YouTube videos. This app was created using the tools, libraries, and patterns provided by the Uno Platform, designed to facilitate the rapid development of high-quality applications.
 This sample app was built following the [Tube Player workshop](https://aka.platform.uno/tubeplayer-workshop).
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/reference/TubePlayer)
@@ -38,13 +38,14 @@ The [Chefs app](xref:Uno.Chefs.Overview) is an engaging recipe platform where yo
 
 ### Commerce App
 
-The Commerce App is a sample application that demonstrates the use of ListFeed pagination, Feedviews, and other features provided by Uno.Extensions. It illustrates how these features can be applied to create an application complete with a shopping cart, products, and more.
+The Commerce App is a sample application that demonstrates the use of ListFeed pagination, FeedViews, and other features provided by Uno.Extensions. It illustrates how these features can be applied to create an application complete with a shopping cart, products, and more.
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/reference/Commerce)
 
 ### ToDo App
 
 Dive into the essentials of task management with the ToDo App, a meticulously crafted sample application that highlights the power and flexibility of Uno.Extensions. By emphasizing the creation and organization of to-do lists, this app showcases practical applications of essential Uno.Extensions features, offering a hands-on experience in crafting responsive and user-friendly interfaces across multiple platforms.
+This Sample App Contents can be reviewed [here](xref:Uno.Workshops.ToDo-App.Overview)
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/reference/ToDo)
 
@@ -84,7 +85,7 @@ An implementation of the .NET Benchmark Control, a performance comparison tool.
 
 A sample that allows the user to search for nearby Bluetooth connections and connect to a device of their choice. Uses [InTheHand.BluetoothLE](https://www.nuget.org/packages/InTheHand.BluetoothLE).
 
-[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/BluetoothExplorer) 
+[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/BluetoothExplorer)
 
 ### Camera Capture UI
 
@@ -336,15 +337,15 @@ Uno PongWars is a simple minigame that draws inspiration from the [PongWars HTML
 
 Three sample apps are available:
 
-1. **Quickstart sample**  
+1. **Quickstart sample**
    This sample app was created by following the [ScottPlot Uno Platform Quickstart documentation](https://scottplot.net/quickstart/unoplatform).
 
-2. **Signal plot with 5 million points sample**  
-   This sample app was created the same way by following the [ScottPlot Uno Platform Quickstart documentation](https://scottplot.net/quickstart/unoplatform).  
+2. **Signal plot with 5 million points sample**
+   This sample app was created the same way by following the [ScottPlot Uno Platform Quickstart documentation](https://scottplot.net/quickstart/unoplatform).
    Only the code-behind differs to display a signal plot with 5 million random points.
 
-3. **SQLite Data Persistence and Large Dataset Visualization Sample**  
-   This sample demonstrates how to combine SQLite for database-driven data persistence with ScottPlot for visualizing large datasets.  
+3. **SQLite Data Persistence and Large Dataset Visualization Sample**
+   This sample demonstrates how to combine SQLite for database-driven data persistence with ScottPlot for visualizing large datasets.
    It showcases how to handle and visualize different plot types while persisting the data in a database for long-term storage.
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/ScottPlot) | [Follow the quickstart tutorial](https://scottplot.net/quickstart/unoplatform)

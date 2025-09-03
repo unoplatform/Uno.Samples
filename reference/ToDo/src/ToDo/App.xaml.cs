@@ -26,6 +26,36 @@ public partial class App : Application
                 // Switch to Development environment when running in DEBUG
                 .UseEnvironment(Environments.Development)
 #endif
+                .UseLogging(configure: (context, logBuilder) =>
+                {
+                    // Configure log levels for different categories of logging
+                    logBuilder
+                        .SetMinimumLevel(
+                            context.HostingEnvironment.IsDevelopment() ?
+                                Microsoft.Extensions.Logging.LogLevel.Information :
+                                Microsoft.Extensions.Logging.LogLevel.Warning)
+
+                        // Default filters for core Uno Platform namespaces
+                        .CoreLogLevel(Microsoft.Extensions.Logging.LogLevel.Warning);
+
+                    // Uno Platform namespace filter groups
+                    // Uncomment individual methods to see more detailed logging
+                    //// Generic Xaml events
+                    //logBuilder.XamlLogLevel(LogLevel.Debug);
+                    //// Layout specific messages
+                    //logBuilder.XamlLayoutLogLevel(LogLevel.Debug);
+                    //// Storage messages
+                    //logBuilder.StorageLogLevel(LogLevel.Debug);
+                    //// Binding related messages
+                    //logBuilder.XamlBindingLogLevel(LogLevel.Debug);
+                    //// Binder memory references tracking
+                    //logBuilder.BinderMemoryReferenceLogLevel(LogLevel.Debug);
+                    //// DevServer and HotReload related
+                    //logBuilder.HotReloadCoreLogLevel(LogLevel.Information);
+                    //// Debug JS interop
+                    //logBuilder.WebAssemblyLogLevel(LogLevel.Debug);
+
+                }, enableUnoLogging: true)
                 .UseConfiguration(configure: configBuilder =>
                     configBuilder
                         // Load configuration information from appconfig.json
@@ -41,7 +71,12 @@ public partial class App : Application
                 // Enable localization (see appsettings.json for supported languages)
                 .UseLocalization()
                 // Register Json serializers (ISerializer and ISerializer)
-                .UseSerialization()
+                .UseSerialization(services =>
+                {
+                    services
+                        .AddJsonTypeInfo(AuthJsonContext.Default.Auth)
+                        .AddSingleton(new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+                })
                 .ConfigureServices(
                     (context, services) => {
                         var section = context.Configuration.GetSection(nameof(Mock));

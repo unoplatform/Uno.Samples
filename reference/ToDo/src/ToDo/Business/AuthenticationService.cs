@@ -1,5 +1,4 @@
 namespace ToDo.Business;
-
 public class AuthenticationService : IAuthenticationService
 {
 	private readonly IPublicClientApplication _pca;
@@ -15,7 +14,6 @@ public class AuthenticationService : IAuthenticationService
 		_logger = logger;
 		var authSettings = settings.Value;
 		_scopes = authSettings.Scopes ?? new string[] { };
-
 		var redirectUri = authSettings.RedirectUri;
 		if (redirectUri is "%WAB%")
 		{
@@ -46,7 +44,7 @@ public class AuthenticationService : IAuthenticationService
 		return result?.AccessToken ?? string.Empty;
 	}
 
-	public async Task<UserContext?> GetCurrentUserAsync() => _user;
+	public async Task<UserContext?> GetCurrentUserAsync() => await Task.FromResult(_user);
 
 	public async Task<UserContext?> AuthenticateAsync(IDispatcher dispatcher)
 	{
@@ -82,12 +80,12 @@ public class AuthenticationService : IAuthenticationService
 		}
 
 		await _pca.RemoveAsync(firstAccount);
-		_logger.LogInformation($"Removed account: {firstAccount.Username}, user succesfully logged out.");
+		_logger.LogInformation("Removed account: {uName}, user succesfully logged out.", firstAccount.Username);
 	}
 
 	private UserContext CreateContextFromAuthResult(AuthenticationResult authResult)
 	{
-		var token = new JwtSecurityTokenHandler().ReadJwtToken(authResult.IdToken);
+		var token = new JsonWebTokenHandler().ReadJsonWebToken(authResult.IdToken);
 		return new UserContext
 		{
 			Name = token.Claims.First(c => c.Type.Equals("name")).Value,
@@ -113,7 +111,7 @@ public class AuthenticationService : IAuthenticationService
 		return await dispatcher.ExecuteAsync(async ct => await _pca
 		  .AcquireTokenInteractive(_scopes)
 		  .WithUnoHelpers()
-		  .ExecuteAsync());
+		  .ExecuteAsync(ct));
 	}
 
 
@@ -130,15 +128,15 @@ public class AuthenticationService : IAuthenticationService
 
 		if (accounts.Any())
 		{
-			_logger.LogInformation($"Number of Accounts: {accounts.Count()}");
+			_logger.LogInformation("Number of Accounts: {accountCount}",accounts.Count());
 		}
 
 		try
 		{
 			_logger.LogInformation("Attempting to perform silent sign in . . .");
-			_logger.LogInformation($"Authentication Scopes: {JsonSerializer.Serialize(_scopes)}");
+			_logger.LogInformation("Authentication Scopes: {scope}", JsonSerializer.Serialize(_scopes, AuthJsonContext.Default.StringArray));
 
-			_logger.LogInformation($"Account Name: {firstAccount.Username}");
+			_logger.LogInformation("Account Name: {firstAccountUsername}",firstAccount.Username);
 
 			return await _pca
 			  .AcquireTokenSilent(_scopes, firstAccount)
