@@ -1,5 +1,5 @@
-using Microsoft.UI.Windowing;
 using Microsoft.UI.Input;
+using Microsoft.UI.Windowing;
 using Windows.Graphics;
 
 namespace WindowingSamples;
@@ -60,12 +60,13 @@ public sealed partial class DraggableRegionWindow : Window
             var scale = (float)_appWindow.ClientSize.Width / (float)Content.ActualSize.X;
 
             // Create a rect for the draggable region
-            var rect = new RectInt32(
-                _X: (int)(position.X * scale),
-                _Y: (int)(position.Y * scale),
-                _Width: (int)(DraggableRegion.ActualWidth * scale),
-                _Height: (int)(DraggableRegion.ActualHeight * scale)
-            );
+            var rect = new RectInt32()
+            {
+                X = (int)(position.X * scale),
+                Y = (int)(position.Y * scale),
+                Width = (int)(DraggableRegion.ActualWidth * scale),
+                Height = (int)(DraggableRegion.ActualHeight * scale)
+            };
 
             // Set the region as a Caption region (draggable)
             _nonClientPointerSource.SetRegionRects(NonClientRegionKind.Caption, new[] { rect });

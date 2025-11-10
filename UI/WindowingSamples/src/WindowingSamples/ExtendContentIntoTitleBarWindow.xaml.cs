@@ -15,10 +15,8 @@ public sealed partial class ExtendContentIntoTitleBarWindow : Window
         Title = "Extend Content Into Title Bar";
 
         // Enable extending content into title bar
-        ExtendsContentIntoTitleBar = true;
-
-        // Set the custom title bar element for drag region
-        SetTitleBar(CustomTitleBar);
+        AppWindow.TitleBar.ExtendsContentIntoTitleBar = true;
+        AppWindow.TitleBar.PreferredHeightOption = TitleBarHeightOption.Tall;
     }
 
     public void CloseClick(object sender, RoutedEventArgs args) => Close();

@@ -25,7 +25,8 @@ public sealed partial class CustomTitleBarWindow : Window
         if (_appWindow is not null)
         {
             // SetBorderAndTitleBar with (true, false) to extend client area and hide system caption buttons
-            _appWindow.SetBorderAndTitleBar(hasBorder: true, hasTitleBar: false);
+            var presenter = _appWindow.Presenter as OverlappedPresenter;
+            presenter.SetBorderAndTitleBar(hasBorder: true, hasTitleBar: false);
 
             // Set the drag region for the custom title bar
             SetTitleBar(CustomTitleBar);
@@ -57,6 +58,7 @@ public sealed partial class CustomTitleBarWindow : Window
             if (_nonClientPointerSource is not null)
             {
                 // Update the region when the button is loaded or size changes
+                _appWindow.Changed += (s, e) => UpdateMaximizeButtonRegion();
                 MaximizeRestoreButton.Loaded += (s, e) => UpdateMaximizeButtonRegion();
                 MaximizeRestoreButton.SizeChanged += (s, e) => UpdateMaximizeButtonRegion();
             }
@@ -78,19 +80,18 @@ public sealed partial class CustomTitleBarWindow : Window
             // Get the button's position relative to the window
             var transform = MaximizeRestoreButton.TransformToVisual(null);
             var buttonPosition = transform.TransformPoint(new Windows.Foundation.Point(0, 0));
-
-            var scale = (float)_appWindow.ClientSize.Width / (float)Content.ActualSize.X;
+            var scale = (float)_appWindow.Size.Width / (float)Content.ActualSize.X;
 
             // Create a rect for the maximize button region
-            var rect = new RectInt32(
-                _X: (int)(buttonPosition.X * scale),
-                _Y: (int)(buttonPosition.Y * scale),
-                _Width: (int)(MaximizeRestoreButton.ActualWidth * scale),
-                _Height: (int)(MaximizeRestoreButton.ActualHeight * scale)
-            );
+            var rect = new RectInt32() {
+                X = (int)(buttonPosition.X * scale),
+                Y = (int)(buttonPosition.Y * scale),
+                Width = (int)(MaximizeRestoreButton.ActualWidth * scale),
+                Height = (int)(MaximizeRestoreButton.ActualHeight * scale)
+            };
 
             // Set the region for the Maximize button to enable Snap Layouts
-            _nonClientPointerSource.SetRegionRects(NonClientRegionKind.Passthrough, new[] { rect });
+            _nonClientPointerSource.SetRegionRects(NonClientRegionKind.Maximize, new[] { rect });
         }
         catch
         {
