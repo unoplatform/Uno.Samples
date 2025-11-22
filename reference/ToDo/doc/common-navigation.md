@@ -9,7 +9,7 @@ uid: Uno.Workshops.ToDo-App.Common-Navigation
 
 ## Code-Behind of List Page
 
-[!code-xaml[](../src/ToDo/Views/TaskListPage.xaml.cs)]
+[!code-csharp[](../src/ToDo/Views/TaskListPage.xaml.cs)]
 
 ## View Model of Task Page
 
