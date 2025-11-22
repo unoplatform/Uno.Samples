@@ -1,55 +1,69 @@
-<Page
-    x:Class="MauiCommunityToolkitApp.Presentation.MainPage"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:local="using:MauiCommunityToolkitApp.Presentation"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:uen="using:Uno.Extensions.Navigation.UI"
-    xmlns:controls="using:MauiCommunityToolkitApp.MauiControls"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
-    NavigationCacheMode="Required"
-	xmlns:utu="using:Uno.Toolkit.UI"
-    mc:Ignorable="d">
-
-    <Grid utu:SafeArea.Insets="All">
-        <NavigationView uen:Region.Attached="True">
-            <NavigationView.MenuItems>
-                <NavigationViewItem uen:Region.Name="Avatar" Content="Avatar" />
-                <NavigationViewItem uen:Region.Name="DrawingView" Content="DrawingView" />
-                <NavigationViewItem uen:Region.Name="Expander" Content="Expander" />
-                <NavigationViewItem uen:Region.Name="Toast" Content="Toast" />
-                <NavigationViewItem uen:Region.Name="Snackbar" Content="Snackbar" />
-            </NavigationView.MenuItems>
-            <Grid uen:Region.Attached="True" uen:Region.Navigator="Visibility">
-                <embed:MauiHost
-                    xmlns:embed="using:Uno.Extensions.Maui"
-                    uen:Region.Name="Avatar"
-                    Source="controls:AvatarControl"
-                    Visibility="Collapsed" />
-                <local:DrawingViewContent uen:Region.Name="DrawingView" Visibility="Collapsed" />
-                <embed:MauiHost
-                    xmlns:embed="using:Uno.Extensions.Maui"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    uen:Region.Name="Expander"
-                    Source="controls:ExpanderControl"
-                    Visibility="Collapsed" />
-                <embed:MauiHost
-                    xmlns:embed="using:Uno.Extensions.Maui"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    uen:Region.Name="Toast"
-                    Source="controls:ToastControl"
-                    Visibility="Collapsed" />
-                <embed:MauiHost
-                    xmlns:embed="using:Uno.Extensions.Maui"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    uen:Region.Name="Snackbar"
-                    Source="controls:SnackbarControl"
-                    Visibility="Collapsed" />
-            </Grid>
-        </NavigationView>
-    </Grid>
+﻿<Page x:Class="MauiCommunityToolkitApp.Presentation.MainPage"
+	  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	  xmlns:local="using:MauiCommunityToolkitApp.Presentation"
+	  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	  xmlns:uen="using:Uno.Extensions.Navigation.UI"
+	  xmlns:controls="using:MauiCommunityToolkitApp.MauiControls"
+	  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+	  NavigationCacheMode="Required"
+	  xmlns:utu="using:Uno.Toolkit.UI"
+	  mc:Ignorable="d">
+	<Grid utu:SafeArea.Insets="All">
+		<NavigationView uen:Region.Attached="True">
+			<NavigationView.MenuItems>
+				<NavigationViewItem uen:Region.Name="Welcome"
+									IsSelected="True"
+									Content="Welcome" />
+				<NavigationViewItem uen:Region.Name="Avatar"
+									Content="Avatar" />
+				<NavigationViewItem uen:Region.Name="DrawingView"
+									Content="DrawingView" />
+				<NavigationViewItem uen:Region.Name="Expander"
+									Content="Expander" />
+				<NavigationViewItem uen:Region.Name="Toast"
+									Content="Toast" />
+				<NavigationViewItem uen:Region.Name="Snackbar"
+									Content="Snackbar" />
+			</NavigationView.MenuItems>
+			<Grid uen:Region.Attached="True"
+				  uen:Region.Navigator="Visibility"
+				  Padding="0,60">
+				<Grid uen:Region.Name="Welcome">
+					<StackPanel HorizontalAlignment="Center"
+								VerticalAlignment="Center">
+						<TextBlock Text="Welcome to MauiCommunityToolkitApp!"
+								   FontSize="24" />
+						<TextBlock Text="Select a control from the menu on the left to see it in action."
+								   FontSize="18" />
+					</StackPanel>
+				</Grid>
+				<embed:MauiHost xmlns:embed="using:Uno.Extensions.Maui"
+								uen:Region.Name="Avatar"
+								Source="controls:AvatarControl"
+								Visibility="Collapsed" />
+				<local:DrawingViewContent uen:Region.Name="DrawingView"
+										  Visibility="Collapsed" />
+				<embed:MauiHost xmlns:embed="using:Uno.Extensions.Maui"
+								HorizontalAlignment="Center"
+								VerticalAlignment="Center"
+								uen:Region.Name="Expander"
+								Source="controls:ExpanderControl"
+								Visibility="Collapsed" />
+				<embed:MauiHost xmlns:embed="using:Uno.Extensions.Maui"
+								HorizontalAlignment="Center"
+								VerticalAlignment="Center"
+								uen:Region.Name="Toast"
+								Source="controls:ToastControl"
+								Visibility="Collapsed" />
+				<embed:MauiHost xmlns:embed="using:Uno.Extensions.Maui"
+								HorizontalAlignment="Center"
+								VerticalAlignment="Center"
+								uen:Region.Name="Snackbar"
+								Source="controls:SnackbarControl"
+								Visibility="Collapsed" />
+			</Grid>
+		</NavigationView>
+	</Grid>
 </Page>

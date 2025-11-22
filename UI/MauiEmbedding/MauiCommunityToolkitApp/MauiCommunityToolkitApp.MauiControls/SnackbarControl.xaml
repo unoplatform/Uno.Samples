@@ -1,29 +1,31 @@
-<?xml version="1.0" encoding="utf-8" ?>
-<ContentView
-    x:Class="MauiCommunityToolkitApp.MauiControls.SnackbarControl"
-    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit">
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentView x:Class="MauiCommunityToolkitApp.MauiControls.SnackbarControl"
+			 xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+			 xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit">
 
-    <ContentView.Resources>
-        <ResourceDictionary>
-            <toolkit:ColorToColorForTextConverter x:Key="ColorToColorForTextConverter" />
-        </ResourceDictionary>
-    </ContentView.Resources>
+	<ContentView.Resources>
+		<ResourceDictionary>
+			<toolkit:ColorToColorForTextConverter x:Key="ColorToColorForTextConverter" />
+		</ResourceDictionary>
+	</ContentView.Resources>
 
-    <VerticalStackLayout>
+	<VerticalStackLayout>
 
-        <Label LineBreakMode="WordWrap" Text="The Snackbar is a timed alert that appears at the bottom of the screen by default. It is dismissed after a configurable duration of time. Snackbar is fully customizable and can be anchored to any IView." />
+		<Label LineBreakMode="WordWrap"
+			   Text="The Snackbar is a timed alert that appears at the bottom of the screen by default. It is dismissed after a configurable duration of time. Snackbar is fully customizable and can be anchored to any IView." />
 
-        <Label IsVisible="{OnPlatform Default='false', WinUI='true'}" Text="Windows uses toast notifications to display snackbar. Make sure you switched off Focus Assist." />
+		<Label IsVisible="{OnPlatform Default='false', WinUI='true'}"
+			   Text="Windows uses toast notifications to display snackbar. Make sure you switched off Focus Assist." />
 
-        <Button Clicked="DisplayDefaultSnackbarButtonClicked" Text="Display Default Snackbar" />
+		<Button Clicked="DisplayDefaultSnackbarButtonClicked"
+				Text="Display Default Snackbar" />
 
-        <Button
-            x:Name="DisplayCustomSnackbarButton"
-            Clicked="DisplayCustomSnackbarButtonClicked"
-            TextColor="{Binding Source={RelativeSource Self}, Path=BackgroundColor, Converter={StaticResource ColorToColorForTextConverter}}" />
+		<Button Text="Display Custom Snackbar"
+				x:Name="DisplayCustomSnackbarButton"
+				Clicked="DisplayCustomSnackbarButtonClicked"
+				TextColor="{Binding Source={RelativeSource Self}, Path=BackgroundColor, Converter={StaticResource ColorToColorForTextConverter}}" />
 
-        <Label x:Name="SnackbarShownStatus" />
-    </VerticalStackLayout>
+		<Label x:Name="SnackbarShownStatus" />
+	</VerticalStackLayout>
 </ContentView>

@@ -1,21 +1,37 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
-	<PropertyGroup>
-		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows')) or '$(EnableWindowsTargeting)' == 'true'">$(TargetFrameworks);net8.0-windows10.0.19041</TargetFrameworks>
-		<TargetFrameworks>$(TargetFrameworks);net8.0;net8.0-ios;net8.0-android;net8.0-maccatalyst</TargetFrameworks>
-		<TargetFrameworks Condition="'$(OverrideTargetFrameworks)'!=''">$(OverrideTargetFrameworks)</TargetFrameworks>
+  <PropertyGroup>
+    <TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows')) or '$(EnableWindowsTargeting)' == 'true'">net9.0-windows10.0.26100</TargetFrameworks>
+    <TargetFrameworks>
+      net9.0;
+      net9.0-android;
+      net9.0-ios;
+      $(TargetFrameworks);
+    </TargetFrameworks>
 
-		<UseMaui>true</UseMaui>
-		<SingleProject>true</SingleProject>
-	</PropertyGroup>
+    <UseMaui>true</UseMaui>
+    <SingleProject>true</SingleProject>
 
-	<ItemGroup>
-		<PackageReference Include="CommunityToolkit.Maui" />
-		<PackageReference Include="Microsoft.Maui.Controls" />
-		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" />
-	</ItemGroup>
+	<!--
+	  If you encounter this error message:
 
-	<ItemGroup>
+		error NETSDK1148: A referenced assembly was compiled using a newer version of Microsoft.Windows.SDK.NET.dll.
+		Please update to a newer .NET SDK in order to reference this assembly.
+
+	  This means that the two packages below must be aligned with the "build" version number of
+	  the "Microsoft.Windows.SDK.BuildTools" package above, and the "revision" version number
+	  must be the highest found in https://www.nuget.org/packages/Microsoft.Windows.SDK.NET.Ref.
+	-->
+	 <WindowsSdkPackageVersion>10.0.22621.57</WindowsSdkPackageVersion> 
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CommunityToolkit.Maui" />
+    <PackageReference Include="Microsoft.Maui.Controls" />
+    <PackageReference Include="Microsoft.Maui.Controls.Compatibility" />
+  </ItemGroup>
+
+  <ItemGroup>
 	  <Compile Update="AvatarControl.xaml.cs">
 	    <DependentUpon>AvatarControl.xaml</DependentUpon>
 	  </Compile>

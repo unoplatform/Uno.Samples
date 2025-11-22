@@ -239,9 +239,9 @@ Samples showcasing the usage of GLCanvasElement:
 
   [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/GLCanvasElementSamples/GLCanvasElementRotatingCube)
 
-#### GrapeCity ComponentOne .NET MAUI Controls
+#### MESCIUS ComponentOne .NET MAUI Controls
 
-Embeds the [GrapeCity ComponentOne .NET MAUI Controls](https://aka.platform.uno/maui-embedding-tutorial-grapecity) in an Uno Platform application.
+Embeds the MESCIUS (formerly GrapeCity) [ComponentOne .NET MAUI Controls](https://aka.platform.uno/maui-embedding-tutorial-grapecity) in an Uno Platform application.
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/MauiEmbedding/GrapeCityApp)
 
@@ -350,11 +350,11 @@ Three sample apps are available:
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/ScottPlot) | [Follow the quickstart tutorial](https://scottplot.net/quickstart/unoplatform)
 
-### SKCanvasElementShowcase
+### SKCanvasElement Showcase
 
-A sample showcasing the usage of SKCanvasElement:
+A sample demonstrating how to use `SKCanvasElement`.
 
-  [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/SKCanvasElementShowcase)
+[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/SKCanvasElementShowcase) | [Read the documentation](https://aka.platform.uno/skcanvaselement)
 
 ### SkiaSharp Test
 

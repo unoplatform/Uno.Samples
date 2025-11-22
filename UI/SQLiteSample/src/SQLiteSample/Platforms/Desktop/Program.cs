@@ -1,3 +1,4 @@
+using Uno.UI.Hosting;
 using Uno.UI.Runtime.Skia;
 
 namespace SQLiteSample;
@@ -9,7 +10,7 @@ public class Program
     {
         App.InitializeLogging();
 
-        var host = SkiaHostBuilder.Create()
+        var host = UnoPlatformHostBuilder.Create()
             .App(() => new App())
             .UseX11()
             .UseLinuxFrameBuffer()
