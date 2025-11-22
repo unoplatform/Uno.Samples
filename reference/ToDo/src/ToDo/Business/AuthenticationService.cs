@@ -80,7 +80,7 @@ public class AuthenticationService : IAuthenticationService
 		}
 
 		await _pca.RemoveAsync(firstAccount);
-		_logger.LogInformation("Removed account: {uName}, user succesfully logged out.", firstAccount.Username);
+		_logger.LogInformation("Removed account: {uName}, user successfully logged out.", firstAccount.Username);
 	}
 
 	private UserContext CreateContextFromAuthResult(AuthenticationResult authResult)
