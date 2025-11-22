@@ -1,5 +1,5 @@
 ---
-uid: Uno.Workshops.ToDo-App.Reactive-ListFeed-FeedView
+uid: Uno.Workshops.ToDo-App.Reactive-ListFeeds-FeedViews
 ---
 
 # Reactive ListFeeds with FeedView
