@@ -44,7 +44,7 @@ public class AuthenticationService : IAuthenticationService
 		return result?.AccessToken ?? string.Empty;
 	}
 
-	public async Task<UserContext?> GetCurrentUserAsync() => await Task.FromResult(_user);
+	public Task<UserContext?> GetCurrentUserAsync() => Task.FromResult(_user);
 
 	public async Task<UserContext?> AuthenticateAsync(IDispatcher dispatcher)
 	{
