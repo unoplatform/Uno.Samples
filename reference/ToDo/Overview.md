@@ -1,13 +1,13 @@
 ---
 uid: Uno.Workshops.ToDo-App.Overview
 ---
-# ToDo App
+# ToDo App Overview
 
 <p align="center">
   <img src="doc/assets/ToDoApp_Banner.png" alt="Introducing centered Banner Image. On the left, there's a large checkmark icon inside a purple circle, set against a violet background. Next to it, bold white text reads 'To Do App.' On the right side, three stylized smartphone screens display different app views, including a welcome screen, a task list, and an 'Important' tasks section. The Uno Platform logo appears in the top-right corner. Colorful dots scattered in the background add a modern and vibrant touch">
 </p>
 
-Uno ToDo is a beautifully designed sample app for [Uno Platform](https://platform.uno/) using the latest [Material Design 3 system](https://m3.material.io/).
+Uno ToDo App is a beautifully designed sample for [Uno Platform](https://platform.uno/) using the latest [Material Design 3 system](https://m3.material.io/).
 
 The design template makes it easy to jump-start or learn Uno Platform-powered mobile, web, and desktop applications. The app provides common functions such as logging on, recording tasks, adding due dates, setting reminders, and more.
 
@@ -17,6 +17,7 @@ In addition, the sample code utilizes [Uno.Extensions](https://aka.platform.uno/
 
 ## Table of Contents <!--TODO: Transfer this to code-csharp Snippets on separate pages or even better create a real workshop-->
 
+* [Defining Records loaded by Configuration as `IOptions`](xref:Uno.Workshops.ToDo-App.DefiningConfigurationLoadedRecord)
 * [Accessing tokens with Authentication](xref:Uno.Workshops.ToDo-App.AccessingAuthTokens)
 * [Common Navigation](xref:Uno.Workshops.ToDo-App.Common-Navigation)
 * [Changing the language with Localization via the model](xref:Uno.Workshops.ToDo-App.LocalizeByModel).
