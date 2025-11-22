@@ -128,7 +128,7 @@ public class AuthenticationService : IAuthenticationService
 
 		if (accounts.Any())
 		{
-			_logger.LogInformation("Number of Accounts: {accountCount}",accounts.Count());
+			_logger.LogInformation("Number of Accounts: {accountCount}", accounts.Count());
 		}
 
 		try
