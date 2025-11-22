@@ -22,7 +22,7 @@ In addition, the sample code utilizes [Uno.Extensions](https://aka.platform.uno/
 * [Changing the language with Localization via the model](xref:Uno.Workshops.ToDo-App.LocalizeByModel).
 * [Adapting the language in the Xaml with Localization via `x:Uid`](xref:Uno.Workshops.ToDo-App.LocalizeWithUid)
 * [Theme switching with ThemeService](xref:Uno.Workshops.ToDo-App.Theme-Switching-by-ThemeService)
-* [Reactive ListFeeds with FeedViews](xref:Uno.Workshops.ToDo-App.Reactive-ListFeed-FeedView)
+* [Reactive ListFeeds with FeedViews](xref:Uno.Workshops.ToDo-App.Reactive-ListFeeds-FeedViews)
 
 ## What is the Uno Platform
 
