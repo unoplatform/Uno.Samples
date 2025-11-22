@@ -136,7 +136,7 @@ public class AuthenticationService : IAuthenticationService
 			_logger.LogInformation("Attempting to perform silent sign in . . .");
 			_logger.LogInformation("Authentication Scopes: {scope}", JsonSerializer.Serialize(_scopes, AuthJsonContext.Default.StringArray));
 
-			_logger.LogInformation("Account Name: {firstAccountUsername}",firstAccount.Username);
+			_logger.LogInformation("Account Name: {firstAccountUsername}", firstAccount.Username);
 
 			return await _pca
 			  .AcquireTokenSilent(_scopes, firstAccount)
