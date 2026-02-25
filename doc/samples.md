@@ -330,6 +330,12 @@ Uno PongWars is a simple minigame that draws inspiration from the [PongWars HTML
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/PongWars)
 
+### Projection Showcase
+
+Demonstrates 3D projection and animation capabilities in Uno Platform using `PlaneProjection` and `Matrix3DProjection`. Five animated scenes illustrate rotation, depth, and perspective effects driven by a `DispatcherTime`r` at 60 FPS.
+
+[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/ProjectionShowcase)
+
 ### ScottPlot
 
 [ScottPlot](https://scottplot.net/) is a free and open-source plotting library for .NET that makes it easy to interactively display large datasets. Line plots, bar charts, pie graphs, scatter plots, and more can be created with just a few lines of code.
