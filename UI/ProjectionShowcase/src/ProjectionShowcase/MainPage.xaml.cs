@@ -4,8 +4,7 @@ namespace ProjectionShowcase;
 
 public sealed partial class MainPage : Page
 {
-    private readonly DispatcherTimer _timer;
-    private double _elapsed;
+    private DateTimeOffset _startTime;
 
     private Border[] _cards;
     private PlaneProjection[] _cardProjs;
@@ -16,9 +15,6 @@ public sealed partial class MainPage : Page
     public MainPage()
     {
         this.InitializeComponent();
-
-        _timer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(16) };
-        _timer.Tick += OnTick;
 
         this.Loaded += OnLoaded;
         this.Unloaded += OnUnloaded;
@@ -32,23 +28,23 @@ public sealed partial class MainPage : Page
         _ringProjs = new[] { RingProj0, RingProj1, RingProj2, RingProj3, RingProj4, RingProj5, RingProj6, RingProj7 };
         _waveProjs = new[] { WaveProj0, WaveProj1, WaveProj2, WaveProj3, WaveProj4, WaveProj5, WaveProj6, WaveProj7, WaveProj8, WaveProj9 };
 
-        _elapsed = 0;
-        _timer.Start();
+        _startTime = DateTimeOffset.UtcNow;
+        CompositionTarget.Rendering += OnRendering;
     }
 
     private void OnUnloaded(object sender, RoutedEventArgs e)
     {
-        _timer.Stop();
+        CompositionTarget.Rendering -= OnRendering;
     }
 
-    private void OnTick(object sender, object e)
+    private void OnRendering(object sender, object e)
     {
-        _elapsed += 0.016;
-        UpdateCarousel(_elapsed);
-        UpdateFloatingTiles(_elapsed);
-        UpdateFlipCard(_elapsed);
-        UpdateTunnel(_elapsed);
-        UpdateWave(_elapsed);
+        var elapsed = (DateTimeOffset.UtcNow - _startTime).TotalSeconds;
+        UpdateCarousel(elapsed);
+        UpdateFloatingTiles(elapsed);
+        UpdateFlipCard(elapsed);
+        UpdateTunnel(elapsed);
+        UpdateWave(elapsed);
     }
 
     /// <summary>
