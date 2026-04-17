@@ -447,6 +447,13 @@ A sample showing how to make an app containing several pages in a TabView, as we
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/UnoGoodReads)
 
+### UnoGrpc
+
+This sample shows how to use gRPC in a Uno Platform application.
+
+[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/UnoGrpc) | [Consult the documentation](https://github.com/unoplatform/Uno.Samples/tree/master/UI/UnoGrpc/README.md)
+
+
 ### Uno Islands
 
 This sample shows how you can integrate Uno Platform XAML controls into existing WPF applications using Uno Islands. This feature allows you to enhance WPF apps with Uno Platform features by hosting Uno Platform XAML files in a Shared project and adding an Uno Island using the UnoXamlHost control.
