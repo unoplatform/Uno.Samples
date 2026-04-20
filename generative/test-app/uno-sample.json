@@ -1,0 +1,37 @@
+{
+  "$schema": "https://schemas.platform.uno/sample/v1",
+  "id": "test-app",
+  "displayName": "Test App",
+  "description": "A minimal Uno Platform app for validating the sample loading flow.",
+  "platforms": ["desktop"],
+  "sourcePath": "TestApp/TestApp.csproj",
+  "userConversation": {
+    "messages": [
+      {
+        "role": "user",
+        "content": "Create a simple Hello World app"
+      },
+      {
+        "role": "assistant",
+        "content": "Here's your Hello World app! It displays a greeting message with a counter button.\n\nThe app is built and running in the preview."
+      }
+    ],
+    "suggestedPrompts": [
+      "Change the greeting text to something fun",
+      "Add a second page with navigation",
+      "Style it with Material Design colors"
+    ]
+  },
+  "agentContext": {
+    "messages": [
+      {
+        "role": "user",
+        "content": "Create a simple Hello World Uno Platform app."
+      },
+      {
+        "role": "assistant",
+        "content": "I've created a minimal Uno Platform app at TestApp/TestApp.csproj.\n\n**Structure:**\n- App.xaml / App.xaml.cs — Application root\n- MainPage.xaml / MainPage.xaml.cs — Single page with greeting text and counter button\n- Platforms/Desktop/Program.cs — Desktop entry point\n\nThe app is built and running. The user may ask me to modify it."
+      }
+    ]
+  }
+}

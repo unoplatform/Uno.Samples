@@ -1,0 +1,280 @@
+<Page x:Class="GridWatch.Presentation.GridMapPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:utu="using:Uno.Toolkit.UI"
+      Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid utu:SafeArea.Insets="VisibleBounds">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <Border Grid.Row="0"
+                Padding="24,20,24,16"
+                BorderBrush="{ThemeResource DividerBrush}"
+                BorderThickness="0,0,0,1">
+            <StackPanel Orientation="Horizontal" Spacing="12">
+                <FontIcon Glyph="&#xE9D9;"
+                          FontSize="20"
+                          Foreground="{ThemeResource BrandAccentBrush}" />
+                <StackPanel>
+                    <TextBlock Text="Grid Infrastructure Map"
+                               FontFamily="Inter, Segoe UI"
+                               FontSize="20"
+                               FontWeight="SemiBold"
+                               Foreground="{ThemeResource PrimaryTextBrush}" />
+                    <TextBlock Text="All registered facilities — click column headers to sort"
+                               FontFamily="Inter, Segoe UI"
+                               FontSize="12"
+                               Foreground="{ThemeResource SecondaryTextBrush}" />
+                </StackPanel>
+            </StackPanel>
+        </Border>
+
+        <!-- Status counts bar -->
+        <Border Grid.Row="1"
+                Padding="24,12"
+                Background="{ThemeResource CardSurfaceBrush}"
+                BorderBrush="{ThemeResource DividerBrush}"
+                BorderThickness="0,0,0,1">
+            <StackPanel Orientation="Horizontal" Spacing="28">
+                <StackPanel Orientation="Horizontal" Spacing="6">
+                    <Ellipse Width="8" Height="8" Fill="{ThemeResource StatusOnlineBrush}" VerticalAlignment="Center" />
+                    <TextBlock x:Name="OnlineCountText"
+                               FontFamily="{ThemeResource MonoFontFamily}"
+                               FontSize="12"
+                               FontWeight="SemiBold"
+                               Foreground="{ThemeResource StatusOnlineBrush}"
+                               VerticalAlignment="Center" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Spacing="6">
+                    <Ellipse Width="8" Height="8" Fill="{ThemeResource StatusWarningBrush}" VerticalAlignment="Center" />
+                    <TextBlock x:Name="WarningCountText"
+                               FontFamily="{ThemeResource MonoFontFamily}"
+                               FontSize="12"
+                               FontWeight="SemiBold"
+                               Foreground="{ThemeResource StatusWarningBrush}"
+                               VerticalAlignment="Center" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Spacing="6">
+                    <Ellipse Width="8" Height="8" Fill="{ThemeResource StatusCriticalBrush}" VerticalAlignment="Center" />
+                    <TextBlock x:Name="CriticalCountText"
+                               FontFamily="{ThemeResource MonoFontFamily}"
+                               FontSize="12"
+                               FontWeight="SemiBold"
+                               Foreground="{ThemeResource StatusCriticalBrush}"
+                               VerticalAlignment="Center" />
+                </StackPanel>
+                <TextBlock x:Name="TotalCountText"
+                           FontFamily="{ThemeResource MonoFontFamily}"
+                           FontSize="12"
+                           Foreground="{ThemeResource SecondaryTextBrush}"
+                           VerticalAlignment="Center" />
+            </StackPanel>
+        </Border>
+
+        <!-- Table container -->
+        <Border Grid.Row="2"
+                Margin="24,16,24,24"
+                CornerRadius="6"
+                Background="{ThemeResource CardSurfaceBrush}"
+                BorderBrush="{ThemeResource CardBorderBrush}"
+                BorderThickness="1">
+            <StackPanel Orientation="Vertical">
+
+                <!-- Column header row -->
+                <Border Background="{ThemeResource PanelHeaderBrush}"
+                        BorderBrush="{ThemeResource CardBorderBrush}"
+                        BorderThickness="0,0,0,1"
+                        CornerRadius="6,6,0,0">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" MinWidth="160" />
+                            <ColumnDefinition Width="100" />
+                            <ColumnDefinition Width="120" />
+                            <ColumnDefinition Width="110" />
+                            <ColumnDefinition Width="110" />
+                            <ColumnDefinition Width="90" />
+                        </Grid.ColumnDefinitions>
+
+                        <Button Grid.Column="0"
+                                x:Name="BtnSortName"
+                                Click="SortName_Click"
+                                HorizontalAlignment="Stretch"
+                                HorizontalContentAlignment="Left"
+                                Background="Transparent"
+                                BorderThickness="0"
+                                Padding="12,10"
+                                FontSize="11"
+                                FontWeight="SemiBold"
+                                CharacterSpacing="80"
+                                Foreground="{ThemeResource SecondaryTextBrush}"
+                                AutomationProperties.Name="Sort by Facility Name" />
+
+                        <Button Grid.Column="1"
+                                x:Name="BtnSortRegion"
+                                Click="SortRegion_Click"
+                                HorizontalAlignment="Stretch"
+                                HorizontalContentAlignment="Left"
+                                Background="Transparent"
+                                BorderThickness="0"
+                                Padding="12,10"
+                                FontSize="11"
+                                FontWeight="SemiBold"
+                                CharacterSpacing="80"
+                                Foreground="{ThemeResource SecondaryTextBrush}"
+                                AutomationProperties.Name="Sort by Region" />
+
+                        <Button Grid.Column="2"
+                                x:Name="BtnSortType"
+                                Click="SortType_Click"
+                                HorizontalAlignment="Stretch"
+                                HorizontalContentAlignment="Left"
+                                Background="Transparent"
+                                BorderThickness="0"
+                                Padding="12,10"
+                                FontSize="11"
+                                FontWeight="SemiBold"
+                                CharacterSpacing="80"
+                                Foreground="{ThemeResource SecondaryTextBrush}"
+                                AutomationProperties.Name="Sort by Type" />
+
+                        <Button Grid.Column="3"
+                                x:Name="BtnSortCapacity"
+                                Click="SortCapacity_Click"
+                                HorizontalAlignment="Stretch"
+                                HorizontalContentAlignment="Left"
+                                Background="Transparent"
+                                BorderThickness="0"
+                                Padding="12,10"
+                                FontSize="11"
+                                FontWeight="SemiBold"
+                                CharacterSpacing="80"
+                                Foreground="{ThemeResource SecondaryTextBrush}"
+                                AutomationProperties.Name="Sort by Capacity" />
+
+                        <Button Grid.Column="4"
+                                x:Name="BtnSortOutput"
+                                Click="SortOutput_Click"
+                                HorizontalAlignment="Stretch"
+                                HorizontalContentAlignment="Left"
+                                Background="Transparent"
+                                BorderThickness="0"
+                                Padding="12,10"
+                                FontSize="11"
+                                FontWeight="SemiBold"
+                                CharacterSpacing="80"
+                                Foreground="{ThemeResource SecondaryTextBrush}"
+                                AutomationProperties.Name="Sort by Output" />
+
+                        <Button Grid.Column="5"
+                                x:Name="BtnSortStatus"
+                                Click="SortStatus_Click"
+                                HorizontalAlignment="Stretch"
+                                HorizontalContentAlignment="Left"
+                                Background="Transparent"
+                                BorderThickness="0"
+                                Padding="12,10"
+                                FontSize="11"
+                                FontWeight="SemiBold"
+                                CharacterSpacing="80"
+                                Foreground="{ThemeResource SecondaryTextBrush}"
+                                AutomationProperties.Name="Sort by Status" />
+                    </Grid>
+                </Border>
+
+                <!-- Data rows -->
+                <ScrollViewer VerticalScrollBarVisibility="Auto"
+                              HorizontalScrollBarVisibility="Auto">
+                    <ItemsControl x:Name="FacilityList">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border BorderBrush="{ThemeResource CardBorderBrush}"
+                                        BorderThickness="0,0,0,1"
+                                        Background="{Binding RowBackground}">
+                                    <Grid MinHeight="44">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" MinWidth="160" />
+                                            <ColumnDefinition Width="100" />
+                                            <ColumnDefinition Width="120" />
+                                            <ColumnDefinition Width="110" />
+                                            <ColumnDefinition Width="110" />
+                                            <ColumnDefinition Width="90" />
+                                        </Grid.ColumnDefinitions>
+
+                                        <!-- Facility Name -->
+                                        <TextBlock Grid.Column="0"
+                                                   Text="{Binding Name}"
+                                                   FontFamily="Inter, Segoe UI"
+                                                   FontSize="13"
+                                                   FontWeight="SemiBold"
+                                                   Foreground="{ThemeResource PrimaryTextBrush}"
+                                                   VerticalAlignment="Center"
+                                                   Margin="12,0,8,0"
+                                                   TextTrimming="CharacterEllipsis" />
+
+                                        <!-- Region -->
+                                        <TextBlock Grid.Column="1"
+                                                   Text="{Binding Region}"
+                                                   FontFamily="Inter, Segoe UI"
+                                                   FontSize="12"
+                                                   Foreground="{ThemeResource SecondaryTextBrush}"
+                                                   VerticalAlignment="Center"
+                                                   Margin="12,0,8,0" />
+
+                                        <!-- Type -->
+                                        <TextBlock Grid.Column="2"
+                                                   Text="{Binding Type}"
+                                                   FontFamily="Inter, Segoe UI"
+                                                   FontSize="12"
+                                                   Foreground="{ThemeResource SecondaryTextBrush}"
+                                                   VerticalAlignment="Center"
+                                                   Margin="12,0,8,0" />
+
+                                        <!-- Capacity -->
+                                        <TextBlock Grid.Column="3"
+                                                   Text="{Binding Capacity}"
+                                                   FontFamily="{ThemeResource MonoFontFamily}"
+                                                   FontSize="12"
+                                                   Foreground="{ThemeResource PrimaryTextBrush}"
+                                                   VerticalAlignment="Center"
+                                                   Margin="12,0,8,0" />
+
+                                        <!-- Output -->
+                                        <TextBlock Grid.Column="4"
+                                                   Text="{Binding Output}"
+                                                   FontFamily="{ThemeResource MonoFontFamily}"
+                                                   FontSize="12"
+                                                   Foreground="{ThemeResource PrimaryTextBrush}"
+                                                   VerticalAlignment="Center"
+                                                   Margin="12,0,8,0" />
+
+                                        <!-- Status badge -->
+                                        <Border Grid.Column="5"
+                                                Margin="12,10,12,10"
+                                                Padding="8,3"
+                                                CornerRadius="2"
+                                                Background="{Binding StatusBackground}"
+                                                HorizontalAlignment="Left"
+                                                VerticalAlignment="Center">
+                                            <TextBlock Text="{Binding StatusDisplay}"
+                                                       FontFamily="Inter, Segoe UI"
+                                                       FontSize="11"
+                                                       FontWeight="SemiBold"
+                                                       Foreground="{Binding StatusForeground}" />
+                                        </Border>
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </ScrollViewer>
+
+            </StackPanel>
+        </Border>
+
+    </Grid>
+</Page>

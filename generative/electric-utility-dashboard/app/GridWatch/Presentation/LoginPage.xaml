@@ -1,0 +1,119 @@
+<Page x:Class="GridWatch.Presentation.LoginPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:utu="using:Uno.Toolkit.UI"
+      Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid utu:SafeArea.Insets="VisibleBounds">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!-- Center login card -->
+        <Border Grid.Row="1"
+                Background="{ThemeResource CardSurfaceBrush}"
+                CornerRadius="8"
+                Padding="40,36"
+                MinWidth="360"
+                MaxWidth="440"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center">
+
+            <StackPanel Spacing="24">
+
+                <!-- Header -->
+                <StackPanel Spacing="6" HorizontalAlignment="Center">
+                    <TextBlock Text="&#xE945;"
+                               FontFamily="Segoe MDL2 Assets"
+                               FontSize="40"
+                               Foreground="{ThemeResource BrandAccentBrush}"
+                               HorizontalAlignment="Center" />
+                    <TextBlock Text="GridWatch"
+                               FontSize="26"
+                               FontWeight="Bold"
+                               FontFamily="Inter, Segoe UI"
+                               Foreground="{ThemeResource PrimaryTextBrush}"
+                               HorizontalAlignment="Center" />
+                    <TextBlock Text="Electric Utility Operations"
+                               FontSize="13"
+                               FontFamily="Inter, Segoe UI"
+                               Foreground="{ThemeResource SecondaryTextBrush}"
+                               HorizontalAlignment="Center" />
+                </StackPanel>
+
+                <!-- Divider -->
+                <Border Height="1"
+                        Background="{ThemeResource DividerBrush}"
+                        Margin="0,0,0,0" />
+
+                <!-- Form fields -->
+                <StackPanel Spacing="14">
+                    <StackPanel Spacing="6">
+                        <TextBlock Text="Username"
+                                   FontSize="12"
+                                   FontWeight="SemiBold"
+                                   FontFamily="Inter, Segoe UI"
+                                   Foreground="{ThemeResource SecondaryTextBrush}" />
+                        <TextBox x:Name="UsernameBox"
+                                 PlaceholderText="Enter username"
+                                 FontFamily="Inter, Segoe UI"
+                                 FontSize="14"
+                                 CornerRadius="4"
+                                 AutomationProperties.Name="Username"
+                                 KeyDown="OnKeyDown" />
+                    </StackPanel>
+
+                    <StackPanel Spacing="6">
+                        <TextBlock Text="Password"
+                                   FontSize="12"
+                                   FontWeight="SemiBold"
+                                   FontFamily="Inter, Segoe UI"
+                                   Foreground="{ThemeResource SecondaryTextBrush}" />
+                        <PasswordBox x:Name="PasswordBox"
+                                     PlaceholderText="Enter password"
+                                     FontFamily="Inter, Segoe UI"
+                                     FontSize="14"
+                                     CornerRadius="4"
+                                     AutomationProperties.Name="Password"
+                                     KeyDown="OnKeyDown" />
+                    </StackPanel>
+                </StackPanel>
+
+                <!-- Error message -->
+                <TextBlock x:Name="ErrorText"
+                           Text=""
+                           FontSize="12"
+                           FontFamily="Inter, Segoe UI"
+                           Foreground="{ThemeResource StatusCriticalBrush}"
+                           HorizontalAlignment="Center"
+                           Visibility="Collapsed"
+                           TextWrapping="Wrap" />
+
+                <!-- Login button -->
+                <Button x:Name="LoginButton"
+                        Content="Sign In"
+                        HorizontalAlignment="Stretch"
+                        FontFamily="Inter, Segoe UI"
+                        FontSize="14"
+                        FontWeight="SemiBold"
+                        CornerRadius="4"
+                        Padding="0,12"
+                        Background="{ThemeResource BrandAccentBrush}"
+                        Foreground="White"
+                        AutomationProperties.Name="Sign In"
+                        Click="OnLoginClick" />
+
+                <!-- Hint -->
+                <TextBlock Text="Demo credentials: admin / grid2024"
+                           FontSize="11"
+                           FontFamily="Inter, Segoe UI"
+                           Foreground="{ThemeResource SecondaryTextBrush}"
+                           HorizontalAlignment="Center"
+                           Opacity="0.7" />
+
+            </StackPanel>
+        </Border>
+    </Grid>
+</Page>

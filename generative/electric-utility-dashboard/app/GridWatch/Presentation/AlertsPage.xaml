@@ -1,0 +1,153 @@
+<Page x:Class="GridWatch.Presentation.AlertsPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:utu="using:Uno.Toolkit.UI"
+      Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid utu:SafeArea.Insets="VisibleBounds">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <Border Grid.Row="0"
+                Background="{ThemeResource CardSurfaceBrush}"
+                BorderBrush="{ThemeResource CardBorderBrush}"
+                BorderThickness="0,0,0,1"
+                Padding="24,16">
+            <StackPanel Orientation="Horizontal" Spacing="12">
+                <FontIcon Glyph="&#xEA8F;"
+                          FontSize="20"
+                          Foreground="{ThemeResource StatusWarningBrush}" />
+                <TextBlock Text="System Alerts"
+                           FontFamily="Inter, Segoe UI"
+                           FontSize="20"
+                           FontWeight="SemiBold"
+                           Foreground="{ThemeResource PrimaryTextBrush}"
+                           VerticalAlignment="Center" />
+                <Border Background="{ThemeResource StatusCriticalBrush}"
+                        CornerRadius="2"
+                        Padding="8,2"
+                        VerticalAlignment="Center">
+                    <TextBlock x:Name="CriticalCountBadge"
+                               FontFamily="{ThemeResource MonoFontFamily}"
+                               FontSize="11"
+                               FontWeight="Bold"
+                               Foreground="White" />
+                </Border>
+            </StackPanel>
+        </Border>
+
+        <!-- Severity Filter Row -->
+        <Border Grid.Row="1"
+                Background="{ThemeResource CardSurfaceBrush}"
+                Padding="24,12">
+            <StackPanel Orientation="Horizontal" Spacing="8">
+                <TextBlock Text="Filter:"
+                           FontFamily="Inter, Segoe UI"
+                           FontSize="13"
+                           Foreground="{ThemeResource SecondaryTextBrush}"
+                           VerticalAlignment="Center" />
+                <Button x:Name="FilterAllBtn"
+                        Content="All"
+                        Click="OnFilterAll"
+                        CornerRadius="4"
+                        Padding="14,6"
+                        FontFamily="Inter, Segoe UI"
+                        FontSize="12" />
+                <Button x:Name="FilterCriticalBtn"
+                        Content="Critical"
+                        Click="OnFilterCritical"
+                        CornerRadius="4"
+                        Padding="14,6"
+                        FontFamily="Inter, Segoe UI"
+                        FontSize="12"
+                        Foreground="{ThemeResource StatusCriticalBrush}" />
+                <Button x:Name="FilterWarningBtn"
+                        Content="Warning"
+                        Click="OnFilterWarning"
+                        CornerRadius="4"
+                        Padding="14,6"
+                        FontFamily="Inter, Segoe UI"
+                        FontSize="12"
+                        Foreground="{ThemeResource StatusWarningBrush}" />
+                <Button x:Name="FilterInfoBtn"
+                        Content="Info"
+                        Click="OnFilterInfo"
+                        CornerRadius="4"
+                        Padding="14,6"
+                        FontFamily="Inter, Segoe UI"
+                        FontSize="12"
+                        Foreground="{ThemeResource StatusOnlineBrush}" />
+            </StackPanel>
+        </Border>
+
+        <!-- Alerts List -->
+        <ScrollViewer Grid.Row="2"
+                      VerticalScrollBarVisibility="Auto"
+                      Padding="24,16">
+            <ItemsControl x:Name="AlertsList">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border Margin="0,0,0,8"
+                                Background="{ThemeResource CardSurfaceBrush}"
+                                BorderBrush="{ThemeResource CardBorderBrush}"
+                                BorderThickness="1"
+                                CornerRadius="4">
+                            <Grid Padding="16,12">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <!-- Severity Indicator -->
+                                <Border Grid.Column="0"
+                                        Width="4"
+                                        CornerRadius="2"
+                                        Background="{Binding SeverityBrush}"
+                                        Margin="0,0,14,0" />
+
+                                <!-- Content -->
+                                <StackPanel Grid.Column="1" Spacing="4">
+                                    <StackPanel Orientation="Horizontal" Spacing="8">
+                                        <Border Background="{Binding SeverityBrush}"
+                                                CornerRadius="2"
+                                                Padding="6,2">
+                                            <TextBlock Text="{Binding Severity}"
+                                                       FontFamily="Inter, Segoe UI"
+                                                       FontSize="10"
+                                                       FontWeight="Bold"
+                                                       Foreground="White" />
+                                        </Border>
+                                        <TextBlock Text="{Binding FacilityName}"
+                                                   FontFamily="Inter, Segoe UI"
+                                                   FontSize="12"
+                                                   Foreground="{ThemeResource SecondaryTextBrush}"
+                                                   VerticalAlignment="Center" />
+                                    </StackPanel>
+                                    <TextBlock Text="{Binding Message}"
+                                               FontFamily="Inter, Segoe UI"
+                                               FontSize="14"
+                                               Foreground="{ThemeResource PrimaryTextBrush}"
+                                               TextWrapping="Wrap" />
+                                </StackPanel>
+
+                                <!-- Timestamp -->
+                                <TextBlock Grid.Column="2"
+                                           Text="{Binding TimestampDisplay}"
+                                           FontFamily="{ThemeResource MonoFontFamily}"
+                                           FontSize="11"
+                                           Foreground="{ThemeResource SecondaryTextBrush}"
+                                           VerticalAlignment="Top"
+                                           Margin="12,0,0,0" />
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+    </Grid>
+</Page>
