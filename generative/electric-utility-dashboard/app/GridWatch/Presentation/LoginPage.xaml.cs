@@ -1,5 +1,4 @@
 using GridWatch.Services;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml.Input;
 using Uno.Extensions.Navigation;
 
@@ -44,8 +43,7 @@ public sealed partial class LoginPage : Page
         if (success)
         {
             ErrorText.Visibility = Visibility.Collapsed;
-            var navigator = App.ServiceProvider?.GetService<INavigator>();
-            _ = navigator?.NavigateRouteAsync(this, "Main");
+            _ = this.Navigator()?.NavigateRouteAsync(this, "Main");
         }
         else
         {
