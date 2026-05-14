@@ -1,0 +1,125 @@
+<Page x:Class="BrewHouse.Presentation.OrdersPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:utu="using:Uno.Toolkit.UI"
+      xmlns:converters="using:BrewHouse.Converters"
+      Background="{ThemeResource CoffeeBackgroundBrush}">
+
+    <Page.Resources>
+        <converters:OrderStatusBgConverter x:Key="OrderStatusBgConverter" />
+        <converters:OrderStatusFgConverter x:Key="OrderStatusFgConverter" />
+    </Page.Resources>
+
+    <utu:SafeArea Insets="VisibleBounds">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <!-- Header -->
+            <Border Grid.Row="0"
+                    Background="{ThemeResource CoffeeBackgroundBrush}"
+                    Padding="20,20,20,12">
+                <StackPanel Spacing="4">
+                    <TextBlock x:Uid="Orders_PageTitle"
+                               Style="{StaticResource PageTitleTextBlockStyle}" />
+                    <TextBlock x:Uid="Orders_Subtitle"
+                               Style="{StaticResource BodyTextBlockStyle}" />
+                </StackPanel>
+            </Border>
+
+            <!-- Orders List -->
+            <ListView Grid.Row="1"
+                      ItemsSource="{Binding Orders}"
+                      SelectionMode="None"
+                      Padding="20,0,20,16">
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                        <Setter Property="Padding" Value="0" />
+                        <Setter Property="Margin" Value="0,0,0,12" />
+                        <Setter Property="Background" Value="Transparent" />
+                    </Style>
+                </ListView.ItemContainerStyle>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Border Background="{ThemeResource CoffeeSurfaceBrush}"
+                                CornerRadius="16"
+                                Padding="16"
+                                BorderBrush="{ThemeResource CoffeeSubtleOverlayBrush}"
+                                BorderThickness="1">
+                            <StackPanel Spacing="12">
+
+                                <!-- Order Header Row -->
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <StackPanel Grid.Column="0" Spacing="2">
+                                        <TextBlock Text="{Binding Id}"
+                                                   Style="{StaticResource ItemNameTextBlockStyle}" />
+                                        <TextBlock Text="{Binding PlacedAt}"
+                                                   Style="{StaticResource SmallCaptionTextBlockStyle}" />
+                                    </StackPanel>
+
+                                    <!-- Status Badge -->
+                                    <Border Grid.Column="1"
+                                            Background="{Binding Status, Converter={StaticResource OrderStatusBgConverter}}"
+                                            CornerRadius="12"
+                                            Padding="12,6"
+                                            VerticalAlignment="Center">
+                                        <TextBlock Text="{Binding StatusDisplay}"
+                                                   FontSize="12"
+                                                   FontWeight="SemiBold"
+                                                   Foreground="{Binding Status, Converter={StaticResource OrderStatusFgConverter}}" />
+                                    </Border>
+                                </Grid>
+
+                                <!-- Divider -->
+                                <utu:Divider />
+
+                                <!-- Items Summary -->
+                                <StackPanel Spacing="4">
+                                    <TextBlock x:Uid="ItemsLabel"
+                                               FontSize="11"
+                                               FontWeight="SemiBold"
+                                               Foreground="{ThemeResource CoffeeTextSecondaryBrush}"
+                                               CharacterSpacing="50" />
+                                    <TextBlock Text="{Binding ItemSummary}"
+                                               FontSize="13"
+                                               Foreground="{ThemeResource CoffeePrimaryBrush}"
+                                               TextWrapping="Wrap" />
+                                </StackPanel>
+
+                                <!-- Total Row -->
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <TextBlock x:Uid="OrderTotalLabel"
+                                               Grid.Column="0"
+                                               FontSize="13"
+                                               Foreground="{ThemeResource CoffeeTextSecondaryBrush}"
+                                               VerticalAlignment="Center" />
+
+                                    <TextBlock Grid.Column="1"
+                                               Style="{StaticResource PriceTextBlockStyle}">
+                                        <Run Text="$" />
+                                        <Run Text="{Binding TotalFormatted}" />
+                                    </TextBlock>
+                                </Grid>
+
+                            </StackPanel>
+                        </Border>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
+        </Grid>
+    </utu:SafeArea>
+</Page>

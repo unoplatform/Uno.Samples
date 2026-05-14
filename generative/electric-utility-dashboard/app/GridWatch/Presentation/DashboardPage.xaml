@@ -1,0 +1,286 @@
+<Page x:Class="GridWatch.Presentation.DashboardPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:utu="using:Uno.Toolkit.UI"
+      xmlns:local="using:GridWatch.Presentation"
+      xmlns:converters="using:GridWatch.Converters"
+      utu:SafeArea.Insets="VisibleBounds"
+      Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Page.Resources>
+        <converters:DeltaBackgroundConverter x:Key="DeltaBgConverter" />
+        <converters:DeltaForegroundConverter x:Key="DeltaFgConverter" />
+        <converters:FacilityStatusBrushConverter x:Key="StatusBrushConverter" />
+        <converters:AlertSeverityBrushConverter x:Key="SeverityBrushConverter" />
+        <converters:AlertRowBackgroundConverter x:Key="AlertRowBgConverter" />
+    </Page.Resources>
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto"
+                  HorizontalScrollBarVisibility="Disabled">
+        <StackPanel Orientation="Vertical"
+                    Spacing="20"
+                    Padding="24,20,24,24">
+
+            <!-- Header -->
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Orientation="Vertical"
+                            Spacing="2">
+                    <TextBlock x:Uid="Dashboard_Title"
+                               FontSize="22"
+                               FontWeight="SemiBold"
+                               Foreground="{ThemeResource PrimaryTextBrush}" />
+                    <TextBlock x:Uid="Dashboard_Subtitle"
+                               x:Name="SubtitleText"
+                               FontSize="13"
+                               Foreground="{ThemeResource SecondaryTextBrush}" />
+                </StackPanel>
+
+                <Button x:Uid="ToggleThemeButton"
+                        Grid.Column="1"
+                        Command="{Binding ToggleTheme}"
+                        Background="Transparent"
+                        BorderThickness="0"
+                        Padding="8"
+                        VerticalAlignment="Center">
+                    <FontIcon Glyph="&#xE793;"
+                              FontSize="20" />
+                </Button>
+            </Grid>
+
+            <!-- KPI Row -->
+            <ItemsControl ItemsSource="{Binding KpiMetrics}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <utu:AutoLayout Orientation="Horizontal"
+                                        Spacing="12"
+                                        PrimaryAxisAlignment="Stretch" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border Background="{ThemeResource CardSurfaceBrush}"
+                                BorderBrush="{ThemeResource CardBorderBrush}"
+                                BorderThickness="1"
+                                CornerRadius="6"
+                                Padding="16,14,16,14"
+                                utu:AutoLayout.PrimaryAlignment="Stretch">
+                            <StackPanel Orientation="Vertical" Spacing="6">
+                                <TextBlock Text="{Binding Label}"
+                                           FontSize="11"
+                                           FontWeight="SemiBold"
+                                           CharacterSpacing="80"
+                                           Foreground="{ThemeResource SecondaryTextBrush}"
+                                           TextWrapping="NoWrap" />
+                                <StackPanel Orientation="Horizontal"
+                                            Spacing="4"
+                                            VerticalAlignment="Center">
+                                    <TextBlock Text="{Binding Value}"
+                                               FontSize="28"
+                                               FontWeight="Bold"
+                                               FontFamily="{ThemeResource MonoFontFamily}"
+                                               Foreground="{ThemeResource PrimaryTextBrush}" />
+                                    <TextBlock Text="{Binding Unit}"
+                                               FontSize="13"
+                                               VerticalAlignment="Bottom"
+                                               Margin="0,0,0,4"
+                                               Foreground="{ThemeResource SecondaryTextBrush}" />
+                                </StackPanel>
+                                <Border CornerRadius="2"
+                                        Padding="6,2,6,2"
+                                        Background="{Binding DeltaDirection, Converter={StaticResource DeltaBgConverter}}"
+                                        HorizontalAlignment="Left">
+                                    <TextBlock Text="{Binding Delta}"
+                                               FontSize="11"
+                                               LineHeight="11"
+                                               LineStackingStrategy="BlockLineHeight"
+                                               FontFamily="{ThemeResource MonoFontFamily}"
+                                               FontWeight="SemiBold"
+                                               Foreground="{Binding DeltaDirection, Converter={StaticResource DeltaFgConverter}}" />
+                                </Border>
+                            </StackPanel>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+
+            <!-- 2-Column Main Area -->
+            <Grid ColumnDefinitions="*,*"
+                  ColumnSpacing="16"
+                  MinHeight="420">
+
+                <!-- Left: Facilities List -->
+                <Border Grid.Column="0"
+                        Background="{ThemeResource CardSurfaceBrush}"
+                        BorderBrush="{ThemeResource CardBorderBrush}"
+                        BorderThickness="1"
+                        CornerRadius="6">
+                    <StackPanel Orientation="Vertical">
+                        <!-- Panel Header -->
+                        <Border Padding="16,12,16,12"
+                                BorderBrush="{ThemeResource CardBorderBrush}"
+                                BorderThickness="0,0,0,1">
+                            <StackPanel Orientation="Horizontal"
+                                        Spacing="8">
+                                <FontIcon Glyph="&#xE8FD;"
+                                          FontSize="14"
+                                          Foreground="{ThemeResource BrandAccentBrush}" />
+                                <TextBlock x:Uid="FacilitiesHeader"
+                                           FontSize="13"
+                                           FontWeight="SemiBold"
+                                           Foreground="{ThemeResource PrimaryTextBrush}" />
+                            </StackPanel>
+                        </Border>
+                        <!-- Facilities ScrollViewer -->
+                        <ScrollViewer MaxHeight="380"
+                                      VerticalScrollBarVisibility="Auto">
+                            <ItemsControl ItemsSource="{Binding Facilities}"
+                                          Padding="0,4,0,4">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border Padding="16,10,16,10"
+                                                BorderBrush="{ThemeResource CardBorderBrush}"
+                                                BorderThickness="0,0,0,1">
+                                            <Grid ColumnDefinitions="Auto,*,Auto">
+                                                <!-- Status Dot -->
+                                                <Border Grid.Column="0"
+                                                        Width="8"
+                                                        Height="8"
+                                                        CornerRadius="4"
+                                                        Background="{Binding Status, Converter={StaticResource StatusBrushConverter}}"
+                                                        VerticalAlignment="Center"
+                                                        Margin="0,0,12,0" />
+                                                <!-- Name + Type -->
+                                                <StackPanel Grid.Column="1"
+                                                            Orientation="Vertical"
+                                                            Spacing="2">
+                                                    <TextBlock Text="{Binding Name}"
+                                                               FontSize="13"
+                                                               FontWeight="SemiBold"
+                                                               Foreground="{ThemeResource PrimaryTextBrush}"
+                                                               TextTrimming="CharacterEllipsis" />
+                                                    <StackPanel Orientation="Horizontal" Spacing="6">
+                                                        <Border Background="{ThemeResource ChipSurfaceBrush}"
+                                                                CornerRadius="2"
+                                                                Padding="5,1,5,1">
+                                                            <TextBlock Text="{Binding Type}"
+                                                                       FontSize="10"
+                                                                       FontWeight="SemiBold"
+                                                                       CharacterSpacing="60"
+                                                                       Foreground="{ThemeResource BrandAccentBrush}" />
+                                                        </Border>
+                                                        <TextBlock Text="{Binding Region}"
+                                                                   FontSize="11"
+                                                                   Foreground="{ThemeResource SecondaryTextBrush}" />
+                                                    </StackPanel>
+                                                </StackPanel>
+                                                <!-- Output -->
+                                                <StackPanel Grid.Column="2"
+                                                            Orientation="Vertical"
+                                                            HorizontalAlignment="Right"
+                                                            Spacing="2">
+                                                    <TextBlock Text="{Binding Output}"
+                                                               FontSize="14"
+                                                               FontWeight="Bold"
+                                                               FontFamily="{ThemeResource MonoFontFamily}"
+                                                               Foreground="{ThemeResource PrimaryTextBrush}"
+                                                               HorizontalAlignment="Right" />
+                                                    <TextBlock x:Uid="MWUnit"
+                                                               FontSize="10"
+                                                               Foreground="{ThemeResource SecondaryTextBrush}"
+                                                               HorizontalAlignment="Right" />
+                                                </StackPanel>
+                                            </Grid>
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </ScrollViewer>
+                    </StackPanel>
+                </Border>
+
+                <!-- Right: Alerts Panel -->
+                <Border Grid.Column="1"
+                        Background="{ThemeResource CardSurfaceBrush}"
+                        BorderBrush="{ThemeResource CardBorderBrush}"
+                        BorderThickness="1"
+                        CornerRadius="6">
+                    <StackPanel Orientation="Vertical">
+                        <!-- Panel Header -->
+                        <Border Padding="16,12,16,12"
+                                BorderBrush="{ThemeResource CardBorderBrush}"
+                                BorderThickness="0,0,0,1">
+                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                <FontIcon Glyph="&#xEA8F;"
+                                          FontSize="14"
+                                          Foreground="{ThemeResource StatusCriticalBrush}" />
+                                <TextBlock x:Uid="ActiveAlertsHeader"
+                                           FontSize="13"
+                                           FontWeight="SemiBold"
+                                           Foreground="{ThemeResource PrimaryTextBrush}" />
+                            </StackPanel>
+                        </Border>
+                        <!-- Alerts ScrollViewer -->
+                        <ScrollViewer MaxHeight="380"
+                                      VerticalScrollBarVisibility="Auto">
+                            <ItemsControl ItemsSource="{Binding Alerts}"
+                                          Padding="0,4,0,4">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border Padding="16,10,16,10"
+                                                Background="{Binding Severity, Converter={StaticResource AlertRowBgConverter}}"
+                                                BorderBrush="{ThemeResource CardBorderBrush}"
+                                                BorderThickness="0,0,0,1">
+                                            <Grid ColumnDefinitions="Auto,*">
+                                                <!-- Severity Stripe -->
+                                                <Border Grid.Column="0"
+                                                        Width="3"
+                                                        CornerRadius="2"
+                                                        Background="{Binding Severity, Converter={StaticResource SeverityBrushConverter}}"
+                                                        Margin="0,0,12,0" />
+                                                <!-- Content -->
+                                                <StackPanel Grid.Column="1"
+                                                            Orientation="Vertical"
+                                                            Spacing="4">
+                                                    <StackPanel Orientation="Horizontal"
+                                                                Spacing="8">
+                                                        <Border Background="{Binding Severity, Converter={StaticResource SeverityBrushConverter}}"
+                                                                CornerRadius="2"
+                                                                Padding="5,1,5,1">
+                                                            <TextBlock Text="{Binding Severity}"
+                                                                       FontSize="10"
+                                                                       FontWeight="SemiBold"
+                                                                       CharacterSpacing="60"
+                                                                       Foreground="{ThemeResource OnAccentBrush}" />
+                                                        </Border>
+                                                        <TextBlock Text="{Binding FacilityName}"
+                                                                   FontSize="11"
+                                                                   FontWeight="SemiBold"
+                                                                   Foreground="{ThemeResource SecondaryTextBrush}" />
+                                                    </StackPanel>
+                                                    <TextBlock Text="{Binding Message}"
+                                                               FontSize="12"
+                                                               Foreground="{ThemeResource PrimaryTextBrush}"
+                                                               TextWrapping="Wrap" />
+                                                    <TextBlock Text="{Binding TimestampDisplay}"
+                                                               FontSize="11"
+                                                               FontFamily="{ThemeResource MonoFontFamily}"
+                                                               Foreground="{ThemeResource SecondaryTextBrush}" />
+                                                </StackPanel>
+                                            </Grid>
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </ScrollViewer>
+                    </StackPanel>
+                </Border>
+
+            </Grid>
+        </StackPanel>
+    </ScrollViewer>
+</Page>

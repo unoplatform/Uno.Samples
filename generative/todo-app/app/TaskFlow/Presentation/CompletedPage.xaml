@@ -1,0 +1,105 @@
+<Page x:Class="TaskFlow.Presentation.CompletedPage"
+      x:Name="PageRoot"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:utu="using:Uno.Toolkit.UI"
+      xmlns:converters="using:TaskFlow.Converters"
+      Background="{ThemeResource TaskBackgroundBrush}">
+
+    <Page.Resources>
+        <converters:PriorityBrushConverter x:Key="PriorityBrushConverter" />
+    </Page.Resources>
+
+    <Grid RowSpacing="0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!-- Header with Clear button -->
+        <Grid Grid.Row="0" Padding="24,24,24,16">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Grid.Column="0" Spacing="4">
+                <TextBlock x:Uid="Completed_PageTitle"
+                           Style="{StaticResource PageTitleTextBlockStyle}" />
+                <TextBlock x:Uid="Completed_Subtitle"
+                           Style="{StaticResource BodyTextBlockStyle}" />
+            </StackPanel>
+
+            <Button x:Uid="ClearAllButton"
+                    Grid.Column="1"
+                    Command="{Binding ClearCompleted}"
+                    CornerRadius="8"
+                    Padding="14,8"
+                    FontSize="13"
+                    Foreground="{ThemeResource PriorityHighBrush}"
+                    Background="Transparent"
+                    BorderThickness="1"
+                    BorderBrush="{ThemeResource PriorityHighBrush}"
+                    VerticalAlignment="Top" />
+        </Grid>
+
+        <!-- Completed Task List -->
+        <ScrollViewer Grid.Row="1"
+                      Padding="24,0,24,16">
+            <ItemsControl ItemsSource="{Binding CompletedTasks}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border Margin="0,0,0,8"
+                                Background="{ThemeResource TaskSurfaceBrush}"
+                                CornerRadius="10"
+                                Padding="16,12"
+                                Opacity="0.7">
+                            <Grid ColumnSpacing="12">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <!-- Checkmark -->
+                                <FontIcon Grid.Column="0"
+                                          Glyph="&#xE73E;"
+                                          FontSize="18"
+                                          Foreground="{ThemeResource TaskSuccessBrush}"
+                                          VerticalAlignment="Center" />
+
+                                <!-- Task Info -->
+                                <StackPanel Grid.Column="1" Spacing="2" VerticalAlignment="Center">
+                                    <TextBlock Text="{Binding Title}"
+                                               Style="{StaticResource ItemTitleTextBlockStyle}"
+                                               TextDecorations="Strikethrough" />
+                                    <StackPanel Orientation="Horizontal" Spacing="6">
+                                        <TextBlock Text="{Binding CategoryDisplay}"
+                                                   Style="{StaticResource SmallCaptionTextBlockStyle}" />
+                                        <TextBlock Text="·"
+                                                   Style="{StaticResource SmallCaptionTextBlockStyle}" />
+                                        <TextBlock Text="{Binding PriorityDisplay}"
+                                                   Style="{StaticResource SmallCaptionTextBlockStyle}" />
+                                    </StackPanel>
+                                </StackPanel>
+
+                                <!-- Undo button -->
+                                <Button Grid.Column="2"
+                                        Command="{Binding DataContext.ToggleTask, ElementName=PageRoot}"
+                                        CommandParameter="{Binding Id}"
+                                        Background="Transparent"
+                                        BorderThickness="0"
+                                        Padding="8"
+                                        VerticalAlignment="Center">
+                                    <FontIcon Glyph="&#xE7A7;"
+                                              FontSize="16"
+                                              Foreground="{ThemeResource TaskTextSecondaryBrush}" />
+                                </Button>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+    </Grid>
+</Page>

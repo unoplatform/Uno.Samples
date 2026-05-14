@@ -1,0 +1,88 @@
+<Page x:Class="TaskFlow.Presentation.CategoriesPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:utu="using:Uno.Toolkit.UI"
+      xmlns:converters="using:TaskFlow.Converters"
+      Background="{ThemeResource TaskBackgroundBrush}">
+
+    <Page.Resources>
+        <converters:CategoryBrushConverter x:Key="CategoryBrushConverter" />
+    </Page.Resources>
+
+    <ScrollViewer>
+        <StackPanel Padding="24,24,24,16" Spacing="20">
+
+            <!-- Page Title -->
+            <StackPanel Spacing="4">
+                <TextBlock x:Uid="Categories_PageTitle"
+                           Style="{StaticResource PageTitleTextBlockStyle}" />
+                <TextBlock x:Uid="Categories_Subtitle"
+                           Style="{StaticResource BodyTextBlockStyle}" />
+            </StackPanel>
+
+            <!-- Category Cards -->
+            <ItemsControl ItemsSource="{Binding Categories}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border Margin="0,0,0,12"
+                                Background="{ThemeResource TaskSurfaceBrush}"
+                                CornerRadius="12"
+                                Padding="20">
+                            <Grid ColumnSpacing="16">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <!-- Category Icon -->
+                                <Border Grid.Column="0"
+                                        Width="48"
+                                        Height="48"
+                                        CornerRadius="24"
+                                        Background="{ThemeResource TaskChipBackgroundBrush}"
+                                        VerticalAlignment="Center">
+                                    <FontIcon Glyph="{Binding Icon}"
+                                              FontSize="20"
+                                              Foreground="{Binding Category, Converter={StaticResource CategoryBrushConverter}}"
+                                              HorizontalAlignment="Center"
+                                              VerticalAlignment="Center" />
+                                </Border>
+
+                                <!-- Category Info -->
+                                <StackPanel Grid.Column="1" Spacing="4" VerticalAlignment="Center">
+                                    <TextBlock Text="{Binding Name}"
+                                               Style="{StaticResource CardTitleTextBlockStyle}" />
+                                    <StackPanel Orientation="Horizontal" Spacing="12">
+                                        <TextBlock Style="{StaticResource SmallCaptionTextBlockStyle}">
+                                            <Run Text="{Binding PendingCount}" />
+                                            <Run x:Uid="PendingRunText" />
+                                        </TextBlock>
+                                        <TextBlock Style="{StaticResource SmallCaptionTextBlockStyle}">
+                                            <Run Text="{Binding CompletedCount}" />
+                                            <Run x:Uid="DoneRunText" />
+                                        </TextBlock>
+                                    </StackPanel>
+                                </StackPanel>
+
+                                <!-- Total Count Badge -->
+                                <Border Grid.Column="2"
+                                        Background="{ThemeResource TaskChipBackgroundBrush}"
+                                        CornerRadius="14"
+                                        Padding="12,6"
+                                        VerticalAlignment="Center">
+                                    <TextBlock FontSize="14"
+                                               FontWeight="Bold"
+                                               Foreground="{ThemeResource TaskTextPrimaryBrush}"
+                                               HorizontalAlignment="Center">
+                                        <Run Text="{Binding TotalCount}" />
+                                    </TextBlock>
+                                </Border>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </StackPanel>
+    </ScrollViewer>
+</Page>

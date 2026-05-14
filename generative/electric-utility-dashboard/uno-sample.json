@@ -1,0 +1,37 @@
+{
+  "$schema": "https://schemas.platform.uno/sample/v1",
+  "id": "electric-utility-dashboard",
+  "displayName": "GridWatch",
+  "description": "A production-ready Electric Utility Operations Dashboard with mock state-based auth, scalable navigation, SafeArea + AutoLayout/Flex responsive layout, SOLID componentization (KPIComponent, FacilityItem, AlertItem, DashboardPage), and a professional control-room UI with status colors (green=Online, red=Critical, yellow=Warning).",
+  "platforms": ["desktop", "wasm"],
+  "sourcePath": "app/GridWatch/GridWatch.csproj",
+  "userConversation": {
+    "messages": [
+      {
+        "role": "user",
+        "content": "Generate a production-ready Electric Utility Operations Dashboard with:\n- mock state-based auth (Login: username/password/button → Dashboard)\n- scalable navigation\n- SafeArea root + AutoLayout/Flex only (no absolute, responsive layout)\n- SOLID componentization (KPIComponent, FacilityItem, AlertItem, DashboardPage)\n- professional control-room UI (neutral background, subtle elevation, clear typography)\n- status colors: green=Online, red=Critical, yellow=Warning\n\nDashboard layout:\n- KPI row with 4 cards (Demand, Supply, Reserve, Frequency — each with label, large value, delta)\n- 2-column main area:\n  - left: scrollable facilities list (name, type, status, output)\n  - right: scrollable alerts panel (severity, message, timestamp — styled by severity)\n- fully functional sortable + selectable DataGrid (Facility, Region, Capacity, Output, Status) with inline mock data\n\nInclude:\n- full working code\n- navigation\n- state management\n- reusable components\n- output implementation only, no explanations"
+      },
+      {
+        "role": "assistant",
+        "content": "Here's your **GridWatch** app! It's built and running in the preview."
+      }
+    ],
+    "suggestedPrompts": [
+      "Change the color theme",
+      "Add a new page with navigation",
+      "Improve the layout and spacing"
+    ]
+  },
+  "agentContext": {
+    "messages": [
+      {
+        "role": "user",
+        "content": "Generate a production-ready Electric Utility Operations Dashboard with:\n- mock state-based auth (Login: username/password/button → Dashboard)\n- scalable navigation\n- SafeArea root + AutoLayout/Flex only (no absolute, responsive layout)\n- SOLID componentization (KPIComponent, FacilityItem, AlertItem, DashboardPage)\n- professional control-room UI (neutral background, subtle elevation, clear typography)\n- status colors: green=Online, red=Critical, yellow=Warning\n\nDashboard layout:\n- KPI row with 4 cards (Demand, Supply, Reserve, Frequency — each with label, large value, delta)\n- 2-column main area:\n  - left: scrollable facilities list (name, type, status, output)\n  - right: scrollable alerts panel (severity, message, timestamp — styled by severity)\n- fully functional sortable + selectable DataGrid (Facility, Region, Capacity, Output, Status) with inline mock data\n\nInclude:\n- full working code\n- navigation\n- state management\n- reusable components\n- output implementation only, no explanations"
+      },
+      {
+        "role": "assistant",
+        "content": "I've created a complete Uno Platform app at app/GridWatch/GridWatch.csproj.\n\n**Key files:**\n- app/GridWatch/App.xaml\n- app/GridWatch/App.xaml.cs\n- app/GridWatch/GlobalUsings.cs\n- app/GridWatch/GridWatch.csproj\n- app/GridWatch/Models/GridWatchModels.cs\n- app/GridWatch/Platforms/WebAssembly/Program.cs\n- app/GridWatch/Presentation/AlertsModel.cs\n- app/GridWatch/Presentation/AlertsPage.xaml\n- app/GridWatch/Presentation/AlertsPage.xaml.cs\n- app/GridWatch/Presentation/DashboardModel.cs\n- app/GridWatch/Presentation/DashboardPage.xaml\n- app/GridWatch/Presentation/DashboardPage.xaml.cs\n- app/GridWatch/Presentation/GridMapModel.cs\n- app/GridWatch/Presentation/GridMapPage.xaml\n- app/GridWatch/Presentation/GridMapPage.xaml.cs\n- app/GridWatch/Presentation/LoginModel.cs\n- app/GridWatch/Presentation/LoginPage.xaml\n- app/GridWatch/Presentation/LoginPage.xaml.cs\n- app/GridWatch/Presentation/MainModel.cs\n- app/GridWatch/Presentation/MainPage.xaml\n- app/GridWatch/Presentation/MainPage.xaml.cs\n- app/GridWatch/Presentation/Shell.xaml\n- app/GridWatch/Presentation/Shell.xaml.cs\n- app/GridWatch/Presentation/ShellModel.cs\n- app/GridWatch/Converters/GridWatchConverters.cs\n- app/GridWatch/Services/GridDataService.cs\n\nThe app is built and running. The user may ask me to modify it."
+      }
+    ]
+  }
+}

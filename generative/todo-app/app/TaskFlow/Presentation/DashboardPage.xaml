@@ -1,0 +1,195 @@
+<Page x:Class="TaskFlow.Presentation.DashboardPage"
+      x:Name="PageRoot"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:uen="using:Uno.Extensions.Navigation.UI"
+      xmlns:utu="using:Uno.Toolkit.UI"
+      Background="{ThemeResource TaskBackgroundBrush}">
+
+    <ScrollViewer>
+        <StackPanel Padding="24,24,24,16" Spacing="20">
+
+            <!-- Page Title -->
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Spacing="4">
+                    <TextBlock x:Uid="Dashboard_Title"
+                               Style="{StaticResource PageTitleTextBlockStyle}" />
+                    <TextBlock x:Uid="Dashboard_Subtitle"
+                               Style="{StaticResource BodyTextBlockStyle}" />
+                </StackPanel>
+
+                <Button x:Uid="ToggleThemeButton"
+                        Grid.Column="1"
+                        Command="{Binding ToggleTheme}"
+                        Background="Transparent"
+                        BorderThickness="0"
+                        Padding="8"
+                        VerticalAlignment="Center">
+                    <FontIcon Glyph="&#xE793;"
+                              FontSize="20"
+                              Foreground="{ThemeResource TaskTextPrimaryBrush}" />
+                </Button>
+            </Grid>
+
+            <!-- Stats Cards Row -->
+            <Grid ColumnSpacing="12">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <!-- Total Tasks Card -->
+                <Border Grid.Column="0"
+                        Background="{ThemeResource TaskSurfaceBrush}"
+                        CornerRadius="12"
+                        Padding="20">
+                    <StackPanel Spacing="8">
+                        <TextBlock x:Uid="TotalTasksLabel"
+                                   Style="{StaticResource CaptionTextBlockStyle}" />
+                        <TextBlock Text="{Binding Stats.TotalTasks}"
+                                   Style="{StaticResource StatNumberTextBlockStyle}" />
+                        <TextBlock Text="{Binding Stats.CompletionText}"
+                                   Style="{StaticResource SmallCaptionTextBlockStyle}" />
+                    </StackPanel>
+                </Border>
+
+                <!-- Completed Card -->
+                <Border Grid.Column="1"
+                        Background="{ThemeResource TaskSuccessBgBrush}"
+                        CornerRadius="12"
+                        Padding="20">
+                    <StackPanel Spacing="8">
+                        <TextBlock x:Uid="CompletedLabel"
+                                   Style="{StaticResource CaptionTextBlockStyle}" />
+                        <TextBlock Text="{Binding Stats.CompletedTasks}"
+                                   FontSize="32"
+                                   FontWeight="Bold"
+                                   Foreground="{ThemeResource TaskSuccessBrush}" />
+                        <TextBlock Text="{Binding Stats.CompletionPercentText}"
+                                   Style="{StaticResource SmallCaptionTextBlockStyle}" />
+                    </StackPanel>
+                </Border>
+            </Grid>
+
+            <!-- Second stats row -->
+            <Grid ColumnSpacing="12">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <!-- Pending Card -->
+                <Border Grid.Column="0"
+                        Background="{ThemeResource TaskWarningBgBrush}"
+                        CornerRadius="12"
+                        Padding="20">
+                    <StackPanel Spacing="8">
+                        <TextBlock x:Uid="PendingLabel"
+                                   Style="{StaticResource CaptionTextBlockStyle}" />
+                        <TextBlock Text="{Binding Stats.PendingTasks}"
+                                   FontSize="32"
+                                   FontWeight="Bold"
+                                   Foreground="{ThemeResource TaskWarningBrush}" />
+                    </StackPanel>
+                </Border>
+
+                <!-- High Priority Card -->
+                <Border Grid.Column="1"
+                        Background="{ThemeResource TaskSurfaceBrush}"
+                        CornerRadius="12"
+                        Padding="20">
+                    <StackPanel Spacing="8">
+                        <TextBlock x:Uid="HighPriorityLabel"
+                                   Style="{StaticResource CaptionTextBlockStyle}" />
+                        <TextBlock Text="{Binding Stats.HighPriorityCount}"
+                                   FontSize="32"
+                                   FontWeight="Bold"
+                                   Foreground="{ThemeResource PriorityHighBrush}" />
+                    </StackPanel>
+                </Border>
+            </Grid>
+
+            <utu:Divider />
+
+            <!-- High Priority Tasks Section -->
+            <StackPanel Spacing="12">
+                <StackPanel Orientation="Horizontal" Spacing="8">
+                    <FontIcon Glyph="&#xE7C1;"
+                              FontSize="18"
+                              Foreground="{ThemeResource PriorityHighBrush}" />
+                    <TextBlock x:Uid="HighPriorityTasks_Title"
+                               Style="{StaticResource SectionTitleTextBlockStyle}" />
+                </StackPanel>
+
+                <ItemsControl ItemsSource="{Binding UpcomingTasks}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border Margin="0,0,0,8"
+                                    Background="{ThemeResource TaskSurfaceBrush}"
+                                    CornerRadius="10"
+                                    Padding="16,12">
+                                <Grid ColumnSpacing="12">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <!-- Priority Indicator -->
+                                    <Ellipse Grid.Column="0"
+                                             Width="10"
+                                             Height="10"
+                                             Fill="{ThemeResource PriorityHighBrush}"
+                                             VerticalAlignment="Center" />
+
+                                    <!-- Task Info -->
+                                    <StackPanel Grid.Column="1" Spacing="2" VerticalAlignment="Center">
+                                        <TextBlock Text="{Binding Title}"
+                                                   Style="{StaticResource ItemTitleTextBlockStyle}" />
+                                        <StackPanel Orientation="Horizontal" Spacing="8">
+                                            <TextBlock Text="{Binding CategoryDisplay}"
+                                                       Style="{StaticResource SmallCaptionTextBlockStyle}" />
+                                            <TextBlock Text="·"
+                                                       Style="{StaticResource SmallCaptionTextBlockStyle}" />
+                                            <TextBlock Text="{Binding DueDate}"
+                                                       Style="{StaticResource SmallCaptionTextBlockStyle}" />
+                                        </StackPanel>
+                                    </StackPanel>
+
+                                    <!-- Check button -->
+                                    <Button Grid.Column="2"
+                                            Command="{Binding DataContext.ToggleTask, ElementName=PageRoot}"
+                                            CommandParameter="{Binding Id}"
+                                            Background="Transparent"
+                                            BorderThickness="0"
+                                            Padding="8"
+                                            VerticalAlignment="Center">
+                                        <FontIcon Glyph="&#xE739;"
+                                                  FontSize="18"
+                                                  Foreground="{ThemeResource TaskTextSecondaryBrush}" />
+                                    </Button>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
+
+            <!-- View All Tasks Button -->
+            <Button x:Uid="ViewAllTasksButton"
+                    Command="{Binding GoToTasks}"
+                    HorizontalAlignment="Stretch"
+                    HorizontalContentAlignment="Center"
+                    Background="{ThemeResource TaskPrimaryBrush}"
+                    Foreground="{ThemeResource TaskOnPrimaryBrush}"
+                    CornerRadius="10"
+                    Padding="16,12"
+                    FontWeight="SemiBold" />
+        </StackPanel>
+    </ScrollViewer>
+</Page>

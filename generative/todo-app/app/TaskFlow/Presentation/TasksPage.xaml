@@ -1,0 +1,140 @@
+<Page x:Class="TaskFlow.Presentation.TasksPage"
+      x:Name="PageRoot"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:utu="using:Uno.Toolkit.UI"
+      xmlns:converters="using:TaskFlow.Converters"
+      xmlns:local="using:TaskFlow.Models"
+      Background="{ThemeResource TaskBackgroundBrush}">
+
+    <Page.Resources>
+        <converters:PriorityBrushConverter x:Key="PriorityBrushConverter" />
+        <converters:BoolToStrikethroughConverter x:Key="BoolToStrikethroughConverter" />
+        <converters:BoolToOpacityConverter x:Key="BoolToOpacityConverter" />
+    </Page.Resources>
+
+    <Grid RowSpacing="0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <StackPanel Grid.Row="0" Padding="24,24,24,16" Spacing="4">
+            <TextBlock x:Uid="Tasks_PageTitle"
+                       Style="{StaticResource PageTitleTextBlockStyle}" />
+            <TextBlock x:Uid="Tasks_Subtitle"
+                       Style="{StaticResource BodyTextBlockStyle}" />
+        </StackPanel>
+
+        <!-- Add Task Area -->
+        <Border Grid.Row="1"
+                Margin="24,0"
+                Background="{ThemeResource TaskSurfaceBrush}"
+                CornerRadius="12"
+                Padding="16">
+            <StackPanel Spacing="10">
+                <TextBox x:Uid="NewTaskTitleBox"
+                         Text="{Binding NewTaskTitle, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         CornerRadius="8" />
+                <TextBox x:Uid="NewTaskNotesBox"
+                         Text="{Binding NewTaskNotes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         CornerRadius="8" />
+                <Button x:Uid="AddTaskButton"
+                        Command="{Binding AddTask}"
+                        HorizontalAlignment="Stretch"
+                        HorizontalContentAlignment="Center"
+                        Background="{ThemeResource TaskPrimaryBrush}"
+                        Foreground="{ThemeResource TaskOnPrimaryBrush}"
+                        CornerRadius="8"
+                        Padding="12,10"
+                        FontWeight="SemiBold" />
+            </StackPanel>
+        </Border>
+
+        <!-- Task List -->
+        <ScrollViewer Grid.Row="2"
+                      Padding="24,0,24,16">
+            <ItemsControl ItemsSource="{Binding FilteredTasks}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border Margin="0,0,0,8"
+                                Background="{ThemeResource TaskSurfaceBrush}"
+                                CornerRadius="10"
+                                Padding="16,12"
+                                Opacity="{Binding IsCompleted, Converter={StaticResource BoolToOpacityConverter}}">
+                            <Grid ColumnSpacing="12">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <!-- Priority dot -->
+                                <Ellipse Grid.Column="0"
+                                         Width="10"
+                                         Height="10"
+                                         Fill="{Binding Priority, Converter={StaticResource PriorityBrushConverter}}"
+                                         VerticalAlignment="Center" />
+
+                                <!-- Task content -->
+                                <StackPanel Grid.Column="1" Spacing="2" VerticalAlignment="Center">
+                                    <TextBlock Text="{Binding Title}"
+                                               Style="{StaticResource ItemTitleTextBlockStyle}"
+                                               TextDecorations="{Binding IsCompleted, Converter={StaticResource BoolToStrikethroughConverter}}" />
+                                    <StackPanel Orientation="Horizontal" Spacing="6">
+                                        <FontIcon Glyph="{Binding CategoryIcon}"
+                                                  FontSize="11"
+                                                  Foreground="{ThemeResource TaskTextSecondaryBrush}" />
+                                        <TextBlock Text="{Binding CategoryDisplay}"
+                                                   Style="{StaticResource SmallCaptionTextBlockStyle}" />
+                                        <TextBlock Text="·"
+                                                   Style="{StaticResource SmallCaptionTextBlockStyle}" />
+                                        <TextBlock Text="{Binding DueDate}"
+                                                   Style="{StaticResource SmallCaptionTextBlockStyle}" />
+                                        <TextBlock Text="·"
+                                                   Style="{StaticResource SmallCaptionTextBlockStyle}" />
+                                        <TextBlock Text="{Binding PriorityDisplay}"
+                                                   Style="{StaticResource SmallCaptionTextBlockStyle}" />
+                                    </StackPanel>
+                                    <TextBlock Text="{Binding Notes}"
+                                               Style="{StaticResource CaptionTextBlockStyle}"
+                                               TextTrimming="CharacterEllipsis"
+                                               MaxLines="1" />
+                                </StackPanel>
+
+                                <!-- Toggle complete -->
+                                <Button Grid.Column="2"
+                                        Command="{Binding DataContext.ToggleTask, ElementName=PageRoot}"
+                                        CommandParameter="{Binding Id}"
+                                        Background="Transparent"
+                                        BorderThickness="0"
+                                        Padding="8"
+                                        VerticalAlignment="Center">
+                                    <FontIcon Glyph="&#xE73E;"
+                                              FontSize="18"
+                                              Foreground="{ThemeResource TaskSuccessBrush}" />
+                                </Button>
+
+                                <!-- Delete -->
+                                <Button Grid.Column="3"
+                                        Command="{Binding DataContext.DeleteTask, ElementName=PageRoot}"
+                                        CommandParameter="{Binding Id}"
+                                        Background="Transparent"
+                                        BorderThickness="0"
+                                        Padding="8"
+                                        VerticalAlignment="Center">
+                                    <FontIcon Glyph="&#xE74D;"
+                                              FontSize="16"
+                                              Foreground="{ThemeResource PriorityHighBrush}" />
+                                </Button>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+    </Grid>
+</Page>

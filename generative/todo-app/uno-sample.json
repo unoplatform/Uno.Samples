@@ -1,0 +1,37 @@
+{
+  "$schema": "https://schemas.platform.uno/sample/v1",
+  "id": "todo-app",
+  "displayName": "TaskFlow",
+  "description": "A modern To-Do productivity app with dashboard stats, category filtering, priority levels, and reactive task management — built with MVUX, SimpleTheme, and region-based TabBar navigation.",
+  "platforms": ["desktop", "wasm"],
+  "sourcePath": "app/TaskFlow/TaskFlow.csproj",
+  "userConversation": {
+    "messages": [
+      {
+        "role": "user",
+        "content": "Generate a production-ready modern To-Do / Task Manager mobile app with:\n- mock state\n- SafeArea root + AutoLayout/Flex only (no absolute positioning)\n- SOLID components (Dashboard, TaskList, CategoryCards, CompletedHistory)\n- clean productivity UI (indigo/blue tones, crisp cards, clear typography)\n\nDashboard screen:\n- stats cards (total tasks, completed, pending, high priority count)\n- high priority tasks list with check-off\n- \"View All Tasks\" CTA\n\nTasks screen:\n- add new task (title + notes)\n- category filter chips (All, Work, Personal, Shopping, Health)\n- task list with priority dots, category icons, toggle complete, delete\n\nCategories screen:\n- category cards showing pending/completed counts\n\nCompleted screen:\n- completed tasks with undo and clear all\n\nNavigation:\n- bottom nav (Dashboard, Tasks, Categories, Completed)\n\nInclude:\n- full working code\n- navigation\n- mock state with 10 seeded tasks\n- priority levels (High, Medium, Low) with color indicators\n- reactive push-based updates"
+      },
+      {
+        "role": "assistant",
+        "content": "Here's your **TaskFlow** app! It's built and running in the preview."
+      }
+    ],
+    "suggestedPrompts": [
+      "Change the color theme",
+      "Add a new page with navigation",
+      "Improve the layout and spacing"
+    ]
+  },
+  "agentContext": {
+    "messages": [
+      {
+        "role": "user",
+        "content": "Generate a production-ready modern To-Do / Task Manager mobile app with:\n- mock state\n- SafeArea root + AutoLayout/Flex only (no absolute positioning)\n- SOLID components (Dashboard, TaskList, CategoryCards, CompletedHistory)\n- clean productivity UI (indigo/blue tones, crisp cards, clear typography)\n\nDashboard screen:\n- stats cards (total tasks, completed, pending, high priority count)\n- high priority tasks list with check-off\n- \"View All Tasks\" CTA\n\nTasks screen:\n- add new task (title + notes)\n- category filter chips (All, Work, Personal, Shopping, Health)\n- task list with priority dots, category icons, toggle complete, delete\n\nCategories screen:\n- category cards showing pending/completed counts\n\nCompleted screen:\n- completed tasks with undo and clear all\n\nNavigation:\n- bottom nav (Dashboard, Tasks, Categories, Completed)\n\nInclude:\n- full working code\n- navigation\n- mock state with 10 seeded tasks\n- priority levels (High, Medium, Low) with color indicators\n- reactive push-based updates"
+      },
+      {
+        "role": "assistant",
+        "content": "I've created a complete Uno Platform app at app/TaskFlow/TaskFlow.csproj.\n\n**Key files:**\n- app/TaskFlow/App.xaml\n- app/TaskFlow/App.xaml.cs\n- app/TaskFlow/TaskFlow.csproj\n- app/TaskFlow/GlobalUsings.cs\n- app/TaskFlow/Models/AppConfig.cs\n- app/TaskFlow/Models/TaskFlowModels.cs\n- app/TaskFlow/Services/TaskService.cs\n- app/TaskFlow/Converters/TaskFlowConverters.cs\n- app/TaskFlow/Platforms/Desktop/Program.cs\n- app/TaskFlow/Platforms/WebAssembly/Program.cs\n- app/TaskFlow/Presentation/Shell.xaml\n- app/TaskFlow/Presentation/Shell.xaml.cs\n- app/TaskFlow/Presentation/ShellModel.cs\n- app/TaskFlow/Presentation/MainModel.cs\n- app/TaskFlow/Presentation/MainPage.xaml\n- app/TaskFlow/Presentation/MainPage.xaml.cs\n- app/TaskFlow/Presentation/DashboardModel.cs\n- app/TaskFlow/Presentation/DashboardPage.xaml\n- app/TaskFlow/Presentation/DashboardPage.xaml.cs\n- app/TaskFlow/Presentation/TasksModel.cs\n- app/TaskFlow/Presentation/TasksPage.xaml\n- app/TaskFlow/Presentation/TasksPage.xaml.cs\n- app/TaskFlow/Presentation/CategoriesModel.cs\n- app/TaskFlow/Presentation/CategoriesPage.xaml\n- app/TaskFlow/Presentation/CategoriesPage.xaml.cs\n- app/TaskFlow/Presentation/CompletedModel.cs\n- app/TaskFlow/Presentation/CompletedPage.xaml\n- app/TaskFlow/Presentation/CompletedPage.xaml.cs\n\nThe app is built and running. The user may ask me to modify it."
+      }
+    ]
+  }
+}

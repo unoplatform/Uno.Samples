@@ -1,0 +1,72 @@
+<Application x:Class="GridWatch.App"
+       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+       xmlns:utus="using:Uno.Toolkit.UI.Simple">
+
+  <Application.Resources>
+    <ResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <!-- Load WinUI resources -->
+        <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
+        <utus:SimpleToolkitTheme xmlns:utus="using:Uno.Toolkit.UI.Simple" />
+      </ResourceDictionary.MergedDictionaries>
+
+      <!-- Add resources here -->
+      <!-- Status semantic brushes -->
+      <SolidColorBrush x:Key="StatusOnlineBrush" Color="#18D96A" />
+      <SolidColorBrush x:Key="StatusWarningBrush" Color="#F59E0B" />
+      <SolidColorBrush x:Key="StatusCriticalBrush" Color="#F5432E" />
+
+      <!-- Severity brushes for alerts -->
+      <SolidColorBrush x:Key="SeverityInfoBrush" Color="#3D98E0" />
+      <SolidColorBrush x:Key="SeverityWarningBrush" Color="#F59E0B" />
+      <SolidColorBrush x:Key="SeverityCriticalBrush" Color="#F5432E" />
+
+      <!-- Card and surface brushes -->
+      <SolidColorBrush x:Key="CardSurfaceBrush" Color="#2A2F38" />
+      <SolidColorBrush x:Key="CardBorderBrush" Color="#343B47" />
+      <SolidColorBrush x:Key="NavSurfaceBrush" Color="#1C2029" />
+      <SolidColorBrush x:Key="PanelHeaderBrush" Color="#23272E" />
+
+      <!-- Typography -->
+      <!-- Brand & text brushes -->
+      <SolidColorBrush x:Key="BrandAccentBrush" Color="#2E8FD6" />
+      <SolidColorBrush x:Key="PrimaryTextBrush" Color="#E2E8F0" />
+      <SolidColorBrush x:Key="SecondaryTextBrush" Color="#8896A8" />
+      <SolidColorBrush x:Key="DividerBrush" Color="#343B47" />
+      <SolidColorBrush x:Key="ChipSurfaceBrush" Color="#1A2535" />
+      <SolidColorBrush x:Key="AlternateRowBrush" Color="#23272E" />
+
+      <!-- Monospace font (system fallback — no custom font file required) -->
+      <FontFamily x:Key="MonoFontFamily">Consolas, Courier New, monospace</FontFamily>
+
+      <!-- Inter font family -->
+      <FontFamily x:Key="InterFontFamily">Inter, Segoe UI, sans-serif</FontFamily>
+
+      <!-- Text brush aliases for consistency across pages -->
+      <SolidColorBrush x:Key="TextPrimaryBrush" Color="#E2E8F0" />
+      <SolidColorBrush x:Key="TextSecondaryBrush" Color="#8896A8" />
+
+      <!-- On-accent foreground for badges/buttons on accent backgrounds -->
+      <SolidColorBrush x:Key="OnAccentBrush" Color="White" />
+
+      <!-- Alert row highlight backgrounds -->
+      <SolidColorBrush x:Key="AlertRowCriticalBrush" Color="#2E1A1A" />
+      <SolidColorBrush x:Key="AlertRowWarningBrush" Color="#2E2A1A" />
+
+      <!-- Delta indicator backgrounds -->
+      <SolidColorBrush x:Key="DeltaUpBgBrush" Color="#1A2E1A" />
+      <SolidColorBrush x:Key="DeltaDownBgBrush" Color="#2E1A1A" />
+      <SolidColorBrush x:Key="DeltaNeutralBgBrush" Color="#1E2430" />
+
+      <!-- Status backgrounds (semi-transparent) -->
+      <SolidColorBrush x:Key="StatusOnlineBackgroundBrush" Color="#3318D96A" />
+      <SolidColorBrush x:Key="StatusWarningBackgroundBrush" Color="#33F59E0B" />
+      <SolidColorBrush x:Key="StatusCriticalBackgroundBrush" Color="#33F5432E" />
+
+      <!-- Background brush for Shell -->
+      <SolidColorBrush x:Key="BackgroundBrush" Color="#111520" />
+    </ResourceDictionary>
+  </Application.Resources>
+
+</Application>

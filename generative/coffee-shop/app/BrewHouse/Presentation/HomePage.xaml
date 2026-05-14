@@ -1,0 +1,285 @@
+<Page x:Class="BrewHouse.Presentation.HomePage"
+      x:Name="PageRoot"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:utu="using:Uno.Toolkit.UI"
+      Background="{ThemeResource CoffeeBackgroundBrush}">
+
+    <utu:SafeArea Insets="VisibleBounds">
+        <ScrollViewer VerticalScrollBarVisibility="Hidden"
+                      VerticalScrollMode="Enabled">
+            <StackPanel Spacing="0">
+
+                <!-- Theme Toggle -->
+                <StackPanel Orientation="Horizontal"
+                            HorizontalAlignment="Right"
+                            Padding="20,12,20,0">
+                    <Button x:Uid="ToggleThemeButton"
+                            Command="{Binding ToggleTheme}"
+                            Background="Transparent"
+                            BorderThickness="0"
+                            Padding="8">
+                        <FontIcon Glyph="&#xE793;"
+                                  FontSize="20"
+                                  Foreground="{ThemeResource CoffeeTextPrimaryBrush}" />
+                    </Button>
+                </StackPanel>
+
+                <!-- Hero Carousel -->
+                <Grid Height="280">
+                    <FlipView x:Uid="HeroCarousel"
+                              ItemsSource="{Binding HeroBanners}">
+                        <FlipView.ItemTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Image Source="{Binding ImageUrl}"
+                                           Stretch="UniformToFill" />
+                                    <Rectangle>
+                                        <Rectangle.Fill>
+                                            <LinearGradientBrush StartPoint="0,0.3" EndPoint="0,1">
+                                                <GradientStop Color="{StaticResource CoffeeHeroOverlayStartColor}" Offset="0.0" />
+                                                <GradientStop Color="{StaticResource CoffeeHeroOverlayEndColor}" Offset="1.0" />
+                                            </LinearGradientBrush>
+                                        </Rectangle.Fill>
+                                    </Rectangle>
+                                    <StackPanel VerticalAlignment="Bottom"
+                                                Padding="24,0,24,32"
+                                                Spacing="6">
+                                        <TextBlock Text="{Binding Title}"
+                                                   FontSize="26"
+                                                   FontWeight="Bold"
+                                                   Foreground="{ThemeResource CoffeeOnPrimaryBrush}"
+                                                   TextWrapping="Wrap" />
+                                        <TextBlock Text="{Binding Subtitle}"
+                                                   FontSize="13"
+                                                   Foreground="{ThemeResource CoffeeHeroSubtitleBrush}"
+                                                   TextWrapping="Wrap" />
+                                        <Button x:Uid="OrderNowButton"
+                                                Background="{ThemeResource CoffeePrimaryBrush}"
+                                                Foreground="{ThemeResource CoffeeOnPrimaryBrush}"
+                                                CornerRadius="12"
+                                                Padding="20,10"
+                                                FontWeight="SemiBold"
+                                                FontSize="14"
+                                                HorizontalAlignment="Left"
+                                                Margin="0,6,0,0"
+                                                Command="{Binding DataContext.GoToMenu, ElementName=PageRoot}" />
+                                    </StackPanel>
+                                </Grid>
+                            </DataTemplate>
+                        </FlipView.ItemTemplate>
+                    </FlipView>
+                </Grid>
+
+                <!-- Today's Specials Section -->
+                <StackPanel Spacing="0" Background="{ThemeResource CoffeeBackgroundBrush}">
+
+                    <StackPanel Padding="20,20,20,10" Spacing="4">
+                        <TextBlock x:Uid="TodaysSpecials_Title"
+                                   Style="{StaticResource SectionTitleTextBlockStyle}" />
+                        <TextBlock x:Uid="TodaysSpecials_Subtitle"
+                                   Style="{StaticResource CaptionTextBlockStyle}" />
+                    </StackPanel>
+
+                    <!-- Specials Horizontal Scroll -->
+                    <ScrollViewer HorizontalScrollBarVisibility="Hidden"
+                                  VerticalScrollBarVisibility="Disabled"
+                                  HorizontalScrollMode="Enabled"
+                                  Padding="20,0,20,4">
+                        <ItemsControl ItemsSource="{Binding Specials}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Horizontal" Spacing="14" />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Width="158"
+                                            Background="{ThemeResource CoffeeSurfaceBrush}"
+                                            CornerRadius="16"
+                                            BorderBrush="{ThemeResource CoffeeSubtleOverlayBrush}"
+                                            BorderThickness="1">
+                                        <StackPanel Spacing="0">
+                                            <Border CornerRadius="16,16,0,0"
+                                                    Height="112">
+                                                <Image Source="{Binding ImageUrl}"
+                                                       Stretch="UniformToFill"
+                                                       Height="112" />
+                                            </Border>
+                                            <StackPanel Padding="10,10,10,12" Spacing="4">
+                                                <TextBlock Text="{Binding Name}"
+                                                           FontSize="14"
+                                                           FontWeight="SemiBold"
+                                                           Foreground="{ThemeResource CoffeeTextPrimaryBrush}"
+                                                           TextTrimming="CharacterEllipsis" />
+                                                <TextBlock Style="{StaticResource PriceTextBlockStyle}"
+                                                           FontSize="13">
+                                                    <Run Text="$" />
+                                                    <Run Text="{Binding PriceFormatted}" />
+                                                </TextBlock>
+                                                <Button x:Uid="AddToCartButton"
+                                                        Background="{ThemeResource CoffeePrimaryBrush}"
+                                                        Foreground="{ThemeResource CoffeeOnPrimaryBrush}"
+                                                        CornerRadius="10"
+                                                        Padding="0,7"
+                                                        FontSize="12"
+                                                        FontWeight="SemiBold"
+                                                        HorizontalAlignment="Stretch"
+                                                        Margin="0,4,0,0"
+                                                        Command="{Binding DataContext.AddToCart, ElementName=PageRoot}"
+                                                        CommandParameter="{Binding}" />
+                                            </StackPanel>
+                                        </StackPanel>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </ScrollViewer>
+
+                    <!-- Featured Products -->
+                    <StackPanel Padding="20,4,20,0" Spacing="10">
+                        <TextBlock x:Uid="FeaturedProducts_Title"
+                                   Style="{StaticResource SectionTitleTextBlockStyle}" />
+
+                        <ItemsControl ItemsSource="{Binding FeaturedProducts}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Spacing="12" />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Background="{ThemeResource CoffeeSurfaceBrush}"
+                                            CornerRadius="16"
+                                            BorderBrush="{ThemeResource CoffeeSubtleOverlayBrush}"
+                                            BorderThickness="1">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="104" />
+                                                <ColumnDefinition />
+                                            </Grid.ColumnDefinitions>
+                                            <Border Grid.Column="0"
+                                                    CornerRadius="16,0,0,16"
+                                                    Height="104">
+                                                <Image Source="{Binding ImageUrl}"
+                                                       Stretch="UniformToFill"
+                                                       Width="104"
+                                                       Height="104" />
+                                            </Border>
+                                            <StackPanel Grid.Column="1"
+                                                        Padding="14"
+                                                        Spacing="3"
+                                                        VerticalAlignment="Center">
+                                                <TextBlock Text="{Binding Name}"
+                                                           Style="{StaticResource ItemTitleTextBlockStyle}" />
+                                                <TextBlock Text="{Binding Description}"
+                                                           Style="{StaticResource SmallCaptionTextBlockStyle}"
+                                                           TextWrapping="Wrap"
+                                                           MaxLines="2"
+                                                           TextTrimming="CharacterEllipsis" />
+                                                <StackPanel Orientation="Horizontal"
+                                                            Spacing="10"
+                                                            Margin="0,6,0,0"
+                                                            VerticalAlignment="Center">
+                                                    <TextBlock Style="{StaticResource PriceTextBlockStyle}"
+                                                               VerticalAlignment="Center">
+                                                        <Run Text="$" />
+                                                        <Run Text="{Binding PriceFormatted}" />
+                                                    </TextBlock>
+                                                    <Button x:Uid="AddButton"
+                                                            Background="{ThemeResource CoffeePrimaryBrush}"
+                                                            Foreground="{ThemeResource CoffeeOnPrimaryBrush}"
+                                                            CornerRadius="10"
+                                                            Padding="14,7"
+                                                            FontSize="13"
+                                                            FontWeight="SemiBold"
+                                                            Command="{Binding DataContext.AddToCart, ElementName=PageRoot}"
+                                                            CommandParameter="{Binding}" />
+                                                </StackPanel>
+                                            </StackPanel>
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
+
+                    <!-- Cart Summary Strip (visible when cart has items) -->
+                    <Border Visibility="{Binding Cart.HasItems}"
+                            Background="{ThemeResource CoffeePrimaryBrush}"
+                            CornerRadius="16"
+                            Margin="20,20,20,4"
+                            Padding="18,14">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Grid.Column="0" Spacing="2" VerticalAlignment="Center">
+                                <TextBlock FontSize="12"
+                                           Foreground="{ThemeResource CoffeeHeroSubtitleBrush}">
+                                    <Run Text="{Binding Cart.ItemCount}" />
+                                    <Run x:Uid="CartStripItemsLabel" />
+                                </TextBlock>
+                                <TextBlock FontSize="17"
+                                           FontWeight="Bold"
+                                           Foreground="{ThemeResource CoffeeOnPrimaryBrush}">
+                                    <Run x:Uid="CartStripTotalPrefix" />
+                                    <Run Text="{Binding Cart.TotalFormatted}" />
+                                </TextBlock>
+                            </StackPanel>
+                            <Button x:Uid="ViewCartButton"
+                                    Grid.Column="1"
+                                    Background="{ThemeResource CoffeeSurfaceBrush}"
+                                    Foreground="{ThemeResource CoffeePrimaryBrush}"
+                                    CornerRadius="10"
+                                    Padding="16,9"
+                                    FontWeight="SemiBold"
+                                    FontSize="13"
+                                    Command="{Binding GoToCart}" />
+                        </Grid>
+                    </Border>
+
+                    <!-- Empty Cart State -->
+                    <Border Visibility="{Binding Cart.IsEmpty}"
+                            Background="{ThemeResource CoffeeSurfaceBrush}"
+                            CornerRadius="16"
+                            Margin="20,20,20,4"
+                            Padding="24,28"
+                            BorderBrush="{ThemeResource CoffeeSubtleOverlayBrush}"
+                            BorderThickness="1">
+                        <StackPanel HorizontalAlignment="Center"
+                                    Spacing="10">
+                            <TextBlock Text="&#x2615;"
+                                       FontSize="52"
+                                       HorizontalAlignment="Center" />
+                            <TextBlock x:Uid="EmptyCartTitle"
+                                       Style="{StaticResource CardTitleTextBlockStyle}"
+                                       HorizontalAlignment="Center" />
+                            <TextBlock x:Uid="EmptyCartSubtitle"
+                                       Style="{StaticResource CaptionTextBlockStyle}"
+                                       HorizontalAlignment="Center"
+                                       TextAlignment="Center"
+                                       TextWrapping="Wrap"
+                                       MaxWidth="240" />
+                            <Button x:Uid="BrowseMenuButton"
+                                    Background="{ThemeResource CoffeePrimaryBrush}"
+                                    Foreground="{ThemeResource CoffeeOnPrimaryBrush}"
+                                    CornerRadius="12"
+                                    Padding="28,11"
+                                    FontWeight="SemiBold"
+                                    FontSize="14"
+                                    HorizontalAlignment="Center"
+                                    Margin="0,6,0,0"
+                                    Command="{Binding GoToMenu}" />
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Bottom padding -->
+                    <Border Height="24" Background="Transparent" />
+
+                </StackPanel>
+            </StackPanel>
+        </ScrollViewer>
+    </utu:SafeArea>
+</Page>

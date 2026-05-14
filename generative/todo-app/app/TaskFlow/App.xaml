@@ -1,0 +1,107 @@
+<Application x:Class="TaskFlow.App"
+       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+       xmlns:utus="using:Uno.Toolkit.UI.Simple">
+
+  <Application.Resources>
+    <ResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <!-- Load WinUI resources -->
+        <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
+        <utus:SimpleToolkitTheme xmlns:utus="using:Uno.Toolkit.UI.Simple" />
+      </ResourceDictionary.MergedDictionaries>
+
+      <ResourceDictionary.ThemeDictionaries>
+        <ResourceDictionary x:Key="Light">
+          <!-- Brand palette - Light -->
+          <SolidColorBrush x:Key="TaskPrimaryBrush" Color="#FF3F51B5" />
+          <SolidColorBrush x:Key="TaskAccentBrush" Color="#FF5C6BC0" />
+          <SolidColorBrush x:Key="TaskBackgroundBrush" Color="#FFF5F5FA" />
+          <SolidColorBrush x:Key="TaskSurfaceBrush" Color="#FFFFFFFF" />
+          <SolidColorBrush x:Key="TaskOnPrimaryBrush" Color="#FFFFFFFF" />
+          <SolidColorBrush x:Key="TaskTextPrimaryBrush" Color="#FF1A1A2E" />
+          <SolidColorBrush x:Key="TaskTextSecondaryBrush" Color="#FF6B7280" />
+          <SolidColorBrush x:Key="TaskChipBackgroundBrush" Color="#FFEEF0F8" />
+          <SolidColorBrush x:Key="TaskDividerBrush" Color="#FFE5E7EB" />
+          <SolidColorBrush x:Key="TaskSubtleOverlayBrush" Color="#10000000" />
+          <SolidColorBrush x:Key="TaskSuccessBrush" Color="#FF10B981" />
+          <SolidColorBrush x:Key="TaskSuccessBgBrush" Color="#FFECFDF5" />
+          <SolidColorBrush x:Key="TaskWarningBrush" Color="#FFF59E0B" />
+          <SolidColorBrush x:Key="TaskWarningBgBrush" Color="#FFFFFBEB" />
+          <SolidColorBrush x:Key="PriorityHighBrush" Color="#FFEF4444" />
+          <SolidColorBrush x:Key="PriorityMediumBrush" Color="#FFF59E0B" />
+          <SolidColorBrush x:Key="PriorityLowBrush" Color="#FF6B7280" />
+          <SolidColorBrush x:Key="CategoryWorkBrush" Color="#FF3B82F6" />
+          <SolidColorBrush x:Key="CategoryPersonalBrush" Color="#FF8B5CF6" />
+          <SolidColorBrush x:Key="CategoryShoppingBrush" Color="#FFF97316" />
+          <SolidColorBrush x:Key="CategoryHealthBrush" Color="#FF10B981" />
+        </ResourceDictionary>
+        <ResourceDictionary x:Key="Dark">
+          <!-- Brand palette - Dark -->
+          <SolidColorBrush x:Key="TaskPrimaryBrush" Color="#FF7986CB" />
+          <SolidColorBrush x:Key="TaskAccentBrush" Color="#FF9FA8DA" />
+          <SolidColorBrush x:Key="TaskBackgroundBrush" Color="#FF121218" />
+          <SolidColorBrush x:Key="TaskSurfaceBrush" Color="#FF1E1E2E" />
+          <SolidColorBrush x:Key="TaskOnPrimaryBrush" Color="#FFFFFFFF" />
+          <SolidColorBrush x:Key="TaskTextPrimaryBrush" Color="#FFE2E8F0" />
+          <SolidColorBrush x:Key="TaskTextSecondaryBrush" Color="#FF94A3B8" />
+          <SolidColorBrush x:Key="TaskChipBackgroundBrush" Color="#FF2A2A3E" />
+          <SolidColorBrush x:Key="TaskDividerBrush" Color="#FF334155" />
+          <SolidColorBrush x:Key="TaskSubtleOverlayBrush" Color="#10FFFFFF" />
+          <SolidColorBrush x:Key="TaskSuccessBrush" Color="#FF34D399" />
+          <SolidColorBrush x:Key="TaskSuccessBgBrush" Color="#FF0D2818" />
+          <SolidColorBrush x:Key="TaskWarningBrush" Color="#FFFBBF24" />
+          <SolidColorBrush x:Key="TaskWarningBgBrush" Color="#FF2E2810" />
+          <SolidColorBrush x:Key="PriorityHighBrush" Color="#FFEF4444" />
+          <SolidColorBrush x:Key="PriorityMediumBrush" Color="#FFFBBF24" />
+          <SolidColorBrush x:Key="PriorityLowBrush" Color="#FF94A3B8" />
+          <SolidColorBrush x:Key="CategoryWorkBrush" Color="#FF60A5FA" />
+          <SolidColorBrush x:Key="CategoryPersonalBrush" Color="#FFA78BFA" />
+          <SolidColorBrush x:Key="CategoryShoppingBrush" Color="#FFFB923C" />
+          <SolidColorBrush x:Key="CategoryHealthBrush" Color="#FF34D399" />
+        </ResourceDictionary>
+      </ResourceDictionary.ThemeDictionaries>
+
+      <!-- Typography styles -->
+      <Style x:Key="PageTitleTextBlockStyle" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="28" />
+        <Setter Property="FontWeight" Value="Bold" />
+        <Setter Property="Foreground" Value="{ThemeResource TaskTextPrimaryBrush}" />
+      </Style>
+      <Style x:Key="SectionTitleTextBlockStyle" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="20" />
+        <Setter Property="FontWeight" Value="Bold" />
+        <Setter Property="Foreground" Value="{ThemeResource TaskTextPrimaryBrush}" />
+      </Style>
+      <Style x:Key="CardTitleTextBlockStyle" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="18" />
+        <Setter Property="FontWeight" Value="Bold" />
+        <Setter Property="Foreground" Value="{ThemeResource TaskTextPrimaryBrush}" />
+      </Style>
+      <Style x:Key="ItemTitleTextBlockStyle" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="Foreground" Value="{ThemeResource TaskTextPrimaryBrush}" />
+      </Style>
+      <Style x:Key="BodyTextBlockStyle" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="Foreground" Value="{ThemeResource TaskTextSecondaryBrush}" />
+      </Style>
+      <Style x:Key="CaptionTextBlockStyle" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="13" />
+        <Setter Property="Foreground" Value="{ThemeResource TaskTextSecondaryBrush}" />
+      </Style>
+      <Style x:Key="SmallCaptionTextBlockStyle" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="Foreground" Value="{ThemeResource TaskTextSecondaryBrush}" />
+      </Style>
+      <Style x:Key="StatNumberTextBlockStyle" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="32" />
+        <Setter Property="FontWeight" Value="Bold" />
+        <Setter Property="Foreground" Value="{ThemeResource TaskPrimaryBrush}" />
+      </Style>
+
+    </ResourceDictionary>
+  </Application.Resources>
+
+</Application>
