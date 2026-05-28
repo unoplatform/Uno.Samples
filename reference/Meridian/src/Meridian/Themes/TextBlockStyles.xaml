@@ -1,0 +1,67 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- Hero display: Instrument Serif 62px for portfolio value -->
+    <Style x:Key="HeroValue" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource InstrumentSerifFont}" />
+        <Setter Property="FontSize" Value="62" />
+        <Setter Property="Foreground" Value="{StaticResource MeridianTextPrimaryBrush}" />
+        <Setter Property="LineHeight" Value="68" />
+    </Style>
+
+    <!-- Mono financial numbers: IBM Plex Mono for prices -->
+    <Style x:Key="MonoPrice" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource IBMPlexMonoMediumFont}" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="Foreground" Value="{StaticResource MeridianTextPrimaryBrush}" />
+    </Style>
+
+    <!-- Mono small: IBM Plex Mono for timestamps, axis labels -->
+    <Style x:Key="MonoSmall" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource IBMPlexMonoFont}" />
+        <Setter Property="FontSize" Value="10" />
+        <Setter Property="Foreground" Value="{StaticResource MeridianTextSubtleBrush}" />
+    </Style>
+
+    <!-- Section label: 11px Outfit SemiBold, uppercase, 120 char-spacing, muted -->
+    <Style x:Key="SectionLabel" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource OutfitFont}" />
+        <Setter Property="FontSize" Value="11" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="Foreground" Value="{StaticResource MeridianTextMutedBrush}" />
+        <Setter Property="CharacterSpacing" Value="120" />
+    </Style>
+
+    <!-- Mono large: IBM Plex Mono 18px for stock detail price -->
+    <Style x:Key="MonoLarge" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource IBMPlexMonoMediumFont}" />
+        <Setter Property="FontSize" Value="18" />
+        <Setter Property="Foreground" Value="{StaticResource MeridianTextPrimaryBrush}" />
+    </Style>
+
+    <!-- Serif title: Instrument Serif 24px for drawer header -->
+    <Style x:Key="SerifTitle" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource InstrumentSerifFont}" />
+        <Setter Property="FontSize" Value="24" />
+        <Setter Property="Foreground" Value="{StaticResource MeridianTextPrimaryBrush}" />
+    </Style>
+
+    <!-- Metadata label: 12px Outfit, muted (About card) -->
+    <Style x:Key="MetaLabel" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource OutfitFont}" />
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="FontWeight" Value="Medium" />
+        <Setter Property="Foreground" Value="{StaticResource MeridianTextMutedBrush}" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+
+    <!-- Metadata value: 13px Outfit, text primary (About card) -->
+    <Style x:Key="MetaValue" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource OutfitFont}" />
+        <Setter Property="FontSize" Value="13" />
+        <Setter Property="FontWeight" Value="Medium" />
+        <Setter Property="Foreground" Value="{StaticResource MeridianTextPrimaryBrush}" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+
+</ResourceDictionary>

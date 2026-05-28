@@ -1,0 +1,156 @@
+<Page x:Class="Pens.Presentation.ChatPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:utu="using:Uno.Toolkit.UI"
+      Background="{StaticResource ArenaDarkBrush}">
+
+  <Grid Padding="20"
+        MaxWidth="{StaticResource PageContentMaxWidth}"
+        HorizontalAlignment="Center">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="*" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+    </Grid.RowDefinitions>
+
+    <!-- Section Title -->
+    <TextBlock x:Uid="ChatPage_Title"
+               Grid.Row="0"
+               Text="TEAM CHAT"
+               Style="{StaticResource SectionTitleTextStyle}"
+               AutomationProperties.HeadingLevel="Level2"
+               Margin="0,0,0,16" />
+
+    <!-- Messages area (with loading / empty overlays) -->
+    <Grid Grid.Row="1">
+      <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <ItemsRepeater ItemsSource="{Binding Messages}">
+          <ItemsRepeater.Layout>
+            <StackLayout Spacing="16" />
+          </ItemsRepeater.Layout>
+          <ItemsRepeater.ItemTemplate>
+            <DataTemplate>
+              <StackPanel>
+                <!-- Message Header -->
+                <utu:AutoLayout Orientation="Horizontal" Spacing="8">
+                  <!-- Avatar -->
+                  <Border Width="28" Height="28"
+                          CornerRadius="6"
+                          Background="{StaticResource PowderBlueGradientBrush}">
+                    <TextBlock Text="{Binding Initials}"
+                               Style="{StaticResource AvatarInitialsTextStyle}" />
+                  </Border>
+
+                  <!-- Sender Name -->
+                  <TextBlock Text="{Binding Sender}"
+                             Style="{StaticResource SenderNameTextStyle}"
+                             VerticalAlignment="Center" />
+
+                  <!-- Spacer -->
+                  <Border HorizontalAlignment="Stretch" />
+
+                  <!-- Timestamp -->
+                  <TextBlock Text="{Binding Time}"
+                             Style="{StaticResource LabelTextStyle}"
+                             CharacterSpacing="0"
+                             VerticalAlignment="Center" />
+                </utu:AutoLayout>
+
+                <!-- Message Bubble -->
+                <Border Background="{StaticResource BoardsMidBrush}"
+                        Padding="12,12,16,12"
+                        CornerRadius="4,16,16,16"
+                        BorderBrush="{StaticResource CardBorderBrush}"
+                        BorderThickness="1"
+                        Margin="36,6,0,0">
+                  <TextBlock Text="{Binding Message}"
+                             Style="{StaticResource BodyDefaultTextStyle}"
+                             TextWrapping="Wrap" />
+                </Border>
+              </StackPanel>
+            </DataTemplate>
+          </ItemsRepeater.ItemTemplate>
+        </ItemsRepeater>
+      </ScrollViewer>
+
+      <!-- Loading state -->
+      <Border Visibility="{Binding IsLoading, Converter={StaticResource BoolToVisibilityConverter}}"
+              Background="{StaticResource ArenaDarkBrush}"
+              AutomationProperties.Name="Loading messages">
+        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Spacing="16">
+          <ProgressRing IsActive="{Binding IsLoading}" Width="44" Height="44"
+                        Foreground="{StaticResource PowderBlueBrush}" />
+          <TextBlock x:Uid="ChatPage_Loading" Text="Loading messages…"
+                     Style="{StaticResource CaptionTextStyle}"
+                     HorizontalAlignment="Center" />
+        </StackPanel>
+      </Border>
+
+      <!-- Empty state -->
+      <Border Visibility="{Binding IsEmpty, Converter={StaticResource BoolToVisibilityConverter}}"
+              Background="{StaticResource ArenaDarkBrush}"
+              AutomationProperties.Name="No messages yet">
+        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Spacing="8" Padding="32">
+          <FontIcon Glyph="&#xE8BD;" FontSize="40"
+                    Foreground="{StaticResource TextMutedBrush}"
+                    HorizontalAlignment="Center" />
+          <TextBlock x:Uid="ChatPage_Empty" Text="No messages yet"
+                     Style="{StaticResource BodyTextStyle}"
+                     HorizontalAlignment="Center" />
+          <TextBlock x:Uid="ChatPage_EmptyHint" Text="Be the first to say something to the team."
+                     Style="{StaticResource CaptionTextStyle}"
+                     TextWrapping="Wrap" TextAlignment="Center"
+                     HorizontalAlignment="Center" />
+        </StackPanel>
+      </Border>
+    </Grid>
+
+    <!-- Error banner (does not hide the conversation; e.g. send failures) -->
+    <Border Grid.Row="2"
+            Visibility="{Binding HasError, Converter={StaticResource BoolToVisibilityConverter}}"
+            Background="{StaticResource HotRedSubtleBrush}"
+            BorderBrush="{StaticResource HotRedBorderBrush}"
+            BorderThickness="1"
+            CornerRadius="{StaticResource MediumCornerRadius}"
+            Padding="12,8"
+            Margin="0,8,0,0">
+      <TextBlock Text="{Binding ErrorMessage}"
+                 Style="{StaticResource CaptionTextStyle}"
+                 Foreground="{StaticResource HotRedBrush}"
+                 TextWrapping="Wrap"
+                 AutomationProperties.LiveSetting="Assertive" />
+    </Border>
+
+    <!-- Chat Input Area -->
+    <Border Grid.Row="3"
+            BorderBrush="{StaticResource SubtleBorderBrush}"
+            BorderThickness="0,1,0,0"
+            Padding="0,16,0,0"
+            Margin="0,16,0,16">
+      <utu:AutoLayout Orientation="Horizontal" Spacing="10">
+        <!-- Text Input -->
+        <TextBox x:Uid="ChatPage_MessageInput"
+                 Text="{Binding MessageText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                 PlaceholderText="Type a message..."
+                 Background="{StaticResource BoardsDarkBrush}"
+                 BorderBrush="{StaticResource SubtleBorderBrush}"
+                 Foreground="{StaticResource TextPrimaryBrush}"
+                 utu:AutoLayout.PrimaryAlignment="Stretch"
+                 Padding="14,14,18,14"
+                 AutomationProperties.Name="Message input, type your message to the team" />
+
+        <!-- Send Button -->
+        <Button Command="{Binding SendMessageCommand}"
+                Width="50" Height="50"
+                Background="{StaticResource PowderBlueGradientBrush}"
+                CornerRadius="{StaticResource CardCornerRadius}"
+                Padding="0"
+                AutomationProperties.Name="Send message">
+          <SymbolIcon Symbol="Send"
+                      Foreground="{StaticResource ArenaDarkBrush}" />
+        </Button>
+      </utu:AutoLayout>
+    </Border>
+  </Grid>
+</Page>

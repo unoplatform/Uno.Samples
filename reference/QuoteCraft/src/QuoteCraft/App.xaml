@@ -1,0 +1,394 @@
+<Application x:Class="QuoteCraft.App"
+       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+       xmlns:helpers="using:QuoteCraft.Helpers"
+       xmlns:utu="using:Uno.Toolkit.UI"
+       xmlns:utum="using:Uno.Toolkit.UI.Material">
+
+  <Application.Resources>
+    <ResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
+        <utum:MaterialToolkitTheme
+          ColorOverrideSource="ms-appx:///Styles/ColorPaletteOverride.xaml"
+          FontOverrideSource="ms-appx:///Styles/FontOverride.xaml">
+        </utum:MaterialToolkitTheme>
+        <ResourceDictionary Source="ms-appx:///Styles/StatusColors.xaml" />
+      </ResourceDictionary.MergedDictionaries>
+
+      <ResourceDictionary.ThemeDictionaries>
+        <ResourceDictionary x:Key="Light">
+          <Color x:Key="AlternateRowColor">#FAFBFC</Color>
+          <SolidColorBrush x:Key="AlternateRowBrush" Color="{StaticResource AlternateRowColor}" />
+          <Color x:Key="SuccessColor">#16A34A</Color>
+          <SolidColorBrush x:Key="SuccessBrush" Color="{StaticResource SuccessColor}" />
+        </ResourceDictionary>
+        <ResourceDictionary x:Key="Dark">
+          <Color x:Key="AlternateRowColor">#1A2332</Color>
+          <SolidColorBrush x:Key="AlternateRowBrush" Color="{StaticResource AlternateRowColor}" />
+          <Color x:Key="SuccessColor">#4ADE80</Color>
+          <SolidColorBrush x:Key="SuccessBrush" Color="{StaticResource SuccessColor}" />
+        </ResourceDictionary>
+      </ResourceDictionary.ThemeDictionaries>
+
+      <!-- DM Sans Font Families (override Material theme defaults) -->
+      <FontFamily x:Key="MaterialLightFontFamily">ms-appx:///Assets/Fonts/DMSans-Regular.ttf#DM Sans</FontFamily>
+      <FontFamily x:Key="MaterialRegularFontFamily">ms-appx:///Assets/Fonts/DMSans-Regular.ttf#DM Sans</FontFamily>
+      <FontFamily x:Key="MaterialMediumFontFamily">ms-appx:///Assets/Fonts/DMSans-Medium.ttf#DM Sans Medium</FontFamily>
+
+      <!-- Bold/SemiBold typography variants (derived from Material styles) -->
+      <Style x:Key="HeadlineMediumBold" TargetType="TextBlock" BasedOn="{StaticResource HeadlineMedium}">
+        <Setter Property="FontWeight" Value="Bold" />
+      </Style>
+      <Style x:Key="HeadlineSmallBold" TargetType="TextBlock" BasedOn="{StaticResource HeadlineSmall}">
+        <Setter Property="FontWeight" Value="Bold" />
+      </Style>
+      <Style x:Key="TitleLargeBold" TargetType="TextBlock" BasedOn="{StaticResource TitleLarge}">
+        <Setter Property="FontWeight" Value="Bold" />
+      </Style>
+      <Style x:Key="TitleMediumBold" TargetType="TextBlock" BasedOn="{StaticResource TitleMedium}">
+        <Setter Property="FontWeight" Value="Bold" />
+      </Style>
+      <Style x:Key="LabelLargeSemiBold" TargetType="TextBlock" BasedOn="{StaticResource LabelLarge}">
+        <Setter Property="FontWeight" Value="SemiBold" />
+      </Style>
+      <Style x:Key="BodyMediumWeightMedium" TargetType="TextBlock" BasedOn="{StaticResource BodyMedium}">
+        <Setter Property="FontWeight" Value="Medium" />
+      </Style>
+      <Style x:Key="BodyMediumSemiBold" TargetType="TextBlock" BasedOn="{StaticResource BodyMedium}">
+        <Setter Property="FontWeight" Value="SemiBold" />
+      </Style>
+      <Style x:Key="BodySmallSemiBold" TargetType="TextBlock" BasedOn="{StaticResource BodySmall}">
+        <Setter Property="FontWeight" Value="SemiBold" />
+      </Style>
+
+      <!-- Value Converters -->
+      <helpers:StatusBackgroundConverter x:Key="StatusBackgroundConverter" />
+      <helpers:StatusForegroundConverter x:Key="StatusForegroundConverter" />
+      <helpers:CurrencyFormatConverter x:Key="CurrencyFormatConverter" />
+      <helpers:RelativeDateConverter x:Key="RelativeDateConverter" />
+      <helpers:InitialsConverter x:Key="InitialsConverter" />
+      <helpers:EmptyToVisibleConverter x:Key="EmptyToVisibleConverter" />
+      <helpers:UpperCaseConverter x:Key="UpperCaseConverter" />
+      <helpers:ShortDateConverter x:Key="ShortDateConverter" />
+      <helpers:InverseBoolConverter x:Key="InverseBoolConverter" />
+      <helpers:StatusIconConverter x:Key="StatusIconConverter" />
+      <helpers:StepVisibilityConverter x:Key="StepVisibilityConverter" />
+      <helpers:ChevronConverter x:Key="ChevronConverter" />
+      <helpers:PluralConverter x:Key="PluralConverter" />
+
+      <!-- Scrim Overlay -->
+      <SolidColorBrush x:Key="ScrimBrush" Color="#80000000" />
+
+      <!-- App Bar Colors -->
+      <Color x:Key="AppBarBackgroundColor">#2B4C7E</Color>
+      <SolidColorBrush x:Key="AppBarBackgroundBrush" Color="{StaticResource AppBarBackgroundColor}" />
+      <Color x:Key="AppBarForegroundColor">#FFFFFF</Color>
+      <SolidColorBrush x:Key="AppBarForegroundBrush" Color="{StaticResource AppBarForegroundColor}" />
+      <Color x:Key="AppBarAccentColor">#F59E0B</Color>
+      <SolidColorBrush x:Key="AppBarAccentBrush" Color="{StaticResource AppBarAccentColor}" />
+      <Color x:Key="AppBarButtonBackgroundColor">#26FFFFFF</Color>
+      <SolidColorBrush x:Key="AppBarButtonBackgroundBrush" Color="{StaticResource AppBarButtonBackgroundColor}" />
+
+      <!-- Upgrade Banner Colors -->
+      <Color x:Key="UpgradeBannerStartColor">#2B4C7E</Color>
+      <Color x:Key="UpgradeBannerEndColor">#1A365D</Color>
+      <Color x:Key="UpgradeBannerSubtitleColor">#B0C4DE</Color>
+      <SolidColorBrush x:Key="UpgradeBannerSubtitleBrush" Color="{StaticResource UpgradeBannerSubtitleColor}" />
+
+      <!-- Accent Hover / Pressed Colors -->
+      <Color x:Key="AppBarAccentHoverColor">#D97706</Color>
+      <SolidColorBrush x:Key="AppBarAccentHoverBrush" Color="{StaticResource AppBarAccentHoverColor}" />
+      <Color x:Key="AppBarAccentPressedColor">#B45309</Color>
+      <SolidColorBrush x:Key="AppBarAccentPressedBrush" Color="{StaticResource AppBarAccentPressedColor}" />
+
+      <!-- Interaction State Tokens (pill button hover/pressed) -->
+      <Color x:Key="AppBarButtonHoverColor">#40FFFFFF</Color>
+      <SolidColorBrush x:Key="AppBarButtonHoverBrush" Color="{StaticResource AppBarButtonHoverColor}" />
+      <Color x:Key="AppBarButtonPressedColor">#1AFFFFFF</Color>
+      <SolidColorBrush x:Key="AppBarButtonPressedBrush" Color="{StaticResource AppBarButtonPressedColor}" />
+
+      <!-- Monospace Font -->
+      <FontFamily x:Key="MonospaceFontFamily">ms-appx:///Assets/Fonts/JetBrainsMono-Regular.ttf#JetBrains Mono</FontFamily>
+
+      <!-- Accent Button Style (orange with darker hover/pressed) -->
+      <Style x:Key="AccentButtonStyle" TargetType="Button">
+        <Setter Property="Background" Value="{StaticResource AppBarAccentBrush}" />
+        <Setter Property="Foreground" Value="{StaticResource AppBarBackgroundBrush}" />
+        <Setter Property="CornerRadius" Value="8" />
+        <Setter Property="Padding" Value="20,10" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Template">
+          <Setter.Value>
+            <ControlTemplate TargetType="Button">
+              <Border x:Name="RootBorder"
+                      Background="{TemplateBinding Background}"
+                      BorderBrush="{TemplateBinding BorderBrush}"
+                      BorderThickness="{TemplateBinding BorderThickness}"
+                      CornerRadius="{TemplateBinding CornerRadius}"
+                      Padding="{TemplateBinding Padding}">
+                <VisualStateManager.VisualStateGroups>
+                  <VisualStateGroup x:Name="CommonStates">
+                    <VisualState x:Name="Normal" />
+                    <VisualState x:Name="PointerOver">
+                      <Storyboard>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootBorder"
+                                                       Storyboard.TargetProperty="Background">
+                          <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource AppBarAccentHoverBrush}" />
+                        </ObjectAnimationUsingKeyFrames>
+                      </Storyboard>
+                    </VisualState>
+                    <VisualState x:Name="Pressed">
+                      <Storyboard>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootBorder"
+                                                       Storyboard.TargetProperty="Background">
+                          <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource AppBarAccentPressedBrush}" />
+                        </ObjectAnimationUsingKeyFrames>
+                      </Storyboard>
+                    </VisualState>
+                    <VisualState x:Name="Disabled">
+                      <Storyboard>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootBorder"
+                                                       Storyboard.TargetProperty="Opacity">
+                          <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="0.4" />
+                        </ObjectAnimationUsingKeyFrames>
+                      </Storyboard>
+                    </VisualState>
+                  </VisualStateGroup>
+                </VisualStateManager.VisualStateGroups>
+                <ContentPresenter Content="{TemplateBinding Content}"
+                                  ContentTemplate="{TemplateBinding ContentTemplate}"
+                                  HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                  VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
+              </Border>
+            </ControlTemplate>
+          </Setter.Value>
+        </Setter>
+      </Style>
+
+      <!-- Inline TextBox Style (compact, no Material chrome, with focus states) -->
+      <Style x:Key="InlineTextBoxStyle" TargetType="TextBox">
+        <Setter Property="MinHeight" Value="0" />
+        <Setter Property="MinWidth" Value="0" />
+        <Setter Property="Padding" Value="8,4" />
+        <Setter Property="BorderThickness" Value="0,0,0,1" />
+        <Setter Property="BorderBrush" Value="Transparent" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Foreground" Value="{ThemeResource OnSurfaceBrush}" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Template">
+          <Setter.Value>
+            <ControlTemplate TargetType="TextBox">
+              <Border x:Name="RootBorder"
+                      Background="{TemplateBinding Background}"
+                      BorderBrush="{TemplateBinding BorderBrush}"
+                      BorderThickness="{TemplateBinding BorderThickness}"
+                      Padding="{TemplateBinding Padding}"
+                      CornerRadius="4">
+                <VisualStateManager.VisualStateGroups>
+                  <VisualStateGroup x:Name="CommonStates">
+                    <VisualState x:Name="Normal" />
+                    <VisualState x:Name="PointerOver">
+                      <Storyboard>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootBorder"
+                                                       Storyboard.TargetProperty="BorderBrush">
+                          <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource OnSurfaceVariantBrush}" />
+                        </ObjectAnimationUsingKeyFrames>
+                      </Storyboard>
+                    </VisualState>
+                    <VisualState x:Name="Focused">
+                      <Storyboard>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootBorder"
+                                                       Storyboard.TargetProperty="BorderBrush">
+                          <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource PrimaryBrush}" />
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootBorder"
+                                                       Storyboard.TargetProperty="BorderThickness">
+                          <DiscreteObjectKeyFrame KeyTime="0" Value="0,0,0,2" />
+                        </ObjectAnimationUsingKeyFrames>
+                      </Storyboard>
+                    </VisualState>
+                    <VisualState x:Name="Disabled">
+                      <Storyboard>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootBorder"
+                                                       Storyboard.TargetProperty="Opacity">
+                          <DiscreteObjectKeyFrame KeyTime="0" Value="0.4" />
+                        </ObjectAnimationUsingKeyFrames>
+                      </Storyboard>
+                    </VisualState>
+                  </VisualStateGroup>
+                </VisualStateManager.VisualStateGroups>
+                <ScrollViewer x:Name="ContentElement"
+                              HorizontalScrollBarVisibility="Hidden"
+                              VerticalScrollBarVisibility="Hidden"
+                              HorizontalScrollMode="Auto"
+                              VerticalScrollMode="Disabled"
+                              IsHorizontalRailEnabled="True"
+                              IsVerticalRailEnabled="False"
+                              IsTabStop="False"
+                              AutomationProperties.AccessibilityView="Raw" />
+              </Border>
+            </ControlTemplate>
+          </Setter.Value>
+        </Setter>
+      </Style>
+
+      <!-- Nav Rail Selection & Hover (accessible contrast) -->
+      <SolidColorBrush x:Key="NavRailSelectionBrush" Color="{StaticResource AppBarBackgroundColor}" Opacity="0.20" />
+      <Color x:Key="NavRailHoverColor">#332B4C7E</Color>
+      <SolidColorBrush x:Key="NavRailHoverBrush" Color="{StaticResource NavRailHoverColor}" />
+
+      <!-- App Bar Pill Button Style (with full interaction states) -->
+      <Style x:Key="AppBarPillButtonStyle" TargetType="Button">
+        <Setter Property="Background" Value="{StaticResource AppBarButtonBackgroundBrush}" />
+        <Setter Property="Foreground" Value="{StaticResource AppBarForegroundBrush}" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="CornerRadius" Value="8" />
+        <Setter Property="Padding" Value="16,8" />
+        <Setter Property="MinHeight" Value="36" />
+        <Setter Property="MinWidth" Value="0" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Template">
+          <Setter.Value>
+            <ControlTemplate TargetType="Button">
+              <Border x:Name="RootBorder"
+                      Background="{TemplateBinding Background}"
+                      BorderBrush="{TemplateBinding BorderBrush}"
+                      BorderThickness="{TemplateBinding BorderThickness}"
+                      CornerRadius="{TemplateBinding CornerRadius}"
+                      Padding="{TemplateBinding Padding}">
+                <VisualStateManager.VisualStateGroups>
+                  <VisualStateGroup x:Name="CommonStates">
+                    <VisualState x:Name="Normal" />
+                    <VisualState x:Name="PointerOver">
+                      <Storyboard>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootBorder"
+                                                       Storyboard.TargetProperty="Background">
+                          <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource AppBarButtonHoverBrush}" />
+                        </ObjectAnimationUsingKeyFrames>
+                      </Storyboard>
+                    </VisualState>
+                    <VisualState x:Name="Pressed">
+                      <Storyboard>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootBorder"
+                                                       Storyboard.TargetProperty="Background">
+                          <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource AppBarButtonPressedBrush}" />
+                        </ObjectAnimationUsingKeyFrames>
+                      </Storyboard>
+                    </VisualState>
+                    <VisualState x:Name="Disabled">
+                      <Storyboard>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootBorder"
+                                                       Storyboard.TargetProperty="Opacity">
+                          <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="0.4" />
+                        </ObjectAnimationUsingKeyFrames>
+                      </Storyboard>
+                    </VisualState>
+                  </VisualStateGroup>
+                </VisualStateManager.VisualStateGroups>
+                <ContentPresenter Content="{TemplateBinding Content}"
+                                  ContentTemplate="{TemplateBinding ContentTemplate}"
+                                  HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                  VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
+              </Border>
+            </ControlTemplate>
+          </Setter.Value>
+        </Setter>
+      </Style>
+
+      <!-- Vertical TabBar Style (no background, no chrome) -->
+      <Style x:Key="VerticalTabBarStyle" TargetType="utu:TabBar">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Padding" Value="0" />
+      </Style>
+
+      <!-- Side Nav TabBarItem Style (horizontal icon + label) -->
+      <Style x:Key="SideNavTabBarItemStyle" TargetType="utu:TabBarItem">
+        <Setter Property="Height" Value="40" />
+        <Setter Property="MinWidth" Value="0" />
+        <Setter Property="MinHeight" Value="0" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Template">
+          <Setter.Value>
+            <ControlTemplate TargetType="utu:TabBarItem">
+              <Border x:Name="RootBorder"
+                      Background="Transparent"
+                      CornerRadius="8"
+                      Padding="12,8"
+                      Margin="6,2">
+                <VisualStateManager.VisualStateGroups>
+                  <VisualStateGroup x:Name="CommonStates">
+                    <VisualState x:Name="Normal" />
+                    <VisualState x:Name="PointerOver">
+                      <Storyboard>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootBorder"
+                                                       Storyboard.TargetProperty="Background">
+                          <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource NavRailHoverBrush}" />
+                        </ObjectAnimationUsingKeyFrames>
+                      </Storyboard>
+                    </VisualState>
+                    <VisualState x:Name="Pressed">
+                      <Storyboard>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootBorder"
+                                                       Storyboard.TargetProperty="Background">
+                          <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource NavRailSelectionBrush}" />
+                        </ObjectAnimationUsingKeyFrames>
+                      </Storyboard>
+                    </VisualState>
+                    <VisualState x:Name="Disabled">
+                      <Storyboard>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootBorder"
+                                                       Storyboard.TargetProperty="Opacity">
+                          <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="0.4" />
+                        </ObjectAnimationUsingKeyFrames>
+                      </Storyboard>
+                    </VisualState>
+                    <VisualState x:Name="Selected">
+                      <Storyboard>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootBorder"
+                                                       Storyboard.TargetProperty="Background">
+                          <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource NavRailSelectionBrush}" />
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="IconHost"
+                                                       Storyboard.TargetProperty="Foreground">
+                          <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource AppBarBackgroundBrush}" />
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="LabelText"
+                                                       Storyboard.TargetProperty="Foreground">
+                          <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource AppBarBackgroundBrush}" />
+                        </ObjectAnimationUsingKeyFrames>
+                      </Storyboard>
+                    </VisualState>
+                  </VisualStateGroup>
+                </VisualStateManager.VisualStateGroups>
+                <StackPanel Orientation="Horizontal" Spacing="12">
+                  <ContentControl x:Name="IconHost"
+                                  Content="{TemplateBinding Icon}"
+                                  Foreground="{ThemeResource OnSurfaceVariantBrush}"
+                                  IsTabStop="False"
+                                  VerticalAlignment="Center"
+                                  VerticalContentAlignment="Center"
+                                  HorizontalContentAlignment="Center" />
+                  <TextBlock x:Name="LabelText"
+                             Text="{TemplateBinding Content}"
+                             Foreground="{ThemeResource OnSurfaceVariantBrush}"
+                             FontSize="14"
+                             FontWeight="Medium"
+                             VerticalAlignment="Center" />
+                </StackPanel>
+              </Border>
+            </ControlTemplate>
+          </Setter.Value>
+        </Setter>
+      </Style>
+
+    </ResourceDictionary>
+  </Application.Resources>
+
+</Application>

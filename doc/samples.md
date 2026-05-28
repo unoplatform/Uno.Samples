@@ -48,6 +48,60 @@ Dive into the essentials of task management with the ToDo App, a meticulously cr
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/reference/ToDo)
 
+### Caffe App
+
+A single-page espresso brew configurator that showcases responsive controls and Material type-scale discipline. The thermometer, extraction arc, and grind-particle visuals are drawn entirely from XAML primitives — no SVG or PNG.
+
+[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/reference/Caffe)
+
+### EnterpriseDashboard App
+
+A SaaS analytics dashboard ("Observatory") featuring 14 custom SkiaSharp charts rendered from scratch with `SKCanvasElement`, composed in an editorial bento layout with theme-aware brightness mapping and scroll-triggered chart animation.
+
+[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/reference/EnterpriseDashboard)
+
+### FieldOpsPro App
+
+A field-service dispatcher command center built as an end-to-end MVUX and region-navigation reference — work orders, agents, a live map, team roster, schedule, and reports across a responsive shell.
+
+[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/reference/FieldOpsPro)
+
+### Liveline App
+
+A reusable SkiaSharp real-time line-chart control for Uno Platform that smoothly lerps between incoming values, auto-scales its Y axis, and idles when the data settles. Shipped as a control library with a demo host that wires every property to a live control panel.
+
+[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/reference/Liveline)
+
+### Meridian App
+
+A portfolio and market dashboard demonstrating exemplary MVUX models — computed feeds, generated commands — with a three-typeface identity and hand-built ambient visuals, running on live or mock market data.
+
+[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/reference/Meridian)
+
+### Nexus App
+
+An industrial-SCADA-style monitoring dashboard with complete `FeedView` state coverage (progress, error, empty, and value templates) across production lines, maintenance, alerts, and KPIs — dark and light theme aware.
+
+[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/reference/Nexus)
+
+### Pens App
+
+A beer-league hockey team app — schedule, chat, beer leaderboard, locker-room duties, and roster — showing a config-driven real-or-mock backend and a responsive shell that swaps between a desktop side rail and a mobile bottom bar.
+
+[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/reference/Pens)
+
+### QuoteCraft App
+
+A contractor quoting and invoicing app on MVUX with SQLite persistence and QuestPDF generation: create and track quotes, manage clients and a service catalog, generate branded PDFs, and view dashboard analytics with guided first-run onboarding.
+
+[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/reference/QuoteCraft)
+
+### VTrack App
+
+A live YOLO object-detection and tracking sample with real OpenCV inference on desktop, rendering bounding boxes and track IDs as a custom GPU overlay (`SKCanvasElement`) over the video player, with a clean platform-gating story for non-desktop heads.
+
+[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/reference/VTrack)
+
 ### Other Samples
 
 ### Advanced XBind

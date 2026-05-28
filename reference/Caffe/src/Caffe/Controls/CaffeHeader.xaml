@@ -1,0 +1,40 @@
+<UserControl
+    x:Class="Caffe.Controls.CaffeHeader"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:utu="using:Uno.Toolkit.UI">
+
+    <utu:AutoLayout
+        Orientation="Vertical"
+        PrimaryAxisAlignment="Center"
+        CounterAxisAlignment="Center"
+        Padding="{utu:Responsive Narrow='0,24,0,16', Wide='0,40,0,28'}"
+        Spacing="12">
+
+        <!-- Accent Bar -->
+        <Grid Width="56" Height="4">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Border Grid.Column="0"
+                    Background="{StaticResource CaffePrimaryBrush}"
+                    CornerRadius="2,0,0,2" />
+            <Border Grid.Column="1"
+                    Background="{StaticResource CaffeAccentRedBrush}"
+                    CornerRadius="0,2,2,0" />
+        </Grid>
+
+        <!-- Logo -->
+        <TextBlock Text="Caffè"
+                   Style="{StaticResource LogoTextStyle}"
+                   HorizontalAlignment="Center" />
+
+        <!-- Tagline -->
+        <TextBlock Text="NOTHING MORE. NOTHING LESS."
+                   Style="{StaticResource TaglineTextStyle}"
+                   HorizontalAlignment="Center" />
+
+    </utu:AutoLayout>
+
+</UserControl>

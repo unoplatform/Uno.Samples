@@ -1,0 +1,204 @@
+<Page x:Class="EnterpriseDashboard.Observatory.Views.EngagementPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:utu="using:Uno.Toolkit.UI"
+      xmlns:obs="using:EnterpriseDashboard.Observatory.Controls"
+      xmlns:charts="using:EnterpriseDashboard.Observatory.Charts"
+      xmlns:anim="using:EnterpriseDashboard.Observatory.Animation"
+      Background="{ThemeResource ObsBlackBrush}">
+
+  <!-- Responsive shell: identical to Acquisition — info rail collapses under the
+       chart scroller below 1280 px so the bento gets the full page width. -->
+  <Grid>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="{utu:Responsive Layout={StaticResource ObsBentoBreakpoints}, Narrow=*, Wide=3*}" />
+      <ColumnDefinition Width="{utu:Responsive Layout={StaticResource ObsBentoBreakpoints}, Narrow=0, Wide=1*}" />
+    </Grid.ColumnDefinitions>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="*" />
+      <RowDefinition Height="{utu:Responsive Layout={StaticResource ObsBentoBreakpoints}, Narrow=Auto, Wide=0}" />
+    </Grid.RowDefinitions>
+
+    <!-- ===== Charts ===== -->
+    <ScrollViewer x:Name="ChartScroller" Grid.Row="0" Grid.Column="0"
+                  Grid.ColumnSpan="{utu:Responsive Layout={StaticResource ObsBentoBreakpoints}, Narrow=2, Wide=1}"
+                  VerticalScrollBarVisibility="Auto" VerticalScrollMode="Enabled"
+                  HorizontalScrollMode="Disabled" HorizontalScrollBarVisibility="Disabled">
+      <StackPanel Padding="40,28,32,48" Spacing="6">
+        <obs:SectionDivider Number="02"
+                            Title="Engagement &amp; Health"
+                            Description="When accounts are active, how they progress against goals, and a composite health read."
+                            MaxWidth="760"
+                            HorizontalAlignment="Left" />
+        <!-- Bento: heatmap + box plot are wide bands; the arc rings (square) and gauge
+             (wide-short) sit as compact tiles on the right, each sized to suit its chart. -->
+        <Grid ColumnSpacing="20" RowSpacing="20">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+          </Grid.ColumnDefinitions>
+          <Grid.RowDefinitions>
+            <RowDefinition Height="300" />
+            <RowDefinition Height="340" />
+          </Grid.RowDefinitions>
+
+          <obs:ChartCard Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                        Title="Active Usage" Badge="DAY × HOUR" StatValue="2 PM" StatUnit="peak hour"
+                        FooterText="Events · live">
+            <charts:ObservatoryHeatmapChart Cells="{Binding HeatmapCells}"
+                                            anim:ScrollTriggerBehavior.IsEnabled="True"
+                                            anim:ScrollTriggerBehavior.ResetKey="{Binding ResetKey}" />
+          </obs:ChartCard>
+
+          <obs:ChartCard Grid.Row="0" Grid.Column="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                        Title="Goal Attainment" Badge="RINGS · Q3" StatValue="79%" StatUnit="blended"
+                        DeltaText="+4 pt" DeltaPositive="True" FooterText="OKR tracker · daily">
+            <charts:ArcChartControl Metrics="{Binding ArcMetrics}"
+                                    anim:ScrollTriggerBehavior.IsEnabled="True"
+                                    anim:ScrollTriggerBehavior.ResetKey="{Binding ResetKey}" />
+          </obs:ChartCard>
+
+          <obs:ChartCard Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                        Title="Session Length by Plan" Badge="BOX · 5 PLANS" StatValue="9.2" StatUnit="min median"
+                        FooterText="Analytics · updated 1h ago">
+            <charts:BoxPlotChartControl Groups="{Binding BoxPlotGroups}"
+                                        anim:ScrollTriggerBehavior.IsEnabled="True"
+                                        anim:ScrollTriggerBehavior.ResetKey="{Binding ResetKey}" />
+          </obs:ChartCard>
+
+          <obs:ChartCard Grid.Row="1" Grid.Column="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                        Title="Health Score" Badge="COMPOSITE" StatValue="74" StatUnit="of 100"
+                        DeltaText="+3" DeltaPositive="True" FooterText="Composite · daily">
+            <charts:GaugeChartControl Value="{Binding GaugeValue}"
+                                      anim:ScrollTriggerBehavior.IsEnabled="True"
+                                      anim:ScrollTriggerBehavior.ResetKey="{Binding ResetKey}" />
+          </obs:ChartCard>
+        </Grid>
+      </StackPanel>
+    </ScrollViewer>
+
+    <!-- ===== Info (1/4): Signals feed =====
+         Wide: right column. Narrow: drops below charts, full width, top hairline.
+         MaxHeight caps the Auto row in Narrow so the chart row (*) keeps real height
+         (see Option 3 fix in 03-animation-interaction-brief). Wide=10000 is an
+         effective no-op (Grid cell still constrains it). -->
+    <Border Grid.Row="{utu:Responsive Layout={StaticResource ObsBentoBreakpoints}, Narrow=1, Wide=0}"
+            Grid.Column="{utu:Responsive Layout={StaticResource ObsBentoBreakpoints}, Narrow=0, Wide=1}"
+            Grid.ColumnSpan="{utu:Responsive Layout={StaticResource ObsBentoBreakpoints}, Narrow=2, Wide=1}"
+            MaxHeight="{utu:Responsive Layout={StaticResource ObsBentoBreakpoints}, Narrow=420, Wide=10000}"
+            BorderBrush="{ThemeResource ObsBorderBrush}"
+            BorderThickness="{utu:Responsive Layout={StaticResource ObsBentoBreakpoints}, Narrow='0,1,0,0', Wide='1,0,0,0'}"
+            Padding="28,32,40,40">
+      <ScrollViewer VerticalScrollBarVisibility="Auto" VerticalScrollMode="Enabled"
+                    HorizontalScrollBarVisibility="Disabled" HorizontalScrollMode="Disabled">
+        <StackPanel Spacing="0">
+        <StackPanel Orientation="Horizontal" Spacing="8">
+          <TextBlock Text="SIGNALS" Style="{StaticResource ObsKpiLabel}" />
+          <Ellipse Width="6" Height="6" Fill="{ThemeResource ObsAccentBrush}" VerticalAlignment="Center" />
+        </StackPanel>
+
+        <StackPanel Margin="0,20,0,0" Spacing="18">
+          <Grid>
+            <Grid.ColumnDefinitions><ColumnDefinition Width="Auto" /><ColumnDefinition Width="*" /></Grid.ColumnDefinitions>
+            <TextBlock Text="▲" Foreground="{ThemeResource ObsPositiveBrush}" Style="{StaticResource ObsStatusGlyph}" Margin="0,1,10,0" />
+            <StackPanel Grid.Column="1" Spacing="2">
+              <TextBlock Text="Activation +4 pt vs Q3 target" Style="{StaticResource ObsListName}" />
+              <TextBlock Text="2m ago" Style="{StaticResource ObsListMeta}" />
+            </StackPanel>
+          </Grid>
+
+          <Grid>
+            <Grid.ColumnDefinitions><ColumnDefinition Width="Auto" /><ColumnDefinition Width="*" /></Grid.ColumnDefinitions>
+            <TextBlock Text="▲" Foreground="{ThemeResource ObsAccentBrush}" Style="{StaticResource ObsStatusGlyph}" Margin="0,1,10,0" />
+            <StackPanel Grid.Column="1" Spacing="2">
+              <TextBlock Text="Peak usage 2 PM, Tuesday" Style="{StaticResource ObsListName}" />
+              <TextBlock Text="1h ago" Style="{StaticResource ObsListMeta}" />
+            </StackPanel>
+          </Grid>
+
+          <Grid>
+            <Grid.ColumnDefinitions><ColumnDefinition Width="Auto" /><ColumnDefinition Width="*" /></Grid.ColumnDefinitions>
+            <TextBlock Text="!" Foreground="{ThemeResource ObsNegativeBrush}" Style="{StaticResource ObsStatusGlyph}" Margin="3,1,13,0" />
+            <StackPanel Grid.Column="1" Spacing="2">
+              <TextBlock Text="3 Enterprise accounts idle 14 days" Style="{StaticResource ObsListName}" />
+              <TextBlock Text="3h ago · at risk" Style="{StaticResource ObsListMeta}" />
+            </StackPanel>
+          </Grid>
+
+          <Grid>
+            <Grid.ColumnDefinitions><ColumnDefinition Width="Auto" /><ColumnDefinition Width="*" /></Grid.ColumnDefinitions>
+            <TextBlock Text="●" Foreground="{ThemeResource ObsPositiveBrush}" Style="{StaticResource ObsBulletGlyph}" Margin="1,2,11,0" />
+            <StackPanel Grid.Column="1" Spacing="2">
+              <TextBlock Text="API latency nominal · 142 ms p95" Style="{StaticResource ObsListName}" />
+              <TextBlock Text="5m ago" Style="{StaticResource ObsListMeta}" />
+            </StackPanel>
+          </Grid>
+
+          <Grid>
+            <Grid.ColumnDefinitions><ColumnDefinition Width="Auto" /><ColumnDefinition Width="*" /></Grid.ColumnDefinitions>
+            <TextBlock Text="▼" Foreground="{ThemeResource ObsMidBrush}" Style="{StaticResource ObsStatusGlyph}" Margin="0,1,10,0" />
+            <StackPanel Grid.Column="1" Spacing="2">
+              <TextBlock Text="Weekend engagement −30%" Style="{StaticResource ObsListName}" />
+              <TextBlock Text="1d ago · expected" Style="{StaticResource ObsListMeta}" />
+            </StackPanel>
+          </Grid>
+
+          <Grid>
+            <Grid.ColumnDefinitions><ColumnDefinition Width="Auto" /><ColumnDefinition Width="*" /></Grid.ColumnDefinitions>
+            <TextBlock Text="▲" Foreground="{ThemeResource ObsPositiveBrush}" Style="{StaticResource ObsStatusGlyph}" Margin="0,1,10,0" />
+            <StackPanel Grid.Column="1" Spacing="2">
+              <TextBlock Text="NPS 47 · +3 vs Q2" Style="{StaticResource ObsListName}" />
+              <TextBlock Text="weekly survey" Style="{StaticResource ObsListMeta}" />
+            </StackPanel>
+          </Grid>
+
+          <Grid>
+            <Grid.ColumnDefinitions><ColumnDefinition Width="Auto" /><ColumnDefinition Width="*" /></Grid.ColumnDefinitions>
+            <TextBlock Text="●" Foreground="{ThemeResource ObsPositiveBrush}" Style="{StaticResource ObsBulletGlyph}" Margin="1,2,11,0" />
+            <StackPanel Grid.Column="1" Spacing="2">
+              <TextBlock Text="Onboarding completion 82%" Style="{StaticResource ObsListName}" />
+              <TextBlock Text="today" Style="{StaticResource ObsListMeta}" />
+            </StackPanel>
+          </Grid>
+        </StackPanel>
+
+        <Border Height="1" Background="{ThemeResource ObsBorderBrush}" Margin="0,24,0,18" />
+
+        <TextBlock Text="STATUS" Style="{StaticResource ObsKpiLabel}" Margin="0,0,0,16" />
+        <Grid Margin="0,0,0,12">
+          <Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="Auto" /></Grid.ColumnDefinitions>
+          <TextBlock Text="Uptime (30d)" Style="{StaticResource ObsListName}" VerticalAlignment="Center" />
+          <TextBlock Grid.Column="1" Text="99.98%" Style="{StaticResource ObsListValue}" VerticalAlignment="Center" />
+        </Grid>
+        <Grid Margin="0,0,0,12">
+          <Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="Auto" /></Grid.ColumnDefinitions>
+          <TextBlock Text="Open incidents" Style="{StaticResource ObsListName}" VerticalAlignment="Center" />
+          <TextBlock Grid.Column="1" Text="0" Style="{StaticResource ObsListValue}" VerticalAlignment="Center" />
+        </Grid>
+        <Grid Margin="0,0,0,12">
+          <Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="Auto" /></Grid.ColumnDefinitions>
+          <TextBlock Text="Mean time to resolve" Style="{StaticResource ObsListName}" VerticalAlignment="Center" />
+          <TextBlock Grid.Column="1" Text="12 min" Style="{StaticResource ObsListValue}" VerticalAlignment="Center" />
+        </Grid>
+
+        <!-- // note — accent-left callout closing the rail (Design Brief §4.13) -->
+        <Border Margin="0,24,0,0"
+                Background="{ThemeResource ObsCardBrush}"
+                BorderBrush="{ThemeResource ObsAccentBrush}"
+                BorderThickness="3,0,0,0">
+          <Border BorderBrush="{ThemeResource ObsBorderBrush}" BorderThickness="0,1,1,1" Padding="16,14">
+            <StackPanel Spacing="8">
+              <TextBlock Text="// NOTE" Style="{StaticResource ObsMonoTag}" Foreground="{ThemeResource ObsGreyBrush}" />
+              <TextBlock Text="Composite health 74/100, stable week-over-week. No critical incidents."
+                         Style="{StaticResource ObsMonoBody}" />
+            </StackPanel>
+          </Border>
+        </Border>
+        </StackPanel>
+      </ScrollViewer>
+    </Border>
+  </Grid>
+
+</Page>

@@ -1,0 +1,220 @@
+<Page x:Class="EnterpriseDashboard.Observatory.Views.AcquisitionPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:utu="using:Uno.Toolkit.UI"
+      xmlns:obs="using:EnterpriseDashboard.Observatory.Controls"
+      xmlns:charts="using:EnterpriseDashboard.Observatory.Charts"
+      xmlns:anim="using:EnterpriseDashboard.Observatory.Animation"
+      Background="{ThemeResource ObsBlackBrush}">
+
+  <!-- Responsive shell:
+       * Wide (>= 1280px): original 3*/1* split — charts left, info rail right (visually identical to before).
+       * Narrow (< 1280px): info rail collapses under the chart scroller so the
+         bento gets the full page width. Bento composition itself is untouched. -->
+  <Grid>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="{utu:Responsive Layout={StaticResource ObsBentoBreakpoints}, Narrow=*, Wide=3*}" />
+      <ColumnDefinition Width="{utu:Responsive Layout={StaticResource ObsBentoBreakpoints}, Narrow=0, Wide=1*}" />
+    </Grid.ColumnDefinitions>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="*" />
+      <RowDefinition Height="{utu:Responsive Layout={StaticResource ObsBentoBreakpoints}, Narrow=Auto, Wide=0}" />
+    </Grid.RowDefinitions>
+
+    <!-- ===== Charts ===== -->
+    <ScrollViewer x:Name="ChartScroller" Grid.Row="0" Grid.Column="0"
+                  Grid.ColumnSpan="{utu:Responsive Layout={StaticResource ObsBentoBreakpoints}, Narrow=2, Wide=1}"
+                  VerticalScrollBarVisibility="Auto" VerticalScrollMode="Enabled"
+                  HorizontalScrollMode="Disabled" HorizontalScrollBarVisibility="Disabled">
+      <StackPanel Padding="40,28,32,48" Spacing="6">
+        <obs:SectionDivider Number="01"
+                            Title="Acquisition &amp; Revenue"
+                            Description="Recurring revenue, signups, and how usage tracks with retention across the account base."
+                            MaxWidth="760"
+                            HorizontalAlignment="Left" />
+        <!-- Bento: sizes chosen per chart — MRR line is the 2x2 hero, signups/ARR are
+             compact tiles, and the wide distributions span the full row. -->
+        <Grid ColumnSpacing="20" RowSpacing="20">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+          </Grid.ColumnDefinitions>
+          <Grid.RowDefinitions>
+            <RowDefinition Height="240" />
+            <RowDefinition Height="240" />
+            <RowDefinition Height="260" />
+          </Grid.RowDefinitions>
+
+          <obs:ChartCard Grid.Row="0" Grid.RowSpan="2" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                        Title="Recurring Revenue" Badge="12 MO" StatValue="$87.3K" StatUnit="mrr"
+                        DeltaText="+12.4%" DeltaPositive="True" FooterText="Stripe · updated 2m ago">
+            <charts:LineChartControl SeriesA="{Binding LineSeriesA}" SeriesB="{Binding LineSeriesB}"
+                                     anim:ScrollTriggerBehavior.IsEnabled="True"
+                                     anim:ScrollTriggerBehavior.ResetKey="{Binding ResetKey}" />
+          </obs:ChartCard>
+
+          <obs:ChartCard Grid.Row="0" Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                        Title="New Signups" Badge="MONTHLY" StatValue="1,284" StatUnit="this mo"
+                        DeltaText="+8.0%" DeltaPositive="True" FooterText="Product DB · updated 2m ago">
+            <charts:BarChartControl Values="{Binding BarValues}"
+                                    anim:ScrollTriggerBehavior.IsEnabled="True"
+                                    anim:ScrollTriggerBehavior.ResetKey="{Binding ResetKey}" />
+          </obs:ChartCard>
+
+          <obs:ChartCard Grid.Row="0" Grid.Column="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                        Title="Cumulative ARR" Badge="YTD" StatValue="$1.04M" StatUnit="arr"
+                        DeltaText="+22%" DeltaPositive="True" FooterText="Finance · updated 5m ago">
+            <charts:AreaChartControl LayerA="{Binding AreaLayerA}" LayerB="{Binding AreaLayerB}"
+                                     anim:ScrollTriggerBehavior.IsEnabled="True"
+                                     anim:ScrollTriggerBehavior.ResetKey="{Binding ResetKey}" />
+          </obs:ChartCard>
+
+          <obs:ChartCard Grid.Row="1" Grid.RowSpan="2" Grid.Column="2" Grid.ColumnSpan="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                        Title="Usage vs Retention" Badge="BY ACCOUNT" StatValue="r² = 0.87" StatUnit=""
+                        FooterText="Mixpanel · updated 5m ago">
+            <charts:ScatterChartControl Points="{Binding ScatterPoints}"
+                                        anim:ScrollTriggerBehavior.IsEnabled="True"
+                                        anim:ScrollTriggerBehavior.ResetKey="{Binding ResetKey}" />
+          </obs:ChartCard>
+
+          <obs:ChartCard Grid.Row="2" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                        Title="Revenue by Plan" Badge="RANKED" StatValue="Scale" StatUnit="top plan"
+                        FooterText="Billing · updated 2m ago">
+            <charts:HBarChartControl Items="{Binding HBarItems}"
+                                     anim:ScrollTriggerBehavior.IsEnabled="True"
+                                     anim:ScrollTriggerBehavior.ResetKey="{Binding ResetKey}" />
+          </obs:ChartCard>
+
+          <obs:ChartCard Grid.Row="2" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                        Title="Account MRR Spread" Badge="20 BINS" StatValue="$512" StatUnit="median"
+                        FooterText="Billing · updated 1h ago">
+            <charts:HistogramChartControl Bins="{Binding HistogramBins}"
+                                          anim:ScrollTriggerBehavior.IsEnabled="True"
+                                          anim:ScrollTriggerBehavior.ResetKey="{Binding ResetKey}" />
+          </obs:ChartCard>
+        </Grid>
+      </StackPanel>
+    </ScrollViewer>
+
+    <!-- ===== Info (1/4): Revenue breakdown =====
+         Wide: sits in the right column (1*) next to the charts.
+         Narrow: drops below the chart scroller into row 1, full width.
+         BorderThickness flips from a left hairline to a top hairline at Narrow. -->
+    <!-- MaxHeight only bites in Narrow mode: without a cap the Auto row would consume
+         all vertical space and collapse the chart row to 0 px. Wide=10000 is an
+         effective no-op (Grid cell still constrains it). The inner ScrollViewer keeps
+         the info reachable when the cap is active. -->
+    <Border Grid.Row="{utu:Responsive Layout={StaticResource ObsBentoBreakpoints}, Narrow=1, Wide=0}"
+            Grid.Column="{utu:Responsive Layout={StaticResource ObsBentoBreakpoints}, Narrow=0, Wide=1}"
+            Grid.ColumnSpan="{utu:Responsive Layout={StaticResource ObsBentoBreakpoints}, Narrow=2, Wide=1}"
+            MaxHeight="{utu:Responsive Layout={StaticResource ObsBentoBreakpoints}, Narrow=420, Wide=10000}"
+            BorderBrush="{ThemeResource ObsBorderBrush}"
+            BorderThickness="{utu:Responsive Layout={StaticResource ObsBentoBreakpoints}, Narrow='0,1,0,0', Wide='1,0,0,0'}"
+            Padding="28,32,40,40">
+      <ScrollViewer VerticalScrollBarVisibility="Auto" VerticalScrollMode="Enabled"
+                    HorizontalScrollBarVisibility="Disabled" HorizontalScrollMode="Disabled">
+        <StackPanel Spacing="0">
+        <TextBlock Text="REVENUE BREAKDOWN" Style="{StaticResource ObsKpiLabel}" />
+
+        <StackPanel Margin="0,16,0,0" Spacing="2">
+          <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom">
+            <TextBlock Text="$24.1K" Style="{StaticResource ObsStatValue}" />
+            <TextBlock Text="▲ +18%" Style="{StaticResource ObsDelta}" Margin="10,0,0,7" VerticalAlignment="Bottom" />
+          </StackPanel>
+          <TextBlock Text="new MRR · this month" Style="{StaticResource ObsMonoSmall}" Foreground="{ThemeResource ObsGreyBrush}" />
+        </StackPanel>
+
+        <Border Height="1" Background="{ThemeResource ObsBorderBrush}" Margin="0,22,0,18" />
+
+        <!-- Per-plan contribution -->
+        <Grid Margin="0,0,0,15">
+          <Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="Auto" /></Grid.ColumnDefinitions>
+          <TextBlock Text="Scale" Style="{StaticResource ObsListName}" VerticalAlignment="Center" />
+          <StackPanel Grid.Column="1" HorizontalAlignment="Right">
+            <TextBlock Text="$41.2K" Style="{StaticResource ObsListValue}" />
+            <TextBlock Text="▲ 14%" Style="{StaticResource ObsTinyDelta}" TextAlignment="Right" />
+          </StackPanel>
+        </Grid>
+        <Grid Margin="0,0,0,15">
+          <Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="Auto" /></Grid.ColumnDefinitions>
+          <TextBlock Text="Pro" Style="{StaticResource ObsListName}" VerticalAlignment="Center" />
+          <StackPanel Grid.Column="1" HorizontalAlignment="Right">
+            <TextBlock Text="$22.4K" Style="{StaticResource ObsListValue}" />
+            <TextBlock Text="▲ 9%" Style="{StaticResource ObsTinyDelta}" TextAlignment="Right" />
+          </StackPanel>
+        </Grid>
+        <Grid Margin="0,0,0,15">
+          <Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="Auto" /></Grid.ColumnDefinitions>
+          <TextBlock Text="Team" Style="{StaticResource ObsListName}" VerticalAlignment="Center" />
+          <StackPanel Grid.Column="1" HorizontalAlignment="Right">
+            <TextBlock Text="$11.8K" Style="{StaticResource ObsListValue}" />
+            <TextBlock Text="▲ 4%" Style="{StaticResource ObsTinyDelta}" TextAlignment="Right" />
+          </StackPanel>
+        </Grid>
+        <Grid Margin="0,0,0,15">
+          <Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="Auto" /></Grid.ColumnDefinitions>
+          <TextBlock Text="Starter" Style="{StaticResource ObsListName}" VerticalAlignment="Center" />
+          <StackPanel Grid.Column="1" HorizontalAlignment="Right">
+            <TextBlock Text="$7.1K" Style="{StaticResource ObsListValue}" />
+            <TextBlock Text="▲ 2%" Style="{StaticResource ObsTinyDelta}" TextAlignment="Right" />
+          </StackPanel>
+        </Grid>
+        <Grid Margin="0,0,0,15">
+          <Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="Auto" /></Grid.ColumnDefinitions>
+          <TextBlock Text="Trial" Style="{StaticResource ObsListName}" VerticalAlignment="Center" />
+          <StackPanel Grid.Column="1" HorizontalAlignment="Right">
+            <TextBlock Text="$4.8K" Style="{StaticResource ObsListValue}" />
+            <TextBlock Text="▼ 6%" Style="{StaticResource ObsTinyDeltaDown}" TextAlignment="Right" />
+          </StackPanel>
+        </Grid>
+
+        <Border Height="1" Background="{ThemeResource ObsBorderBrush}" Margin="0,4,0,18" />
+
+        <TextBlock Text="MOVEMENT" Style="{StaticResource ObsKpiLabel}" Margin="0,0,0,16" />
+        <Grid Margin="0,0,0,12">
+          <Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="Auto" /></Grid.ColumnDefinitions>
+          <TextBlock Text="Expansion" Style="{StaticResource ObsListName}" VerticalAlignment="Center" />
+          <TextBlock Grid.Column="1" Text="+$14.2K" Style="{StaticResource ObsTinyMono}" Foreground="{ThemeResource ObsPositiveBrush}" TextAlignment="Right" VerticalAlignment="Center" />
+        </Grid>
+        <Grid Margin="0,0,0,12">
+          <Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="Auto" /></Grid.ColumnDefinitions>
+          <TextBlock Text="New business" Style="{StaticResource ObsListName}" VerticalAlignment="Center" />
+          <TextBlock Grid.Column="1" Text="+$12.0K" Style="{StaticResource ObsTinyMono}" Foreground="{ThemeResource ObsPositiveBrush}" TextAlignment="Right" VerticalAlignment="Center" />
+        </Grid>
+        <Grid Margin="0,0,0,12">
+          <Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="Auto" /></Grid.ColumnDefinitions>
+          <TextBlock Text="Reactivation" Style="{StaticResource ObsListName}" VerticalAlignment="Center" />
+          <TextBlock Grid.Column="1" Text="+$1.4K" Style="{StaticResource ObsTinyMono}" Foreground="{ThemeResource ObsPositiveBrush}" TextAlignment="Right" VerticalAlignment="Center" />
+        </Grid>
+        <Grid Margin="0,0,0,12">
+          <Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="Auto" /></Grid.ColumnDefinitions>
+          <TextBlock Text="Contraction" Style="{StaticResource ObsListName}" VerticalAlignment="Center" />
+          <TextBlock Grid.Column="1" Text="−$3.1K" Style="{StaticResource ObsTinyMono}" Foreground="{ThemeResource ObsNegativeBrush}" TextAlignment="Right" VerticalAlignment="Center" />
+        </Grid>
+        <Grid Margin="0,0,0,12">
+          <Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="Auto" /></Grid.ColumnDefinitions>
+          <TextBlock Text="Churn" Style="{StaticResource ObsListName}" VerticalAlignment="Center" />
+          <TextBlock Grid.Column="1" Text="−$0.4K" Style="{StaticResource ObsTinyMono}" Foreground="{ThemeResource ObsNegativeBrush}" TextAlignment="Right" VerticalAlignment="Center" />
+        </Grid>
+
+        <!-- // note — accent-left callout closing the rail (Design Brief §4.13) -->
+        <Border Margin="0,24,0,0"
+                Background="{ThemeResource ObsCardBrush}"
+                BorderBrush="{ThemeResource ObsAccentBrush}"
+                BorderThickness="3,0,0,0">
+          <Border BorderBrush="{ThemeResource ObsBorderBrush}" BorderThickness="0,1,1,1" Padding="16,14">
+            <StackPanel Spacing="8">
+              <TextBlock Text="// NOTE" Style="{StaticResource ObsMonoTag}" Foreground="{ThemeResource ObsGreyBrush}" />
+              <TextBlock Text="Expansion drove 62% of net new MRR this month, led by Scale and Pro upgrades."
+                         Style="{StaticResource ObsMonoBody}" />
+            </StackPanel>
+          </Border>
+        </Border>
+        </StackPanel>
+      </ScrollViewer>
+    </Border>
+  </Grid>
+
+</Page>

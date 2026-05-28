@@ -1,0 +1,84 @@
+<Page x:Class="Pens.Presentation.PlayerPickerPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:utu="using:Uno.Toolkit.UI"
+      xmlns:local="using:Pens.Presentation"
+      Background="{StaticResource ArenaDarkBrush}">
+
+  <Grid Padding="20"
+        MaxWidth="{StaticResource PageContentMaxWidth}"
+        HorizontalAlignment="Center">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="*" />
+    </Grid.RowDefinitions>
+
+    <!-- Header -->
+    <StackPanel Grid.Row="0" HorizontalAlignment="Center" Spacing="8" Margin="0,40,0,0">
+      <StackPanel.Transitions>
+        <TransitionCollection>
+          <EntranceThemeTransition FromVerticalOffset="24" />
+        </TransitionCollection>
+      </StackPanel.Transitions>
+      <FontIcon Glyph="&#xF78A;"
+                FontFamily="{StaticResource SymbolThemeFontFamily}"
+                FontSize="64"
+                Foreground="{StaticResource PowderBlueBrush}"
+                HorizontalAlignment="Center"
+                AutomationProperties.AccessibilityView="Raw" />
+      <TextBlock Text="PENGUINS"
+                 Style="{StaticResource BebasDisplayTextStyle}"
+                 HorizontalAlignment="Center" />
+    </StackPanel>
+
+    <!-- Instruction -->
+    <TextBlock Grid.Row="1"
+               Text="WHO ARE YOU?"
+               Style="{StaticResource SectionTitleTextStyle}"
+               AutomationProperties.HeadingLevel="Level1"
+               HorizontalAlignment="Center"
+               Margin="0,32,0,16" />
+
+    <!-- Player List -->
+    <ScrollViewer Grid.Row="2">
+      <ItemsRepeater ItemsSource="{Binding Players}">
+        <ItemsRepeater.Layout>
+          <StackLayout Spacing="8" />
+        </ItemsRepeater.Layout>
+        <ItemsRepeater.ItemTemplate>
+          <DataTemplate x:DataType="local:PlayerPickerItem">
+            <Button Command="{x:Bind SelectCommand}"
+                    Style="{StaticResource TappableCardButtonStyle}"
+                    AutomationProperties.Name="{x:Bind Name}">
+              <Border Background="{StaticResource BoardsDarkBrush}"
+                      CornerRadius="{StaticResource CardCornerRadius}"
+                      Padding="12,12,16,12"
+                      BorderBrush="{StaticResource CardBorderBrush}"
+                      BorderThickness="1">
+                <utu:AutoLayout Orientation="Horizontal" Spacing="14">
+                  <!-- Jersey Number Badge -->
+                  <Border Width="44" Height="44"
+                          CornerRadius="10"
+                          Background="{StaticResource PowderBlueGradientBrush}">
+                    <TextBlock Text="{x:Bind Number}"
+                               Style="{StaticResource JerseyNumberTextStyle}" />
+                  </Border>
+
+                  <!-- Player Info -->
+                  <StackPanel VerticalAlignment="Center" utu:AutoLayout.PrimaryAlignment="Stretch">
+                    <TextBlock Text="{x:Bind Name}"
+                               Style="{StaticResource BodyTextStyle}" />
+                    <TextBlock Text="{x:Bind Position}"
+                               Style="{StaticResource LabelTextStyle}"
+                               Margin="0,2,0,0" />
+                  </StackPanel>
+                </utu:AutoLayout>
+              </Border>
+            </Button>
+          </DataTemplate>
+        </ItemsRepeater.ItemTemplate>
+      </ItemsRepeater>
+    </ScrollViewer>
+  </Grid>
+</Page>

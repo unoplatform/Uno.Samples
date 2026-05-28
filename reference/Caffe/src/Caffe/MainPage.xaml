@@ -1,0 +1,147 @@
+<Page x:Class="Caffe.MainPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:local="using:Caffe"
+      xmlns:controls="using:Caffe.Controls"
+      xmlns:models="using:Caffe.Models"
+      xmlns:utu="using:Uno.Toolkit.UI"
+      Background="{StaticResource CaffeBackgroundBrush}">
+
+    <!-- SafeArea keeps content clear of the status bar, navigation bar and
+         rounded display corners on mobile; a no-op on desktop. -->
+    <utu:SafeArea Insets="VisibleBounds" Mode="Padding">
+    <Grid>
+        <!-- Main Content (hidden during brewing) -->
+        <Grid x:Name="MainContent"
+              Visibility="{x:Bind ViewModel.IsBrewing, Mode=OneWay, Converter={StaticResource ReverseBoolToVisibilityConverter}}">
+
+            <ScrollViewer>
+                <utu:AutoLayout
+                    Orientation="Vertical"
+                    PrimaryAxisAlignment="Start"
+                    CounterAxisAlignment="Stretch"
+                    MaxWidth="{utu:Responsive Narrow=480, Normal=640, Wide=960}"
+                    Padding="{utu:Responsive Narrow='16,0', Normal='24,0', Wide='40,0'}">
+
+                    <!-- Header -->
+                    <controls:CaffeHeader />
+
+                    <!-- Responsive Content Grid -->
+                    <Grid ColumnSpacing="{utu:Responsive Narrow=0, Wide=24}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="{utu:Responsive Narrow=0, Wide=*}" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <!-- Espresso Card Grid (always col 0, row 0) -->
+                        <Grid Grid.Row="0" Grid.Column="0"
+                              Margin="0,8,0,16">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="{utu:Responsive Narrow=8, Wide=12}" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="{utu:Responsive Narrow=8, Wide=12}" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <!-- Espresso -->
+                            <controls:EspressoCard Grid.Row="0" Grid.Column="0"
+                                                   Espresso="{x:Bind ViewModel.EspressoItems[0]}"
+                                                   IsSelected="{x:Bind IsCardSelected(ViewModel.EspressoItems[0], ViewModel.SelectedEspresso), Mode=OneWay}"
+                                                   Tapped="OnEspressoCardTapped" />
+
+                            <!-- Doppio -->
+                            <controls:EspressoCard Grid.Row="0" Grid.Column="2"
+                                                   Espresso="{x:Bind ViewModel.EspressoItems[1]}"
+                                                   IsSelected="{x:Bind IsCardSelected(ViewModel.EspressoItems[1], ViewModel.SelectedEspresso), Mode=OneWay}"
+                                                   Tapped="OnEspressoCardTapped" />
+
+                            <!-- Ristretto -->
+                            <controls:EspressoCard Grid.Row="2" Grid.Column="0"
+                                                   Espresso="{x:Bind ViewModel.EspressoItems[2]}"
+                                                   IsSelected="{x:Bind IsCardSelected(ViewModel.EspressoItems[2], ViewModel.SelectedEspresso), Mode=OneWay}"
+                                                   Tapped="OnEspressoCardTapped" />
+
+                            <!-- Lungo -->
+                            <controls:EspressoCard Grid.Row="2" Grid.Column="2"
+                                                   Espresso="{x:Bind ViewModel.EspressoItems[3]}"
+                                                   IsSelected="{x:Bind IsCardSelected(ViewModel.EspressoItems[3], ViewModel.SelectedEspresso), Mode=OneWay}"
+                                                   Tapped="OnEspressoCardTapped" />
+                        </Grid>
+
+                        <!-- Right Panel: Parameters + Overview + Brew -->
+                        <utu:AutoLayout
+                            Orientation="Vertical"
+                            Spacing="0"
+                            Grid.Column="{utu:Responsive Narrow=0, Wide=1}"
+                            Grid.Row="{utu:Responsive Narrow=1, Wide=0}"
+                            Grid.RowSpan="{utu:Responsive Narrow=1, Wide=2}">
+
+                            <!-- Parameters Panel -->
+                            <Grid ColumnSpacing="{utu:Responsive Narrow=6, Normal=10, Wide=16}"
+                                  Margin="0,0,0,16">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+
+                                <controls:TemperatureGauge x:Name="TempGauge"
+                                                           Grid.Column="0"
+                                                           VerticalAlignment="Stretch"
+                                                           Temperature="{x:Bind ViewModel.Temperature, Mode=TwoWay}" />
+
+                                <controls:ExtractionArc x:Name="ExtractionArc"
+                                                        Grid.Column="1"
+                                                        VerticalAlignment="Stretch"
+                                                        ExtractionTime="{x:Bind ViewModel.ExtractionTime, Mode=TwoWay}" />
+
+                                <controls:GrindSelector x:Name="GrindSelector"
+                                                        Grid.Column="2"
+                                                        VerticalAlignment="Stretch"
+                                                        GrindLevel="{x:Bind ViewModel.GrindLevel, Mode=TwoWay}" />
+                            </Grid>
+
+                            <!-- Selection Overview (visible when selected) -->
+                            <controls:SelectionOverview x:Name="SelectionOverview"
+                                                        Margin="0,0,0,20"
+                                                        Visibility="{x:Bind ViewModel.HasSelection, Mode=OneWay}"
+                                                        EspressoName="{x:Bind ViewModel.SelectedEspresso.Name, Mode=OneWay, FallbackValue='Espresso'}"
+                                                        Temperature="{x:Bind ViewModel.Temperature, Mode=OneWay}"
+                                                        GrindAbbreviation="{x:Bind ViewModel.GrindAbbreviation, Mode=OneWay}"
+                                                        ExtractionTime="{x:Bind ViewModel.ExtractionTime, Mode=OneWay}" />
+
+                            <!-- Brew Button -->
+                            <controls:BrewButton x:Name="BrewBtn"
+                                                 Margin="0,0,0,16"
+                                                 Text="{x:Bind ViewModel.BrewButtonText, Mode=OneWay}"
+                                                 IsBrewEnabled="{x:Bind ViewModel.HasSelection, Mode=OneWay}"
+                                                 BrewRequested="OnBrewRequested" />
+
+                        </utu:AutoLayout>
+                    </Grid>
+
+                    <!-- Footer -->
+                    <controls:CaffeFooter />
+
+                </utu:AutoLayout>
+            </ScrollViewer>
+        </Grid>
+
+        <!-- Brewing Screen Overlay -->
+        <controls:BrewingScreen x:Name="BrewingOverlay"
+                                x:Load="{x:Bind ViewModel.IsBrewing, Mode=OneWay}"
+                                EspressoName="{x:Bind ViewModel.SelectedEspresso.Name, Mode=OneWay, FallbackValue='Espresso'}"
+                                ParametersText="{x:Bind ViewModel.BrewingParametersText, Mode=OneWay}"
+                                BrewProgress="{x:Bind ViewModel.BrewProgress, Mode=OneWay}" />
+    </Grid>
+    </utu:SafeArea>
+
+</Page>

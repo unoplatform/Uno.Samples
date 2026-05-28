@@ -1,0 +1,77 @@
+<ContentDialog x:Class="QuoteCraft.Presentation.LineItemEditorDialog"
+               xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+               xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+               PrimaryButtonText="Save"
+               CloseButtonText="Cancel"
+               DefaultButton="Primary">
+
+  <StackPanel Spacing="16" MinWidth="380">
+
+    <!-- Gradient Header Banner -->
+    <Border x:Name="HeaderBanner" CornerRadius="12" Padding="20,16" Margin="0,0,0,4">
+      <Grid>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <FontIcon x:Name="HeaderIcon" Glyph="&#xE70F;" FontSize="20"
+                  VerticalAlignment="Center" Margin="0,0,12,0" />
+        <StackPanel Grid.Column="1" Spacing="2">
+          <TextBlock x:Name="HeaderTitle" Text="Line Item"
+                     Style="{StaticResource TitleMediumBold}" />
+          <TextBlock x:Name="HeaderSubtitle"
+                     Text="Add or edit a line item for this quote"
+                     Style="{StaticResource BodySmall}" />
+        </StackPanel>
+      </Grid>
+    </Border>
+
+    <!-- Form Fields -->
+    <TextBox x:Name="DescriptionBox"
+             Header="Description"
+             PlaceholderText="e.g. Kitchen faucet installation" />
+
+    <TextBox x:Name="UnitPriceBox"
+             Header="Unit Price ($)"
+             PlaceholderText="0.00"
+             InputScope="Number"
+             TextChanged="PriceOrQty_Changed" />
+
+    <!-- Quantity with +/- buttons -->
+    <Grid>
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="Auto" />
+      </Grid.ColumnDefinitions>
+      <Button Content="-" Click="MinusQty_Click"
+              Style="{StaticResource MaterialOutlinedButtonStyle}"
+              MinWidth="40" Padding="8,4" CornerRadius="8" />
+      <TextBox x:Name="QuantityBox" Grid.Column="1"
+               Text="1" HorizontalAlignment="Stretch" TextAlignment="Center"
+               InputScope="Number" Margin="8,0"
+               TextChanged="PriceOrQty_Changed" />
+      <Button Content="+" Click="PlusQty_Click" Grid.Column="2"
+              Style="{StaticResource MaterialOutlinedButtonStyle}"
+              MinWidth="40" Padding="8,4" CornerRadius="8" />
+    </Grid>
+
+    <!-- Line Total -->
+    <Border x:Name="TotalBorder" CornerRadius="12" Padding="20,16">
+      <Grid>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <TextBlock x:Name="TotalLabel" Text="Line Total"
+                   Style="{StaticResource BodyMedium}"
+                   VerticalAlignment="Center" />
+        <TextBlock x:Name="LineTotalText" Grid.Column="1"
+                   Text="$0.00"
+                   Style="{StaticResource TitleLarge}"
+                   FontWeight="Bold" VerticalAlignment="Center" />
+      </Grid>
+    </Border>
+
+  </StackPanel>
+</ContentDialog>

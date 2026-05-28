@@ -1,0 +1,255 @@
+<Page x:Class="VTrack.Presentation.HomePage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:utu="using:Uno.Toolkit.UI"
+      xmlns:controls="using:VTrack.Controls"
+      x:Name="PageRoot"
+      NavigationCacheMode="Required"
+      Background="{ThemeResource BackgroundBrush}">
+
+    <Grid utu:SafeArea.Insets="VisibleBounds">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <controls:AppHeader Grid.Row="0"
+                            ActiveStep="1"
+                            StatusText="no recording loaded"
+                            IsRecordingLoaded="False" />
+
+        <ScrollViewer Grid.Row="1"
+                      VerticalScrollBarVisibility="Auto">
+            <Grid MaxWidth="820"
+                  HorizontalAlignment="Center"
+                  Padding="32,48,32,48">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <!-- ============================ Hero ============================ -->
+                <StackPanel Grid.Row="0"
+                            Spacing="28"
+                            HorizontalAlignment="Stretch">
+
+                    <StackPanel Orientation="Horizontal"
+                                Spacing="14"
+                                HorizontalAlignment="Center">
+                        <Rectangle Width="32"
+                                   Height="1"
+                                   Fill="{ThemeResource OutlineVariantBrush}"
+                                   VerticalAlignment="Center" />
+                        <TextBlock Text="FIELD VIDEO  ·  SPECIES IDENTIFICATION"
+                                   Style="{StaticResource FaunalEyebrow}" />
+                        <Rectangle Width="32"
+                                   Height="1"
+                                   Fill="{ThemeResource OutlineVariantBrush}"
+                                   VerticalAlignment="Center" />
+                    </StackPanel>
+
+                    <TextBlock Style="{StaticResource FaunalDisplay}"
+                               HorizontalAlignment="Center"
+                               TextAlignment="Center"
+                               x:Uid="HomePage.Title">
+                        <Run Text="Identify what's " />
+                        <Run Text="moving"
+                             FontStyle="Italic"
+                             Foreground="{ThemeResource SecondaryBrush}" />
+                        <Run Text=" through your field cameras." />
+                    </TextBlock>
+
+                    <TextBlock Style="{StaticResource FaunalBody}"
+                               HorizontalAlignment="Center"
+                               TextAlignment="Center"
+                               MaxWidth="560"
+                               Foreground="{ThemeResource OnSurfaceVariantBrush}"
+                               x:Uid="HomePage.Subtitle">
+                        <Run Text="Import camera-trap footage. Name a taxon. Faunal returns " />
+                        <Run Text="occurrence data"
+                             FontStyle="Italic"
+                             Foreground="{ThemeResource OnSurfaceBrush}" />
+                        <Run Text=" — times, counts, and confidence — for any species your model knows." />
+                    </TextBlock>
+                </StackPanel>
+
+                <!-- ============================ Drop zone ============================ -->
+                <Border Grid.Row="1"
+                        Margin="0,48,0,0"
+                        BorderBrush="{ThemeResource OutlineBrush}"
+                        BorderThickness="1"
+                        Padding="48,56"
+                        AllowDrop="True"
+                        Drop="OnFileDrop"
+                        DragOver="OnDragOver">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <!-- Drop affordance -->
+                        <StackPanel Grid.Row="0"
+                                    Spacing="22"
+                                    HorizontalAlignment="Center">
+                            <TextBlock Text="↑"
+                                       FontFamily="{StaticResource FaunalMonoFontFamily}"
+                                       FontSize="34"
+                                       Foreground="{ThemeResource OnSurfaceBrush}"
+                                       HorizontalAlignment="Center" />
+                            <TextBlock Style="{StaticResource FaunalMono}"
+                                       HorizontalAlignment="Center"
+                                       FontSize="14"
+                                       x:Uid="HomePage.DropZone.Title"
+                                       Text="Drop camera-trap footage here" />
+                            <TextBlock Style="{StaticResource FaunalCaption}"
+                                       HorizontalAlignment="Center"
+                                       Text="— or —" />
+                            <Button Content="BROWSE FILES"
+                                    Style="{StaticResource FaunalButton}"
+                                    Command="{Binding BrowseFiles}"
+                                    HorizontalAlignment="Center"
+                                    x:Uid="HomePage.BrowseButton" />
+                        </StackPanel>
+
+                        <!-- Dashed dot separator + metadata trio -->
+                        <StackPanel Grid.Row="1"
+                                    Margin="0,40,0,0"
+                                    Spacing="20">
+                            <Line X1="0"
+                                  Y1="0"
+                                  X2="1"
+                                  Y2="0"
+                                  Stretch="Fill"
+                                  Stroke="{ThemeResource OutlineVariantBrush}"
+                                  StrokeThickness="1"
+                                  StrokeDashArray="1,3"
+                                  Height="1"
+                                  HorizontalAlignment="Stretch" />
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+
+                                <StackPanel Grid.Column="0"
+                                            Spacing="8"
+                                            HorizontalAlignment="Center">
+                                    <TextBlock Text="FORMAT"
+                                               Style="{StaticResource FaunalCaption}"
+                                               CharacterSpacing="300"
+                                               HorizontalAlignment="Center" />
+                                    <TextBlock Text="mp4  ·  mov  ·  avi"
+                                               Style="{StaticResource FaunalMono}"
+                                               HorizontalAlignment="Center" />
+                                </StackPanel>
+                                <StackPanel Grid.Column="1"
+                                            Spacing="8"
+                                            HorizontalAlignment="Center">
+                                    <TextBlock Text="MAX SIZE"
+                                               Style="{StaticResource FaunalCaption}"
+                                               CharacterSpacing="300"
+                                               HorizontalAlignment="Center" />
+                                    <TextBlock Text="500 MB  ·  4 hr"
+                                               Style="{StaticResource FaunalMono}"
+                                               HorizontalAlignment="Center" />
+                                </StackPanel>
+                                <StackPanel Grid.Column="2"
+                                            Spacing="8"
+                                            HorizontalAlignment="Center">
+                                    <TextBlock Text="ENGINE"
+                                               Style="{StaticResource FaunalCaption}"
+                                               CharacterSpacing="300"
+                                               HorizontalAlignment="Center" />
+                                    <TextBlock Text="OpenCL  ·  GPU"
+                                               Style="{StaticResource FaunalMono}"
+                                               HorizontalAlignment="Center" />
+                                </StackPanel>
+                            </Grid>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+
+                <!-- ============================ Upload progress ============================ -->
+                <StackPanel Grid.Row="2"
+                            Margin="0,24,0,0"
+                            Spacing="10"
+                            Visibility="{Binding IsUploading, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <TextBlock Style="{StaticResource FaunalCaption}">
+                        <Run Text="IMPORTING  ·  " />
+                        <Run Text="{Binding UploadFileName}" />
+                    </TextBlock>
+                    <ProgressBar Value="{Binding UploadProgress}"
+                                 Maximum="100"
+                                 Background="{ThemeResource OutlineVariantBrush}"
+                                 Foreground="{ThemeResource PrimaryBrush}" />
+                </StackPanel>
+
+                <!-- ============================ Capability callouts ============================ -->
+                <Grid Grid.Row="3"
+                      Margin="0,40,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Column="0"
+                                Orientation="Horizontal"
+                                Spacing="10"
+                                HorizontalAlignment="Center">
+                        <TextBlock Text="+"
+                                   FontFamily="{StaticResource FaunalMonoFontFamily}"
+                                   FontSize="13"
+                                   Foreground="{ThemeResource TertiaryBrush}"
+                                   VerticalAlignment="Center" />
+                        <TextBlock Text="Reolink, Bushnell, Browning, Spypoint readable"
+                                   Style="{StaticResource FaunalCaption}"
+                                   TextWrapping="Wrap"
+                                   TextAlignment="Center"
+                                   MaxWidth="220" />
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="1"
+                                Orientation="Horizontal"
+                                Spacing="10"
+                                HorizontalAlignment="Center">
+                        <TextBlock Text="+"
+                                   FontFamily="{StaticResource FaunalMonoFontFamily}"
+                                   FontSize="13"
+                                   Foreground="{ThemeResource TertiaryBrush}"
+                                   VerticalAlignment="Center" />
+                        <TextBlock Text="EXIF site + timestamp preserved"
+                                   Style="{StaticResource FaunalCaption}"
+                                   TextWrapping="Wrap"
+                                   TextAlignment="Center"
+                                   MaxWidth="220" />
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="2"
+                                Orientation="Horizontal"
+                                Spacing="10"
+                                HorizontalAlignment="Center">
+                        <TextBlock Text="+"
+                                   FontFamily="{StaticResource FaunalMonoFontFamily}"
+                                   FontSize="13"
+                                   Foreground="{ThemeResource TertiaryBrush}"
+                                   VerticalAlignment="Center" />
+                        <TextBlock Text="iNat 2024 taxonomy"
+                                   Style="{StaticResource FaunalCaption}"
+                                   TextWrapping="Wrap"
+                                   TextAlignment="Center"
+                                   MaxWidth="220" />
+                    </StackPanel>
+                </Grid>
+
+            </Grid>
+        </ScrollViewer>
+
+        <controls:AppStatusBar Grid.Row="2" />
+    </Grid>
+</Page>

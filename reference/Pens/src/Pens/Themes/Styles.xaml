@@ -1,0 +1,101 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+  <!-- Corner radius scale -->
+  <CornerRadius x:Key="SmallCornerRadius">4</CornerRadius>
+  <CornerRadius x:Key="MediumCornerRadius">8</CornerRadius>
+  <CornerRadius x:Key="CardCornerRadius">12</CornerRadius>
+  <CornerRadius x:Key="LargeCornerRadius">16</CornerRadius>
+  <CornerRadius x:Key="PillCornerRadius">20</CornerRadius>
+  <CornerRadius x:Key="FeatureCornerRadius">24</CornerRadius>
+
+  <!-- Spacing -->
+  <Thickness x:Key="PagePadding">20</Thickness>
+  <Thickness x:Key="CardPadding">16</Thickness>
+  <Thickness x:Key="LargeCardPadding">20,24</Thickness>
+
+  <!-- M1: caps content width on wide (desktop) windows so cards stop stretching edge to edge. -->
+  <x:Double x:Key="PageContentMaxWidth">720</x:Double>
+
+  <!-- Standard card surface. -->
+  <Style x:Key="CardBorderStyle" TargetType="Border">
+    <Setter Property="Background" Value="{StaticResource BoardsDarkBrush}" />
+    <Setter Property="BorderBrush" Value="{StaticResource CardBorderBrush}" />
+    <Setter Property="BorderThickness" Value="1" />
+    <Setter Property="CornerRadius" Value="{StaticResource CardCornerRadius}" />
+    <Setter Property="Padding" Value="16" />
+  </Style>
+
+  <!--
+    M2 + C1: keyboard-focusable tappable card. Wraps a card row in a real Button
+    (Enter/Space invoke, system focus visual) and adds pointer-over + pressed
+    feedback. Ease-out, no bounce.
+  -->
+  <Style x:Key="TappableCardButtonStyle" TargetType="Button">
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="BorderThickness" Value="0" />
+    <Setter Property="Padding" Value="0" />
+    <Setter Property="HorizontalAlignment" Value="Stretch" />
+    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+    <Setter Property="UseSystemFocusVisuals" Value="True" />
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="Button">
+          <Grid x:Name="RootGrid"
+                Background="{TemplateBinding Background}"
+                RenderTransformOrigin="0.5,0.5">
+            <Grid.RenderTransform>
+              <ScaleTransform x:Name="CardScale" />
+            </Grid.RenderTransform>
+            <ContentPresenter HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                              VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                              Content="{TemplateBinding Content}"
+                              ContentTemplate="{TemplateBinding ContentTemplate}" />
+            <Border x:Name="HoverOverlay"
+                    Background="#14FFFFFF"
+                    Opacity="0"
+                    IsHitTestVisible="False"
+                    CornerRadius="{StaticResource CardCornerRadius}" />
+            <VisualStateManager.VisualStateGroups>
+              <VisualStateGroup x:Name="CommonStates">
+                <VisualState x:Name="Normal" />
+                <VisualState x:Name="PointerOver">
+                  <Storyboard>
+                    <DoubleAnimation Storyboard.TargetName="HoverOverlay"
+                                     Storyboard.TargetProperty="Opacity"
+                                     To="1" Duration="0:0:0.15">
+                      <DoubleAnimation.EasingFunction>
+                        <CubicEase EasingMode="EaseOut" />
+                      </DoubleAnimation.EasingFunction>
+                    </DoubleAnimation>
+                  </Storyboard>
+                </VisualState>
+                <VisualState x:Name="Pressed">
+                  <Storyboard>
+                    <DoubleAnimation Storyboard.TargetName="CardScale"
+                                     Storyboard.TargetProperty="ScaleX"
+                                     To="0.98" Duration="0:0:0.1" />
+                    <DoubleAnimation Storyboard.TargetName="CardScale"
+                                     Storyboard.TargetProperty="ScaleY"
+                                     To="0.98" Duration="0:0:0.1" />
+                    <DoubleAnimation Storyboard.TargetName="HoverOverlay"
+                                     Storyboard.TargetProperty="Opacity"
+                                     To="0.6" Duration="0:0:0.1" />
+                  </Storyboard>
+                </VisualState>
+                <VisualState x:Name="Disabled">
+                  <Storyboard>
+                    <DoubleAnimation Storyboard.TargetName="RootGrid"
+                                     Storyboard.TargetProperty="Opacity"
+                                     To="0.55" Duration="0" />
+                  </Storyboard>
+                </VisualState>
+              </VisualStateGroup>
+            </VisualStateManager.VisualStateGroups>
+          </Grid>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
+
+</ResourceDictionary>

@@ -1,0 +1,22 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- Meridian card: white, rounded 16, 1px border, padding 24 -->
+    <Style x:Key="MeridianCard" TargetType="Border">
+        <Setter Property="CornerRadius" Value="16" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="BorderBrush" Value="{StaticResource MeridianBorderBrush}" />
+        <Setter Property="Background" Value="{StaticResource MeridianCardBrush}" />
+        <Setter Property="Padding" Value="24,22" />
+    </Style>
+
+    <!-- Meridian card compact: smaller padding for index cards -->
+    <Style x:Key="MeridianCardCompact" TargetType="Border">
+        <Setter Property="CornerRadius" Value="12" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="BorderBrush" Value="{StaticResource MeridianBorderBrush}" />
+        <Setter Property="Background" Value="{StaticResource MeridianCardBrush}" />
+        <Setter Property="Padding" Value="16,10" />
+    </Style>
+
+</ResourceDictionary>

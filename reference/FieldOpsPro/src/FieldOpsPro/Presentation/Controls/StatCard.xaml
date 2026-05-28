@@ -1,0 +1,99 @@
+<UserControl x:Class="FieldOpsPro.Presentation.Controls.StatCard"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="using:FieldOpsPro.Presentation.Controls"
+             xmlns:utu="using:Uno.Toolkit.UI"
+             xmlns:lvc="using:LiveChartsCore.SkiaSharpView.WinUI"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             PointerEntered="OnPointerEntered"
+             PointerExited="OnPointerExited">
+
+  <Border x:Name="CardBorder"
+          Background="{ThemeResource BgCardBrush}"
+          BorderBrush="{ThemeResource BorderColorBrush}"
+          BorderThickness="1"
+          CornerRadius="20"
+          Padding="20"
+          MinHeight="180">
+    <Border.RenderTransform>
+      <CompositeTransform x:Name="CardTransform" />
+    </Border.RenderTransform>
+
+    <Grid>
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="*" />
+      </Grid.RowDefinitions>
+
+      <!-- Top Section: Icon + Label -->
+      <Grid Grid.Row="0">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <!-- Icon: bg = 15% accent, fg = full accent (both via converter) -->
+        <Border Grid.Column="0"
+                Width="44"
+                Height="44"
+                CornerRadius="12"
+                Background="{x:Bind AccentColor, Converter={StaticResource StatAccentColorToBrush}, ConverterParameter=bg, Mode=OneWay}">
+          <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}"
+                    FontSize="{StaticResource FontHeadlineMedium}"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Glyph="{x:Bind IconGlyph, Mode=OneWay}"
+                    Foreground="{x:Bind AccentColor, Converter={StaticResource StatAccentColorToBrush}, Mode=OneWay}" />
+        </Border>
+
+        <!-- Label -->
+        <TextBlock Grid.Column="1"
+                   Style="{StaticResource CaptionStyle}"
+                   FontSize="{StaticResource FontBodySmall}"
+                   Margin="12,0,0,0"
+                   VerticalAlignment="Center"
+                   TextWrapping="Wrap"
+                   Text="{x:Bind Label, Mode=OneWay}" />
+      </Grid>
+
+      <!-- Bottom Section: Value + Chart -->
+      <Grid Grid.Row="1" Margin="0,12,0,0">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <!-- Value + Change (Change panel's text/icon stays in code-behind; the conditional
+             logic with isGood comparisons doesn't compress cleanly into a converter) -->
+        <StackPanel Grid.Column="0" VerticalAlignment="Bottom">
+          <TextBlock Style="{StaticResource StatValueStyle}"
+                     FontSize="{StaticResource FontDisplayMedium}"
+                     Text="{x:Bind Value, Mode=OneWay}" />
+
+          <StackPanel x:Name="ChangePanel"
+                      Orientation="Horizontal"
+                      Spacing="4"
+                      Margin="0,4,0,0">
+            <FontIcon x:Name="TrendIcon"
+                      FontFamily="{ThemeResource SymbolThemeFontFamily}"
+                      FontSize="{StaticResource FontBodySmall}" />
+            <TextBlock x:Name="ChangeText"
+                       FontSize="{StaticResource FontBodySmall}"
+                       FontWeight="Medium" />
+          </StackPanel>
+        </StackPanel>
+
+        <!-- Mini Chart (LiveCharts setup stays in code-behind) -->
+        <lvc:CartesianChart x:Name="MiniChart"
+                            Grid.Column="1"
+                            Height="60"
+                            Margin="8,0,0,0"
+                            VerticalAlignment="Bottom"
+                            TooltipPosition="Hidden"
+                            ZoomMode="None" />
+      </Grid>
+    </Grid>
+  </Border>
+</UserControl>

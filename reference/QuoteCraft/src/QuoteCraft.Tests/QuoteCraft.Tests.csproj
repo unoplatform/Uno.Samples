@@ -1,0 +1,32 @@
+<Project Sdk="Uno.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0-desktop</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
+    <OutputType>Library</OutputType>
+    <UnoSingleProject>true</UnoSingleProject>
+    <UnoFeatures>
+      Hosting;
+      Logging;
+      MVUX;
+    </UnoFeatures>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="xunit" />
+    <PackageReference Include="xunit.runner.visualstudio">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="NSubstitute" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\QuoteCraft\QuoteCraft.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,65 @@
+<Project Sdk="Uno.Sdk">
+  <ItemGroup>
+    <Content Include="Assets\Fonts\*.ttf" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Supabase" />
+    <PackageReference Include="Uno.Fonts.Fluent" />
+  </ItemGroup>
+
+  <!-- Keep local dev secrets (Supabase creds) out of distributed Release builds.
+       appsettings.development.json is gitignored and only loaded in DEBUG. -->
+  <ItemGroup Condition="'$(Configuration)' == 'Release'">
+    <EmbeddedResource Remove="appsettings.development.json" />
+    <Content Remove="appsettings.development.json" />
+    <None Remove="appsettings.development.json" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <TargetFrameworks>net10.0-android;net10.0-desktop</TargetFrameworks>
+
+    <OutputType>Exe</OutputType>
+    <UnoSingleProject>true</UnoSingleProject>
+
+    <!-- Display name -->
+    <ApplicationTitle>Pens</ApplicationTitle>
+    <!-- App Identifier -->
+    <ApplicationId>com.companyname.Pens</ApplicationId>
+    <!-- Versions -->
+    <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
+    <ApplicationVersion>1</ApplicationVersion>
+    <!-- Package Publisher -->
+    <ApplicationPublisher>Platform006</ApplicationPublisher>
+    <!-- Package Description -->
+    <Description>Pens powered by Uno Platform.</Description>
+
+    <!-- Disable Fast Deployment for Android -->
+    <EmbedAssembliesIntoApk>true</EmbedAssembliesIntoApk>
+
+    <!-- Uno0001 fires on AutomationProperties.SetHeadingLevel/SetLiveSetting calls
+         emitted by our XAML — the intent is correct, the API is a no-op on Skia
+         desktop today. Suppress so real warnings stay visible. -->
+    <NoWarn>$(NoWarn);Uno0001</NoWarn>
+
+    <!--
+      UnoFeatures are used to quickly add and manage features enabled for your app.
+      https://aka.platform.uno/singleproject-features
+    -->
+    <UnoFeatures>
+      Material;
+      Hosting;
+      Toolkit;
+      Logging;
+      Mvvm;
+      Configuration;
+      HttpKiota;
+      Serialization;
+      Localization;
+      Navigation;
+      ThemeService;
+      SkiaRenderer;
+    </UnoFeatures>
+  </PropertyGroup>
+
+</Project>

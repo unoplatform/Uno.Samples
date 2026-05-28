@@ -1,0 +1,115 @@
+<UserControl x:Class="FieldOpsPro.Presentation.Controls.MapCard"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="using:FieldOpsPro.Presentation.Controls"
+             xmlns:mapsui="clr-namespace:Mapsui.UI.WinUI;assembly=Mapsui.UI.Uno.WinUI"
+             xmlns:utu="using:Uno.Toolkit.UI"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d">
+
+  <Border Style="{StaticResource FieldOpsCardStyle}">
+    <VisualStateManager.VisualStateGroups>
+      <VisualStateGroup x:Name="LayoutStates">
+        <!-- Desktop / wide -->
+        <VisualState x:Name="DesktopLayout">
+          <VisualState.StateTriggers>
+            <AdaptiveTrigger MinWindowWidth="600" />
+          </VisualState.StateTriggers>
+          <VisualState.Setters>
+            <Setter Target="MapContainer.Height" Value="320" />
+            <Setter Target="LegendBorder.Visibility" Value="Visible" />
+            <Setter Target="ExpandButton.Visibility" Value="Visible" />
+          </VisualState.Setters>
+        </VisualState>
+
+        <!-- Mobile / narrow -->
+        <VisualState x:Name="MobileLayout">
+          <VisualState.StateTriggers>
+            <AdaptiveTrigger MinWindowWidth="0" />
+          </VisualState.StateTriggers>
+          <VisualState.Setters>
+            <Setter Target="MapContainer.Height" Value="220" />
+            <Setter Target="LegendBorder.Visibility" Value="Collapsed" />
+            <Setter Target="ExpandButton.Visibility" Value="Collapsed" />
+          </VisualState.Setters>
+        </VisualState>
+      </VisualStateGroup>
+    </VisualStateManager.VisualStateGroups>
+    <utu:AutoLayout Orientation="Vertical" Spacing="24">
+      <!-- Header -->
+      <Grid>
+        <TextBlock Text="Live Map"
+                   Style="{StaticResource SectionTitleStyle}" />
+        <StackPanel Orientation="Horizontal" Spacing="8" HorizontalAlignment="Right">
+          <Button Content="FOCUS"
+                  x:Name="FocusButton"
+                  Style="{StaticResource GhostButtonStyle}"
+                  Click="OnFocusButtonClick" />
+          <Button x:Name="ExpandButton" Content="EXPAND MAP"
+                  Style="{StaticResource GhostButtonStyle}" />
+        </StackPanel>
+      </Grid>
+
+      <!-- Map Container -->
+      <Border x:Name="MapContainer"
+              Height="320"
+              Background="{ThemeResource BgTertiaryBrush}"
+              CornerRadius="16">
+
+        <Grid>
+          <!-- Mapsui Map Control -->
+          <mapsui:MapControl x:Name="MapControl"
+                             HorizontalAlignment="Stretch"
+                             VerticalAlignment="Stretch" />
+
+            <!-- Map Legend -->
+            <Border x:Name="LegendBorder" Background="{ThemeResource BgCardBrush}"
+              CornerRadius="10"
+              Padding="16,12"
+              HorizontalAlignment="Left"
+              VerticalAlignment="Bottom"
+              Margin="16">
+            <StackPanel Orientation="Horizontal" Spacing="16">
+              <!-- On Route -->
+              <StackPanel Orientation="Horizontal" Spacing="8">
+                <Ellipse Width="10" Height="10">
+                  <Ellipse.Fill>
+                    <SolidColorBrush Color="{ThemeResource AccentSecondary}" />
+                  </Ellipse.Fill>
+                </Ellipse>
+                <TextBlock Text="On Route"
+                           FontSize="{StaticResource FontBodySmall}"
+                           Foreground="{ThemeResource TextSecondaryBrush}" />
+              </StackPanel>
+
+              <!-- On Site -->
+              <StackPanel Orientation="Horizontal" Spacing="8">
+                <Ellipse Width="10" Height="10">
+                  <Ellipse.Fill>
+                    <SolidColorBrush Color="{ThemeResource TextPrimary}" />
+                  </Ellipse.Fill>
+                </Ellipse>
+                <TextBlock Text="On Site"
+                           FontSize="{StaticResource FontBodySmall}"
+                           Foreground="{ThemeResource TextSecondaryBrush}" />
+              </StackPanel>
+
+              <!-- Available -->
+              <StackPanel Orientation="Horizontal" Spacing="8">
+                <Ellipse Width="10" Height="10">
+                  <Ellipse.Fill>
+                    <SolidColorBrush Color="{ThemeResource AccentTertiary}" />
+                  </Ellipse.Fill>
+                </Ellipse>
+                <TextBlock Text="Available"
+                           FontSize="{StaticResource FontBodySmall}"
+                           Foreground="{ThemeResource TextSecondaryBrush}" />
+              </StackPanel>
+            </StackPanel>
+          </Border>
+        </Grid>
+      </Border>
+    </utu:AutoLayout>
+  </Border>
+</UserControl>

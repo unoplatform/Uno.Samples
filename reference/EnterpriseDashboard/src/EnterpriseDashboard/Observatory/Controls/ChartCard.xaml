@@ -1,0 +1,95 @@
+<UserControl x:Class="EnterpriseDashboard.Observatory.Controls.ChartCard"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d">
+
+  <Border Background="{ThemeResource ObsCardBrush}"
+          BorderBrush="{ThemeResource ObsBorderBrush}"
+          BorderThickness="1"
+          CornerRadius="5"
+          Padding="22,20,22,16">
+    <Grid RowSpacing="0">
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="*" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+      </Grid.RowDefinitions>
+
+      <!-- Title row: title · tag · overflow affordance -->
+      <Grid Grid.Row="0">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <TextBlock x:Name="TitleText"
+                   Style="{StaticResource ObsCardTitle}"
+                   TextTrimming="CharacterEllipsis"
+                   TextWrapping="NoWrap"
+                   Margin="0,0,10,0"
+                   VerticalAlignment="Center" />
+        <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="12" VerticalAlignment="Center">
+          <TextBlock x:Name="BadgeText"
+                     Style="{StaticResource ObsMonoTag}"
+                     VerticalAlignment="Center" />
+          <FontIcon x:Name="MenuGlyph"
+                    Glyph="&#xE712;"
+                    FontSize="12"
+                    Foreground="{ThemeResource ObsFaintBrush}"
+                    VerticalAlignment="Center" />
+        </StackPanel>
+      </Grid>
+
+      <!-- Stat row: figure + unit (left) · delta chip (right) -->
+      <Grid Grid.Row="1" Margin="0,6,0,16" VerticalAlignment="Bottom">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom">
+          <TextBlock x:Name="StatText"
+                     Style="{StaticResource ObsStatValue}"
+                     VerticalAlignment="Bottom" />
+          <TextBlock x:Name="UnitText"
+                     Style="{StaticResource ObsMonoSmall}"
+                     Margin="8,0,0,7"
+                     VerticalAlignment="Bottom" />
+        </StackPanel>
+        <StackPanel x:Name="DeltaPanel"
+                    Grid.Column="1"
+                    Orientation="Horizontal"
+                    Spacing="4"
+                    Margin="0,0,0,7"
+                    VerticalAlignment="Bottom"
+                    Visibility="Collapsed">
+          <TextBlock x:Name="DeltaGlyph" Style="{StaticResource ObsDelta}" Text="&#x25B2;" />
+          <TextBlock x:Name="DeltaTextBlock" Style="{StaticResource ObsDelta}" />
+        </StackPanel>
+      </Grid>
+
+      <!-- Chart content slot -->
+      <ContentPresenter x:Name="ChartHost"
+                        Grid.Row="2"
+                        MinHeight="150"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch" />
+
+      <!-- Legend slot -->
+      <ContentPresenter x:Name="LegendHost"
+                        Grid.Row="3"
+                        Margin="0,10,0,0"
+                        HorizontalAlignment="Left" />
+
+      <!-- Footer note: source · last updated -->
+      <TextBlock x:Name="FooterTextBlock"
+                 Grid.Row="4"
+                 Style="{StaticResource ObsFooter}"
+                 Margin="0,12,0,0"
+                 Visibility="Collapsed" />
+    </Grid>
+  </Border>
+
+</UserControl>

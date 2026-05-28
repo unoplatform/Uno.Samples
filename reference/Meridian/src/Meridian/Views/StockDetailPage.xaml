@@ -1,0 +1,790 @@
+<Page x:Class="Meridian.Views.StockDetailPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:ll="using:Liveline"
+      xmlns:controls="using:Meridian.Controls"
+      xmlns:converters="using:Meridian.Converters"
+      xmlns:views="using:Meridian.Views"
+      Background="{ThemeResource MeridianBackgroundBrush}">
+
+    <Page.Resources>
+        <converters:TagToBrushConverter x:Key="TagToBrush" />
+        <converters:GainLossBrushConverter x:Key="GainLossBrush" />
+        <converters:DecimalFormatConverter x:Key="DecimalFormat" />
+        <converters:IsPositiveConverter x:Key="IsPositive" />
+        <converters:PrefixSuffixConverter x:Key="PrefixSuffix" />
+    </Page.Resources>
+
+    <Grid>
+    <ScrollViewer VerticalScrollBarVisibility="Auto"
+                  HorizontalScrollBarVisibility="Disabled">
+        <Grid MaxWidth="1400"
+              HorizontalAlignment="Center"
+              Padding="32,20,32,20">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />  <!-- Row 0: Header Bar -->
+                <RowDefinition Height="Auto" />  <!-- Row 1: Price Hero -->
+                <RowDefinition Height="*" />     <!-- Row 2: Two-column content -->
+                <RowDefinition Height="Auto" />  <!-- Row 3: Footer -->
+            </Grid.RowDefinitions>
+
+            <!-- ═══════════════════════════════════════════════ -->
+            <!-- ROW 0: HEADER BAR                              -->
+            <!-- ═══════════════════════════════════════════════ -->
+            <Grid x:Name="HeaderBar" Grid.Row="0"
+                  Padding="0,0,0,20" Margin="0,0,0,24"
+                  BorderBrush="{StaticResource MeridianBorderBrush}"
+                  BorderThickness="0,0,0,1"
+                  Opacity="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />  <!-- Back button -->
+                    <ColumnDefinition Width="Auto" />  <!-- Divider -->
+                    <ColumnDefinition Width="*" />     <!-- Ticker + Name -->
+                    <ColumnDefinition Width="Auto" />  <!-- TRADE -->
+                    <ColumnDefinition Width="Auto" />  <!-- Watchlist -->
+                </Grid.ColumnDefinitions>
+
+                <!-- Back button -->
+                <Button x:Name="BackButton" Grid.Column="0"
+                        Style="{StaticResource MeridianBackButtonStyle}"
+                        Click="OnBackButtonClick"
+                        PointerEntered="OnBackButtonPointerEntered"
+                        PointerExited="OnBackButtonPointerExited"
+                        VerticalAlignment="Center"
+                        AutomationProperties.Name="Back to Dashboard"
+                        x:Uid="StockDetail.Button.Back">
+                    <StackPanel Orientation="Horizontal" Spacing="6">
+                        <FontIcon x:Name="BackArrowIcon" Glyph="&#xE72B;" FontSize="{StaticResource FontSize14}"
+                                  Foreground="{StaticResource MeridianTextMutedBrush}">
+                            <FontIcon.RenderTransform>
+                                <TranslateTransform x:Name="BackArrowTranslate" />
+                            </FontIcon.RenderTransform>
+                        </FontIcon>
+                        <Border x:Name="BackTrailLine" Width="0" Height="1"
+                                Background="{StaticResource MeridianBorderBrush}"
+                                VerticalAlignment="Center" />
+                        <TextBlock Text="Back to Dashboard"
+                                   FontFamily="{StaticResource OutfitFont}"
+                                   FontSize="{StaticResource FontSize12}" FontWeight="SemiBold"
+                                   Foreground="{StaticResource MeridianTextMutedBrush}" />
+                    </StackPanel>
+                </Button>
+
+                <!-- Vertical divider -->
+                <Border Grid.Column="1" Width="1" Height="20"
+                        Background="{StaticResource MeridianBorderBrush}"
+                        Margin="16,0" VerticalAlignment="Center" />
+
+                <!-- Ticker + Company Name -->
+                <StackPanel Grid.Column="2" Orientation="Horizontal"
+                            Spacing="0" VerticalAlignment="Center">
+                    <TextBlock x:Name="HeaderTicker"
+                               Text="{Binding Stock.Ticker}"
+                               FontFamily="{StaticResource InstrumentSerifFont}"
+                               FontSize="{StaticResource FontSize20}" FontWeight="Normal"
+                               Foreground="{StaticResource MeridianTextPrimaryBrush}" />
+                    <TextBlock x:Name="DetailBrailleActivity" Text="⣤⣶⣷⣿"
+                               FontFamily="{StaticResource IBMPlexMonoFont}"
+                               FontSize="{StaticResource FontSize9}" Opacity="0.4" Margin="4,0,0,0"
+                               Foreground="{StaticResource MeridianAccentBrush}"
+                               VerticalAlignment="Center" />
+                    <TextBlock Text=" · "
+                               FontFamily="{StaticResource IBMPlexMonoFont}"
+                               FontSize="{StaticResource FontSize14}"
+                               Foreground="{StaticResource MeridianTextSubtleBrush}" />
+                    <TextBlock x:Name="HeaderCompanyName"
+                               Text="{Binding Stock.Name}"
+                               FontFamily="{StaticResource OutfitFont}"
+                               FontSize="{StaticResource FontSize14}" FontWeight="Normal"
+                               Foreground="{StaticResource MeridianTextMutedBrush}" />
+                </StackPanel>
+
+                <!-- TRADE button -->
+                <Button Grid.Column="3" Content="TRADE"
+                        Style="{StaticResource MeridianAccentButtonStyle}"
+                        Click="OnTradeButtonClick"
+                        Margin="0,0,10,0"
+                        VerticalAlignment="Center"
+                        AutomationProperties.Name="Open trade drawer"
+                        x:Uid="StockDetail.Button.Trade" />
+
+                <!-- Watchlist toggle -->
+                <Button x:Name="WatchlistButton" Grid.Column="4"
+                        Style="{StaticResource MeridianGhostButtonStyle}"
+                        Click="OnWatchlistToggleClick"
+                        VerticalAlignment="Center"
+                        AutomationProperties.Name="Toggle watchlist"
+                        x:Uid="StockDetail.Button.Watchlist">
+                    <StackPanel Orientation="Horizontal" Spacing="4">
+                        <TextBlock x:Name="WatchlistIcon" Text="&#x2606;"
+                                   FontSize="{StaticResource FontSize14}" VerticalAlignment="Center" />
+                        <TextBlock x:Name="WatchlistLabel" Text="Watchlist"
+                                   FontFamily="{StaticResource OutfitFont}"
+                                   FontSize="{StaticResource FontSize12}" FontWeight="SemiBold" />
+                    </StackPanel>
+                </Button>
+            </Grid>
+
+            <!-- ═══════════════════════════════════════════════ -->
+            <!-- ROW 1: PRICE HERO                              -->
+            <!-- ═══════════════════════════════════════════════ -->
+            <StackPanel x:Name="PriceHeroPanel" Grid.Row="1"
+                        Margin="0,0,0,28" Opacity="0">
+                <!-- Price + Change pill + "today" -->
+                <StackPanel Orientation="Horizontal" Spacing="16"
+                            VerticalAlignment="Bottom">
+                    <TextBlock x:Name="DetailBrailleSpinner" Text="⠋"
+                               FontFamily="{StaticResource IBMPlexMonoFont}"
+                               FontSize="{StaticResource FontSize14}"
+                               Foreground="{StaticResource MeridianGainBrush}"
+                               VerticalAlignment="Bottom" Margin="0,0,4,8" />
+                    <TextBlock x:Name="HeroPrice"
+                               FontFamily="{StaticResource InstrumentSerifFont}"
+                               FontSize="{StaticResource FontSize48}" FontWeight="Normal"
+                               Foreground="{StaticResource MeridianTextPrimaryBrush}"
+                               CharacterSpacing="-30" />
+
+                    <!-- Gain pill (matches DashboardPage) -->
+                    <Border x:Name="GainPill"
+                            CornerRadius="18" Padding="14,8"
+                            VerticalAlignment="Center"
+                            RenderTransformOrigin="0.5,0.5">
+                        <Border.RenderTransform>
+                            <ScaleTransform x:Name="GainPillScale" />
+                        </Border.RenderTransform>
+                        <StackPanel Orientation="Horizontal" Spacing="6">
+                            <Viewbox x:Name="GainArrowViewbox" Width="10" Height="10"
+                                     VerticalAlignment="Center"
+                                     RenderTransformOrigin="0.5,0.5">
+                                <Polygon x:Name="GainArrowPolygon" Points="5,0 10,8 0,8"
+                                         Fill="{ThemeResource MeridianGainBrush}" />
+                            </Viewbox>
+                            <TextBlock x:Name="GainValue"
+                                       FontFamily="{StaticResource IBMPlexMonoMediumFont}"
+                                       FontSize="{StaticResource FontSize14}"
+                                       Foreground="{ThemeResource MeridianGainBrush}" />
+                            <TextBlock x:Name="GainPct"
+                                       FontFamily="{StaticResource IBMPlexMonoMediumFont}"
+                                       FontSize="{StaticResource FontSize13}" Opacity="0.7"
+                                       Foreground="{ThemeResource MeridianGainBrush}" />
+                        </StackPanel>
+                    </Border>
+
+                    <TextBlock Text="today"
+                               FontFamily="{StaticResource OutfitFont}"
+                               FontSize="{StaticResource FontSize11}" FontWeight="SemiBold"
+                               Foreground="{StaticResource MeridianTextSubtleBrush}"
+                               VerticalAlignment="Center"
+                               Margin="0,6,0,0"
+                               x:Uid="StockDetail.Label.Today" />
+                </StackPanel>
+
+                <!-- OHLC strip -->
+                <StackPanel x:Name="OhlcStrip" Orientation="Horizontal"
+                            Margin="0,8,0,0">
+                    <!-- Populated in code-behind -->
+                </StackPanel>
+            </StackPanel>
+
+            <!-- ═══════════════════════════════════════════════ -->
+            <!-- ROW 2: TWO-COLUMN LAYOUT                       -->
+            <!-- ═══════════════════════════════════════════════ -->
+            <Grid Grid.Row="2" ColumnSpacing="20" RowSpacing="20">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />      <!-- Left column -->
+                    <ColumnDefinition Width="340" />    <!-- Right column -->
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />  <!-- Chart | Stats -->
+                    <RowDefinition Height="Auto" />  <!-- Position | Analyst -->
+                    <RowDefinition Height="Auto" />  <!-- About | News -->
+                    <RowDefinition Height="Auto" />  <!-- Financials | Similar -->
+                </Grid.RowDefinitions>
+
+                <!-- ─── LEFT COLUMN ─── -->
+
+                    <!-- CHART CARD -->
+                    <Border x:Name="ChartCard" Grid.Row="0" Grid.Column="0" Style="{StaticResource MeridianCard}" Opacity="0">
+                        <Grid RowSpacing="12">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />  <!-- Timeframe + Type buttons -->
+                                <RowDefinition Height="320" />   <!-- Main chart -->
+                                <RowDefinition Height="Auto" />  <!-- Volume sub-chart -->
+                            </Grid.RowDefinitions>
+
+                            <!-- Timeframe + Chart Type selectors -->
+                            <Grid Grid.Row="0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <!-- Timeframe buttons -->
+                                <StackPanel x:Name="TimeframeButtons" Grid.Column="0"
+                                            Orientation="Horizontal" Spacing="2">
+                                    <Button Tag="1D" Content="1D" Click="OnTimeframeClick" Style="{StaticResource MeridianBackButtonStyle}" Padding="10,4" FontSize="{StaticResource FontSize11}" />
+                                    <Button Tag="1W" Content="1W" Click="OnTimeframeClick" Style="{StaticResource MeridianBackButtonStyle}" Padding="10,4" FontSize="{StaticResource FontSize11}" />
+                                    <Button Tag="1M" Content="1M" Click="OnTimeframeClick" Style="{StaticResource MeridianBackButtonStyle}" Padding="10,4" FontSize="{StaticResource FontSize11}" />
+                                    <Button Tag="3M" Content="3M" Click="OnTimeframeClick" Style="{StaticResource MeridianBackButtonStyle}" Padding="10,4" FontSize="{StaticResource FontSize11}" />
+                                    <Button Tag="6M" Content="6M" Click="OnTimeframeClick" Style="{StaticResource MeridianBackButtonStyle}" Padding="10,4" FontSize="{StaticResource FontSize11}" />
+                                    <Button Tag="YTD" Content="YTD" Click="OnTimeframeClick" Style="{StaticResource MeridianBackButtonStyle}" Padding="10,4" FontSize="{StaticResource FontSize11}" />
+                                    <Button Tag="1Y" Content="1Y" Click="OnTimeframeClick" Style="{StaticResource MeridianBackButtonStyle}" Padding="10,4" FontSize="{StaticResource FontSize11}" />
+                                    <Button Tag="5Y" Content="5Y" Click="OnTimeframeClick" Style="{StaticResource MeridianBackButtonStyle}" Padding="10,4" FontSize="{StaticResource FontSize11}" />
+                                    <Button Tag="ALL" Content="ALL" Click="OnTimeframeClick" Style="{StaticResource MeridianBackButtonStyle}" Padding="10,4" FontSize="{StaticResource FontSize11}" />
+                                </StackPanel>
+
+                                <!-- Chart type toggle -->
+                                <Border Grid.Column="1" Background="{StaticResource MeridianBackgroundBrush}"
+                                        CornerRadius="8" Padding="3">
+                                    <StackPanel x:Name="ChartTypeButtons" Orientation="Horizontal" Spacing="2">
+                                        <Button Tag="Line" Content="Line" Click="OnChartTypeClick"
+                                                Padding="12,4" FontSize="{StaticResource FontSize10}" FontWeight="SemiBold"
+                                                FontFamily="{StaticResource OutfitFont}"
+                                                Background="Transparent" BorderThickness="0" CornerRadius="6"
+                                                Foreground="{StaticResource MeridianTextSubtleBrush}" />
+                                        <Button Tag="Area" Content="Area" Click="OnChartTypeClick"
+                                                Padding="12,4" FontSize="{StaticResource FontSize10}" FontWeight="SemiBold"
+                                                FontFamily="{StaticResource OutfitFont}"
+                                                Background="{StaticResource MeridianCardBrush}" BorderThickness="0" CornerRadius="6"
+                                                Foreground="{StaticResource MeridianTextPrimaryBrush}" />
+                                    </StackPanel>
+                                </Border>
+                            </Grid>
+
+                            <!-- Main chart -->
+                            <ll:LivelineChart x:Name="StockChart" Grid.Row="1"
+                                              ShowGrid="True" ShowBadge="True"
+                                              ShowFill="True" Momentum="True"
+                                              LerpSpeed="0.04"
+                                              PointerMoved="OnStockChartPointerMoved"
+                                              PointerExited="OnStockChartPointerExited" />
+
+                            <!-- Volume sub-chart -->
+                            <Grid Grid.Row="2" RowSpacing="4">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <TextBlock Text="VOLUME" Grid.Row="0"
+                                           FontFamily="{StaticResource IBMPlexMonoFont}"
+                                           FontSize="{StaticResource FontSize9}" FontWeight="SemiBold"
+                                           Foreground="{StaticResource MeridianTextSubtleBrush}"
+                                           CharacterSpacing="100" />
+                                <controls:VolumeSubChartControl x:Name="VolumeSubChart" Grid.Row="1"
+                                                                Height="50" Opacity="0.7" />
+                            </Grid>
+                        </Grid>
+                    </Border>
+
+                    <!-- ABOUT CARD -->
+                    <Border x:Name="AboutCard" Grid.Row="2" Grid.Column="0" Style="{StaticResource MeridianCard}" Opacity="0">
+                        <StackPanel Spacing="12">
+                            <TextBlock x:Name="AboutLabel" Style="{StaticResource SectionLabel}" />
+
+                            <!-- Description (truncated/expandable) -->
+                            <Grid>
+                                <TextBlock x:Name="AboutDescription"
+                                           FontFamily="{StaticResource OutfitFont}"
+                                           FontSize="{StaticResource FontSize13}" LineHeight="21.5"
+                                           Foreground="{StaticResource MeridianTextPrimaryBrush}"
+                                           TextWrapping="Wrap" MaxLines="3"
+                                           TextTrimming="CharacterEllipsis" />
+                            </Grid>
+                            <Button x:Name="ReadMoreButton" Content="Read more"
+                                    Style="{StaticResource MeridianBackButtonStyle}"
+                                    Foreground="{StaticResource MeridianAccentBrush}"
+                                    FontSize="{StaticResource FontSize12}" FontWeight="SemiBold"
+                                    Click="OnReadMoreClick" HorizontalAlignment="Left" />
+
+                            <!-- Divider -->
+                            <Border Height="1" Background="{StaticResource MeridianBorderBrush}" />
+
+                            <!-- Metadata grid -->
+                            <Grid x:Name="MetadataGrid" RowSpacing="8">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="80" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+
+                                <TextBlock Grid.Row="0" Grid.Column="0" Text="Sector" Style="{StaticResource MetaLabel}" />
+                                <TextBlock Grid.Row="0" Grid.Column="1" x:Name="MetaSector" Style="{StaticResource MetaValue}" />
+                                <TextBlock Grid.Row="1" Grid.Column="0" Text="Industry" Style="{StaticResource MetaLabel}" />
+                                <TextBlock Grid.Row="1" Grid.Column="1" x:Name="MetaIndustry" Style="{StaticResource MetaValue}" />
+                                <TextBlock Grid.Row="2" Grid.Column="0" Text="Founded" Style="{StaticResource MetaLabel}" />
+                                <TextBlock Grid.Row="2" Grid.Column="1" x:Name="MetaFounded" Style="{StaticResource MetaValue}" />
+                                <TextBlock Grid.Row="3" Grid.Column="0" Text="CEO" Style="{StaticResource MetaLabel}" />
+                                <TextBlock Grid.Row="3" Grid.Column="1" x:Name="MetaCeo" Style="{StaticResource MetaValue}" />
+                                <TextBlock Grid.Row="4" Grid.Column="0" Text="Employees" Style="{StaticResource MetaLabel}" />
+                                <TextBlock Grid.Row="4" Grid.Column="1" x:Name="MetaEmployees" Style="{StaticResource MetaValue}" />
+                            </Grid>
+
+                            <!-- External links -->
+                            <StackPanel Orientation="Horizontal" Spacing="16" Margin="0,4,0,0">
+                                <Button x:Name="WebsiteLink" Style="{StaticResource MeridianBackButtonStyle}"
+                                        Foreground="{StaticResource MeridianAccentBrush}"
+                                        FontSize="{StaticResource FontSize12}" FontWeight="SemiBold"
+                                        Click="OnWebsiteLinkClick">
+                                    <TextBlock><Run Text="Website"/><Run Text=" &#x2197;" /></TextBlock>
+                                </Button>
+                                <Button Style="{StaticResource MeridianBackButtonStyle}"
+                                        Foreground="{StaticResource MeridianAccentBrush}"
+                                        FontSize="{StaticResource FontSize12}" FontWeight="SemiBold">
+                                    <TextBlock><Run Text="SEC Filings"/><Run Text=" &#x2197;" /></TextBlock>
+                                </Button>
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- POSITION CARD -->
+                    <Border x:Name="PositionCard" Grid.Row="1" Grid.Column="0" Style="{StaticResource MeridianCard}" Opacity="0">
+                        <StackPanel Spacing="16">
+                            <TextBlock Text="YOUR POSITION" Style="{StaticResource SectionLabel}" />
+
+                            <!-- Has position state -->
+                            <StackPanel x:Name="HasPositionPanel" Spacing="16">
+                                <!-- Shares + Avg cost -->
+                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                    <TextBlock x:Name="PositionShares"
+                                               FontFamily="{StaticResource IBMPlexMonoMediumFont}"
+                                               FontSize="{StaticResource FontSize16}" FontWeight="SemiBold"
+                                               Foreground="{StaticResource MeridianTextPrimaryBrush}" />
+                                    <TextBlock Text=" shares"
+                                               FontFamily="{StaticResource IBMPlexMonoMediumFont}"
+                                               FontSize="{StaticResource FontSize16}" FontWeight="SemiBold"
+                                               Foreground="{StaticResource MeridianTextPrimaryBrush}" />
+                                    <TextBlock Text="  ·  "
+                                               FontFamily="{StaticResource IBMPlexMonoFont}"
+                                               FontSize="{StaticResource FontSize14}"
+                                               Foreground="{StaticResource MeridianTextSubtleBrush}" />
+                                    <TextBlock Text="Avg "
+                                               FontFamily="{StaticResource IBMPlexMonoFont}"
+                                               FontSize="{StaticResource FontSize14}"
+                                               Foreground="{StaticResource MeridianTextMutedBrush}" />
+                                    <TextBlock x:Name="PositionAvgCost"
+                                               FontFamily="{StaticResource IBMPlexMonoFont}"
+                                               FontSize="{StaticResource FontSize14}"
+                                               Foreground="{StaticResource MeridianTextMutedBrush}" />
+                                </StackPanel>
+
+                                <!-- Mini-stat cards row -->
+                                <Grid ColumnSpacing="12">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <!-- Market Value -->
+                                    <Border Grid.Column="0" CornerRadius="12" BorderThickness="1"
+                                            BorderBrush="{StaticResource MeridianBorderBrush}"
+                                            Background="{StaticResource MeridianCardBrush}"
+                                            Padding="18,16">
+                                        <StackPanel Spacing="6">
+                                            <TextBlock Text="MARKET VALUE"
+                                                       FontFamily="{StaticResource IBMPlexMonoFont}"
+                                                       FontSize="{StaticResource FontSize9}" FontWeight="SemiBold"
+                                                       Foreground="{StaticResource MeridianTextMutedBrush}"
+                                                       CharacterSpacing="100" />
+                                            <TextBlock x:Name="MiniMarketValue"
+                                                       FontFamily="{StaticResource IBMPlexMonoMediumFont}"
+                                                       FontSize="{StaticResource FontSize18}" FontWeight="SemiBold"
+                                                       Foreground="{StaticResource MeridianTextPrimaryBrush}" />
+                                        </StackPanel>
+                                    </Border>
+
+                                    <!-- Unrealized P/L -->
+                                    <Border Grid.Column="1" CornerRadius="12" BorderThickness="1"
+                                            BorderBrush="{StaticResource MeridianBorderBrush}"
+                                            Background="{StaticResource MeridianCardBrush}"
+                                            Padding="18,16">
+                                        <StackPanel Spacing="6">
+                                            <TextBlock Text="UNREALIZED"
+                                                       FontFamily="{StaticResource IBMPlexMonoFont}"
+                                                       FontSize="{StaticResource FontSize9}" FontWeight="SemiBold"
+                                                       Foreground="{StaticResource MeridianTextMutedBrush}"
+                                                       CharacterSpacing="100" />
+                                            <TextBlock x:Name="MiniUnrealized"
+                                                       FontFamily="{StaticResource IBMPlexMonoMediumFont}"
+                                                       FontSize="{StaticResource FontSize18}" FontWeight="SemiBold" />
+                                        </StackPanel>
+                                    </Border>
+
+                                    <!-- Return % -->
+                                    <Border Grid.Column="2" CornerRadius="12" BorderThickness="1"
+                                            BorderBrush="{StaticResource MeridianBorderBrush}"
+                                            Background="{StaticResource MeridianCardBrush}"
+                                            Padding="18,16">
+                                        <StackPanel Spacing="6">
+                                            <TextBlock Text="RETURN"
+                                                       FontFamily="{StaticResource IBMPlexMonoFont}"
+                                                       FontSize="{StaticResource FontSize9}" FontWeight="SemiBold"
+                                                       Foreground="{StaticResource MeridianTextMutedBrush}"
+                                                       CharacterSpacing="100" />
+                                            <TextBlock x:Name="MiniReturn"
+                                                       FontFamily="{StaticResource IBMPlexMonoMediumFont}"
+                                                       FontSize="{StaticResource FontSize18}" FontWeight="SemiBold" />
+                                        </StackPanel>
+                                    </Border>
+                                </Grid>
+
+                                <!-- Weight bar -->
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="0" Text="Weight in portfolio"
+                                               FontFamily="{StaticResource OutfitFont}"
+                                               FontSize="{StaticResource FontSize11}"
+                                               Foreground="{StaticResource MeridianTextMutedBrush}"
+                                               VerticalAlignment="Center" />
+                                    <TextBlock Grid.Column="1" x:Name="WeightPctLabel"
+                                               FontFamily="{StaticResource IBMPlexMonoFont}"
+                                               FontSize="{StaticResource FontSize11}"
+                                               Foreground="{StaticResource MeridianTextPrimaryBrush}"
+                                               VerticalAlignment="Center" />
+                                </Grid>
+                                <Grid Height="4" CornerRadius="2">
+                                    <Border Background="{StaticResource MeridianSurfaceTintedBrush}"
+                                            CornerRadius="2" />
+                                    <Border x:Name="WeightBarFill"
+                                            Background="{StaticResource MeridianGainBrush}"
+                                            CornerRadius="2" Opacity="0.6"
+                                            HorizontalAlignment="Left" Width="0" />
+                                </Grid>
+
+                                <!-- TRADE + SELL ALL buttons -->
+                                <Grid ColumnSpacing="8">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Button Grid.Column="0" Content="TRADE"
+                                            Style="{StaticResource MeridianAccentButtonStyle}"
+                                            CornerRadius="10" Padding="0,10"
+                                            Click="OnTradeButtonClick" />
+                                    <Button Grid.Column="1" Content="SELL ALL"
+                                            Style="{StaticResource MeridianLossButtonStyle}"
+                                            Click="OnSellAllClick" />
+                                </Grid>
+                            </StackPanel>
+
+                            <!-- No position state -->
+                            <StackPanel x:Name="NoPositionPanel" Visibility="Collapsed" Spacing="12">
+                                <TextBlock x:Name="NoPositionText"
+                                           FontFamily="{StaticResource OutfitFont}"
+                                           FontSize="{StaticResource FontSize13}"
+                                           Foreground="{StaticResource MeridianTextMutedBrush}" />
+                                <Button x:Name="BuyButton"
+                                        Style="{StaticResource MeridianAccentButtonStyle}"
+                                        CornerRadius="10" Padding="0,10"
+                                        Click="OnTradeButtonClick"
+                                        HorizontalAlignment="Stretch" />
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- FINANCIALS CARD -->
+                    <Border x:Name="FinancialsCard" Grid.Row="3" Grid.Column="0" Style="{StaticResource MeridianCard}" Opacity="0">
+                        <StackPanel Spacing="16">
+                            <!-- Header + toggle -->
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="FINANCIALS" Style="{StaticResource SectionLabel}"
+                                           VerticalAlignment="Center" />
+                                <!-- Period toggle -->
+                                <Border Grid.Column="1" Background="{StaticResource MeridianBackgroundBrush}"
+                                        CornerRadius="8" Padding="3">
+                                    <StackPanel x:Name="PeriodToggle" Orientation="Horizontal" Spacing="2">
+                                        <Button Tag="Annual" Content="Annual" Click="OnPeriodToggleClick"
+                                                Padding="12,5" FontSize="{StaticResource FontSize11}" FontWeight="SemiBold"
+                                                FontFamily="{StaticResource OutfitFont}"
+                                                Background="{StaticResource MeridianCardBrush}"
+                                                BorderThickness="0" CornerRadius="6"
+                                                Foreground="{StaticResource MeridianTextPrimaryBrush}" />
+                                        <Button Tag="Quarterly" Content="Quarterly" Click="OnPeriodToggleClick"
+                                                Padding="12,5" FontSize="{StaticResource FontSize11}" FontWeight="SemiBold"
+                                                FontFamily="{StaticResource OutfitFont}"
+                                                Background="Transparent" BorderThickness="0" CornerRadius="6"
+                                                Foreground="{StaticResource MeridianTextSubtleBrush}" />
+                                    </StackPanel>
+                                </Border>
+                            </Grid>
+
+                            <!-- Financials table -->
+                            <StackPanel x:Name="FinancialsTable" Spacing="0">
+                                <!-- Header row -->
+                                <Grid Padding="14,0" Margin="0,0,0,6">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="60" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="1" Text="REVENUE" HorizontalAlignment="Right"
+                                               FontFamily="{StaticResource IBMPlexMonoFont}"
+                                               FontSize="{StaticResource FontSize9}" FontWeight="SemiBold"
+                                               Foreground="{StaticResource MeridianTextSubtleBrush}"
+                                               CharacterSpacing="80" />
+                                    <TextBlock Grid.Column="2" Text="NET INCOME" HorizontalAlignment="Right"
+                                               FontFamily="{StaticResource IBMPlexMonoFont}"
+                                               FontSize="{StaticResource FontSize9}" FontWeight="SemiBold"
+                                               Foreground="{StaticResource MeridianTextSubtleBrush}"
+                                               CharacterSpacing="80" />
+                                    <TextBlock Grid.Column="3" Text="EPS" HorizontalAlignment="Right"
+                                               FontFamily="{StaticResource IBMPlexMonoFont}"
+                                               FontSize="{StaticResource FontSize9}" FontWeight="SemiBold"
+                                               Foreground="{StaticResource MeridianTextSubtleBrush}"
+                                               CharacterSpacing="80" />
+                                </Grid>
+                                <!-- Data rows populated in code-behind -->
+                            </StackPanel>
+
+                            <!-- Revenue bar chart -->
+                            <controls:RevenueBarChartControl x:Name="RevenueBarChart"
+                                                             Height="80" Margin="14,0" />
+                        </StackPanel>
+                    </Border>
+
+                <!-- ─── RIGHT COLUMN ─── -->
+
+                    <!-- KEY STATISTICS CARD -->
+                    <Border x:Name="StatsCard" Grid.Row="0" Grid.Column="1"
+                            Style="{StaticResource MeridianCard}"
+                            Padding="10,20,10,10" Opacity="0"
+                            VerticalAlignment="Stretch">
+                        <StackPanel Spacing="10">
+                            <TextBlock Text="STATISTICS" Style="{StaticResource SectionLabel}"
+                                       Margin="14,0,14,0" />
+                            <StackPanel x:Name="StatsRows" Spacing="0">
+                                <!-- Populated in code-behind -->
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- ANALYST CONSENSUS CARD -->
+                    <Border x:Name="AnalystCard" Grid.Row="1" Grid.Column="1"
+                            Style="{StaticResource MeridianCard}" Opacity="0"
+                            VerticalAlignment="Stretch">
+                        <StackPanel Spacing="16">
+                            <TextBlock Text="ANALYST RATINGS" Style="{StaticResource SectionLabel}" />
+
+                            <!-- Stacked rating bar -->
+                            <Grid x:Name="RatingBar" Height="10" CornerRadius="5"
+                                  ColumnSpacing="2">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition x:Name="BuySegment" Width="28*" />
+                                    <ColumnDefinition x:Name="HoldSegment" Width="8*" />
+                                    <ColumnDefinition x:Name="SellSegment" Width="2*" />
+                                </Grid.ColumnDefinitions>
+                                <Border Grid.Column="0" Background="{StaticResource MeridianGainBrush}"
+                                        CornerRadius="5,0,0,5" />
+                                <Border Grid.Column="1" Background="{StaticResource MeridianAccentBrush}" />
+                                <Border Grid.Column="2" Background="{StaticResource MeridianLossBrush}"
+                                        CornerRadius="0,5,5,0" />
+                            </Grid>
+
+                            <!-- Buy / Hold / Sell counts -->
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Grid.Column="0" Spacing="2">
+                                    <TextBlock x:Name="BuyCount"
+                                               FontFamily="{StaticResource IBMPlexMonoMediumFont}"
+                                               FontSize="{StaticResource FontSize18}" FontWeight="SemiBold"
+                                               Foreground="{StaticResource MeridianGainBrush}" />
+                                    <TextBlock Text="Buy"
+                                               FontFamily="{StaticResource OutfitFont}"
+                                               FontSize="{StaticResource FontSize10}" FontWeight="SemiBold"
+                                               Foreground="{StaticResource MeridianTextMutedBrush}" />
+                                </StackPanel>
+                                <StackPanel Grid.Column="1" Spacing="2" HorizontalAlignment="Center">
+                                    <TextBlock x:Name="HoldCount"
+                                               FontFamily="{StaticResource IBMPlexMonoMediumFont}"
+                                               FontSize="{StaticResource FontSize18}" FontWeight="SemiBold"
+                                               Foreground="{StaticResource MeridianAccentBrush}"
+                                               HorizontalAlignment="Center" />
+                                    <TextBlock Text="Hold"
+                                               FontFamily="{StaticResource OutfitFont}"
+                                               FontSize="{StaticResource FontSize10}" FontWeight="SemiBold"
+                                               Foreground="{StaticResource MeridianTextMutedBrush}"
+                                               HorizontalAlignment="Center" />
+                                </StackPanel>
+                                <StackPanel Grid.Column="2" Spacing="2" HorizontalAlignment="Right">
+                                    <TextBlock x:Name="SellCount"
+                                               FontFamily="{StaticResource IBMPlexMonoMediumFont}"
+                                               FontSize="{StaticResource FontSize18}" FontWeight="SemiBold"
+                                               Foreground="{StaticResource MeridianLossBrush}"
+                                               HorizontalAlignment="Right" />
+                                    <TextBlock Text="Sell"
+                                               FontFamily="{StaticResource OutfitFont}"
+                                               FontSize="{StaticResource FontSize10}" FontWeight="SemiBold"
+                                               Foreground="{StaticResource MeridianTextMutedBrush}"
+                                               HorizontalAlignment="Right" />
+                                </StackPanel>
+                            </Grid>
+
+                            <!-- Divider -->
+                            <Border Height="1" Background="{StaticResource MeridianBorderBrush}" />
+
+                            <!-- Price Target -->
+                            <TextBlock Text="PRICE TARGET" Style="{StaticResource SectionLabel}" />
+
+                            <!-- Low / Average / High labels + values -->
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Grid.Column="0" Spacing="2">
+                                    <TextBlock Text="Low" FontFamily="{StaticResource OutfitFont}"
+                                               FontSize="{StaticResource FontSize10}" FontWeight="SemiBold"
+                                               Foreground="{StaticResource MeridianTextMutedBrush}" />
+                                    <TextBlock x:Name="TargetLow"
+                                               FontFamily="{StaticResource IBMPlexMonoMediumFont}"
+                                               FontSize="{StaticResource FontSize14}" FontWeight="SemiBold"
+                                               Foreground="{StaticResource MeridianTextPrimaryBrush}" />
+                                </StackPanel>
+                                <StackPanel Grid.Column="1" Spacing="2" HorizontalAlignment="Center">
+                                    <TextBlock Text="Average" FontFamily="{StaticResource OutfitFont}"
+                                               FontSize="{StaticResource FontSize10}" FontWeight="SemiBold"
+                                               Foreground="{StaticResource MeridianTextMutedBrush}"
+                                               HorizontalAlignment="Center" />
+                                    <TextBlock x:Name="TargetAvg"
+                                               FontFamily="{StaticResource IBMPlexMonoMediumFont}"
+                                               FontSize="{StaticResource FontSize14}" FontWeight="SemiBold"
+                                               Foreground="{StaticResource MeridianTextPrimaryBrush}"
+                                               HorizontalAlignment="Center" />
+                                </StackPanel>
+                                <StackPanel Grid.Column="2" Spacing="2" HorizontalAlignment="Right">
+                                    <TextBlock Text="High" FontFamily="{StaticResource OutfitFont}"
+                                               FontSize="{StaticResource FontSize10}" FontWeight="SemiBold"
+                                               Foreground="{StaticResource MeridianTextMutedBrush}"
+                                               HorizontalAlignment="Right" />
+                                    <TextBlock x:Name="TargetHigh"
+                                               FontFamily="{StaticResource IBMPlexMonoMediumFont}"
+                                               FontSize="{StaticResource FontSize14}" FontWeight="SemiBold"
+                                               Foreground="{StaticResource MeridianTextPrimaryBrush}"
+                                               HorizontalAlignment="Right" />
+                                </StackPanel>
+                            </Grid>
+
+                            <!-- Price target track + dot -->
+                            <Grid Height="12" Margin="0,4,0,0">
+                                <Border Height="6" CornerRadius="3"
+                                        Background="{StaticResource MeridianSurfaceTintedBrush}"
+                                        VerticalAlignment="Center" />
+                                <Border x:Name="PriceTargetDot" Width="12" Height="12"
+                                        CornerRadius="6"
+                                        Background="{StaticResource MeridianGainBrush}"
+                                        BorderBrush="White" BorderThickness="2"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center" />
+                            </Grid>
+
+                            <!-- Current price label -->
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="4">
+                                <TextBlock Text="Current:"
+                                           FontFamily="{StaticResource OutfitFont}"
+                                           FontSize="{StaticResource FontSize10}"
+                                           Foreground="{StaticResource MeridianTextMutedBrush}" />
+                                <TextBlock x:Name="TargetCurrent"
+                                           FontFamily="{StaticResource IBMPlexMonoFont}"
+                                           FontSize="{StaticResource FontSize10}" FontWeight="Medium"
+                                           Foreground="{StaticResource MeridianTextPrimaryBrush}" />
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- RELATED NEWS CARD -->
+                    <Border x:Name="NewsCard" Grid.Row="2" Grid.Column="1"
+                            Style="{StaticResource MeridianCard}" Opacity="0"
+                            VerticalAlignment="Stretch">
+                        <StackPanel Spacing="14">
+                            <TextBlock Text="NEWS" Style="{StaticResource SectionLabel}" />
+                            <StackPanel x:Name="NewsRows" Spacing="14">
+                                <!-- Populated in code-behind -->
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- SIMILAR HOLDINGS CARD -->
+                    <Border x:Name="SimilarCard" Grid.Row="3" Grid.Column="1"
+                            Style="{StaticResource MeridianCard}"
+                            Padding="0,20,0,0" Opacity="0"
+                            VerticalAlignment="Stretch">
+                        <StackPanel Spacing="10">
+                            <TextBlock Text="ALSO IN PORTFOLIO" Style="{StaticResource SectionLabel}"
+                                       Margin="22,0" />
+                            <StackPanel x:Name="SimilarRows" Spacing="0">
+                                <!-- Populated in code-behind -->
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+            </Grid>
+
+            <!-- ═══════════════════════════════════════════════ -->
+            <!-- ROW 3: FOOTER                                  -->
+            <!-- ═══════════════════════════════════════════════ -->
+            <Grid x:Name="FooterBar" Grid.Row="3"
+                  Margin="0,28,0,0" Padding="0,16,0,0"
+                  BorderBrush="{StaticResource MeridianBorderBrush}"
+                  BorderThickness="0,1,0,0"
+                  Opacity="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <Button Grid.Column="0"
+                        Style="{StaticResource MeridianBackButtonStyle}"
+                        Click="OnBackButtonClick"
+                        VerticalAlignment="Center">
+                    <StackPanel Orientation="Horizontal" Spacing="6">
+                        <FontIcon Glyph="&#xE72B;" FontSize="{StaticResource FontSize12}"
+                                  Foreground="{StaticResource MeridianTextMutedBrush}" />
+                        <TextBlock Text="Back to Dashboard"
+                                   FontFamily="{StaticResource OutfitFont}"
+                                   FontSize="{StaticResource FontSize11}"
+                                   Foreground="{StaticResource MeridianTextMutedBrush}" />
+                    </StackPanel>
+                </Button>
+
+                <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="4"
+                            VerticalAlignment="Center">
+                    <TextBlock Text="Meridian"
+                               FontFamily="{StaticResource InstrumentSerifItalicFont}"
+                               FontSize="{StaticResource FontSize14}"
+                               Foreground="{StaticResource MeridianTextSubtleBrush}" />
+                    <TextBlock Text="Terminal v4.0"
+                               FontFamily="{StaticResource IBMPlexMonoFont}"
+                               FontSize="{StaticResource FontSize10}"
+                               Foreground="{StaticResource MeridianTextSubtleBrush}" />
+                </StackPanel>
+            </Grid>
+        </Grid>
+    </ScrollViewer>
+
+    <!-- ═══════════ TRADE DRAWER OVERLAY ═══════════ -->
+    <Border x:Name="DrawerBackdrop" Visibility="Collapsed"
+            Background="{StaticResource MeridianBackdropBrush}"
+            Tapped="OnDrawerBackdropTapped" />
+    <views:TradeDrawer x:Name="TradeDrawerPanel" Visibility="Collapsed"
+                       HorizontalAlignment="Right" VerticalAlignment="Stretch" />
+    </Grid>
+</Page>

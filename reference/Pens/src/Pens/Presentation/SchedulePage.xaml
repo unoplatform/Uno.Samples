@@ -1,0 +1,263 @@
+<Page x:Class="Pens.Presentation.SchedulePage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:utu="using:Uno.Toolkit.UI"
+      xmlns:models="using:Pens.Models"
+      Background="{StaticResource ArenaDarkBrush}">
+
+  <Grid>
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+      <Grid Padding="20">
+        <utu:AutoLayout Spacing="20"
+                        MaxWidth="{StaticResource PageContentMaxWidth}"
+                        HorizontalAlignment="Center">
+          <utu:AutoLayout.Transitions>
+            <TransitionCollection>
+              <EntranceThemeTransition FromVerticalOffset="24" />
+            </TransitionCollection>
+          </utu:AutoLayout.Transitions>
+
+          <!-- Next Game Card -->
+          <Border Background="{StaticResource CardBackgroundGradientBrush}"
+                  CornerRadius="{StaticResource LargeCornerRadius}"
+                  Padding="24,24,24,32"
+                  MinHeight="200"
+                  BorderBrush="{StaticResource PowderBlueBorderBrush}"
+                  BorderThickness="1"
+                  AutomationProperties.Name="Next game information">
+            <Grid>
+              <!-- Top gradient bar -->
+              <Border Height="3"
+                      VerticalAlignment="Top"
+                      Margin="-24,-24,-24,0"
+                      Background="{StaticResource FeatureCardTopBarBrush}"
+                      CornerRadius="16,16,0,0" />
+
+              <utu:AutoLayout Spacing="12" Padding="0,8,0,0">
+                <!-- Badge -->
+                <TextBlock Style="{StaticResource BadgeTextStyle}">
+                  <Run Text="{Binding IsGameToday, Converter={StaticResource GameNightEmojiConverter}}" />
+                  <Run Text=" " />
+                  <Run Text="{Binding NextGameBadgeText}" />
+                </TextBlock>
+
+                <!-- Opponent -->
+                <TextBlock Style="{StaticResource BebasCounterTextStyle}"
+                           CharacterSpacing="40">
+                  <Run Text="vs " Foreground="{StaticResource TextMutedBrush}" FontSize="28" />
+                  <Run Text="{Binding NextGame.Opponent, Converter={StaticResource ToUpperConverter}}" />
+                </TextBlock>
+
+                <!-- Details Row -->
+                <utu:AutoLayout Orientation="Horizontal" Spacing="24" Padding="0,8,0,0">
+                  <!-- Date -->
+                  <utu:AutoLayout Orientation="Horizontal" Spacing="8"
+                                  AutomationProperties.Name="Game date">
+                    <Border Width="32" Height="32"
+                            CornerRadius="{StaticResource MediumCornerRadius}"
+                            Background="{StaticResource SubtleBorderBrush}">
+                      <FontIcon Glyph="&#xE787;" FontSize="14"
+                                Foreground="{StaticResource TextMutedBrush}"
+                                HorizontalAlignment="Center" VerticalAlignment="Center"
+                                AutomationProperties.AccessibilityView="Raw" />
+                    </Border>
+                    <StackPanel VerticalAlignment="Center">
+                      <TextBlock Text="{Binding NextGame.Date}"
+                                 Style="{StaticResource BodyDefaultTextStyle}"
+                                 FontFamily="{StaticResource BarlowSemiBold}"
+                                 FontWeight="SemiBold" />
+                      <TextBlock Text="{Binding NextGame.Time}"
+                                 Style="{StaticResource CaptionTextStyle}"
+                                 Margin="0,2,0,0" />
+                    </StackPanel>
+                  </utu:AutoLayout>
+
+                  <!-- Rink -->
+                  <utu:AutoLayout Orientation="Horizontal" Spacing="8"
+                                  AutomationProperties.Name="Game rink location">
+                    <Border Width="32" Height="32"
+                            CornerRadius="{StaticResource MediumCornerRadius}"
+                            Background="{StaticResource SubtleBorderBrush}">
+                      <FontIcon Glyph="&#xE81D;" FontSize="14"
+                                Foreground="{StaticResource TextMutedBrush}"
+                                HorizontalAlignment="Center" VerticalAlignment="Center"
+                                AutomationProperties.AccessibilityView="Raw" />
+                    </Border>
+                    <StackPanel VerticalAlignment="Center">
+                      <TextBlock Text="{Binding NextGame.Rink}"
+                                 Style="{StaticResource BodyDefaultTextStyle}"
+                                 FontFamily="{StaticResource BarlowSemiBold}"
+                                 FontWeight="SemiBold" />
+                    </StackPanel>
+                  </utu:AutoLayout>
+                </utu:AutoLayout>
+              </utu:AutoLayout>
+            </Grid>
+          </Border>
+
+          <!-- Last Week Results -->
+          <utu:AutoLayout Spacing="12">
+            <utu:AutoLayout Orientation="Horizontal" Spacing="8">
+              <TextBlock x:Uid="SchedulePage_LastWeek"
+                         Text="LAST WEEK"
+                         Style="{StaticResource SectionTitleTextStyle}"
+                         AutomationProperties.HeadingLevel="Level2" />
+              <TextBlock Style="{StaticResource CaptionTextStyle}"
+                         VerticalAlignment="Center">
+                <Run Text="{Binding LastGameDate}" />
+                <Run Text=" - " />
+                <Run Text="{Binding LastGameArena}" />
+              </TextBlock>
+            </utu:AutoLayout>
+
+            <ItemsRepeater ItemsSource="{Binding LastResults}">
+              <ItemsRepeater.Layout>
+                <StackLayout Spacing="8" />
+              </ItemsRepeater.Layout>
+              <ItemsRepeater.ItemTemplate>
+                <DataTemplate x:DataType="models:GameResult">
+                  <Border Background="{StaticResource BoardsDarkBrush}"
+                          CornerRadius="{StaticResource MediumCornerRadius}"
+                          Padding="12,10"
+                          BorderBrush="{Binding IsPenguinsGame, Converter={StaticResource BoolToPowderBlueBorderConverter}}"
+                          BorderThickness="1">
+                    <Grid>
+                      <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                      </Grid.ColumnDefinitions>
+
+                      <TextBlock Grid.Column="0"
+                                 Text="{Binding HomeTeam}"
+                                 Style="{StaticResource BodyDefaultTextStyle}"
+                                 HorizontalAlignment="Left"
+                                 VerticalAlignment="Center" />
+
+                      <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="8">
+                        <TextBlock Text="{Binding HomeScore}"
+                                   Style="{StaticResource ScoreTextStyle}"
+                                   Foreground="{StaticResource NeonAmberBrush}" />
+                        <TextBlock Text="-"
+                                   Style="{StaticResource ScoreTextStyle}"
+                                   Foreground="{StaticResource TextMutedBrush}" />
+                        <TextBlock Text="{Binding AwayScore}"
+                                   Style="{StaticResource ScoreTextStyle}"
+                                   Foreground="{StaticResource NeonAmberBrush}" />
+                      </StackPanel>
+
+                      <TextBlock Grid.Column="2"
+                                 Text="{Binding AwayTeam}"
+                                 Style="{StaticResource BodyDefaultTextStyle}"
+                                 HorizontalAlignment="Right"
+                                 VerticalAlignment="Center" />
+                    </Grid>
+                  </Border>
+                </DataTemplate>
+              </ItemsRepeater.ItemTemplate>
+            </ItemsRepeater>
+          </utu:AutoLayout>
+
+          <!-- Upcoming Section -->
+          <TextBlock x:Uid="SchedulePage_UpcomingGames"
+                     Text="UPCOMING GAMES"
+                     Style="{StaticResource SectionTitleTextStyle}"
+                     AutomationProperties.HeadingLevel="Level2"
+                     Margin="0,4,0,0" />
+
+          <!-- Game List -->
+          <ItemsRepeater ItemsSource="{Binding UpcomingGames}">
+            <ItemsRepeater.Layout>
+              <StackLayout Spacing="10" />
+            </ItemsRepeater.Layout>
+            <ItemsRepeater.ItemTemplate>
+              <DataTemplate>
+                <Border Background="{StaticResource BoardsDarkBrush}"
+                        CornerRadius="{StaticResource CardCornerRadius}"
+                        Padding="16"
+                        BorderBrush="{StaticResource CardBorderBrush}"
+                        BorderThickness="1">
+                  <Grid>
+                    <Grid.ColumnDefinitions>
+                      <ColumnDefinition Width="*" />
+                      <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                      <TextBlock Style="{StaticResource BodyTextStyle}">
+                        <Run Text="vs " />
+                        <Run Text="{Binding Opponent}" />
+                      </TextBlock>
+                      <TextBlock Text="{Binding Date}"
+                                 Style="{StaticResource CaptionTextStyle}"
+                                 Margin="0,4,0,0" />
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="1" HorizontalAlignment="Right">
+                      <TextBlock Text="{Binding Time}"
+                                 Style="{StaticResource GameTimeTextStyle}"
+                                 HorizontalAlignment="Right" />
+                      <TextBlock Text="{Binding Rink}"
+                                 Style="{StaticResource LabelTextStyle}"
+                                 HorizontalAlignment="Right" />
+                    </StackPanel>
+                  </Grid>
+                </Border>
+              </DataTemplate>
+            </ItemsRepeater.ItemTemplate>
+          </ItemsRepeater>
+
+          <!-- Bottom padding for nav -->
+          <Border Height="24" />
+        </utu:AutoLayout>
+      </Grid>
+    </ScrollViewer>
+
+    <!-- Loading state -->
+    <Border Visibility="{Binding IsLoading, Converter={StaticResource BoolToVisibilityConverter}}"
+            Background="{StaticResource ArenaDarkBrush}"
+            AutomationProperties.Name="Loading schedule">
+      <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Spacing="16">
+        <ProgressRing IsActive="{Binding IsLoading}" Width="44" Height="44"
+                      Foreground="{StaticResource PowderBlueBrush}" />
+        <TextBlock x:Uid="SchedulePage_Loading" Text="Loading schedule…"
+                   Style="{StaticResource CaptionTextStyle}"
+                   HorizontalAlignment="Center" />
+      </StackPanel>
+    </Border>
+
+    <!-- Empty state -->
+    <Border Visibility="{Binding IsEmpty, Converter={StaticResource BoolToVisibilityConverter}}"
+            Background="{StaticResource ArenaDarkBrush}"
+            AutomationProperties.Name="No games scheduled">
+      <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Spacing="8" Padding="32">
+        <FontIcon Glyph="&#xE787;" FontSize="40"
+                  Foreground="{StaticResource TextMutedBrush}"
+                  HorizontalAlignment="Center" />
+        <TextBlock x:Uid="SchedulePage_Empty" Text="No games scheduled"
+                   Style="{StaticResource BodyTextStyle}"
+                   HorizontalAlignment="Center" />
+        <TextBlock x:Uid="SchedulePage_EmptyHint" Text="The season schedule will show up here once games are added."
+                   Style="{StaticResource CaptionTextStyle}"
+                   TextWrapping="Wrap" TextAlignment="Center"
+                   HorizontalAlignment="Center" />
+      </StackPanel>
+    </Border>
+
+    <!-- Error state -->
+    <Border Visibility="{Binding HasError, Converter={StaticResource BoolToVisibilityConverter}}"
+            Background="{StaticResource ArenaDarkBrush}"
+            AutomationProperties.Name="Error loading schedule">
+      <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Spacing="8" Padding="32">
+        <FontIcon Glyph="&#xEA39;" FontSize="40"
+                  Foreground="{StaticResource HotRedBrush}"
+                  HorizontalAlignment="Center" />
+        <TextBlock Text="{Binding ErrorMessage}"
+                   Style="{StaticResource BodyTextStyle}"
+                   Foreground="{StaticResource HotRedBrush}"
+                   TextWrapping="Wrap" TextAlignment="Center"
+                   HorizontalAlignment="Center" />
+      </StackPanel>
+    </Border>
+  </Grid>
+</Page>

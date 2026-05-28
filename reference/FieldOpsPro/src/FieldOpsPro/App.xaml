@@ -1,0 +1,55 @@
+<Application x:Class="FieldOpsPro.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:utum="using:Uno.Toolkit.UI.Material"
+             xmlns:conv="using:FieldOpsPro.Converters">
+
+
+  <Application.Resources>
+    <ResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <!-- Load WinUI resources -->
+        <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
+
+        <!-- Material Theme with Color Overrides -->
+        <utum:MaterialToolkitTheme
+          ColorOverrideSource="ms-appx:///Styles/ColorPaletteOverride.xaml" />
+
+        <!-- FieldOps Pro Custom Resources -->
+        <ResourceDictionary Source="ms-appx:///Styles/FieldOpsResources.xaml" />
+      </ResourceDictionary.MergedDictionaries>
+
+      <!-- Shared value converters available to every page and control -->
+      <conv:IntSuffixConverter x:Key="IntSuffix" />
+      <conv:TaskPriorityToBrushConverter x:Key="PriorityToBrush" />
+      <conv:TaskStatusToTextConverter x:Key="StatusToText" />
+      <conv:TaskStatusToBadgeTypeConverter x:Key="StatusToBadgeType" />
+      <conv:AvatarColorOrDefaultConverter x:Key="AvatarColorOrDefault" />
+      <conv:StringToVisibilityConverter x:Key="StringToVisibility" />
+      <conv:NullToVisibilityConverter x:Key="NullToVisibility" />
+      <conv:ToUpperConverter x:Key="ToUpper" />
+      <conv:BadgeTypeToBrushConverter x:Key="BadgeTypeToBrush" />
+      <conv:AvatarColorToGradientBrushConverter x:Key="AvatarColorToGradient" />
+      <conv:AgentStatusToBrushConverter x:Key="AgentStatusToBrush" />
+      <conv:AvatarSizeToFontSizeConverter x:Key="AvatarSizeToFontSize" />
+      <conv:TimestampToRelativeConverter x:Key="TimestampToRelative" />
+      <conv:ActivityTypeToGlyphConverter x:Key="ActivityTypeToGlyph" />
+      <conv:ActivityTypeToBrushConverter x:Key="ActivityTypeToBrush" />
+      <conv:StatAccentColorToBrushConverter x:Key="StatAccentColorToBrush" />
+      <conv:QuickActionAccentToBrushConverter x:Key="QuickActionAccentToBrush" />
+
+      <!-- Mobile Nav Button Style -->
+      <Style x:Key="MobileNavButtonStyle" TargetType="Button">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Padding" Value="8" />
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="VerticalAlignment" Value="Stretch" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+      </Style>
+
+    </ResourceDictionary>
+  </Application.Resources>
+
+</Application>

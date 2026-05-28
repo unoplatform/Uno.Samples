@@ -1,0 +1,125 @@
+<UserControl
+    x:Class="Caffe.Controls.GrindSelector"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:utu="using:Uno.Toolkit.UI">
+
+    <Border Background="{StaticResource CaffeSurfaceBrush}"
+            CornerRadius="{utu:Responsive Narrow=12, Wide=16}"
+            Padding="{utu:Responsive Narrow='8,12', Normal='12,16', Wide='20,24'}"
+            Translation="0,0,4">
+        <Border.Shadow>
+            <ThemeShadow />
+        </Border.Shadow>
+
+        <Grid RowSpacing="{utu:Responsive Narrow=4, Wide=8}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <!-- Label -->
+            <TextBlock Grid.Row="0"
+                       Text="GRIND SIZE"
+                       Style="{StaticResource ParameterLabelTextStyle}"
+                       HorizontalAlignment="Center" />
+
+            <!-- Particle Display -->
+            <Grid Grid.Row="1"
+                  x:Name="ParticleGrid"
+                  Width="{utu:Responsive Narrow=48, Normal=64, Wide=84}"
+                  Height="{utu:Responsive Narrow=48, Normal=64, Wide=84}"
+                  HorizontalAlignment="Center"
+                  VerticalAlignment="Center"
+                  Margin="{utu:Responsive Narrow='0,4', Wide='0,8'}" />
+
+            <!-- Grind Label + Hint -->
+            <StackPanel Grid.Row="2"
+                        HorizontalAlignment="Center">
+                <TextBlock Text="{x:Bind GrindLabel(GrindLevel), Mode=OneWay}"
+                           Style="{StaticResource ParameterValueTextStyle}"
+                           HorizontalAlignment="Center" />
+                <TextBlock Text="{x:Bind GrindHint(GrindLevel), Mode=OneWay}"
+                           Style="{StaticResource GrindHintTextStyle}"
+                           HorizontalAlignment="Center" />
+            </StackPanel>
+
+            <!-- Size Selector Buttons -->
+            <StackPanel Grid.Row="3"
+                        Orientation="Horizontal"
+                        Spacing="{utu:Responsive Narrow=4, Normal=12, Wide=18}"
+                        HorizontalAlignment="Center"
+                        Margin="0,4,0,0">
+
+                <!-- Fine (Small) -->
+                <Button Background="{x:Bind FineBrush(GrindLevel), Mode=OneWay}"
+                        Width="{utu:Responsive Narrow=20, Normal=28, Wide=34}"
+                        Height="{utu:Responsive Narrow=20, Normal=28, Wide=34}"
+                        Padding="0"
+                        MinWidth="0"
+                        MinHeight="0"
+                        CornerRadius="{utu:Responsive Narrow=10, Normal=14, Wide=17}"
+                        AutomationProperties.Name="Fine grind"
+                        Click="OnFineClick">
+                    <Ellipse Width="{utu:Responsive Narrow=6, Normal=8, Wide=10}"
+                             Height="{utu:Responsive Narrow=6, Normal=8, Wide=10}"
+                             Fill="{StaticResource CaffeOnPrimaryBrush}" />
+                </Button>
+
+                <!-- Medium -->
+                <Button Background="{x:Bind MediumBrush(GrindLevel), Mode=OneWay}"
+                        Width="{utu:Responsive Narrow=26, Normal=34, Wide=42}"
+                        Height="{utu:Responsive Narrow=26, Normal=34, Wide=42}"
+                        Padding="0"
+                        MinWidth="0"
+                        MinHeight="0"
+                        CornerRadius="{utu:Responsive Narrow=13, Normal=17, Wide=21}"
+                        AutomationProperties.Name="Medium grind"
+                        Click="OnMediumClick">
+                    <Ellipse Width="{utu:Responsive Narrow=8, Normal=12, Wide=15}"
+                             Height="{utu:Responsive Narrow=8, Normal=12, Wide=15}"
+                             Fill="{StaticResource CaffeOnPrimaryBrush}" />
+                </Button>
+
+                <!-- Coarse (Large) -->
+                <Button Background="{x:Bind CoarseBrush(GrindLevel), Mode=OneWay}"
+                        Width="{utu:Responsive Narrow=32, Normal=40, Wide=48}"
+                        Height="{utu:Responsive Narrow=32, Normal=40, Wide=48}"
+                        Padding="0"
+                        MinWidth="0"
+                        MinHeight="0"
+                        CornerRadius="{utu:Responsive Narrow=16, Normal=20, Wide=24}"
+                        AutomationProperties.Name="Coarse grind"
+                        Click="OnCoarseClick">
+                    <Ellipse Width="{utu:Responsive Narrow=12, Normal=16, Wide=20}"
+                             Height="{utu:Responsive Narrow=12, Normal=16, Wide=20}"
+                             Fill="{StaticResource CaffeOnPrimaryBrush}" />
+                </Button>
+
+            </StackPanel>
+
+            <!-- Size Labels -->
+            <Grid Grid.Row="4"
+                  Width="{utu:Responsive Narrow=76, Normal=110, Wide=140}"
+                  HorizontalAlignment="Center"
+                  Margin="0,2,0,0">
+                <TextBlock Text="S"
+                           Style="{StaticResource ParameterLabelTextStyle}"
+                           HorizontalAlignment="Left"
+                           Margin="4,0,0,0" />
+                <TextBlock Text="M"
+                           Style="{StaticResource ParameterLabelTextStyle}"
+                           HorizontalAlignment="Center" />
+                <TextBlock Text="L"
+                           Style="{StaticResource ParameterLabelTextStyle}"
+                           HorizontalAlignment="Right"
+                           Margin="0,0,4,0" />
+            </Grid>
+
+        </Grid>
+    </Border>
+
+</UserControl>

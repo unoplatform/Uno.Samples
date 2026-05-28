@@ -1,0 +1,74 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+  <!-- Brand brushes (reference Themes/Colors.xaml tokens). -->
+  <SolidColorBrush x:Key="NeonAmberBrush" Color="{StaticResource NeonAmberColor}" />
+  <SolidColorBrush x:Key="NeonAmberGlowBrush" Color="{StaticResource NeonAmberGlowColor}" />
+  <SolidColorBrush x:Key="PowderBlueBrush" Color="{StaticResource PowderBlueColor}" />
+  <SolidColorBrush x:Key="PowderBlueDeepBrush" Color="{StaticResource PowderBlueDeepColor}" />
+  <SolidColorBrush x:Key="PowderBlueGlowBrush" Color="{StaticResource PowderBlueGlowColor}" />
+  <SolidColorBrush x:Key="IceBlueBrush" Color="{StaticResource IceBlueColor}" />
+  <SolidColorBrush x:Key="IceBlueGlowBrush" Color="{StaticResource IceBlueGlowColor}" />
+  <SolidColorBrush x:Key="HotRedBrush" Color="{StaticResource HotRedColor}" />
+  <!-- Chrome brushes: Color is theme-aware (recolours in High Contrast). -->
+  <SolidColorBrush x:Key="ArenaDarkBrush" Color="{ThemeResource ArenaDarkColor}" />
+  <SolidColorBrush x:Key="BoardsDarkBrush" Color="{ThemeResource BoardsDarkColor}" />
+  <SolidColorBrush x:Key="BoardsMidBrush" Color="{ThemeResource BoardsMidColor}" />
+  <SolidColorBrush x:Key="TextPrimaryBrush" Color="{ThemeResource TextPrimaryColor}" />
+  <SolidColorBrush x:Key="TextMutedBrush" Color="{ThemeResource TextMutedColor}" />
+  <SolidColorBrush x:Key="SuccessGreenBrush" Color="{StaticResource SuccessGreenColor}" />
+  <SolidColorBrush x:Key="PurpleAccentBrush" Color="{StaticResource PurpleAccentColor}" />
+
+  <!-- Subtle background brushes -->
+  <SolidColorBrush x:Key="SuccessGreenSubtleBrush" Color="#1A10B981" />
+  <SolidColorBrush x:Key="HotRedSubtleBrush" Color="#1AFF3B3B" />
+  <SolidColorBrush x:Key="NeonAmberSubtleBrush" Color="#1AFFAA00" />
+  <SolidColorBrush x:Key="PowderBlueSubtleBrush" Color="#26B4D7E8" />
+  <SolidColorBrush x:Key="IceBlueSubtleBrush" Color="#2600D4FF" />
+  <SolidColorBrush x:Key="PurpleAccentSubtleBrush" Color="#268B5CF6" />
+
+  <!-- Border brushes -->
+  <SolidColorBrush x:Key="SubtleBorderBrush" Color="{ThemeResource SubtleBorderColor}" />
+  <SolidColorBrush x:Key="CardBorderBrush" Color="{ThemeResource CardBorderColor}" />
+  <SolidColorBrush x:Key="PowderBlueBorderBrush" Color="#4DB4D7E8" />
+  <SolidColorBrush x:Key="SuccessGreenBorderBrush" Color="#4D10B981" />
+  <SolidColorBrush x:Key="HotRedBorderBrush" Color="#4DFF3B3B" />
+  <SolidColorBrush x:Key="NeonAmberBorderBrush" Color="#4DFFAA00" />
+
+  <!-- Status background brushes (for converters) -->
+  <SolidColorBrush x:Key="StatusInBackgroundBrush" Color="#3310B981" />
+  <SolidColorBrush x:Key="StatusOutBackgroundBrush" Color="#33FF3B3B" />
+  <SolidColorBrush x:Key="StatusPendingBackgroundBrush" Color="#33FFAA00" />
+
+  <!-- Semi-transparent border brushes (for converters) -->
+  <SolidColorBrush x:Key="NeonAmberSemiBorderBrush" Color="#80FFAA00" />
+  <SolidColorBrush x:Key="PowderBlueSemiBorderBrush" Color="#80B4D7E8" />
+  <SolidColorBrush x:Key="SubtleWhiteBorderBrush" Color="#1AFFFFFF" />
+
+  <!-- Fallback brushes (for converters when resources unavailable) -->
+  <SolidColorBrush x:Key="FallbackDarkBrush" Color="#1A1F2A" />
+  <SolidColorBrush x:Key="FallbackSubtleBorderBrush" Color="#1AFFFFFF" />
+
+  <!-- Gradient brushes -->
+  <LinearGradientBrush x:Key="PowderBlueGradientBrush" StartPoint="0,0" EndPoint="1,1">
+    <GradientStop Color="{StaticResource PowderBlueColor}" Offset="0" />
+    <GradientStop Color="{StaticResource PowderBlueDeepColor}" Offset="1" />
+  </LinearGradientBrush>
+
+  <LinearGradientBrush x:Key="NeonAmberGradientBrush" StartPoint="0,0" EndPoint="1,1">
+    <GradientStop Color="{StaticResource NeonAmberColor}" Offset="0" />
+    <GradientStop Color="#CC8800" Offset="1" />
+  </LinearGradientBrush>
+
+  <LinearGradientBrush x:Key="CardBackgroundGradientBrush" StartPoint="0,0" EndPoint="1,1">
+    <GradientStop Color="{ThemeResource BoardsMidColor}" Offset="0" />
+    <GradientStop Color="{ThemeResource BoardsDarkColor}" Offset="1" />
+  </LinearGradientBrush>
+
+  <LinearGradientBrush x:Key="FeatureCardTopBarBrush" StartPoint="0,0.5" EndPoint="1,0.5">
+    <GradientStop Color="{StaticResource PowderBlueColor}" Offset="0" />
+    <GradientStop Color="{StaticResource NeonAmberColor}" Offset="0.5" />
+    <GradientStop Color="{StaticResource PowderBlueColor}" Offset="1" />
+  </LinearGradientBrush>
+
+</ResourceDictionary>

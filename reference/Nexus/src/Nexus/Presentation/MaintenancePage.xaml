@@ -1,0 +1,260 @@
+<Page x:Class="Nexus.Presentation.MaintenancePage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mvux="using:Uno.Extensions.Reactive.UI"
+      xmlns:conv="using:Nexus.Converters"
+      xmlns:models="using:Nexus.Models"
+      Background="{ThemeResource NexusBackgroundPrimaryBrush}">
+
+    <Page.Resources>
+        <conv:NumberFormatConverter x:Key="Num"/>
+        <conv:DateConverter x:Key="Date"/>
+        <conv:EnumUpperConverter x:Key="Upper"/>
+        <conv:WorkOrderTypeBrushConverter x:Key="WoTypeBrush"/>
+        <conv:WorkOrderStatusBrushConverter x:Key="WoStatusBrush"/>
+        <conv:StockStatusBrushConverter x:Key="StockBrush"/>
+        <conv:HealthBrushConverter x:Key="HealthBrush"/>
+    </Page.Resources>
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+        <Grid Padding="24" MinWidth="800">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <!-- Top Row: Work Orders + Spare Parts -->
+            <Grid Grid.Row="0" Margin="0,0,0,16">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="16"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- WORK ORDERS Panel -->
+                <Border Grid.Column="0" Style="{ThemeResource NexusPanelBorderStyle}" Padding="20">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                <Ellipse Width="6" Height="6" Fill="{ThemeResource NexusWarningBrush}" VerticalAlignment="Center"/>
+                                <TextBlock x:Uid="Pages_Maintenance_WorkOrders" Text="WORK ORDERS" Style="{ThemeResource NexusPanelTitleStyle}"/>
+                            </StackPanel>
+                            <Button Grid.Column="2" Content="+ NEW ORDER" Style="{ThemeResource NexusGhostButtonStyle}"/>
+                        </Grid>
+
+                        <StackPanel Grid.Row="1" Margin="0,16,0,0" Spacing="0">
+                            <Grid Margin="0,0,0,8">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" MinWidth="65"/>
+                                    <ColumnDefinition Width="*" MinWidth="120"/>
+                                    <ColumnDefinition Width="Auto" MinWidth="90"/>
+                                    <ColumnDefinition Width="Auto" MinWidth="70"/>
+                                    <ColumnDefinition Width="Auto" MinWidth="80"/>
+                                    <ColumnDefinition Width="Auto" MinWidth="90"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="ORDER" Style="{ThemeResource NexusTableHeaderStyle}"/>
+                                <TextBlock Grid.Column="1" Text="EQUIPMENT" Style="{ThemeResource NexusTableHeaderStyle}"/>
+                                <TextBlock Grid.Column="2" Text="TYPE" Style="{ThemeResource NexusTableHeaderStyle}"/>
+                                <TextBlock Grid.Column="3" Text="DATE" Style="{ThemeResource NexusTableHeaderStyle}"/>
+                                <TextBlock Grid.Column="4" Text="TECH" Style="{ThemeResource NexusTableHeaderStyle}"/>
+                                <TextBlock Grid.Column="5" Text="STATUS" Style="{ThemeResource NexusTableHeaderStyle}"/>
+                            </Grid>
+
+                            <mvux:FeedView Source="{Binding WorkOrders}">
+                                <mvux:FeedView.ValueTemplate>
+                                    <DataTemplate>
+                                        <ItemsRepeater ItemsSource="{Binding Data}">
+                                            <ItemsRepeater.Layout>
+                                                <StackLayout Spacing="0"/>
+                                            </ItemsRepeater.Layout>
+                                            <ItemsRepeater.ItemTemplate>
+                                                <DataTemplate x:DataType="models:WorkOrder">
+                                                    <Border BorderBrush="{ThemeResource NexusBorderPrimaryBrush}" BorderThickness="0,1,0,0" Padding="0,10">
+                                                        <Grid>
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="Auto" MinWidth="65"/>
+                                                                <ColumnDefinition Width="*" MinWidth="120"/>
+                                                                <ColumnDefinition Width="Auto" MinWidth="90"/>
+                                                                <ColumnDefinition Width="Auto" MinWidth="70"/>
+                                                                <ColumnDefinition Width="Auto" MinWidth="80"/>
+                                                                <ColumnDefinition Width="Auto" MinWidth="90"/>
+                                                            </Grid.ColumnDefinitions>
+                                                            <Border BorderBrush="{ThemeResource NexusBorderSecondaryBrush}" BorderThickness="1" Padding="4,2" HorizontalAlignment="Left">
+                                                                <TextBlock Text="{Binding Id}" Style="{ThemeResource NexusLabelMonoStyle}"/>
+                                                            </Border>
+                                                            <TextBlock Grid.Column="1" Text="{Binding EquipmentName}" Style="{ThemeResource NexusTableCellStyle}" VerticalAlignment="Center" TextTrimming="CharacterEllipsis"/>
+                                                            <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="4">
+                                                                <Ellipse Width="6" Height="6" Fill="{Binding Type, Converter={StaticResource WoTypeBrush}}" VerticalAlignment="Center"/>
+                                                                <TextBlock Text="{Binding Type, Converter={StaticResource Upper}}" Style="{ThemeResource NexusStatusLabelStyle}" Foreground="{Binding Type, Converter={StaticResource WoTypeBrush}}"/>
+                                                            </StackPanel>
+                                                            <TextBlock Grid.Column="3" Text="{Binding ScheduledDate, Converter={StaticResource Date}, ConverterParameter='MMM dd'}" Style="{ThemeResource NexusTableCellStyle}" VerticalAlignment="Center"/>
+                                                            <TextBlock Grid.Column="4" Text="{Binding TechnicianName}" Style="{ThemeResource NexusTableCellStyle}" VerticalAlignment="Center" TextTrimming="CharacterEllipsis"/>
+                                                            <StackPanel Grid.Column="5" Orientation="Horizontal" Spacing="4">
+                                                                <Ellipse Width="6" Height="6" Fill="{Binding Status, Converter={StaticResource WoStatusBrush}}" VerticalAlignment="Center"/>
+                                                                <TextBlock Text="{Binding Status, Converter={StaticResource Upper}}" Style="{ThemeResource NexusStatusLabelStyle}" Foreground="{Binding Status, Converter={StaticResource WoStatusBrush}}"/>
+                                                            </StackPanel>
+                                                        </Grid>
+                                                    </Border>
+                                                </DataTemplate>
+                                            </ItemsRepeater.ItemTemplate>
+                                        </ItemsRepeater>
+                                    </DataTemplate>
+                                </mvux:FeedView.ValueTemplate>
+                                <mvux:FeedView.ProgressTemplate>
+                                    <DataTemplate><ProgressRing IsActive="True" Width="24" Height="24" Margin="0,24" HorizontalAlignment="Center"/></DataTemplate>
+                                </mvux:FeedView.ProgressTemplate>
+                                <mvux:FeedView.NoneTemplate>
+                                    <DataTemplate><TextBlock Text="No work orders" Style="{ThemeResource NexusTableCellStyle}" Margin="0,24" HorizontalAlignment="Center"/></DataTemplate>
+                                </mvux:FeedView.NoneTemplate>
+                            </mvux:FeedView>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+
+                <!-- SPARE PARTS Panel -->
+                <Border Grid.Column="2" Style="{ThemeResource NexusPanelBorderStyle}" Padding="20">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                <Ellipse Width="6" Height="6" Fill="{ThemeResource NexusWarningBrush}" VerticalAlignment="Center"/>
+                                <TextBlock Text="SPARE PARTS" Style="{ThemeResource NexusPanelTitleStyle}"/>
+                            </StackPanel>
+                            <Button Grid.Column="2" Content="ORDER" Style="{ThemeResource NexusGhostButtonStyle}"/>
+                        </Grid>
+
+                        <mvux:FeedView Grid.Row="1" Source="{Binding SpareParts}" Margin="0,12,0,0">
+                            <mvux:FeedView.ValueTemplate>
+                                <DataTemplate>
+                                    <ItemsRepeater ItemsSource="{Binding Data}">
+                                        <ItemsRepeater.Layout>
+                                            <StackLayout Spacing="0"/>
+                                        </ItemsRepeater.Layout>
+                                        <ItemsRepeater.ItemTemplate>
+                                            <DataTemplate x:DataType="models:SparePart">
+                                                <Border BorderBrush="{ThemeResource NexusBorderPrimaryBrush}" BorderThickness="0,1,0,0" Padding="0,12">
+                                                    <Grid>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="*"/>
+                                                            <ColumnDefinition Width="Auto"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <StackPanel>
+                                                            <TextBlock Text="{Binding Name}" Style="{ThemeResource NexusBodyStyle}" TextTrimming="CharacterEllipsis"/>
+                                                            <TextBlock Style="{ThemeResource NexusStatusLabelStyle}" Foreground="{Binding Status, Converter={StaticResource StockBrush}}" Margin="0,4,0,0">
+                                                                <Run Text="QTY: "/><Run Text="{Binding InStock, Converter={StaticResource Num}, ConverterParameter=N0}"/>
+                                                            </TextBlock>
+                                                        </StackPanel>
+                                                        <TextBlock Grid.Column="1" Text="{Binding Status, Converter={StaticResource Upper}}" Style="{ThemeResource NexusStatusLabelStyle}" Foreground="{Binding Status, Converter={StaticResource StockBrush}}" VerticalAlignment="Center"/>
+                                                    </Grid>
+                                                </Border>
+                                            </DataTemplate>
+                                        </ItemsRepeater.ItemTemplate>
+                                    </ItemsRepeater>
+                                </DataTemplate>
+                            </mvux:FeedView.ValueTemplate>
+                            <mvux:FeedView.ProgressTemplate>
+                                <DataTemplate><ProgressRing IsActive="True" Width="24" Height="24" Margin="0,24" HorizontalAlignment="Center"/></DataTemplate>
+                            </mvux:FeedView.ProgressTemplate>
+                            <mvux:FeedView.NoneTemplate>
+                                <DataTemplate><TextBlock Text="No spare parts" Style="{ThemeResource NexusTableCellStyle}" Margin="0,24" HorizontalAlignment="Center"/></DataTemplate>
+                            </mvux:FeedView.NoneTemplate>
+                        </mvux:FeedView>
+                    </Grid>
+                </Border>
+            </Grid>
+
+            <!-- Bottom Row: Equipment Health (data-driven cards) -->
+            <Border Grid.Row="1" Style="{ThemeResource NexusPanelBorderStyle}" Padding="20">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <Ellipse Width="6" Height="6" Fill="{ThemeResource NexusSuccessBrush}" VerticalAlignment="Center"/>
+                            <TextBlock Text="EQUIPMENT HEALTH MONITORING" Style="{ThemeResource NexusPanelTitleStyle}"/>
+                        </StackPanel>
+                        <Button Grid.Column="2" Content="SCHEDULE SERVICE" Style="{ThemeResource NexusGhostButtonStyle}"/>
+                    </Grid>
+
+                    <mvux:FeedView Grid.Row="1" Source="{Binding Equipment}" Margin="0,16,0,0">
+                        <mvux:FeedView.ValueTemplate>
+                            <DataTemplate>
+                                <ItemsRepeater ItemsSource="{Binding Data}">
+                                    <ItemsRepeater.Layout>
+                                        <UniformGridLayout MinItemWidth="180" MinColumnSpacing="16" MinRowSpacing="16" ItemsStretch="Fill"/>
+                                    </ItemsRepeater.Layout>
+                                    <ItemsRepeater.ItemTemplate>
+                                        <DataTemplate x:DataType="models:Equipment">
+                                            <Border Style="{ThemeResource NexusCardBorderStyle}">
+                                                <StackPanel Spacing="8">
+                                                    <Grid>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="Auto"/>
+                                                            <ColumnDefinition Width="*"/>
+                                                            <ColumnDefinition Width="Auto"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Border BorderBrush="{ThemeResource NexusBorderSecondaryBrush}" BorderThickness="1" Padding="6,4">
+                                                            <TextBlock Text="{Binding Id}" Style="{ThemeResource NexusLabelMonoStyle}"/>
+                                                        </Border>
+                                                        <TextBlock Grid.Column="2" Foreground="{Binding HealthPercent, Converter={StaticResource HealthBrush}}" Style="{ThemeResource NexusDisplayMediumStyle}">
+                                                            <Run Text="{Binding HealthPercent, Converter={StaticResource Num}, ConverterParameter=F0}"/><Run Text="%"/>
+                                                        </TextBlock>
+                                                    </Grid>
+                                                    <TextBlock Text="{Binding Name}" Style="{ThemeResource NexusCaptionStyle}" TextTrimming="CharacterEllipsis"/>
+                                                    <ProgressBar Value="{Binding HealthPercent}" Style="{ThemeResource NexusProgressBarStyle}"/>
+                                                    <StackPanel Spacing="4">
+                                                        <Grid>
+                                                            <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+                                                            <TextBlock Text="RUNTIME" Style="{ThemeResource NexusStatusLabelStyle}"/>
+                                                            <TextBlock Grid.Column="1" Style="{ThemeResource NexusTableCellStyle}">
+                                                                <Run Text="{Binding RuntimeHours, Converter={StaticResource Num}, ConverterParameter=N0}"/><Run Text=" hrs"/>
+                                                            </TextBlock>
+                                                        </Grid>
+                                                        <Grid>
+                                                            <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+                                                            <TextBlock Text="NEXT SERVICE" Style="{ThemeResource NexusStatusLabelStyle}"/>
+                                                            <TextBlock Grid.Column="1" Text="{Binding NextService, Converter={StaticResource Date}, ConverterParameter='MMM dd'}" Style="{ThemeResource NexusTableCellStyle}"/>
+                                                        </Grid>
+                                                    </StackPanel>
+                                                </StackPanel>
+                                            </Border>
+                                        </DataTemplate>
+                                    </ItemsRepeater.ItemTemplate>
+                                </ItemsRepeater>
+                            </DataTemplate>
+                        </mvux:FeedView.ValueTemplate>
+                        <mvux:FeedView.ProgressTemplate>
+                            <DataTemplate><ProgressRing IsActive="True" Width="24" Height="24" Margin="0,24" HorizontalAlignment="Center"/></DataTemplate>
+                        </mvux:FeedView.ProgressTemplate>
+                    </mvux:FeedView>
+                </Grid>
+            </Border>
+        </Grid>
+    </ScrollViewer>
+</Page>

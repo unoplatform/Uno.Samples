@@ -1,0 +1,27 @@
+<Application x:Class="VTrack.App"
+       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+       xmlns:utum="using:Uno.Toolkit.UI.Material"
+       xmlns:converters="using:VTrack.Converters"
+       RequestedTheme="Light">
+
+  <Application.Resources>
+    <ResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <!-- Load WinUI resources -->
+        <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
+        <utum:MaterialToolkitTheme
+          ColorOverrideSource="ms-appx:///Styles/ColorPaletteOverride.xaml" />
+        <!-- Editorial / field-journal type + button styles layered on top of Material -->
+        <ResourceDictionary Source="ms-appx:///Themes/FaunalTheme.xaml" />
+      </ResourceDictionary.MergedDictionaries>
+
+      <!-- Converters -->
+      <converters:PercentageConverter x:Key="PercentageConverter" />
+      <converters:NullToCollapsedConverter x:Key="NullToCollapsedConverter" />
+      <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+
+    </ResourceDictionary>
+  </Application.Resources>
+
+</Application>

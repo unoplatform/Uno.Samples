@@ -1,0 +1,104 @@
+<UserControl
+    x:Class="Caffe.Controls.TemperatureGauge"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:utu="using:Uno.Toolkit.UI">
+
+    <Border Background="{StaticResource CaffeSurfaceBrush}"
+            CornerRadius="{utu:Responsive Narrow=12, Wide=16}"
+            Padding="{utu:Responsive Narrow='8,12', Normal='12,16', Wide='20,24'}"
+            Translation="0,0,4">
+        <Border.Shadow>
+            <ThemeShadow />
+        </Border.Shadow>
+
+        <Grid RowSpacing="{utu:Responsive Narrow=4, Wide=8}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <!-- Label -->
+            <TextBlock Grid.Row="0"
+                       Text="TEMPERATURE"
+                       Style="{StaticResource ParameterLabelTextStyle}"
+                       HorizontalAlignment="Center" />
+
+            <!-- Thermometer Visual -->
+            <Viewbox Grid.Row="1"
+                     Stretch="Uniform"
+                     MaxWidth="{utu:Responsive Narrow=28, Normal=36, Wide=44}"
+                     MaxHeight="{utu:Responsive Narrow=64, Normal=88, Wide=110}"
+                     VerticalAlignment="Center"
+                     Margin="{utu:Responsive Narrow='0,4', Wide='0,8'}">
+                <Grid Width="24" Height="70">
+                    <!-- Track background -->
+                    <Border VerticalAlignment="Stretch"
+                            HorizontalAlignment="Center"
+                            Width="8"
+                            CornerRadius="4"
+                            Background="{StaticResource CaffeBorderBrush}"
+                            Margin="0,0,0,16" />
+
+                    <!-- Fill (from bottom) -->
+                    <Border x:Name="TempFill"
+                            VerticalAlignment="Bottom"
+                            HorizontalAlignment="Center"
+                            Width="8"
+                            Height="35"
+                            CornerRadius="4"
+                            Margin="0,0,0,16">
+                        <Border.Background>
+                            <LinearGradientBrush StartPoint="0,1" EndPoint="0,0">
+                                <GradientStop Color="{StaticResource TertiaryColor}" Offset="0" />
+                                <GradientStop Color="{StaticResource CaffeRedLightColor}" Offset="1" />
+                            </LinearGradientBrush>
+                        </Border.Background>
+                    </Border>
+
+                    <!-- Bulb -->
+                    <Ellipse Width="18"
+                             Height="18"
+                             Fill="{StaticResource CaffeAccentRedBrush}"
+                             VerticalAlignment="Bottom"
+                             HorizontalAlignment="Center" />
+                </Grid>
+            </Viewbox>
+
+            <!-- Value Display -->
+            <TextBlock Grid.Row="2"
+                       Text="{x:Bind FormatTemperature(Temperature), Mode=OneWay}"
+                       Style="{StaticResource ParameterValueTextStyle}"
+                       HorizontalAlignment="Center" />
+
+            <!-- Slider -->
+            <Slider Grid.Row="3"
+                    x:Name="TempSlider"
+                    Width="{utu:Responsive Narrow=76, Normal=110, Wide=150}"
+                    HorizontalAlignment="Center"
+                    Minimum="88"
+                    Maximum="96"
+                    StepFrequency="1"
+                    SnapsTo="StepValues"
+                    AutomationProperties.Name="Temperature"
+                    ValueChanged="OnSliderValueChanged" />
+
+            <!-- Range Labels -->
+            <Grid Grid.Row="4"
+                  Width="{utu:Responsive Narrow=76, Normal=110, Wide=150}"
+                  HorizontalAlignment="Center">
+                <TextBlock Text="88°"
+                           Style="{StaticResource ParameterLabelTextStyle}"
+                           HorizontalAlignment="Left" />
+                <TextBlock Text="96°"
+                           Style="{StaticResource ParameterLabelTextStyle}"
+                           HorizontalAlignment="Right" />
+            </Grid>
+
+        </Grid>
+    </Border>
+
+</UserControl>

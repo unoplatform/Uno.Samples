@@ -1,0 +1,46 @@
+<Project Sdk="Uno.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>net10.0-desktop</TargetFrameworks>
+
+    <OutputType>Exe</OutputType>
+    <UnoSingleProject>true</UnoSingleProject>
+
+    <!-- Display name -->
+    <ApplicationTitle>Nexus</ApplicationTitle>
+    <!-- App Identifier -->
+    <ApplicationId>com.companyname.nexus</ApplicationId>
+    <!-- Versions -->
+    <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
+    <ApplicationVersion>1</ApplicationVersion>
+    <!-- Package Publisher -->
+    <ApplicationPublisher>Nexus</ApplicationPublisher>
+    <!-- Package Description -->
+    <Description>Nexus powered by Uno Platform.</Description>
+
+    <!--
+      UnoFeatures are used to quickly add and manage features enabled for your app.
+      https://aka.platform.uno/singleproject-features
+    -->
+    <UnoFeatures>
+      Material;
+      Dsp;
+      Svg;
+      Hosting;
+      Toolkit;
+      Logging;
+      MVUX;
+      Configuration;
+      HttpKiota;
+      Serialization;
+      Localization;
+      Navigation;
+      ThemeService;
+      SkiaRenderer;
+    </UnoFeatures>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="LiveChartsCore.SkiaSharpView.Uno.WinUI" />
+  </ItemGroup>
+
+</Project>

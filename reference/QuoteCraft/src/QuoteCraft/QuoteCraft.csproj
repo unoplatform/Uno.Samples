@@ -1,0 +1,44 @@
+<Project Sdk="Uno.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>net10.0-android;net10.0-browserwasm;net10.0-desktop</TargetFrameworks>
+
+    <OutputType>Exe</OutputType>
+    <UnoSingleProject>true</UnoSingleProject>
+
+    <!-- Display name -->
+    <ApplicationTitle>QuoteCraft</ApplicationTitle>
+    <!-- App Identifier -->
+    <ApplicationId>com.companyname.quotecraft</ApplicationId>
+    <!-- Versions -->
+    <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
+    <ApplicationVersion>1</ApplicationVersion>
+    <!-- Package Publisher -->
+    <ApplicationPublisher>QuoteCraft</ApplicationPublisher>
+    <!-- Package Description -->
+    <Description>QuoteCraft powered by Uno Platform.</Description>
+
+    <!--
+      UnoFeatures are used to quickly add and manage features enabled for your app.
+      https://aka.platform.uno/singleproject-features
+    -->
+    <UnoFeatures>
+      Material;
+      Hosting;
+      Toolkit;
+      Logging;
+      MVUX;
+      Configuration;
+      Http;
+      Serialization;
+      Navigation;
+      SkiaRenderer;
+    </UnoFeatures>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Data.Sqlite.Core" />
+    <PackageReference Include="SQLitePCLRaw.bundle_e_sqlcipher" />
+    <PackageReference Include="QuestPDF" />
+    <PackageReference Include="SkiaSharp" />
+  </ItemGroup>
+
+</Project>

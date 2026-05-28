@@ -1,0 +1,204 @@
+<UserControl x:Class="FieldOpsPro.Presentation.Controls.CSATScoreCard"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:utu="using:Uno.Toolkit.UI"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d">
+
+  <Border Style="{StaticResource FieldOpsCardStyle}">
+    <utu:AutoLayout Orientation="Vertical" Spacing="20">
+      <!-- Header -->
+      <Grid>
+        <StackPanel Orientation="Horizontal" Spacing="10">
+          <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}"
+                    Glyph="&#xE734;"
+                    FontSize="{StaticResource FontTitleLarge}"
+                    Foreground="{ThemeResource AccentTertiaryBrush}" />
+          <TextBlock Text="Customer Satisfaction"
+                     Style="{StaticResource SectionTitleStyle}" />
+        </StackPanel>
+        <TextBlock Text="This Week"
+                   FontSize="{StaticResource FontLabelMedium}"
+                   Foreground="{ThemeResource TextMutedBrush}"
+                   HorizontalAlignment="Right"
+                   VerticalAlignment="Center" />
+      </Grid>
+
+      <!-- Main Score -->
+      <Grid ColumnSpacing="24">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <!-- Score Display -->
+        <StackPanel Grid.Column="0" HorizontalAlignment="Center">
+          <StackPanel Orientation="Horizontal" Spacing="4">
+            <TextBlock FontSize="{StaticResource FontDisplayLarge}"
+                       FontWeight="Light"
+                       Foreground="{ThemeResource TextPrimaryBrush}"
+                       Text="{x:Bind FormatScore(Score), Mode=OneWay}" />
+            <TextBlock Text="/5"
+                       FontSize="{StaticResource FontTitleLarge}"
+                       Foreground="{ThemeResource TextMutedBrush}"
+                       VerticalAlignment="Bottom"
+                       Margin="0,0,0,10" />
+          </StackPanel>
+
+          <!-- Star Rating (each star's glyph + colour computed per-position via x:Bind method) -->
+          <StackPanel Orientation="Horizontal"
+                      Spacing="4"
+                      HorizontalAlignment="Center"
+                      Margin="0,4,0,0">
+            <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}"
+                      FontSize="{StaticResource FontTitleMedium}"
+                      Glyph="{x:Bind StarGlyph(Score, 1), Mode=OneWay}"
+                      Foreground="{x:Bind StarForeground(Score, 1), Mode=OneWay}" />
+            <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}"
+                      FontSize="{StaticResource FontTitleMedium}"
+                      Glyph="{x:Bind StarGlyph(Score, 2), Mode=OneWay}"
+                      Foreground="{x:Bind StarForeground(Score, 2), Mode=OneWay}" />
+            <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}"
+                      FontSize="{StaticResource FontTitleMedium}"
+                      Glyph="{x:Bind StarGlyph(Score, 3), Mode=OneWay}"
+                      Foreground="{x:Bind StarForeground(Score, 3), Mode=OneWay}" />
+            <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}"
+                      FontSize="{StaticResource FontTitleMedium}"
+                      Glyph="{x:Bind StarGlyph(Score, 4), Mode=OneWay}"
+                      Foreground="{x:Bind StarForeground(Score, 4), Mode=OneWay}" />
+            <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}"
+                      FontSize="{StaticResource FontTitleMedium}"
+                      Glyph="{x:Bind StarGlyph(Score, 5), Mode=OneWay}"
+                      Foreground="{x:Bind StarForeground(Score, 5), Mode=OneWay}" />
+          </StackPanel>
+        </StackPanel>
+
+        <!-- Breakdown -->
+        <StackPanel Grid.Column="1" Spacing="8" VerticalAlignment="Center">
+          <!-- 5 Star -->
+          <Grid ColumnSpacing="8">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="20" />
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="30" />
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Text="5" FontSize="{StaticResource FontLabelMedium}" Foreground="{ThemeResource AccentTertiaryBrush}" />
+            <Grid Grid.Column="1">
+              <Border Background="{ThemeResource BgElevatedBrush}" CornerRadius="2" Height="6" />
+              <Border Background="{ThemeResource TextPrimaryBrush}" CornerRadius="2" Height="6" HorizontalAlignment="Left" Width="85" />
+            </Grid>
+            <TextBlock Grid.Column="2" Text="85%" FontSize="{StaticResource FontLabelSmall}" Foreground="{ThemeResource TextMutedBrush}" HorizontalAlignment="Right" />
+          </Grid>
+
+          <!-- 4 Star -->
+          <Grid ColumnSpacing="8">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="20" />
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="30" />
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Text="4" FontSize="{StaticResource FontLabelMedium}" Foreground="{ThemeResource AccentTertiaryBrush}" />
+            <Grid Grid.Column="1">
+              <Border Background="{ThemeResource BgElevatedBrush}" CornerRadius="2" Height="6" />
+              <Border Background="{ThemeResource AccentSecondaryBrush}" CornerRadius="2" Height="6" HorizontalAlignment="Left" Width="10" />
+            </Grid>
+            <TextBlock Grid.Column="2" Text="10%" FontSize="{StaticResource FontLabelSmall}" Foreground="{ThemeResource TextMutedBrush}" HorizontalAlignment="Right" />
+          </Grid>
+
+          <!-- 3 Star -->
+          <Grid ColumnSpacing="8">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="20" />
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="30" />
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Text="3" FontSize="{StaticResource FontLabelMedium}" Foreground="{ThemeResource AccentTertiaryBrush}" />
+            <Grid Grid.Column="1">
+              <Border Background="{ThemeResource BgElevatedBrush}" CornerRadius="2" Height="6" />
+              <Border Background="{ThemeResource AccentTertiaryBrush}" CornerRadius="2" Height="6" HorizontalAlignment="Left" Width="3" />
+            </Grid>
+            <TextBlock Grid.Column="2" Text="3%" FontSize="{StaticResource FontLabelSmall}" Foreground="{ThemeResource TextMutedBrush}" HorizontalAlignment="Right" />
+          </Grid>
+
+          <!-- 2 Star -->
+          <Grid ColumnSpacing="8">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="20" />
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="30" />
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Text="2" FontSize="{StaticResource FontLabelMedium}" Foreground="{ThemeResource AccentTertiaryBrush}" />
+            <Grid Grid.Column="1">
+              <Border Background="{ThemeResource BgElevatedBrush}" CornerRadius="2" Height="6" />
+              <Border Background="{ThemeResource TextMutedBrush}" CornerRadius="2" Height="6" HorizontalAlignment="Left" Width="1" />
+            </Grid>
+            <TextBlock Grid.Column="2" Text="1%" FontSize="{StaticResource FontLabelSmall}" Foreground="{ThemeResource TextMutedBrush}" HorizontalAlignment="Right" />
+          </Grid>
+
+          <!-- 1 Star -->
+          <Grid ColumnSpacing="8">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="20" />
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="30" />
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Text="1" FontSize="{StaticResource FontLabelMedium}" Foreground="{ThemeResource AccentTertiaryBrush}" />
+            <Grid Grid.Column="1">
+              <Border Background="{ThemeResource BgElevatedBrush}" CornerRadius="2" Height="6" />
+              <Border Background="{ThemeResource BorderStrongBrush}" CornerRadius="2" Height="6" HorizontalAlignment="Left" Width="1" />
+            </Grid>
+            <TextBlock Grid.Column="2" Text="1%" FontSize="{StaticResource FontLabelSmall}" Foreground="{ThemeResource TextMutedBrush}" HorizontalAlignment="Right" />
+          </Grid>
+        </StackPanel>
+      </Grid>
+
+      <!-- Footer Stats -->
+      <Border Background="{ThemeResource BgCardBrush}"
+              CornerRadius="8"
+              Padding="16,12">
+        <Grid>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+          </Grid.ColumnDefinitions>
+
+          <StackPanel Grid.Column="0" HorizontalAlignment="Center">
+            <TextBlock Text="127"
+                       FontSize="{StaticResource FontTitleLarge}"
+                       FontWeight="SemiBold"
+                       Foreground="{ThemeResource TextPrimaryBrush}"
+                       HorizontalAlignment="Center" />
+            <TextBlock Text="Responses"
+                       FontSize="{StaticResource FontLabelSmall}"
+                       Foreground="{ThemeResource TextMutedBrush}"
+                       HorizontalAlignment="Center" />
+          </StackPanel>
+
+          <Border Grid.Column="1"
+                  Width="1"
+                  Background="{ThemeResource BorderColorBrush}"
+                  Margin="16,0" />
+
+          <StackPanel Grid.Column="2" HorizontalAlignment="Center">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="4">
+              <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}"
+                        Glyph="&#xE74A;"
+                        FontSize="{StaticResource FontBodySmall}"
+                        Foreground="{ThemeResource AccentSecondaryBrush}" />
+              <TextBlock Text="+0.3"
+                         FontSize="{StaticResource FontTitleLarge}"
+                         FontWeight="SemiBold"
+                         Foreground="{ThemeResource AccentSecondaryBrush}" />
+            </StackPanel>
+            <TextBlock Text="vs Last Week"
+                       FontSize="{StaticResource FontLabelSmall}"
+                       Foreground="{ThemeResource TextMutedBrush}"
+                       HorizontalAlignment="Center" />
+          </StackPanel>
+        </Grid>
+      </Border>
+    </utu:AutoLayout>
+  </Border>
+</UserControl>

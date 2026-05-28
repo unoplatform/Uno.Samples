@@ -1,0 +1,209 @@
+<Page x:Class="Pens.Presentation.RosterPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:utu="using:Uno.Toolkit.UI"
+      xmlns:local="using:Pens.Presentation"
+      Background="{StaticResource ArenaDarkBrush}">
+
+  <Grid>
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+      <Grid Padding="20">
+        <utu:AutoLayout Spacing="16"
+                        MaxWidth="{StaticResource PageContentMaxWidth}"
+                        HorizontalAlignment="Center">
+          <utu:AutoLayout.Transitions>
+            <TransitionCollection>
+              <EntranceThemeTransition FromVerticalOffset="24" />
+            </TransitionCollection>
+          </utu:AutoLayout.Transitions>
+
+          <!-- Section Title -->
+          <TextBlock x:Uid="RosterPage_Title"
+                     Text="ROSTER &amp; ATTENDANCE"
+                     Style="{StaticResource SectionTitleTextStyle}"
+                     AutomationProperties.HeadingLevel="Level2" />
+
+          <!-- Attendance Summary -->
+          <Grid Margin="0,0,0,8">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="10" />
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="10" />
+              <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <!-- In Box -->
+            <Border Grid.Column="0"
+                    Background="{StaticResource SuccessGreenSubtleBrush}"
+                    BorderBrush="{StaticResource SuccessGreenBorderBrush}"
+                    BorderThickness="1"
+                    CornerRadius="{StaticResource CardCornerRadius}"
+                    Padding="12,16"
+                    AutomationProperties.Name="Players confirmed playing">
+              <StackPanel HorizontalAlignment="Center">
+                <TextBlock Text="{Binding InCount}"
+                           Style="{StaticResource BebasCounterTextStyle}"
+                           Foreground="{StaticResource SuccessGreenBrush}"
+                           HorizontalAlignment="Center" />
+                <TextBlock x:Uid="RosterPage_Playing"
+                           Text="PLAYING"
+                           Style="{StaticResource OverlineTextStyle}"
+                           HorizontalAlignment="Center"
+                           Margin="0,4,0,0" />
+              </StackPanel>
+            </Border>
+
+            <!-- Out Box -->
+            <Border Grid.Column="2"
+                    Background="{StaticResource HotRedSubtleBrush}"
+                    BorderBrush="{StaticResource HotRedBorderBrush}"
+                    BorderThickness="1"
+                    CornerRadius="{StaticResource CardCornerRadius}"
+                    Padding="12,16"
+                    AutomationProperties.Name="Players not playing">
+              <StackPanel HorizontalAlignment="Center">
+                <TextBlock Text="{Binding OutCount}"
+                           Style="{StaticResource BebasCounterTextStyle}"
+                           Foreground="{StaticResource HotRedBrush}"
+                           HorizontalAlignment="Center" />
+                <TextBlock x:Uid="RosterPage_Out"
+                           Text="OUT"
+                           Style="{StaticResource OverlineTextStyle}"
+                           HorizontalAlignment="Center"
+                           Margin="0,4,0,0" />
+              </StackPanel>
+            </Border>
+
+            <!-- Pending Box -->
+            <Border Grid.Column="4"
+                    Background="{StaticResource NeonAmberSubtleBrush}"
+                    BorderBrush="{StaticResource NeonAmberBorderBrush}"
+                    BorderThickness="1"
+                    CornerRadius="{StaticResource CardCornerRadius}"
+                    Padding="12,16"
+                    AutomationProperties.Name="Players pending response">
+              <StackPanel HorizontalAlignment="Center">
+                <TextBlock Text="{Binding PendingCount}"
+                           Style="{StaticResource BebasCounterTextStyle}"
+                           Foreground="{StaticResource NeonAmberBrush}"
+                           HorizontalAlignment="Center" />
+                <TextBlock x:Uid="RosterPage_Pending"
+                           Text="PENDING"
+                           Style="{StaticResource OverlineTextStyle}"
+                           HorizontalAlignment="Center"
+                           Margin="0,4,0,0" />
+              </StackPanel>
+            </Border>
+          </Grid>
+
+          <!-- Hint Text -->
+          <TextBlock x:Uid="RosterPage_HintText"
+                     Text="Tap your status to change it"
+                     Style="{StaticResource CaptionTextStyle}" />
+
+          <!-- Player List -->
+          <ItemsRepeater ItemsSource="{Binding Players}">
+            <ItemsRepeater.Layout>
+              <StackLayout Spacing="8" />
+            </ItemsRepeater.Layout>
+            <ItemsRepeater.ItemTemplate>
+              <DataTemplate x:DataType="local:PlayerViewModel">
+                <Button Command="{Binding ToggleStatusCommand}"
+                        IsEnabled="{Binding IsCurrentPlayer}"
+                        Style="{StaticResource TappableCardButtonStyle}"
+                        AutomationProperties.Name="{Binding Name}">
+                  <Border Background="{StaticResource BoardsDarkBrush}"
+                          CornerRadius="{StaticResource CardCornerRadius}"
+                          Padding="12,12,16,12"
+                          BorderBrush="{StaticResource CardBorderBrush}"
+                          BorderThickness="1">
+                    <utu:AutoLayout Orientation="Horizontal" Spacing="14">
+                      <!-- Jersey Number Badge -->
+                      <Border Width="44" Height="44"
+                              CornerRadius="10"
+                              Background="{StaticResource PowderBlueGradientBrush}">
+                        <TextBlock Text="{Binding Number}"
+                                   Style="{StaticResource JerseyNumberTextStyle}" />
+                      </Border>
+
+                      <!-- Player Info -->
+                      <StackPanel VerticalAlignment="Center" utu:AutoLayout.PrimaryAlignment="Stretch">
+                        <TextBlock Text="{Binding Name}"
+                                   Style="{StaticResource BodyTextStyle}" />
+                        <TextBlock Text="{Binding Position, Converter={StaticResource ToUpperConverter}}"
+                                   Style="{StaticResource LabelTextStyle}"
+                                   Margin="0,2,0,0" />
+                      </StackPanel>
+
+                      <!-- Status Badge -->
+                      <Border CornerRadius="{StaticResource MediumCornerRadius}"
+                              Width="72"
+                              Height="32"
+                              VerticalAlignment="Center"
+                              Background="{Binding Status, Converter={StaticResource StatusToBackgroundConverter}}">
+                        <TextBlock Text="{Binding Status, Converter={StaticResource StatusToTextConverter}}"
+                                   Style="{StaticResource StatusBadgeTextStyle}"
+                                   Foreground="{Binding Status, Converter={StaticResource StatusToForegroundConverter}}" />
+                      </Border>
+                    </utu:AutoLayout>
+                  </Border>
+                </Button>
+              </DataTemplate>
+            </ItemsRepeater.ItemTemplate>
+          </ItemsRepeater>
+
+          <!-- Bottom padding for nav -->
+          <Border Height="24" />
+        </utu:AutoLayout>
+      </Grid>
+    </ScrollViewer>
+
+    <!-- Loading state -->
+    <Border Visibility="{Binding IsLoading, Converter={StaticResource BoolToVisibilityConverter}}"
+            Background="{StaticResource ArenaDarkBrush}"
+            AutomationProperties.Name="Loading roster">
+      <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Spacing="16">
+        <ProgressRing IsActive="{Binding IsLoading}" Width="44" Height="44"
+                      Foreground="{StaticResource PowderBlueBrush}" />
+        <TextBlock x:Uid="RosterPage_Loading" Text="Loading roster…"
+                   Style="{StaticResource CaptionTextStyle}"
+                   HorizontalAlignment="Center" />
+      </StackPanel>
+    </Border>
+
+    <!-- Empty state -->
+    <Border Visibility="{Binding IsEmpty, Converter={StaticResource BoolToVisibilityConverter}}"
+            Background="{StaticResource ArenaDarkBrush}"
+            AutomationProperties.Name="No players yet">
+      <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Spacing="8" Padding="32">
+        <FontIcon Glyph="&#xE716;" FontSize="40"
+                  Foreground="{StaticResource TextMutedBrush}"
+                  HorizontalAlignment="Center" />
+        <TextBlock x:Uid="RosterPage_Empty" Text="No players on the roster yet"
+                   Style="{StaticResource BodyTextStyle}"
+                   HorizontalAlignment="Center" />
+        <TextBlock x:Uid="RosterPage_EmptyHint" Text="Players will appear here once the team is set up."
+                   Style="{StaticResource CaptionTextStyle}"
+                   TextWrapping="Wrap" TextAlignment="Center"
+                   HorizontalAlignment="Center" />
+      </StackPanel>
+    </Border>
+
+    <!-- Error state -->
+    <Border Visibility="{Binding HasError, Converter={StaticResource BoolToVisibilityConverter}}"
+            Background="{StaticResource ArenaDarkBrush}"
+            AutomationProperties.Name="Error loading roster">
+      <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Spacing="8" Padding="32">
+        <FontIcon Glyph="&#xEA39;" FontSize="40"
+                  Foreground="{StaticResource HotRedBrush}"
+                  HorizontalAlignment="Center" />
+        <TextBlock Text="{Binding ErrorMessage}"
+                   Style="{StaticResource BodyTextStyle}"
+                   Foreground="{StaticResource HotRedBrush}"
+                   TextWrapping="Wrap" TextAlignment="Center"
+                   HorizontalAlignment="Center" />
+      </StackPanel>
+    </Border>
+  </Grid>
+</Page>

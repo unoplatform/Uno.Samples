@@ -1,0 +1,67 @@
+<UserControl
+    x:Class="Caffe.Controls.EspressoCard"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:utu="using:Uno.Toolkit.UI">
+
+    <Border Background="{StaticResource CaffeSurfaceBrush}"
+            BorderBrush="{x:Bind SelectionBorderBrush(IsSelected), Mode=OneWay}"
+            BorderThickness="2"
+            CornerRadius="14"
+            Padding="16,20"
+            Translation="0,0,4"
+            AutomationProperties.Name="{x:Bind A11yName(Espresso), Mode=OneWay}">
+        <Border.Shadow>
+            <ThemeShadow />
+        </Border.Shadow>
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="8" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="4" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <!-- Volume Badge + Checkmark Row -->
+            <Grid Grid.Row="0">
+                <Border x:Name="VolumeBadge"
+                        Background="{StaticResource CaffeAccentRedBrush}"
+                        CornerRadius="4"
+                        Padding="8,4"
+                        HorizontalAlignment="Left">
+                    <TextBlock Text="{x:Bind Espresso.VolumeDisplay, Mode=OneWay}"
+                               Style="{StaticResource VolumeBadgeTextStyle}" />
+                </Border>
+
+                <!-- Checkmark (visible when selected) -->
+                <Border HorizontalAlignment="Right"
+                        VerticalAlignment="Top"
+                        Background="{StaticResource CaffePrimaryBrush}"
+                        CornerRadius="12"
+                        Width="24"
+                        Height="24"
+                        Visibility="{x:Bind IsSelected, Mode=OneWay}">
+                    <FontIcon Glyph="&#xE73E;"
+                              FontSize="14"
+                              Foreground="{StaticResource CaffeOnPrimaryBrush}"
+                              HorizontalAlignment="Center"
+                              VerticalAlignment="Center" />
+                </Border>
+            </Grid>
+
+            <!-- Espresso Name -->
+            <TextBlock Text="{x:Bind Espresso.Name, Mode=OneWay}"
+                       Grid.Row="2"
+                       Style="{StaticResource CardTitleTextStyle}" />
+
+            <!-- Description -->
+            <TextBlock Text="{x:Bind Espresso.Description, Mode=OneWay}"
+                       Grid.Row="4"
+                       TextWrapping="Wrap"
+                       Style="{StaticResource CardDescriptionTextStyle}" />
+        </Grid>
+    </Border>
+
+</UserControl>

@@ -1,0 +1,33 @@
+<Page x:Class="FieldOpsPro.Presentation.MapPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:local="using:FieldOpsPro.Presentation"
+      xmlns:controls="using:FieldOpsPro.Presentation.Controls"
+      xmlns:utu="using:Uno.Toolkit.UI"
+      xmlns:mvux="using:Uno.Extensions.Reactive.UI"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      mc:Ignorable="d"
+      Background="{ThemeResource BgPrimaryBrush}">
+
+  <utu:AutoLayout Orientation="Vertical"
+                  Padding="40,32"
+                  Spacing="24">
+    <TextBlock x:Uid="MapPage_Title"
+               Text="Live Map"
+               Style="{StaticResource PageTitleStyle}" />
+
+    <mvux:FeedView Source="{Binding Agents}" utu:AutoLayout.PrimaryAlignment="Stretch">
+      <mvux:FeedView.ValueTemplate>
+        <DataTemplate>
+          <controls:MapCard Agents="{Binding Data}" />
+        </DataTemplate>
+      </mvux:FeedView.ValueTemplate>
+      <mvux:FeedView.ProgressTemplate>
+        <DataTemplate>
+          <controls:MapCard />
+        </DataTemplate>
+      </mvux:FeedView.ProgressTemplate>
+    </mvux:FeedView>
+  </utu:AutoLayout>
+</Page>

@@ -1,0 +1,950 @@
+<Page x:Class="Meridian.Views.DashboardPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:utu="using:Uno.Toolkit.UI"
+      xmlns:ll="using:Liveline"
+      xmlns:controls="using:Meridian.Controls"
+      xmlns:views="using:Meridian.Views"
+      xmlns:converters="using:Meridian.Converters"
+      xmlns:models="using:Meridian.Models"
+      Background="{ThemeResource MeridianBackgroundBrush}">
+
+    <Page.Resources>
+        <converters:TagToBrushConverter x:Key="TagToBrush" />
+        <converters:GainLossBrushConverter x:Key="GainLossBrush" />
+        <converters:DecimalFormatConverter x:Key="DecimalFormat" />
+        <converters:IsPositiveConverter x:Key="IsPositive" />
+        <converters:PrefixSuffixConverter x:Key="PrefixSuffix" />
+
+        <!-- Desktop-first dashboard: layout was designed for >=1280 px.
+             Below that, the 3-column shape (main + 360 px sidebar) collapses
+             to a single stacked column. Default Toolkit breakpoints (Wide=800)
+             would flip too early for this dashboard density. -->
+        <utu:ResponsiveLayout x:Key="DefaultResponsiveLayout"
+                              Narrow="0"
+                              Wide="1280" />
+    </Page.Resources>
+
+    <Grid>
+    <!-- Ambient orbs (session warmth — hue drifts warmer over time) -->
+    <Grid x:Name="AmbientOrbLayer" IsHitTestVisible="False">
+        <Ellipse Width="600" Height="600"
+                 HorizontalAlignment="Left" VerticalAlignment="Top"
+                 Margin="-150,-100,0,0">
+            <Ellipse.Fill>
+                <RadialGradientBrush>
+                    <GradientStop x:Name="Orb1Center" Color="#0A2D6A4F" Offset="0" />
+                    <GradientStop Color="Transparent" Offset="1" />
+                </RadialGradientBrush>
+            </Ellipse.Fill>
+        </Ellipse>
+        <Ellipse Width="450" Height="450"
+                 HorizontalAlignment="Right" VerticalAlignment="Center"
+                 Margin="0,0,-80,0">
+            <Ellipse.Fill>
+                <RadialGradientBrush>
+                    <GradientStop x:Name="Orb2Center" Color="#08C9A96E" Offset="0" />
+                    <GradientStop Color="Transparent" Offset="1" />
+                </RadialGradientBrush>
+            </Ellipse.Fill>
+        </Ellipse>
+        <Ellipse Width="380" Height="380"
+                 HorizontalAlignment="Left" VerticalAlignment="Bottom"
+                 Margin="200,0,0,-60">
+            <Ellipse.Fill>
+                <RadialGradientBrush>
+                    <GradientStop x:Name="Orb3Center" Color="#062D6A4F" Offset="0" />
+                    <GradientStop Color="Transparent" Offset="1" />
+                </RadialGradientBrush>
+            </Ellipse.Fill>
+        </Ellipse>
+    </Grid>
+    <ScrollViewer>
+        <!-- Narrow uses 100000 as effectively-unbounded — Uno's responsive markup
+             cannot bind MaxWidth to NaN at runtime ('cannot be set to NaN'). -->
+        <Grid MaxWidth="{utu:Responsive Narrow=100000, Wide=1400}"
+              HorizontalAlignment="Center"
+              Padding="{utu:Responsive Narrow='16,20', Wide='32,20'}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <!-- ═══════════ ROW 0: HEADER ═══════════ -->
+            <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Column="0" Orientation="Horizontal"
+                            Spacing="12" VerticalAlignment="Center">
+                    <TextBlock Text="Meridian"
+                               FontFamily="{StaticResource InstrumentSerifItalicFont}"
+                               FontSize="{StaticResource FontSize26}"
+                               Foreground="{ThemeResource MeridianTextPrimaryBrush}" />
+                    <controls:BrailleRevealControl
+                               Text="CAPITAL TERMINAL"
+                               FontFamily="{StaticResource OutfitFont}"
+                               FontSize="{StaticResource FontSize10}" FontWeight="Medium"
+                               Foreground="{ThemeResource MeridianTextSubtleBrush}"
+                               CharacterSpacing="120"
+                               VerticalAlignment="Center"
+                               DelayMs="800" StaggerMs="50" />
+                </StackPanel>
+
+                <StackPanel Grid.Column="2" Orientation="Horizontal"
+                            Spacing="20" VerticalAlignment="Center">
+                    <StackPanel Orientation="Horizontal" Spacing="6">
+                        <TextBlock Text="⠋" FontSize="{StaticResource FontSize14}"
+                                   Foreground="{ThemeResource MeridianGainBrush}"
+                                   x:Name="BrailleSpinner"
+                                   AutomationProperties.AccessibilityView="Raw" />
+                        <TextBlock Text="NYSE Open" FontSize="{StaticResource FontSize11}" FontWeight="Medium"
+                                   Foreground="{ThemeResource MeridianTextMutedBrush}"
+                                   x:Uid="Dashboard.Label.MarketStatus" />
+                    </StackPanel>
+                    <Border Width="1" Height="14"
+                            Background="{ThemeResource MeridianBorderBrush}" />
+                    <TextBlock x:Name="ClockText"
+                               FontFamily="{StaticResource IBMPlexMonoFont}"
+                               FontSize="{StaticResource FontSize12}"
+                               Foreground="{ThemeResource MeridianTextMutedBrush}" />
+                </StackPanel>
+            </Grid>
+
+            <!-- ═══════════ ROW 1: BRAILLE TICKER TAPE ═══════════ -->
+            <Border Grid.Row="1" Margin="0,14,0,16"
+                    Padding="0,8"
+                    Height="33"
+                    BorderThickness="0,1"
+                    BorderBrush="{ThemeResource MeridianBorderBrush}">
+                <Grid x:Name="TickerTapeContainer">
+                    <Grid.Clip>
+                        <RectangleGeometry x:Name="TickerClip" />
+                    </Grid.Clip>
+                    <!-- Dual-TextBlock marquee: A and B leapfrog for seamless infinite scroll -->
+                    <TextBlock x:Name="TickerTapeTextA"
+                               AutomationProperties.AccessibilityView="Raw"
+                               FontFamily="{StaticResource IBMPlexMonoFont}"
+                               FontSize="{StaticResource FontSize11}"
+                               Foreground="{ThemeResource MeridianGainBrush}"
+                               MaxLines="1" TextTrimming="None">
+                        <TextBlock.RenderTransform>
+                            <TranslateTransform x:Name="TickerTranslateA" />
+                        </TextBlock.RenderTransform>
+                    </TextBlock>
+                    <TextBlock x:Name="TickerTapeTextB"
+                               AutomationProperties.AccessibilityView="Raw"
+                               FontFamily="{StaticResource IBMPlexMonoFont}"
+                               FontSize="{StaticResource FontSize11}"
+                               Foreground="{ThemeResource MeridianGainBrush}"
+                               MaxLines="1" TextTrimming="None">
+                        <TextBlock.RenderTransform>
+                            <TranslateTransform x:Name="TickerTranslateB" />
+                        </TextBlock.RenderTransform>
+                    </TextBlock>
+                    <!-- Fade edges: match page background color -->
+                    <Border HorizontalAlignment="Left" Width="50" IsHitTestVisible="False">
+                        <Border.Background>
+                            <LinearGradientBrush StartPoint="0,0.5" EndPoint="1,0.5">
+                                <GradientStop Color="{StaticResource MeridianBackground}" Offset="0" />
+                                <GradientStop Color="{StaticResource MeridianBackgroundTransparent}" Offset="1" />
+                            </LinearGradientBrush>
+                        </Border.Background>
+                    </Border>
+                    <Border HorizontalAlignment="Right" Width="50" IsHitTestVisible="False">
+                        <Border.Background>
+                            <LinearGradientBrush StartPoint="0,0.5" EndPoint="1,0.5">
+                                <GradientStop Color="{StaticResource MeridianBackgroundTransparent}" Offset="0" />
+                                <GradientStop Color="{StaticResource MeridianBackground}" Offset="1" />
+                            </LinearGradientBrush>
+                        </Border.Background>
+                    </Border>
+                </Grid>
+            </Border>
+
+            <!-- ═══════════ ROW 2: PORTFOLIO HERO ═══════════ -->
+            <!-- Wide: portfolio-value text on the left, 360 px index-cards strip on the right.
+                 Narrow: index-cards stack below the portfolio-value text to avoid clipping. -->
+            <Grid Grid.Row="2" Margin="0,0,0,24">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="{utu:Responsive Narrow=0, Wide=Auto}" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <StackPanel Grid.Column="0" Spacing="2">
+                    <TextBlock Style="{StaticResource SectionLabel}"
+                               Text="TOTAL PORTFOLIO VALUE"
+                               CharacterSpacing="140"
+                               x:Uid="Dashboard.Label.PortfolioValue" />
+                    <TextBlock x:Name="HeroPortfolioValue"
+                               FontFamily="{StaticResource InstrumentSerifFont}"
+                               FontSize="{StaticResource FontSize62}" FontWeight="Normal"
+                               Foreground="{ThemeResource MeridianTextPrimaryBrush}"
+                               LineHeight="68" Margin="0,-4,0,0" />
+                    <StackPanel Orientation="Horizontal" Spacing="14" Margin="0,2,0,0">
+                        <Border x:Name="GainPill" CornerRadius="18"
+                                Background="{ThemeResource MeridianGainBgTintBrush}"
+                                Padding="14,8"
+                                RenderTransformOrigin="0.5,0.5">
+                            <Border.RenderTransform>
+                                <ScaleTransform x:Name="GainPillScale" />
+                            </Border.RenderTransform>
+                            <StackPanel Orientation="Horizontal" Spacing="6">
+                                <Viewbox Width="10" Height="10" VerticalAlignment="Center">
+                                    <Polygon x:Name="GainArrowPolygon" Points="5,0 10,8 0,8"
+                                             Fill="{ThemeResource MeridianGainBrush}" />
+                                </Viewbox>
+                                <TextBlock x:Name="HeroGainValue"
+                                           FontFamily="{StaticResource IBMPlexMonoMediumFont}"
+                                           FontSize="{StaticResource FontSize14}"
+                                           Foreground="{ThemeResource MeridianGainBrush}" />
+                                <TextBlock x:Name="HeroGainPct"
+                                           FontFamily="{StaticResource IBMPlexMonoMediumFont}"
+                                           FontSize="{StaticResource FontSize13}" Opacity="0.7"
+                                           Foreground="{ThemeResource MeridianGainBrush}" />
+                            </StackPanel>
+                        </Border>
+                        <TextBlock Text="all time unrealized"
+                                   FontSize="{StaticResource FontSize11}" FontWeight="Medium"
+                                   Foreground="{ThemeResource MeridianTextSubtleBrush}"
+                                   VerticalAlignment="Center"
+                                   x:Uid="Dashboard.Label.Unrealized" />
+                    </StackPanel>
+                </StackPanel>
+
+                <!-- Index Cards (3 cards = 360px to match sidebar width).
+                     Wide: pinned bottom-right of the hero row (Column=1).
+                     Narrow: stacks below the portfolio-value text (Column=0, Row=1) so the
+                     360 px strip never clips the hero text on a narrow viewport. -->
+                <ItemsRepeater Grid.Column="{utu:Responsive Narrow=0, Wide=1}"
+                               Grid.Row="{utu:Responsive Narrow=1, Wide=0}"
+                               VerticalAlignment="Bottom"
+                               HorizontalAlignment="{utu:Responsive Narrow=Left, Wide=Right}"
+                               Margin="{utu:Responsive Narrow='0,16,0,0', Wide='0'}"
+                               Width="360"
+                               ItemsSource="{Binding IndexTickers}">
+                    <ItemsRepeater.Layout>
+                        <StackLayout Orientation="Horizontal" Spacing="6" />
+                    </ItemsRepeater.Layout>
+                    <ItemsRepeater.ItemTemplate>
+                        <DataTemplate x:DataType="models:IndexTicker">
+                            <Border CornerRadius="12" BorderThickness="1"
+                                    BorderBrush="{ThemeResource MeridianBorderBrush}"
+                                    Background="{ThemeResource MeridianCardBrush}"
+                                    Padding="12,8" Width="116">
+                                <StackPanel Spacing="2">
+                                    <TextBlock Text="{x:Bind Name}"
+                                               FontSize="{StaticResource FontSize10}" FontWeight="SemiBold"
+                                               Foreground="{ThemeResource MeridianTextSubtleBrush}"
+                                               CharacterSpacing="60" />
+                                    <TextBlock Text="{x:Bind Value}"
+                                               FontFamily="{StaticResource IBMPlexMonoMediumFont}"
+                                               FontSize="{StaticResource FontSize14}" />
+                                    <TextBlock Text="{x:Bind Change}"
+                                               FontFamily="{StaticResource IBMPlexMonoMediumFont}"
+                                               FontSize="{StaticResource FontSize11}"
+                                               Foreground="{x:Bind IsUp, Converter={StaticResource GainLossBrush}}" />
+                                </StackPanel>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsRepeater.ItemTemplate>
+                </ItemsRepeater>
+            </Grid>
+
+            <!-- ═══════════ ROW 3: MAIN CONTENT GRID ═══════════ -->
+            <!-- Wide (>=1280 px): 3 columns side-by-side (main | spacer | 360 px sidebar).
+                 Narrow (<1280 px): sidebar column collapses to 0 and the sidebar restacks
+                 in row 1 below the main column. No panel redesign — just a value swap on
+                 column widths and the sidebar's Grid.Column/Grid.Row attached properties. -->
+            <Grid Grid.Row="3">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="{utu:Responsive Narrow=0, Wide=20}" />
+                    <ColumnDefinition Width="{utu:Responsive Narrow=0, Wide=360}" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <!-- ─── LEFT COLUMN ─── -->
+                <Grid Grid.Column="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <!-- PERFORMANCE CHART CARD -->
+                    <Grid Grid.Row="0">
+                    <Border x:Name="ChartCard" CornerRadius="16" BorderThickness="1"
+                            BorderBrush="{ThemeResource MeridianBorderBrush}"
+                            Background="{ThemeResource MeridianCardBrush}"
+                            Padding="28,24,28,16"
+                            PointerEntered="OnChartCardPointerEntered"
+                            PointerExited="OnChartCardPointerExited">
+                        <Border.RenderTransform>
+                            <TranslateTransform x:Name="ChartCardTranslate" />
+                        </Border.RenderTransform>
+                        <Grid x:Name="ChartContentLayer">
+                        <StackPanel Spacing="16">
+                            <!-- Chart header: dynamic for portfolio vs stock detail -->
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <StackPanel Orientation="Horizontal" Spacing="10">
+                                    <!-- Back button (visible in stock detail mode) -->
+                                    <Button x:Name="BackButton" Visibility="Collapsed"
+                                            Click="OnBackButtonClick"
+                                            Width="28" Height="28" Padding="0"
+                                            CornerRadius="8" BorderThickness="1"
+                                            BorderBrush="{ThemeResource MeridianBorderBrush}"
+                                            Background="Transparent"
+                                            Foreground="{ThemeResource MeridianTextPrimaryBrush}"
+                                            VerticalAlignment="Center">
+                                        <FontIcon Glyph="&#xE72B;" FontSize="{StaticResource FontSize12}"
+                                                  Foreground="{ThemeResource MeridianTextPrimaryBrush}" />
+                                    </Button>
+
+                                    <StackPanel>
+                                        <TextBlock x:Name="ChartLabel"
+                                                   Style="{StaticResource SectionLabel}"
+                                                   Text="PERFORMANCE" />
+                                        <!-- Stock detail row (visible in stock detail mode) -->
+                                        <StackPanel x:Name="StockDetailPanel" Visibility="Collapsed"
+                                                    Orientation="Horizontal" Spacing="8" Margin="0,3,0,0">
+                                            <TextBlock x:Name="StockPrice"
+                                                       FontFamily="{StaticResource IBMPlexMonoMediumFont}"
+                                                       FontSize="{StaticResource FontSize18}" VerticalAlignment="Center" />
+                                            <TextBlock x:Name="StockDelta"
+                                                       FontFamily="{StaticResource IBMPlexMonoMediumFont}"
+                                                       FontSize="{StaticResource FontSize12}" VerticalAlignment="Center" />
+                                            <Button Content="DETAILS" FontSize="{StaticResource FontSize10}" FontWeight="Bold"
+                                                    Padding="10,0" CornerRadius="6" BorderThickness="1"
+                                                    Height="22" MinHeight="0" VerticalAlignment="Center"
+                                                    BorderBrush="{ThemeResource MeridianBorderBrush}"
+                                                    Foreground="{ThemeResource MeridianTextPrimaryBrush}"
+                                                    Background="Transparent"
+                                                    Click="OnChartDetailsButtonClick"
+                                                    AutomationProperties.Name="View stock details"
+                                                    x:Uid="Dashboard.Button.ChartDetails" />
+                                            <Button Content="TRADE" FontSize="{StaticResource FontSize10}" FontWeight="Bold"
+                                                    Padding="10,0" CornerRadius="6" BorderThickness="1"
+                                                    Height="22" MinHeight="0" VerticalAlignment="Center"
+                                                    BorderBrush="{ThemeResource MeridianAccentBrush}"
+                                                    Foreground="{ThemeResource MeridianAccentBrush}"
+                                                    Background="{ThemeResource MeridianAccentBgTintBrush}"
+                                                    Click="OnChartTradeButtonClick"
+                                                    AutomationProperties.Name="Open trade drawer"
+                                                    x:Uid="Dashboard.Button.ChartTrade" />
+                                        </StackPanel>
+                                    </StackPanel>
+                                </StackPanel>
+
+                                <!-- Timeframe selector (ink spread on click) -->
+                                <StackPanel x:Name="TimeframeSelector" Grid.Column="1"
+                                            Orientation="Horizontal" Spacing="2">
+                                    <Button Content="1D" Tag="1D" FontSize="{StaticResource FontSize10}" Padding="8,4" CornerRadius="6"
+                                            Background="Transparent" Foreground="{ThemeResource MeridianTextSubtleBrush}"
+                                            BorderThickness="0" Click="OnTimeframeClick" />
+                                    <Button Content="1W" Tag="1W" FontSize="{StaticResource FontSize10}" Padding="8,4" CornerRadius="6"
+                                            Background="Transparent" Foreground="{ThemeResource MeridianTextSubtleBrush}"
+                                            BorderThickness="0" Click="OnTimeframeClick" />
+                                    <Button Content="1M" Tag="1M" FontSize="{StaticResource FontSize10}" Padding="8,4" CornerRadius="6"
+                                            Background="Transparent" Foreground="{ThemeResource MeridianTextSubtleBrush}"
+                                            BorderThickness="0" Click="OnTimeframeClick" />
+                                    <Button Content="3M" Tag="3M" FontSize="{StaticResource FontSize10}" Padding="8,4" CornerRadius="6"
+                                            Background="{ThemeResource MeridianGainBgTintBrush}"
+                                            Foreground="{ThemeResource MeridianGainBrush}"
+                                            BorderThickness="0,0,0,2"
+                                            BorderBrush="{ThemeResource MeridianGainBrush}"
+                                            Click="OnTimeframeClick" />
+                                    <Button Content="YTD" Tag="YTD" FontSize="{StaticResource FontSize10}" Padding="8,4" CornerRadius="6"
+                                            Background="Transparent" Foreground="{ThemeResource MeridianTextSubtleBrush}"
+                                            BorderThickness="0" Click="OnTimeframeClick" />
+                                    <Button Content="1Y" Tag="1Y" FontSize="{StaticResource FontSize10}" Padding="8,4" CornerRadius="6"
+                                            Background="Transparent" Foreground="{ThemeResource MeridianTextSubtleBrush}"
+                                            BorderThickness="0" Click="OnTimeframeClick" />
+                                </StackPanel>
+                            </Grid>
+
+                            <!-- Liveline animated chart (settle wrapper for gauge-needle overshoot) -->
+                            <Border x:Name="ChartSettleWrapper" RenderTransformOrigin="0.5,1.0">
+                                <Border.RenderTransform>
+                                    <CompositeTransform x:Name="ChartSettleTransform" />
+                                </Border.RenderTransform>
+                                <ll:LivelineChart x:Name="LivelineChart"
+                                                  Height="240"
+                                                  ShowGrid="True"
+                                                  ShowBadge="True"
+                                                  ShowFill="True"
+                                                  LerpSpeed="0.04"
+                                                  Momentum="True"
+                                                  PointerMoved="OnChartPointerMoved"
+                                                  PointerExited="OnChartPointerExited"
+                                                  AutomationProperties.Name="Portfolio performance chart, 3 month view" />
+                            </Border>
+                        </StackPanel>
+                        </Grid>
+                    </Border>
+                    <!-- Market breathing glow -->
+                    <Border x:Name="ChartBreathingGlow" CornerRadius="16" BorderThickness="2"
+                            Opacity="0" IsHitTestVisible="False">
+                        <Border.BorderBrush>
+                            <SolidColorBrush Color="{StaticResource MeridianGain}" />
+                        </Border.BorderBrush>
+                    </Border>
+                    </Grid>
+
+                    <!-- HOLDINGS + ALLOCATION ROW -->
+                    <Grid Grid.Row="1" Margin="0,20,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="20" />
+                            <ColumnDefinition Width="1.2*" />
+                        </Grid.ColumnDefinitions>
+
+                        <!-- ══ HOLDINGS CARD ══ -->
+                        <Border Grid.Column="0" CornerRadius="16" BorderThickness="1"
+                                BorderBrush="{ThemeResource MeridianBorderBrush}"
+                                Background="{ThemeResource MeridianCardBrush}"
+                                Padding="24,22" VerticalAlignment="Stretch">
+                            <StackPanel Spacing="12">
+                                <TextBlock Style="{StaticResource SectionLabel}" Text="HOLDINGS"
+                                                              x:Uid="Dashboard.Label.Holdings" />
+                                <ItemsRepeater ItemsSource="{Binding Holdings}">
+                                    <ItemsRepeater.Layout>
+                                        <StackLayout Spacing="6" />
+                                    </ItemsRepeater.Layout>
+                                    <ItemsRepeater.ItemTemplate>
+                                        <DataTemplate x:DataType="models:Holding">
+                                            <Border CornerRadius="12" BorderThickness="1"
+                                                    BorderBrush="{ThemeResource MeridianBorderBrush}"
+                                                    Padding="12,14"
+                                                    RenderTransformOrigin="0.5,0.5"
+                                                    Tapped="OnHoldingTapped"
+                                                    PointerEntered="OnCardPointerEntered"
+                                                    PointerExited="OnCardPointerExited"
+                                                    AutomationProperties.Name="{x:Bind Ticker}">
+                                                <Border.RenderTransform>
+                                                    <CompositeTransform />
+                                                </Border.RenderTransform>
+                                                <StackPanel Spacing="6">
+                                                    <Grid>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="*" />
+                                                            <ColumnDefinition Width="Auto" />
+                                                        </Grid.ColumnDefinitions>
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="Auto" />
+                                                            <RowDefinition Height="Auto" />
+                                                        </Grid.RowDefinitions>
+
+                                                        <!-- Row 0: Ticker + active dot + shares×avg + market value -->
+                                                        <StackPanel Grid.Row="0" Grid.Column="0"
+                                                                    Orientation="Horizontal" Spacing="0"
+                                                                    VerticalAlignment="Center">
+                                                            <!-- Pulsing green dot when selected -->
+                                                            <Border Tag="ActiveDot" Visibility="Collapsed"
+                                                                    Width="7" Height="7" CornerRadius="4"
+                                                                    Background="{ThemeResource MeridianGainBrush}"
+                                                                    VerticalAlignment="Center" Margin="0,0,6,0" />
+                                                            <TextBlock FontFamily="{StaticResource OutfitFont}"
+                                                                       FontSize="{StaticResource FontSize14}" FontWeight="Bold"
+                                                                       Text="{x:Bind Ticker}" />
+                                                            <TextBlock FontFamily="{StaticResource OutfitFont}"
+                                                                       FontSize="{StaticResource FontSize10}" VerticalAlignment="Center"
+                                                                       Foreground="{ThemeResource MeridianTextSubtleBrush}"
+                                                                       Margin="8,0,0,0">
+                                                                <Run Text="{Binding Shares}" />
+                                                                <Run Text=" × $" />
+                                                                <Run Text="{Binding AvgCost}" />
+                                                            </TextBlock>
+                                                        </StackPanel>
+
+                                                        <TextBlock Grid.Row="0" Grid.Column="1"
+                                                                   FontFamily="{StaticResource IBMPlexMonoFont}"
+                                                                   FontSize="{StaticResource FontSize13}" HorizontalAlignment="Right"
+                                                                   Text="{x:Bind MarketValue, Converter={StaticResource DecimalFormat}, ConverterParameter='$#,##0.00'}" />
+
+                                                        <!-- Row 1: Gain % -->
+                                                        <TextBlock Grid.Row="1" Grid.Column="1"
+                                                                   FontFamily="{StaticResource IBMPlexMonoFont}"
+                                                                   FontSize="{StaticResource FontSize11}" HorizontalAlignment="Right"
+                                                                   Foreground="{x:Bind IsPositive, Converter={StaticResource GainLossBrush}}"
+                                                                   Margin="0,2,0,0"
+                                                                   Text="{x:Bind GainPct, Converter={StaticResource DecimalFormat}, ConverterParameter='+0.00;-0.00;0.00'}" />
+                                                    </Grid>
+
+                                                    <!-- Weight bar: 3px height, green, width proportional to portfolio weight -->
+                                                    <Border Height="3" CornerRadius="2"
+                                                            Background="{ThemeResource MeridianBorderBrush}"
+                                                            HorizontalAlignment="Stretch">
+                                                        <Border Height="3" CornerRadius="2"
+                                                                Background="{ThemeResource MeridianGainBrush}"
+                                                                HorizontalAlignment="Left"
+                                                                Width="80" />
+                                                    </Border>
+                                                </StackPanel>
+                                            </Border>
+                                        </DataTemplate>
+                                    </ItemsRepeater.ItemTemplate>
+                                </ItemsRepeater>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Allocation + Volume Stack -->
+                        <Grid Grid.Column="2">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <Border Grid.Row="0" CornerRadius="16" BorderThickness="1"
+                                    BorderBrush="{ThemeResource MeridianBorderBrush}"
+                                    Background="{ThemeResource MeridianCardBrush}"
+                                    Padding="24,22" Margin="0,0,0,20"
+                                    PointerEntered="OnChartCardPointerEntered"
+                                    PointerExited="OnChartCardPointerExited">
+                                <StackPanel Spacing="14">
+                                    <TextBlock Style="{StaticResource SectionLabel}"
+                                               Text="SECTOR ALLOCATION" />
+                                    <!-- Sectors is set imperatively from LoadSkiaControlsAsync;
+                                         {Binding Sectors} fails because MVUX projects IListFeed
+                                         as BindableListFeed, which has no converter to List<Sector>. -->
+                                    <controls:SectorRingControl
+                                        x:Name="SectorRing" />
+                                </StackPanel>
+                            </Border>
+                            <Border Grid.Row="1" CornerRadius="16" BorderThickness="1"
+                                    BorderBrush="{ThemeResource MeridianBorderBrush}"
+                                    Background="{ThemeResource MeridianCardBrush}"
+                                    Padding="24,22"
+                                    PointerEntered="OnChartCardPointerEntered"
+                                    PointerExited="OnChartCardPointerExited">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+                                    <TextBlock Grid.Row="0" Style="{StaticResource SectionLabel}"
+                                               Text="VOLUME PROFILE" Margin="0,0,0,8" />
+                                    <!-- VolumeData set imperatively from LoadSkiaControlsAsync; see SectorRing above. -->
+                                    <controls:VolumeChartControl Grid.Row="1"
+                                        x:Name="VolumeChart"
+                                        VerticalAlignment="Center" />
+                                </Grid>
+                            </Border>
+                        </Grid>
+                    </Grid>
+                </Grid>
+
+                <!-- ─── RIGHT SIDEBAR ───
+                     Wide: sits in Column=2 beside the left column (Row=0).
+                     Narrow: stacks below the left column (Column=0, Row=1) with
+                     a top margin to separate it from the holdings/allocation block. -->
+                <Grid Grid.Column="{utu:Responsive Narrow=0, Wide=2}"
+                      Grid.Row="{utu:Responsive Narrow=1, Wide=0}"
+                      Margin="{utu:Responsive Narrow='0,20,0,0', Wide='0'}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <!-- Search Bar (focus ring wraps TextBox) -->
+                    <Border x:Name="SearchFocusRing" Grid.Row="0"
+                            CornerRadius="12" BorderThickness="1"
+                            BorderBrush="{ThemeResource MeridianBorderBrush}"
+                            Background="{ThemeResource MeridianCardBrush}"
+                            Height="36">
+                        <TextBox x:Name="SearchBox" PlaceholderText="Search ticker or name…"
+                                 Text="{Binding SearchQuery, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                 FontFamily="{StaticResource OutfitFont}"
+                                 FontSize="{StaticResource FontSize12}" FontWeight="SemiLight" Padding="12,6"
+                                 Background="Transparent"
+                                 BorderThickness="0"
+                                 GotFocus="OnSearchFocused"
+                                 LostFocus="OnSearchUnfocused"
+                                 Style="{x:Null}"
+                                 AutomationProperties.Name="Search watchlist"
+                                 x:Uid="Dashboard.Input.Search" />
+                    </Border>
+
+                    <!-- ══ WATCHLIST CARD ══ -->
+                    <Border x:Name="WatchlistCard" Grid.Row="1" CornerRadius="16" BorderThickness="1"
+                            BorderBrush="{ThemeResource MeridianBorderBrush}"
+                            Background="{ThemeResource MeridianCardBrush}"
+                            Margin="0,20,0,20"
+                            PointerEntered="OnChartCardPointerEntered"
+                            PointerExited="OnChartCardPointerExited">
+                        <StackPanel>
+                            <TextBlock Style="{StaticResource SectionLabel}"
+                                       Text="WATCHLIST" Margin="22,20,22,12" />
+                            <Grid>
+                            <ScrollViewer x:Name="WatchlistScrollViewer" MaxHeight="440"
+                                          VerticalScrollBarVisibility="Auto"
+                                          ViewChanged="OnWatchlistScrollChanged">
+                            <ItemsRepeater ItemsSource="{Binding Watchlist}"
+                                           Margin="0,0,0,8">
+                                <ItemsRepeater.Layout>
+                                    <StackLayout Spacing="0" />
+                                </ItemsRepeater.Layout>
+                                <ItemsRepeater.ItemTemplate>
+                                    <DataTemplate x:DataType="models:Stock">
+                                        <StackPanel>
+                                            <!-- Collapsed row -->
+                                            <Border Padding="14,12,22,12"
+                                                    BorderThickness="0,0,0,1"
+                                                    BorderBrush="{ThemeResource MeridianRowSeparatorBrush}"
+                                                    Tapped="OnWatchlistRowTapped"
+                                                    PointerEntered="OnRowPointerEntered"
+                                                    PointerExited="OnRowPointerExited">
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="Auto" />
+                                                        <ColumnDefinition Width="*" />
+                                                        <ColumnDefinition Width="Auto" />
+                                                    </Grid.ColumnDefinitions>
+
+                                                    <!-- Left: Ticker + braille + chevron -->
+                                                    <StackPanel Grid.Column="0" Margin="8,0,0,0">
+                                                        <StackPanel Orientation="Horizontal" Spacing="6">
+                                                            <TextBlock Text="{x:Bind Ticker}"
+                                                                       FontSize="{StaticResource FontSize14}" FontWeight="Bold"
+                                                                       FontFamily="{StaticResource OutfitFont}" />
+                                                            <TextBlock Tag="BrailleActivity" Text="⣤⣶⣷⣿⣶⣤" FontSize="{StaticResource FontSize9}"
+                                                                       Foreground="{x:Bind Pct, Converter={StaticResource GainLossBrush}}"
+                                                                       Opacity="0.5"
+                                                                       Width="36"
+                                                                       TextAlignment="Center"
+                                                                       VerticalAlignment="Center" />
+                                                            <TextBlock Tag="Chevron" Text="▾" FontSize="{StaticResource FontSize8}"
+                                                                       Foreground="{ThemeResource MeridianTextSubtleBrush}"
+                                                                       VerticalAlignment="Center"
+                                                                       RenderTransformOrigin="0.5,0.5">
+                                                                <TextBlock.RenderTransform>
+                                                                    <RotateTransform />
+                                                                </TextBlock.RenderTransform>
+                                                            </TextBlock>
+                                                        </StackPanel>
+                                                        <TextBlock Text="{x:Bind Name}" FontSize="{StaticResource FontSize11}"
+                                                                   Foreground="{ThemeResource MeridianTextSubtleBrush}"
+                                                                   TextTrimming="CharacterEllipsis"
+                                                                   Margin="0,1,0,0" />
+                                                    </StackPanel>
+
+                                                    <!-- Center: Sparkline mini chart -->
+                                                    <controls:SparklineControl Grid.Column="1"
+                                                        HorizontalAlignment="Center" VerticalAlignment="Center"
+                                                        IsPositive="{x:Bind Pct, Converter={StaticResource IsPositive}}" />
+
+                                                    <!-- Right: Price + Delta -->
+                                                    <StackPanel Grid.Column="2" HorizontalAlignment="Right"
+                                                                VerticalAlignment="Center">
+                                                        <TextBlock FontFamily="{StaticResource IBMPlexMonoFont}"
+                                                                   FontSize="{StaticResource FontSize13}" HorizontalAlignment="Right"
+                                                                   Text="{x:Bind Price, Converter={StaticResource PrefixSuffix}, ConverterParameter='$|'}" />
+                                                        <TextBlock FontFamily="{StaticResource IBMPlexMonoFont}"
+                                                                   FontSize="{StaticResource FontSize11}" HorizontalAlignment="Right"
+                                                                   Foreground="{x:Bind Pct, Converter={StaticResource GainLossBrush}}"
+                                                                   Text="{x:Bind Pct, Converter={StaticResource PrefixSuffix}, ConverterParameter='|%'}" />
+                                                    </StackPanel>
+                                                </Grid>
+                                            </Border>
+
+                                            <!-- Expanded panel (hidden by default, animates in) -->
+                                            <Border Tag="ExpandedPanel" Visibility="Collapsed"
+                                                    Background="{ThemeResource MeridianExpandedBgBrush}"
+                                                    Padding="22,14" Opacity="0">
+                                                <Border.RenderTransform>
+                                                    <CompositeTransform />
+                                                </Border.RenderTransform>
+                                                <StackPanel Spacing="12">
+                                                    <!-- OHLC Grid -->
+                                                    <Grid>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="*" />
+                                                            <ColumnDefinition Width="*" />
+                                                            <ColumnDefinition Width="*" />
+                                                            <ColumnDefinition Width="*" />
+                                                        </Grid.ColumnDefinitions>
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="Auto" />
+                                                            <RowDefinition Height="Auto" />
+                                                        </Grid.RowDefinitions>
+                                                        <TextBlock Grid.Row="0" Grid.Column="0" Text="OPEN"
+                                                                   FontSize="{StaticResource FontSize9}" Foreground="{ThemeResource MeridianTextSubtleBrush}" />
+                                                        <TextBlock Grid.Row="0" Grid.Column="1" Text="HIGH"
+                                                                   FontSize="{StaticResource FontSize9}" Foreground="{ThemeResource MeridianTextSubtleBrush}" />
+                                                        <TextBlock Grid.Row="0" Grid.Column="2" Text="LOW"
+                                                                   FontSize="{StaticResource FontSize9}" Foreground="{ThemeResource MeridianTextSubtleBrush}" />
+                                                        <TextBlock Grid.Row="0" Grid.Column="3" Text="VOLUME"
+                                                                   FontSize="{StaticResource FontSize9}" Foreground="{ThemeResource MeridianTextSubtleBrush}" />
+                                                        <TextBlock Grid.Row="1" Grid.Column="0"
+                                                                   FontFamily="{StaticResource IBMPlexMonoFont}" FontSize="{StaticResource FontSize13}"
+                                                                   Text="{x:Bind Open, Converter={StaticResource DecimalFormat}, ConverterParameter='$#,##0.00'}" />
+                                                        <TextBlock Grid.Row="1" Grid.Column="1"
+                                                                   FontFamily="{StaticResource IBMPlexMonoFont}" FontSize="{StaticResource FontSize13}"
+                                                                   Text="{x:Bind High, Converter={StaticResource DecimalFormat}, ConverterParameter='$#,##0.00'}" />
+                                                        <TextBlock Grid.Row="1" Grid.Column="2"
+                                                                   FontFamily="{StaticResource IBMPlexMonoFont}" FontSize="{StaticResource FontSize13}"
+                                                                   Text="{x:Bind Low, Converter={StaticResource DecimalFormat}, ConverterParameter='$#,##0.00'}" />
+                                                        <TextBlock Grid.Row="1" Grid.Column="3"
+                                                                   FontFamily="{StaticResource IBMPlexMonoFont}" FontSize="{StaticResource FontSize13}"
+                                                                   Text="{x:Bind Volume}" />
+                                                    </Grid>
+
+                                                    <!-- Day Range Bar -->
+                                                    <StackPanel Spacing="4">
+                                                        <Grid>
+                                                            <TextBlock Text="Day Range" FontSize="{StaticResource FontSize9}"
+                                                                       Foreground="{ThemeResource MeridianTextSubtleBrush}" />
+                                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="0">
+                                                                <TextBlock FontSize="{StaticResource FontSize9}" FontFamily="{StaticResource IBMPlexMonoFont}"
+                                                                           Foreground="{ThemeResource MeridianTextSubtleBrush}"
+                                                                           Text="{x:Bind Low, Converter={StaticResource PrefixSuffix}, ConverterParameter='$|'}" />
+                                                                <TextBlock FontSize="{StaticResource FontSize9}" FontFamily="{StaticResource IBMPlexMonoFont}"
+                                                                           Foreground="{ThemeResource MeridianTextSubtleBrush}"
+                                                                           Text=" — " />
+                                                                <TextBlock FontSize="{StaticResource FontSize9}" FontFamily="{StaticResource IBMPlexMonoFont}"
+                                                                           Foreground="{ThemeResource MeridianTextSubtleBrush}"
+                                                                           Text="{x:Bind High, Converter={StaticResource PrefixSuffix}, ConverterParameter='$|'}" />
+                                                            </StackPanel>
+                                                        </Grid>
+                                                        <Grid Height="6">
+                                                            <!-- Track background -->
+                                                            <Border CornerRadius="3"
+                                                                    Background="{ThemeResource MeridianBorderBrush}" />
+                                                            <!-- Filled portion + indicator -->
+                                                            <Grid>
+                                                                <Grid.ColumnDefinitions>
+                                                                    <ColumnDefinition Width="0.55*" />
+                                                                    <ColumnDefinition Width="Auto" />
+                                                                    <ColumnDefinition Width="0.45*" />
+                                                                </Grid.ColumnDefinitions>
+                                                                <Border Grid.Column="0" CornerRadius="3,0,0,3"
+                                                                        Background="{ThemeResource MeridianGainBrush}" />
+                                                                <!-- Current price indicator dot -->
+                                                                <Border Grid.Column="1" Width="10" Height="10" CornerRadius="5"
+                                                                        Margin="-5,0,-5,0"
+                                                                        Background="{ThemeResource MeridianTextPrimaryBrush}" />
+                                                            </Grid>
+                                                        </Grid>
+                                                    </StackPanel>
+
+                                                    <!-- Action buttons -->
+                                                    <StackPanel Orientation="Horizontal" Spacing="10">
+                                                        <Button FontSize="{StaticResource FontSize11}" Padding="14,6"
+                                                                CornerRadius="8" BorderThickness="1"
+                                                                BorderBrush="{ThemeResource MeridianBorderBrush}"
+                                                                Foreground="{ThemeResource MeridianTextPrimaryBrush}"
+                                                                Background="Transparent"
+                                                                Click="OnViewChartFromWatchlist"
+                                                                AutomationProperties.Name="View chart for this stock">
+                                                            <StackPanel Orientation="Horizontal" Spacing="6">
+                                                                <FontIcon Glyph="&#xE9D9;" FontSize="{StaticResource FontSize12}" />
+                                                                <TextBlock Text="View Chart" FontSize="{StaticResource FontSize11}"
+                                                                           VerticalAlignment="Center" />
+                                                            </StackPanel>
+                                                        </Button>
+                                                        <Button Content="Trade" FontSize="{StaticResource FontSize11}" Padding="14,6"
+                                                                CornerRadius="8" BorderThickness="1"
+                                                                BorderBrush="{ThemeResource MeridianAccentBrush}"
+                                                                Foreground="{ThemeResource MeridianAccentBrush}"
+                                                                Background="{ThemeResource MeridianAccentBgTintBrush}"
+                                                                Click="OnWatchlistTradeButtonTapped"
+                                                                AutomationProperties.Name="Trade this stock" />
+                                                        <Button FontSize="{StaticResource FontSize11}" Padding="14,6"
+                                                                CornerRadius="8" BorderThickness="1"
+                                                                BorderBrush="{ThemeResource MeridianBorderBrush}"
+                                                                Foreground="{ThemeResource MeridianTextPrimaryBrush}"
+                                                                Background="Transparent"
+                                                                Click="OnWatchlistDetailsButtonTapped"
+                                                                AutomationProperties.Name="View stock details">
+                                                            <TextBlock Text="Details &#x27F6;" FontSize="{StaticResource FontSize11}" />
+                                                        </Button>
+                                                    </StackPanel>
+                                                </StackPanel>
+                                            </Border>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ItemsRepeater.ItemTemplate>
+                            </ItemsRepeater>
+                            </ScrollViewer>
+                            <!-- Scroll anticipation: top fade -->
+                            <Border x:Name="WatchlistTopMask" VerticalAlignment="Top" Height="24"
+                                    Opacity="0" IsHitTestVisible="False">
+                                <Border.Background>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                        <GradientStop Color="{StaticResource MeridianCardColor}" Offset="0" />
+                                        <GradientStop Color="Transparent" Offset="1" />
+                                    </LinearGradientBrush>
+                                </Border.Background>
+                            </Border>
+                            <!-- Scroll anticipation: bottom fade -->
+                            <Border x:Name="WatchlistBottomMask" VerticalAlignment="Bottom" Height="24"
+                                    Opacity="0" IsHitTestVisible="False">
+                                <Border.Background>
+                                    <LinearGradientBrush StartPoint="0,1" EndPoint="0,0">
+                                        <GradientStop Color="{StaticResource MeridianCardColor}" Offset="0" />
+                                        <GradientStop Color="Transparent" Offset="1" />
+                                    </LinearGradientBrush>
+                                </Border.Background>
+                            </Border>
+                            <!-- Empty state gravity -->
+                            <StackPanel x:Name="WatchlistEmptyState" Visibility="Collapsed"
+                                        VerticalAlignment="Center" HorizontalAlignment="Center"
+                                        Margin="0,60,0,60">
+                                <TextBlock Text="⣿⣶⣤⣀⠀⣀⣤⣶⣿" FontSize="{StaticResource FontSize14}"
+                                           HorizontalAlignment="Center" Opacity="0.15"
+                                           Foreground="{ThemeResource MeridianTextMutedBrush}" />
+                                <TextBlock Text="No results" FontSize="{StaticResource FontSize11}" Margin="0,8,0,0"
+                                           HorizontalAlignment="Center"
+                                           Foreground="{ThemeResource MeridianTextSubtleBrush}" />
+                            </StackPanel>
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- ══ MARKET PULSE (NEWS) CARD ══ -->
+                    <Border Grid.Row="2" CornerRadius="16" BorderThickness="1"
+                            BorderBrush="{ThemeResource MeridianBorderBrush}"
+                            Background="{ThemeResource MeridianCardBrush}"
+                            Padding="22,20,22,16"
+                            PointerEntered="OnChartCardPointerEntered"
+                            PointerExited="OnChartCardPointerExited">
+                        <StackPanel Spacing="14">
+                            <Grid>
+                                <TextBlock Style="{StaticResource SectionLabel}"
+                                           Text="MARKET PULSE" />
+                                <TextBlock x:Name="BraillePulse"
+                                           HorizontalAlignment="Right"
+                                           FontSize="{StaticResource FontSize11}" Opacity="0.5"
+                                           Foreground="{ThemeResource MeridianAccentBrush}"
+                                           Text="⣤⣴⣶⣷⣿⣷⣶⣴⣤⠀⠀⠀⠀⠀⠀⠀⠀⠀"
+                                           AutomationProperties.AccessibilityView="Raw" />
+                            </Grid>
+                            <ItemsRepeater x:Name="NewsRepeater" ItemsSource="{Binding News}">
+                                <ItemsRepeater.Layout>
+                                    <StackLayout Spacing="14" />
+                                </ItemsRepeater.Layout>
+                                <ItemsRepeater.ItemTemplate>
+                                    <DataTemplate x:DataType="models:NewsItem">
+                                        <Grid PointerEntered="OnNewsItemPointerEntered"
+                                              PointerExited="OnNewsItemPointerExited">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+
+                                            <!-- Tag badge -->
+                                            <Border Grid.Column="0" CornerRadius="6"
+                                                    Padding="8,3" Margin="0,0,12,0"
+                                                    VerticalAlignment="Top"
+                                                    Background="{x:Bind Tag, Converter={StaticResource TagToBrush}}">
+                                                <TextBlock Text="{x:Bind Tag}"
+                                                           FontSize="{StaticResource FontSize9}" FontWeight="SemiBold"
+                                                           CharacterSpacing="40" />
+                                            </Border>
+
+                                            <!-- Headline + timestamp -->
+                                            <StackPanel Grid.Column="1" Spacing="3">
+                                                <TextBlock Text="{x:Bind Text}"
+                                                           FontSize="{StaticResource FontSize12}" TextWrapping="Wrap"
+                                                           LineHeight="17" />
+                                                <TextBlock FontFamily="{StaticResource IBMPlexMonoFont}"
+                                                           FontSize="{StaticResource FontSize10}"
+                                                           Foreground="{ThemeResource MeridianTextSubtleBrush}">
+                                                    <Run Text="{Binding Time}" />
+                                                    <Run Text=" ago" />
+                                                </TextBlock>
+                                            </StackPanel>
+                                        </Grid>
+                                    </DataTemplate>
+                                </ItemsRepeater.ItemTemplate>
+                            </ItemsRepeater>
+                        </StackPanel>
+                    </Border>
+                </Grid>
+            </Grid>
+
+            <!-- ═══════════ ROW 4: FOOTER ═══════════ -->
+            <Grid Grid.Row="4" Margin="0,24,0,0"
+                  Padding="0,16,0,0"
+                  BorderThickness="0,1,0,0"
+                  BorderBrush="{ThemeResource MeridianBorderBrush}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Column="0" FontSize="{StaticResource FontSize10}"
+                           Foreground="{ThemeResource MeridianTextSubtleBrush}"
+                           Text="Simulated data for demonstration. Not financial advice." />
+                <Grid Grid.Column="1" Margin="20,0">
+                    <ScrollViewer HorizontalScrollBarVisibility="Hidden"
+                                  VerticalScrollBarVisibility="Disabled"
+                                  HorizontalScrollMode="Disabled"
+                                  VerticalScrollMode="Disabled"
+                                  IsTabStop="False">
+                        <TextBlock x:Name="FooterTickerText"
+                                   AutomationProperties.AccessibilityView="Raw"
+                                   FontFamily="{StaticResource IBMPlexMonoFont}"
+                                   FontSize="{StaticResource FontSize9}" Opacity="0.35"
+                                   Foreground="{ThemeResource MeridianTextSubtleBrush}"
+                                   MaxLines="1" TextTrimming="None">
+                            <TextBlock.RenderTransform>
+                                <TranslateTransform x:Name="FooterTickerTranslate" />
+                            </TextBlock.RenderTransform>
+                        </TextBlock>
+                    </ScrollViewer>
+                    <Border HorizontalAlignment="Left" Width="30" IsHitTestVisible="False">
+                        <Border.Background>
+                            <LinearGradientBrush StartPoint="0,0.5" EndPoint="1,0.5">
+                                <GradientStop Color="{StaticResource MeridianBackground}" Offset="0" />
+                                <GradientStop Color="{StaticResource MeridianBackgroundTransparent}" Offset="1" />
+                            </LinearGradientBrush>
+                        </Border.Background>
+                    </Border>
+                    <Border HorizontalAlignment="Right" Width="30" IsHitTestVisible="False">
+                        <Border.Background>
+                            <LinearGradientBrush StartPoint="0,0.5" EndPoint="1,0.5">
+                                <GradientStop Color="{StaticResource MeridianBackgroundTransparent}" Offset="0" />
+                                <GradientStop Color="{StaticResource MeridianBackground}" Offset="1" />
+                            </LinearGradientBrush>
+                        </Border.Background>
+                    </Border>
+                </Grid>
+                <TextBlock Grid.Column="2"
+                           FontFamily="{StaticResource IBMPlexMonoFont}"
+                           FontSize="{StaticResource FontSize10}"
+                           Foreground="{ThemeResource MeridianTextSubtleBrush}"
+                           Text="Meridian Terminal v4.0" />
+            </Grid>
+        </Grid>
+    </ScrollViewer>
+
+    <!-- ═══════════ TRADE DRAWER OVERLAY ═══════════ -->
+    <!-- Backdrop -->
+    <Border x:Name="DrawerBackdrop" Visibility="Collapsed"
+            Background="{ThemeResource MeridianBackdropBrush}"
+            Tapped="OnDrawerBackdropTapped" />
+
+    <!-- Drawer (right-aligned) -->
+    <views:TradeDrawer x:Name="TradeDrawerPanel" Visibility="Collapsed"
+                       HorizontalAlignment="Right" VerticalAlignment="Stretch" />
+    </Grid>
+</Page>

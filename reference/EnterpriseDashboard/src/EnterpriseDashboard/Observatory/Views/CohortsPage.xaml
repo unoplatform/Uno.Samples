@@ -1,0 +1,172 @@
+<Page x:Class="EnterpriseDashboard.Observatory.Views.CohortsPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:utu="using:Uno.Toolkit.UI"
+      xmlns:obs="using:EnterpriseDashboard.Observatory.Controls"
+      xmlns:charts="using:EnterpriseDashboard.Observatory.Charts"
+      xmlns:anim="using:EnterpriseDashboard.Observatory.Animation"
+      Background="{ThemeResource ObsBlackBrush}">
+
+  <!-- Responsive shell: info rail collapses below charts under 1280 px.
+       The cohort retention triangle (full-row band) stays untouched. -->
+  <Grid>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="{utu:Responsive Layout={StaticResource ObsBentoBreakpoints}, Narrow=*, Wide=3*}" />
+      <ColumnDefinition Width="{utu:Responsive Layout={StaticResource ObsBentoBreakpoints}, Narrow=0, Wide=1*}" />
+    </Grid.ColumnDefinitions>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="*" />
+      <RowDefinition Height="{utu:Responsive Layout={StaticResource ObsBentoBreakpoints}, Narrow=Auto, Wide=0}" />
+    </Grid.RowDefinitions>
+
+    <!-- ===== Charts ===== -->
+    <ScrollViewer x:Name="ChartScroller" Grid.Row="0" Grid.Column="0"
+                  Grid.ColumnSpan="{utu:Responsive Layout={StaticResource ObsBentoBreakpoints}, Narrow=2, Wide=1}"
+                  VerticalScrollBarVisibility="Auto" VerticalScrollMode="Enabled"
+                  HorizontalScrollMode="Disabled" HorizontalScrollBarVisibility="Disabled">
+      <StackPanel Padding="40,28,32,48" Spacing="6">
+        <obs:SectionDivider Number="03"
+                            Title="Cohorts"
+                            Description="Period-over-period movement by segment, and the spread of value across individual accounts."
+                            MaxWidth="760"
+                            HorizontalAlignment="Left" />
+        <Grid ColumnSpacing="20">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+          </Grid.ColumnDefinitions>
+
+          <obs:ChartCard Grid.Column="0" Height="440" HorizontalAlignment="Stretch"
+                        Title="Retention by Segment" Badge="Q2 → Q3" StatValue="6 segments" StatUnit=""
+                        FooterText="Cohort model · weekly">
+            <charts:SlopeChartControl Items="{Binding SlopeItems}"
+                                      anim:ScrollTriggerBehavior.IsEnabled="True"
+                                      anim:ScrollTriggerBehavior.ResetKey="{Binding ResetKey}" />
+          </obs:ChartCard>
+
+          <obs:ChartCard Grid.Column="1" Height="440" HorizontalAlignment="Stretch"
+                        Title="Per-Account MRR" Badge="60 ACCTS" StatValue="$50" StatUnit="median"
+                        FooterText="Billing · updated 1h ago">
+            <charts:DotStripChart Points="{Binding DotStripPoints}"
+                                  anim:ScrollTriggerBehavior.IsEnabled="True"
+                                  anim:ScrollTriggerBehavior.ResetKey="{Binding ResetKey}" />
+          </obs:ChartCard>
+        </Grid>
+
+        <!-- Retention triangle fills the band below the two charts. -->
+        <obs:ChartCard Margin="0,20,0,0" Height="300" HorizontalAlignment="Stretch"
+                      Title="Cohort Retention" Badge="BY SIGNUP MONTH · % RETAINED" StatValue="63%" StatUnit="avg M3"
+                      FooterText="Cohort model · weekly">
+          <Grid x:Name="TriangleHost" Margin="0,4,0,0" />
+        </obs:ChartCard>
+      </StackPanel>
+    </ScrollViewer>
+
+    <!-- ===== Info (1/4): Segment leaderboard =====
+         Wide: right column. Narrow: drops below charts, full width, top hairline.
+         MaxHeight caps the Auto row in Narrow so the chart row (*) keeps real height.
+         Wide=10000 is an effective no-op (Grid cell still constrains it). -->
+    <Border Grid.Row="{utu:Responsive Layout={StaticResource ObsBentoBreakpoints}, Narrow=1, Wide=0}"
+            Grid.Column="{utu:Responsive Layout={StaticResource ObsBentoBreakpoints}, Narrow=0, Wide=1}"
+            Grid.ColumnSpan="{utu:Responsive Layout={StaticResource ObsBentoBreakpoints}, Narrow=2, Wide=1}"
+            MaxHeight="{utu:Responsive Layout={StaticResource ObsBentoBreakpoints}, Narrow=420, Wide=10000}"
+            BorderBrush="{ThemeResource ObsBorderBrush}"
+            BorderThickness="{utu:Responsive Layout={StaticResource ObsBentoBreakpoints}, Narrow='0,1,0,0', Wide='1,0,0,0'}"
+            Padding="28,32,40,40">
+      <ScrollViewer VerticalScrollBarVisibility="Auto" VerticalScrollMode="Enabled"
+                    HorizontalScrollBarVisibility="Disabled" HorizontalScrollMode="Disabled">
+        <StackPanel Spacing="0">
+        <TextBlock Text="SEGMENT LEADERBOARD" Style="{StaticResource ObsKpiLabel}" />
+        <TextBlock Text="Q2 → Q3 retention Δ" Style="{StaticResource ObsMonoSmall}" Foreground="{ThemeResource ObsGreyBrush}" Margin="0,8,0,0" />
+
+        <StackPanel Margin="0,22,0,0" Spacing="16">
+          <Grid>
+            <Grid.ColumnDefinitions><ColumnDefinition Width="22" /><ColumnDefinition Width="*" /><ColumnDefinition Width="Auto" /></Grid.ColumnDefinitions>
+            <TextBlock Text="1" Style="{StaticResource ObsListMeta}" VerticalAlignment="Center" />
+            <TextBlock Grid.Column="1" Text="SMB" Style="{StaticResource ObsListName}" VerticalAlignment="Center" />
+            <TextBlock Grid.Column="2" Text="+28 ▲" Style="{StaticResource ObsDelta}" VerticalAlignment="Center" />
+          </Grid>
+          <Grid>
+            <Grid.ColumnDefinitions><ColumnDefinition Width="22" /><ColumnDefinition Width="*" /><ColumnDefinition Width="Auto" /></Grid.ColumnDefinitions>
+            <TextBlock Text="2" Style="{StaticResource ObsListMeta}" VerticalAlignment="Center" />
+            <TextBlock Grid.Column="1" Text="Mid-Market" Style="{StaticResource ObsListName}" VerticalAlignment="Center" />
+            <TextBlock Grid.Column="2" Text="+22 ▲" Style="{StaticResource ObsDelta}" VerticalAlignment="Center" />
+          </Grid>
+          <Grid>
+            <Grid.ColumnDefinitions><ColumnDefinition Width="22" /><ColumnDefinition Width="*" /><ColumnDefinition Width="Auto" /></Grid.ColumnDefinitions>
+            <TextBlock Text="3" Style="{StaticResource ObsListMeta}" VerticalAlignment="Center" />
+            <TextBlock Grid.Column="1" Text="Public Sector" Style="{StaticResource ObsListName}" VerticalAlignment="Center" />
+            <TextBlock Grid.Column="2" Text="+22 ▲" Style="{StaticResource ObsDelta}" VerticalAlignment="Center" />
+          </Grid>
+          <Grid>
+            <Grid.ColumnDefinitions><ColumnDefinition Width="22" /><ColumnDefinition Width="*" /><ColumnDefinition Width="Auto" /></Grid.ColumnDefinitions>
+            <TextBlock Text="4" Style="{StaticResource ObsListMeta}" VerticalAlignment="Center" />
+            <TextBlock Grid.Column="1" Text="Education" Style="{StaticResource ObsListName}" VerticalAlignment="Center" />
+            <TextBlock Grid.Column="2" Text="+16 ▲" Style="{StaticResource ObsDelta}" VerticalAlignment="Center" />
+          </Grid>
+          <Grid>
+            <Grid.ColumnDefinitions><ColumnDefinition Width="22" /><ColumnDefinition Width="*" /><ColumnDefinition Width="Auto" /></Grid.ColumnDefinitions>
+            <TextBlock Text="5" Style="{StaticResource ObsListMeta}" VerticalAlignment="Center" />
+            <TextBlock Grid.Column="1" Text="Enterprise" Style="{StaticResource ObsListName}" VerticalAlignment="Center" />
+            <TextBlock Grid.Column="2" Text="−12 ▼" Style="{StaticResource ObsDeltaDown}" VerticalAlignment="Center" />
+          </Grid>
+          <Grid>
+            <Grid.ColumnDefinitions><ColumnDefinition Width="22" /><ColumnDefinition Width="*" /><ColumnDefinition Width="Auto" /></Grid.ColumnDefinitions>
+            <TextBlock Text="6" Style="{StaticResource ObsListMeta}" VerticalAlignment="Center" />
+            <TextBlock Grid.Column="1" Text="Trial" Style="{StaticResource ObsListName}" VerticalAlignment="Center" />
+            <TextBlock Grid.Column="2" Text="−22 ▼" Style="{StaticResource ObsDeltaDown}" VerticalAlignment="Center" />
+          </Grid>
+        </StackPanel>
+
+        <Border Height="1" Background="{ThemeResource ObsBorderBrush}" Margin="0,24,0,18" />
+
+        <Grid Margin="0,0,0,16">
+          <Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="Auto" /></Grid.ColumnDefinitions>
+          <TextBlock Text="COHORT SIZE" Style="{StaticResource ObsKpiLabel}" />
+          <TextBlock Grid.Column="1" Text="1,034 accts" Style="{StaticResource ObsListMeta}" VerticalAlignment="Center" />
+        </Grid>
+        <Grid Margin="0,0,0,12">
+          <Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="Auto" /></Grid.ColumnDefinitions>
+          <TextBlock Text="SMB" Style="{StaticResource ObsListName}" VerticalAlignment="Center" />
+          <TextBlock Grid.Column="1" Text="412" Style="{StaticResource ObsListValue}" VerticalAlignment="Center" />
+        </Grid>
+        <Grid Margin="0,0,0,12">
+          <Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="Auto" /></Grid.ColumnDefinitions>
+          <TextBlock Text="Trial" Style="{StaticResource ObsListName}" VerticalAlignment="Center" />
+          <TextBlock Grid.Column="1" Text="233" Style="{StaticResource ObsListValue}" VerticalAlignment="Center" />
+        </Grid>
+        <Grid Margin="0,0,0,12">
+          <Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="Auto" /></Grid.ColumnDefinitions>
+          <TextBlock Text="Mid-Market" Style="{StaticResource ObsListName}" VerticalAlignment="Center" />
+          <TextBlock Grid.Column="1" Text="188" Style="{StaticResource ObsListValue}" VerticalAlignment="Center" />
+        </Grid>
+        <Grid Margin="0,0,0,12">
+          <Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="Auto" /></Grid.ColumnDefinitions>
+          <TextBlock Text="Education" Style="{StaticResource ObsListName}" VerticalAlignment="Center" />
+          <TextBlock Grid.Column="1" Text="96" Style="{StaticResource ObsListValue}" VerticalAlignment="Center" />
+        </Grid>
+        <Grid Margin="0,0,0,12">
+          <Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="Auto" /></Grid.ColumnDefinitions>
+          <TextBlock Text="Enterprise" Style="{StaticResource ObsListName}" VerticalAlignment="Center" />
+          <TextBlock Grid.Column="1" Text="64" Style="{StaticResource ObsListValue}" VerticalAlignment="Center" />
+        </Grid>
+
+        <!-- // note — accent-left callout closing the rail (Design Brief §4.13) -->
+        <Border Margin="0,24,0,0"
+                Background="{ThemeResource ObsCardBrush}"
+                BorderBrush="{ThemeResource ObsAccentBrush}"
+                BorderThickness="3,0,0,0">
+          <Border BorderBrush="{ThemeResource ObsBorderBrush}" BorderThickness="0,1,1,1" Padding="16,14">
+            <StackPanel Spacing="8">
+              <TextBlock Text="// NOTE" Style="{StaticResource ObsMonoTag}" Foreground="{ThemeResource ObsGreyBrush}" />
+              <TextBlock Text="SMB cohorts lead expansion; Enterprise retention is softening and needs attention."
+                         Style="{StaticResource ObsMonoBody}" />
+            </StackPanel>
+          </Border>
+        </Border>
+        </StackPanel>
+      </ScrollViewer>
+    </Border>
+  </Grid>
+
+</Page>
