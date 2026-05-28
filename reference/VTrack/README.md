@@ -2,6 +2,8 @@
 
 > Upload a video and watch it play with YOLO bounding boxes + track IDs drawn over each frame, rendered as a GPU overlay on the video player.
 
+<img src="assets/vtrack-hero.png" alt="VTrack" width="640" />
+
 <!-- 📸 Add a screenshot: drop it in screenshots/VTrack/ and point the src below at it -->
 <!-- <img src="../screenshots/VTrack/<file>.png" alt="VTrack detection overlay" width="640" /> -->
 > 📸 *Screenshot coming.*

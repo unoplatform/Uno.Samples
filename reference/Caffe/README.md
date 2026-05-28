@@ -2,6 +2,8 @@
 
 > A single-page espresso brew configurator: pick a shot, dial in temperature / grind / extraction, and watch the cup fill.
 
+<img src="assets/caffe-hero.png" alt="Caffe" width="360" />
+
 <img src="../screenshots/Caffe/Caffe/Screenshot%202026-05-27%20142254.png" alt="Caffe brew configurator" width="360" />
 
 ## What you get

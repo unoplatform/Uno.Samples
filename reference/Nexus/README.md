@@ -2,6 +2,8 @@
 
 > An industrial-SCADA-style monitoring dashboard: production lines, maintenance, alerts, KPIs — dark / light theme aware.
 
+<img src="assets/nexus-hero.png" alt="Nexus" width="820" />
+
 <img src="../screenshots/Nexus/Nexus/Screenshot%202026-05-27%20161845.png" alt="Nexus SCADA overview" width="640" />
 
 ## What you get

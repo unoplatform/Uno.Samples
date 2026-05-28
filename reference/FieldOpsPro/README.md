@@ -2,6 +2,8 @@
 
 > A dispatcher dashboard for a fictional field-service business: work orders, agents, a live map, team roster, schedule, reports.
 
+<img src="assets/fieldopspro-hero.png" alt="FieldOpsPro" width="820" />
+
 <img src="../screenshots/FieldOps/FieldOps/Screenshot%202026-05-28%20123659.png" alt="FieldOpsPro Command Center" width="640" />
 
 ## What you get

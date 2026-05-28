@@ -2,6 +2,8 @@
 
 > A monochromatic, identity-driven SaaS analytics dashboard. Three sections — Acquisition, Engagement, Cohorts — each a bento grid of hand-built Skia charts.
 
+<img src="assets/enterprisedashboard-hero.png" alt="EnterpriseDashboard" width="820" />
+
 <img src="../screenshots/EnterpriseDashboard/EnterpriseDashboard/Screenshot%202026-05-27%20143756.png" alt="Observatory — Acquisition & Revenue bento" width="640" />
 
 ## What you get

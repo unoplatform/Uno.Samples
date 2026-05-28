@@ -2,6 +2,8 @@
 
 > A professional quoting and invoicing app for contractors and small trades: create quotes, manage clients, generate branded PDFs, track acceptance.
 
+<img src="assets/quotecraft-hero.png" alt="QuoteCraft" width="820" />
+
 <img src="../screenshots/QuoteCraft/QuoteCraft/quotecraft.png" alt="QuoteCraft quote editor" width="640" />
 
 ## What you get

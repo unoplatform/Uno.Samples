@@ -2,6 +2,8 @@
 
 > A beer-league hockey team app — schedule, chat, beer leaderboard, locker-room duties, roster.
 
+<img src="assets/pens-hero.png" alt="Pens" width="360" />
+
 <img src="../screenshots/TeamManagement/TeamManagement/Screenshot%202026-05-27%20134653.png" alt="Pens schedule screen" width="360" />
 
 ## What you get
