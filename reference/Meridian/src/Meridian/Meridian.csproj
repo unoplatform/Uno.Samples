@@ -17,6 +17,13 @@
     <!-- Package Description -->
     <Description>Meridian powered by Uno Platform.</Description>
 
+    <!-- App icon: custom full-bleed raster art used for the desktop + WASM heads.
+         Both layers point at the same PNG so the complete icon renders without a
+         separate transparent-glyph foreground. -->
+    <UnoIconBackgroundFile>Assets\Icons\icon.png</UnoIconBackgroundFile>
+    <UnoIconForegroundFile>Assets\Icons\icon.png</UnoIconForegroundFile>
+    <UnoIconForegroundScale>1.0</UnoIconForegroundScale>
+
     <!-- Uno0001 fires on Control.CharacterSpacing in BrailleRevealControl and the
          generated XAML for DashboardPage — the property is a no-op on Skia desktop
          today. Suppress so real warnings stay visible. -->
