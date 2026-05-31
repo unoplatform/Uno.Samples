@@ -13,8 +13,7 @@
   <FontFamily x:Key="DMSansMedium">ms-appx:///Assets/Fonts/DMSans-Medium.ttf#DM Sans</FontFamily>
 
   <!--
-    Type scale — the bespoke Caffè ramp. Single source for every FontSize;
-    the styles below reference these tokens rather than restating raw sizes.
+    Type scale — the bespoke Caffè ramp.
   -->
   <x:Double x:Key="CaffeFontSizeDisplay">48</x:Double>
   <x:Double x:Key="CaffeFontSizeTitleLarge">28</x:Double>
@@ -29,31 +28,22 @@
   <x:Double x:Key="CaffeFontSizeCaption">8</x:Double>
 
   <!--
-    Brand colors, single source of truth. Shared values are defined once as the
-    Material design tokens in Styles/ColorPaletteOverride.xaml (where they must be
-    literals — that file is what MaterialToolkitTheme consumes to theme built-in
-    controls). The brushes below alias those tokens, so no brand hex is restated.
-    Only colors with no Material role are literals here.
+    Brand brushes — defined with literal hex values to avoid cross-dictionary
+    ThemeResource/StaticResource resolution failures at startup.
+    These match the palette in ColorPaletteOverride.xaml exactly.
   -->
-  <Color x:Key="CaffeEspressoDisabledColor">#591B4332</Color>
-  <Color x:Key="CaffeRedLightColor">#E07070</Color>
-  <Color x:Key="CaffeMutedColor">#999999</Color>
-  <Color x:Key="CaffeCoffeeDarkColor">#3D2314</Color>
-  <Color x:Key="CaffeCoffeeLightColor">#5D3A1A</Color>
-
-  <!-- Caffè brushes — shared colors alias Material tokens (see ColorPaletteOverride.xaml) -->
-  <SolidColorBrush x:Key="CaffeBackgroundBrush" Color="{StaticResource BackgroundColor}" />
-  <SolidColorBrush x:Key="CaffeSurfaceBrush" Color="{StaticResource SurfaceColor}" />
-  <SolidColorBrush x:Key="CaffePrimaryBrush" Color="{StaticResource PrimaryColor}" />
-  <SolidColorBrush x:Key="CaffeAccentRedBrush" Color="{StaticResource TertiaryColor}" />
-  <SolidColorBrush x:Key="CaffeAccentGreenBrush" Color="{StaticResource SecondaryColor}" />
-  <SolidColorBrush x:Key="CaffeTextPrimaryBrush" Color="{StaticResource OnSurfaceColor}" />
-  <SolidColorBrush x:Key="CaffeTextSecondaryBrush" Color="{StaticResource OnSurfaceVariantColor}" />
-  <SolidColorBrush x:Key="CaffeTextMutedBrush" Color="{StaticResource CaffeMutedColor}" />
-  <SolidColorBrush x:Key="CaffeBorderBrush" Color="{StaticResource OutlineColor}" />
-  <SolidColorBrush x:Key="CaffePrimaryDisabledBrush" Color="{StaticResource CaffeEspressoDisabledColor}" />
-  <SolidColorBrush x:Key="CaffeOnPrimaryBrush" Color="{StaticResource OnPrimaryColor}" />
-  <SolidColorBrush x:Key="CaffeParticleBrush" Color="{StaticResource OnSurfaceColor}" />
+  <SolidColorBrush x:Key="CaffeBackgroundBrush"      Color="#FAFAFA" />
+  <SolidColorBrush x:Key="CaffeSurfaceBrush"         Color="#FFFFFF" />
+  <SolidColorBrush x:Key="CaffePrimaryBrush"         Color="#1B4332" />
+  <SolidColorBrush x:Key="CaffeAccentRedBrush"       Color="#C1121F" />
+  <SolidColorBrush x:Key="CaffeAccentGreenBrush"     Color="#2D6A4F" />
+  <SolidColorBrush x:Key="CaffeTextPrimaryBrush"     Color="#1A1A1A" />
+  <SolidColorBrush x:Key="CaffeTextSecondaryBrush"   Color="#888888" />
+  <SolidColorBrush x:Key="CaffeTextMutedBrush"       Color="#999999" />
+  <SolidColorBrush x:Key="CaffeBorderBrush"          Color="#E0E0E0" />
+  <SolidColorBrush x:Key="CaffePrimaryDisabledBrush" Color="#591B4332" />
+  <SolidColorBrush x:Key="CaffeOnPrimaryBrush"       Color="#FFFFFF" />
+  <SolidColorBrush x:Key="CaffeParticleBrush"        Color="#1A1A1A" />
 
   <!-- Typography Styles -->
   <Style x:Key="LogoTextStyle" TargetType="TextBlock">
@@ -62,7 +52,6 @@
     <Setter Property="Foreground" Value="{StaticResource CaffeTextPrimaryBrush}" />
   </Style>
 
-  <!-- Tagline: uppercase, letter-spaced -->
   <Style x:Key="TaglineTextStyle" TargetType="TextBlock">
     <Setter Property="FontFamily" Value="{StaticResource DMSansMedium}" />
     <Setter Property="FontSize" Value="{StaticResource CaffeFontSizeLabel}" />
@@ -70,28 +59,24 @@
     <Setter Property="Foreground" Value="{StaticResource CaffeTextSecondaryBrush}" />
   </Style>
 
-  <!-- Card Title -->
   <Style x:Key="CardTitleTextStyle" TargetType="TextBlock">
     <Setter Property="FontFamily" Value="{StaticResource CormorantRegular}" />
     <Setter Property="FontSize" Value="{StaticResource CaffeFontSizeHeading}" />
     <Setter Property="Foreground" Value="{StaticResource CaffeTextPrimaryBrush}" />
   </Style>
 
-  <!-- Card Description -->
   <Style x:Key="CardDescriptionTextStyle" TargetType="TextBlock">
     <Setter Property="FontFamily" Value="{StaticResource DMSansRegular}" />
     <Setter Property="FontSize" Value="{StaticResource CaffeFontSizeBodySmall}" />
     <Setter Property="Foreground" Value="{StaticResource CaffeTextMutedBrush}" />
   </Style>
 
-  <!-- Parameter Value -->
   <Style x:Key="ParameterValueTextStyle" TargetType="TextBlock">
     <Setter Property="FontFamily" Value="{StaticResource CormorantRegular}" />
     <Setter Property="FontSize" Value="{StaticResource CaffeFontSizeTitle}" />
     <Setter Property="Foreground" Value="{StaticResource CaffeTextPrimaryBrush}" />
   </Style>
 
-  <!-- Parameter Label -->
   <Style x:Key="ParameterLabelTextStyle" TargetType="TextBlock">
     <Setter Property="FontFamily" Value="{StaticResource DMSansMedium}" />
     <Setter Property="FontSize" Value="{StaticResource CaffeFontSizeLabelSmall}" />
@@ -99,28 +84,24 @@
     <Setter Property="Foreground" Value="{StaticResource CaffeTextSecondaryBrush}" />
   </Style>
 
-  <!-- Volume Badge -->
   <Style x:Key="VolumeBadgeTextStyle" TargetType="TextBlock">
     <Setter Property="FontFamily" Value="{StaticResource DMSansMedium}" />
     <Setter Property="FontSize" Value="{StaticResource CaffeFontSizeLabel}" />
     <Setter Property="Foreground" Value="{StaticResource CaffeOnPrimaryBrush}" />
   </Style>
 
-  <!-- Body Text -->
   <Style x:Key="BodyTextStyle" TargetType="TextBlock">
     <Setter Property="FontFamily" Value="{StaticResource DMSansRegular}" />
     <Setter Property="FontSize" Value="{StaticResource CaffeFontSizeBody}" />
     <Setter Property="Foreground" Value="{StaticResource CaffeTextPrimaryBrush}" />
   </Style>
 
-  <!-- Button Text -->
   <Style x:Key="ButtonTextStyle" TargetType="TextBlock">
     <Setter Property="FontFamily" Value="{StaticResource DMSansMedium}" />
     <Setter Property="FontSize" Value="{StaticResource CaffeFontSizeBodyLarge}" />
     <Setter Property="Foreground" Value="{StaticResource CaffeOnPrimaryBrush}" />
   </Style>
 
-  <!-- Grind Hint (italic) -->
   <Style x:Key="GrindHintTextStyle" TargetType="TextBlock">
     <Setter Property="FontFamily" Value="{StaticResource DMSansRegular}" />
     <Setter Property="FontSize" Value="{StaticResource CaffeFontSizeLabel}" />
@@ -128,7 +109,6 @@
     <Setter Property="Foreground" Value="{StaticResource CaffeTextMutedBrush}" />
   </Style>
 
-  <!-- Overview Label -->
   <Style x:Key="OverviewLabelTextStyle" TargetType="TextBlock">
     <Setter Property="FontFamily" Value="{StaticResource DMSansMedium}" />
     <Setter Property="FontSize" Value="{StaticResource CaffeFontSizeLabelSmall}" />
@@ -137,19 +117,16 @@
     <Setter Property="Opacity" Value="0.7" />
   </Style>
 
-  <!-- Overview Value -->
   <Style x:Key="OverviewValueTextStyle" TargetType="TextBlock">
     <Setter Property="FontFamily" Value="{StaticResource CormorantRegular}" />
     <Setter Property="FontSize" Value="{StaticResource CaffeFontSizeSubheading}" />
     <Setter Property="Foreground" Value="{StaticResource CaffeOnPrimaryBrush}" />
   </Style>
 
-  <!-- Brewing Title (based on CardTitleTextStyle, larger) -->
   <Style x:Key="BrewingTitleTextStyle" TargetType="TextBlock" BasedOn="{StaticResource CardTitleTextStyle}">
     <Setter Property="FontSize" Value="{StaticResource CaffeFontSizeTitleLarge}" />
   </Style>
 
-  <!-- Arc Label (based on ParameterLabelTextStyle, smaller) -->
   <Style x:Key="ArcLabelTextStyle" TargetType="TextBlock" BasedOn="{StaticResource ParameterLabelTextStyle}">
     <Setter Property="FontSize" Value="{StaticResource CaffeFontSizeCaption}" />
   </Style>
