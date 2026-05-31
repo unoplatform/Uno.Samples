@@ -1,0 +1,213 @@
+<UserControl x:Class="FieldOpsPro.Presentation.Controls.ChatPreviewCard"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="using:FieldOpsPro.Presentation.Controls"
+             xmlns:utu="using:Uno.Toolkit.UI"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d">
+
+  <Border Style="{StaticResource FieldOpsCardStyle}">
+    <utu:AutoLayout Orientation="Vertical" Spacing="16">
+      <!-- Header -->
+      <Grid>
+        <StackPanel Orientation="Horizontal" Spacing="10">
+          <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}"
+                    Glyph="&#xE8BD;"
+                    FontSize="{StaticResource FontTitleLarge}"
+                    Foreground="{ThemeResource AccentTertiaryBrush}" />
+          <TextBlock Text="Team Chat"
+                     Style="{StaticResource SectionTitleStyle}" />
+          <!-- Unread Badge -->
+          <Border Background="{ThemeResource TextPrimaryBrush}"
+                  CornerRadius="10"
+                  Padding="8,2"
+                  Margin="8,0,0,0"
+                  VerticalAlignment="Center">
+            <TextBlock x:Name="UnreadCountText"
+                       Text="4"
+                       FontSize="{StaticResource FontLabelMedium}"
+                       FontWeight="Bold"
+                       Foreground="{ThemeResource BgPrimaryBrush}" />
+          </Border>
+        </StackPanel>
+        <Button Content="OPEN CHAT"
+                Style="{StaticResource GhostButtonStyle}"
+                HorizontalAlignment="Right" />
+      </Grid>
+
+      <!-- Chat Messages -->
+      <StackPanel Spacing="12">
+        <!-- Message 1 - Unread -->
+        <Border Background="{ThemeResource BgElevatedBrush}"
+                CornerRadius="10"
+                Padding="14"
+                BorderBrush="{ThemeResource BgElevated2Brush}"
+                BorderThickness="1">
+          <Grid ColumnSpacing="12">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="Auto" />
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <local:Avatar Grid.Column="0"
+                          Size="36"
+                          Initials="SK"
+                          AvatarColor="Cyan" />
+
+            <StackPanel Grid.Column="1" Spacing="4">
+              <Grid>
+                <TextBlock Text="Sarah K."
+                           FontSize="{StaticResource FontBodyMedium}"
+                           FontWeight="SemiBold"
+                           Foreground="{ThemeResource TextPrimaryBrush}" />
+                <TextBlock Text="2m ago"
+                           FontSize="{StaticResource FontLabelSmall}"
+                           Foreground="{ThemeResource TextMutedBrush}"
+                           HorizontalAlignment="Right" />
+              </Grid>
+              <TextBlock Text="The client approved the installation. Ready to proceed with WO-1247"
+                         FontSize="{StaticResource FontBodySmall}"
+                         Foreground="{ThemeResource TextDisabledBrush}"
+                         TextWrapping="Wrap"
+                         MaxLines="2"
+                         TextTrimming="CharacterEllipsis" />
+            </StackPanel>
+
+            <!-- Unread Indicator -->
+            <Ellipse Grid.Column="2"
+                     Width="8"
+                     Height="8"
+                     Fill="{ThemeResource TextPrimaryBrush}"
+                     VerticalAlignment="Top"
+                     Margin="0,4,0,0" />
+          </Grid>
+        </Border>
+
+        <!-- Message 2 - Unread -->
+        <Border Background="{ThemeResource BgElevatedBrush}"
+                CornerRadius="10"
+                Padding="14"
+                BorderBrush="{ThemeResource BgElevated2Brush}"
+                BorderThickness="1">
+          <Grid ColumnSpacing="12">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="Auto" />
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <local:Avatar Grid.Column="0"
+                          Size="36"
+                          Initials="JM"
+                          AvatarColor="Purple" />
+
+            <StackPanel Grid.Column="1" Spacing="4">
+              <Grid>
+                <TextBlock Text="Jake M."
+                           FontSize="{StaticResource FontBodyMedium}"
+                           FontWeight="SemiBold"
+                           Foreground="{ThemeResource TextPrimaryBrush}" />
+                <TextBlock Text="15m ago"
+                           FontSize="{StaticResource FontLabelSmall}"
+                           Foreground="{ThemeResource TextMutedBrush}"
+                           HorizontalAlignment="Right" />
+              </Grid>
+              <TextBlock Text="Need backup at downtown location, customer has additional requests"
+                         FontSize="{StaticResource FontBodySmall}"
+                         Foreground="{ThemeResource TextDisabledBrush}"
+                         TextWrapping="Wrap"
+                         MaxLines="2"
+                         TextTrimming="CharacterEllipsis" />
+            </StackPanel>
+
+            <!-- Unread Indicator -->
+            <Ellipse Grid.Column="2"
+                     Width="8"
+                     Height="8"
+                     Fill="{ThemeResource TextPrimaryBrush}"
+                     VerticalAlignment="Top"
+                     Margin="0,4,0,0" />
+          </Grid>
+        </Border>
+
+        <!-- Message 3 - Read -->
+        <Border Background="{ThemeResource BgCardBrush}"
+                CornerRadius="10"
+                Padding="14"
+                BorderBrush="{ThemeResource BgElevatedBrush}"
+                BorderThickness="1">
+          <Grid ColumnSpacing="12">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="Auto" />
+              <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <local:Avatar Grid.Column="0"
+                          Size="36"
+                          Initials="MK"
+                          AvatarColor="Blue" />
+
+            <StackPanel Grid.Column="1" Spacing="4">
+              <Grid>
+                <TextBlock Text="Marcus K."
+                           FontSize="{StaticResource FontBodyMedium}"
+                           FontWeight="SemiBold"
+                           Foreground="{ThemeResource AccentTertiaryBrush}" />
+                <TextBlock Text="1h ago"
+                           FontSize="{StaticResource FontLabelSmall}"
+                           Foreground="{ThemeResource BorderStrongBrush}"
+                           HorizontalAlignment="Right" />
+              </Grid>
+              <TextBlock Text="Team meeting at 4pm to discuss tomorrow's route optimization"
+                         FontSize="{StaticResource FontBodySmall}"
+                         Foreground="{ThemeResource TextMutedBrush}"
+                         TextWrapping="Wrap"
+                         MaxLines="2"
+                         TextTrimming="CharacterEllipsis" />
+            </StackPanel>
+          </Grid>
+        </Border>
+      </StackPanel>
+
+      <!-- Quick Reply -->
+      <Border Background="{ThemeResource BgCardBrush}"
+              BorderBrush="{ThemeResource BorderColorBrush}"
+              BorderThickness="1"
+              CornerRadius="8"
+              Padding="8,6">
+        <Grid ColumnSpacing="12">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+          </Grid.ColumnDefinitions>
+
+          <TextBox x:Name="ReplyTextBox"
+                   Grid.Column="0"
+                   FontSize="{StaticResource FontBodyMedium}"
+                   Foreground="{ThemeResource TextPrimaryBrush}"
+                   Background="Transparent"
+                   BorderThickness="0"
+                   VerticalContentAlignment="Center"
+                   PlaceholderText="Type a message..."
+                   AcceptsReturn="False"
+                   KeyDown="OnReplyTextBoxKeyDown" />
+
+          <Button x:Name="SendButton"
+                  Grid.Column="1"
+                  Background="Transparent"
+                  BorderThickness="0"
+                  Padding="8"
+                  Click="OnSendButtonClick"
+                  ToolTipService.ToolTip="Send">
+            <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}"
+                      Glyph="&#xE724;"
+                      FontSize="{StaticResource FontTitleLarge}"
+                      Foreground="{ThemeResource AccentTertiaryBrush}" />
+          </Button>
+        </Grid>
+      </Border>
+    </utu:AutoLayout>
+  </Border>
+</UserControl>

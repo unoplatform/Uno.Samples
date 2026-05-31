@@ -1,0 +1,518 @@
+<Page x:Class="Nexus.Presentation.OverviewPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:lvc="using:LiveChartsCore.SkiaSharpView.WinUI"
+      xmlns:mvux="using:Uno.Extensions.Reactive.UI"
+      xmlns:conv="using:Nexus.Converters"
+      xmlns:models="using:Nexus.Models"
+      Background="{ThemeResource NexusBackgroundPrimaryBrush}">
+
+    <Page.Resources>
+        <conv:NumberFormatConverter x:Key="Num"/>
+        <conv:TrendTextConverter x:Key="TrendText"/>
+        <conv:TrendBrushConverter x:Key="TrendBrush"/>
+        <conv:LineStatusTextConverter x:Key="StatusText"/>
+        <conv:LineStatusBrushConverter x:Key="StatusBrush"/>
+        <conv:AlertBrushConverter x:Key="AlertBrush"/>
+        <conv:TimeConverter x:Key="Time"/>
+    </Page.Resources>
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+        <Grid Padding="24" MinWidth="800">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <!-- Top Metrics Row -->
+            <Grid Grid.Row="0" Margin="0,0,0,16">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="16"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="16"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="16"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- THROUGHPUT Card -->
+                <Border Grid.Column="0" Style="{ThemeResource NexusPanelBorderStyle}">
+                    <Grid>
+                        <!-- Top edge accent -->
+                        <Border Height="1" VerticalAlignment="Top" Margin="20,0">
+                            <Border.Background>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                    <GradientStop Color="Transparent" Offset="0"/>
+                                    <GradientStop Color="#3f3f46" Offset="0.5"/>
+                                    <GradientStop Color="Transparent" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Border.Background>
+                        </Border>
+                        <Grid Margin="20">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="48"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <TextBlock Text="THROUGHPUT" Style="{ThemeResource NexusPanelTitleStyle}"/>
+                            <mvux:FeedView Grid.Row="1" Source="{Binding Metrics}">
+                                <mvux:FeedView.ValueTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Margin="0,8,0,0">
+                                            <TextBlock Text="{Binding Data.Throughput, Converter={StaticResource Num}, ConverterParameter=F1}" Style="{ThemeResource NexusDisplayStyle}"/>
+                                            <TextBlock Text="units/hr" Style="{ThemeResource NexusLabelMonoStyle}" Margin="0,4,0,0"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </mvux:FeedView.ValueTemplate>
+                                <mvux:FeedView.ProgressTemplate>
+                                    <DataTemplate>
+                                        <ProgressRing IsActive="True" Width="20" Height="20" HorizontalAlignment="Left" Margin="0,8,0,0"/>
+                                    </DataTemplate>
+                                </mvux:FeedView.ProgressTemplate>
+                                <mvux:FeedView.ErrorTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="—" Style="{ThemeResource NexusDisplayStyle}" Margin="0,8,0,0"/>
+                                    </DataTemplate>
+                                </mvux:FeedView.ErrorTemplate>
+                            </mvux:FeedView>
+                            <Viewbox Grid.Row="2" Stretch="Fill" Margin="0,8,0,0">
+                                <Grid Width="200" Height="44">
+                                    <Polygon Points="{Binding ThroughputArea}" Fill="#224ADE80"/>
+                                    <Polyline Points="{Binding ThroughputLine}" Stroke="{ThemeResource NexusSuccessBrush}" StrokeThickness="1.5" StrokeLineJoin="Round"/>
+                                </Grid>
+                            </Viewbox>
+                            <Grid Grid.Row="3" Margin="0,12,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <mvux:FeedView Source="{Binding Metrics}" VerticalAlignment="Center">
+                                    <mvux:FeedView.ValueTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Data.ThroughputTrend, Converter={StaticResource TrendText}}" Style="{ThemeResource NexusStatusLabelStyle}" Foreground="{Binding Data.ThroughputTrend, Converter={StaticResource TrendBrush}}"/>
+                                        </DataTemplate>
+                                    </mvux:FeedView.ValueTemplate>
+                                </mvux:FeedView>
+                                <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="6" VerticalAlignment="Center">
+                                    <Ellipse Width="6" Height="6" Fill="{ThemeResource NexusSuccessBrush}" VerticalAlignment="Center"/>
+                                    <TextBlock Text="NOMINAL" Style="{ThemeResource NexusStatusLabelStyle}" Foreground="{ThemeResource NexusSuccessBrush}"/>
+                                </StackPanel>
+                            </Grid>
+                        </Grid>
+                        <!-- Corner nodes -->
+                        <Ellipse Width="5" Height="5" Fill="{ThemeResource NexusBackgroundPrimaryBrush}" Stroke="{ThemeResource NexusBorderSecondaryBrush}" StrokeThickness="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="-2.5"/>
+                        <Ellipse Width="5" Height="5" Fill="{ThemeResource NexusBackgroundPrimaryBrush}" Stroke="{ThemeResource NexusBorderSecondaryBrush}" StrokeThickness="1" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="-2.5"/>
+                        <Ellipse Width="5" Height="5" Fill="{ThemeResource NexusBackgroundPrimaryBrush}" Stroke="{ThemeResource NexusBorderSecondaryBrush}" StrokeThickness="1" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="-2.5"/>
+                        <Ellipse Width="5" Height="5" Fill="{ThemeResource NexusBackgroundPrimaryBrush}" Stroke="{ThemeResource NexusBorderSecondaryBrush}" StrokeThickness="1" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="-2.5"/>
+                    </Grid>
+                </Border>
+
+                <!-- EFFICIENCY Card -->
+                <Border Grid.Column="2" Style="{ThemeResource NexusPanelBorderStyle}">
+                    <Grid>
+                        <Border Height="1" VerticalAlignment="Top" Margin="20,0">
+                            <Border.Background>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                    <GradientStop Color="Transparent" Offset="0"/>
+                                    <GradientStop Color="#3f3f46" Offset="0.5"/>
+                                    <GradientStop Color="Transparent" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Border.Background>
+                        </Border>
+                        <Grid Margin="20">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="48"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <TextBlock Text="EFFICIENCY" Style="{ThemeResource NexusPanelTitleStyle}"/>
+                            <mvux:FeedView Grid.Row="1" Source="{Binding Metrics}">
+                                <mvux:FeedView.ValueTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Margin="0,8,0,0">
+                                            <TextBlock Text="{Binding Data.Efficiency, Converter={StaticResource Num}, ConverterParameter=F1}" Style="{ThemeResource NexusDisplayStyle}"/>
+                                            <TextBlock Text="%" Style="{ThemeResource NexusLabelMonoStyle}" Margin="0,4,0,0"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </mvux:FeedView.ValueTemplate>
+                                <mvux:FeedView.ProgressTemplate>
+                                    <DataTemplate>
+                                        <ProgressRing IsActive="True" Width="20" Height="20" HorizontalAlignment="Left" Margin="0,8,0,0"/>
+                                    </DataTemplate>
+                                </mvux:FeedView.ProgressTemplate>
+                            </mvux:FeedView>
+                            <Viewbox Grid.Row="2" Stretch="Fill" Margin="0,8,0,0">
+                                <Grid Width="200" Height="44">
+                                    <Polygon Points="{Binding EfficiencyArea}" Fill="#224ADE80"/>
+                                    <Polyline Points="{Binding EfficiencyLine}" Stroke="{ThemeResource NexusSuccessBrush}" StrokeThickness="1.5" StrokeLineJoin="Round"/>
+                                </Grid>
+                            </Viewbox>
+                            <Grid Grid.Row="3" Margin="0,12,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <mvux:FeedView Source="{Binding Metrics}" VerticalAlignment="Center">
+                                    <mvux:FeedView.ValueTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Data.EfficiencyTrend, Converter={StaticResource TrendText}}" Style="{ThemeResource NexusStatusLabelStyle}" Foreground="{Binding Data.EfficiencyTrend, Converter={StaticResource TrendBrush}}"/>
+                                        </DataTemplate>
+                                    </mvux:FeedView.ValueTemplate>
+                                </mvux:FeedView>
+                                <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="6" VerticalAlignment="Center">
+                                    <Ellipse Width="6" Height="6" Fill="{ThemeResource NexusSuccessBrush}" VerticalAlignment="Center"/>
+                                    <TextBlock Text="NOMINAL" Style="{ThemeResource NexusStatusLabelStyle}" Foreground="{ThemeResource NexusSuccessBrush}"/>
+                                </StackPanel>
+                            </Grid>
+                        </Grid>
+                        <Ellipse Width="5" Height="5" Fill="{ThemeResource NexusBackgroundPrimaryBrush}" Stroke="{ThemeResource NexusBorderSecondaryBrush}" StrokeThickness="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="-2.5"/>
+                        <Ellipse Width="5" Height="5" Fill="{ThemeResource NexusBackgroundPrimaryBrush}" Stroke="{ThemeResource NexusBorderSecondaryBrush}" StrokeThickness="1" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="-2.5"/>
+                        <Ellipse Width="5" Height="5" Fill="{ThemeResource NexusBackgroundPrimaryBrush}" Stroke="{ThemeResource NexusBorderSecondaryBrush}" StrokeThickness="1" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="-2.5"/>
+                        <Ellipse Width="5" Height="5" Fill="{ThemeResource NexusBackgroundPrimaryBrush}" Stroke="{ThemeResource NexusBorderSecondaryBrush}" StrokeThickness="1" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="-2.5"/>
+                    </Grid>
+                </Border>
+
+                <!-- UPTIME Card -->
+                <Border Grid.Column="4" Style="{ThemeResource NexusPanelBorderStyle}">
+                    <Grid>
+                        <Border Height="1" VerticalAlignment="Top" Margin="20,0">
+                            <Border.Background>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                    <GradientStop Color="Transparent" Offset="0"/>
+                                    <GradientStop Color="#3f3f46" Offset="0.5"/>
+                                    <GradientStop Color="Transparent" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Border.Background>
+                        </Border>
+                        <Grid Margin="20">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="48"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <TextBlock Text="UPTIME" Style="{ThemeResource NexusPanelTitleStyle}"/>
+                            <mvux:FeedView Grid.Row="1" Source="{Binding Metrics}">
+                                <mvux:FeedView.ValueTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Margin="0,8,0,0">
+                                            <TextBlock Text="{Binding Data.Uptime, Converter={StaticResource Num}, ConverterParameter=F1}" Style="{ThemeResource NexusDisplayStyle}"/>
+                                            <TextBlock Text="%" Style="{ThemeResource NexusLabelMonoStyle}" Margin="0,4,0,0"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </mvux:FeedView.ValueTemplate>
+                                <mvux:FeedView.ProgressTemplate>
+                                    <DataTemplate>
+                                        <ProgressRing IsActive="True" Width="20" Height="20" HorizontalAlignment="Left" Margin="0,8,0,0"/>
+                                    </DataTemplate>
+                                </mvux:FeedView.ProgressTemplate>
+                            </mvux:FeedView>
+                            <Viewbox Grid.Row="2" Stretch="Fill" Margin="0,8,0,0">
+                                <Grid Width="200" Height="44">
+                                    <Polygon Points="{Binding UptimeArea}" Fill="#2260A5FA"/>
+                                    <Polyline Points="{Binding UptimeLine}" Stroke="{ThemeResource NexusInfoBrush}" StrokeThickness="1.5" StrokeLineJoin="Round"/>
+                                </Grid>
+                            </Viewbox>
+                            <Grid Grid.Row="3" Margin="0,12,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <mvux:FeedView Source="{Binding Metrics}" VerticalAlignment="Center">
+                                    <mvux:FeedView.ValueTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Data.UptimeTrend, Converter={StaticResource TrendText}}" Style="{ThemeResource NexusStatusLabelStyle}" Foreground="{Binding Data.UptimeTrend, Converter={StaticResource TrendBrush}}"/>
+                                        </DataTemplate>
+                                    </mvux:FeedView.ValueTemplate>
+                                </mvux:FeedView>
+                                <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="6" VerticalAlignment="Center">
+                                    <Ellipse Width="6" Height="6" Fill="{ThemeResource NexusSuccessBrush}" VerticalAlignment="Center"/>
+                                    <TextBlock Text="NOMINAL" Style="{ThemeResource NexusStatusLabelStyle}" Foreground="{ThemeResource NexusSuccessBrush}"/>
+                                </StackPanel>
+                            </Grid>
+                        </Grid>
+                        <Ellipse Width="5" Height="5" Fill="{ThemeResource NexusBackgroundPrimaryBrush}" Stroke="{ThemeResource NexusBorderSecondaryBrush}" StrokeThickness="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="-2.5"/>
+                        <Ellipse Width="5" Height="5" Fill="{ThemeResource NexusBackgroundPrimaryBrush}" Stroke="{ThemeResource NexusBorderSecondaryBrush}" StrokeThickness="1" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="-2.5"/>
+                        <Ellipse Width="5" Height="5" Fill="{ThemeResource NexusBackgroundPrimaryBrush}" Stroke="{ThemeResource NexusBorderSecondaryBrush}" StrokeThickness="1" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="-2.5"/>
+                        <Ellipse Width="5" Height="5" Fill="{ThemeResource NexusBackgroundPrimaryBrush}" Stroke="{ThemeResource NexusBorderSecondaryBrush}" StrokeThickness="1" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="-2.5"/>
+                    </Grid>
+                </Border>
+
+                <!-- ENERGY Card -->
+                <Border Grid.Column="6" Style="{ThemeResource NexusPanelBorderStyle}">
+                    <Grid>
+                        <Border Height="1" VerticalAlignment="Top" Margin="20,0">
+                            <Border.Background>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                    <GradientStop Color="Transparent" Offset="0"/>
+                                    <GradientStop Color="#3f3f46" Offset="0.5"/>
+                                    <GradientStop Color="Transparent" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Border.Background>
+                        </Border>
+                        <Grid Margin="20">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="48"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <TextBlock Text="ENERGY" Style="{ThemeResource NexusPanelTitleStyle}"/>
+                            <mvux:FeedView Grid.Row="1" Source="{Binding Metrics}">
+                                <mvux:FeedView.ValueTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Margin="0,8,0,0">
+                                            <TextBlock Text="{Binding Data.EnergyConsumption, Converter={StaticResource Num}, ConverterParameter=F2}" Style="{ThemeResource NexusDisplayStyle}"/>
+                                            <TextBlock Text="MW" Style="{ThemeResource NexusLabelMonoStyle}" Margin="0,4,0,0"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </mvux:FeedView.ValueTemplate>
+                                <mvux:FeedView.ProgressTemplate>
+                                    <DataTemplate>
+                                        <ProgressRing IsActive="True" Width="20" Height="20" HorizontalAlignment="Left" Margin="0,8,0,0"/>
+                                    </DataTemplate>
+                                </mvux:FeedView.ProgressTemplate>
+                            </mvux:FeedView>
+                            <Viewbox Grid.Row="2" Stretch="Fill" Margin="0,8,0,0">
+                                <Grid Width="200" Height="44">
+                                    <Polygon Points="{Binding EnergyArea}" Fill="#224ADE80"/>
+                                    <Polyline Points="{Binding EnergyLine}" Stroke="{ThemeResource NexusSuccessBrush}" StrokeThickness="1.5" StrokeLineJoin="Round"/>
+                                </Grid>
+                            </Viewbox>
+                            <Grid Grid.Row="3" Margin="0,12,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <mvux:FeedView Source="{Binding Metrics}" VerticalAlignment="Center">
+                                    <mvux:FeedView.ValueTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Data.EnergyTrend, Converter={StaticResource TrendText}}" Style="{ThemeResource NexusStatusLabelStyle}" Foreground="{Binding Data.EnergyTrend, Converter={StaticResource TrendBrush}}"/>
+                                        </DataTemplate>
+                                    </mvux:FeedView.ValueTemplate>
+                                </mvux:FeedView>
+                                <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="6" VerticalAlignment="Center">
+                                    <Ellipse Width="6" Height="6" Fill="{ThemeResource NexusInfoBrush}" VerticalAlignment="Center"/>
+                                    <TextBlock Text="OPTIMAL" Style="{ThemeResource NexusStatusLabelStyle}" Foreground="{ThemeResource NexusInfoBrush}"/>
+                                </StackPanel>
+                            </Grid>
+                        </Grid>
+                        <Ellipse Width="5" Height="5" Fill="{ThemeResource NexusBackgroundPrimaryBrush}" Stroke="{ThemeResource NexusBorderSecondaryBrush}" StrokeThickness="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="-2.5"/>
+                        <Ellipse Width="5" Height="5" Fill="{ThemeResource NexusBackgroundPrimaryBrush}" Stroke="{ThemeResource NexusBorderSecondaryBrush}" StrokeThickness="1" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="-2.5"/>
+                        <Ellipse Width="5" Height="5" Fill="{ThemeResource NexusBackgroundPrimaryBrush}" Stroke="{ThemeResource NexusBorderSecondaryBrush}" StrokeThickness="1" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="-2.5"/>
+                        <Ellipse Width="5" Height="5" Fill="{ThemeResource NexusBackgroundPrimaryBrush}" Stroke="{ThemeResource NexusBorderSecondaryBrush}" StrokeThickness="1" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="-2.5"/>
+                    </Grid>
+                </Border>
+            </Grid>
+
+            <!-- Middle Row: Production Lines + Network Topology -->
+            <Grid Grid.Row="1" Margin="0,0,0,16">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="16"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- PRODUCTION LINES Panel -->
+                <Border Grid.Column="0" Style="{ThemeResource NexusPanelBorderStyle}" Padding="20">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                <Ellipse Width="6" Height="6" Fill="{ThemeResource NexusSuccessBrush}" VerticalAlignment="Center"/>
+                                <TextBlock x:Uid="Pages_Overview_ProductionLines" Text="PRODUCTION LINES" Style="{ThemeResource NexusPanelTitleStyle}"/>
+                            </StackPanel>
+                            <Button Grid.Column="2" Content="VIEW ALL" Style="{ThemeResource NexusGhostButtonStyle}"/>
+                        </Grid>
+
+                        <!-- Table Header -->
+                        <Grid Grid.Row="1" Margin="0,16,0,8">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="2*" MinWidth="120"/>
+                                <ColumnDefinition Width="*" MinWidth="80"/>
+                                <ColumnDefinition Width="*" MinWidth="70"/>
+                                <ColumnDefinition Width="*" MinWidth="60"/>
+                                <ColumnDefinition Width="*" MinWidth="70"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="UNIT" Style="{ThemeResource NexusTableHeaderStyle}"/>
+                            <TextBlock Grid.Column="1" Text="STATUS" Style="{ThemeResource NexusTableHeaderStyle}"/>
+                            <TextBlock Grid.Column="2" Text="OUTPUT" Style="{ThemeResource NexusTableHeaderStyle}"/>
+                            <TextBlock Grid.Column="3" Text="TEMP °C" Style="{ThemeResource NexusTableHeaderStyle}"/>
+                            <TextBlock Grid.Column="4" Text="PRESSURE" Style="{ThemeResource NexusTableHeaderStyle}"/>
+                        </Grid>
+
+                        <!-- Table Rows (data-driven) -->
+                        <mvux:FeedView Grid.Row="2" Source="{Binding ProductionLines}">
+                            <mvux:FeedView.ValueTemplate>
+                                <DataTemplate>
+                                    <ItemsRepeater ItemsSource="{Binding Data}">
+                                        <ItemsRepeater.Layout>
+                                            <StackLayout Spacing="0"/>
+                                        </ItemsRepeater.Layout>
+                                        <ItemsRepeater.ItemTemplate>
+                                            <DataTemplate x:DataType="models:ProductionLine">
+                                                <Border BorderBrush="{ThemeResource NexusBorderPrimaryBrush}" BorderThickness="0,1,0,0" Padding="0,12">
+                                                    <Grid>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="2*" MinWidth="120"/>
+                                                            <ColumnDefinition Width="*" MinWidth="80"/>
+                                                            <ColumnDefinition Width="*" MinWidth="70"/>
+                                                            <ColumnDefinition Width="*" MinWidth="60"/>
+                                                            <ColumnDefinition Width="*" MinWidth="70"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <StackPanel Orientation="Horizontal" Spacing="12">
+                                                            <Border BorderBrush="{ThemeResource NexusBorderSecondaryBrush}" BorderThickness="1" Padding="8,4">
+                                                                <TextBlock Text="{Binding Id}" Style="{ThemeResource NexusLabelMonoStyle}"/>
+                                                            </Border>
+                                                            <TextBlock Text="{Binding Name}" Style="{ThemeResource NexusTableCellStyle}" VerticalAlignment="Center" TextTrimming="CharacterEllipsis"/>
+                                                        </StackPanel>
+                                                        <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="6">
+                                                            <Ellipse Width="6" Height="6" Fill="{Binding Status, Converter={StaticResource StatusBrush}}" VerticalAlignment="Center"/>
+                                                            <TextBlock Text="{Binding Status, Converter={StaticResource StatusText}}" Style="{ThemeResource NexusStatusLabelStyle}" Foreground="{Binding Status, Converter={StaticResource StatusBrush}}"/>
+                                                        </StackPanel>
+                                                        <ProgressBar Grid.Column="2" Value="{Binding OutputPercent}" Width="64" Style="{ThemeResource NexusProgressBarStyle}" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                                                        <TextBlock Grid.Column="3" Text="{Binding Temperature, Converter={StaticResource Num}, ConverterParameter=F1}" Style="{ThemeResource NexusTableCellStyle}"/>
+                                                        <TextBlock Grid.Column="4" Style="{ThemeResource NexusTableCellStyle}">
+                                                            <Run Text="{Binding Pressure, Converter={StaticResource Num}, ConverterParameter=F1}"/><Run Text=" bar"/>
+                                                        </TextBlock>
+                                                    </Grid>
+                                                </Border>
+                                            </DataTemplate>
+                                        </ItemsRepeater.ItemTemplate>
+                                    </ItemsRepeater>
+                                </DataTemplate>
+                            </mvux:FeedView.ValueTemplate>
+                            <mvux:FeedView.ProgressTemplate>
+                                <DataTemplate>
+                                    <ProgressRing IsActive="True" Width="24" Height="24" Margin="0,24" HorizontalAlignment="Center"/>
+                                </DataTemplate>
+                            </mvux:FeedView.ProgressTemplate>
+                            <mvux:FeedView.NoneTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="No production lines" Style="{ThemeResource NexusTableCellStyle}" Margin="0,24" HorizontalAlignment="Center"/>
+                                </DataTemplate>
+                            </mvux:FeedView.NoneTemplate>
+                        </mvux:FeedView>
+                    </Grid>
+                </Border>
+
+                <!-- NETWORK TOPOLOGY Panel (static decorative diagram) -->
+                <Border Grid.Column="2" Style="{ThemeResource NexusPanelBorderStyle}" Padding="20">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <Ellipse Width="6" Height="6" Fill="{ThemeResource NexusSuccessBrush}" VerticalAlignment="Center"/>
+                            <TextBlock Text="NETWORK TOPOLOGY" Style="{ThemeResource NexusPanelTitleStyle}"/>
+                        </StackPanel>
+
+                        <Viewbox Grid.Row="1" Margin="0,20,0,0" MinHeight="200" Stretch="Uniform" HorizontalAlignment="Center">
+                            <Canvas Width="280" Height="210">
+                                <!-- Dashed connection lines (drawn first so nodes sit on top) -->
+                                <Line X1="24" Y1="95" X2="110" Y2="45" Stroke="{ThemeResource NexusBorderSecondaryBrush}" StrokeThickness="1" StrokeDashArray="3 3"/>
+                                <Line X1="24" Y1="95" X2="110" Y2="145" Stroke="{ThemeResource NexusBorderSecondaryBrush}" StrokeThickness="1" StrokeDashArray="3 3"/>
+                                <Line X1="110" Y1="45" X2="195" Y2="95" Stroke="{ThemeResource NexusBorderSecondaryBrush}" StrokeThickness="1" StrokeDashArray="3 3"/>
+                                <Line X1="110" Y1="145" X2="195" Y2="95" Stroke="{ThemeResource NexusBorderSecondaryBrush}" StrokeThickness="1" StrokeDashArray="3 3"/>
+                                <Line X1="110" Y1="145" X2="150" Y2="180" Stroke="{ThemeResource NexusBorderSecondaryBrush}" StrokeThickness="1" StrokeDashArray="3 3"/>
+                                <Line X1="195" Y1="95" X2="256" Y2="95" Stroke="{ThemeResource NexusBorderSecondaryBrush}" StrokeThickness="1" StrokeDashArray="3 3"/>
+                                <Line X1="150" Y1="180" X2="256" Y2="95" Stroke="{ThemeResource NexusBorderSecondaryBrush}" StrokeThickness="1" StrokeDashArray="3 3"/>
+
+                                <!-- Nodes (dot + label) -->
+                                <Ellipse Canvas.Left="20" Canvas.Top="91" Width="8" Height="8" Fill="{ThemeResource NexusSuccessBrush}"/>
+                                <TextBlock Canvas.Left="6" Canvas.Top="102" Text="PLC-01" Style="{ThemeResource NexusCaptionMonoStyle}"/>
+                                <Ellipse Canvas.Left="106" Canvas.Top="41" Width="8" Height="8" Fill="{ThemeResource NexusSuccessBrush}"/>
+                                <TextBlock Canvas.Left="93" Canvas.Top="26" Text="HMI-A" Style="{ThemeResource NexusCaptionMonoStyle}"/>
+                                <Ellipse Canvas.Left="191" Canvas.Top="91" Width="8" Height="8" Fill="{ThemeResource NexusSuccessBrush}"/>
+                                <TextBlock Canvas.Left="178" Canvas.Top="102" Text="SERVER" Style="{ThemeResource NexusCaptionMonoStyle}"/>
+                                <Ellipse Canvas.Left="106" Canvas.Top="141" Width="8" Height="8" Fill="{ThemeResource NexusSuccessBrush}"/>
+                                <TextBlock Canvas.Left="94" Canvas.Top="152" Text="SCADA" Style="{ThemeResource NexusCaptionMonoStyle}"/>
+                                <Ellipse Canvas.Left="146" Canvas.Top="176" Width="8" Height="8" Fill="{ThemeResource NexusSuccessBrush}"/>
+                                <TextBlock Canvas.Left="135" Canvas.Top="187" Text="DB-01" Style="{ThemeResource NexusCaptionMonoStyle}"/>
+                                <Ellipse Canvas.Left="252" Canvas.Top="91" Width="8" Height="8" Fill="{ThemeResource NexusTextTertiaryBrush}"/>
+                                <TextBlock Canvas.Left="241" Canvas.Top="102" Text="CLOUD" Style="{ThemeResource NexusCaptionMonoStyle}"/>
+                            </Canvas>
+                        </Viewbox>
+                    </Grid>
+                </Border>
+            </Grid>
+
+            <!-- Bottom Row: System Log (data-driven from alerts) -->
+            <Border Grid.Row="2" Style="{ThemeResource NexusPanelBorderStyle}" Padding="20">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <Ellipse Width="6" Height="6" Fill="{ThemeResource NexusInfoBrush}" VerticalAlignment="Center"/>
+                            <TextBlock Text="SYSTEM LOG" Style="{ThemeResource NexusPanelTitleStyle}"/>
+                        </StackPanel>
+                        <Button Grid.Column="2" Content="EXPORT" Style="{ThemeResource NexusGhostButtonStyle}"/>
+                    </Grid>
+
+                    <mvux:FeedView Grid.Row="1" Source="{Binding RecentAlerts}" Margin="0,16,0,0">
+                        <mvux:FeedView.ValueTemplate>
+                            <DataTemplate>
+                                <ItemsRepeater ItemsSource="{Binding Data}">
+                                    <ItemsRepeater.Layout>
+                                        <StackLayout Spacing="0"/>
+                                    </ItemsRepeater.Layout>
+                                    <ItemsRepeater.ItemTemplate>
+                                        <DataTemplate x:DataType="models:Alert">
+                                            <Border BorderBrush="{ThemeResource NexusBorderPrimaryBrush}" BorderThickness="0,1,0,0" Padding="0,12">
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="Auto"/>
+                                                        <ColumnDefinition Width="Auto"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <TextBlock Text="{Binding Timestamp, Converter={StaticResource Time}}" Style="{ThemeResource NexusBodyMonoStyle}" MinWidth="70"/>
+                                                    <Ellipse Grid.Column="1" Width="6" Height="6" Fill="{Binding Type, Converter={StaticResource AlertBrush}}" VerticalAlignment="Center" Margin="16,0"/>
+                                                    <TextBlock Grid.Column="2" Text="{Binding Message}" Style="{ThemeResource NexusTableCellStyle}" TextTrimming="CharacterEllipsis"/>
+                                                </Grid>
+                                            </Border>
+                                        </DataTemplate>
+                                    </ItemsRepeater.ItemTemplate>
+                                </ItemsRepeater>
+                            </DataTemplate>
+                        </mvux:FeedView.ValueTemplate>
+                        <mvux:FeedView.ProgressTemplate>
+                            <DataTemplate>
+                                <ProgressRing IsActive="True" Width="24" Height="24" Margin="0,24" HorizontalAlignment="Center"/>
+                            </DataTemplate>
+                        </mvux:FeedView.ProgressTemplate>
+                        <mvux:FeedView.NoneTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="No recent alerts" Style="{ThemeResource NexusTableCellStyle}" Margin="0,24" HorizontalAlignment="Center"/>
+                            </DataTemplate>
+                        </mvux:FeedView.NoneTemplate>
+                    </mvux:FeedView>
+                </Grid>
+            </Border>
+        </Grid>
+    </ScrollViewer>
+</Page>

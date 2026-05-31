@@ -1,0 +1,65 @@
+<Project Sdk="Uno.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>net10.0-android;net10.0-ios;net10.0-browserwasm;net10.0-desktop</TargetFrameworks>
+
+    <OutputType>Exe</OutputType>
+    <UnoSingleProject>true</UnoSingleProject>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+
+    <!-- Display name -->
+    <ApplicationTitle>Faunal</ApplicationTitle>
+    <!-- App Identifier -->
+    <ApplicationId>com.companyname.vtrack</ApplicationId>
+    <!-- Versions -->
+    <ApplicationDisplayVersion>0.2.0</ApplicationDisplayVersion>
+    <ApplicationVersion>1</ApplicationVersion>
+    <!-- Package Publisher -->
+    <ApplicationPublisher>Faunal</ApplicationPublisher>
+    <!-- Package Description -->
+    <Description>Faunal — field-camera species identification, powered by Uno Platform.</Description>
+
+    <!--
+      UnoFeatures are used to quickly add and manage features enabled for your app.
+      https://aka.platform.uno/singleproject-features
+    -->
+    <UnoFeatures>
+      Material;
+      Dsp;
+      Svg;
+      Hosting;
+      Toolkit;
+      Logging;
+      MVUX;
+      Configuration;
+      Localization;
+      Navigation;
+      ThemeService;
+      SkiaRenderer;
+      GLCanvas;
+    </UnoFeatures>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\VTrack.DataContracts\VTrack.DataContracts.csproj" />
+  </ItemGroup>
+
+  <!--
+    OpenCV/YOLO video detection is Windows-desktop only (native win runtime, FFMPEG VideoCapture).
+    Scope the packages + the engine sources to the desktop TFM; other heads build with the
+    no-op NullTrackingEngine. See VTRACK_DESKTOP usage in App.xaml.cs.
+  -->
+  <PropertyGroup Condition="$(TargetFramework.Contains('-desktop'))">
+    <DefineConstants>$(DefineConstants);VTRACK_DESKTOP</DefineConstants>
+  </PropertyGroup>
+
+  <ItemGroup Condition="$(TargetFramework.Contains('-desktop'))">
+    <PackageReference Include="OpenCvSharp4" />
+    <PackageReference Include="OpenCvSharp4.runtime.win" />
+  </ItemGroup>
+
+  <ItemGroup Condition="!$(TargetFramework.Contains('-desktop'))">
+    <Compile Remove="Services\TrackingEngine.cs" />
+    <Compile Remove="Services\YoloDetector.cs" />
+  </ItemGroup>
+
+</Project>

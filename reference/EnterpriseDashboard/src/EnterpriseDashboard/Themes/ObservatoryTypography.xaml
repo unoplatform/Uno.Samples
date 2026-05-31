@@ -1,0 +1,248 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+  <!--
+    Type system per Design Brief §6.2. Two families do the work:
+      • Bricolage Grotesque — display, UI, body. No serif, no italic.
+      • JetBrains Mono — data, metadata, axis labels, brackets, status.
+
+    WEIGHT VIA STATIC INSTANCES (important): Uno's Skia text stack does not drive the
+    variable font's `wght` axis from FontWeight — a variable TTF renders at its default
+    (heavy) instance regardless of FontWeight. So each weight is a separate STATIC file
+    referenced by its own family name; the weight is baked into the file. Do NOT set
+    FontWeight on these styles — the family already selects the weight.
+      ExtraLight (200) → display + hero numerals (airy, instrument-like)
+      Light (300)      → body / descriptions / nav
+      Regular (400)    → small UI labels (card titles, list names)
+  -->
+  <FontFamily x:Key="ObsExtraLight">ms-appx:///Assets/Fonts/BricolageGrotesque-ExtraLight.ttf#Bricolage Grotesque 14pt ExtraLight</FontFamily>
+  <FontFamily x:Key="ObsLight">ms-appx:///Assets/Fonts/BricolageGrotesque-Light.ttf#Bricolage Grotesque 14pt Light</FontFamily>
+  <FontFamily x:Key="ObsRegular">ms-appx:///Assets/Fonts/BricolageGrotesque-Regular.ttf#Bricolage Grotesque 14pt</FontFamily>
+  <!-- Back-compat alias (NavView FontFamily references this); maps to the Light display sans. -->
+  <FontFamily x:Key="ObsSerifFamily">ms-appx:///Assets/Fonts/BricolageGrotesque-Light.ttf#Bricolage Grotesque 14pt Light</FontFamily>
+  <FontFamily x:Key="ObsMonoFamily">ms-appx:///Assets/Fonts/JetBrainsMono.ttf#JetBrains Mono</FontFamily>
+
+  <!-- ===================== Display (Bricolage ExtraLight) ===================== -->
+
+  <!-- display-xl: page wordmark -->
+  <Style x:Key="ObsDisplay" TargetType="TextBlock">
+    <Setter Property="FontFamily" Value="{StaticResource ObsExtraLight}" />
+    <Setter Property="FontSize" Value="48" />
+    <Setter Property="Foreground" Value="{ThemeResource ObsWhiteBrush}" />
+    <Setter Property="CharacterSpacing" Value="-25" />
+    <Setter Property="LineHeight" Value="50" />
+  </Style>
+
+  <!-- display-l: section title -->
+  <Style x:Key="ObsSectionTitle" TargetType="TextBlock">
+    <Setter Property="FontFamily" Value="{StaticResource ObsExtraLight}" />
+    <Setter Property="FontSize" Value="36" />
+    <Setter Property="Foreground" Value="{ThemeResource ObsWhiteBrush}" />
+    <Setter Property="CharacterSpacing" Value="-20" />
+    <Setter Property="LineHeight" Value="38" />
+  </Style>
+
+  <!-- card-title: small quiet anchor, ink-2 -->
+  <Style x:Key="ObsCardTitle" TargetType="TextBlock">
+    <Setter Property="FontFamily" Value="{StaticResource ObsRegular}" />
+    <Setter Property="FontSize" Value="14" />
+    <Setter Property="Foreground" Value="{ThemeResource ObsMidBrush}" />
+    <Setter Property="CharacterSpacing" Value="0" />
+  </Style>
+
+  <!-- display-m: hero metric value -->
+  <Style x:Key="ObsStatValue" TargetType="TextBlock">
+    <Setter Property="FontFamily" Value="{StaticResource ObsExtraLight}" />
+    <Setter Property="FontSize" Value="44" />
+    <Setter Property="Foreground" Value="{ThemeResource ObsWhiteBrush}" />
+    <Setter Property="CharacterSpacing" Value="-30" />
+    <Setter Property="LineHeight" Value="44" />
+  </Style>
+
+  <!-- header KPI figure -->
+  <Style x:Key="ObsHeaderStat" TargetType="TextBlock">
+    <Setter Property="FontFamily" Value="{StaticResource ObsExtraLight}" />
+    <Setter Property="FontSize" Value="30" />
+    <Setter Property="Foreground" Value="{ThemeResource ObsWhiteBrush}" />
+    <Setter Property="CharacterSpacing" Value="-15" />
+    <Setter Property="LineHeight" Value="32" />
+  </Style>
+
+  <!-- body-m: section descriptions, rail body (Bricolage Light) -->
+  <Style x:Key="ObsMonoBody" TargetType="TextBlock">
+    <Setter Property="FontFamily" Value="{StaticResource ObsLight}" />
+    <Setter Property="FontSize" Value="13" />
+    <Setter Property="Foreground" Value="{ThemeResource ObsMidBrush}" />
+    <Setter Property="LineHeight" Value="20" />
+    <Setter Property="TextWrapping" Value="Wrap" />
+  </Style>
+
+  <!-- description / closing note (Bricolage Light, ink-3) -->
+  <Style x:Key="ObsMonoDesc" TargetType="TextBlock">
+    <Setter Property="FontFamily" Value="{StaticResource ObsLight}" />
+    <Setter Property="FontSize" Value="13" />
+    <Setter Property="Foreground" Value="{ThemeResource ObsGreyBrush}" />
+    <Setter Property="LineHeight" Value="19" />
+    <Setter Property="TextWrapping" Value="Wrap" />
+  </Style>
+
+  <!-- ===================== Mono (JetBrains — data / labels) ===================== -->
+
+  <!-- mono-s: subtitle / unit, tracked caps -->
+  <Style x:Key="ObsMonoSmall" TargetType="TextBlock">
+    <Setter Property="FontFamily" Value="{StaticResource ObsMonoFamily}" />
+    <Setter Property="FontSize" Value="11" />
+    <Setter Property="Foreground" Value="{ThemeResource ObsMidBrush}" />
+    <Setter Property="CharacterSpacing" Value="100" />
+  </Style>
+
+  <!-- mono-pico: section number / leaderboard idx -->
+  <Style x:Key="ObsMonoTag" TargetType="TextBlock">
+    <Setter Property="FontFamily" Value="{StaticResource ObsMonoFamily}" />
+    <Setter Property="FontSize" Value="10" />
+    <Setter Property="Foreground" Value="{ThemeResource ObsGreyBrush}" />
+    <Setter Property="CharacterSpacing" Value="240" />
+  </Style>
+
+  <Style x:Key="ObsAxisLabel" TargetType="TextBlock">
+    <Setter Property="FontFamily" Value="{StaticResource ObsMonoFamily}" />
+    <Setter Property="FontSize" Value="10" />
+    <Setter Property="Foreground" Value="{ThemeResource ObsGreyBrush}" />
+    <Setter Property="CharacterSpacing" Value="120" />
+  </Style>
+
+  <Style x:Key="ObsAxisTick" TargetType="TextBlock">
+    <Setter Property="FontFamily" Value="{StaticResource ObsMonoFamily}" />
+    <Setter Property="FontSize" Value="10" />
+    <Setter Property="Foreground" Value="{ThemeResource ObsGreyBrush}" />
+    <Setter Property="CharacterSpacing" Value="100" />
+  </Style>
+
+  <!-- in-chart annotation: mono, bracketed, no italic -->
+  <Style x:Key="ObsAnnotation" TargetType="TextBlock">
+    <Setter Property="FontFamily" Value="{StaticResource ObsMonoFamily}" />
+    <Setter Property="FontSize" Value="11" />
+    <Setter Property="Foreground" Value="{ThemeResource ObsGreyBrush}" />
+    <Setter Property="CharacterSpacing" Value="20" />
+    <Setter Property="TextWrapping" Value="Wrap" />
+    <Setter Property="MaxWidth" Value="170" />
+    <Setter Property="LineHeight" Value="16" />
+  </Style>
+
+  <!-- ===================== Production chrome (top bar / KPI strip / cards) ===================== -->
+
+  <Style x:Key="ObsTopTitle" TargetType="TextBlock">
+    <Setter Property="FontFamily" Value="{StaticResource ObsExtraLight}" />
+    <Setter Property="FontSize" Value="28" />
+    <Setter Property="Foreground" Value="{ThemeResource ObsWhiteBrush}" />
+    <Setter Property="CharacterSpacing" Value="-18" />
+  </Style>
+
+  <!-- KPI strip: big display figure + mono unit + tracked mono label. -->
+  <Style x:Key="ObsKpiValue" TargetType="TextBlock">
+    <Setter Property="FontFamily" Value="{StaticResource ObsExtraLight}" />
+    <Setter Property="FontSize" Value="40" />
+    <Setter Property="Foreground" Value="{ThemeResource ObsWhiteBrush}" />
+    <Setter Property="CharacterSpacing" Value="-25" />
+    <Setter Property="LineHeight" Value="42" />
+  </Style>
+
+  <Style x:Key="ObsKpiUnit" TargetType="TextBlock">
+    <Setter Property="FontFamily" Value="{StaticResource ObsMonoFamily}" />
+    <Setter Property="FontSize" Value="11" />
+    <Setter Property="Foreground" Value="{ThemeResource ObsGreyBrush}" />
+  </Style>
+
+  <Style x:Key="ObsKpiLabel" TargetType="TextBlock">
+    <Setter Property="FontFamily" Value="{StaticResource ObsMonoFamily}" />
+    <Setter Property="FontSize" Value="11" />
+    <Setter Property="Foreground" Value="{ThemeResource ObsGreyBrush}" />
+    <Setter Property="CharacterSpacing" Value="160" />
+  </Style>
+
+  <!-- Delta chips: positive = mint, negative = coral. Color + shape carry the sign. -->
+  <Style x:Key="ObsDelta" TargetType="TextBlock">
+    <Setter Property="FontFamily" Value="{StaticResource ObsMonoFamily}" />
+    <Setter Property="FontSize" Value="11" />
+    <Setter Property="Foreground" Value="{ThemeResource ObsPositiveBrush}" />
+  </Style>
+
+  <Style x:Key="ObsDeltaDown" TargetType="TextBlock" BasedOn="{StaticResource ObsDelta}">
+    <Setter Property="Foreground" Value="{ThemeResource ObsNegativeBrush}" />
+  </Style>
+
+  <Style x:Key="ObsFooter" TargetType="TextBlock">
+    <Setter Property="FontFamily" Value="{StaticResource ObsMonoFamily}" />
+    <Setter Property="FontSize" Value="10" />
+    <Setter Property="Foreground" Value="{ThemeResource ObsGreyBrush}" />
+    <Setter Property="CharacterSpacing" Value="120" />
+  </Style>
+
+  <!-- Right-column info lists. Name = Bricolage sans (label); value/meta = JetBrains (data). -->
+  <Style x:Key="ObsListName" TargetType="TextBlock">
+    <Setter Property="FontFamily" Value="{StaticResource ObsRegular}" />
+    <Setter Property="FontSize" Value="13" />
+    <Setter Property="Foreground" Value="{ThemeResource ObsOffWhiteBrush}" />
+    <Setter Property="TextWrapping" Value="Wrap" />
+  </Style>
+
+  <Style x:Key="ObsListValue" TargetType="TextBlock">
+    <Setter Property="FontFamily" Value="{StaticResource ObsMonoFamily}" />
+    <Setter Property="FontSize" Value="12" />
+    <Setter Property="Foreground" Value="{ThemeResource ObsWhiteBrush}" />
+    <Setter Property="TextAlignment" Value="Right" />
+  </Style>
+
+  <Style x:Key="ObsListMeta" TargetType="TextBlock">
+    <Setter Property="FontFamily" Value="{StaticResource ObsMonoFamily}" />
+    <Setter Property="FontSize" Value="11" />
+    <Setter Property="Foreground" Value="{ThemeResource ObsGreyBrush}" />
+    <Setter Property="CharacterSpacing" Value="40" />
+  </Style>
+
+  <!-- ===================== Tiny (sub-mono-s, rail micro-rows) =====================
+       Sizes below ObsMonoSmall (11) reserved for very dense rail content: delta
+       chips on per-row breakdowns, single-glyph status markers, and bullet dots
+       in signal lists. Mono family throughout; no FontWeight here — the static
+       instance handles it. Foreground is intentionally left to the caller because
+       these sit on top of semantic color (positive / negative / accent / mid). -->
+
+  <!-- tiny-delta: 10pt mono. Replaces "Style=ObsDelta FontSize=10" overrides on
+       per-row delta chips inside dense rail breakdowns. Inherits positive brush from ObsDelta. -->
+  <Style x:Key="ObsTinyDelta" TargetType="TextBlock" BasedOn="{StaticResource ObsDelta}">
+    <Setter Property="FontSize" Value="10" />
+  </Style>
+
+  <!-- tiny-delta-down: 10pt mono, negative brush. Companion to ObsTinyDelta. -->
+  <Style x:Key="ObsTinyDeltaDown" TargetType="TextBlock" BasedOn="{StaticResource ObsDeltaDown}">
+    <Setter Property="FontSize" Value="10" />
+  </Style>
+
+  <!-- tiny-mono: 12pt mono cell value for rail movement rows. Foreground set by
+       caller (positive green or inherited from ObsDeltaDown for negative). -->
+  <Style x:Key="ObsTinyMono" TargetType="TextBlock">
+    <Setter Property="FontFamily" Value="{StaticResource ObsMonoFamily}" />
+    <Setter Property="FontSize" Value="12" />
+  </Style>
+
+  <!-- tiny-status: 11pt mono. Single-char signal markers (▲ ▼ !) leading
+       signal-list rows. Foreground set by caller to carry semantic meaning. -->
+  <Style x:Key="ObsStatusGlyph" TargetType="TextBlock">
+    <Setter Property="FontFamily" Value="{StaticResource ObsMonoFamily}" />
+    <Setter Property="FontSize" Value="11" />
+  </Style>
+
+  <!-- tiny-bullet: 9pt mono. Small dot markers (●) for nominal/quiet status
+       rows in signal lists. -->
+  <Style x:Key="ObsBulletGlyph" TargetType="TextBlock">
+    <Setter Property="FontFamily" Value="{StaticResource ObsMonoFamily}" />
+    <Setter Property="FontSize" Value="9" />
+  </Style>
+
+  <!-- Spacing scale (data-dense rhythm): tight within groups, generous between bands. -->
+  <x:Double x:Key="ObsSpaceSm">8</x:Double>
+  <x:Double x:Key="ObsSpaceMd">16</x:Double>
+  <x:Double x:Key="ObsSpaceLg">24</x:Double>
+  <x:Double x:Key="ObsSpaceXl">40</x:Double>
+
+</ResourceDictionary>

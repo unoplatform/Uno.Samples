@@ -1,0 +1,101 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+  <!--
+    Observatory palette — cool slate neutrals + single blue accent (Design Brief §6.1).
+    Neutrals are a slightly blue-shifted "cool slate" ramp, not pure grey.
+    A single cool-blue accent marks active / live / current state; mint + coral are
+    reserved for sign-coded data only. Keys stay role-named (ObsBlack = app bg …
+    ObsWhite = brightest mark / primary ink) so existing views and charts re-color
+    by token re-value alone. Reference via {ThemeResource} so the theme toggle
+    re-colors live.
+
+    Dark  → semantic tokens from brief §6.1.2 (dark).
+    Light → semantic tokens from brief §6.1.2 (light), ramp inverted so a
+            brightness-encoded mark reads as dark ink on the cool ice field.
+  -->
+  <ResourceDictionary.ThemeDictionaries>
+
+    <!-- ===================== DARK (default) ===================== -->
+    <ResourceDictionary x:Key="Default">
+      <Color x:Key="ObsBlack">#08090C</Color>   <!-- bg -->
+      <Color x:Key="ObsDark">#14171F</Color>    <!-- surface-2 (elevated controls) -->
+      <Color x:Key="ObsCard">#0E1015</Color>    <!-- surface (card) -->
+      <Color x:Key="ObsBorder">#232831</Color>  <!-- border -->
+      <Color x:Key="ObsGrid">#1E222B</Color>    <!-- chart grid -->
+      <Color x:Key="ObsFaint">#2A2E37</Color>   <!-- ink-5 (faint tracks / glyphs) -->
+      <Color x:Key="ObsGrey">#737880</Color>    <!-- ink-3 (tertiary, axis) -->
+      <Color x:Key="ObsMid">#A8ADB6</Color>     <!-- ink-2 (secondary, card title) -->
+      <Color x:Key="ObsLight">#C9CFD8</Color>   <!-- bright ink step -->
+      <Color x:Key="ObsOffWhite">#DDE1E8</Color><!-- near-ink -->
+      <Color x:Key="ObsWhite">#E6E9EE</Color>   <!-- ink (primary text / chart line) -->
+
+      <SolidColorBrush x:Key="ObsBlackBrush" Color="{StaticResource ObsBlack}" />
+      <SolidColorBrush x:Key="ObsDarkBrush" Color="{StaticResource ObsDark}" />
+      <SolidColorBrush x:Key="ObsCardBrush" Color="{StaticResource ObsCard}" />
+      <SolidColorBrush x:Key="ObsBorderBrush" Color="{StaticResource ObsBorder}" />
+      <SolidColorBrush x:Key="ObsGridBrush" Color="{StaticResource ObsGrid}" />
+      <SolidColorBrush x:Key="ObsFaintBrush" Color="{StaticResource ObsFaint}" />
+      <SolidColorBrush x:Key="ObsGreyBrush" Color="{StaticResource ObsGrey}" />
+      <SolidColorBrush x:Key="ObsMidBrush" Color="{StaticResource ObsMid}" />
+      <SolidColorBrush x:Key="ObsLightBrush" Color="{StaticResource ObsLight}" />
+      <SolidColorBrush x:Key="ObsOffWhiteBrush" Color="{StaticResource ObsOffWhite}" />
+      <SolidColorBrush x:Key="ObsWhiteBrush" Color="{StaticResource ObsWhite}" />
+
+      <!-- Signal accent — vivid cool blue: active / live / selected / current point. -->
+      <Color x:Key="ObsAccent">#5AA9FF</Color>
+      <Color x:Key="ObsAccentSoft">#335AA9FF</Color>  <!-- accent @ ~20% over surface -->
+      <SolidColorBrush x:Key="ObsAccentBrush" Color="{StaticResource ObsAccent}" />
+      <SolidColorBrush x:Key="ObsAccentSoftBrush" Color="{StaticResource ObsAccentSoft}" />
+      <!-- High-contrast ink for text/glyphs sitting ON the accent (e.g. active range pill). -->
+      <SolidColorBrush x:Key="ObsOnAccentBrush" Color="#04101C" />
+
+      <!-- Semantic state — sign-coded data only (positive vs negative). -->
+      <Color x:Key="ObsPositive">#4FC9A7</Color>
+      <Color x:Key="ObsNegative">#E8806F</Color>
+      <SolidColorBrush x:Key="ObsPositiveBrush" Color="{StaticResource ObsPositive}" />
+      <SolidColorBrush x:Key="ObsNegativeBrush" Color="{StaticResource ObsNegative}" />
+    </ResourceDictionary>
+
+    <!-- ===================== LIGHT (cool ice) ===================== -->
+    <ResourceDictionary x:Key="Light">
+      <Color x:Key="ObsBlack">#F1F3F7</Color>   <!-- bg: cool ice -->
+      <Color x:Key="ObsDark">#E7EBF1</Color>    <!-- surface-2 -->
+      <Color x:Key="ObsCard">#FAFBFD</Color>    <!-- surface (card) -->
+      <Color x:Key="ObsBorder">#CFD5DF</Color>  <!-- border -->
+      <Color x:Key="ObsGrid">#D6DBE3</Color>    <!-- chart grid -->
+      <Color x:Key="ObsFaint">#C8CDD7</Color>   <!-- ink-5 -->
+      <Color x:Key="ObsGrey">#6C7280</Color>    <!-- ink-3 -->
+      <Color x:Key="ObsMid">#3E4350</Color>     <!-- ink-2 -->
+      <Color x:Key="ObsLight">#2A2F38</Color>   <!-- ink step -->
+      <Color x:Key="ObsOffWhite">#1A1E25</Color><!-- near-ink -->
+      <Color x:Key="ObsWhite">#0F1115</Color>   <!-- brightest mark → darkest ink -->
+
+      <SolidColorBrush x:Key="ObsBlackBrush" Color="{StaticResource ObsBlack}" />
+      <SolidColorBrush x:Key="ObsDarkBrush" Color="{StaticResource ObsDark}" />
+      <SolidColorBrush x:Key="ObsCardBrush" Color="{StaticResource ObsCard}" />
+      <SolidColorBrush x:Key="ObsBorderBrush" Color="{StaticResource ObsBorder}" />
+      <SolidColorBrush x:Key="ObsGridBrush" Color="{StaticResource ObsGrid}" />
+      <SolidColorBrush x:Key="ObsFaintBrush" Color="{StaticResource ObsFaint}" />
+      <SolidColorBrush x:Key="ObsGreyBrush" Color="{StaticResource ObsGrey}" />
+      <SolidColorBrush x:Key="ObsMidBrush" Color="{StaticResource ObsMid}" />
+      <SolidColorBrush x:Key="ObsLightBrush" Color="{StaticResource ObsLight}" />
+      <SolidColorBrush x:Key="ObsOffWhiteBrush" Color="{StaticResource ObsOffWhite}" />
+      <SolidColorBrush x:Key="ObsWhiteBrush" Color="{StaticResource ObsWhite}" />
+
+      <!-- Signal accent — deeper, more saturated blue so it reads on the cool ice field. -->
+      <Color x:Key="ObsAccent">#1F57C4</Color>
+      <Color x:Key="ObsAccentSoft">#221F57C4</Color>  <!-- accent @ ~13% -->
+      <SolidColorBrush x:Key="ObsAccentBrush" Color="{StaticResource ObsAccent}" />
+      <SolidColorBrush x:Key="ObsAccentSoftBrush" Color="{StaticResource ObsAccentSoft}" />
+      <!-- White ink for text/glyphs sitting ON the deep accent. -->
+      <SolidColorBrush x:Key="ObsOnAccentBrush" Color="#FFFFFF" />
+
+      <Color x:Key="ObsPositive">#1F8870</Color>
+      <Color x:Key="ObsNegative">#B84A38</Color>
+      <SolidColorBrush x:Key="ObsPositiveBrush" Color="{StaticResource ObsPositive}" />
+      <SolidColorBrush x:Key="ObsNegativeBrush" Color="{StaticResource ObsNegative}" />
+    </ResourceDictionary>
+
+  </ResourceDictionary.ThemeDictionaries>
+</ResourceDictionary>

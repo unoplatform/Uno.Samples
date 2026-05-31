@@ -1,0 +1,74 @@
+<Page x:Class="QuoteCraft.Presentation.ClientEditorPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:local="using:QuoteCraft.Presentation"
+      xmlns:uen="using:Uno.Extensions.Navigation.UI"
+      xmlns:utu="using:Uno.Toolkit.UI"
+      xmlns:um="using:Uno.Material"
+      xmlns:mvux="using:Uno.Extensions.Reactive.UI"
+      Background="{ThemeResource BackgroundBrush}">
+
+  <Grid utu:SafeArea.Insets="Top">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition />
+    </Grid.RowDefinitions>
+
+    <utu:NavigationBar Content="Client Details">
+      <utu:NavigationBar.MainCommand>
+        <AppBarButton uen:Navigation.Request="!back" />
+      </utu:NavigationBar.MainCommand>
+    </utu:NavigationBar>
+
+    <ScrollViewer Grid.Row="1">
+      <utu:AutoLayout Padding="24"
+                      Spacing="16"
+                      Orientation="Vertical"
+                      MaxWidth="600"
+                      HorizontalAlignment="Stretch">
+
+        <TextBox x:Uid="ClientEditorPage.TextBox.Name"
+                 Header="Name"
+                 Text="{Binding Name, Mode=TwoWay}"
+                 PlaceholderText="Client or business name" />
+
+        <TextBox x:Uid="ClientEditorPage.TextBox.Email"
+                 Header="Email"
+                 Text="{Binding Email, Mode=TwoWay}"
+                 PlaceholderText="email@example.com"
+                 InputScope="EmailSmtpAddress" />
+
+        <TextBox x:Uid="ClientEditorPage.TextBox.Phone"
+                 Header="Phone"
+                 Text="{Binding Phone, Mode=TwoWay}"
+                 PlaceholderText="(555) 123-4567"
+                 InputScope="TelephoneNumber" />
+
+        <TextBox x:Uid="ClientEditorPage.TextBox.Address"
+                 Header="Address"
+                 Text="{Binding Address, Mode=TwoWay}"
+                 PlaceholderText="Street, City, State/Province"
+                 AcceptsReturn="True"
+                 TextWrapping="Wrap"
+                 MinHeight="80" />
+
+        <mvux:FeedView Source="{Binding ValidationError}">
+          <DataTemplate>
+            <TextBlock Text="{Binding Data}"
+                       Foreground="{ThemeResource ErrorBrush}"
+                       Style="{StaticResource BodyMedium}"
+                       Visibility="{Binding Data, Converter={StaticResource EmptyToVisibleConverter}, ConverterParameter=Invert}"
+                       Margin="0,0,0,4" />
+          </DataTemplate>
+        </mvux:FeedView>
+
+        <Button Content="Save Client"
+                Command="{Binding Save}"
+                HorizontalAlignment="Stretch"
+                Style="{StaticResource MaterialFilledButtonStyle}"
+                Margin="0,8,0,0" />
+
+      </utu:AutoLayout>
+    </ScrollViewer>
+  </Grid>
+</Page>

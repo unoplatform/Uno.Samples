@@ -1,0 +1,29 @@
+<Application x:Class="EnterpriseDashboard.App"
+       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+       xmlns:utu="using:Uno.Toolkit.UI"
+       xmlns:utum="using:Uno.Toolkit.UI.Material">
+
+  <Application.Resources>
+    <ResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <!-- Load WinUI resources -->
+        <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
+        <utum:MaterialToolkitTheme
+          ColorOverrideSource="ms-appx:///Styles/ColorPaletteOverride.xaml" />
+        <!-- Cool-slate Observatory theme (blue accent, Bricolage + JetBrains Mono) -->
+        <ResourceDictionary Source="ms-appx:///Themes/ObservatoryColors.xaml" />
+        <ResourceDictionary Source="ms-appx:///Themes/ObservatoryTypography.xaml" />
+      </ResourceDictionary.MergedDictionaries>
+
+      <!-- Custom breakpoints: desktop bento layout needs ~1280 px to breathe.
+           Below that the 3*/1* outer split (charts + info rail) collapses to
+           a single column, and Acquisition's 4-col bento collapses to 2-col.
+           Above 1280 px the desktop layout is identical to before. -->
+      <utu:ResponsiveLayout x:Key="ObsBentoBreakpoints"
+                            Narrow="0"
+                            Wide="1280" />
+    </ResourceDictionary>
+  </Application.Resources>
+
+</Application>

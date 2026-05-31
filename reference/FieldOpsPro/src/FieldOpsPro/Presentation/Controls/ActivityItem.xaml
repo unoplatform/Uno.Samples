@@ -1,0 +1,57 @@
+<UserControl x:Class="FieldOpsPro.Presentation.Controls.ActivityItem"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="using:FieldOpsPro.Presentation.Controls"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d">
+
+  <Grid ColumnSpacing="16">
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="Auto" />
+      <ColumnDefinition Width="*" />
+    </Grid.ColumnDefinitions>
+
+    <!-- Icon with Timeline -->
+    <Grid Grid.Column="0">
+      <!-- Timeline Line (shown except for last item) -->
+      <Border Width="2"
+              Background="{ThemeResource BorderColorBrush}"
+              HorizontalAlignment="Center"
+              VerticalAlignment="Stretch"
+              Margin="0,44,0,-8"
+              Visibility="{x:Bind TimelineVisibility(IsLastItem), Mode=OneWay}" />
+
+      <!-- Activity Icon -->
+      <Border Width="40"
+              Height="40"
+              Background="{ThemeResource BgTertiaryBrush}"
+              CornerRadius="12"
+              VerticalAlignment="Top">
+        <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}"
+                  FontSize="{StaticResource FontTitleLarge}"
+                  HorizontalAlignment="Center"
+                  VerticalAlignment="Center"
+                  Glyph="{x:Bind Activity.Type, Converter={StaticResource ActivityTypeToGlyph}, Mode=OneWay}"
+                  Foreground="{x:Bind Activity.Type, Converter={StaticResource ActivityTypeToBrush}, Mode=OneWay}" />
+      </Border>
+    </Grid>
+
+    <!-- Activity Content -->
+    <StackPanel Grid.Column="1"
+                Spacing="4"
+                Padding="0,4,0,0">
+      <TextBlock Style="{StaticResource BodyStyle}"
+                 TextWrapping="Wrap">
+        <Run FontWeight="SemiBold"
+             Foreground="{ThemeResource TextPrimaryBrush}"
+             Text="{x:Bind Activity.ActorName, Mode=OneWay}" />
+        <Run Text="{x:Bind ActionLabel(Activity), Mode=OneWay}" />
+      </TextBlock>
+
+      <TextBlock Style="{StaticResource CaptionStyle}"
+                 FontSize="{StaticResource FontLabelMedium}"
+                 Text="{x:Bind Activity.Timestamp, Converter={StaticResource TimestampToRelative}, Mode=OneWay}" />
+    </StackPanel>
+  </Grid>
+</UserControl>

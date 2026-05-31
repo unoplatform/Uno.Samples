@@ -1,0 +1,195 @@
+<Page x:Class="Nexus.Presentation.MainPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:utu="using:Uno.Toolkit.UI"
+      xmlns:uen="using:Uno.Extensions.Navigation.UI"
+      xmlns:local="using:Nexus.Presentation"
+      Background="{ThemeResource NexusBackgroundPrimaryBrush}">
+
+    <!-- Root region: coordinates the tab strip and the content area below.
+         Region.Attached on the root Grid is required for the TabBar items'
+         Region.Name="<RouteName>" wiring to resolve. -->
+    <Grid uen:Region.Attached="True"
+          Background="{ThemeResource NexusBackgroundPrimaryBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header Bar -->
+        <Border Grid.Row="0" Padding="24,16"
+                BorderBrush="{ThemeResource NexusBorderPrimaryBrush}"
+                BorderThickness="0,0,0,1">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Logo Section -->
+                <StackPanel Orientation="Horizontal" Spacing="12" VerticalAlignment="Center">
+                    <!-- Logo mark: bordered square with inner rotated diamond + cardinal corner nodes -->
+                    <Grid Width="34" Height="34">
+                        <Border BorderBrush="{ThemeResource NexusBorderSecondaryBrush}" BorderThickness="1"/>
+                        <Rectangle Width="11" Height="11" Stroke="#e4e4e7" StrokeThickness="1"
+                                   HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <Rectangle.RenderTransform>
+                                <RotateTransform Angle="45" CenterX="5.5" CenterY="5.5"/>
+                            </Rectangle.RenderTransform>
+                        </Rectangle>
+                        <Ellipse Width="3" Height="3" Fill="#e4e4e7" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,-1.5,0,0"/>
+                        <Ellipse Width="3" Height="3" Fill="#e4e4e7" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,-1.5"/>
+                        <Ellipse Width="3" Height="3" Fill="#e4e4e7" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="-1.5,0,0,0"/>
+                        <Ellipse Width="3" Height="3" Fill="#e4e4e7" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,-1.5,0"/>
+                    </Grid>
+                    <StackPanel Spacing="2">
+                        <TextBlock Text="NEXUS" Style="{ThemeResource NexusLogoStyle}"/>
+                        <TextBlock x:Uid="Shell_Subtitle" Text="INDUSTRIAL CONTROL SYSTEM"
+                                   Style="{ThemeResource NexusStatusLabelStyle}"/>
+                    </StackPanel>
+                </StackPanel>
+
+                <!-- System Time and Status -->
+                <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="16" VerticalAlignment="Center">
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <TextBlock x:Uid="Shell_SysTime" Text="SYS.TIME" Style="{ThemeResource NexusLabelMonoStyle}" VerticalAlignment="Center"/>
+                        <TextBlock x:Name="ClockText" Text="00:00:00"
+                                   Style="{ThemeResource NexusBodyMonoStyle}"
+                                   Foreground="{ThemeResource NexusTextPrimaryBrush}"
+                                   VerticalAlignment="Center"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Spacing="6">
+                        <Ellipse x:Name="ConnectionDot" Width="8" Height="8" Fill="{ThemeResource NexusSuccessBrush}" VerticalAlignment="Center"/>
+                        <TextBlock x:Uid="Shell_Connected" Text="CONNECTED" Style="{ThemeResource NexusStatusLabelStyle}"
+                                   Foreground="{ThemeResource NexusSuccessBrush}" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- Tab Navigation -->
+        <Border Grid.Row="1"
+                BorderBrush="{ThemeResource NexusBorderPrimaryBrush}"
+                BorderThickness="0,0,0,1"
+                Padding="24,0">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <!-- Nav strip marker -->
+                <Ellipse Grid.Column="0" Width="3" Height="3" Fill="{ThemeResource NexusTextSecondaryBrush}"
+                         VerticalAlignment="Center" Margin="0,0,16,0"/>
+            <utu:TabBar Grid.Column="1" x:Name="MainTabBar"
+                        uen:Region.Attached="True"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        Background="Transparent"
+                        SelectionIndicatorPlacement="Below">
+                <!-- Active indicator: 1px underline that slides under the selected tab (brief 04). -->
+                <utu:TabBar.SelectionIndicatorContentTemplate>
+                    <DataTemplate>
+                        <!-- VerticalAlignment=Bottom: "Below" placement is z-order only, so pin the
+                             1px underline to the bottom of the tab so it sits under the label. -->
+                        <Border Height="1" HorizontalAlignment="Stretch" VerticalAlignment="Bottom"
+                                Background="{ThemeResource NexusTextSecondaryBrush}"/>
+                    </DataTemplate>
+                </utu:TabBar.SelectionIndicatorContentTemplate>
+
+                <!-- Scoped lightweight-styling: kill the default accent selection fill and set
+                     flat brief text colors. Scoped here so the item templates resolve these
+                     before the toolkit's app-level theme dictionaries. -->
+                <utu:TabBar.Resources>
+                    <SolidColorBrush x:Key="TabBarItemBackground" Color="Transparent"/>
+                    <SolidColorBrush x:Key="TabBarItemBackgroundPointerOver" Color="Transparent"/>
+                    <SolidColorBrush x:Key="TabBarItemBackgroundPressed" Color="Transparent"/>
+                    <SolidColorBrush x:Key="TabBarItemBackgroundSelected" Color="Transparent"/>
+                    <SolidColorBrush x:Key="TabBarItemBackgroundSelectedPointerOver" Color="Transparent"/>
+                    <SolidColorBrush x:Key="TabBarItemBackgroundSelectedPressed" Color="Transparent"/>
+                    <SolidColorBrush x:Key="TabBarItemForeground" Color="#71717a"/>
+                    <SolidColorBrush x:Key="TabBarItemForegroundPointerOver" Color="#a1a1aa"/>
+                    <SolidColorBrush x:Key="TabBarItemForegroundPressed" Color="#fafafa"/>
+                    <SolidColorBrush x:Key="TabBarItemForegroundSelected" Color="#fafafa"/>
+                    <SolidColorBrush x:Key="TabBarItemForegroundSelectedPointerOver" Color="#fafafa"/>
+                    <SolidColorBrush x:Key="TabBarItemForegroundSelectedPressed" Color="#fafafa"/>
+                    <SolidColorBrush x:Key="TabBarItemForegroundDisabled" Color="#52525b"/>
+                </utu:TabBar.Resources>
+
+                <!-- Flat tabs: transparent background, IBM Plex Mono; text color (tertiary ->
+                     secondary on hover -> primary on select) comes from the TabBarItem* keys.
+                     Region.Name on each item maps to a nested RouteMap in App.xaml.cs. -->
+                <utu:TabBarItem x:Name="OverviewTab" x:Uid="Shell_Tab_Overview"
+                                uen:Region.Name="Overview" IsSelectable="True"
+                                Content="OVERVIEW"
+                                FontFamily="{StaticResource NexusMonoFont}" FontSize="10"
+                                Padding="0,12" Margin="0,0,32,0"/>
+                <utu:TabBarItem x:Name="ProductionTab" x:Uid="Shell_Tab_Production"
+                                uen:Region.Name="Production" IsSelectable="True"
+                                Content="PRODUCTION"
+                                FontFamily="{StaticResource NexusMonoFont}" FontSize="10"
+                                Padding="0,12" Margin="0,0,32,0"/>
+                <utu:TabBarItem x:Name="AnalyticsTab" x:Uid="Shell_Tab_Analytics"
+                                uen:Region.Name="Analytics" IsSelectable="True"
+                                Content="ANALYTICS"
+                                FontFamily="{StaticResource NexusMonoFont}" FontSize="10"
+                                Padding="0,12" Margin="0,0,32,0"/>
+                <utu:TabBarItem x:Name="MaintenanceTab" x:Uid="Shell_Tab_Maintenance"
+                                uen:Region.Name="Maintenance" IsSelectable="True"
+                                Content="MAINTENANCE"
+                                FontFamily="{StaticResource NexusMonoFont}" FontSize="10"
+                                Padding="0,12" Margin="0,0,32,0"/>
+                <utu:TabBarItem x:Name="SettingsTab" x:Uid="Shell_Tab_Settings"
+                                uen:Region.Name="Settings" IsSelectable="True"
+                                Content="SETTINGS"
+                                FontFamily="{StaticResource NexusMonoFont}" FontSize="10"
+                                Padding="0,12" Margin="0,0,32,0"/>
+            </utu:TabBar>
+            </Grid>
+        </Border>
+
+        <!-- Content region: section pages load here by Region.Name match.
+             Visibility navigator keeps all five pages mounted and toggles IsVisible —
+             cheap for a 5-tab shell and preserves scroll/state per tab. -->
+        <Grid Grid.Row="2"
+              uen:Region.Attached="True"
+              uen:Region.Navigator="Visibility"/>
+
+        <!-- Footer Status Bar -->
+        <Border Grid.Row="3"
+                Background="{ThemeResource NexusBackgroundSecondaryBrush}"
+                BorderBrush="{ThemeResource NexusBorderPrimaryBrush}"
+                BorderThickness="0,1,0,0"
+                Padding="24,8">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Orientation="Horizontal" Spacing="24">
+                    <StackPanel Orientation="Horizontal" Spacing="6">
+                        <TextBlock x:Uid="Shell_Footer_NodeCount" Text="NODE COUNT:" Style="{ThemeResource NexusStatusLabelStyle}"/>
+                        <TextBlock Text="847" Style="{ThemeResource NexusStatusLabelStyle}"
+                                   Foreground="{ThemeResource NexusTextSecondaryBrush}"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Spacing="6">
+                        <TextBlock x:Uid="Shell_Footer_LastSync" Text="LAST SYNC:" Style="{ThemeResource NexusStatusLabelStyle}"/>
+                        <TextBlock Text="2.4s AGO" Style="{ThemeResource NexusStatusLabelStyle}"
+                                   Foreground="{ThemeResource NexusTextSecondaryBrush}"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Spacing="6">
+                        <TextBlock x:Uid="Shell_Footer_Latency" Text="LATENCY:" Style="{ThemeResource NexusStatusLabelStyle}"/>
+                        <TextBlock Text="12ms" Style="{ThemeResource NexusStatusLabelStyle}"
+                                   Foreground="{ThemeResource NexusTextSecondaryBrush}"/>
+                    </StackPanel>
+                </StackPanel>
+
+                <TextBlock Grid.Column="1" Text="v4.2.1" Style="{ThemeResource NexusStatusLabelStyle}"
+                           Foreground="{ThemeResource NexusTextTertiaryBrush}"/>
+            </Grid>
+        </Border>
+    </Grid>
+</Page>

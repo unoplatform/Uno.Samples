@@ -1,0 +1,78 @@
+<UserControl
+    x:Class="Caffe.Controls.SelectionOverview"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:utu="using:Uno.Toolkit.UI">
+
+    <Border Background="{StaticResource CaffePrimaryBrush}"
+            CornerRadius="14"
+            Padding="20,16">
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <!-- Left: Selection Info -->
+            <StackPanel Grid.Column="0" Spacing="2">
+                <TextBlock Text="YOUR SELECTION"
+                           Style="{StaticResource OverviewLabelTextStyle}" />
+                <TextBlock Text="{x:Bind EspressoName, Mode=OneWay}"
+                           Style="{StaticResource OverviewValueTextStyle}" />
+            </StackPanel>
+
+            <!-- Right: Stats -->
+            <StackPanel Grid.Column="1"
+                        Orientation="Horizontal"
+                        Spacing="0">
+
+                <!-- Temperature -->
+                <StackPanel Margin="0,0,12,0">
+                    <TextBlock Text="{x:Bind FormatDegrees(Temperature), Mode=OneWay}"
+                               Style="{StaticResource OverviewValueTextStyle}"
+                               HorizontalAlignment="Center" />
+                    <TextBlock Text="Temp"
+                               Style="{StaticResource OverviewLabelTextStyle}"
+                               HorizontalAlignment="Center" />
+                </StackPanel>
+
+                <!-- Divider -->
+                <Border Width="1"
+                        Background="{StaticResource CaffeOnPrimaryBrush}"
+                        Opacity="0.3"
+                        Margin="0,4" />
+
+                <!-- Grind -->
+                <StackPanel Margin="12,0">
+                    <TextBlock Text="{x:Bind GrindAbbreviation, Mode=OneWay}"
+                               Style="{StaticResource OverviewValueTextStyle}"
+                               HorizontalAlignment="Center" />
+                    <TextBlock Text="Grind"
+                               Style="{StaticResource OverviewLabelTextStyle}"
+                               HorizontalAlignment="Center" />
+                </StackPanel>
+
+                <!-- Divider -->
+                <Border Width="1"
+                        Background="{StaticResource CaffeOnPrimaryBrush}"
+                        Opacity="0.3"
+                        Margin="0,4" />
+
+                <!-- Time -->
+                <StackPanel Margin="12,0,0,0">
+                    <TextBlock Text="{x:Bind FormatSeconds(ExtractionTime), Mode=OneWay}"
+                               Style="{StaticResource OverviewValueTextStyle}"
+                               HorizontalAlignment="Center" />
+                    <TextBlock Text="Time"
+                               Style="{StaticResource OverviewLabelTextStyle}"
+                               HorizontalAlignment="Center" />
+                </StackPanel>
+
+            </StackPanel>
+
+        </Grid>
+
+    </Border>
+
+</UserControl>

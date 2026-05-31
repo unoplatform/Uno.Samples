@@ -1,0 +1,126 @@
+<Page x:Class="QuoteCraft.Presentation.AuthPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:local="using:QuoteCraft.Presentation"
+      xmlns:utu="using:Uno.Toolkit.UI"
+      xmlns:um="using:Uno.Material"
+      xmlns:mvux="using:Uno.Extensions.Reactive.UI"
+      Background="{ThemeResource BackgroundBrush}">
+
+  <Grid utu:SafeArea.Insets="All"
+        HorizontalAlignment="Center" VerticalAlignment="Center"
+        MaxWidth="400" Padding="32">
+
+    <StackPanel Spacing="24">
+
+      <!-- Brand -->
+      <StackPanel Spacing="8" HorizontalAlignment="Center">
+        <Border Background="{StaticResource AppBarBackgroundBrush}"
+                Width="64" Height="64" CornerRadius="16">
+          <TextBlock Text="QC" Foreground="{StaticResource AppBarForegroundBrush}"
+                     FontWeight="Bold" FontSize="24"
+                     HorizontalAlignment="Center" VerticalAlignment="Center" />
+        </Border>
+        <TextBlock Text="QuoteCraft"
+                   Style="{StaticResource HeadlineSmall}"
+                   FontWeight="Bold"
+                   HorizontalAlignment="Center" />
+        <TextBlock x:Uid="AuthPage.Label.Subtitle"
+                   Text="Professional quotes for contractors"
+                   Style="{StaticResource BodyMedium}"
+                   Foreground="{ThemeResource OnSurfaceVariantBrush}"
+                   HorizontalAlignment="Center" />
+      </StackPanel>
+
+      <!-- Error message -->
+      <mvux:FeedView Source="{Binding ErrorMessage}">
+        <DataTemplate>
+          <TextBlock Text="{Binding Data}"
+                     Style="{StaticResource BodySmall}"
+                     Foreground="{ThemeResource ErrorBrush}"
+                     TextWrapping="Wrap"
+                     HorizontalAlignment="Center"
+                     Visibility="{Binding Data, Converter={StaticResource EmptyToVisibleConverter}, ConverterParameter=Invert}" />
+        </DataTemplate>
+      </mvux:FeedView>
+
+      <!-- Magic link sent confirmation -->
+      <mvux:FeedView Source="{Binding MagicLinkSent}">
+        <DataTemplate>
+          <Border Background="{ThemeResource TertiaryContainerBrush}"
+                  CornerRadius="8" Padding="16"
+                  Visibility="{Binding Data}">
+            <TextBlock Text="Check your email for a sign-in link."
+                       Style="{StaticResource BodyMedium}"
+                       Foreground="{ThemeResource OnTertiaryContainerBrush}"
+                       TextWrapping="Wrap" HorizontalAlignment="Center" />
+          </Border>
+        </DataTemplate>
+      </mvux:FeedView>
+
+      <!-- Email field -->
+      <TextBox x:Uid="AuthPage.Input.Email"
+               Text="{Binding Email, Mode=TwoWay}"
+               PlaceholderText="Email address"
+               InputScope="EmailSmtpAddress"
+               AutomationProperties.Name="Email"
+               Style="{StaticResource MaterialOutlinedTextBoxStyle}" />
+
+      <!-- Password field -->
+      <PasswordBox x:Uid="AuthPage.Input.Password"
+                   Password="{Binding Password, Mode=TwoWay}"
+                   PlaceholderText="Password"
+                   AutomationProperties.Name="Password"
+                   Style="{StaticResource MaterialOutlinedPasswordBoxStyle}" />
+
+      <!-- Sign In / Sign Up button -->
+      <mvux:FeedView Source="{Binding IsSignUp}">
+        <DataTemplate>
+          <Button Command="{Binding Data, Source={StaticResource FalseValue}, Converter={StaticResource InverseBoolConverter}, ConverterParameter=SignIn}"
+                  HorizontalAlignment="Stretch"
+                  Style="{StaticResource MaterialFilledButtonStyle}">
+            <TextBlock Text="Sign In" />
+          </Button>
+        </DataTemplate>
+      </mvux:FeedView>
+
+      <!-- Primary action buttons -->
+      <StackPanel Spacing="12">
+        <Button Command="{Binding SignIn}"
+                HorizontalAlignment="Stretch"
+                Style="{StaticResource MaterialFilledButtonStyle}"
+                AutomationProperties.Name="Sign in">
+          <TextBlock Text="Sign In" />
+        </Button>
+
+        <Button Command="{Binding SendMagicLink}"
+                HorizontalAlignment="Stretch"
+                Style="{StaticResource MaterialOutlinedButtonStyle}"
+                AutomationProperties.Name="Send magic link">
+          <TextBlock Text="Send Magic Link" />
+        </Button>
+      </StackPanel>
+
+      <!-- Toggle sign up / sign in -->
+      <Button Command="{Binding ToggleMode}"
+              HorizontalAlignment="Center"
+              Style="{StaticResource MaterialTextButtonStyle}"
+              AutomationProperties.Name="Toggle sign up mode">
+        <TextBlock Text="Don't have an account? Sign Up"
+                   Style="{StaticResource BodySmall}"
+                   Foreground="{ThemeResource PrimaryBrush}" />
+      </Button>
+
+      <!-- Skip (Free tier) -->
+      <Button Command="{Binding SkipAuth}"
+              HorizontalAlignment="Center"
+              Style="{StaticResource MaterialTextButtonStyle}"
+              AutomationProperties.Name="Continue without account">
+        <TextBlock Text="Continue without an account"
+                   Style="{StaticResource BodySmall}"
+                   Foreground="{ThemeResource OnSurfaceVariantBrush}" />
+      </Button>
+
+    </StackPanel>
+  </Grid>
+</Page>

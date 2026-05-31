@@ -1,0 +1,238 @@
+<Page x:Class="Pens.Presentation.BeersPage"
+      x:Name="PageRoot"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:utu="using:Uno.Toolkit.UI"
+      xmlns:local="using:Pens.Presentation"
+      Background="{StaticResource ArenaDarkBrush}">
+
+  <Grid>
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+      <Grid Padding="20,10,20,20">
+        <utu:AutoLayout Spacing="20"
+                        MaxWidth="{StaticResource PageContentMaxWidth}"
+                        HorizontalAlignment="Center">
+          <utu:AutoLayout.Transitions>
+            <TransitionCollection>
+              <EntranceThemeTransition FromVerticalOffset="24" />
+            </TransitionCollection>
+          </utu:AutoLayout.Transitions>
+
+          <!-- Beer Header -->
+          <StackPanel HorizontalAlignment="Center" Margin="0,0,0,4"
+                      AutomationProperties.Name="Season beer consumption statistics">
+            <!-- Total Row -->
+            <utu:AutoLayout Orientation="Horizontal" Spacing="8" HorizontalAlignment="Center">
+              <TextBlock Text="{Binding ConsumedCases}"
+                         Style="{StaticResource BebasHeroTextStyle}"
+                         Foreground="{StaticResource NeonAmberBrush}" />
+              <TextBlock x:Uid="BeersPage_Cases"
+                         Text="cases"
+                         Style="{StaticResource HeroUnitTextStyle}"
+                         VerticalAlignment="Bottom"
+                         Margin="0,0,0,16" />
+            </utu:AutoLayout>
+
+            <!-- Subtitle -->
+            <TextBlock x:Uid="BeersPage_ConsumedThisSeason"
+                       Text="CONSUMED THIS SEASON"
+                       Style="{StaticResource OverlineLargeTextStyle}"
+                       HorizontalAlignment="Center"
+                       Margin="0,8,0,0" />
+
+            <!-- Beer Count -->
+            <TextBlock HorizontalAlignment="Center" Margin="0,4,0,0" Style="{StaticResource BodyDefaultTextStyle}">
+              <Run Text="{Binding TotalBeers}" Foreground="{StaticResource NeonAmberBrush}" />
+              <Run Text=" beers " Foreground="{StaticResource NeonAmberBrush}" />
+              <Run Text="(30 per case)" Foreground="{StaticResource TextMutedBrush}" />
+            </TextBlock>
+          </StackPanel>
+
+          <!-- Cases Section -->
+          <Border Background="{StaticResource BoardsDarkBrush}"
+                  CornerRadius="{StaticResource LargeCornerRadius}"
+                  Padding="20"
+                  BorderBrush="{StaticResource SubtleBorderBrush}"
+                  BorderThickness="1">
+            <utu:AutoLayout Spacing="16">
+              <!-- Section Header -->
+              <Grid>
+                <TextBlock x:Uid="BeersPage_SeasonTracker"
+                           Text="SEASON TRACKER"
+                           Style="{StaticResource SectionTitleTextStyle}"
+                           CharacterSpacing="80"
+                           AutomationProperties.HeadingLevel="Level2"
+                           HorizontalAlignment="Left" />
+                <TextBlock HorizontalAlignment="Right" Style="{StaticResource CaptionLargeTextStyle}">
+                  <Run Text="{Binding ConsumedCases}" Foreground="{StaticResource PowderBlueBrush}" />
+                  <Run Text=" / 52 cases" Foreground="{StaticResource PowderBlueBrush}" />
+                </TextBlock>
+              </Grid>
+
+              <!-- Cases Grid -->
+              <ItemsRepeater ItemsSource="{Binding CaseBlocks}">
+                <ItemsRepeater.Layout>
+                  <UniformGridLayout MinItemWidth="28"
+                                     MinItemHeight="28"
+                                     MinColumnSpacing="8"
+                                     MinRowSpacing="8"
+                                     ItemsStretch="Fill" />
+                </ItemsRepeater.Layout>
+                <ItemsRepeater.ItemTemplate>
+                  <DataTemplate x:DataType="local:CaseBlock">
+                    <!-- C1: focusable/invokable; C2: per-item name + checkmark cue -->
+                    <Button Style="{StaticResource TappableCardButtonStyle}"
+                            Command="{Binding DataContext.ToggleCaseCommand, ElementName=PageRoot}"
+                            CommandParameter="{Binding}"
+                            AutomationProperties.Name="{Binding AccessibleName}">
+                      <Border MinHeight="28"
+                              CornerRadius="{StaticResource SmallCornerRadius}"
+                              Background="{Binding IsConsumed, Converter={StaticResource BoolToConsumedBackgroundConverter}}"
+                              BorderBrush="{Binding IsConsumed, Converter={StaticResource BoolToConsumedBorderConverter}}"
+                              BorderThickness="1">
+                        <FontIcon Glyph="&#xE73E;" FontSize="14"
+                                  Foreground="{StaticResource ArenaDarkBrush}"
+                                  HorizontalAlignment="Center" VerticalAlignment="Center"
+                                  AutomationProperties.AccessibilityView="Raw"
+                                  Visibility="{Binding IsConsumed, Converter={StaticResource ConsumedToGlyphVisibilityConverter}}" />
+                      </Border>
+                    </Button>
+                  </DataTemplate>
+                </ItemsRepeater.ItemTemplate>
+              </ItemsRepeater>
+            </utu:AutoLayout>
+          </Border>
+
+          <!-- Legend -->
+          <utu:AutoLayout Orientation="Horizontal" Spacing="24" HorizontalAlignment="Center"
+                          AutomationProperties.Name="Legend for beer tracker">
+            <utu:AutoLayout Orientation="Horizontal" Spacing="8">
+              <Border Width="18" Height="18"
+                      CornerRadius="{StaticResource SmallCornerRadius}"
+                      Background="{StaticResource BoardsMidBrush}"
+                      BorderBrush="{StaticResource SubtleBorderBrush}"
+                      BorderThickness="1" />
+              <TextBlock x:Uid="BeersPage_Remaining"
+                         Text="Remaining"
+                         Style="{StaticResource CaptionTextStyle}"
+                         VerticalAlignment="Center" />
+            </utu:AutoLayout>
+            <utu:AutoLayout Orientation="Horizontal" Spacing="8">
+              <Border Width="18" Height="18"
+                      CornerRadius="{StaticResource SmallCornerRadius}"
+                      Background="{StaticResource NeonAmberGradientBrush}">
+                <FontIcon Glyph="&#xE73E;" FontSize="11"
+                          Foreground="{StaticResource ArenaDarkBrush}"
+                          HorizontalAlignment="Center" VerticalAlignment="Center"
+                          AutomationProperties.AccessibilityView="Raw" />
+              </Border>
+              <TextBlock x:Uid="BeersPage_Consumed"
+                         Text="Consumed"
+                         Style="{StaticResource CaptionTextStyle}"
+                         VerticalAlignment="Center" />
+            </utu:AutoLayout>
+          </utu:AutoLayout>
+
+          <!-- Stats (M6: one emphasized stat + a secondary row, instead of a uniform 2x2 grid) -->
+          <Border Background="{StaticResource BoardsDarkBrush}"
+                  CornerRadius="{StaticResource CardCornerRadius}"
+                  Padding="20"
+                  BorderBrush="{StaticResource CardBorderBrush}"
+                  BorderThickness="1">
+            <utu:AutoLayout Spacing="16">
+              <!-- Primary stat -->
+              <StackPanel AutomationProperties.Name="Average beers per game">
+                <TextBlock x:Uid="BeersPage_AvgPerGame"
+                           Text="AVG / GAME"
+                           Style="{StaticResource OverlineTextStyle}" />
+                <utu:AutoLayout Orientation="Horizontal" Spacing="8">
+                  <TextBlock Text="{Binding AvgPerGame}"
+                             Style="{StaticResource BebasCounterTextStyle}"
+                             Foreground="{StaticResource NeonAmberBrush}" />
+                  <TextBlock x:Uid="BeersPage_BeersPerGame"
+                             Text="beers each game night"
+                             Style="{StaticResource CaptionTextStyle}"
+                             VerticalAlignment="Bottom"
+                             Margin="0,0,0,10" />
+                </utu:AutoLayout>
+              </StackPanel>
+
+              <Border Height="1" Background="{StaticResource SubtleBorderBrush}" />
+
+              <!-- Secondary stats row -->
+              <Grid>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="*" />
+                  <ColumnDefinition Width="*" />
+                  <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Column="0" AutomationProperties.Name="Games played">
+                  <TextBlock Text="{Binding GamesPlayed}"
+                             Style="{StaticResource BebasTitleTextStyle}"
+                             CharacterSpacing="0"
+                             Foreground="{StaticResource PowderBlueBrush}" />
+                  <TextBlock x:Uid="BeersPage_GamesPlayed"
+                             Text="GAMES PLAYED"
+                             Style="{StaticResource LabelTextStyle}" />
+                </StackPanel>
+
+                <StackPanel Grid.Column="1" AutomationProperties.Name="Beers per player">
+                  <TextBlock Text="{Binding BeersPerPlayer}"
+                             Style="{StaticResource BebasTitleTextStyle}"
+                             CharacterSpacing="0"
+                             Foreground="{StaticResource PowderBlueBrush}" />
+                  <TextBlock x:Uid="BeersPage_BeersPerPlayer"
+                             Text="BEERS / PLAYER"
+                             Style="{StaticResource LabelTextStyle}" />
+                </StackPanel>
+
+                <StackPanel Grid.Column="2" AutomationProperties.Name="Cases remaining">
+                  <TextBlock Text="{Binding CasesRemaining}"
+                             Style="{StaticResource BebasTitleTextStyle}"
+                             CharacterSpacing="0"
+                             Foreground="{StaticResource PowderBlueBrush}" />
+                  <TextBlock x:Uid="BeersPage_CasesRemaining"
+                             Text="CASES LEFT"
+                             Style="{StaticResource LabelTextStyle}" />
+                </StackPanel>
+              </Grid>
+            </utu:AutoLayout>
+          </Border>
+
+          <!-- Bottom padding for nav -->
+          <Border Height="24" />
+        </utu:AutoLayout>
+      </Grid>
+    </ScrollViewer>
+
+    <!-- Loading state -->
+    <Border Visibility="{Binding IsLoading, Converter={StaticResource BoolToVisibilityConverter}}"
+            Background="{StaticResource ArenaDarkBrush}"
+            AutomationProperties.Name="Loading beer tracker">
+      <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Spacing="16">
+        <ProgressRing IsActive="{Binding IsLoading}" Width="44" Height="44"
+                      Foreground="{StaticResource NeonAmberBrush}" />
+        <TextBlock x:Uid="BeersPage_Loading" Text="Loading beer tracker…"
+                   Style="{StaticResource CaptionTextStyle}"
+                   HorizontalAlignment="Center" />
+      </StackPanel>
+    </Border>
+
+    <!-- Error state -->
+    <Border Visibility="{Binding HasError, Converter={StaticResource BoolToVisibilityConverter}}"
+            Background="{StaticResource ArenaDarkBrush}"
+            AutomationProperties.Name="Error loading beer tracker">
+      <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Spacing="8" Padding="32">
+        <FontIcon Glyph="&#xEA39;" FontSize="40"
+                  Foreground="{StaticResource HotRedBrush}"
+                  HorizontalAlignment="Center" />
+        <TextBlock Text="{Binding ErrorMessage}"
+                   Style="{StaticResource BodyTextStyle}"
+                   Foreground="{StaticResource HotRedBrush}"
+                   TextWrapping="Wrap" TextAlignment="Center"
+                   HorizontalAlignment="Center" />
+      </StackPanel>
+    </Border>
+  </Grid>
+</Page>

@@ -1,0 +1,51 @@
+<Application x:Class="Meridian.App"
+       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+       xmlns:utum="using:Uno.Toolkit.UI.Material"
+       xmlns:controls="using:Meridian.Controls"
+       RequestedTheme="Light">
+
+  <Application.Resources>
+    <ResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <!-- Load WinUI resources -->
+        <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
+
+        <!-- Meridian theme resources (loaded before MaterialToolkitTheme so brushes are available) -->
+        <ResourceDictionary Source="ms-appx:///Themes/FontResources.xaml" />
+        <ResourceDictionary Source="ms-appx:///Themes/TextBlockStyles.xaml" />
+        <ResourceDictionary Source="ms-appx:///Themes/CardStyles.xaml" />
+        <ResourceDictionary Source="ms-appx:///Themes/ButtonStyles.xaml" />
+
+        <!-- Material theme with Meridian color overrides and Outfit as default font -->
+        <utum:MaterialToolkitTheme
+          ColorOverrideSource="ms-appx:///Themes/ColorPaletteOverride.xaml">
+          <utum:MaterialToolkitTheme.FontOverrideDictionary>
+            <ResourceDictionary>
+              <FontFamily x:Key="MaterialLightFontFamily">ms-appx:///Assets/Fonts/Outfit/static/Outfit-Regular.ttf#Outfit</FontFamily>
+              <FontFamily x:Key="MaterialRegularFontFamily">ms-appx:///Assets/Fonts/Outfit/static/Outfit-Medium.ttf#Outfit</FontFamily>
+              <FontFamily x:Key="MaterialMediumFontFamily">ms-appx:///Assets/Fonts/Outfit/static/Outfit-SemiBold.ttf#Outfit</FontFamily>
+            </ResourceDictionary>
+          </utum:MaterialToolkitTheme.FontOverrideDictionary>
+        </utum:MaterialToolkitTheme>
+      </ResourceDictionary.MergedDictionaries>
+      <!-- BrailleRevealControl default template -->
+      <Style TargetType="controls:BrailleRevealControl">
+        <Setter Property="IsTabStop" Value="False" />
+        <Setter Property="Template">
+          <Setter.Value>
+            <ControlTemplate TargetType="controls:BrailleRevealControl">
+              <TextBlock x:Name="RevealText"
+                         FontFamily="{TemplateBinding FontFamily}"
+                         FontSize="{TemplateBinding FontSize}"
+                         FontWeight="{TemplateBinding FontWeight}"
+                         Foreground="{TemplateBinding Foreground}"
+                         CharacterSpacing="{TemplateBinding CharacterSpacing}" />
+            </ControlTemplate>
+          </Setter.Value>
+        </Setter>
+      </Style>
+    </ResourceDictionary>
+  </Application.Resources>
+
+</Application>

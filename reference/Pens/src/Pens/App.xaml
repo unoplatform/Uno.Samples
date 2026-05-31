@@ -1,0 +1,41 @@
+<Application x:Class="Pens.App"
+       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+       xmlns:utum="using:Uno.Toolkit.UI.Material"
+       xmlns:converters="using:Pens.Converters">
+
+  <Application.Resources>
+    <ResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
+        <utum:MaterialToolkitTheme
+          ColorOverrideSource="ms-appx:///Styles/ColorPaletteOverride.xaml" />
+
+        <!-- Brand palette, brushes, type scale, component styles. -->
+        <ResourceDictionary Source="ms-appx:///Themes/Colors.xaml" />
+        <ResourceDictionary Source="ms-appx:///Themes/Brushes.xaml" />
+        <ResourceDictionary Source="ms-appx:///Themes/TextStyles.xaml" />
+        <ResourceDictionary Source="ms-appx:///Themes/Styles.xaml" />
+      </ResourceDictionary.MergedDictionaries>
+
+      <!-- Converters -->
+      <converters:ToUpperConverter x:Key="ToUpperConverter" />
+      <converters:StatusToTextConverter x:Key="StatusToTextConverter" />
+      <converters:StatusToBackgroundConverter x:Key="StatusToBackgroundConverter" />
+      <converters:StatusToForegroundConverter x:Key="StatusToForegroundConverter" />
+      <converters:DutyTypeToColorConverter x:Key="DutyTypeToColorConverter" />
+      <converters:DutyTypeToIconConverter x:Key="DutyTypeToIconConverter" />
+      <converters:BoolToConsumedBackgroundConverter x:Key="BoolToConsumedBackgroundConverter" />
+      <converters:BoolToConsumedBorderConverter x:Key="BoolToConsumedBorderConverter" />
+      <converters:BoolToPowderBlueBorderConverter x:Key="BoolToPowderBlueBorderConverter" />
+      <converters:GameNightEmojiConverter x:Key="GameNightEmojiConverter" />
+      <converters:InverseBoolConverter x:Key="InverseBoolConverter" />
+      <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+      <converters:InverseBoolToVisibilityConverter x:Key="InverseBoolToVisibilityConverter" />
+      <converters:SelectedToBrushConverter x:Key="SelectedToBrushConverter" />
+      <converters:ConsumedToGlyphVisibilityConverter x:Key="ConsumedToGlyphVisibilityConverter" />
+
+    </ResourceDictionary>
+  </Application.Resources>
+
+</Application>
