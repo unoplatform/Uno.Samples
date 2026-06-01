@@ -1,0 +1,38 @@
+{
+  "$schema": "https://schemas.platform.uno/sample/v1",
+  "id": "claude-code-tracker",
+  "displayName": "Claude Code Tracker",
+  "description": "A usage-analytics dashboard for Claude Code with mock state and an adaptive NavigationView shell. Tracks coding sessions, token consumption (input, output, cache read/write), and cost across models. Includes a Dashboard (KPI cards, daily usage rollups, model breakdown), a Sessions list with a Session Detail page, a Usage page (per-model pricing and cost breakdown), and a Charts page. Clean, professional desktop/mobile UI.",
+  "platforms": ["desktop", "wasm"],
+  "sourcePath": "ClaudeCodeTracker/ClaudeCodeTracker.csproj",
+  "userConversation": {
+    "messages": [
+      {
+        "role": "user",
+        "content": "Generate a production-ready Claude Code usage tracker app with:\n- mock state\n- a clean, professional desktop/mobile UI\n- a NavigationView shell\n\nDashboard:\n- KPI cards (total sessions, total tokens, total cost, average cost per session)\n- a daily usage rollup (tokens and cost over time)\n- a model usage breakdown (share per model)\n\nPages:\n- Dashboard, Sessions (list of coding sessions), Session Detail, Usage (per-model pricing and cost breakdown), Charts\n\nInclude:\n- full working code\n- navigation between pages\n- mock state\n- seeded sample data (sessions, model pricing, daily usage)"
+      },
+      {
+        "role": "assistant",
+        "content": "Here's your **Claude Code Tracker** app! It's built and running in the preview."
+      }
+    ],
+    "suggestedPrompts": [
+      "Change the color theme",
+      "Add a date-range filter to the dashboard",
+      "Add a chart to the Charts page",
+      "Improve the layout and spacing"
+    ]
+  },
+  "agentContext": {
+    "messages": [
+      {
+        "role": "user",
+        "content": "Generate a production-ready Claude Code usage tracker app with:\n- mock state\n- a clean, professional desktop/mobile UI\n- a NavigationView shell\n\nDashboard:\n- KPI cards (total sessions, total tokens, total cost, average cost per session)\n- a daily usage rollup (tokens and cost over time)\n- a model usage breakdown (share per model)\n\nPages:\n- Dashboard, Sessions (list of coding sessions), Session Detail, Usage (per-model pricing and cost breakdown), Charts\n\nInclude:\n- full working code\n- navigation between pages\n- mock state\n- seeded sample data (sessions, model pricing, daily usage)"
+      },
+      {
+        "role": "assistant",
+        "content": "I've created a complete Uno Platform app at ClaudeCodeTracker/ClaudeCodeTracker.csproj.\n\n**Key files:**\n- ClaudeCodeTracker/App.xaml\n- ClaudeCodeTracker/App.xaml.cs\n- ClaudeCodeTracker/GlobalUsings.cs\n- ClaudeCodeTracker/ThemeColors.xaml\n- ClaudeCodeTracker/ClaudeCodeTracker.csproj\n- ClaudeCodeTracker/Models/AppConfig.cs\n- ClaudeCodeTracker/Presentation/MainPage.xaml\n- ClaudeCodeTracker/Presentation/MainPage.xaml.cs\n- ClaudeCodeTracker/Presentation/MainModel.cs\n- ClaudeCodeTracker/Presentation/DashboardPage.xaml\n- ClaudeCodeTracker/Presentation/DashboardPage.xaml.cs\n- ClaudeCodeTracker/Presentation/SessionsPage.xaml\n- ClaudeCodeTracker/Presentation/SessionsPage.xaml.cs\n- ClaudeCodeTracker/Presentation/SessionDetailPage.xaml\n- ClaudeCodeTracker/Presentation/SessionDetailPage.xaml.cs\n- ClaudeCodeTracker/Presentation/UsagePage.xaml\n- ClaudeCodeTracker/Presentation/UsagePage.xaml.cs\n- ClaudeCodeTracker/Presentation/ChartsPage.xaml\n- ClaudeCodeTracker/Presentation/ChartsPage.xaml.cs\n- ClaudeCodeTracker/Presentation/MockData/SharedTypes.cs\n- ClaudeCodeTracker/Presentation/MockData/DashboardPageMockData.cs\n- ClaudeCodeTracker/Presentation/MockData/SessionsPageMockData.cs\n- ClaudeCodeTracker/Presentation/MockData/SessionDetailPageMockData.cs\n- ClaudeCodeTracker/Presentation/MockData/UsagePageMockData.cs\n- ClaudeCodeTracker/Presentation/MockData/ChartsPageMockData.cs\n- ClaudeCodeTracker/Platforms/Desktop/Program.cs\n- ClaudeCodeTracker/Platforms/WebAssembly/Program.cs\n\n**Structure:**\n- MainPage hosts a NavigationView (uen:Region.Attached) with menu items Dashboard, Sessions, Usage and Charts. The content area uses a visibility-based region navigator (uen:Region.Navigator=\"Visibility\") to switch pages.\n- DashboardPage shows KPI cards, a daily-usage rollup, and a model-usage breakdown. SessionsPage lists coding sessions and navigates to SessionDetailPage. UsagePage shows per-model pricing and a cost breakdown. ChartsPage visualizes daily usage and model share.\n- Domain records live in Presentation/MockData/SharedTypes.cs: SessionEntry (model, duration, input/output/cache tokens, cost, status, project, message count), ModelInfo (per-1M pricing), DailyUsage (daily token/cost rollup), and ModelUsageBreakdown (per-model share). Each page has a matching *MockData.cs file holding seeded data.\n- Styling is centralized in App.xaml and ThemeColors.xaml.\n\nThe app is built and running. The user may ask me to modify it."
+      }
+    ]
+  }
+}

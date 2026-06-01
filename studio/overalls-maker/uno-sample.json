@@ -1,0 +1,38 @@
+{
+  "$schema": "https://schemas.platform.uno/sample/v1",
+  "id": "overalls-maker",
+  "displayName": "Overalls Maker",
+  "description": "An interactive denim overalls configurator built with MVUX. Customize length, bib type, denim color, pockets and embroidered text, with a live reactive preview drawn entirely in XAML (a single-coordinate, \"SVG-like\" denim figure that reacts to every selection) and real-time pricing. Includes an order Summary and Checkout flow. Warm linen/denim aesthetic with brass hardware and topstitching, responsive split layout (preview + options on wide screens).",
+  "platforms": ["desktop", "wasm"],
+  "sourcePath": "DenimOverallsApp/DenimOverallsApp.csproj",
+  "userConversation": {
+    "messages": [
+      {
+        "role": "user",
+        "content": "Generate an interactive denim overalls configurator app with:\n- MVUX and reactive state\n- a live preview that updates as I change options\n- real-time pricing\n- a warm denim/linen aesthetic\n\nConfigurator:\n- choose length (long / short), bib type (classic, wide, scoop, cross-back), denim color, pocket style, and add embroidered text\n- a live preview of the overall that reacts to every selection\n- a running total price\n\nFlow:\n- a responsive split layout (preview + options on wide screens)\n- an order Summary page\n- a Checkout page\n\nInclude:\n- full working code\n- navigation between pages\n- reactive state\n- seeded option catalog and pricing"
+      },
+      {
+        "role": "assistant",
+        "content": "Here's your **Overalls Maker** app! It's built and running in the preview."
+      }
+    ],
+    "suggestedPrompts": [
+      "Add a new denim color option",
+      "Add a size selector to the configurator",
+      "Change the accent color theme",
+      "Improve the layout and spacing"
+    ]
+  },
+  "agentContext": {
+    "messages": [
+      {
+        "role": "user",
+        "content": "Generate an interactive denim overalls configurator app with:\n- MVUX and reactive state\n- a live preview that updates as I change options\n- real-time pricing\n- a warm denim/linen aesthetic\n\nConfigurator:\n- choose length (long / short), bib type (classic, wide, scoop, cross-back), denim color, pocket style, and add embroidered text\n- a live preview of the overall that reacts to every selection\n- a running total price\n\nFlow:\n- a responsive split layout (preview + options on wide screens)\n- an order Summary page\n- a Checkout page\n\nInclude:\n- full working code\n- navigation between pages\n- reactive state\n- seeded option catalog and pricing"
+      },
+      {
+        "role": "assistant",
+        "content": "I've created a complete Uno Platform app at DenimOverallsApp/DenimOverallsApp.csproj.\n\n**Key files:**\n- DenimOverallsApp/App.xaml\n- DenimOverallsApp/App.xaml.cs\n- DenimOverallsApp/GlobalUsings.cs\n- DenimOverallsApp/ThemeColors.xaml\n- DenimOverallsApp/DenimOverallsApp.csproj\n- DenimOverallsApp/Models/AppConfig.cs\n- DenimOverallsApp/Converters/UiConverters.cs\n- DenimOverallsApp/Presentation/MainPage.xaml\n- DenimOverallsApp/Presentation/MainPage.xaml.cs\n- DenimOverallsApp/Presentation/MainModel.cs\n- DenimOverallsApp/Presentation/SummaryPage.xaml\n- DenimOverallsApp/Presentation/SummaryPage.xaml.cs\n- DenimOverallsApp/Presentation/SummaryModel.cs\n- DenimOverallsApp/Presentation/CheckoutPage.xaml\n- DenimOverallsApp/Presentation/CheckoutPage.xaml.cs\n- DenimOverallsApp/Presentation/CheckoutModel.cs\n- DenimOverallsApp/Presentation/OverallCatalog.cs\n- DenimOverallsApp/Presentation/SharedTypes.cs\n- DenimOverallsApp/Assets/Textures/denim-weave.png\n- DenimOverallsApp/Platforms/Desktop/Program.cs\n- DenimOverallsApp/Platforms/WebAssembly/Program.cs\n\n**Structure:**\n- This is a fully interactive MVUX app (not a static mockup). MainModel exposes an IState<OverallConfiguration> as the single source of truth; selection commands (SelectLength, SelectBib, SelectColor, SelectPocket) update it via UpdateAsync, and derived IFeed values (Lengths/Bibs/Colors/Pockets selectable lists, PriceLabel, preview flags) recompute reactively. CustomText is a separate IState mirrored into the configuration.\n- The live preview is drawn entirely in XAML as a single-coordinate (\"SVG-like\") Canvas/Path figure inside a Viewbox. Visibility and fills bind to model feeds (e.g. IsLongLength/IsShortLength, ShowBibPanel, ShowCrossStraps, ShowThighPockets, SelectedColorHex via a HexColorToBrush converter) so the rendered overall reacts to every option. A denim-weave ImageBrush overlay adds texture over the dynamic fill.\n- Converters/UiConverters.cs holds HexColorToBrushConverter, BooleanToVisibilityConverter and SelectionToThicknessConverter (selected-card border).\n- OverallCatalog.cs is the single source of truth for option catalogs, pricing rules (base price + per-option adjustments) and label lookups, shared by the configurator, Summary and Checkout models. SharedTypes.cs defines OverallOption, OverallConfiguration, DenimColorOption and the SelectableOption/SelectableColor pairings.\n- Navigation uses Uno.Extensions.Navigation: MainModel.ReviewOrder navigates to the Summary route carrying the OverallConfiguration as data, then on to Checkout.\n- MainPage uses a VisualStateManager AdaptiveTrigger (MinWindowWidth 900) to show the preview column on wide screens and collapse it on narrow ones.\n\nThe app is built and running. The user may ask me to modify it."
+      }
+    ]
+  }
+}
