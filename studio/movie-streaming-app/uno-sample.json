@@ -1,0 +1,38 @@
+{
+  "$schema": "https://schemas.platform.uno/sample/v1",
+  "id": "movie-streaming-app",
+  "displayName": "Movie Streaming App",
+  "description": "A cinematic movie-streaming app mockup with a dark, poster-driven UI and an adaptive bottom TabBar shell. Includes an Onboarding carousel, a Browse home (featured hero, category chips, Trending Now and New Arrivals rails), a Search page (genre tiles, recent searches, results grid), a Social Feed of friend activity (now-watching, ratings, watchlist adds, suggested friends, trending among friends), a Profile with subscription details, stats and grouped settings, a rich Movie Detail page (hero, cast, audience/critics scores, reviews, related titles) and a Playback screen with a scrubber and now-playing metadata. Polished streaming-service look on desktop and mobile.",
+  "platforms": ["desktop", "wasm"],
+  "sourcePath": "MovieStreamApp/MovieStreamApp.csproj",
+  "userConversation": {
+    "messages": [
+      {
+        "role": "user",
+        "content": "Generate a production-ready movie streaming app mockup with:\n- mock state\n- a polished, cinematic dark UI with movie posters\n- an adaptive bottom TabBar shell\n\nPages:\n- Onboarding (a feature carousel introducing the app)\n- Browse (a featured hero, category chips, and Trending Now / New Arrivals poster rails)\n- Search (genre tiles, recent searches, and a results grid)\n- Social Feed (friend activity: now watching, ratings, watchlist adds, plus suggested friends and trending among friends)\n- Profile (subscription details, stats, and grouped settings)\n- Movie Detail (hero, synopsis, cast, audience/critics scores, reviews, related movies)\n- Playback (a video scrubber with now-playing metadata, cast and related titles)\n\nInclude:\n- full working code\n- navigation between pages\n- mock state\n- seeded sample data (movies, friends, reviews, cast, settings)"
+      },
+      {
+        "role": "assistant",
+        "content": "Here's your **Movie Streaming App**! It's built and running in the preview."
+      }
+    ],
+    "suggestedPrompts": [
+      "Change the accent color theme",
+      "Add a Downloads page for offline titles",
+      "Add a 'My Watchlist' section to the profile",
+      "Improve the layout and spacing"
+    ]
+  },
+  "agentContext": {
+    "messages": [
+      {
+        "role": "user",
+        "content": "Generate a production-ready movie streaming app mockup with:\n- mock state\n- a polished, cinematic dark UI with movie posters\n- an adaptive bottom TabBar shell\n\nPages:\n- Onboarding (a feature carousel introducing the app)\n- Browse (a featured hero, category chips, and Trending Now / New Arrivals poster rails)\n- Search (genre tiles, recent searches, and a results grid)\n- Social Feed (friend activity: now watching, ratings, watchlist adds, plus suggested friends and trending among friends)\n- Profile (subscription details, stats, and grouped settings)\n- Movie Detail (hero, synopsis, cast, audience/critics scores, reviews, related movies)\n- Playback (a video scrubber with now-playing metadata, cast and related titles)\n\nInclude:\n- full working code\n- navigation between pages\n- mock state\n- seeded sample data (movies, friends, reviews, cast, settings)"
+      },
+      {
+        "role": "assistant",
+        "content": "I've created a complete Uno Platform app at MovieStreamApp/MovieStreamApp.csproj.\n\n**Key files:**\n- MovieStreamApp/App.xaml\n- MovieStreamApp/App.xaml.cs\n- MovieStreamApp/GlobalUsings.cs\n- MovieStreamApp/ThemeColors.xaml\n- MovieStreamApp/MovieStreamApp.csproj\n- MovieStreamApp/Models/AppConfig.cs\n- MovieStreamApp/Presentation/MainPage.xaml\n- MovieStreamApp/Presentation/MainPage.xaml.cs\n- MovieStreamApp/Presentation/MainModel.cs\n- MovieStreamApp/Presentation/OnboardingPage.xaml\n- MovieStreamApp/Presentation/OnboardingPage.xaml.cs\n- MovieStreamApp/Presentation/OnboardingModel.cs\n- MovieStreamApp/Presentation/BrowsePage.xaml\n- MovieStreamApp/Presentation/BrowsePage.xaml.cs\n- MovieStreamApp/Presentation/BrowseModel.cs\n- MovieStreamApp/Presentation/SearchPage.xaml\n- MovieStreamApp/Presentation/SearchPage.xaml.cs\n- MovieStreamApp/Presentation/SearchModel.cs\n- MovieStreamApp/Presentation/SocialFeedPage.xaml\n- MovieStreamApp/Presentation/SocialFeedPage.xaml.cs\n- MovieStreamApp/Presentation/SocialFeedModel.cs\n- MovieStreamApp/Presentation/ProfilePage.xaml\n- MovieStreamApp/Presentation/ProfilePage.xaml.cs\n- MovieStreamApp/Presentation/ProfileModel.cs\n- MovieStreamApp/Presentation/MovieDetailPage.xaml\n- MovieStreamApp/Presentation/MovieDetailPage.xaml.cs\n- MovieStreamApp/Presentation/MovieDetailModel.cs\n- MovieStreamApp/Presentation/PlaybackPage.xaml\n- MovieStreamApp/Presentation/PlaybackPage.xaml.cs\n- MovieStreamApp/Presentation/PlaybackModel.cs\n- MovieStreamApp/Presentation/SharedTypes.cs\n- MovieStreamApp/Platforms/Desktop/Program.cs\n- MovieStreamApp/Platforms/WebAssembly/Program.cs\n\n**Structure:**\n- MainPage hosts a bottom utu:TabBar (uen:Region.Attached) with tabs Browse, Search, Friends (SocialFeed) and Profile. The content area uses a visibility-based region navigator (uen:Region.Navigator=\"Visibility\") to switch pages, and Onboarding, MovieDetail and Playback are additional nested routes navigated to on demand.\n- BrowsePage shows a featured hero, category chips, and Trending Now / New Arrivals poster rails. SearchPage shows genre tiles, recent searches and a results grid. SocialFeedPage lists friend activity (now watching, ratings, watchlist adds) with suggested friends and titles trending among friends. ProfilePage shows the user, subscription, stats and grouped settings sections. MovieDetailPage shows a hero, synopsis, cast, audience/critics scores, reviews and related movies. PlaybackPage shows a video scrubber with now-playing metadata, cast and related titles.\n- Domain records live in Presentation/SharedTypes.cs: Movie (title, genre, year, rating, duration, description, poster URL, IsFeatured/IsNew), CastMember, FriendActivity and Review. Page-specific records (OnboardingSlide, GenreCategory, CastMemberDetail, SettingsGroup/SettingsItem, FriendSuggestion) are declared next to the model that owns them.\n- Each page has a record ViewModel marked [Uno.Extensions.Reactive.ReactiveBindable(false)] that exposes seeded mock data directly as properties (this is a static mockup, not a reactive MVUX app). Image URLs use picsum.photos seeds so posters render without bundled assets.\n- Navigation uses Uno.Extensions.Navigation with routes registered in App.xaml.cs. Styling is centralized in App.xaml and ThemeColors.xaml.\n\nThe app is built and running. The user may ask me to modify it."
+      }
+    ]
+  }
+}

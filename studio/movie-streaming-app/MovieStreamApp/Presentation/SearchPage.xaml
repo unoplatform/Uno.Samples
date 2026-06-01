@@ -1,0 +1,240 @@
+<Page x:Class="MovieStreamApp.Presentation.SearchPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:utu="using:Uno.Toolkit.UI"
+      xmlns:uen="using:Uno.Extensions.Navigation.UI"
+      Background="{ThemeResource BackgroundBrush}">
+
+    <Grid utu:SafeArea.Insets="Top,SoftInput">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!-- Search Header -->
+        <StackPanel Grid.Row="0"
+                    Padding="20,16,20,12"
+                    Spacing="12">
+            <TextBlock Text="Discover"
+                       Style="{StaticResource TitleLarge}"
+                       Foreground="{ThemeResource OnBackgroundBrush}" />
+
+            <!-- Search Box -->
+            <Grid ColumnSpacing="10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <utu:CardContentControl Grid.Column="0"
+                                        Style="{StaticResource FilledCardContentControlStyle}"
+                                        HorizontalAlignment="Stretch"
+                                        IsClickable="False">
+                    <utu:CardContentControl.ContentTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal"
+                                        Spacing="10"
+                                        Padding="14,0">
+                                <FontIcon Glyph="&#xE721;"
+                                          FontSize="18"
+                                          Foreground="{ThemeResource OutlineBrush}"
+                                          VerticalAlignment="Center" />
+                                <TextBox PlaceholderText="{utu:AncestorBinding AncestorType=Page, Path=DataContext.SearchPlaceholder}"
+                                         Background="Transparent"
+                                         BorderThickness="0"
+                                         VerticalAlignment="Center"
+                                         HorizontalAlignment="Stretch"
+                                         Foreground="{ThemeResource OnSurfaceBrush}"
+                                         PlaceholderForeground="{ThemeResource OutlineBrush}"
+                                         utu:AutoLayout.PrimaryAlignment="Stretch" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </utu:CardContentControl.ContentTemplate>
+                </utu:CardContentControl>
+                <Button Grid.Column="1"
+                        Style="{StaticResource FilledButtonStyle}"
+                        AutomationProperties.Name="Search">
+                    <FontIcon Glyph="&#xE721;" FontSize="18" Foreground="{ThemeResource OnPrimaryBrush}" />
+                </Button>
+            </Grid>
+        </StackPanel>
+
+        <!-- Scrollable content -->
+        <ScrollViewer Grid.Row="1"
+                      VerticalScrollBarVisibility="Hidden">
+            <StackPanel Spacing="0">
+
+                <!-- Recent Searches -->
+                <StackPanel Padding="20,4,20,16" Spacing="8">
+                    <TextBlock Text="Recent Searches"
+                               Style="{StaticResource TitleSmall}"
+                               Foreground="{ThemeResource OnBackgroundBrush}" />
+                    <ItemsRepeater ItemsSource="{Binding RecentSearches}">
+                        <ItemsRepeater.Layout>
+                            <StackLayout Orientation="Vertical" Spacing="4" />
+                        </ItemsRepeater.Layout>
+                        <ItemsRepeater.ItemTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <FontIcon Grid.Column="0"
+                                              Glyph="&#xE81C;"
+                                              FontSize="16"
+                                              Foreground="{ThemeResource OutlineBrush}"
+                                              Margin="0,0,12,0"
+                                              VerticalAlignment="Center" />
+                                    <TextBlock Grid.Column="1"
+                                               Text="{Binding}"
+                                               Style="{StaticResource BodyMedium}"
+                                               Foreground="{ThemeResource OnSurfaceVariantBrush}"
+                                               VerticalAlignment="Center"
+                                               Padding="0,10" />
+                                    <FontIcon Grid.Column="2"
+                                              Glyph="&#xE74D;"
+                                              FontSize="14"
+                                              Foreground="{ThemeResource OutlineVariantBrush}"
+                                              VerticalAlignment="Center" />
+                                </Grid>
+                            </DataTemplate>
+                        </ItemsRepeater.ItemTemplate>
+                    </ItemsRepeater>
+                </StackPanel>
+
+                <!-- Browse by Genre -->
+                <TextBlock Text="Browse by Genre"
+                           Style="{StaticResource TitleSmall}"
+                           Foreground="{ThemeResource OnBackgroundBrush}"
+                           Margin="20,0,20,12" />
+
+                <ItemsRepeater ItemsSource="{Binding Genres}"
+                               Margin="20,0,20,20">
+                    <ItemsRepeater.Layout>
+                        <UniformGridLayout MinItemWidth="160"
+                                           MinItemHeight="80"
+                                           MinColumnSpacing="10"
+                                           MinRowSpacing="10" />
+                    </ItemsRepeater.Layout>
+                    <ItemsRepeater.ItemTemplate>
+                        <DataTemplate>
+                            <utu:CardContentControl Style="{StaticResource FilledCardContentControlStyle}"
+                                                    HorizontalAlignment="Stretch"
+                                                    IsClickable="True"
+                                                    Content="{Binding}">
+                                <utu:CardContentControl.ContentTemplate>
+                                    <DataTemplate>
+                                        <Grid Padding="14,12" ColumnSpacing="10">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+                                            <Border Grid.Column="0"
+                                                    Background="{ThemeResource PrimaryContainerBrush}"
+                                                    CornerRadius="10"
+                                                    Width="36"
+                                                    Height="36">
+                                                <FontIcon Glyph="{Binding IconGlyph}"
+                                                          FontSize="18"
+                                                          Foreground="{ThemeResource OnPrimaryContainerBrush}"
+                                                          HorizontalAlignment="Center"
+                                                          VerticalAlignment="Center" />
+                                            </Border>
+                                            <TextBlock Grid.Column="1"
+                                                       Text="{Binding Name}"
+                                                       Style="{StaticResource LabelLarge}"
+                                                       Foreground="{ThemeResource OnSurfaceBrush}"
+                                                       VerticalAlignment="Center" />
+                                        </Grid>
+                                    </DataTemplate>
+                                </utu:CardContentControl.ContentTemplate>
+                            </utu:CardContentControl>
+                        </DataTemplate>
+                    </ItemsRepeater.ItemTemplate>
+                </ItemsRepeater>
+
+                <!-- Popular Results -->
+                <TextBlock Text="Popular Right Now"
+                           Style="{StaticResource TitleSmall}"
+                           Foreground="{ThemeResource OnBackgroundBrush}"
+                           Margin="20,0,20,12" />
+
+                <ItemsRepeater ItemsSource="{Binding SearchResults}"
+                               Margin="20,0,20,28">
+                    <ItemsRepeater.Layout>
+                        <StackLayout Orientation="Vertical" Spacing="10" />
+                    </ItemsRepeater.Layout>
+                    <ItemsRepeater.ItemTemplate>
+                        <DataTemplate>
+                            <utu:CardContentControl Style="{StaticResource FilledCardContentControlStyle}"
+                                                    HorizontalAlignment="Stretch"
+                                                    IsClickable="True"
+                                                    Content="{Binding}"
+                                                    uen:Navigation.Request="Playback">
+                                <utu:CardContentControl.ContentTemplate>
+                                    <DataTemplate>
+                                        <Grid ColumnSpacing="12">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="76" />
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+                                            <Border Grid.Column="0"
+                                                    CornerRadius="6,0,0,6">
+                                                <Image Source="{Binding ImageUrl}"
+                                                       Stretch="UniformToFill"
+                                                       Height="104" />
+                                            </Border>
+                                            <StackPanel Grid.Column="1"
+                                                        VerticalAlignment="Center"
+                                                        Padding="0,12"
+                                                        Spacing="4">
+                                                <TextBlock Text="{Binding Title}"
+                                                           Style="{StaticResource TitleSmall}"
+                                                           Foreground="{ThemeResource OnSurfaceBrush}" />
+                                                <StackPanel Orientation="Horizontal" Spacing="6">
+                                                    <TextBlock Text="{Binding Genre}"
+                                                               Style="{StaticResource BodySmall}"
+                                                               Foreground="{ThemeResource OutlineBrush}" />
+                                                    <TextBlock Text="&#x2022;"
+                                                               Style="{StaticResource BodySmall}"
+                                                               Foreground="{ThemeResource OutlineVariantBrush}" />
+                                                    <TextBlock Text="{Binding Year}"
+                                                               Style="{StaticResource BodySmall}"
+                                                               Foreground="{ThemeResource OutlineBrush}" />
+                                                </StackPanel>
+                                                <StackPanel Orientation="Horizontal" Spacing="4">
+                                                    <FontIcon Glyph="&#xE734;"
+                                                              FontSize="11"
+                                                              Foreground="{ThemeResource TertiaryBrush}" />
+                                                    <TextBlock Text="{Binding Rating}"
+                                                               Style="{StaticResource LabelMedium}"
+                                                               Foreground="{ThemeResource TertiaryBrush}" />
+                                                    <TextBlock Text="{Binding Duration}"
+                                                               Style="{StaticResource BodySmall}"
+                                                               Foreground="{ThemeResource OnSurfaceVariantBrush}"
+                                                               Margin="8,0,0,0" />
+                                                </StackPanel>
+                                            </StackPanel>
+                                            <Button Grid.Column="2"
+                                                    Style="{StaticResource IconButtonStyle}"
+                                                    Margin="0,0,8,0"
+                                                    VerticalAlignment="Center"
+                                                    AutomationProperties.Name="Play movie">
+                                                <FontIcon Glyph="&#xE714;"
+                                                          FontSize="20"
+                                                          Foreground="{ThemeResource PrimaryBrush}" />
+                                            </Button>
+                                        </Grid>
+                                    </DataTemplate>
+                                </utu:CardContentControl.ContentTemplate>
+                            </utu:CardContentControl>
+                        </DataTemplate>
+                    </ItemsRepeater.ItemTemplate>
+                </ItemsRepeater>
+
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</Page>

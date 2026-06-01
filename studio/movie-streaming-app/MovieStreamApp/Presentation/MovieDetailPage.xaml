@@ -1,0 +1,247 @@
+
+<Page x:Class="MovieStreamApp.Presentation.MovieDetailPage" Background="{ThemeResource BackgroundBrush}" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:uen="using:Uno.Extensions.Navigation.UI" xmlns:utu="using:Uno.Toolkit.UI">
+
+    <Grid>
+        <ScrollViewer VerticalScrollBarVisibility="Hidden">
+            <StackPanel>
+
+                <Grid Height="280">
+                    <Image Source="{Binding HeroImageUrl}" Stretch="UniformToFill" />
+                    <Border>
+                        <Border.Background>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                <GradientStop Color="#00000000" Offset="0.0" />
+                                <GradientStop Color="#88000000" Offset="0.55" />
+                                <GradientStop Color="#FF121212" Offset="1.0" />
+                            </LinearGradientBrush>
+                        </Border.Background>
+                    </Border>
+                    <Button Background="Transparent" BorderThickness="0" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="12,44,0,0" AutomationProperties.Name="Go back" uen:Navigation.Request="-">
+                        <FontIcon Glyph="" FontSize="20" Foreground="{ThemeResource OnSurfaceBrush}" />
+                    </Button>
+                    <Button Background="#55000000" BorderThickness="0" CornerRadius="20" Width="40" Height="40" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,44,16,0" AutomationProperties.Name="Add to watchlist">
+                        <FontIcon Glyph="\uE734" FontSize="18" Foreground="{ThemeResource PrimaryBrush}" />
+                    </Button>
+                    <!-- Backdrop image -->
+                    <!-- Gradient fade to page background -->
+                    <!-- Back button -->
+                    <!-- Watchlist toggle top-right -->
+                </Grid>
+                <Grid Margin="16,-60,16,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="110" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <utu:CardContentControl Grid.Column="0" Style="{StaticResource ElevatedCardContentControlStyle}" VerticalAlignment="Top">
+                        <utu:CardContentControl.ContentTemplate>
+                            <DataTemplate>
+                                <Border CornerRadius="10" Width="110" Height="160">
+                                    <Image Source="{utu:AncestorBinding AncestorType=Page, Path=DataContext.PosterImageUrl}" Stretch="UniformToFill" />
+                                </Border>
+                            </DataTemplate>
+                        </utu:CardContentControl.ContentTemplate>
+                    </utu:CardContentControl>
+                    <StackPanel Grid.Column="1" Margin="12,60,0,0" Spacing="4">
+                        <TextBlock Text="{Binding Title}" Style="{StaticResource TitleLarge}" Foreground="{ThemeResource OnSurfaceBrush}" TextWrapping="Wrap" />
+                        <TextBlock Text="{Binding Tagline}" Style="{StaticResource BodySmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" TextWrapping="Wrap" FontStyle="Italic" />
+                        <StackPanel Orientation="Horizontal" Spacing="6" Margin="0,6,0,0">
+                            <Border Background="{ThemeResource PrimaryBrush}" CornerRadius="4" Padding="8,3">
+                                <TextBlock Text="{Binding AgeRating}" Style="{StaticResource LabelSmall}" Foreground="{ThemeResource OnPrimaryBrush}" />
+                            </Border>
+                            <Border Background="{ThemeResource SurfaceVariantBrush}" CornerRadius="4" Padding="8,3">
+                                <TextBlock Text="{Binding Year}" Style="{StaticResource LabelSmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" />
+                            </Border>
+                            <Border Background="{ThemeResource SurfaceVariantBrush}" CornerRadius="4" Padding="8,3">
+                                <TextBlock Text="{Binding Duration}" Style="{StaticResource LabelSmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" />
+                            </Border>
+                        </StackPanel>
+                        <TextBlock Text="{Binding Genre}" Style="{StaticResource LabelMedium}" Foreground="{ThemeResource TertiaryBrush}" Margin="0,2,0,0" />
+                        <!-- Badges row -->
+                        <!-- Genre -->
+                    </StackPanel>
+                    <!-- Poster card -->
+                    <!-- Title block -->
+                </Grid>
+
+                <StackPanel Orientation="Horizontal" Margin="16,16,16,0" Spacing="20">
+                    <StackPanel HorizontalAlignment="Center" Spacing="2">
+                        <TextBlock Text="{Binding Rating}" Style="{StaticResource TitleLarge}" Foreground="{ThemeResource PrimaryBrush}" HorizontalAlignment="Center" />
+                        <TextBlock Text="USER SCORE" Style="{StaticResource LabelExtraSmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" HorizontalAlignment="Center" />
+                    </StackPanel>
+                    <Border Width="1" Background="{ThemeResource OutlineVariantBrush}" Margin="0,4" />
+                    <StackPanel HorizontalAlignment="Center" Spacing="2">
+                        <TextBlock Text="{Binding AudienceScore}" Style="{StaticResource TitleLarge}" Foreground="{ThemeResource TertiaryBrush}" HorizontalAlignment="Center" />
+                        <TextBlock Text="AUDIENCE" Style="{StaticResource LabelExtraSmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" HorizontalAlignment="Center" />
+                    </StackPanel>
+                    <Border Width="1" Background="{ThemeResource OutlineVariantBrush}" Margin="0,4" />
+                    <StackPanel HorizontalAlignment="Center" Spacing="2">
+                        <TextBlock Text="{Binding CriticsScore}" Style="{StaticResource TitleLarge}" Foreground="{ThemeResource SecondaryBrush}" HorizontalAlignment="Center" />
+                        <TextBlock Text="CRITICS" Style="{StaticResource LabelExtraSmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" HorizontalAlignment="Center" />
+                    </StackPanel>
+                    <!-- IMDb-style score -->
+                    <!-- Divider -->
+                    <!-- Audience -->
+                    <!-- Divider -->
+                    <!-- Critics -->
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="16,16,16,0" Spacing="10">
+                    <Button HorizontalAlignment="Stretch" Background="{ThemeResource PrimaryBrush}" Foreground="{ThemeResource OnPrimaryBrush}" CornerRadius="10" Padding="0,14" AutomationProperties.Name="Play movie" uen:Navigation.Request="Playback">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <FontIcon Glyph="" FontSize="18" Foreground="{ThemeResource OnPrimaryBrush}" />
+                            <TextBlock Text="Play Now" Style="{StaticResource LabelLarge}" Foreground="{ThemeResource OnPrimaryBrush}" />
+                        </StackPanel>
+                    </Button>
+                    <Button Background="{ThemeResource SurfaceVariantBrush}" BorderThickness="0" CornerRadius="10" Width="52" Height="52" AutomationProperties.Name="Add to watchlist">
+                        <FontIcon Glyph="" FontSize="20" Foreground="{ThemeResource OnSurfaceVariantBrush}" />
+                    </Button>
+                    <Button Background="{ThemeResource SurfaceVariantBrush}" BorderThickness="0" CornerRadius="10" Width="52" Height="52" AutomationProperties.Name="Share">
+                        <FontIcon Glyph="" FontSize="20" Foreground="{ThemeResource OnSurfaceVariantBrush}" />
+                    </Button>
+                    <!-- Play -->
+                    <!-- Watchlist -->
+                    <!-- Share -->
+                </StackPanel>
+
+                <StackPanel Margin="16,20,16,0" Spacing="6">
+                    <TextBlock Text="Synopsis" Style="{StaticResource TitleSmall}" Foreground="{ThemeResource OnSurfaceBrush}" />
+                    <TextBlock Text="{Binding Synopsis}" Style="{StaticResource BodyMedium}" Foreground="{ThemeResource OnSurfaceVariantBrush}" TextWrapping="Wrap" LineHeight="22" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="16,12,16,0" Spacing="8">
+                    <TextBlock Text="Director:" Style="{StaticResource LabelMedium}" Foreground="{ThemeResource OnSurfaceVariantBrush}" />
+                    <TextBlock Text="{Binding Director}" Style="{StaticResource LabelMedium}" Foreground="{ThemeResource TertiaryBrush}" />
+                </StackPanel>
+
+                <TextBlock Text="Cast" Style="{StaticResource TitleSmall}" Foreground="{ThemeResource OnSurfaceBrush}" Margin="16,20,16,10" />
+                <ScrollViewer HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Disabled" HorizontalScrollMode="Enabled">
+                    <ItemsRepeater ItemsSource="{Binding Cast}" Margin="16,0">
+                        <ItemsRepeater.Layout>
+                            <StackLayout Orientation="Horizontal" Spacing="12" />
+                        </ItemsRepeater.Layout>
+                        <ItemsRepeater.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Width="80" Spacing="6">
+                                    <Border CornerRadius="40" Width="72" Height="72" HorizontalAlignment="Center">
+                                        <Image Source="{Binding ImageUrl}" Stretch="UniformToFill" />
+                                    </Border>
+                                    <TextBlock Text="{Binding Name}" Style="{StaticResource LabelSmall}" Foreground="{ThemeResource OnSurfaceBrush}" TextWrapping="Wrap" TextAlignment="Center" MaxLines="2" />
+                                    <TextBlock Text="{Binding Role}" Style="{StaticResource LabelExtraSmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" TextAlignment="Center" MaxLines="1" TextTrimming="CharacterEllipsis" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </ItemsRepeater.ItemTemplate>
+                    </ItemsRepeater>
+                </ScrollViewer>
+
+                <Grid Margin="16,24,16,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="8">
+                        <TextBlock Text="Reviews" Style="{StaticResource TitleSmall}" Foreground="{ThemeResource OnSurfaceBrush}" />
+                        <Border Background="{ThemeResource SurfaceVariantBrush}" CornerRadius="10" Padding="8,2">
+                            <TextBlock Text="{Binding ReviewCount}" Style="{StaticResource LabelSmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" />
+                        </Border>
+                    </StackPanel>
+                    <Button Grid.Column="1" Background="Transparent" BorderThickness="0" AutomationProperties.Name="Write a review" Padding="0">
+                        <StackPanel Orientation="Horizontal" Spacing="4">
+                            <FontIcon Glyph="" FontSize="14" Foreground="{ThemeResource PrimaryBrush}" />
+                            <TextBlock Text="Write Review" Style="{StaticResource LabelMedium}" Foreground="{ThemeResource PrimaryBrush}" />
+                        </StackPanel>
+                    </Button>
+                </Grid>
+                <ItemsRepeater ItemsSource="{Binding Reviews}" Margin="16,12,16,0">
+                    <ItemsRepeater.Layout>
+                        <StackLayout Orientation="Vertical" Spacing="10" />
+                    </ItemsRepeater.Layout>
+                    <ItemsRepeater.ItemTemplate>
+                        <DataTemplate>
+                            <utu:CardContentControl Style="{StaticResource FilledCardContentControlStyle}">
+                                <utu:CardContentControl.ContentTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Padding="14,12" Spacing="8">
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="Auto" />
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="Auto" />
+                                                </Grid.ColumnDefinitions>
+                                                <Border Grid.Column="0" CornerRadius="18" Width="36" Height="36" Margin="0,0,10,0">
+                                                    <Image Source="{Binding AvatarUrl}" Stretch="UniformToFill" />
+                                                </Border>
+                                                <StackPanel Grid.Column="1" Spacing="2" VerticalAlignment="Center">
+                                                    <TextBlock Text="{Binding AuthorName}" Style="{StaticResource LabelMedium}" Foreground="{ThemeResource OnSurfaceBrush}" />
+                                                    <StackPanel Orientation="Horizontal" Spacing="1">
+                                                        <FontIcon Glyph="" FontSize="11" Foreground="{ThemeResource PrimaryBrush}" />
+                                                        <FontIcon Glyph="" FontSize="11" Foreground="{ThemeResource PrimaryBrush}" />
+                                                        <FontIcon Glyph="" FontSize="11" Foreground="{ThemeResource PrimaryBrush}" />
+                                                        <FontIcon Glyph="" FontSize="11" Foreground="{ThemeResource PrimaryBrush}" />
+                                                        <FontIcon Glyph="" FontSize="11" Foreground="{ThemeResource OutlineBrush}" />
+                                                    </StackPanel>
+                                                </StackPanel>
+                                                <TextBlock Grid.Column="2" Text="{Binding TimeAgo}" Style="{StaticResource LabelExtraSmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" VerticalAlignment="Top" />
+                                                <!-- Avatar -->
+                                                <!-- Name + stars -->
+                                                <!-- Time ago -->
+                                            </Grid>
+                                            <TextBlock Text="{Binding Body}" Style="{StaticResource BodySmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" TextWrapping="Wrap" LineHeight="20" />
+                                            <StackPanel Orientation="Horizontal" Spacing="6">
+                                                <FontIcon Glyph="" FontSize="13" Foreground="{ThemeResource OutlineBrush}" />
+                                                <TextBlock Text="{Binding HelpfulCount}" Style="{StaticResource LabelExtraSmall}" Foreground="{ThemeResource OutlineBrush}" />
+                                                <TextBlock Text="found this helpful" Style="{StaticResource LabelExtraSmall}" Foreground="{ThemeResource OutlineBrush}" />
+                                            </StackPanel>
+                                            <!-- Author row -->
+                                            <!-- Body -->
+                                            <!-- Helpful row -->
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </utu:CardContentControl.ContentTemplate>
+                            </utu:CardContentControl>
+                        </DataTemplate>
+                    </ItemsRepeater.ItemTemplate>
+                </ItemsRepeater>
+
+                <TextBlock Text="More Like This" Style="{StaticResource TitleSmall}" Foreground="{ThemeResource OnSurfaceBrush}" Margin="16,24,16,10" />
+                <ScrollViewer HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Disabled" HorizontalScrollMode="Enabled" Margin="0,0,0,32">
+                    <ItemsRepeater ItemsSource="{Binding RelatedMovies}" Margin="16,0">
+                        <ItemsRepeater.Layout>
+                            <StackLayout Orientation="Horizontal" Spacing="12" />
+                        </ItemsRepeater.Layout>
+                        <ItemsRepeater.ItemTemplate>
+                            <DataTemplate>
+                                <utu:CardContentControl Width="130" Style="{StaticResource FilledCardContentControlStyle}">
+                                    <utu:CardContentControl.ContentTemplate>
+                                        <DataTemplate>
+                                            <StackPanel>
+                                                <Border Height="180" CornerRadius="8,8,0,0">
+                                                    <Image Source="{Binding ImageUrl}" Stretch="UniformToFill" />
+                                                </Border>
+                                                <StackPanel Padding="8" Spacing="3">
+                                                    <TextBlock Text="{Binding Title}" Style="{StaticResource LabelMedium}" Foreground="{ThemeResource OnSurfaceBrush}" MaxLines="2" TextWrapping="Wrap" />
+                                                    <StackPanel Orientation="Horizontal" Spacing="4">
+                                                        <FontIcon Glyph="" FontSize="11" Foreground="{ThemeResource PrimaryBrush}" />
+                                                        <TextBlock Text="{Binding Rating}" Style="{StaticResource LabelExtraSmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" />
+                                                    </StackPanel>
+                                                </StackPanel>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </utu:CardContentControl.ContentTemplate>
+                                </utu:CardContentControl>
+                            </DataTemplate>
+                        </ItemsRepeater.ItemTemplate>
+                    </ItemsRepeater>
+                </ScrollViewer>
+                <!-- ── Hero backdrop ─────────────────────────────────── -->
+                <!-- ── Poster + Core Metadata ────────────────────────── -->
+                <!-- ── Rating row ─────────────────────────────────────── -->
+                <!-- ── Action buttons ─────────────────────────────────── -->
+                <!-- ── Synopsis ───────────────────────────────────────── -->
+                <!-- ── Director ───────────────────────────────────────── -->
+                <!-- ── Cast ──────────────────────────────────────────── -->
+                <!-- ── User Reviews ───────────────────────────────────── -->
+                <!-- ── More Like This ─────────────────────────────────── -->
+
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</Page>

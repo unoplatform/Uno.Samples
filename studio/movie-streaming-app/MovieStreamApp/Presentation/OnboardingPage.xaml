@@ -1,0 +1,130 @@
+<Page x:Class="MovieStreamApp.Presentation.OnboardingPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:utu="using:Uno.Toolkit.UI"
+      xmlns:uen="using:Uno.Extensions.Navigation.UI"
+      Background="{ThemeResource BackgroundBrush}">
+
+    <Grid utu:SafeArea.Insets="VisibleBounds">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <!-- Hero section -->
+            <Grid Grid.Row="0">
+                <!-- Background hero image with dark overlay -->
+                <Image Source="{Binding HeroImageUrl}"
+                       Stretch="UniformToFill" />
+                <!-- Gradient overlay -->
+                <Rectangle>
+                    <Rectangle.Fill>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                            <GradientStop Color="#00000000" Offset="0.0" />
+                            <GradientStop Color="#CC0F0B10" Offset="0.55" />
+                            <GradientStop Color="#FF0F0B10" Offset="1.0" />
+                        </LinearGradientBrush>
+                    </Rectangle.Fill>
+                </Rectangle>
+
+                <!-- Content overlay -->
+                <StackPanel VerticalAlignment="Bottom"
+                            Padding="28,0,28,32"
+                            Spacing="8">
+
+                    <!-- App logo / name -->
+                    <StackPanel Orientation="Horizontal"
+                                Spacing="10"
+                                HorizontalAlignment="Center"
+                                Margin="0,0,0,8">
+                        <FontIcon Glyph="&#xE714;"
+                                  FontSize="36"
+                                  Foreground="{ThemeResource PrimaryBrush}" />
+                        <TextBlock Text="{Binding AppName}"
+                                   Style="{StaticResource DisplaySmall}"
+                                   Foreground="{ThemeResource OnBackgroundBrush}"
+                                   VerticalAlignment="Center"
+                                   FontWeight="ExtraBold" />
+                    </StackPanel>
+
+                    <TextBlock Text="{Binding Tagline}"
+                               Style="{StaticResource TitleSmall}"
+                               Foreground="{ThemeResource OnSurfaceVariantBrush}"
+                               HorizontalAlignment="Center"
+                               TextAlignment="Center"
+                               Margin="0,0,0,24" />
+
+                    <!-- Feature highlights -->
+                    <ItemsRepeater ItemsSource="{Binding Slides}">
+                        <ItemsRepeater.Layout>
+                            <StackLayout Orientation="Vertical" Spacing="12" />
+                        </ItemsRepeater.Layout>
+                        <ItemsRepeater.ItemTemplate>
+                            <DataTemplate>
+                                <utu:CardContentControl Style="{StaticResource FilledCardContentControlStyle}"
+                                                        HorizontalAlignment="Stretch"
+                                                        IsClickable="False">
+                                    <utu:CardContentControl.ContentTemplate>
+                                        <DataTemplate>
+                                            <Grid Padding="16,12"
+                                                  ColumnSpacing="14">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="Auto" />
+                                                    <ColumnDefinition Width="*" />
+                                                </Grid.ColumnDefinitions>
+                                                <Border Grid.Column="0"
+                                                        Background="{ThemeResource PrimaryContainerBrush}"
+                                                        CornerRadius="12"
+                                                        Width="44"
+                                                        Height="44">
+                                                    <FontIcon Glyph="{Binding IconGlyph}"
+                                                              FontSize="20"
+                                                              Foreground="{ThemeResource OnPrimaryContainerBrush}"
+                                                              HorizontalAlignment="Center"
+                                                              VerticalAlignment="Center" />
+                                                </Border>
+                                                <StackPanel Grid.Column="1"
+                                                            VerticalAlignment="Center"
+                                                            Spacing="2">
+                                                    <TextBlock Text="{Binding Title}"
+                                                               Style="{StaticResource LabelLarge}"
+                                                               Foreground="{ThemeResource OnSurfaceBrush}" />
+                                                    <TextBlock Text="{Binding Subtitle}"
+                                                               Style="{StaticResource BodySmall}"
+                                                               Foreground="{ThemeResource OnSurfaceVariantBrush}"
+                                                               TextWrapping="Wrap" />
+                                                </StackPanel>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </utu:CardContentControl.ContentTemplate>
+                                </utu:CardContentControl>
+                            </DataTemplate>
+                        </ItemsRepeater.ItemTemplate>
+                    </ItemsRepeater>
+                </StackPanel>
+            </Grid>
+
+            <!-- CTA buttons -->
+            <StackPanel Grid.Row="1"
+                        Padding="28,20,28,32"
+                        Spacing="12"
+                        Background="{ThemeResource BackgroundBrush}">
+                <Button Content="Get Started — It's Free"
+                        HorizontalAlignment="Stretch"
+                        Style="{StaticResource FilledButtonStyle}"
+                        AutomationProperties.Name="Get started with CineStream"
+                        uen:Navigation.Request="-/Browse" />
+                <Button Content="I Already Have an Account"
+                        HorizontalAlignment="Stretch"
+                        Style="{StaticResource OutlinedButtonStyle}"
+                        AutomationProperties.Name="Sign in to existing account"
+                        uen:Navigation.Request="-/Browse" />
+                <TextBlock Text="By continuing you agree to our Terms of Service and Privacy Policy."
+                           Style="{StaticResource BodySmall}"
+                           Foreground="{ThemeResource OutlineBrush}"
+                           TextAlignment="Center"
+                           TextWrapping="Wrap"
+                           HorizontalAlignment="Center" />
+            </StackPanel>
+    </Grid>
+</Page>
