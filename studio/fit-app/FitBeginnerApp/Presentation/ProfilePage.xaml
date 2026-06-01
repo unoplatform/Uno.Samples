@@ -1,0 +1,145 @@
+
+<Page x:Class="FitBeginnerApp.Presentation.ProfilePage" Background="{ThemeResource BackgroundBrush}" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:utu="using:Uno.Toolkit.UI">
+
+    <Grid utu:SafeArea.Insets="VisibleBounds">
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <StackPanel Spacing="0" Padding="0,0,0,24">
+
+                <Grid Background="{ThemeResource PrimaryContainerBrush}" Padding="16,28,16,24">
+                    <StackPanel Spacing="12" HorizontalAlignment="Center">
+                        <Border Width="80" Height="80" CornerRadius="40" Background="{ThemeResource PrimaryBrush}" HorizontalAlignment="Center">
+                            <TextBlock Text="{Binding AvatarInitials}" Style="{StaticResource HeadlineMedium}" Foreground="{ThemeResource OnPrimaryBrush}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                        <StackPanel Spacing="4" HorizontalAlignment="Center">
+                            <TextBlock Text="{Binding Profile.DisplayName}" Style="{StaticResource TitleLarge}" Foreground="{ThemeResource OnPrimaryContainerBrush}" HorizontalAlignment="Center" />
+                            <TextBlock Text="{Binding JoinedDate}" Style="{StaticResource BodySmall}" Foreground="{ThemeResource OnPrimaryContainerBrush}" HorizontalAlignment="Center" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Spacing="12" HorizontalAlignment="Center">
+                            <Border Background="{ThemeResource PrimaryBrush}" CornerRadius="8" Padding="12,6">
+                                <TextBlock Text="{Binding Profile.FitnessLevel}" Style="{StaticResource LabelMedium}" Foreground="{ThemeResource OnPrimaryBrush}" />
+                            </Border>
+                            <Border Background="{ThemeResource SecondaryContainerBrush}" CornerRadius="8" Padding="12,6">
+                                <TextBlock Text="{Binding Profile.Goal}" Style="{StaticResource LabelMedium}" Foreground="{ThemeResource OnSecondaryContainerBrush}" />
+                            </Border>
+                        </StackPanel>
+                    </StackPanel>
+                </Grid>
+                <StackPanel Padding="16,20,16,0" Spacing="0">
+
+                    <TextBlock Text="My Stats" Style="{StaticResource TitleLarge}" Foreground="{ThemeResource OnBackgroundBrush}" Margin="0,0,0,10" />
+                    <Grid Margin="0,0,0,24">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="8" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="8" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <utu:CardContentControl Grid.Column="0" Style="{StaticResource FilledCardContentControlStyle}" HorizontalAlignment="Stretch" IsClickable="False">
+                            <StackPanel Padding="12" Spacing="4" HorizontalAlignment="Center">
+                                <TextBlock Text="{Binding Profile.TotalWorkouts}" Style="{StaticResource HeadlineMedium}" Foreground="{ThemeResource PrimaryBrush}" HorizontalAlignment="Center" />
+                                <TextBlock Text="workouts" Style="{StaticResource LabelSmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" HorizontalAlignment="Center" />
+                            </StackPanel>
+                        </utu:CardContentControl>
+                        <utu:CardContentControl Grid.Column="2" Style="{StaticResource FilledCardContentControlStyle}" HorizontalAlignment="Stretch" IsClickable="False">
+                            <StackPanel Padding="12" Spacing="4" HorizontalAlignment="Center">
+                                <TextBlock Text="{Binding Profile.CurrentStreakDays}" Style="{StaticResource HeadlineMedium}" Foreground="{ThemeResource SecondaryBrush}" HorizontalAlignment="Center" />
+                                <TextBlock Text="day streak" Style="{StaticResource LabelSmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" HorizontalAlignment="Center" />
+                            </StackPanel>
+                        </utu:CardContentControl>
+                        <utu:CardContentControl Grid.Column="4" Style="{StaticResource FilledCardContentControlStyle}" HorizontalAlignment="Stretch" IsClickable="False">
+                            <StackPanel Padding="12" Spacing="4" HorizontalAlignment="Center">
+                                <TextBlock Text="{Binding Profile.WeeklyGoalDays}" Style="{StaticResource HeadlineMedium}" Foreground="{ThemeResource TertiaryBrush}" HorizontalAlignment="Center" />
+                                <TextBlock Text="goal/week" Style="{StaticResource LabelSmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" HorizontalAlignment="Center" />
+                            </StackPanel>
+                        </utu:CardContentControl>
+                    </Grid>
+
+                    <TextBlock Text="My Preferences" Style="{StaticResource TitleLarge}" Foreground="{ThemeResource OnBackgroundBrush}" Margin="0,0,0,10" />
+
+                    <utu:CardContentControl Style="{StaticResource ElevatedCardContentControlStyle}" HorizontalAlignment="Stretch" IsClickable="False" Margin="0,0,0,24">
+                        <StackPanel Padding="16,12" Spacing="12">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="Preferred time" Style="{StaticResource BodyMedium}" Foreground="{ThemeResource OnSurfaceBrush}" />
+                                <TextBlock Grid.Column="1" Text="{Binding PreferredTime}" Style="{StaticResource LabelLarge}" Foreground="{ThemeResource PrimaryBrush}" />
+                            </Grid>
+                            <Border Height="1" Background="{ThemeResource OutlineVariantBrush}" />
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="Equipment" Style="{StaticResource BodyMedium}" Foreground="{ThemeResource OnSurfaceBrush}" />
+                                <TextBlock Grid.Column="1" Text="{Binding EquipmentAvailable}" Style="{StaticResource LabelLarge}" Foreground="{ThemeResource PrimaryBrush}" />
+                            </Grid>
+                            <Border Height="1" Background="{ThemeResource OutlineVariantBrush}" />
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="Session length" Style="{StaticResource BodyMedium}" Foreground="{ThemeResource OnSurfaceBrush}" />
+                                <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="4">
+                                    <TextBlock Text="{Binding SessionLengthMinutes}" Style="{StaticResource LabelLarge}" Foreground="{ThemeResource PrimaryBrush}" />
+                                    <TextBlock Text="min" Style="{StaticResource LabelLarge}" Foreground="{ThemeResource PrimaryBrush}" />
+                                </StackPanel>
+                            </Grid>
+                        </StackPanel>
+                    </utu:CardContentControl>
+                    <TextBlock Text="My Goals" Style="{StaticResource TitleLarge}" Foreground="{ThemeResource OnBackgroundBrush}" Margin="0,0,0,10" />
+
+                    <ItemsRepeater ItemsSource="{Binding Goals}" Margin="0,0,0,24">
+                        <ItemsRepeater.ItemTemplate>
+                            <DataTemplate>
+                                <utu:CardContentControl Style="{StaticResource OutlinedCardContentControlStyle}" HorizontalAlignment="Stretch" IsClickable="False" Margin="0,0,0,8">
+                                    <Grid Padding="16,12">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="12" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <Border Grid.Column="0" Width="36" Height="36" CornerRadius="10" Background="{ThemeResource SecondaryContainerBrush}">
+                                            <FontIcon Glyph="{Binding IconGlyph}" FontSize="16" Foreground="{ThemeResource OnSecondaryContainerBrush}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                        </Border>
+                                        <TextBlock Grid.Column="2" Text="{Binding Label}" Style="{StaticResource BodyMedium}" Foreground="{ThemeResource OnSurfaceBrush}" VerticalAlignment="Center" />
+                                    </Grid>
+                                </utu:CardContentControl>
+                            </DataTemplate>
+                        </ItemsRepeater.ItemTemplate>
+                    </ItemsRepeater>
+
+                    <TextBlock Text="Settings" Style="{StaticResource TitleLarge}" Foreground="{ThemeResource OnBackgroundBrush}" Margin="0,0,0,10" />
+                    <utu:CardContentControl Style="{StaticResource ElevatedCardContentControlStyle}" HorizontalAlignment="Stretch" IsClickable="False">
+                        <ItemsRepeater ItemsSource="{Binding Settings}">
+                            <ItemsRepeater.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid Padding="16,14">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="12" />
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <FontIcon Grid.Column="0" Glyph="{Binding IconGlyph}" FontSize="18" Foreground="{ThemeResource PrimaryBrush}" />
+                                        <TextBlock Grid.Column="2" Text="{Binding Label}" Style="{StaticResource BodyMedium}" Foreground="{ThemeResource OnSurfaceBrush}" VerticalAlignment="Center" />
+                                        <TextBlock Grid.Column="3" Text="{Binding Value}" Style="{StaticResource LabelMedium}" Foreground="{ThemeResource OnSurfaceVariantBrush}" VerticalAlignment="Center" />
+                                    </Grid>
+                                </DataTemplate>
+                            </ItemsRepeater.ItemTemplate>
+                        </ItemsRepeater>
+                    </utu:CardContentControl>
+                    <!-- Quick Stats Row -->
+                    <!-- Preferences -->
+                    <!-- Goals -->
+                    <!-- Settings -->
+
+                </StackPanel>
+                <!-- Profile Hero Header -->
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</Page>

@@ -1,0 +1,214 @@
+<Page x:Class="FitBeginnerApp.Presentation.WorkoutSessionPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:utu="using:Uno.Toolkit.UI"
+      Background="{ThemeResource BackgroundBrush}">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <utu:NavigationBar Grid.Row="0"
+                           Content="{Binding WorkoutTitle}" />
+
+        <ScrollViewer Grid.Row="1"
+                      VerticalScrollBarVisibility="Auto">
+            <StackPanel Spacing="0"
+                        Padding="16,16,16,32">
+
+                <!-- Workout Summary Card -->
+                <utu:CardContentControl Style="{StaticResource FilledCardContentControlStyle}"
+                                        HorizontalAlignment="Stretch"
+                                        IsClickable="False"
+                                        Margin="0,0,0,20">
+                    <Grid Padding="20,16">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <StackPanel Grid.Row="0"
+                                    Orientation="Horizontal"
+                                    Spacing="12"
+                                    Margin="0,0,0,14">
+                            <Border Width="56" Height="56"
+                                    CornerRadius="16"
+                                    Background="{ThemeResource PrimaryBrush}">
+                                <FontIcon Glyph="&#xE945;"
+                                          FontSize="26"
+                                          Foreground="{ThemeResource OnPrimaryBrush}"
+                                          HorizontalAlignment="Center"
+                                          VerticalAlignment="Center" />
+                            </Border>
+                            <StackPanel Spacing="2"
+                                        VerticalAlignment="Center">
+                                <TextBlock Text="{Binding WorkoutType}"
+                                           Style="{StaticResource LabelMedium}"
+                                           Foreground="{ThemeResource OnSurfaceVariantBrush}" />
+                                <TextBlock Text="{Binding Difficulty}"
+                                           Style="{StaticResource TitleMedium}"
+                                           Foreground="{ThemeResource PrimaryBrush}" />
+                            </StackPanel>
+                        </StackPanel>
+                        <StackPanel Grid.Row="1"
+                                    Orientation="Horizontal"
+                                    Spacing="24">
+                            <StackPanel Spacing="2">
+                                <TextBlock Text="{Binding TotalDurationMinutes}"
+                                           Style="{StaticResource HeadlineMedium}"
+                                           Foreground="{ThemeResource OnSurfaceBrush}" />
+                                <TextBlock Text="minutes"
+                                           Style="{StaticResource LabelSmall}"
+                                           Foreground="{ThemeResource OnSurfaceVariantBrush}" />
+                            </StackPanel>
+                            <StackPanel Spacing="2">
+                                <TextBlock Text="{Binding TotalExercises}"
+                                           Style="{StaticResource HeadlineMedium}"
+                                           Foreground="{ThemeResource OnSurfaceBrush}" />
+                                <TextBlock Text="exercises"
+                                           Style="{StaticResource LabelSmall}"
+                                           Foreground="{ThemeResource OnSurfaceVariantBrush}" />
+                            </StackPanel>
+                        </StackPanel>
+                    </Grid>
+                </utu:CardContentControl>
+
+                <!-- Motivation Quote -->
+                <utu:CardContentControl Style="{StaticResource ElevatedCardContentControlStyle}"
+                                        HorizontalAlignment="Stretch"
+                                        IsClickable="False"
+                                        Margin="0,0,0,20">
+                    <StackPanel Padding="16,14"
+                                Spacing="6"
+                                Orientation="Horizontal">
+                        <FontIcon Glyph="&#xEB51;"
+                                  FontSize="20"
+                                  Foreground="{ThemeResource SecondaryBrush}"
+                                  VerticalAlignment="Center" />
+                        <TextBlock Text="{Binding MotivationQuote}"
+                                   Style="{StaticResource BodyMedium}"
+                                   Foreground="{ThemeResource OnSurfaceVariantBrush}"
+                                   TextWrapping="Wrap"
+                                   VerticalAlignment="Center" />
+                    </StackPanel>
+                </utu:CardContentControl>
+
+                <!-- Exercises List -->
+                <TextBlock Text="Exercises"
+                           Style="{StaticResource TitleLarge}"
+                           Foreground="{ThemeResource OnBackgroundBrush}"
+                           Margin="0,0,0,10" />
+
+                <ItemsRepeater ItemsSource="{Binding Exercises}"
+                               Margin="0,0,0,20">
+                    <ItemsRepeater.ItemTemplate>
+                        <DataTemplate>
+                            <utu:CardContentControl Style="{StaticResource ElevatedCardContentControlStyle}"
+                                                    HorizontalAlignment="Stretch"
+                                                    IsClickable="False"
+                                                    Margin="0,0,0,10">
+                                <StackPanel Padding="16,14"
+                                            Spacing="10">
+                                    <StackPanel Orientation="Horizontal"
+                                                Spacing="12">
+                                        <Border Width="44" Height="44"
+                                                CornerRadius="12"
+                                                Background="{ThemeResource PrimaryContainerBrush}">
+                                            <FontIcon Glyph="{Binding IconGlyph}"
+                                                      FontSize="20"
+                                                      Foreground="{ThemeResource OnPrimaryContainerBrush}"
+                                                      HorizontalAlignment="Center"
+                                                      VerticalAlignment="Center" />
+                                        </Border>
+                                        <StackPanel Spacing="2"
+                                                    VerticalAlignment="Center">
+                                            <TextBlock Text="{Binding Name}"
+                                                       Style="{StaticResource TitleSmall}"
+                                                       Foreground="{ThemeResource OnSurfaceBrush}" />
+                                            <TextBlock Text="{Binding Category}"
+                                                       Style="{StaticResource BodySmall}"
+                                                       Foreground="{ThemeResource OnSurfaceVariantBrush}" />
+                                        </StackPanel>
+                                    </StackPanel>
+                                    <TextBlock Text="{Binding Description}"
+                                               Style="{StaticResource BodySmall}"
+                                               Foreground="{ThemeResource OnSurfaceVariantBrush}"
+                                               TextWrapping="Wrap" />
+                                    <StackPanel Orientation="Horizontal"
+                                                Spacing="12">
+                                        <Border Background="{ThemeResource TertiaryContainerBrush}"
+                                                CornerRadius="8"
+                                                Padding="10,4">
+                                            <StackPanel Orientation="Horizontal"
+                                                        Spacing="4">
+                                                <TextBlock Text="{Binding Sets}"
+                                                           Style="{StaticResource LabelMedium}"
+                                                           Foreground="{ThemeResource OnTertiaryContainerBrush}" />
+                                                <TextBlock Text="sets"
+                                                           Style="{StaticResource LabelSmall}"
+                                                           Foreground="{ThemeResource OnTertiaryContainerBrush}" />
+                                            </StackPanel>
+                                        </Border>
+                                        <Border Background="{ThemeResource SecondaryContainerBrush}"
+                                                CornerRadius="8"
+                                                Padding="10,4">
+                                            <StackPanel Orientation="Horizontal"
+                                                        Spacing="4">
+                                                <TextBlock Text="{Binding DurationSeconds}"
+                                                           Style="{StaticResource LabelMedium}"
+                                                           Foreground="{ThemeResource OnSecondaryContainerBrush}" />
+                                                <TextBlock Text="sec"
+                                                           Style="{StaticResource LabelSmall}"
+                                                           Foreground="{ThemeResource OnSecondaryContainerBrush}" />
+                                            </StackPanel>
+                                        </Border>
+                                    </StackPanel>
+                                </StackPanel>
+                            </utu:CardContentControl>
+                        </DataTemplate>
+                    </ItemsRepeater.ItemTemplate>
+                </ItemsRepeater>
+
+                <!-- Session Tips -->
+                <TextBlock Text="Session Tips"
+                           Style="{StaticResource TitleLarge}"
+                           Foreground="{ThemeResource OnBackgroundBrush}"
+                           Margin="0,0,0,10" />
+
+                <utu:CardContentControl Style="{StaticResource OutlinedCardContentControlStyle}"
+                                        HorizontalAlignment="Stretch"
+                                        IsClickable="False"
+                                        Margin="0,0,0,16">
+                    <StackPanel Padding="16,12">
+                        <ItemsRepeater ItemsSource="{Binding WarmUpNotes}">
+                            <ItemsRepeater.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal"
+                                                Spacing="8"
+                                                Margin="0,4">
+                                        <TextBlock Text="&#x2022;"
+                                                   Style="{StaticResource BodyMedium}"
+                                                   Foreground="{ThemeResource PrimaryBrush}"
+                                                   VerticalAlignment="Top" />
+                                        <TextBlock Text="{Binding Note}"
+                                                   Style="{StaticResource BodyMedium}"
+                                                   Foreground="{ThemeResource OnSurfaceBrush}"
+                                                   TextWrapping="Wrap" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ItemsRepeater.ItemTemplate>
+                        </ItemsRepeater>
+                    </StackPanel>
+                </utu:CardContentControl>
+
+                <!-- Begin Button -->
+                <Button Content="Begin Workout"
+                        Style="{StaticResource FilledButtonStyle}"
+                        HorizontalAlignment="Stretch"
+                        AutomationProperties.Name="Begin workout session" />
+
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</Page>

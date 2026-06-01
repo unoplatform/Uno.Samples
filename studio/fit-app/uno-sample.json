@@ -1,0 +1,38 @@
+{
+  "$schema": "https://schemas.platform.uno/sample/v1",
+  "id": "fit-app",
+  "displayName": "FitStart",
+  "description": "A beginner-friendly fitness companion with mock state, MVUX, and an adaptive shell with a bottom TabBar. Home shows a personalized greeting, today's workout, weekly activity stats, recent results and quick tips. Includes a Plan page (scheduled workouts), a Progress page (completed-workout history), a Profile page, and a guided Workout Session flow. Clean, motivating Material UI.",
+  "platforms": ["desktop", "wasm"],
+  "sourcePath": "FitBeginnerApp/FitBeginnerApp.csproj",
+  "userConversation": {
+    "messages": [
+      {
+        "role": "user",
+        "content": "Generate a beginner-friendly fitness app with:\n- mock state\n- MVUX\n- an adaptive shell with a bottom TabBar\n- a clean, motivating Material UI\n\nHome screen:\n- a personalized greeting and motivation message\n- today's workout card with a Start button\n- weekly activity stats (minutes active, calories, completed vs goal days)\n- recent workout results\n- quick fitness tips\n\nNavigation:\n- Home, Plan (scheduled workouts), Progress (completed-workout history) and Profile pages\n- a guided Workout Session flow\n\nInclude:\n- full working code\n- navigation between pages\n- mock state\n- seeded sample data (workouts, results, profile)"
+      },
+      {
+        "role": "assistant",
+        "content": "Here's your **FitStart** app! It's built and running in the preview."
+      }
+    ],
+    "suggestedPrompts": [
+      "Change the color theme",
+      "Add an exercise details page with navigation",
+      "Add a workout history chart",
+      "Improve the layout and spacing"
+    ]
+  },
+  "agentContext": {
+    "messages": [
+      {
+        "role": "user",
+        "content": "Generate a beginner-friendly fitness app with:\n- mock state\n- MVUX\n- an adaptive shell with a bottom TabBar\n- a clean, motivating Material UI\n\nHome screen:\n- a personalized greeting and motivation message\n- today's workout card with a Start button\n- weekly activity stats (minutes active, calories, completed vs goal days)\n- recent workout results\n- quick fitness tips\n\nNavigation:\n- Home, Plan (scheduled workouts), Progress (completed-workout history) and Profile pages\n- a guided Workout Session flow\n\nInclude:\n- full working code\n- navigation between pages\n- mock state\n- seeded sample data (workouts, results, profile)"
+      },
+      {
+        "role": "assistant",
+        "content": "I've created a complete Uno Platform app at FitBeginnerApp/FitBeginnerApp.csproj.\n\n**Key files:**\n- FitBeginnerApp/App.xaml\n- FitBeginnerApp/App.xaml.cs\n- FitBeginnerApp/GlobalUsings.cs\n- FitBeginnerApp/ThemeColors.xaml\n- FitBeginnerApp/FitBeginnerApp.csproj\n- FitBeginnerApp/Models/AppConfig.cs\n- FitBeginnerApp/Presentation/MainPage.xaml\n- FitBeginnerApp/Presentation/MainPage.xaml.cs\n- FitBeginnerApp/Presentation/MainModel.cs\n- FitBeginnerApp/Presentation/HomePage.xaml\n- FitBeginnerApp/Presentation/HomePage.xaml.cs\n- FitBeginnerApp/Presentation/HomeModel.cs\n- FitBeginnerApp/Presentation/PlanPage.xaml\n- FitBeginnerApp/Presentation/PlanPage.xaml.cs\n- FitBeginnerApp/Presentation/PlanModel.cs\n- FitBeginnerApp/Presentation/ProgressPage.xaml\n- FitBeginnerApp/Presentation/ProgressPage.xaml.cs\n- FitBeginnerApp/Presentation/ProgressModel.cs\n- FitBeginnerApp/Presentation/ProfilePage.xaml\n- FitBeginnerApp/Presentation/ProfilePage.xaml.cs\n- FitBeginnerApp/Presentation/ProfileModel.cs\n- FitBeginnerApp/Presentation/WorkoutSessionPage.xaml\n- FitBeginnerApp/Presentation/WorkoutSessionPage.xaml.cs\n- FitBeginnerApp/Presentation/WorkoutSessionModel.cs\n- FitBeginnerApp/Presentation/SharedTypes.cs\n- FitBeginnerApp/Platforms/Desktop/Program.cs\n- FitBeginnerApp/Platforms/WebAssembly/Program.cs\n\n**Structure:**\n- The app uses MVUX (each page has a matching *Model record) and Uno.Extensions.Navigation with attached Regions for page routing.\n- MainPage is the adaptive shell: a content area using a visibility-based region navigator (uen:Region.Navigator=\"Visibility\") plus a bottom utu:TabBar wired with uen:Region.Name to Home, Plan, Progress and Profile.\n- HomePage shows a greeting, today's workout card, weekly stats, recent results and quick tips, bound to HomeModel. PlanPage lists scheduled workouts, ProgressPage shows completed-workout history, ProfilePage shows the user profile, and WorkoutSessionPage drives a guided session.\n- Shared domain records live in SharedTypes.cs: ExerciseItem, WorkoutEntry, WorkoutResult and UserProfile. All data is mock/seeded directly in the *Model records.\n- Styling uses Material theme resources and Uno.Toolkit CardContentControl; ThemeColors.xaml defines the palette.\n\nThe app is built and running. The user may ask me to modify it."
+      }
+    ]
+  }
+}

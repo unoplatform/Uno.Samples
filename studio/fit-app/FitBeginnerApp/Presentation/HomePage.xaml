@@ -1,0 +1,134 @@
+
+<Page x:Class="FitBeginnerApp.Presentation.HomePage" Background="{ThemeResource BackgroundBrush}" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:utu="using:Uno.Toolkit.UI">
+
+    <Grid utu:SafeArea.Insets="VisibleBounds">
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <StackPanel Spacing="0" Padding="16,20,16,24">
+
+                <StackPanel Spacing="2" Margin="0,0,0,20">
+                    <TextBlock Text="{Binding GreetingMessage}" Style="{StaticResource HeadlineMedium}" Foreground="{ThemeResource OnBackgroundBrush}" />
+                    <StackPanel Orientation="Horizontal" Spacing="6">
+                        <FontIcon Glyph="" FontSize="16" Foreground="{ThemeResource SecondaryBrush}" />
+                        <TextBlock Text="{Binding MotivationMessage}" Style="{StaticResource BodyMedium}" Foreground="{ThemeResource SecondaryBrush}" />
+                    </StackPanel>
+                </StackPanel>
+                <TextBlock x:Uid="HomePage_TodayLabel" Style="{StaticResource TitleLarge}" Foreground="{ThemeResource OnBackgroundBrush}" Margin="0,0,0,10" />
+
+                <utu:CardContentControl Style="{StaticResource ElevatedCardContentControlStyle}" HorizontalAlignment="Stretch" IsClickable="False" Margin="0,0,0,20">
+                    <Grid Padding="20,16">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <StackPanel Grid.Row="0" Orientation="Horizontal" Spacing="12">
+                            <Border Width="48" Height="48" CornerRadius="12" Background="{ThemeResource PrimaryContainerBrush}">
+                                <FontIcon Glyph="{Binding TodayWorkout.IconGlyph}" FontSize="22" Foreground="{ThemeResource OnPrimaryContainerBrush}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            </Border>
+                            <StackPanel Spacing="2" VerticalAlignment="Center">
+                                <TextBlock Text="{Binding TodayWorkout.Title}" Style="{StaticResource TitleMedium}" Foreground="{ThemeResource OnSurfaceBrush}" />
+                                <TextBlock Text="{Binding TodayWorkout.Type}" Style="{StaticResource BodySmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" />
+                            </StackPanel>
+                        </StackPanel>
+                        <StackPanel Grid.Row="1" Orientation="Horizontal" Spacing="16" Margin="0,14">
+                            <StackPanel Spacing="2">
+                                <TextBlock Text="{Binding TodayWorkout.DurationMinutes}" Style="{StaticResource TitleLarge}" Foreground="{ThemeResource PrimaryBrush}" />
+                                <TextBlock Text="minutes" Style="{StaticResource LabelSmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" />
+                            </StackPanel>
+                            <StackPanel Spacing="2">
+                                <TextBlock Text="{Binding TodayWorkout.Difficulty}" Style="{StaticResource TitleLarge}" Foreground="{ThemeResource TertiaryBrush}" />
+                                <TextBlock Text="level" Style="{StaticResource LabelSmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" />
+                            </StackPanel>
+                        </StackPanel>
+                        <Button Grid.Row="2" Content="Start Workout" Style="{StaticResource FilledButtonStyle}" HorizontalAlignment="Stretch" AutomationProperties.Name="Start today&apos;s workout" />
+                    </Grid>
+                </utu:CardContentControl>
+                <TextBlock x:Uid="HomePage_WeekLabel" Style="{StaticResource TitleLarge}" Foreground="{ThemeResource OnBackgroundBrush}" Margin="0,0,0,10" />
+
+                <Grid Margin="0,0,0,20">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="8" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <utu:CardContentControl Grid.Column="0" Style="{StaticResource FilledCardContentControlStyle}" HorizontalAlignment="Stretch" IsClickable="False">
+                        <StackPanel Padding="16,14" Spacing="4">
+                            <FontIcon Glyph="" FontSize="22" Foreground="{ThemeResource PrimaryBrush}" />
+                            <TextBlock Text="{Binding TotalMinutesThisWeek}" Style="{StaticResource HeadlineMedium}" Foreground="{ThemeResource OnSurfaceBrush}" />
+                            <TextBlock Text="minutes active" Style="{StaticResource LabelSmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" />
+                        </StackPanel>
+                    </utu:CardContentControl>
+
+                    <utu:CardContentControl Grid.Column="2" Style="{StaticResource FilledCardContentControlStyle}" HorizontalAlignment="Stretch" IsClickable="False">
+                        <StackPanel Padding="16,14" Spacing="4">
+                            <FontIcon Glyph="" FontSize="22" Foreground="{ThemeResource SecondaryBrush}" />
+                            <TextBlock Text="{Binding CaloriesBurnedThisWeek}" Style="{StaticResource HeadlineMedium}" Foreground="{ThemeResource OnSurfaceBrush}" />
+                            <TextBlock Text="calories burned" Style="{StaticResource LabelSmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" />
+                        </StackPanel>
+                    </utu:CardContentControl>
+                </Grid>
+
+                <TextBlock x:Uid="HomePage_RecentLabel" Style="{StaticResource TitleLarge}" Foreground="{ThemeResource OnBackgroundBrush}" Margin="0,0,0,10" />
+                <ItemsRepeater ItemsSource="{Binding RecentResults}" Margin="0,0,0,20">
+                    <ItemsRepeater.ItemTemplate>
+                        <DataTemplate>
+                            <utu:CardContentControl Style="{StaticResource OutlinedCardContentControlStyle}" HorizontalAlignment="Stretch" IsClickable="False" Margin="0,0,0,8">
+                                <Grid Padding="16,12">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <StackPanel Grid.Column="0" Spacing="2">
+                                        <TextBlock Text="{Binding WorkoutTitle}" Style="{StaticResource TitleSmall}" Foreground="{ThemeResource OnSurfaceBrush}" />
+                                        <StackPanel Orientation="Horizontal" Spacing="8">
+                                            <TextBlock Text="{Binding DurationMinutes}" Style="{StaticResource BodySmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" />
+                                            <TextBlock Text="min" Style="{StaticResource BodySmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" />
+                                            <TextBlock Text="•" Style="{StaticResource BodySmall}" Foreground="{ThemeResource OutlineVariantBrush}" />
+                                            <TextBlock Text="{Binding CaloriesBurned}" Style="{StaticResource BodySmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" />
+                                            <TextBlock Text="kcal" Style="{StaticResource BodySmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" />
+                                        </StackPanel>
+                                    </StackPanel>
+                                    <Border Grid.Column="1" Background="{ThemeResource PrimaryContainerBrush}" CornerRadius="8" Padding="8,4">
+                                        <TextBlock Text="{Binding Feeling}" Style="{StaticResource LabelSmall}" Foreground="{ThemeResource OnPrimaryContainerBrush}" />
+                                    </Border>
+                                </Grid>
+                            </utu:CardContentControl>
+                        </DataTemplate>
+                    </ItemsRepeater.ItemTemplate>
+                </ItemsRepeater>
+
+                <TextBlock x:Uid="HomePage_TipsLabel" Style="{StaticResource TitleLarge}" Foreground="{ThemeResource OnBackgroundBrush}" Margin="0,0,0,10" />
+
+                <ItemsRepeater ItemsSource="{Binding Tips}">
+                    <ItemsRepeater.ItemTemplate>
+                        <DataTemplate>
+                            <utu:CardContentControl Style="{StaticResource ElevatedCardContentControlStyle}" HorizontalAlignment="Stretch" IsClickable="False" Margin="0,0,0,8">
+                                <Grid Padding="16,12">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="12" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Border Grid.Column="0" Width="40" Height="40" CornerRadius="10" Background="{ThemeResource SecondaryContainerBrush}">
+                                        <FontIcon Glyph="{Binding IconGlyph}" FontSize="18" Foreground="{ThemeResource OnSecondaryContainerBrush}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                    </Border>
+                                    <StackPanel Grid.Column="2" Spacing="2" VerticalAlignment="Center">
+                                        <TextBlock Text="{Binding Title}" Style="{StaticResource TitleSmall}" Foreground="{ThemeResource OnSurfaceBrush}" />
+                                        <TextBlock Text="{Binding Body}" Style="{StaticResource BodySmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" TextWrapping="Wrap" />
+                                    </StackPanel>
+                                </Grid>
+                            </utu:CardContentControl>
+                        </DataTemplate>
+                    </ItemsRepeater.ItemTemplate>
+                </ItemsRepeater>
+                <!-- Greeting Header -->
+                <!-- Today's Workout Card -->
+                <!-- Weekly Stats Row -->
+                <!-- Recent Activity -->
+                <!-- Tips Section -->
+
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</Page>
