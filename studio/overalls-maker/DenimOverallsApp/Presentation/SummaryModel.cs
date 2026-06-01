@@ -57,6 +57,11 @@ public partial record SummaryModel
             items.Add(new PriceLineItem("Custom Embroidery", Plus(0m), true));
         }
 
+        if (c.HasLogo)
+        {
+            items.Add(new PriceLineItem("Uno Logo Patch", "-" + OverallCatalog.Format(OverallCatalog.LogoDiscount), true));
+        }
+
         return items;
     }
 

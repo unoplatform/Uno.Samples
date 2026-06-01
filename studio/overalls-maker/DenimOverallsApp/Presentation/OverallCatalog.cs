@@ -10,6 +10,8 @@ public static class OverallCatalog
 {
     public const decimal BasePrice = 129.00m;
     public const decimal ShippingFee = 12.00m;
+    /// <summary>Playful easter-egg: wearing the Uno logo patch earns a discount.</summary>
+    public const decimal LogoDiscount = 20.00m;
 
     public static readonly IReadOnlyList<OverallOption> Lengths = new[]
     {
@@ -51,6 +53,7 @@ public static class OverallCatalog
             DenimColorHex: "#1B3F7A",
             CustomText:    "",
             PocketType:    "patch",
+            HasLogo:       true,
             BasePrice:     BasePrice,
             TotalPrice:    0m));
 
@@ -62,7 +65,8 @@ public static class OverallCatalog
                 + LengthAdjustment(c.LengthOption)
                 + BibAdjustment(c.BibType)
                 + ColorAdjustment(c.DenimColor)
-                + PocketAdjustment(c.PocketType),
+                + PocketAdjustment(c.PocketType)
+                - (c.HasLogo ? LogoDiscount : 0m),
         };
 
     public static decimal LengthAdjustment(string id) => id switch

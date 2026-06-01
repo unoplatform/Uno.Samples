@@ -5,39 +5,69 @@
       xmlns:utu="using:Uno.Toolkit.UI"
       xmlns:uen="using:Uno.Extensions.Navigation.UI"
       xmlns:conv="using:DenimOverallsApp.Converters"
-      Background="{StaticResource LinenBackgroundBrush}">
+      Background="{ThemeResource LinenBackgroundBrush}">
 
     <Page.Resources>
-        <conv:HexColorToBrushConverter x:Key="HexToBrush"/>
-        <conv:BooleanToVisibilityConverter x:Key="BoolToVis"/>
-        <conv:SelectionToThicknessConverter x:Key="SelThickness"/>
+        <ResourceDictionary>
+            <ResourceDictionary.ThemeDictionaries>
+                <!-- Light: warm linen / ink / brass -->
+                <ResourceDictionary x:Key="Light">
+                    <LinearGradientBrush x:Key="LinenBackgroundBrush" StartPoint="0,0" EndPoint="1,1">
+                        <GradientStop Offset="0"    Color="#F7F4ED"/>
+                        <GradientStop Offset="0.55" Color="#F0EBDF"/>
+                        <GradientStop Offset="1"    Color="#E6DFCF"/>
+                    </LinearGradientBrush>
+                    <RadialGradientBrush x:Key="LinenMottleBrush" Center="0.3,0.25" RadiusX="0.9" RadiusY="0.9">
+                        <GradientStop Offset="0"   Color="#22FFFFFF"/>
+                        <GradientStop Offset="0.6" Color="#08FFFFFF"/>
+                        <GradientStop Offset="1"   Color="#00FFFFFF"/>
+                    </RadialGradientBrush>
+                    <RadialGradientBrush x:Key="VignetteBrush" Center="0.5,0.5" RadiusX="0.75" RadiusY="0.75">
+                        <GradientStop Offset="0"    Color="#001F2430"/>
+                        <GradientStop Offset="0.72" Color="#001F2430"/>
+                        <GradientStop Offset="1"    Color="#1A1F2430"/>
+                    </RadialGradientBrush>
+                    <LinearGradientBrush x:Key="PreviewCardBrush" StartPoint="0,0" EndPoint="0.4,1">
+                        <GradientStop Offset="0" Color="#FBF8F1"/>
+                        <GradientStop Offset="1" Color="#F1ECE0"/>
+                    </LinearGradientBrush>
+                    <SolidColorBrush x:Key="MotifInkBrush"   Color="#1F2430" Opacity="0.16"/>
+                    <SolidColorBrush x:Key="MotifBrassBrush" Color="#B07B3C" Opacity="0.22"/>
+                    <SolidColorBrush x:Key="PreviewCardBorderBrush" Color="#C9A36A" Opacity="0.35"/>
+                </ResourceDictionary>
+                <!-- Dark: deep ink, soft brass accents -->
+                <ResourceDictionary x:Key="Dark">
+                    <LinearGradientBrush x:Key="LinenBackgroundBrush" StartPoint="0,0" EndPoint="1,1">
+                        <GradientStop Offset="0"    Color="#15171F"/>
+                        <GradientStop Offset="0.55" Color="#1B1F2B"/>
+                        <GradientStop Offset="1"    Color="#222739"/>
+                    </LinearGradientBrush>
+                    <RadialGradientBrush x:Key="LinenMottleBrush" Center="0.3,0.25" RadiusX="0.9" RadiusY="0.9">
+                        <GradientStop Offset="0"   Color="#18FFFFFF"/>
+                        <GradientStop Offset="0.6" Color="#06FFFFFF"/>
+                        <GradientStop Offset="1"   Color="#00FFFFFF"/>
+                    </RadialGradientBrush>
+                    <RadialGradientBrush x:Key="VignetteBrush" Center="0.5,0.5" RadiusX="0.75" RadiusY="0.75">
+                        <GradientStop Offset="0"    Color="#00000000"/>
+                        <GradientStop Offset="0.62" Color="#00000000"/>
+                        <GradientStop Offset="1"    Color="#44000000"/>
+                    </RadialGradientBrush>
+                    <LinearGradientBrush x:Key="PreviewCardBrush" StartPoint="0,0" EndPoint="0.4,1">
+                        <GradientStop Offset="0" Color="#2B303C"/>
+                        <GradientStop Offset="1" Color="#222734"/>
+                    </LinearGradientBrush>
+                    <SolidColorBrush x:Key="MotifInkBrush"   Color="#EDE8DE" Opacity="0.13"/>
+                    <SolidColorBrush x:Key="MotifBrassBrush" Color="#D9B877" Opacity="0.26"/>
+                    <SolidColorBrush x:Key="PreviewCardBorderBrush" Color="#C9A36A" Opacity="0.30"/>
+                </ResourceDictionary>
+            </ResourceDictionary.ThemeDictionaries>
 
-        <!-- Classic golden denim topstitching -->
-        <SolidColorBrush x:Key="TopStitchBrush" Color="#E8B95C"/>
+            <conv:HexColorToBrushConverter x:Key="HexToBrush"/>
+            <conv:BooleanToVisibilityConverter x:Key="BoolToVis"/>
+            <conv:SelectionToThicknessConverter x:Key="SelThickness"/>
 
-        <!-- ════ Ambience palette (warm linen / ink / brass) ════ -->
-        <LinearGradientBrush x:Key="LinenBackgroundBrush" StartPoint="0,0" EndPoint="1,1">
-            <GradientStop Offset="0"    Color="#F7F4ED"/>
-            <GradientStop Offset="0.55" Color="#F0EBDF"/>
-            <GradientStop Offset="1"    Color="#E6DFCF"/>
-        </LinearGradientBrush>
-        <RadialGradientBrush x:Key="LinenMottleBrush" Center="0.3,0.25" RadiusX="0.9" RadiusY="0.9">
-            <GradientStop Offset="0"   Color="#22FFFFFF"/>
-            <GradientStop Offset="0.6" Color="#08FFFFFF"/>
-            <GradientStop Offset="1"   Color="#00FFFFFF"/>
-        </RadialGradientBrush>
-        <RadialGradientBrush x:Key="VignetteBrush" Center="0.5,0.5" RadiusX="0.75" RadiusY="0.75">
-            <GradientStop Offset="0"    Color="#001F2430"/>
-            <GradientStop Offset="0.72" Color="#001F2430"/>
-            <GradientStop Offset="1"    Color="#1A1F2430"/>
-        </RadialGradientBrush>
-        <LinearGradientBrush x:Key="PreviewCardBrush" StartPoint="0,0" EndPoint="0.4,1">
-            <GradientStop Offset="0" Color="#FBF8F1"/>
-            <GradientStop Offset="1" Color="#F1ECE0"/>
-        </LinearGradientBrush>
-        <SolidColorBrush x:Key="MotifInkBrush"   Color="#1F2430" Opacity="0.16"/>
-        <SolidColorBrush x:Key="MotifBrassBrush" Color="#B07B3C" Opacity="0.22"/>
-        <SolidColorBrush x:Key="PreviewCardBorderBrush" Color="#C9A36A" Opacity="0.35"/>
+            <!-- Classic golden denim topstitching -->
+            <SolidColorBrush x:Key="TopStitchBrush" Color="#E8B95C"/>
 
         <!-- ════ Denim depth overlays (color-independent; painted over the bound fill) ════ -->
         <LinearGradientBrush x:Key="BibShadeBrush" StartPoint="0.5,0" EndPoint="0.5,1">
@@ -82,6 +112,58 @@
         </RadialGradientBrush>
         <SolidColorBrush x:Key="BrassRimBrush" Color="#6E4A21"/>
 
+        <!-- Strap roll: light top face, shadow where it wraps over the shoulder -->
+        <LinearGradientBrush x:Key="StrapShadeBrush" StartPoint="0,0" EndPoint="1,0.4">
+            <GradientStop Offset="0.0"  Color="#30FFFFFF"/>
+            <GradientStop Offset="0.45" Color="#00FFFFFF"/>
+            <GradientStop Offset="1.0"  Color="#33000000"/>
+        </LinearGradientBrush>
+        <!-- Soft form shadow cast onto the torso just above the waistband -->
+        <LinearGradientBrush x:Key="WaistShadowBrush" StartPoint="0.5,0" EndPoint="0.5,1">
+            <GradientStop Offset="0.0" Color="#00000000"/>
+            <GradientStop Offset="1.0" Color="#26000000"/>
+        </LinearGradientBrush>
+        <!-- Waistband self-shading: highlight at the top fold, shadow at the bottom -->
+        <LinearGradientBrush x:Key="WaistbandShadeBrush" StartPoint="0.5,0" EndPoint="0.5,1">
+            <GradientStop Offset="0.0"  Color="#2EFFFFFF"/>
+            <GradientStop Offset="0.45" Color="#00FFFFFF"/>
+            <GradientStop Offset="1.0"  Color="#33000000"/>
+        </LinearGradientBrush>
+        <!-- Subtle vertical highlight down each leg centre -->
+        <LinearGradientBrush x:Key="LegSheenBrush" StartPoint="0,0.5" EndPoint="1,0.5">
+            <GradientStop Offset="0.0"  Color="#00FFFFFF"/>
+            <GradientStop Offset="0.5"  Color="#22FFFFFF"/>
+            <GradientStop Offset="1.0"  Color="#00FFFFFF"/>
+        </LinearGradientBrush>
+        <!-- Gentle knee shading -->
+        <RadialGradientBrush x:Key="KneeShadeBrush" Center="0.5,0.5" RadiusX="0.5" RadiusY="0.5">
+            <GradientStop Offset="0.0" Color="#22000000"/>
+            <GradientStop Offset="1.0" Color="#00000000"/>
+        </RadialGradientBrush>
+        <!-- Inner shadow cast just under the bib lower edge and under pocket flaps -->
+        <LinearGradientBrush x:Key="InnerEdgeShadowBrush" StartPoint="0.5,0" EndPoint="0.5,1">
+            <GradientStop Offset="0.0"  Color="#48000000"/>
+            <GradientStop Offset="0.55" Color="#14000000"/>
+            <GradientStop Offset="1.0"  Color="#00000000"/>
+        </LinearGradientBrush>
+        <!-- Soft fold/crease (crotch + knee): dark centre fading both ways -->
+        <LinearGradientBrush x:Key="CreaseShadeBrush" StartPoint="0,0.5" EndPoint="1,0.5">
+            <GradientStop Offset="0.0" Color="#00000000"/>
+            <GradientStop Offset="0.5" Color="#33000000"/>
+            <GradientStop Offset="1.0" Color="#00000000"/>
+        </LinearGradientBrush>
+        <!-- Brass buckle metal face (vertical sheen) -->
+        <LinearGradientBrush x:Key="BuckleFaceBrush" StartPoint="0,0" EndPoint="0,1">
+            <GradientStop Offset="0.0" Color="#F2E4B8"/>
+            <GradientStop Offset="0.5" Color="#C9A36A"/>
+            <GradientStop Offset="1.0" Color="#8A5E2C"/>
+        </LinearGradientBrush>
+
+        <!-- Neutral denim weave grain (bitmap overlay; works over any dynamic colour) -->
+        <ImageBrush x:Key="DenimWeaveBrush"
+                    ImageSource="ms-appx:///Assets/Textures/denim-weave.png"
+                    Stretch="UniformToFill"/>
+
         <!-- Borderless click surface: the CardContentControl inside provides all visuals -->
         <Style x:Key="OptionCardButtonStyle" TargetType="Button">
             <Setter Property="HorizontalAlignment" Value="Stretch"/>
@@ -104,6 +186,7 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        </ResourceDictionary>
     </Page.Resources>
 
     <Grid x:Name="RootGrid" utu:SafeArea.Insets="VisibleBounds">
@@ -135,9 +218,9 @@
         </Grid.RowDefinitions>
 
         <!-- ── Ambience: linen background, soft mottle, edge vignette (behind everything) ── -->
-        <Rectangle Grid.Row="0" Grid.RowSpan="3" Fill="{StaticResource LinenBackgroundBrush}" IsHitTestVisible="False"/>
-        <Rectangle Grid.Row="0" Grid.RowSpan="3" Fill="{StaticResource LinenMottleBrush}" IsHitTestVisible="False"/>
-        <Rectangle Grid.Row="0" Grid.RowSpan="3" Fill="{StaticResource VignetteBrush}" IsHitTestVisible="False"/>
+        <Rectangle Grid.Row="0" Grid.RowSpan="3" Fill="{ThemeResource LinenBackgroundBrush}" IsHitTestVisible="False"/>
+        <Rectangle Grid.Row="0" Grid.RowSpan="3" Fill="{ThemeResource LinenMottleBrush}" IsHitTestVisible="False"/>
+        <Rectangle Grid.Row="0" Grid.RowSpan="3" Fill="{ThemeResource VignetteBrush}" IsHitTestVisible="False"/>
 
         <!-- ── Header ─────────────────────────────────────────────────── -->
         <utu:CardContentControl Grid.Row="0"
@@ -174,310 +257,379 @@
                                Foreground="{ThemeResource SecondaryBrush}"
                                HorizontalAlignment="Center"/>
 
-                    <!-- ════════════════════════════════════════════════════════════
-                         Preview card — warm linen, faint line-art motifs behind a
-                         reactive, semi-realistic denim overall illustration.
-                         ════════════════════════════════════════════════════════════ -->
+                    <!-- Preview card — warm linen, faint motifs behind a single-coordinate "SVG" overall -->
                     <Border CornerRadius="18"
-                            Background="{StaticResource PreviewCardBrush}"
-                            BorderBrush="{StaticResource PreviewCardBorderBrush}"
+                            Background="{ThemeResource PreviewCardBrush}"
+                            BorderBrush="{ThemeResource PreviewCardBorderBrush}"
                             BorderThickness="1"
                             Padding="8"
                             HorizontalAlignment="Stretch">
-                        <Grid MinHeight="410">
+                        <Grid MinHeight="578">
 
                             <!-- ░░ Decorative line-art motifs (behind figure, non-interactive) ░░ -->
                             <Grid IsHitTestVisible="False">
-                                <!-- Botanical sprig — top-left -->
                                 <Viewbox Width="54" Height="70" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="8,8,0,0">
                                     <Canvas Width="58" Height="74">
-                                        <Path Stroke="{StaticResource MotifBrassBrush}" StrokeThickness="1"
+                                        <Path Stroke="{ThemeResource MotifBrassBrush}" StrokeThickness="1"
                                               StrokeLineJoin="Round" StrokeStartLineCap="Round" StrokeEndLineCap="Round"
                                               Data="M 29,72 C 27,52 26,34 30,8"/>
-                                        <Path Stroke="{StaticResource MotifBrassBrush}" StrokeThickness="1" StrokeLineJoin="Round"
+                                        <Path Stroke="{ThemeResource MotifBrassBrush}" StrokeThickness="1" StrokeLineJoin="Round"
                                               Data="M 28,56 C 14,52 8,44 6,34 C 18,36 26,44 28,56 Z"/>
-                                        <Path Stroke="{StaticResource MotifBrassBrush}" StrokeThickness="1" StrokeLineJoin="Round"
+                                        <Path Stroke="{ThemeResource MotifBrassBrush}" StrokeThickness="1" StrokeLineJoin="Round"
                                               Data="M 29,44 C 43,40 50,32 52,22 C 40,24 31,32 29,44 Z"/>
-                                        <Path Stroke="{StaticResource MotifBrassBrush}" StrokeThickness="1" StrokeLineJoin="Round"
+                                        <Path Stroke="{ThemeResource MotifBrassBrush}" StrokeThickness="1" StrokeLineJoin="Round"
                                               Data="M 30,30 C 20,26 15,18 14,10 C 24,12 29,20 30,30 Z"/>
                                     </Canvas>
                                 </Viewbox>
-
-                                <!-- Sun with rays — top-right -->
                                 <Viewbox Width="54" Height="54" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,10,10,0">
                                     <Canvas Width="60" Height="60">
                                         <Ellipse Canvas.Left="20" Canvas.Top="20" Width="20" Height="20"
-                                                 Stroke="{StaticResource MotifBrassBrush}" StrokeThickness="1"/>
-                                        <Line X1="30" Y1="2"  X2="30" Y2="12" Stroke="{StaticResource MotifBrassBrush}" StrokeThickness="1" StrokeStartLineCap="Round" StrokeEndLineCap="Round"/>
-                                        <Line X1="30" Y1="48" X2="30" Y2="58" Stroke="{StaticResource MotifBrassBrush}" StrokeThickness="1" StrokeStartLineCap="Round" StrokeEndLineCap="Round"/>
-                                        <Line X1="2"  Y1="30" X2="12" Y2="30" Stroke="{StaticResource MotifBrassBrush}" StrokeThickness="1" StrokeStartLineCap="Round" StrokeEndLineCap="Round"/>
-                                        <Line X1="48" Y1="30" X2="58" Y2="30" Stroke="{StaticResource MotifBrassBrush}" StrokeThickness="1" StrokeStartLineCap="Round" StrokeEndLineCap="Round"/>
-                                        <Line X1="11" Y1="11" X2="18" Y2="18" Stroke="{StaticResource MotifBrassBrush}" StrokeThickness="1" StrokeStartLineCap="Round" StrokeEndLineCap="Round"/>
-                                        <Line X1="49" Y1="11" X2="42" Y2="18" Stroke="{StaticResource MotifBrassBrush}" StrokeThickness="1" StrokeStartLineCap="Round" StrokeEndLineCap="Round"/>
-                                        <Line X1="11" Y1="49" X2="18" Y2="42" Stroke="{StaticResource MotifBrassBrush}" StrokeThickness="1" StrokeStartLineCap="Round" StrokeEndLineCap="Round"/>
-                                        <Line X1="49" Y1="49" X2="42" Y2="42" Stroke="{StaticResource MotifBrassBrush}" StrokeThickness="1" StrokeStartLineCap="Round" StrokeEndLineCap="Round"/>
+                                                 Stroke="{ThemeResource MotifBrassBrush}" StrokeThickness="1"/>
+                                        <Line X1="30" Y1="2"  X2="30" Y2="12" Stroke="{ThemeResource MotifBrassBrush}" StrokeThickness="1" StrokeStartLineCap="Round" StrokeEndLineCap="Round"/>
+                                        <Line X1="30" Y1="48" X2="30" Y2="58" Stroke="{ThemeResource MotifBrassBrush}" StrokeThickness="1" StrokeStartLineCap="Round" StrokeEndLineCap="Round"/>
+                                        <Line X1="2"  Y1="30" X2="12" Y2="30" Stroke="{ThemeResource MotifBrassBrush}" StrokeThickness="1" StrokeStartLineCap="Round" StrokeEndLineCap="Round"/>
+                                        <Line X1="48" Y1="30" X2="58" Y2="30" Stroke="{ThemeResource MotifBrassBrush}" StrokeThickness="1" StrokeStartLineCap="Round" StrokeEndLineCap="Round"/>
+                                        <Line X1="11" Y1="11" X2="18" Y2="18" Stroke="{ThemeResource MotifBrassBrush}" StrokeThickness="1" StrokeStartLineCap="Round" StrokeEndLineCap="Round"/>
+                                        <Line X1="49" Y1="11" X2="42" Y2="18" Stroke="{ThemeResource MotifBrassBrush}" StrokeThickness="1" StrokeStartLineCap="Round" StrokeEndLineCap="Round"/>
+                                        <Line X1="11" Y1="49" X2="18" Y2="42" Stroke="{ThemeResource MotifBrassBrush}" StrokeThickness="1" StrokeStartLineCap="Round" StrokeEndLineCap="Round"/>
+                                        <Line X1="49" Y1="49" X2="42" Y2="42" Stroke="{ThemeResource MotifBrassBrush}" StrokeThickness="1" StrokeStartLineCap="Round" StrokeEndLineCap="Round"/>
                                     </Canvas>
                                 </Viewbox>
-
-                                <!-- Mountain range — mid-right -->
                                 <Viewbox Width="72" Height="42" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,150,8,0">
                                     <Canvas Width="74" Height="44">
-                                        <Polyline Stroke="{StaticResource MotifInkBrush}" StrokeThickness="1" StrokeLineJoin="Round"
+                                        <Polyline Stroke="{ThemeResource MotifInkBrush}" StrokeThickness="1" StrokeLineJoin="Round"
                                                   Points="0,42 16,18 26,30 40,6 54,26 62,16 74,42"/>
-                                        <Polyline Stroke="{StaticResource MotifInkBrush}" StrokeThickness="1" StrokeLineJoin="Round"
+                                        <Polyline Stroke="{ThemeResource MotifInkBrush}" StrokeThickness="1" StrokeLineJoin="Round"
                                                   Points="34,14 40,6 46,15 42,13 38,16"/>
                                     </Canvas>
                                 </Viewbox>
-
-                                <!-- Wavy water lines — bottom -->
                                 <Viewbox Width="150" Height="34" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,14">
                                     <Canvas Width="150" Height="34">
-                                        <Path Stroke="{StaticResource MotifInkBrush}" StrokeThickness="1" StrokeStartLineCap="Round" StrokeEndLineCap="Round"
+                                        <Path Stroke="{ThemeResource MotifInkBrush}" StrokeThickness="1" StrokeStartLineCap="Round" StrokeEndLineCap="Round"
                                               Data="M 0,8 C 12,2 24,14 36,8 C 48,2 60,14 72,8 C 84,2 96,14 108,8 C 120,2 132,14 150,8"/>
-                                        <Path Stroke="{StaticResource MotifInkBrush}" StrokeThickness="1" StrokeStartLineCap="Round" StrokeEndLineCap="Round"
+                                        <Path Stroke="{ThemeResource MotifInkBrush}" StrokeThickness="1" StrokeStartLineCap="Round" StrokeEndLineCap="Round"
                                               Data="M 0,22 C 12,16 24,28 36,22 C 48,16 60,28 72,22 C 84,16 96,28 108,22 C 120,16 132,28 150,22"/>
                                     </Canvas>
                                 </Viewbox>
                             </Grid>
 
-                            <!-- ░░ Hero denim figure (reactive: colour, length, bib, pockets, embroidery) ░░ -->
-                            <Viewbox MaxWidth="240" MaxHeight="384" StretchDirection="DownOnly" HorizontalAlignment="Center">
-                                <StackPanel Width="220" VerticalAlignment="Bottom" HorizontalAlignment="Center">
+                            <!-- ░░ Hero denim figure — single-coordinate "SVG", fully reactive ░░ -->
+                            <Viewbox MaxWidth="250" MaxHeight="560" StretchDirection="DownOnly" HorizontalAlignment="Center">
+                                <Canvas Width="220" Height="560" VerticalAlignment="Bottom" HorizontalAlignment="Center">
 
-                                    <!-- ████ SHOULDERS / BIB BLOCK (fixed height) ████ -->
-                                    <Grid Width="220" Height="158">
+                                    <!-- ===== LONG TROUSERS (straight legs, rolled cuffs at hem y494) ===== -->
+                                    <Canvas Canvas.Left="0" Canvas.Top="0"
+                                            Visibility="{Binding IsLongLength, Converter={StaticResource BoolToVis}}">
+                                        <Path Canvas.Left="0" Canvas.Top="0"
+                                              Fill="{Binding SelectedColorHex, Converter={StaticResource HexToBrush}}"
+                                              Data="M 44,170 C 44,186 43.5,196 44,205 C 43.5,300 43,400 43,490 C 43,492 45,494 47,494 L 101,494 C 103,494 104,492 104,490 C 105,420 105,330 110,252 C 115,330 115,420 116,490 C 116,492 117,494 119,494 L 173,494 C 175,494 177,492 177,490 C 177,400 176.5,300 176,205 C 176.5,196 176,186 176,170 Z"/>
+                                        <Path Canvas.Left="0" Canvas.Top="0" Opacity="0.4" Fill="{StaticResource DenimWeaveBrush}"
+                                              Data="M 44,170 C 44,186 43.5,196 44,205 C 43.5,300 43,400 43,490 C 43,492 45,494 47,494 L 101,494 C 103,494 104,492 104,490 C 105,420 105,330 110,252 C 115,330 115,420 116,490 C 116,492 117,494 119,494 L 173,494 C 175,494 177,492 177,490 C 177,400 176.5,300 176,205 C 176.5,196 176,186 176,170 Z"/>
+                                        <Path Canvas.Left="0" Canvas.Top="0" Fill="{StaticResource LegShadeBrush}"
+                                              Data="M 44,205 C 43.5,300 43,400 43,490 C 43,492 45,494 47,494 L 101,494 C 103,494 104,492 104,490 C 105,420 105,330 110,252 C 115,330 115,420 116,490 C 116,492 117,494 119,494 L 173,494 C 175,494 177,492 177,490 C 177,400 176.5,300 176,205 C 150,210 70,210 44,205 Z"/>
+                                        <Path Canvas.Left="0" Canvas.Top="0" Fill="{StaticResource LegHemShadeBrush}"
+                                              Data="M 44,205 C 43.5,300 43,400 43,490 C 43,492 45,494 47,494 L 101,494 C 103,494 104,492 104,490 C 105,420 105,330 110,252 C 115,330 115,420 116,490 C 116,492 117,494 119,494 L 173,494 C 175,494 177,492 177,490 C 177,400 176.5,300 176,205 C 150,210 70,210 44,205 Z"/>
+                                        <Path Canvas.Left="0" Canvas.Top="0" Fill="{StaticResource LegSheenBrush}"
+                                              Data="M 60,260 C 56,340 56,420 62,488 L 86,488 C 80,420 80,340 82,258 C 74,256 66,256 60,260 Z M 160,260 C 164,340 164,420 158,488 L 134,488 C 140,420 140,340 138,258 C 146,256 154,256 160,260 Z"/>
+                                        <Path Canvas.Left="0" Canvas.Top="0" Fill="{StaticResource CreaseShadeBrush}" Opacity="0.65"
+                                              Data="M 100,256 C 106,266 114,266 120,256 C 116,276 104,276 100,256 Z"/>
+                                        <Ellipse Canvas.Left="56" Canvas.Top="338" Width="36" Height="54" Fill="{StaticResource KneeShadeBrush}"/>
+                                        <Ellipse Canvas.Left="128" Canvas.Top="338" Width="36" Height="54" Fill="{StaticResource KneeShadeBrush}"/>
+                                        <Path Canvas.Left="0" Canvas.Top="0" Fill="{StaticResource CreaseShadeBrush}" Opacity="0.5"
+                                              Data="M 52,360 C 64,356 80,356 92,360 C 80,366 64,366 52,360 Z M 128,360 C 140,356 156,356 168,360 C 156,366 140,366 128,360 Z"/>
+                                        <Path Canvas.Left="0" Canvas.Top="0" Fill="{StaticResource InnerEdgeShadowBrush}" Opacity="0.55"
+                                              Data="M 104,260 C 105,360 105,440 104,488 L 108,488 C 109,440 109,360 110,260 Z M 116,260 C 115,360 115,440 116,488 L 112,488 C 111,440 111,360 110,260 Z"/>
+                                        <Path Canvas.Left="0" Canvas.Top="0"
+                                              Stroke="{StaticResource TopStitchBrush}" StrokeThickness="1.1" StrokeDashArray="3 2.4" Opacity="0.55"
+                                              Data="M 47,210 C 46.5,300 46,400 46,488 M 51,210 C 50.5,300 50,400 50,488 M 173,210 C 173.5,300 174,400 174,488 M 169,210 C 169.5,300 170,400 170,488 M 104,258 C 105,360 105,440 104,488 M 116,258 C 115,360 115,440 116,488"/>
+                                        <Canvas Canvas.Left="0" Canvas.Top="0"
+                                                Visibility="{Binding ShowThighPockets, Converter={StaticResource BoolToVis}}">
+                                            <Path Canvas.Left="0" Canvas.Top="0" Fill="{Binding SelectedColorHex, Converter={StaticResource HexToBrush}}"
+                                                  Data="M 46,206 C 62,205 80,206 96,210 C 95,228 90,244 78,250 C 62,248 50,232 46,206 Z"/>
+                                            <Path Canvas.Left="0" Canvas.Top="0" Opacity="0.4" Fill="{StaticResource DenimWeaveBrush}"
+                                                  Data="M 46,206 C 62,205 80,206 96,210 C 95,228 90,244 78,250 C 62,248 50,232 46,206 Z"/>
+                                            <Path Canvas.Left="0" Canvas.Top="0" Fill="{StaticResource PocketShadeBrush}"
+                                                  Data="M 46,206 C 62,205 80,206 96,210 C 95,228 90,244 78,250 C 62,248 50,232 46,206 Z"/>
+                                            <Path Canvas.Left="0" Canvas.Top="0" Fill="{StaticResource InnerEdgeShadowBrush}" Opacity="0.8"
+                                                  Data="M 46,206 C 62,205 80,206 96,210 C 84,216 64,215 50,210 Z"/>
+                                            <Path Canvas.Left="0" Canvas.Top="0" Stroke="{StaticResource TopStitchBrush}" StrokeThickness="1.1" StrokeDashArray="3 2" Opacity="0.85"
+                                                  Data="M 47,208 C 62,207 80,208 95,212 M 47,211 C 62,210 80,211 94,215"/>
+                                            <Ellipse Canvas.Left="45" Canvas.Top="205" Width="6" Height="6" Fill="{StaticResource BrassBrush}" Stroke="{StaticResource BrassRimBrush}" StrokeThickness="0.6"/>
+                                            <Ellipse Canvas.Left="92" Canvas.Top="208" Width="6" Height="6" Fill="{StaticResource BrassBrush}" Stroke="{StaticResource BrassRimBrush}" StrokeThickness="0.6"/>
+                                            <Path Canvas.Left="0" Canvas.Top="0" Fill="{Binding SelectedColorHex, Converter={StaticResource HexToBrush}}"
+                                                  Data="M 174,206 C 158,205 140,206 124,210 C 125,228 130,244 142,250 C 158,248 170,232 174,206 Z"/>
+                                            <Path Canvas.Left="0" Canvas.Top="0" Opacity="0.4" Fill="{StaticResource DenimWeaveBrush}"
+                                                  Data="M 174,206 C 158,205 140,206 124,210 C 125,228 130,244 142,250 C 158,248 170,232 174,206 Z"/>
+                                            <Path Canvas.Left="0" Canvas.Top="0" Fill="{StaticResource PocketShadeBrush}"
+                                                  Data="M 174,206 C 158,205 140,206 124,210 C 125,228 130,244 142,250 C 158,248 170,232 174,206 Z"/>
+                                            <Path Canvas.Left="0" Canvas.Top="0" Fill="{StaticResource InnerEdgeShadowBrush}" Opacity="0.8"
+                                                  Data="M 174,206 C 158,205 140,206 124,210 C 136,216 156,215 170,210 Z"/>
+                                            <Path Canvas.Left="0" Canvas.Top="0" Stroke="{StaticResource TopStitchBrush}" StrokeThickness="1.1" StrokeDashArray="3 2" Opacity="0.85"
+                                                  Data="M 173,208 C 158,207 140,208 125,212 M 173,211 C 158,210 140,211 126,215"/>
+                                            <Ellipse Canvas.Left="169" Canvas.Top="205" Width="6" Height="6" Fill="{StaticResource BrassBrush}" Stroke="{StaticResource BrassRimBrush}" StrokeThickness="0.6"/>
+                                            <Ellipse Canvas.Left="122" Canvas.Top="208" Width="6" Height="6" Fill="{StaticResource BrassBrush}" Stroke="{StaticResource BrassRimBrush}" StrokeThickness="0.6"/>
+                                        </Canvas>
+                                        <!-- (tool/hammer loop removed per review) -->
+                                        <Path Canvas.Left="0" Canvas.Top="0" Fill="{StaticResource CuffBrush}"
+                                              Data="M 40,462 C 58,466 90,466 108,462 L 108,494 C 90,490 58,490 40,494 Z M 112,462 C 130,466 162,466 180,462 L 180,494 C 162,490 130,490 112,494 Z"/>
+                                        <Path Canvas.Left="0" Canvas.Top="0" Fill="{StaticResource InnerEdgeShadowBrush}" Opacity="0.6"
+                                              Data="M 40,462 C 58,466 90,466 108,462 L 108,470 C 90,466 58,466 40,470 Z M 112,462 C 130,466 162,466 180,462 L 180,470 C 162,466 130,466 112,470 Z"/>
+                                        <Path Canvas.Left="0" Canvas.Top="0" Stroke="{StaticResource TopStitchBrush}" StrokeThickness="1" StrokeDashArray="3 2.2" Opacity="0.7"
+                                              Data="M 42,468 C 60,472 88,472 106,468 M 42,488 C 60,492 88,492 106,488 M 114,468 C 132,472 160,472 178,468 M 114,488 C 132,492 160,492 178,488"/>
+                                    </Canvas>
 
-                                        <!-- FRONT BIB + STRAIGHT STRAPS (hidden for cross-back) -->
-                                        <Grid Visibility="{Binding ShowBibPanel, Converter={StaticResource BoolToVis}}">
+                                    <!-- ===== SHORT TROUSERS (identical coords y<=252, legs end y316) ===== -->
+                                    <Canvas Canvas.Left="0" Canvas.Top="0"
+                                            Visibility="{Binding IsShortLength, Converter={StaticResource BoolToVis}}">
+                                        <Path Canvas.Left="0" Canvas.Top="0"
+                                              Fill="{Binding SelectedColorHex, Converter={StaticResource HexToBrush}}"
+                                              Data="M 44,170 C 44,186 43.5,196 44,205 C 43.8,250 44,290 45,312 C 45,314 47,316 49,316 L 99,316 C 101,316 102,314 102,312 C 104,290 105,272 110,252 C 115,272 116,290 118,312 C 118,314 119,316 121,316 L 171,316 C 173,316 175,314 175,312 C 176,290 176.2,250 176,205 C 176.5,196 176,186 176,170 Z"/>
+                                        <Path Canvas.Left="0" Canvas.Top="0" Opacity="0.4" Fill="{StaticResource DenimWeaveBrush}"
+                                              Data="M 44,170 C 44,186 43.5,196 44,205 C 43.8,250 44,290 45,312 C 45,314 47,316 49,316 L 99,316 C 101,316 102,314 102,312 C 104,290 105,272 110,252 C 115,272 116,290 118,312 C 118,314 119,316 121,316 L 171,316 C 173,316 175,314 175,312 C 176,290 176.2,250 176,205 C 176.5,196 176,186 176,170 Z"/>
+                                        <Path Canvas.Left="0" Canvas.Top="0" Fill="{StaticResource LegShadeBrush}"
+                                              Data="M 44,205 C 43.8,250 44,290 45,312 C 45,314 47,316 49,316 L 99,316 C 101,316 102,314 102,312 C 104,290 105,272 110,252 C 115,272 116,290 118,312 C 118,314 119,316 121,316 L 171,316 C 173,316 175,314 175,312 C 176,290 176.2,250 176,205 C 150,210 70,210 44,205 Z"/>
+                                        <Path Canvas.Left="0" Canvas.Top="0" Fill="{StaticResource LegHemShadeBrush}"
+                                              Data="M 44,205 C 43.8,250 44,290 45,312 C 45,314 47,316 49,316 L 99,316 C 101,316 102,314 102,312 C 104,290 105,272 110,252 C 115,272 116,290 118,312 C 118,314 119,316 121,316 L 171,316 C 173,316 175,314 175,312 C 176,290 176.2,250 176,205 C 150,210 70,210 44,205 Z"/>
+                                        <Path Canvas.Left="0" Canvas.Top="0" Fill="{StaticResource LegSheenBrush}"
+                                              Data="M 60,258 C 57,286 57,300 62,312 L 86,312 C 81,300 81,286 82,258 C 74,256 66,256 60,258 Z M 160,258 C 163,286 163,300 158,312 L 134,312 C 139,300 139,286 138,258 C 146,256 154,256 160,258 Z"/>
+                                        <Path Canvas.Left="0" Canvas.Top="0" Fill="{StaticResource CreaseShadeBrush}" Opacity="0.65"
+                                              Data="M 100,256 C 106,266 114,266 120,256 C 116,276 104,276 100,256 Z"/>
+                                        <Path Canvas.Left="0" Canvas.Top="0" Fill="{StaticResource InnerEdgeShadowBrush}" Opacity="0.55"
+                                              Data="M 104,260 C 105,290 105,300 104,312 L 108,312 C 109,300 109,290 110,260 Z M 116,260 C 115,290 115,300 116,312 L 112,312 C 111,300 111,290 110,260 Z"/>
+                                        <Path Canvas.Left="0" Canvas.Top="0"
+                                              Stroke="{StaticResource TopStitchBrush}" StrokeThickness="1.1" StrokeDashArray="3 2.4" Opacity="0.55"
+                                              Data="M 47,210 C 46.8,250 47,290 48,310 M 51,210 C 50.8,250 51,290 52,310 M 173,210 C 173.2,250 173,290 172,310 M 169,210 C 169.2,250 169,290 168,310 M 104,258 C 105,290 105,300 104,310 M 116,258 C 115,290 115,300 116,310"/>
+                                        <Canvas Canvas.Left="0" Canvas.Top="0"
+                                                Visibility="{Binding ShowThighPockets, Converter={StaticResource BoolToVis}}">
+                                            <Path Canvas.Left="0" Canvas.Top="0" Fill="{Binding SelectedColorHex, Converter={StaticResource HexToBrush}}"
+                                                  Data="M 46,206 C 62,205 80,206 96,210 C 95,228 90,244 78,250 C 62,248 50,232 46,206 Z"/>
+                                            <Path Canvas.Left="0" Canvas.Top="0" Opacity="0.4" Fill="{StaticResource DenimWeaveBrush}"
+                                                  Data="M 46,206 C 62,205 80,206 96,210 C 95,228 90,244 78,250 C 62,248 50,232 46,206 Z"/>
+                                            <Path Canvas.Left="0" Canvas.Top="0" Fill="{StaticResource PocketShadeBrush}"
+                                                  Data="M 46,206 C 62,205 80,206 96,210 C 95,228 90,244 78,250 C 62,248 50,232 46,206 Z"/>
+                                            <Path Canvas.Left="0" Canvas.Top="0" Fill="{StaticResource InnerEdgeShadowBrush}" Opacity="0.8"
+                                                  Data="M 46,206 C 62,205 80,206 96,210 C 84,216 64,215 50,210 Z"/>
+                                            <Path Canvas.Left="0" Canvas.Top="0" Stroke="{StaticResource TopStitchBrush}" StrokeThickness="1.1" StrokeDashArray="3 2" Opacity="0.85"
+                                                  Data="M 47,208 C 62,207 80,208 95,212 M 47,211 C 62,210 80,211 94,215"/>
+                                            <Ellipse Canvas.Left="45" Canvas.Top="205" Width="6" Height="6" Fill="{StaticResource BrassBrush}" Stroke="{StaticResource BrassRimBrush}" StrokeThickness="0.6"/>
+                                            <Ellipse Canvas.Left="92" Canvas.Top="208" Width="6" Height="6" Fill="{StaticResource BrassBrush}" Stroke="{StaticResource BrassRimBrush}" StrokeThickness="0.6"/>
+                                            <Path Canvas.Left="0" Canvas.Top="0" Fill="{Binding SelectedColorHex, Converter={StaticResource HexToBrush}}"
+                                                  Data="M 174,206 C 158,205 140,206 124,210 C 125,228 130,244 142,250 C 158,248 170,232 174,206 Z"/>
+                                            <Path Canvas.Left="0" Canvas.Top="0" Opacity="0.4" Fill="{StaticResource DenimWeaveBrush}"
+                                                  Data="M 174,206 C 158,205 140,206 124,210 C 125,228 130,244 142,250 C 158,248 170,232 174,206 Z"/>
+                                            <Path Canvas.Left="0" Canvas.Top="0" Fill="{StaticResource PocketShadeBrush}"
+                                                  Data="M 174,206 C 158,205 140,206 124,210 C 125,228 130,244 142,250 C 158,248 170,232 174,206 Z"/>
+                                            <Path Canvas.Left="0" Canvas.Top="0" Fill="{StaticResource InnerEdgeShadowBrush}" Opacity="0.8"
+                                                  Data="M 174,206 C 158,205 140,206 124,210 C 136,216 156,215 170,210 Z"/>
+                                            <Path Canvas.Left="0" Canvas.Top="0" Stroke="{StaticResource TopStitchBrush}" StrokeThickness="1.1" StrokeDashArray="3 2" Opacity="0.85"
+                                                  Data="M 173,208 C 158,207 140,208 125,212 M 173,211 C 158,210 140,211 126,215"/>
+                                            <Ellipse Canvas.Left="169" Canvas.Top="205" Width="6" Height="6" Fill="{StaticResource BrassBrush}" Stroke="{StaticResource BrassRimBrush}" StrokeThickness="0.6"/>
+                                            <Ellipse Canvas.Left="122" Canvas.Top="208" Width="6" Height="6" Fill="{StaticResource BrassBrush}" Stroke="{StaticResource BrassRimBrush}" StrokeThickness="0.6"/>
+                                        </Canvas>
+                                        <!-- (tool/hammer loop removed per review) -->
+                                        <Path Canvas.Left="0" Canvas.Top="0" Fill="{StaticResource CuffBrush}"
+                                              Data="M 42,300 C 60,304 88,304 106,300 L 106,316 C 88,312 60,312 42,316 Z M 114,300 C 132,304 160,304 178,300 L 178,316 C 160,312 132,312 114,316 Z"/>
+                                        <Path Canvas.Left="0" Canvas.Top="0" Stroke="{StaticResource TopStitchBrush}" StrokeThickness="1" StrokeDashArray="3 2.2" Opacity="0.7"
+                                              Data="M 44,305 C 62,309 86,309 104,305 M 116,305 C 134,309 158,309 176,305"/>
+                                    </Canvas>
 
-                                            <!-- Left strap — slightly steeper angle for asymmetry -->
-                                            <Grid HorizontalAlignment="Center" VerticalAlignment="Top" Margin="-64,0,0,0" RenderTransformOrigin="0.5,1">
-                                                <Grid.RenderTransform>
-                                                    <RotateTransform Angle="-4"/>
-                                                </Grid.RenderTransform>
-                                                <Path Stretch="Fill" Width="26" Height="118"
-                                                      Fill="{Binding SelectedColorHex, Converter={StaticResource HexToBrush}}"
-                                                      Data="M4,0 L22,0 C24,0 26,2 26,5 L24,108 C24,114 18,118 13,118 C8,118 2,114 2,108 L0,5 C0,2 2,0 4,0 Z"/>
-                                                <Path Stretch="Fill" Width="26" Height="118"
-                                                      Fill="{StaticResource BibShadeBrush}"
-                                                      Data="M4,0 L22,0 C24,0 26,2 26,5 L24,108 C24,114 18,118 13,118 C8,118 2,114 2,108 L0,5 C0,2 2,0 4,0 Z"/>
-                                                <Path Stretch="Fill" Width="26" Height="118"
-                                                      Stroke="{StaticResource TopStitchBrush}" StrokeThickness="1.2" StrokeDashArray="3 2.2" Opacity="0.8"
-                                                      Data="M5,3 L4,108 M21,3 L22,108"/>
-                                            </Grid>
+                                    <!-- ===== STRAPS over the shoulders (wider bib corners; hidden for cross-back) ===== -->
+                                    <Canvas Canvas.Left="0" Canvas.Top="0"
+                                            Visibility="{Binding ShowBibPanel, Converter={StaticResource BoolToVis}}">
+                                        <Path Canvas.Left="0" Canvas.Top="0" Fill="{Binding SelectedColorHex, Converter={StaticResource HexToBrush}}"
+                                              Data="M 70,62 L 85,62 L 68,16 C 67,12.5 64.5,11 61,12 C 57.5,13 55.5,15.5 56,18.5 L 70,62 Z"/>
+                                        <Path Canvas.Left="0" Canvas.Top="0" Opacity="0.4" Fill="{StaticResource DenimWeaveBrush}"
+                                              Data="M 70,62 L 85,62 L 68,16 C 67,12.5 64.5,11 61,12 C 57.5,13 55.5,15.5 56,18.5 L 70,62 Z"/>
+                                        <Path Canvas.Left="0" Canvas.Top="0" Fill="{StaticResource StrapShadeBrush}"
+                                              Data="M 70,62 L 85,62 L 68,16 C 67,12.5 64.5,11 61,12 C 57.5,13 55.5,15.5 56,18.5 L 70,62 Z"/>
+                                        <Path Canvas.Left="0" Canvas.Top="0" Stroke="{StaticResource TopStitchBrush}" StrokeThickness="1" StrokeDashArray="3 2.2" Opacity="0.8"
+                                              Data="M 73,60 L 59,18 M 82,60 L 65,17"/>
+                                        <Path Canvas.Left="0" Canvas.Top="0" Fill="{Binding SelectedColorHex, Converter={StaticResource HexToBrush}}"
+                                              Data="M 150,62 L 135,62 L 152,16 C 153,12.5 155.5,11 159,12 C 162.5,13 164.5,15.5 164,18.5 L 150,62 Z"/>
+                                        <Path Canvas.Left="0" Canvas.Top="0" Opacity="0.4" Fill="{StaticResource DenimWeaveBrush}"
+                                              Data="M 150,62 L 135,62 L 152,16 C 153,12.5 155.5,11 159,12 C 162.5,13 164.5,15.5 164,18.5 L 150,62 Z"/>
+                                        <Path Canvas.Left="0" Canvas.Top="0" Fill="{StaticResource StrapShadeBrush}"
+                                              Data="M 150,62 L 135,62 L 152,16 C 153,12.5 155.5,11 159,12 C 162.5,13 164.5,15.5 164,18.5 L 150,62 Z"/>
+                                        <Path Canvas.Left="0" Canvas.Top="0" Stroke="{StaticResource TopStitchBrush}" StrokeThickness="1" StrokeDashArray="3 2.2" Opacity="0.8"
+                                              Data="M 147,60 L 161,18 M 138,60 L 155,17"/>
+                                        <Rectangle Canvas.Left="61" Canvas.Top="44" Width="17" Height="22" RadiusX="2.5" RadiusY="2.5"
+                                                   Fill="{StaticResource BuckleFaceBrush}" Stroke="{StaticResource BrassRimBrush}" StrokeThickness="1"/>
+                                        <Rectangle Canvas.Left="63.5" Canvas.Top="53" Width="12" Height="4" RadiusX="1.5" RadiusY="1.5"
+                                                   Fill="{StaticResource BrassRimBrush}"/>
+                                        <Rectangle Canvas.Left="142" Canvas.Top="44" Width="17" Height="22" RadiusX="2.5" RadiusY="2.5"
+                                                   Fill="{StaticResource BuckleFaceBrush}" Stroke="{StaticResource BrassRimBrush}" StrokeThickness="1"/>
+                                        <Rectangle Canvas.Left="144.5" Canvas.Top="53" Width="12" Height="4" RadiusX="1.5" RadiusY="1.5"
+                                                   Fill="{StaticResource BrassRimBrush}"/>
+                                    </Canvas>
 
-                                            <!-- Right strap — different angle -->
-                                            <Grid HorizontalAlignment="Center" VerticalAlignment="Top" Margin="64,0,0,0" RenderTransformOrigin="0.5,1">
-                                                <Grid.RenderTransform>
-                                                    <RotateTransform Angle="6"/>
-                                                </Grid.RenderTransform>
-                                                <Path Stretch="Fill" Width="26" Height="112"
-                                                      Fill="{Binding SelectedColorHex, Converter={StaticResource HexToBrush}}"
-                                                      Data="M4,0 L22,0 C24,0 26,2 26,5 L24,102 C24,108 18,112 13,112 C8,112 2,108 2,102 L0,5 C0,2 2,0 4,0 Z"/>
-                                                <Path Stretch="Fill" Width="26" Height="112"
-                                                      Fill="{StaticResource BibShadeBrush}"
-                                                      Data="M4,0 L22,0 C24,0 26,2 26,5 L24,102 C24,108 18,112 13,112 C8,112 2,108 2,102 L0,5 C0,2 2,0 4,0 Z"/>
-                                                <Path Stretch="Fill" Width="26" Height="112"
-                                                      Stroke="{StaticResource TopStitchBrush}" StrokeThickness="1.2" StrokeDashArray="3 2.2" Opacity="0.8"
-                                                      Data="M5,3 L4,102 M21,3 L22,102"/>
-                                            </Grid>
+                                    <!-- Waist form-shadow on the trouser top (behind bib + waistband) -->
+                                    <Path Canvas.Left="0" Canvas.Top="0" Fill="{StaticResource WaistShadowBrush}"
+                                          Data="M 44,166 C 80,160 140,160 176,166 L 176,180 C 140,174 80,174 44,180 Z"/>
 
-                                            <!-- Bib panel (organic, gently asymmetric) -->
-                                            <Path Stretch="Fill" Width="130" Height="116" VerticalAlignment="Bottom" HorizontalAlignment="Center"
-                                                  Fill="{Binding SelectedColorHex, Converter={StaticResource HexToBrush}}"
-                                                  Data="M14,6 C40,-2 92,-2 117,6 C123,8 128,12 128,20 L130,104 C130,110 125,114 119,114 L11,114 C5,114 0,110 0,104 L2,20 C2,12 7,8 14,6 Z"/>
-                                            <Path Stretch="Fill" Width="130" Height="116" VerticalAlignment="Bottom" HorizontalAlignment="Center"
-                                                  Fill="{StaticResource BibShadeBrush}"
-                                                  Data="M14,6 C40,-2 92,-2 117,6 C123,8 128,12 128,20 L130,104 C130,110 125,114 119,114 L11,114 C5,114 0,110 0,104 L2,20 C2,12 7,8 14,6 Z"/>
-                                            <Path Stretch="Fill" Width="130" Height="116" VerticalAlignment="Bottom" HorizontalAlignment="Center"
-                                                  Fill="{StaticResource ChestSheenBrush}"
-                                                  Data="M14,6 C40,-2 92,-2 117,6 C123,8 128,12 128,20 L130,104 C130,110 125,114 119,114 L11,114 C5,114 0,110 0,104 L2,20 C2,12 7,8 14,6 Z"/>
-                                            <Path Stretch="Fill" Width="118" Height="104" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,0,0,6"
-                                                  Stroke="{StaticResource TopStitchBrush}" StrokeThickness="1.3" StrokeDashArray="3.2 2.4" Opacity="0.85"
-                                                  Data="M12,6 C36,0 84,0 106,6 C112,8 116,11 116,18 L116,92 C116,97 112,100 107,100 L11,100 C6,100 2,97 2,92 L2,18 C2,11 6,8 12,6 Z"/>
+                                    <!-- ===== SHARED UPPER (cross-back / bib / chest pockets / hooks / tabs / waistband) ===== -->
+                                    <Canvas Canvas.Left="0" Canvas.Top="0">
 
-                                            <!-- Embroidery text (mirrors the input box live) -->
-                                            <TextBlock Text="{Binding Text, ElementName=EmbroideryBox}"
-                                                       VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,0,0,74"
-                                                       FontSize="11" FontWeight="SemiBold"
-                                                       Foreground="{StaticResource TopStitchBrush}" CharacterSpacing="80"/>
-
-                                            <!-- Single chest pocket (classic) — slight tilt -->
-                                            <Grid Width="46" Height="40" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="2,0,0,22"
-                                                  RenderTransformOrigin="0.5,0.5"
-                                                  Visibility="{Binding ShowSingleChestPocket, Converter={StaticResource BoolToVis}}">
-                                                <Grid.RenderTransform>
-                                                    <RotateTransform Angle="-2.5"/>
-                                                </Grid.RenderTransform>
-                                                <Path Stretch="Fill" Fill="{Binding SelectedColorHex, Converter={StaticResource HexToBrush}}"
-                                                      Data="M2,2 L44,2 L43,26 C43,28 42,30 40,32 L24,39 C23,39.5 22,39.5 21,39 L4,31 C2,30 1,28 1,26 Z"/>
-                                                <Path Stretch="Fill" Fill="{StaticResource PocketShadeBrush}"
-                                                      Data="M2,2 L44,2 L43,26 C43,28 42,30 40,32 L24,39 C23,39.5 22,39.5 21,39 L4,31 C2,30 1,28 1,26 Z"/>
-                                                <Path Stretch="None" Stroke="{StaticResource TopStitchBrush}" StrokeThickness="1.2" StrokeDashArray="3 2" Opacity="0.9"
-                                                      Data="M3,3 L43,3 L42,26 C42,28 41,29 39,31 L23,38 L5,30 C3,29 2,28 2,26 Z M6,9 C16,17 30,17 40,9"/>
-                                            </Grid>
-
-                                            <!-- Double chest pockets (wide) -->
-                                            <Grid VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,0,0,20"
-                                                  Visibility="{Binding ShowDoubleChestPocket, Converter={StaticResource BoolToVis}}">
-                                                <Grid Width="40" Height="36" Margin="-26,0,0,0" RenderTransformOrigin="0.5,0.5">
-                                                    <Grid.RenderTransform>
-                                                        <RotateTransform Angle="-3"/>
-                                                    </Grid.RenderTransform>
-                                                    <Path Stretch="Fill" Fill="{Binding SelectedColorHex, Converter={StaticResource HexToBrush}}"
-                                                          Data="M2,2 L38,2 L37,24 C37,26 36,27 34,28 L20,34 L6,28 C4,27 3,26 3,24 Z"/>
-                                                    <Path Stretch="Fill" Fill="{StaticResource PocketShadeBrush}"
-                                                          Data="M2,2 L38,2 L37,24 C37,26 36,27 34,28 L20,34 L6,28 C4,27 3,26 3,24 Z"/>
-                                                    <Path Stretch="None" Stroke="{StaticResource TopStitchBrush}" StrokeThickness="1.1" StrokeDashArray="2.8 1.9" Opacity="0.9"
-                                                          Data="M3,3 L37,3 L36,24 L20,33 L4,24 Z M6,8 C14,14 26,14 34,8"/>
-                                                </Grid>
-                                                <Grid Width="40" Height="36" Margin="26,0,0,0" RenderTransformOrigin="0.5,0.5">
-                                                    <Grid.RenderTransform>
-                                                        <RotateTransform Angle="4"/>
-                                                    </Grid.RenderTransform>
-                                                    <Path Stretch="Fill" Fill="{Binding SelectedColorHex, Converter={StaticResource HexToBrush}}"
-                                                          Data="M2,2 L38,2 L37,24 C37,26 36,27 34,28 L20,34 L6,28 C4,27 3,26 3,24 Z"/>
-                                                    <Path Stretch="Fill" Fill="{StaticResource PocketShadeBrush}"
-                                                          Data="M2,2 L38,2 L37,24 C37,26 36,27 34,28 L20,34 L6,28 C4,27 3,26 3,24 Z"/>
-                                                    <Path Stretch="None" Stroke="{StaticResource TopStitchBrush}" StrokeThickness="1.1" StrokeDashArray="2.8 1.9" Opacity="0.9"
-                                                          Data="M3,3 L37,3 L36,24 L20,33 L4,24 Z M6,8 C14,14 26,14 34,8"/>
-                                                </Grid>
-                                            </Grid>
-
-                                            <!-- Brass buckles where straps meet the bib (slightly mismatched) -->
-                                            <Grid Width="20" Height="20" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="-46,0,0,98" RenderTransformOrigin="0.5,0.5">
-                                                <Grid.RenderTransform>
-                                                    <RotateTransform Angle="-4"/>
-                                                </Grid.RenderTransform>
-                                                <Rectangle Width="20" Height="20" RadiusX="4" RadiusY="4" Fill="{StaticResource BrassBrush}" Stroke="{StaticResource BrassRimBrush}" StrokeThickness="1"/>
-                                                <Rectangle Width="9" Height="4" RadiusX="2" RadiusY="2" Fill="{StaticResource BrassRimBrush}" Opacity="0.55"/>
-                                            </Grid>
-                                            <Grid Width="20" Height="20" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="46,0,0,96" RenderTransformOrigin="0.5,0.5">
-                                                <Grid.RenderTransform>
-                                                    <RotateTransform Angle="5"/>
-                                                </Grid.RenderTransform>
-                                                <Rectangle Width="20" Height="20" RadiusX="4" RadiusY="4" Fill="{StaticResource BrassBrush}" Stroke="{StaticResource BrassRimBrush}" StrokeThickness="1"/>
-                                                <Rectangle Width="9" Height="4" RadiusX="2" RadiusY="2" Fill="{StaticResource BrassRimBrush}" Opacity="0.55"/>
-                                            </Grid>
-                                        </Grid>
-
-                                        <!-- CROSS-BACK STRAPS (X) — shown only for cross-back -->
-                                        <Grid Visibility="{Binding ShowCrossStraps, Converter={StaticResource BoolToVis}}">
-                                            <Grid HorizontalAlignment="Center" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5">
-                                                <Grid.RenderTransform>
-                                                    <RotateTransform Angle="21"/>
-                                                </Grid.RenderTransform>
-                                                <Path Stretch="Fill" Width="24" Height="156"
-                                                      Fill="{Binding SelectedColorHex, Converter={StaticResource HexToBrush}}"
-                                                      Data="M4,0 L20,0 C22,0 24,2 24,5 L22,150 C22,154 18,156 12,156 C6,156 2,154 2,150 L0,5 C0,2 2,0 4,0 Z"/>
-                                                <Path Stretch="Fill" Width="24" Height="156" Fill="{StaticResource BibShadeBrush}"
-                                                      Data="M4,0 L20,0 C22,0 24,2 24,5 L22,150 C22,154 18,156 12,156 C6,156 2,154 2,150 L0,5 C0,2 2,0 4,0 Z"/>
-                                                <Path Stretch="Fill" Width="24" Height="156"
-                                                      Stroke="{StaticResource TopStitchBrush}" StrokeThickness="1.1" StrokeDashArray="3 2.2" Opacity="0.8"
-                                                      Data="M5,3 L4,150 M19,3 L20,150"/>
-                                            </Grid>
-                                            <Grid HorizontalAlignment="Center" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5">
-                                                <Grid.RenderTransform>
-                                                    <RotateTransform Angle="-23"/>
-                                                </Grid.RenderTransform>
-                                                <Path Stretch="Fill" Width="24" Height="156"
-                                                      Fill="{Binding SelectedColorHex, Converter={StaticResource HexToBrush}}"
-                                                      Data="M4,0 L20,0 C22,0 24,2 24,5 L22,150 C22,154 18,156 12,156 C6,156 2,154 2,150 L0,5 C0,2 2,0 4,0 Z"/>
-                                                <Path Stretch="Fill" Width="24" Height="156" Fill="{StaticResource BibShadeBrush}"
-                                                      Data="M4,0 L20,0 C22,0 24,2 24,5 L22,150 C22,154 18,156 12,156 C6,156 2,154 2,150 L0,5 C0,2 2,0 4,0 Z"/>
-                                                <Path Stretch="Fill" Width="24" Height="156"
-                                                      Stroke="{StaticResource TopStitchBrush}" StrokeThickness="1.1" StrokeDashArray="3 2.2" Opacity="0.8"
-                                                      Data="M5,3 L4,150 M19,3 L20,150"/>
-                                            </Grid>
-                                            <Ellipse Width="13" Height="13" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,-6,0,0"
+                                        <!-- CROSS-BACK X straps (no bib) -->
+                                        <Canvas Canvas.Left="0" Canvas.Top="0"
+                                                Visibility="{Binding ShowCrossStraps, Converter={StaticResource BoolToVis}}">
+                                            <Path Canvas.Left="0" Canvas.Top="0" Fill="{Binding SelectedColorHex, Converter={StaticResource HexToBrush}}"
+                                                  Data="M 66,16 L 78,13 L 150,176 L 138,179 Z"/>
+                                            <Path Canvas.Left="0" Canvas.Top="0" Opacity="0.4" Fill="{StaticResource DenimWeaveBrush}"
+                                                  Data="M 66,16 L 78,13 L 150,176 L 138,179 Z"/>
+                                            <Path Canvas.Left="0" Canvas.Top="0" Fill="{StaticResource BibShadeBrush}"
+                                                  Data="M 66,16 L 78,13 L 150,176 L 138,179 Z"/>
+                                            <Path Canvas.Left="0" Canvas.Top="0" Fill="{Binding SelectedColorHex, Converter={StaticResource HexToBrush}}"
+                                                  Data="M 154,16 L 142,13 L 70,176 L 82,179 Z"/>
+                                            <Path Canvas.Left="0" Canvas.Top="0" Opacity="0.4" Fill="{StaticResource DenimWeaveBrush}"
+                                                  Data="M 154,16 L 142,13 L 70,176 L 82,179 Z"/>
+                                            <Path Canvas.Left="0" Canvas.Top="0" Fill="{StaticResource BibShadeBrush}"
+                                                  Data="M 154,16 L 142,13 L 70,176 L 82,179 Z"/>
+                                            <Path Canvas.Left="0" Canvas.Top="0" Stroke="{StaticResource TopStitchBrush}" StrokeThickness="1" StrokeDashArray="3 2.2" Opacity="0.8"
+                                                  Data="M 69,15 L 141,177 M 151,15 L 79,177"/>
+                                            <Ellipse Canvas.Left="103" Canvas.Top="88" Width="14" Height="14"
                                                      Fill="{StaticResource BrassBrush}" Stroke="{StaticResource BrassRimBrush}" StrokeThickness="1"/>
-                                        </Grid>
-                                    </Grid>
+                                        </Canvas>
 
-                                    <!-- ████ WAISTBAND ████ -->
-                                    <Grid Width="146" Height="22" HorizontalAlignment="Center">
-                                        <Path Stretch="Fill" Fill="{Binding SelectedColorHex, Converter={StaticResource HexToBrush}}"
-                                              Data="M4,0 L142,0 C144,0 146,2 146,4 L146,18 C146,20 144,22 142,22 L4,22 C2,22 0,20 0,18 L0,4 C0,2 2,0 4,0 Z"/>
-                                        <Path Stretch="Fill" Fill="{StaticResource BibShadeBrush}"
-                                              Data="M4,0 L142,0 C144,0 146,2 146,4 L146,18 C146,20 144,22 142,22 L4,22 C2,22 0,20 0,18 L0,4 C0,2 2,0 4,0 Z"/>
-                                        <Line X1="6" Y1="4.5" X2="140" Y2="4.5" Stroke="{StaticResource TopStitchBrush}" StrokeThickness="1.1" StrokeDashArray="3 2.2" Opacity="0.75"/>
-                                        <Line X1="6" Y1="17.5" X2="140" Y2="17.5" Stroke="{StaticResource TopStitchBrush}" StrokeThickness="1.1" StrokeDashArray="3 2.2" Opacity="0.6"/>
-                                        <Ellipse Width="9" Height="9" HorizontalAlignment="Center" Fill="{StaticResource BrassBrush}" Stroke="{StaticResource BrassRimBrush}" StrokeThickness="0.8"/>
-                                    </Grid>
+                                        <!-- FRONT BIB — WIDE continuous front panel; outline by variant -->
+                                        <Canvas Canvas.Left="0" Canvas.Top="0"
+                                                Visibility="{Binding ShowBibPanel, Converter={StaticResource BoolToVis}}">
 
-                                    <!-- ████ LEGS — Height reacts to {Binding LegHeight}; silhouette scales ████ -->
-                                    <Grid Width="146" Height="{Binding LegHeight}" HorizontalAlignment="Center" Margin="0,2,0,0">
+                                            <Canvas Canvas.Left="0" Canvas.Top="0"
+                                                    Visibility="{Binding IsClassicBib, Converter={StaticResource BoolToVis}}">
+                                                <Path Canvas.Left="0" Canvas.Top="0" Fill="{Binding SelectedColorHex, Converter={StaticResource HexToBrush}}"
+                                                      Data="M 74,58 C 96,56 124,56 146,58 C 149,60 150,64 151,70 L 162,176 L 58,176 L 69,70 C 70,64 71,60 74,58 Z"/>
+                                                <Path Canvas.Left="0" Canvas.Top="0" Opacity="0.4" Fill="{StaticResource DenimWeaveBrush}"
+                                                      Data="M 74,58 C 96,56 124,56 146,58 C 149,60 150,64 151,70 L 162,176 L 58,176 L 69,70 C 70,64 71,60 74,58 Z"/>
+                                                <Path Canvas.Left="0" Canvas.Top="0" Fill="{StaticResource BibShadeBrush}"
+                                                      Data="M 74,58 C 96,56 124,56 146,58 C 149,60 150,64 151,70 L 162,176 L 58,176 L 69,70 C 70,64 71,60 74,58 Z"/>
+                                                <Path Canvas.Left="0" Canvas.Top="0" Fill="{StaticResource ChestSheenBrush}"
+                                                      Data="M 74,58 C 96,56 124,56 146,58 C 149,60 150,64 151,70 L 162,176 L 58,176 L 69,70 C 70,64 71,60 74,58 Z"/>
+                                                <Path Canvas.Left="0" Canvas.Top="0" Stroke="{StaticResource TopStitchBrush}" StrokeThickness="1.2" StrokeDashArray="3.2 2.4" Opacity="0.85"
+                                                      Data="M 75,61 C 96,59 124,59 145,61 C 147,63 149,67 149,72 L 159,173 L 61,173 L 71,72 C 71,67 73,63 75,61 Z"/>
+                                                <Path Canvas.Left="0" Canvas.Top="0" Stroke="{StaticResource TopStitchBrush}" StrokeThickness="0.9" StrokeDashArray="3.2 2.4" Opacity="0.55"
+                                                      Data="M 77,64 C 97,62 123,62 143,64 M 74,72 L 64,171 M 146,72 L 156,171"/>
+                                            </Canvas>
 
-                                        <Path Stretch="Fill" Fill="{Binding SelectedColorHex, Converter={StaticResource HexToBrush}}"
-                                              Data="M0,0 L146,0 C146,0 142,40 140,120 C138,200 134,240 132,250 C131,254 128,256 124,256 L80,256 C78,256 76,254 75,251 L73,150 L71,251 C70,254 68,256 66,256 L22,256 C18,256 15,254 14,250 C12,240 8,200 6,120 C4,40 0,0 0,0 Z"/>
-                                        <Path Stretch="Fill" Fill="{StaticResource LegShadeBrush}"
-                                              Data="M0,0 L146,0 C146,0 142,40 140,120 C138,200 134,240 132,250 C131,254 128,256 124,256 L80,256 C78,256 76,254 75,251 L73,150 L71,251 C70,254 68,256 66,256 L22,256 C18,256 15,254 14,250 C12,240 8,200 6,120 C4,40 0,0 0,0 Z"/>
-                                        <Path Stretch="Fill" Fill="{StaticResource LegHemShadeBrush}"
-                                              Data="M0,0 L146,0 C146,0 142,40 140,120 C138,200 134,240 132,250 C131,254 128,256 124,256 L80,256 C78,256 76,254 75,251 L73,150 L71,251 C70,254 68,256 66,256 L22,256 C18,256 15,254 14,250 C12,240 8,200 6,120 C4,40 0,0 0,0 Z"/>
+                                            <Canvas Canvas.Left="0" Canvas.Top="0"
+                                                    Visibility="{Binding IsWideBib, Converter={StaticResource BoolToVis}}">
+                                                <Path Canvas.Left="0" Canvas.Top="0" Fill="{Binding SelectedColorHex, Converter={StaticResource HexToBrush}}"
+                                                      Data="M 66,58 C 96,55 124,55 154,58 C 157,60 158,64 159,70 L 170,176 L 50,176 L 61,70 C 62,64 63,60 66,58 Z"/>
+                                                <Path Canvas.Left="0" Canvas.Top="0" Opacity="0.4" Fill="{StaticResource DenimWeaveBrush}"
+                                                      Data="M 66,58 C 96,55 124,55 154,58 C 157,60 158,64 159,70 L 170,176 L 50,176 L 61,70 C 62,64 63,60 66,58 Z"/>
+                                                <Path Canvas.Left="0" Canvas.Top="0" Fill="{StaticResource BibShadeBrush}"
+                                                      Data="M 66,58 C 96,55 124,55 154,58 C 157,60 158,64 159,70 L 170,176 L 50,176 L 61,70 C 62,64 63,60 66,58 Z"/>
+                                                <Path Canvas.Left="0" Canvas.Top="0" Fill="{StaticResource ChestSheenBrush}"
+                                                      Data="M 66,58 C 96,55 124,55 154,58 C 157,60 158,64 159,70 L 170,176 L 50,176 L 61,70 C 62,64 63,60 66,58 Z"/>
+                                                <Path Canvas.Left="0" Canvas.Top="0" Stroke="{StaticResource TopStitchBrush}" StrokeThickness="1.2" StrokeDashArray="3.2 2.4" Opacity="0.85"
+                                                      Data="M 67,61 C 96,58 124,58 153,61 C 155,63 157,67 157,72 L 167,173 L 53,173 L 63,72 C 63,67 65,63 67,61 Z"/>
+                                                <Path Canvas.Left="0" Canvas.Top="0" Stroke="{StaticResource TopStitchBrush}" StrokeThickness="0.9" StrokeDashArray="3.2 2.4" Opacity="0.55"
+                                                      Data="M 69,64 C 97,61 123,61 151,64 M 66,72 L 56,171 M 154,72 L 164,171"/>
+                                            </Canvas>
 
-                                        <Line X1="73" Y1="6" X2="73" Y2="248" Stroke="{StaticResource TopStitchBrush}" StrokeThickness="1.1" StrokeDashArray="3 2.4" Opacity="0.5" Stretch="Fill"/>
-                                        <Line X1="9" Y1="10" X2="11" Y2="246" Stroke="{StaticResource TopStitchBrush}" StrokeThickness="1" StrokeDashArray="3 2.6" Opacity="0.4" Stretch="Fill"/>
-                                        <Line X1="137" Y1="10" X2="135" Y2="246" Stroke="{StaticResource TopStitchBrush}" StrokeThickness="1" StrokeDashArray="3 2.6" Opacity="0.4" Stretch="Fill"/>
+                                            <Canvas Canvas.Left="0" Canvas.Top="0"
+                                                    Visibility="{Binding IsScoopBib, Converter={StaticResource BoolToVis}}">
+                                                <Path Canvas.Left="0" Canvas.Top="0" Fill="{Binding SelectedColorHex, Converter={StaticResource HexToBrush}}"
+                                                      Data="M 74,58 C 79,57 84,57 89,58 C 94,84 126,84 131,58 C 136,57 141,57 146,58 C 149,60 150,64 151,70 L 162,176 L 58,176 L 69,70 C 70,64 71,60 74,58 Z"/>
+                                                <Path Canvas.Left="0" Canvas.Top="0" Opacity="0.4" Fill="{StaticResource DenimWeaveBrush}"
+                                                      Data="M 74,58 C 79,57 84,57 89,58 C 94,84 126,84 131,58 C 136,57 141,57 146,58 C 149,60 150,64 151,70 L 162,176 L 58,176 L 69,70 C 70,64 71,60 74,58 Z"/>
+                                                <Path Canvas.Left="0" Canvas.Top="0" Fill="{StaticResource BibShadeBrush}"
+                                                      Data="M 74,58 C 79,57 84,57 89,58 C 94,84 126,84 131,58 C 136,57 141,57 146,58 C 149,60 150,64 151,70 L 162,176 L 58,176 L 69,70 C 70,64 71,60 74,58 Z"/>
+                                                <Path Canvas.Left="0" Canvas.Top="0" Fill="{StaticResource ChestSheenBrush}"
+                                                      Data="M 74,58 C 79,57 84,57 89,58 C 94,84 126,84 131,58 C 136,57 141,57 146,58 C 149,60 150,64 151,70 L 162,176 L 58,176 L 69,70 C 70,64 71,60 74,58 Z"/>
+                                                <Path Canvas.Left="0" Canvas.Top="0" Stroke="{StaticResource TopStitchBrush}" StrokeThickness="1.2" StrokeDashArray="3.2 2.4" Opacity="0.85"
+                                                      Data="M 75,61 C 80,60 85,60 90,61 C 95,85 125,85 130,61 C 135,60 140,60 145,61 C 147,63 149,67 149,72 L 159,173 L 61,173 L 71,72 C 71,67 73,63 75,61 Z"/>
+                                            </Canvas>
 
-                                        <!-- subtle wear highlights on the knees/thighs -->
-                                        <Ellipse Width="34" Height="46" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="22,40,0,0" Fill="{StaticResource WearHighlightBrush}" RenderTransformOrigin="0.5,0.5">
-                                            <Ellipse.RenderTransform>
-                                                <RotateTransform Angle="-8"/>
-                                            </Ellipse.RenderTransform>
-                                        </Ellipse>
-                                        <Ellipse Width="32" Height="42" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,52,22,0" Fill="{StaticResource WearHighlightBrush}" RenderTransformOrigin="0.5,0.5">
-                                            <Ellipse.RenderTransform>
-                                                <RotateTransform Angle="7"/>
-                                            </Ellipse.RenderTransform>
-                                        </Ellipse>
+                                            <!-- (embroidery moved below — drawn on top of the pockets so it is never occluded) -->
 
-                                        <!-- Thigh pockets (patch & cargo) -->
-                                        <Grid VerticalAlignment="Top" Margin="0,18,0,0" Visibility="{Binding ShowThighPockets, Converter={StaticResource BoolToVis}}">
-                                            <Grid Width="42" Height="36" HorizontalAlignment="Left" Margin="14,0,0,0" RenderTransformOrigin="0.5,0.5">
-                                                <Grid.RenderTransform>
-                                                    <RotateTransform Angle="-3"/>
-                                                </Grid.RenderTransform>
-                                                <Path Stretch="Fill" Fill="{Binding SelectedColorHex, Converter={StaticResource HexToBrush}}"
-                                                      Data="M2,2 L40,2 C41,2 42,3 42,5 L41,30 C41,33 39,35 36,35 L6,35 C3,35 1,33 1,30 L2,5 C2,3 2,2 2,2 Z"/>
-                                                <Path Stretch="Fill" Fill="{StaticResource PocketShadeBrush}"
-                                                      Data="M2,2 L40,2 C41,2 42,3 42,5 L41,30 C41,33 39,35 36,35 L6,35 C3,35 1,33 1,30 L2,5 C2,3 2,2 2,2 Z"/>
-                                                <Path Stretch="None" Stroke="{StaticResource TopStitchBrush}" StrokeThickness="1.1" StrokeDashArray="3 2" Opacity="0.85"
-                                                      Data="M3,3 L40,3 L39,30 C39,32 38,34 35,34 L7,34 C4,34 3,32 3,30 Z M3,11 L39,11"/>
-                                                <Ellipse Width="6" Height="6" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="4,0,0,3" Fill="{StaticResource BrassBrush}"/>
-                                            </Grid>
-                                            <Grid Width="42" Height="36" HorizontalAlignment="Right" Margin="0,0,14,0" RenderTransformOrigin="0.5,0.5">
-                                                <Grid.RenderTransform>
-                                                    <RotateTransform Angle="4"/>
-                                                </Grid.RenderTransform>
-                                                <Path Stretch="Fill" Fill="{Binding SelectedColorHex, Converter={StaticResource HexToBrush}}"
-                                                      Data="M2,2 L40,2 C41,2 42,3 42,5 L41,30 C41,33 39,35 36,35 L6,35 C3,35 1,33 1,30 L2,5 C2,3 2,2 2,2 Z"/>
-                                                <Path Stretch="Fill" Fill="{StaticResource PocketShadeBrush}"
-                                                      Data="M2,2 L40,2 C41,2 42,3 42,5 L41,30 C41,33 39,35 36,35 L6,35 C3,35 1,33 1,30 L2,5 C2,3 2,2 2,2 Z"/>
-                                                <Path Stretch="None" Stroke="{StaticResource TopStitchBrush}" StrokeThickness="1.1" StrokeDashArray="3 2" Opacity="0.85"
-                                                      Data="M3,3 L40,3 L39,30 C39,32 38,34 35,34 L7,34 C4,34 3,32 3,30 Z M3,11 L39,11"/>
-                                                <Ellipse Width="6" Height="6" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,4,3" Fill="{StaticResource BrassBrush}"/>
-                                            </Grid>
-                                        </Grid>
+                                            <Canvas Canvas.Left="0" Canvas.Top="0"
+                                                    Visibility="{Binding ShowSingleChestPocket, Converter={StaticResource BoolToVis}}">
+                                                <Path Canvas.Left="0" Canvas.Top="0" Fill="{Binding SelectedColorHex, Converter={StaticResource HexToBrush}}"
+                                                      Data="M 87,88 L 133,88 C 135,88 136,89 136,91 L 135,146 C 135,148 134,150 132,150 L 88,150 C 86,150 85,148 85,146 L 84,91 C 84,89 85,88 87,88 Z"/>
+                                                <Path Canvas.Left="0" Canvas.Top="0" Opacity="0.4" Fill="{StaticResource DenimWeaveBrush}"
+                                                      Data="M 87,88 L 133,88 C 135,88 136,89 136,91 L 135,146 C 135,148 134,150 132,150 L 88,150 C 86,150 85,148 85,146 L 84,91 C 84,89 85,88 87,88 Z"/>
+                                                <Path Canvas.Left="0" Canvas.Top="0" Fill="{StaticResource PocketShadeBrush}"
+                                                      Data="M 87,88 L 133,88 C 135,88 136,89 136,91 L 135,146 C 135,148 134,150 132,150 L 88,150 C 86,150 85,148 85,146 L 84,91 C 84,89 85,88 87,88 Z"/>
+                                                <Path Canvas.Left="0" Canvas.Top="0" Fill="{StaticResource InnerEdgeShadowBrush}" Opacity="0.45"
+                                                      Data="M 85,104 L 135,104 L 135,110 L 85,110 Z"/>
+                                                <Path Canvas.Left="0" Canvas.Top="0" Stroke="{StaticResource TopStitchBrush}" StrokeThickness="1.2" StrokeDashArray="3 2" Opacity="0.9"
+                                                      Data="M 87,89 L 133,89 C 134,89 135,90 135,91 L 134,146 C 134,147 133,149 131,149 L 89,149 C 87,149 86,147 86,146 L 85,91 C 85,90 86,89 87,89 Z M 85,105 L 135,105 M 85,108 L 135,108"/>
+                                                <Path Canvas.Left="0" Canvas.Top="0" Stroke="{StaticResource TopStitchBrush}" StrokeThickness="0.9" StrokeDashArray="2.4 1.8" Opacity="0.7"
+                                                      Data="M 121,112 L 133,112 L 133,128 L 121,128 Z"/>
+                                                <Ellipse Canvas.Left="83" Canvas.Top="86" Width="5.5" Height="5.5" Fill="{StaticResource BrassBrush}" Stroke="{StaticResource BrassRimBrush}" StrokeThickness="0.6"/>
+                                                <Ellipse Canvas.Left="132" Canvas.Top="86" Width="5.5" Height="5.5" Fill="{StaticResource BrassBrush}" Stroke="{StaticResource BrassRimBrush}" StrokeThickness="0.6"/>
+                                            </Canvas>
 
-                                        <!-- Rolled-up cuffs — anchored to the bottom -->
-                                        <Grid VerticalAlignment="Bottom" Height="26">
-                                            <Border Width="62" Height="22" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="6,0,0,2" CornerRadius="3,3,8,8"
-                                                    Background="{StaticResource CuffBrush}" RenderTransformOrigin="0.5,1">
-                                                <Border.RenderTransform>
-                                                    <RotateTransform Angle="-1.5"/>
-                                                </Border.RenderTransform>
-                                            </Border>
-                                            <Line X1="10" Y1="8" X2="64" Y2="8" Stroke="{StaticResource TopStitchBrush}" StrokeThickness="1" StrokeDashArray="3 2.2" Opacity="0.55" VerticalAlignment="Bottom" Margin="0,0,0,14"/>
-                                            <Border Width="62" Height="24" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,6,2" CornerRadius="3,3,8,8"
-                                                    Background="{StaticResource CuffBrush}" RenderTransformOrigin="0.5,1">
-                                                <Border.RenderTransform>
-                                                    <RotateTransform Angle="2"/>
-                                                </Border.RenderTransform>
-                                            </Border>
-                                            <Line X1="78" Y1="8" X2="132" Y2="8" Stroke="{StaticResource TopStitchBrush}" StrokeThickness="1" StrokeDashArray="3 2.2" Opacity="0.55" VerticalAlignment="Bottom" Margin="0,0,0,15"/>
-                                        </Grid>
-                                    </Grid>
-                                </StackPanel>
+                                            <Canvas Canvas.Left="0" Canvas.Top="0"
+                                                    Visibility="{Binding ShowDoubleChestPocket, Converter={StaticResource BoolToVis}}">
+                                                <Path Canvas.Left="0" Canvas.Top="0" Fill="{Binding SelectedColorHex, Converter={StaticResource HexToBrush}}"
+                                                      Data="M 74,88 L 104,88 C 106,88 107,89 107,91 L 106,144 C 106,146 105,147 103,147 L 75,147 C 73,147 72,146 72,144 L 73,91 C 73,89 74,88 74,88 Z"/>
+                                                <Path Canvas.Left="0" Canvas.Top="0" Opacity="0.4" Fill="{StaticResource DenimWeaveBrush}"
+                                                      Data="M 74,88 L 104,88 C 106,88 107,89 107,91 L 106,144 C 106,146 105,147 103,147 L 75,147 C 73,147 72,146 72,144 L 73,91 C 73,89 74,88 74,88 Z"/>
+                                                <Path Canvas.Left="0" Canvas.Top="0" Fill="{StaticResource PocketShadeBrush}"
+                                                      Data="M 74,88 L 104,88 C 106,88 107,89 107,91 L 106,144 C 106,146 105,147 103,147 L 75,147 C 73,147 72,146 72,144 L 73,91 C 73,89 74,88 74,88 Z"/>
+                                                <Path Canvas.Left="0" Canvas.Top="0" Stroke="{StaticResource TopStitchBrush}" StrokeThickness="1.1" StrokeDashArray="2.8 1.9" Opacity="0.9"
+                                                      Data="M 75,89 L 104,89 L 105,144 L 74,144 Z M 73,116 L 106,116"/>
+                                                <Ellipse Canvas.Left="71" Canvas.Top="86" Width="5" Height="5" Fill="{StaticResource BrassBrush}" Stroke="{StaticResource BrassRimBrush}" StrokeThickness="0.6"/>
+                                                <Ellipse Canvas.Left="103" Canvas.Top="86" Width="5" Height="5" Fill="{StaticResource BrassBrush}" Stroke="{StaticResource BrassRimBrush}" StrokeThickness="0.6"/>
+                                                <Path Canvas.Left="0" Canvas.Top="0" Fill="{Binding SelectedColorHex, Converter={StaticResource HexToBrush}}"
+                                                      Data="M 116,88 L 146,88 C 148,88 149,89 149,91 L 148,144 C 148,146 147,147 145,147 L 117,147 C 115,147 114,146 114,144 L 115,91 C 115,89 116,88 116,88 Z"/>
+                                                <Path Canvas.Left="0" Canvas.Top="0" Opacity="0.4" Fill="{StaticResource DenimWeaveBrush}"
+                                                      Data="M 116,88 L 146,88 C 148,88 149,89 149,91 L 148,144 C 148,146 147,147 145,147 L 117,147 C 115,147 114,146 114,144 L 115,91 C 115,89 116,88 116,88 Z"/>
+                                                <Path Canvas.Left="0" Canvas.Top="0" Fill="{StaticResource PocketShadeBrush}"
+                                                      Data="M 116,88 L 146,88 C 148,88 149,89 149,91 L 148,144 C 148,146 147,147 145,147 L 117,147 C 115,147 114,146 114,144 L 115,91 C 115,89 116,88 116,88 Z"/>
+                                                <Path Canvas.Left="0" Canvas.Top="0" Stroke="{StaticResource TopStitchBrush}" StrokeThickness="1.1" StrokeDashArray="2.8 1.9" Opacity="0.9"
+                                                      Data="M 117,89 L 146,89 L 147,144 L 116,144 Z M 115,116 L 148,116"/>
+                                                <Ellipse Canvas.Left="113" Canvas.Top="86" Width="5" Height="5" Fill="{StaticResource BrassBrush}" Stroke="{StaticResource BrassRimBrush}" StrokeThickness="0.6"/>
+                                                <Ellipse Canvas.Left="145" Canvas.Top="86" Width="5" Height="5" Fill="{StaticResource BrassBrush}" Stroke="{StaticResource BrassRimBrush}" StrokeThickness="0.6"/>
+                                            </Canvas>
+
+                                            <!-- Uno Platform logo on the bib — vector paths inlined from Uno_Platform_SymbolC.svg (on by default, front bib only) -->
+                                            <Viewbox Canvas.Left="92" Canvas.Top="102" Width="38" Height="38"
+                                                     Visibility="{Binding ShowLogo, Converter={StaticResource BoolToVis}}"
+                                                     AutomationProperties.Name="Uno Platform logo">
+                                                <Canvas Width="256.13" Height="253.37">
+                                                    <Path Fill="#7A67F8" Data="M176.74,197.63h-.06c-14.51,0-27.48-10.09-43.7-26.31L97.74,136.37l11-11.12,35.27,35c15.64,15.64,24.8,21.72,32.68,21.74h0c8,0,17.63-6.42,33.34-22.13l18-18.24c9.07-9.08,13.07-17,12.25-24.22-.67-5.88-4.55-12.19-12.21-19.85l-.17-.17c-8.28-8.81-18.4-18.63-29-24.07-2-10.05-8.4-18-9.31-19.41,19.34,2.84,36.6,18.83,49.62,32.66,14.17,14.21,29.51,36.49-.09,66.09l-18,18.24C204.66,187.4,191.48,197.63,176.74,197.63Z"/>
+                                                    <Path Fill="#F85977" Data="M129.15,145.47l33-33.37c15.65-15.64,21.74-24.8,21.75-32.68s-6.4-17.64-22.13-33.37L143.54,28C125,9.5,113.75,13.73,99.47,28l-.17.17c-7.83,7.36-16.46,16.18-22.1,25.48-5.24.37-12,2.15-20.32,7.71,4.6-17.27,19-32.65,31.6-44.52,14.21-14.18,36.5-29.51,66.09.09l18.25,18c16.55,16.55,26.78,29.75,26.75,44.51,0,14.51-10.09,27.48-26.3,43.7l-33,33.35Z"/>
+                                                    <Path Fill="#159BFF" Data="M63.67,196.82c-18.21-3.87-34.45-19-46.85-32.16C10.35,158.17,1.63,148.13.21,135.58c-1.39-12.28,4.07-24.38,16.7-37l18-18.24C51.44,63.8,64.63,53.57,79.37,53.57h0c14.52,0,27.49,10.09,43.7,26.31L159,115.35l-11,11.13L112.08,91C96.44,75.34,87.28,69.25,79.4,69.23h0c-8,0-17.63,6.42-33.35,22.13L28,109.61c-9.07,9.07-13.07,17-12.25,24.21C16.44,139.7,20.32,146,28,153.67l.17.18c7.88,8.38,17.44,17.68,27.47,23.25C56.47,185.94,61.72,193.86,63.67,196.82Z"/>
+                                                    <Path Fill="#67E5AD" Data="M133.84,253.37c-9.79,0-20.92-4.51-33.35-16.93l-18.24-18c-35.64-35.63-35.72-52.94-.45-88.21l34.59-34.94,11.14,11-34.63,35C77.26,156.91,71.17,166.07,71.15,174s6.4,17.64,22.13,33.38l18.25,18c18.54,18.54,29.79,14.32,44.07,0l.17-.17c8.41-7.91,17.79-17.59,23.35-27.64,8.45-.72,14.75-4.28,19.5-7.32-4.06,18-19,34-32,46.29C158.34,244.75,147.37,253.37,133.84,253.37Z"/>
+                                                </Canvas>
+                                            </Viewbox>
+                                            <!-- Embroidery — high on the bib chest (above the pocket/logo), on top so it always shows -->
+                                            <TextBlock Canvas.Left="55" Canvas.Top="68" Width="110" TextAlignment="Center"
+                                                       Text="{Binding Text, ElementName=EmbroideryBox}"
+                                                       FontSize="11" FontWeight="SemiBold"
+                                                       Foreground="{StaticResource TopStitchBrush}" CharacterSpacing="60"/>
+                                            <Path Canvas.Left="0" Canvas.Top="0" Fill="{StaticResource InnerEdgeShadowBrush}" Opacity="0.85"
+                                                  Data="M 58,170 C 90,167 130,167 162,170 L 162,182 C 130,178 90,178 58,182 Z"/>
+
+                                            <!-- (redundant U-hooks removed — the rectangular buckles fasten the straps to the bib) -->
+
+                                            <Path Canvas.Left="0" Canvas.Top="0" Fill="{Binding SelectedColorHex, Converter={StaticResource HexToBrush}}"
+                                                  Data="M 44,158 L 64,158 C 66,158 67,160 67,162 L 66,184 C 66,187 64,188 61,188 L 46,188 C 43,188 42,187 42,184 L 42,162 C 42,160 42,158 44,158 Z M 176,158 L 156,158 C 154,158 153,160 153,162 L 154,184 C 154,187 156,188 159,188 L 174,188 C 177,188 178,187 178,184 L 178,162 C 178,160 178,158 176,158 Z"/>
+                                            <Path Canvas.Left="0" Canvas.Top="0" Opacity="0.4" Fill="{StaticResource DenimWeaveBrush}"
+                                                  Data="M 44,158 L 64,158 C 66,158 67,160 67,162 L 66,184 C 66,187 64,188 61,188 L 46,188 C 43,188 42,187 42,184 L 42,162 C 42,160 42,158 44,158 Z M 176,158 L 156,158 C 154,158 153,160 153,162 L 154,184 C 154,187 156,188 159,188 L 174,188 C 177,188 178,187 178,184 L 178,162 C 178,160 178,158 176,158 Z"/>
+                                            <Ellipse Canvas.Left="49.5" Canvas.Top="164" Width="8" Height="8" Fill="{StaticResource BrassBrush}" Stroke="{StaticResource BrassRimBrush}" StrokeThickness="0.8"/>
+                                            <Ellipse Canvas.Left="49.5" Canvas.Top="176" Width="8" Height="8" Fill="{StaticResource BrassBrush}" Stroke="{StaticResource BrassRimBrush}" StrokeThickness="0.8"/>
+                                            <Ellipse Canvas.Left="162.5" Canvas.Top="164" Width="8" Height="8" Fill="{StaticResource BrassBrush}" Stroke="{StaticResource BrassRimBrush}" StrokeThickness="0.8"/>
+                                            <Ellipse Canvas.Left="162.5" Canvas.Top="176" Width="8" Height="8" Fill="{StaticResource BrassBrush}" Stroke="{StaticResource BrassRimBrush}" StrokeThickness="0.8"/>
+                                        </Canvas>
+
+                                        <!-- WAISTBAND — horizontal seam band -->
+                                        <Path Canvas.Left="0" Canvas.Top="0" Fill="{Binding SelectedColorHex, Converter={StaticResource HexToBrush}}"
+                                              Data="M 44,168 C 80,163 140,163 176,168 C 177,176 177,188 176,196 C 140,191 80,191 44,196 C 43,188 43,176 44,168 Z"/>
+                                        <Path Canvas.Left="0" Canvas.Top="0" Opacity="0.4" Fill="{StaticResource DenimWeaveBrush}"
+                                              Data="M 44,168 C 80,163 140,163 176,168 C 177,176 177,188 176,196 C 140,191 80,191 44,196 C 43,188 43,176 44,168 Z"/>
+                                        <Path Canvas.Left="0" Canvas.Top="0" Fill="{StaticResource WaistbandShadeBrush}"
+                                              Data="M 44,168 C 80,163 140,163 176,168 C 177,176 177,188 176,196 C 140,191 80,191 44,196 C 43,188 43,176 44,168 Z"/>
+                                        <Path Canvas.Left="0" Canvas.Top="0" Stroke="{StaticResource TopStitchBrush}" StrokeThickness="1.1" StrokeDashArray="3 2.2" Opacity="0.7"
+                                              Data="M 47,172 C 82,167 138,167 173,172 M 47,192 C 82,187 138,187 173,192"/>
+                                        <Ellipse Canvas.Left="105.5" Canvas.Top="177" Width="9" Height="9"
+                                                 Fill="{StaticResource BrassBrush}" Stroke="{StaticResource BrassRimBrush}" StrokeThickness="0.8"/>
+                                        <Ellipse Canvas.Left="62" Canvas.Top="179" Width="5" Height="5" Fill="{StaticResource BrassBrush}" Stroke="{StaticResource BrassRimBrush}" StrokeThickness="0.5"/>
+                                        <Ellipse Canvas.Left="153" Canvas.Top="179" Width="5" Height="5" Fill="{StaticResource BrassBrush}" Stroke="{StaticResource BrassRimBrush}" StrokeThickness="0.5"/>
+                                    </Canvas>
+                                </Canvas>
                             </Viewbox>
                         </Grid>
                     </Border>
@@ -539,7 +691,7 @@
                         </StackPanel>
                         <ItemsRepeater ItemsSource="{Binding Lengths}">
                             <ItemsRepeater.Layout>
-                                <UniformGridLayout MinItemWidth="140" MinColumnSpacing="8" MinRowSpacing="8"/>
+                                <UniformGridLayout MinItemWidth="140" MinItemHeight="96" MinColumnSpacing="8" MinRowSpacing="8"/>
                             </ItemsRepeater.Layout>
                             <ItemsRepeater.ItemTemplate>
                                 <DataTemplate>
@@ -550,7 +702,8 @@
                                         <Grid>
                                             <utu:CardContentControl Style="{StaticResource ElevatedCardContentControlStyle}"
                                                                     IsClickable="True"
-                                                                    HorizontalAlignment="Stretch">
+                                                                    HorizontalAlignment="Stretch"
+                                                                    VerticalAlignment="Stretch">
                                                 <StackPanel Padding="14,12" Spacing="4">
                                                     <TextBlock Text="{Binding Option.Label}"
                                                                Style="{StaticResource TitleSmall}"
@@ -590,7 +743,7 @@
                         </StackPanel>
                         <ItemsRepeater ItemsSource="{Binding Bibs}">
                             <ItemsRepeater.Layout>
-                                <UniformGridLayout MinItemWidth="140" MinColumnSpacing="8" MinRowSpacing="8"/>
+                                <UniformGridLayout MinItemWidth="140" MinItemHeight="118" MinColumnSpacing="8" MinRowSpacing="8"/>
                             </ItemsRepeater.Layout>
                             <ItemsRepeater.ItemTemplate>
                                 <DataTemplate>
@@ -601,7 +754,8 @@
                                         <Grid>
                                             <utu:CardContentControl Style="{StaticResource ElevatedCardContentControlStyle}"
                                                                     IsClickable="True"
-                                                                    HorizontalAlignment="Stretch">
+                                                                    HorizontalAlignment="Stretch"
+                                                                    VerticalAlignment="Stretch">
                                                 <StackPanel Padding="14,12" Spacing="4">
                                                     <TextBlock Text="{Binding Option.Label}"
                                                                Style="{StaticResource TitleSmall}"
@@ -641,7 +795,7 @@
                         </StackPanel>
                         <ItemsRepeater ItemsSource="{Binding Colors}">
                             <ItemsRepeater.Layout>
-                                <UniformGridLayout MinItemWidth="110" MinColumnSpacing="8" MinRowSpacing="8"/>
+                                <UniformGridLayout MinItemWidth="110" MinItemHeight="92" MinColumnSpacing="8" MinRowSpacing="8"/>
                             </ItemsRepeater.Layout>
                             <ItemsRepeater.ItemTemplate>
                                 <DataTemplate>
@@ -652,7 +806,8 @@
                                         <Grid>
                                             <utu:CardContentControl Style="{StaticResource ElevatedCardContentControlStyle}"
                                                                     IsClickable="True"
-                                                                    HorizontalAlignment="Stretch">
+                                                                    HorizontalAlignment="Stretch"
+                                                                    VerticalAlignment="Stretch">
                                                 <StackPanel Padding="12,10" Spacing="6">
                                                     <Border Width="36" Height="36"
                                                             CornerRadius="18"
@@ -713,6 +868,39 @@
                         </utu:CardContentControl>
                     </StackPanel>
 
+                    <!-- ── Uno Logo ───────────────────────────────────── -->
+                    <StackPanel Spacing="10">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <FontIcon Glyph="&#xE946;" FontSize="16" Foreground="{ThemeResource SecondaryBrush}"/>
+                            <TextBlock Text="UNO LOGO"
+                                       Style="{StaticResource LabelLarge}"
+                                       CharacterSpacing="80"
+                                       Foreground="{ThemeResource OnBackgroundBrush}"/>
+                        </StackPanel>
+                        <utu:CardContentControl Style="{StaticResource ElevatedCardContentControlStyle}"
+                                                IsClickable="False"
+                                                HorizontalAlignment="Stretch">
+                            <Grid Padding="16,10">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Grid.Column="0" VerticalAlignment="Center" Spacing="2">
+                                    <TextBlock Text="Show the Uno Platform logo"
+                                               Style="{StaticResource BodyMedium}"
+                                               Foreground="{ThemeResource OnSurfaceBrush}"/>
+                                    <TextBlock Text="Stitched patch on the bib chest"
+                                               Style="{StaticResource LabelSmall}"
+                                               Foreground="{ThemeResource OnSurfaceVariantBrush}"/>
+                                </StackPanel>
+                                <ToggleSwitch Grid.Column="1"
+                                              IsOn="{Binding ShowLogo, Mode=TwoWay}"
+                                              VerticalAlignment="Center"
+                                              AutomationProperties.Name="Show Uno logo on the bib"/>
+                            </Grid>
+                        </utu:CardContentControl>
+                    </StackPanel>
+
                     <!-- ── Pocket Type ────────────────────────────────── -->
                     <StackPanel Spacing="10">
                         <StackPanel Orientation="Horizontal" Spacing="8">
@@ -724,7 +912,7 @@
                         </StackPanel>
                         <ItemsRepeater ItemsSource="{Binding Pockets}">
                             <ItemsRepeater.Layout>
-                                <UniformGridLayout MinItemWidth="140" MinColumnSpacing="8" MinRowSpacing="8"/>
+                                <UniformGridLayout MinItemWidth="140" MinItemHeight="118" MinColumnSpacing="8" MinRowSpacing="8"/>
                             </ItemsRepeater.Layout>
                             <ItemsRepeater.ItemTemplate>
                                 <DataTemplate>
@@ -735,7 +923,8 @@
                                         <Grid>
                                             <utu:CardContentControl Style="{StaticResource ElevatedCardContentControlStyle}"
                                                                     IsClickable="True"
-                                                                    HorizontalAlignment="Stretch">
+                                                                    HorizontalAlignment="Stretch"
+                                                                    VerticalAlignment="Stretch">
                                                 <StackPanel Padding="14,12" Spacing="4">
                                                     <TextBlock Text="{Binding Option.Label}"
                                                                Style="{StaticResource TitleSmall}"

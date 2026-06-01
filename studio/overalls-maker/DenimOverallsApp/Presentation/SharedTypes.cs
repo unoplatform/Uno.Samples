@@ -15,6 +15,7 @@ public partial record OverallConfiguration(
     string DenimColorHex,
     string CustomText,
     string PocketType,
+    bool HasLogo,
     decimal BasePrice,
     decimal TotalPrice);
 
