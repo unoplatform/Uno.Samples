@@ -1,0 +1,173 @@
+<Page x:Class="BrewHouse.Presentation.MenuPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:utu="using:Uno.Toolkit.UI"
+      xmlns:mock="using:BrewHouse.Presentation.MockData"
+      Background="#FFFDF6EE">
+
+    <utu:SafeArea Insets="VisibleBounds">
+        <Grid>
+            <Grid.DataContext>
+                <mock:MenuPageData />
+            </Grid.DataContext>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+
+            <!-- Header -->
+            <StackPanel Grid.Row="0"
+                        Background="#FF4A2810"
+                        Padding="20,20,20,16"
+                        Spacing="2">
+                <TextBlock Text="Our Menu"
+                           FontSize="26"
+                           FontWeight="Bold"
+                           Foreground="White" />
+                <TextBlock Text="Find your perfect brew"
+                           FontSize="13"
+                           Foreground="#CCF5EFE6" />
+            </StackPanel>
+
+            <!-- Category Chip Filter Bar -->
+            <ScrollViewer Grid.Row="1"
+                          HorizontalScrollBarVisibility="Hidden"
+                          VerticalScrollBarVisibility="Disabled"
+                          HorizontalScrollMode="Enabled"
+                          Background="#FFFDF6EE"
+                          Padding="0,12,0,12">
+                <ItemsControl ItemsSource="{Binding Categories}"
+                              Padding="16,0,16,0">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Horizontal"
+                                        Spacing="10" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Button Background="#FFF5EFE6"
+                                    CornerRadius="20"
+                                    Padding="16,8"
+                                    BorderBrush="#FF8C5A28"
+                                    BorderThickness="1.5"
+                                    AutomationProperties.Name="{Binding Name}"
+                                    Command="{Binding DataContext.FilterByCategoryCommand, RelativeSource={RelativeSource Mode=Self}}"
+                                    CommandParameter="{Binding Id}">
+                                <StackPanel Orientation="Horizontal" Spacing="6">
+                                    <TextBlock Text="{Binding Icon}"
+                                               FontSize="14"
+                                               VerticalAlignment="Center" />
+                                    <TextBlock Text="{Binding Name}"
+                                               FontSize="13"
+                                               FontWeight="SemiBold"
+                                               Foreground="#FF4A2810"
+                                               VerticalAlignment="Center" />
+                                </StackPanel>
+                            </Button>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+
+            <!-- Product List -->
+            <ListView Grid.Row="2"
+                      ItemsSource="{Binding FilteredProducts}"
+                      SelectionMode="None"
+                      Padding="16,4,16,16">
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                        <Setter Property="Padding" Value="0" />
+                        <Setter Property="Margin" Value="0,0,0,12" />
+                        <Setter Property="Background" Value="Transparent" />
+                    </Style>
+                </ListView.ItemContainerStyle>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Border Background="White"
+                                CornerRadius="16"
+                                BorderBrush="#15000000"
+                                BorderThickness="1"
+                                Padding="0">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="100" />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+
+                                <!-- Product Image -->
+                                <Border Grid.Column="0"
+                                        CornerRadius="16,0,0,16"
+                                        Background="#FFE8DDD0">
+                                    <Image Source="{Binding ImageUrl}"
+                                           Width="100"
+                                           Height="110"
+                                           Stretch="UniformToFill" />
+                                </Border>
+
+                                <!-- Product Info -->
+                                <StackPanel Grid.Column="1"
+                                            Padding="14,14,14,14"
+                                            Spacing="4"
+                                            VerticalAlignment="Center">
+
+                                    <!-- Special Badge -->
+                                    <Border Background="#FFF5EFE6"
+                                            CornerRadius="6"
+                                            Padding="6,2"
+                                            HorizontalAlignment="Left"
+                                            Visibility="{Binding IsSpecial}">
+                                        <TextBlock Text="Today's Special"
+                                                   FontSize="10"
+                                                   FontWeight="SemiBold"
+                                                   Foreground="#FF8C5A28" />
+                                    </Border>
+
+                                    <TextBlock Text="{Binding Name}"
+                                               FontSize="16"
+                                               FontWeight="SemiBold"
+                                               Foreground="#FF2C1A0E"
+                                               TextWrapping="NoWrap"
+                                               TextTrimming="CharacterEllipsis" />
+
+                                    <TextBlock Text="{Binding Description}"
+                                               FontSize="12"
+                                               Foreground="#FF8C7060"
+                                               TextWrapping="Wrap"
+                                               MaxLines="2"
+                                               TextTrimming="CharacterEllipsis" />
+
+                                    <StackPanel Orientation="Horizontal"
+                                                HorizontalAlignment="Stretch"
+                                                Spacing="10"
+                                                Margin="0,6,0,0">
+                                        <TextBlock FontSize="17"
+                                                   FontWeight="Bold"
+                                                   Foreground="#FF8C5A28"
+                                                   VerticalAlignment="Center">
+                                            <Run Text="$" /><Run Text="{Binding Price}" />
+                                        </TextBlock>
+
+                                        <Button Content="+ Add to Cart"
+                                                AutomationProperties.Name="Add to cart"
+                                                Background="#FF4A2810"
+                                                Foreground="White"
+                                                CornerRadius="12"
+                                                Padding="12,7"
+                                                FontSize="12"
+                                                FontWeight="SemiBold"
+                                                Command="{Binding DataContext.AddToCartCommand, RelativeSource={RelativeSource Mode=Self}}"
+                                                CommandParameter="{Binding}" />
+                                    </StackPanel>
+                                </StackPanel>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </Grid>
+    </utu:SafeArea>
+</Page>
