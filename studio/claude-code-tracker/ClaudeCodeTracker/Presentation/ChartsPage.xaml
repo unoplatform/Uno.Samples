@@ -1,0 +1,124 @@
+<Page x:Class="ClaudeCodeTracker.Presentation.ChartsPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:utu="using:Uno.Toolkit.UI"
+      xmlns:lvc="using:LiveChartsCore.SkiaSharpView.WinUI"
+      Background="{ThemeResource BackgroundBrush}">
+
+    <Grid x:Name="Root">
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <StackPanel Spacing="20" Padding="20,16,20,24">
+
+                <!-- Header -->
+                <StackPanel Spacing="2">
+                    <TextBlock Style="{StaticResource TitleLarge}"
+                               Foreground="{ThemeResource OnBackgroundBrush}"
+                               Text="Charts" />
+                    <TextBlock Style="{StaticResource BodyMedium}"
+                               Foreground="{ThemeResource OnSurfaceVariantBrush}"
+                               Text="{Binding PeriodLabel}" />
+                </StackPanel>
+
+                <!-- Daily cost line chart -->
+                <utu:CardContentControl Style="{StaticResource ElevatedCardContentControlStyle}"
+                                        HorizontalAlignment="Stretch">
+                    <utu:CardContentControl.ContentTemplate>
+                        <DataTemplate>
+                            <StackPanel Padding="16" Spacing="12">
+                                <StackPanel Spacing="2">
+                                    <TextBlock Style="{StaticResource TitleSmall}"
+                                               Foreground="{ThemeResource OnSurfaceBrush}"
+                                               Text="Daily Cost Trend" />
+                                    <TextBlock Style="{StaticResource LabelSmall}"
+                                               Foreground="{ThemeResource OnSurfaceVariantBrush}"
+                                               Text="USD spent per day over the last 14 days" />
+                                </StackPanel>
+                                <Grid Height="200">
+                                    <lvc:CartesianChart Series="{Binding DailyCostSeries}"
+                                                        XAxes="{Binding DailyCostXAxes}"
+                                                        YAxes="{Binding DailyCostYAxes}"
+                                                        LegendPosition="Hidden" />
+                                </Grid>
+                            </StackPanel>
+                        </DataTemplate>
+                    </utu:CardContentControl.ContentTemplate>
+                </utu:CardContentControl>
+
+                <!-- Weekly sessions bar chart -->
+                <utu:CardContentControl Style="{StaticResource ElevatedCardContentControlStyle}"
+                                        HorizontalAlignment="Stretch">
+                    <utu:CardContentControl.ContentTemplate>
+                        <DataTemplate>
+                            <StackPanel Padding="16" Spacing="12">
+                                <StackPanel Spacing="2">
+                                    <TextBlock Style="{StaticResource TitleSmall}"
+                                               Foreground="{ThemeResource OnSurfaceBrush}"
+                                               Text="Sessions Per Day" />
+                                    <TextBlock Style="{StaticResource LabelSmall}"
+                                               Foreground="{ThemeResource OnSurfaceVariantBrush}"
+                                               Text="Number of Claude Code sessions per day this week" />
+                                </StackPanel>
+                                <Grid Height="180">
+                                    <lvc:CartesianChart Series="{Binding WeeklySessionsSeries}"
+                                                        XAxes="{Binding WeeklySessionsXAxes}"
+                                                        YAxes="{Binding WeeklySessionsYAxes}"
+                                                        LegendPosition="Hidden" />
+                                </Grid>
+                            </StackPanel>
+                        </DataTemplate>
+                    </utu:CardContentControl.ContentTemplate>
+                </utu:CardContentControl>
+
+                <!-- Donut charts row -->
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="12" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Token type donut -->
+                    <utu:CardContentControl Grid.Column="0"
+                                            Style="{StaticResource ElevatedCardContentControlStyle}"
+                                            HorizontalAlignment="Stretch">
+                        <utu:CardContentControl.ContentTemplate>
+                            <DataTemplate>
+                                <StackPanel Padding="16" Spacing="10">
+                                    <TextBlock Style="{StaticResource TitleSmall}"
+                                               Foreground="{ThemeResource OnSurfaceBrush}"
+                                               Text="Token Types" />
+                                    <Grid Height="160">
+                                        <lvc:PieChart Series="{Binding TokenTypeSeries}"
+                                                      LegendPosition="Bottom"
+                                                      InitialRotation="-90" />
+                                    </Grid>
+                                </StackPanel>
+                            </DataTemplate>
+                        </utu:CardContentControl.ContentTemplate>
+                    </utu:CardContentControl>
+
+                    <!-- Model share donut -->
+                    <utu:CardContentControl Grid.Column="2"
+                                            Style="{StaticResource ElevatedCardContentControlStyle}"
+                                            HorizontalAlignment="Stretch">
+                        <utu:CardContentControl.ContentTemplate>
+                            <DataTemplate>
+                                <StackPanel Padding="16" Spacing="10">
+                                    <TextBlock Style="{StaticResource TitleSmall}"
+                                               Foreground="{ThemeResource OnSurfaceBrush}"
+                                               Text="Model Share" />
+                                    <Grid Height="160">
+                                        <lvc:PieChart Series="{Binding ModelShareSeries}"
+                                                      LegendPosition="Bottom"
+                                                      InitialRotation="-90" />
+                                    </Grid>
+                                </StackPanel>
+                            </DataTemplate>
+                        </utu:CardContentControl.ContentTemplate>
+                    </utu:CardContentControl>
+                </Grid>
+
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</Page>

@@ -1,0 +1,223 @@
+
+<Page x:Class="ClaudeCodeTracker.Presentation.UsagePage" Background="{ThemeResource BackgroundBrush}" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:utu="using:Uno.Toolkit.UI">
+
+    <Grid x:Name="Root">
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <StackPanel Spacing="20" Padding="20,16,20,24">
+
+                <StackPanel Spacing="2">
+                    <TextBlock Style="{StaticResource TitleLarge}" Foreground="{ThemeResource OnBackgroundBrush}" Text="Usage &amp; Limits" />
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <TextBlock Style="{StaticResource BodyMedium}" Foreground="{ThemeResource OnSurfaceVariantBrush}">
+                            <Run Text="Plan: " />
+                        <Run Text="{Binding CurrentPlan}" /></TextBlock>
+                        <TextBlock Style="{StaticResource BodyMedium}" Foreground="{ThemeResource OnSurfaceVariantBrush}" Text="·" />
+                        <TextBlock Style="{StaticResource BodyMedium}" Foreground="{ThemeResource OnSurfaceVariantBrush}" Text="{Binding PlanDescription}" />
+                    </StackPanel>
+                </StackPanel>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="8" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="8" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <utu:CardContentControl Grid.Column="0" Style="{StaticResource FilledCardContentControlStyle}" HorizontalAlignment="Stretch">
+                        <utu:CardContentControl.ContentTemplate>
+                            <DataTemplate>
+                                <StackPanel Padding="12,10" Spacing="4">
+                                    <TextBlock Style="{StaticResource LabelSmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" Text="Month-to-date" />
+                                    <TextBlock Style="{StaticResource TitleMedium}" Foreground="{ThemeResource PrimaryBrush}">
+                                        <Run Text="$" />
+                                    <Run Text="{Binding TotalCostUsd}" /></TextBlock>
+                                </StackPanel>
+                            </DataTemplate>
+                        </utu:CardContentControl.ContentTemplate>
+                    </utu:CardContentControl>
+                    <utu:CardContentControl Grid.Column="2" Style="{StaticResource FilledCardContentControlStyle}" HorizontalAlignment="Stretch">
+                        <utu:CardContentControl.ContentTemplate>
+                            <DataTemplate>
+                                <StackPanel Padding="12,10" Spacing="4">
+                                    <TextBlock Style="{StaticResource LabelSmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" Text="Daily avg" />
+                                    <TextBlock Style="{StaticResource TitleMedium}" Foreground="{ThemeResource OnSurfaceBrush}">
+                                        <Run Text="$" />
+                                    <Run Text="{Binding DailyCostAvg}" /></TextBlock>
+                                </StackPanel>
+                            </DataTemplate>
+                        </utu:CardContentControl.ContentTemplate>
+                    </utu:CardContentControl>
+                    <utu:CardContentControl Grid.Column="4" Style="{StaticResource FilledCardContentControlStyle}" HorizontalAlignment="Stretch">
+                        <utu:CardContentControl.ContentTemplate>
+                            <DataTemplate>
+                                <StackPanel Padding="12,10" Spacing="4">
+                                    <TextBlock Style="{StaticResource LabelSmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" Text="Projected" />
+                                    <TextBlock Style="{StaticResource TitleMedium}" Foreground="{ThemeResource TertiaryBrush}">
+                                        <Run Text="$" />
+                                    <Run Text="{Binding ProjectedMonthlyUsd}" /></TextBlock>
+                                </StackPanel>
+                            </DataTemplate>
+                        </utu:CardContentControl.ContentTemplate>
+                    </utu:CardContentControl>
+                </Grid>
+
+                <utu:CardContentControl Style="{StaticResource ElevatedCardContentControlStyle}" HorizontalAlignment="Stretch">
+                    <utu:CardContentControl.ContentTemplate>
+                        <DataTemplate>
+                            <StackPanel Padding="16" Spacing="14">
+                                <TextBlock Style="{StaticResource TitleSmall}" Foreground="{ThemeResource OnSurfaceBrush}" Text="Token Breakdown" />
+
+                                <StackPanel Spacing="4">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Grid.Column="0" Style="{StaticResource LabelMedium}" Foreground="{ThemeResource OnSurfaceBrush}" Text="Input" />
+                                        <TextBlock Grid.Column="1" Style="{StaticResource LabelSmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}">
+                                            <Run Text="{Binding Tokens.InputTokens}" />
+                                        <Run Text=" tokens · " /><Run Text="{Binding Tokens.InputPercent}" /><Run Text="%" /></TextBlock>
+                                    </Grid>
+                                    <ProgressBar Value="{Binding Tokens.InputPercent}" Maximum="100" HorizontalAlignment="Stretch" Height="6" />
+                                </StackPanel>
+                                <StackPanel Spacing="4">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Grid.Column="0" Style="{StaticResource LabelMedium}" Foreground="{ThemeResource OnSurfaceBrush}" Text="Output" />
+                                        <TextBlock Grid.Column="1" Style="{StaticResource LabelSmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}">
+                                            <Run Text="{Binding Tokens.OutputTokens}" />
+                                        <Run Text=" tokens · " /><Run Text="{Binding Tokens.OutputPercent}" /><Run Text="%" /></TextBlock>
+                                    </Grid>
+                                    <ProgressBar Value="{Binding Tokens.OutputPercent}" Maximum="100" HorizontalAlignment="Stretch" Height="6" />
+                                </StackPanel>
+
+                                <StackPanel Spacing="4">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Grid.Column="0" Style="{StaticResource LabelMedium}" Foreground="{ThemeResource OnSurfaceBrush}" Text="Cache Read" />
+                                        <TextBlock Grid.Column="1" Style="{StaticResource LabelSmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}">
+                                            <Run Text="{Binding Tokens.CacheReadTokens}" />
+                                        <Run Text=" tokens · " /><Run Text="{Binding Tokens.CacheReadPercent}" /><Run Text="%" /></TextBlock>
+                                    </Grid>
+                                    <ProgressBar Value="{Binding Tokens.CacheReadPercent}" Maximum="100" HorizontalAlignment="Stretch" Height="6" />
+                                </StackPanel>
+                                <StackPanel Spacing="4">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Grid.Column="0" Style="{StaticResource LabelMedium}" Foreground="{ThemeResource OnSurfaceBrush}" Text="Cache Write" />
+                                        <TextBlock Grid.Column="1" Style="{StaticResource LabelSmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}">
+                                            <Run Text="{Binding Tokens.CacheWriteTokens}" />
+                                        <Run Text=" tokens · " /><Run Text="{Binding Tokens.CacheWritePercent}" /><Run Text="%" /></TextBlock>
+                                    </Grid>
+                                    <ProgressBar Value="{Binding Tokens.CacheWritePercent}" Maximum="100" HorizontalAlignment="Stretch" Height="6" />
+                                </StackPanel>
+                                <!-- Input tokens -->
+                                <!-- Output tokens -->
+                                <!-- Cache read tokens -->
+                                <!-- Cache write tokens -->
+                            </StackPanel>
+                        </DataTemplate>
+                    </utu:CardContentControl.ContentTemplate>
+                </utu:CardContentControl>
+                <StackPanel Spacing="8">
+                    <TextBlock Style="{StaticResource TitleSmall}" Foreground="{ThemeResource OnBackgroundBrush}" Text="Rate Limits" />
+                    <ItemsRepeater ItemsSource="{Binding RateLimits}">
+                        <ItemsRepeater.Layout>
+                            <StackLayout Spacing="8" Orientation="Vertical" />
+                        </ItemsRepeater.Layout>
+                        <ItemsRepeater.ItemTemplate>
+                            <DataTemplate>
+                                <utu:CardContentControl Content="{Binding}" Style="{StaticResource ElevatedCardContentControlStyle}" HorizontalAlignment="Stretch">
+                                    <utu:CardContentControl.ContentTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Padding="14,12" Spacing="8">
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="*" />
+                                                        <ColumnDefinition Width="Auto" />
+                                                    </Grid.ColumnDefinitions>
+                                                    <StackPanel Grid.Column="0" Spacing="2">
+                                                        <TextBlock Style="{StaticResource LabelMedium}" Foreground="{ThemeResource OnSurfaceBrush}" Text="{Binding LimitType}" />
+                                                        <TextBlock Style="{StaticResource LabelSmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" Text="{Binding Description}" />
+                                                    </StackPanel>
+                                                    <StackPanel Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center" Spacing="1">
+                                                        <TextBlock Style="{StaticResource LabelMedium}" HorizontalAlignment="Right" Foreground="{ThemeResource OnSurfaceBrush}">
+                                                            <Run Text="{Binding UsedPercent}" />
+                                                        <Run Text="%" /></TextBlock>
+                                                        <TextBlock Style="{StaticResource LabelSmall}" HorizontalAlignment="Right" Foreground="{ThemeResource OnSurfaceVariantBrush}" Text="{Binding ResetIn}" />
+                                                    </StackPanel>
+                                                </Grid>
+                                                <ProgressBar Value="{Binding UsedPercent}" Maximum="100" HorizontalAlignment="Stretch" Height="6" />
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </utu:CardContentControl.ContentTemplate>
+                                </utu:CardContentControl>
+                            </DataTemplate>
+                        </ItemsRepeater.ItemTemplate>
+                    </ItemsRepeater>
+                </StackPanel>
+
+                <utu:CardContentControl Style="{StaticResource ElevatedCardContentControlStyle}" HorizontalAlignment="Stretch">
+                    <utu:CardContentControl.ContentTemplate>
+                        <DataTemplate>
+                            <StackPanel Padding="16" Spacing="12">
+                                <TextBlock Style="{StaticResource TitleSmall}" Foreground="{ThemeResource OnSurfaceBrush}" Text="Model Pricing Reference" />
+                                <StackPanel Spacing="2">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="80" />
+                                            <ColumnDefinition Width="80" />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Grid.Column="0" Style="{StaticResource LabelSmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" Text="Model" />
+                                        <TextBlock Grid.Column="1" Style="{StaticResource LabelSmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" HorizontalAlignment="Right" Text="Input/1M" />
+                                        <TextBlock Grid.Column="2" Style="{StaticResource LabelSmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" HorizontalAlignment="Right" Text="Output/1M" />
+                                    </Grid>
+                                    <Border Height="1" Background="{ThemeResource OutlineVariantBrush}" Margin="0,4" />
+                                </StackPanel>
+                                <ItemsRepeater ItemsSource="{Binding ModelPricing}">
+                                    <ItemsRepeater.Layout>
+                                        <StackLayout Spacing="10" Orientation="Vertical" />
+                                    </ItemsRepeater.Layout>
+                                    <ItemsRepeater.ItemTemplate>
+                                        <DataTemplate>
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="80" />
+                                                    <ColumnDefinition Width="80" />
+                                                </Grid.ColumnDefinitions>
+                                                <TextBlock Grid.Column="0" Style="{StaticResource LabelMedium}" Foreground="{ThemeResource OnSurfaceBrush}" Text="{Binding DisplayName}" />
+                                                <TextBlock Grid.Column="1" Style="{StaticResource LabelSmall}" Foreground="{ThemeResource PrimaryBrush}" HorizontalAlignment="Right">
+                                                    <Run Text="$" />
+                                                <Run Text="{Binding InputPricePer1M}" /></TextBlock>
+                                                <TextBlock Grid.Column="2" Style="{StaticResource LabelSmall}" Foreground="{ThemeResource SecondaryBrush}" HorizontalAlignment="Right">
+                                                    <Run Text="$" />
+                                                <Run Text="{Binding OutputPricePer1M}" /></TextBlock>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </ItemsRepeater.ItemTemplate>
+                                </ItemsRepeater>
+                            </StackPanel>
+                        </DataTemplate>
+                    </utu:CardContentControl.ContentTemplate>
+                </utu:CardContentControl>
+                <!-- Header -->
+                <!-- Cost summary row -->
+                <!-- Token breakdown -->
+                <!-- Rate limits -->
+                <!-- Model pricing reference -->
+
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</Page>

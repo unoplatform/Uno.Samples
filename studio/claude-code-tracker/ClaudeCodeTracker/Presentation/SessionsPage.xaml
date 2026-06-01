@@ -1,0 +1,96 @@
+
+<Page x:Class="ClaudeCodeTracker.Presentation.SessionsPage" Background="{ThemeResource BackgroundBrush}" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:utu="using:Uno.Toolkit.UI" xmlns:uen="using:Uno.Extensions.Navigation.UI">
+
+    <Grid x:Name="Root">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Padding="20,16,20,12" Spacing="12" Background="{ThemeResource SurfaceVariantBrush}">
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0" Spacing="2">
+                    <TextBlock Style="{StaticResource TitleLarge}" Foreground="{ThemeResource OnSurfaceVariantBrush}" Text="Sessions" />
+                    <TextBlock Style="{StaticResource BodyMedium}" Foreground="{ThemeResource OnSurfaceVariantBrush}">
+                        <Run Text="{Binding TotalCount}" />
+                    <Run Text=" total sessions" /></TextBlock>
+                </StackPanel>
+                <FontIcon Grid.Column="1" Glyph="" FontSize="20" VerticalAlignment="Center" Foreground="{ThemeResource OnSurfaceVariantBrush}" AutomationProperties.Name="Search icon" />
+            </Grid>
+            <TextBox x:Name="SearchBox" PlaceholderText="Search sessions by name…" HorizontalAlignment="Stretch" TextChanged="SearchBox_TextChanged" />
+
+            <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
+                <StackPanel Orientation="Horizontal" Spacing="8">
+                    <Button Content="All" Style="{StaticResource FilledButtonStyle}" AutomationProperties.Name="Filter all sessions" Padding="16,6" />
+                    <Button Content="Opus" Style="{StaticResource FilledTonalButtonStyle}" AutomationProperties.Name="Filter Opus sessions" Padding="16,6" />
+                    <Button Content="Sonnet" Style="{StaticResource FilledTonalButtonStyle}" AutomationProperties.Name="Filter Sonnet sessions" Padding="16,6" />
+                    <Button Content="Haiku" Style="{StaticResource FilledTonalButtonStyle}" AutomationProperties.Name="Filter Haiku sessions" Padding="16,6" />
+                </StackPanel>
+            </ScrollViewer>
+            <!-- Title row -->
+            <!-- Search bar -->
+            <!-- Filter chips -->
+        </StackPanel>
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+            <ItemsRepeater x:Name="SessionList" Margin="16,12,16,24">
+                <ItemsRepeater.Layout>
+                    <StackLayout Spacing="8" Orientation="Vertical" />
+                </ItemsRepeater.Layout>
+                <ItemsRepeater.ItemTemplate>
+                    <DataTemplate>
+                        <utu:CardContentControl Content="{Binding}" Style="{StaticResource ElevatedCardContentControlStyle}" HorizontalAlignment="Stretch" AutomationProperties.Name="Session entry" uen:Navigation.Request="SessionDetail" uen:Navigation.Data="{Binding}">
+                            <utu:CardContentControl.ContentTemplate>
+                                <DataTemplate>
+                                    <Grid Padding="14,12">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="8" />
+                                            <RowDefinition Height="Auto" />
+                                        </Grid.RowDefinitions>
+
+                                        <Grid Grid.Row="0">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Grid.Column="0" Style="{StaticResource LabelMedium}" Foreground="{ThemeResource OnSurfaceBrush}" Text="{Binding ProjectName}" />
+                                            <TextBlock Grid.Column="1" Style="{StaticResource LabelMedium}" Foreground="{ThemeResource PrimaryBrush}" HorizontalAlignment="Right">
+                                                <Run Text="$" />
+                                            <Run Text="{Binding CostUsd}" /></TextBlock>
+                                        </Grid>
+                                        <StackPanel Grid.Row="2" Orientation="Horizontal" Spacing="6">
+                                            <Border Background="{ThemeResource SecondaryContainerBrush}" CornerRadius="4" Padding="6,2">
+                                                <TextBlock Style="{StaticResource LabelSmall}" Foreground="{ThemeResource OnSecondaryContainerBrush}" Text="{Binding ModelDisplayName}" />
+                                            </Border>
+                                            <TextBlock Style="{StaticResource LabelSmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" VerticalAlignment="Center" Text="·" />
+                                            <TextBlock Style="{StaticResource LabelSmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" VerticalAlignment="Center">
+                                                <Run Text="{Binding DurationMinutes}" />
+                                            <Run Text=" min" /></TextBlock>
+                                            <TextBlock Style="{StaticResource LabelSmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" VerticalAlignment="Center" Text="·" />
+                                            <TextBlock Style="{StaticResource LabelSmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" VerticalAlignment="Center">
+                                                <Run Text="{Binding MessageCount}" />
+                                            <Run Text=" msgs" /></TextBlock>
+                                            <TextBlock Style="{StaticResource LabelSmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" VerticalAlignment="Center" Text="·" />
+                                            <TextBlock Style="{StaticResource LabelSmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" VerticalAlignment="Center">
+                                                <Run Text="{Binding InputTokens}" />
+                                            <Run Text=" tkns" /></TextBlock>
+                                        </StackPanel>
+                                        <!-- Row 1: project name + cost -->
+                                        <!-- Row 3: metadata chips -->
+                                    </Grid>
+                                </DataTemplate>
+                            </utu:CardContentControl.ContentTemplate>
+                        </utu:CardContentControl>
+                    </DataTemplate>
+                </ItemsRepeater.ItemTemplate>
+            </ItemsRepeater>
+        </ScrollViewer>
+        <!-- Header + search -->
+        <!-- Session list -->
+    </Grid>
+</Page>

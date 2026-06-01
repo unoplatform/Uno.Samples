@@ -1,0 +1,298 @@
+<Page x:Class="ClaudeCodeTracker.Presentation.SessionDetailPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:utu="using:Uno.Toolkit.UI"
+      Background="{ThemeResource BackgroundBrush}">
+
+    <Grid x:Name="Root">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <utu:NavigationBar Grid.Row="0"
+                           Content="{Binding Session.ProjectName}" />
+
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+            <StackPanel Spacing="20" Padding="20,16,20,24">
+
+                <!-- Session header card -->
+                <utu:CardContentControl Style="{StaticResource ElevatedCardContentControlStyle}"
+                                        HorizontalAlignment="Stretch">
+                    <utu:CardContentControl.ContentTemplate>
+                        <DataTemplate>
+                            <StackPanel Padding="16" Spacing="12">
+                                <StackPanel Spacing="4">
+                                    <TextBlock Style="{StaticResource TitleMedium}"
+                                               Foreground="{ThemeResource OnSurfaceBrush}"
+                                               Text="{Binding Session.ProjectName}" />
+                                    <StackPanel Orientation="Horizontal" Spacing="8">
+                                        <Border Background="{ThemeResource SecondaryContainerBrush}"
+                                                CornerRadius="4"
+                                                Padding="8,3">
+                                            <TextBlock Style="{StaticResource LabelSmall}"
+                                                       Foreground="{ThemeResource OnSecondaryContainerBrush}"
+                                                       Text="{Binding Session.ModelDisplayName}" />
+                                        </Border>
+                                        <Border Background="{ThemeResource PrimaryContainerBrush}"
+                                                CornerRadius="4"
+                                                Padding="8,3">
+                                            <TextBlock Style="{StaticResource LabelSmall}"
+                                                       Foreground="{ThemeResource OnPrimaryContainerBrush}"
+                                                       Text="{Binding Session.Status}" />
+                                        </Border>
+                                    </StackPanel>
+                                </StackPanel>
+
+                                <Border Height="1" Background="{ThemeResource OutlineVariantBrush}" />
+
+                                <!-- Key session stats -->
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <StackPanel Grid.Column="0" Spacing="2">
+                                        <TextBlock Style="{StaticResource LabelSmall}"
+                                                   Foreground="{ThemeResource OnSurfaceVariantBrush}"
+                                                   Text="Duration" />
+                                        <TextBlock Style="{StaticResource TitleSmall}"
+                                                   Foreground="{ThemeResource PrimaryBrush}">
+                                            <Run Text="{Binding Session.DurationMinutes}" /><Run Text=" min" />
+                                        </TextBlock>
+                                    </StackPanel>
+                                    <StackPanel Grid.Column="1" Spacing="2">
+                                        <TextBlock Style="{StaticResource LabelSmall}"
+                                                   Foreground="{ThemeResource OnSurfaceVariantBrush}"
+                                                   Text="Messages" />
+                                        <TextBlock Style="{StaticResource TitleSmall}"
+                                                   Foreground="{ThemeResource OnSurfaceBrush}"
+                                                   Text="{Binding Session.MessageCount}" />
+                                    </StackPanel>
+                                    <StackPanel Grid.Column="2" Spacing="2">
+                                        <TextBlock Style="{StaticResource LabelSmall}"
+                                                   Foreground="{ThemeResource OnSurfaceVariantBrush}"
+                                                   Text="Total Cost" />
+                                        <TextBlock Style="{StaticResource TitleSmall}"
+                                                   Foreground="{ThemeResource PrimaryBrush}">
+                                            <Run Text="$" /><Run Text="{Binding Session.CostUsd}" />
+                                        </TextBlock>
+                                    </StackPanel>
+                                </Grid>
+                            </StackPanel>
+                        </DataTemplate>
+                    </utu:CardContentControl.ContentTemplate>
+                </utu:CardContentControl>
+
+                <!-- Token details card -->
+                <utu:CardContentControl Style="{StaticResource ElevatedCardContentControlStyle}"
+                                        HorizontalAlignment="Stretch">
+                    <utu:CardContentControl.ContentTemplate>
+                        <DataTemplate>
+                            <StackPanel Padding="16" Spacing="12">
+                                <TextBlock Style="{StaticResource TitleSmall}"
+                                           Foreground="{ThemeResource OnSurfaceBrush}"
+                                           Text="Token Details" />
+
+                                <!-- Token type rows -->
+                                <StackPanel Spacing="10">
+                                    <!-- Input -->
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="80" />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Grid.Column="0"
+                                                   Style="{StaticResource LabelMedium}"
+                                                   Foreground="{ThemeResource OnSurfaceBrush}"
+                                                   Text="Input" />
+                                        <TextBlock Grid.Column="1"
+                                                   Style="{StaticResource LabelSmall}"
+                                                   Foreground="{ThemeResource OnSurfaceVariantBrush}"
+                                                   Text="{Binding Session.InputTokens}" />
+                                        <TextBlock Grid.Column="2"
+                                                   Style="{StaticResource LabelSmall}"
+                                                   Foreground="{ThemeResource PrimaryBrush}"
+                                                   HorizontalAlignment="Right">
+                                            <Run Text="$" /><Run Text="{Binding InputCostUsd}" />
+                                        </TextBlock>
+                                    </Grid>
+                                    <!-- Output -->
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="80" />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Grid.Column="0"
+                                                   Style="{StaticResource LabelMedium}"
+                                                   Foreground="{ThemeResource OnSurfaceBrush}"
+                                                   Text="Output" />
+                                        <TextBlock Grid.Column="1"
+                                                   Style="{StaticResource LabelSmall}"
+                                                   Foreground="{ThemeResource OnSurfaceVariantBrush}"
+                                                   Text="{Binding Session.OutputTokens}" />
+                                        <TextBlock Grid.Column="2"
+                                                   Style="{StaticResource LabelSmall}"
+                                                   Foreground="{ThemeResource PrimaryBrush}"
+                                                   HorizontalAlignment="Right">
+                                            <Run Text="$" /><Run Text="{Binding OutputCostUsd}" />
+                                        </TextBlock>
+                                    </Grid>
+                                    <!-- Cache Read -->
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="80" />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Grid.Column="0"
+                                                   Style="{StaticResource LabelMedium}"
+                                                   Foreground="{ThemeResource OnSurfaceBrush}"
+                                                   Text="Cache Read" />
+                                        <TextBlock Grid.Column="1"
+                                                   Style="{StaticResource LabelSmall}"
+                                                   Foreground="{ThemeResource SecondaryBrush}"
+                                                   Text="{Binding Session.CacheReadTokens}" />
+                                        <TextBlock Grid.Column="2"
+                                                   Style="{StaticResource LabelSmall}"
+                                                   Foreground="{ThemeResource SecondaryBrush}"
+                                                   HorizontalAlignment="Right">
+                                            <Run Text="$" /><Run Text="{Binding CacheReadCostUsd}" />
+                                        </TextBlock>
+                                    </Grid>
+                                    <!-- Cache Write -->
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="80" />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Grid.Column="0"
+                                                   Style="{StaticResource LabelMedium}"
+                                                   Foreground="{ThemeResource OnSurfaceBrush}"
+                                                   Text="Cache Write" />
+                                        <TextBlock Grid.Column="1"
+                                                   Style="{StaticResource LabelSmall}"
+                                                   Foreground="{ThemeResource TertiaryBrush}"
+                                                   Text="{Binding Session.CacheWriteTokens}" />
+                                        <TextBlock Grid.Column="2"
+                                                   Style="{StaticResource LabelSmall}"
+                                                   Foreground="{ThemeResource TertiaryBrush}"
+                                                   HorizontalAlignment="Right">
+                                            <Run Text="$" /><Run Text="{Binding CacheWriteCostUsd}" />
+                                        </TextBlock>
+                                    </Grid>
+
+                                    <Border Height="1" Background="{ThemeResource OutlineVariantBrush}" />
+
+                                    <!-- Total -->
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="80" />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Grid.Column="0"
+                                                   Style="{StaticResource LabelMedium}"
+                                                   Foreground="{ThemeResource OnSurfaceBrush}"
+                                                   Text="Total" />
+                                        <TextBlock Grid.Column="1"
+                                                   Style="{StaticResource LabelSmall}"
+                                                   Foreground="{ThemeResource OnSurfaceVariantBrush}"
+                                                   Text="{Binding TotalTokens}" />
+                                        <TextBlock Grid.Column="2"
+                                                   Style="{StaticResource TitleSmall}"
+                                                   Foreground="{ThemeResource PrimaryBrush}"
+                                                   HorizontalAlignment="Right">
+                                            <Run Text="$" /><Run Text="{Binding Session.CostUsd}" />
+                                        </TextBlock>
+                                    </Grid>
+                                </StackPanel>
+                            </StackPanel>
+                        </DataTemplate>
+                    </utu:CardContentControl.ContentTemplate>
+                </utu:CardContentControl>
+
+                <!-- Cache efficiency card -->
+                <utu:CardContentControl Style="{StaticResource ElevatedCardContentControlStyle}"
+                                        HorizontalAlignment="Stretch">
+                    <utu:CardContentControl.ContentTemplate>
+                        <DataTemplate>
+                            <StackPanel Padding="16" Spacing="12">
+                                <TextBlock Style="{StaticResource TitleSmall}"
+                                           Foreground="{ThemeResource OnSurfaceBrush}"
+                                           Text="Cache Efficiency" />
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <StackPanel Grid.Column="0" Spacing="4">
+                                        <TextBlock Style="{StaticResource LabelSmall}"
+                                                   Foreground="{ThemeResource OnSurfaceVariantBrush}"
+                                                   Text="Cache hit rate" />
+                                        <TextBlock Style="{StaticResource TitleMedium}"
+                                                   Foreground="{ThemeResource SecondaryBrush}">
+                                            <Run Text="{Binding CacheHitRatePercent}" /><Run Text="%" />
+                                        </TextBlock>
+                                        <ProgressBar Value="{Binding CacheHitRatePercent}"
+                                                     Maximum="100"
+                                                     HorizontalAlignment="Stretch"
+                                                     Height="6" />
+                                    </StackPanel>
+                                    <StackPanel Grid.Column="1" Padding="16,0,0,0" Spacing="4">
+                                        <TextBlock Style="{StaticResource LabelSmall}"
+                                                   Foreground="{ThemeResource OnSurfaceVariantBrush}"
+                                                   Text="Est. savings" />
+                                        <TextBlock Style="{StaticResource TitleMedium}"
+                                                   Foreground="{ThemeResource SecondaryBrush}">
+                                            <Run Text="$" /><Run Text="{Binding EstimatedSavingsUsd}" />
+                                        </TextBlock>
+                                        <TextBlock Style="{StaticResource LabelSmall}"
+                                                   Foreground="{ThemeResource OnSurfaceVariantBrush}">
+                                            <Run Text="{Binding CacheSavingsPercent}" /><Run Text="% vs uncached" />
+                                        </TextBlock>
+                                    </StackPanel>
+                                </Grid>
+                            </StackPanel>
+                        </DataTemplate>
+                    </utu:CardContentControl.ContentTemplate>
+                </utu:CardContentControl>
+
+                <!-- Topic tags -->
+                <utu:CardContentControl Style="{StaticResource ElevatedCardContentControlStyle}"
+                                        HorizontalAlignment="Stretch">
+                    <utu:CardContentControl.ContentTemplate>
+                        <DataTemplate>
+                            <StackPanel Padding="16" Spacing="12">
+                                <TextBlock Style="{StaticResource TitleSmall}"
+                                           Foreground="{ThemeResource OnSurfaceBrush}"
+                                           Text="Topics" />
+                                <ItemsRepeater ItemsSource="{Binding TopicTags}">
+                                    <ItemsRepeater.Layout>
+                                        <StackLayout Orientation="Horizontal" Spacing="8" />
+                                    </ItemsRepeater.Layout>
+                                    <ItemsRepeater.ItemTemplate>
+                                        <DataTemplate>
+                                            <Border Background="{ThemeResource SurfaceVariantBrush}"
+                                                    CornerRadius="6"
+                                                    Padding="10,4">
+                                                <TextBlock Style="{StaticResource LabelSmall}"
+                                                           Foreground="{ThemeResource OnSurfaceVariantBrush}"
+                                                           Text="{Binding}" />
+                                            </Border>
+                                        </DataTemplate>
+                                    </ItemsRepeater.ItemTemplate>
+                                </ItemsRepeater>
+                            </StackPanel>
+                        </DataTemplate>
+                    </utu:CardContentControl.ContentTemplate>
+                </utu:CardContentControl>
+
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</Page>
