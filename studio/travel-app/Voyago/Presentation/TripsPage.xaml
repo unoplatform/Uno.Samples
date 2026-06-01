@@ -1,0 +1,100 @@
+
+<Page x:Class="Voyago.Presentation.TripsPage" Background="{ThemeResource BackgroundBrush}" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:utu="using:Uno.Toolkit.UI">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0" Background="{ThemeResource SurfaceBrush}" Padding="16,12">
+            <TextBlock Text="My Trips" Style="{StaticResource TitleLarge}" Foreground="{ThemeResource OnSurfaceBrush}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+        </Grid>
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+            <StackPanel Spacing="0" Padding="16,20,16,24" MaxWidth="900" HorizontalAlignment="Center">
+
+                <StackPanel Spacing="12">
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <FontIcon Glyph="" FontSize="16" Foreground="{ThemeResource PrimaryBrush}" VerticalAlignment="Center" />
+                        <TextBlock Text="Upcoming" Style="{StaticResource TitleMedium}" Foreground="{ThemeResource OnBackgroundBrush}" />
+                    </StackPanel>
+
+                    <ItemsRepeater ItemsSource="{Binding UpcomingTrips}">
+                        <ItemsRepeater.Layout>
+                            <StackLayout Orientation="Vertical" Spacing="12" />
+                        </ItemsRepeater.Layout>
+                        <ItemsRepeater.ItemTemplate>
+                            <DataTemplate>
+                                <utu:CardContentControl Style="{StaticResource ElevatedCardContentControlStyle}" HorizontalAlignment="Stretch" IsClickable="True">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="100" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <Image Grid.Column="0" Source="{Binding ImageUrl}" Stretch="UniformToFill" Height="100" />
+                                        <StackPanel Grid.Column="1" Padding="14,12" Spacing="4" VerticalAlignment="Center">
+                                            <TextBlock Text="{Binding Destination}" Style="{StaticResource TitleMedium}" Foreground="{ThemeResource OnSurfaceBrush}" />
+                                            <StackPanel Orientation="Horizontal" Spacing="4">
+                                                <FontIcon Glyph="" FontSize="12" Foreground="{ThemeResource OnSurfaceVariantBrush}" VerticalAlignment="Center" />
+                                                <TextBlock Text="{Binding Country}" Style="{StaticResource BodySmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" />
+                                            </StackPanel>
+                                            <StackPanel Orientation="Horizontal" Spacing="4">
+                                                <FontIcon Glyph="" FontSize="12" Foreground="{ThemeResource OnSurfaceVariantBrush}" VerticalAlignment="Center" />
+                                                <TextBlock Style="{StaticResource BodySmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}">
+                                                    <Run Text="{Binding DepartureDate}" />
+                                                </TextBlock>
+                                            </StackPanel>
+                                            <Border Background="{ThemeResource TertiaryContainerBrush}" CornerRadius="10" Padding="10,4" HorizontalAlignment="Left" Margin="0,4,0,0">
+                                                <TextBlock Text="{Binding Status}" Style="{StaticResource LabelSmall}" Foreground="{ThemeResource OnTertiaryContainerBrush}" />
+                                            </Border>
+                                            <!-- Status badge -->
+                                        </StackPanel>
+                                    </Grid>
+                                </utu:CardContentControl>
+                            </DataTemplate>
+                        </ItemsRepeater.ItemTemplate>
+                    </ItemsRepeater>
+                </StackPanel>
+                <StackPanel Spacing="12" Margin="0,28,0,0">
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <FontIcon Glyph="" FontSize="16" Foreground="{ThemeResource OnSurfaceVariantBrush}" VerticalAlignment="Center" />
+                        <TextBlock Text="Past Trips" Style="{StaticResource TitleMedium}" Foreground="{ThemeResource OnBackgroundBrush}" />
+                    </StackPanel>
+
+                    <ItemsRepeater ItemsSource="{Binding PastTrips}">
+                        <ItemsRepeater.Layout>
+                            <StackLayout Orientation="Vertical" Spacing="12" />
+                        </ItemsRepeater.Layout>
+                        <ItemsRepeater.ItemTemplate>
+                            <DataTemplate>
+                                <utu:CardContentControl Style="{StaticResource FilledCardContentControlStyle}" HorizontalAlignment="Stretch" IsClickable="True">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="80" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <Image Grid.Column="0" Source="{Binding ImageUrl}" Stretch="UniformToFill" Height="80" />
+                                        <StackPanel Grid.Column="1" Padding="14,10" Spacing="3" VerticalAlignment="Center">
+                                            <TextBlock Text="{Binding Destination}" Style="{StaticResource TitleSmall}" Foreground="{ThemeResource OnSurfaceBrush}" />
+                                            <TextBlock Text="{Binding Country}" Style="{StaticResource BodySmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" />
+                                            <StackPanel Orientation="Horizontal" Spacing="4">
+                                                <TextBlock Style="{StaticResource LabelSmall}" Foreground="{ThemeResource OutlineBrush}">
+                                                    <Run Text="Ref: " />
+                                                    <Run Text="{Binding BookingRef}" />
+                                                </TextBlock>
+                                            </StackPanel>
+                                        </StackPanel>
+                                    </Grid>
+                                </utu:CardContentControl>
+                            </DataTemplate>
+                        </ItemsRepeater.ItemTemplate>
+                    </ItemsRepeater>
+                </StackPanel>
+                <!-- Upcoming trips -->
+                <!-- Past trips -->
+
+            </StackPanel>
+        </ScrollViewer>
+        <!-- Header -->
+    </Grid>
+</Page>

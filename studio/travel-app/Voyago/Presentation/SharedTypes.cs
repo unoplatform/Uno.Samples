@@ -1,0 +1,30 @@
+namespace Voyago.Presentation;
+
+// Destination record — used on HomePage (hero cards, recommended trips) and FavoritesPage
+public partial record Destination(
+    string Id,
+    string Name,
+    string Country,
+    string Tagline,
+    string ImageUrl,
+    string PriceFrom,
+    double Rating,
+    int ReviewCount);
+
+// TripItem record — used on TripsPage and HomePage (upcoming trips summary)
+public partial record TripItem(
+    string Id,
+    string Destination,
+    string Country,
+    string ImageUrl,
+    DateOnly DepartureDate,
+    DateOnly ReturnDate,
+    string Status,
+    string BookingRef);
+
+// ExploreCategory record — used on HomePage and SearchPage
+public partial record ExploreCategory(
+    string Id,
+    string Label,
+    string ImageUrl,
+    string Description);

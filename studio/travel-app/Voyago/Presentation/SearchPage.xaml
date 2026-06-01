@@ -1,0 +1,114 @@
+
+<Page x:Class="Voyago.Presentation.SearchPage" Background="{ThemeResource BackgroundBrush}" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:utu="using:Uno.Toolkit.UI">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0" Background="{ThemeResource SurfaceBrush}" Padding="16,12">
+            <TextBlock Text="Search" Style="{StaticResource TitleLarge}" Foreground="{ThemeResource OnSurfaceBrush}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+        </Grid>
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+            <StackPanel Spacing="0" MaxWidth="900" HorizontalAlignment="Center">
+
+                <StackPanel Padding="16,20,16,0" Spacing="16">
+                    <utu:CardContentControl Style="{StaticResource ElevatedCardContentControlStyle}" HorizontalAlignment="Stretch" IsClickable="True">
+                        <Grid Padding="14,12">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <FontIcon Grid.Column="0" Glyph="" FontSize="18" Foreground="{ThemeResource PrimaryBrush}" VerticalAlignment="Center" Margin="0,0,12,0" />
+                            <TextBlock Grid.Column="1" Text="Search destinations, flights, hotels..." Style="{StaticResource BodyLarge}" Foreground="{ThemeResource OnSurfaceVariantBrush}" VerticalAlignment="Center" />
+                        </Grid>
+                    </utu:CardContentControl>
+
+                    <StackPanel Spacing="8">
+                        <TextBlock Text="Popular Searches" Style="{StaticResource TitleSmall}" Foreground="{ThemeResource OnBackgroundBrush}" />
+                        <ItemsRepeater ItemsSource="{Binding PopularSearches}">
+                            <ItemsRepeater.Layout>
+                                <StackLayout Orientation="Horizontal" Spacing="8" />
+                            </ItemsRepeater.Layout>
+                            <ItemsRepeater.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Background="{ThemeResource PrimaryContainerBrush}" CornerRadius="16" Padding="14,7">
+                                        <TextBlock Text="{Binding}" Style="{StaticResource LabelMedium}" Foreground="{ThemeResource OnPrimaryContainerBrush}" />
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsRepeater.ItemTemplate>
+                        </ItemsRepeater>
+                    </StackPanel>
+                    <!-- Popular searches -->
+                </StackPanel>
+                <StackPanel Padding="16,24,16,0" Spacing="12">
+                    <TextBlock Text="Popular Destinations" Style="{StaticResource TitleMedium}" Foreground="{ThemeResource OnBackgroundBrush}" />
+
+                    <ItemsRepeater ItemsSource="{Binding PopularDestinations}">
+                        <ItemsRepeater.Layout>
+                            <UniformGridLayout MinItemWidth="150" MinItemHeight="170" MinColumnSpacing="12" MinRowSpacing="12" MaximumRowsOrColumns="2" Orientation="Horizontal" />
+                        </ItemsRepeater.Layout>
+                        <ItemsRepeater.ItemTemplate>
+                            <DataTemplate>
+                                <utu:CardContentControl Style="{StaticResource ElevatedCardContentControlStyle}" HorizontalAlignment="Stretch" IsClickable="True">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="110" />
+                                            <RowDefinition Height="Auto" />
+                                        </Grid.RowDefinitions>
+                                        <Image Grid.Row="0" Source="{Binding ImageUrl}" Stretch="UniformToFill" />
+                                        <StackPanel Grid.Row="1" Padding="10,8,10,10" Spacing="3">
+                                            <TextBlock Text="{Binding Name}" Style="{StaticResource TitleSmall}" Foreground="{ThemeResource OnSurfaceBrush}" TextTrimming="CharacterEllipsis" />
+                                            <TextBlock Text="{Binding Country}" Style="{StaticResource BodySmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" />
+                                            <StackPanel Orientation="Horizontal" Spacing="4">
+                                                <FontIcon Glyph="" FontSize="11" Foreground="{ThemeResource TertiaryBrush}" />
+                                                <TextBlock Text="{Binding Rating}" Style="{StaticResource LabelSmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" />
+                                            </StackPanel>
+                                        </StackPanel>
+                                    </Grid>
+                                </utu:CardContentControl>
+                            </DataTemplate>
+                        </ItemsRepeater.ItemTemplate>
+                    </ItemsRepeater>
+                </StackPanel>
+
+                <StackPanel Padding="16,24" Spacing="12">
+                    <TextBlock Text="Browse Categories" Style="{StaticResource TitleMedium}" Foreground="{ThemeResource OnBackgroundBrush}" />
+
+                    <ItemsRepeater ItemsSource="{Binding ExploreCategories}">
+                        <ItemsRepeater.Layout>
+                            <StackLayout Orientation="Vertical" Spacing="12" />
+                        </ItemsRepeater.Layout>
+                        <ItemsRepeater.ItemTemplate>
+                            <DataTemplate>
+                                <utu:CardContentControl Style="{StaticResource ElevatedCardContentControlStyle}" HorizontalAlignment="Stretch" IsClickable="True">
+                                    <Grid>
+                                        <Image Source="{Binding ImageUrl}" Height="80" Stretch="UniformToFill" />
+                                        <Rectangle Height="80">
+                                            <Rectangle.Fill>
+                                                <LinearGradientBrush StartPoint="0,0.5" EndPoint="1,0.5">
+                                                    <GradientStop Color="#DD0D1B2A" Offset="0.0" />
+                                                    <GradientStop Color="Transparent" Offset="1.0" />
+                                                </LinearGradientBrush>
+                                            </Rectangle.Fill>
+                                        </Rectangle>
+                                        <StackPanel VerticalAlignment="Center" Padding="16,0" Spacing="2">
+                                            <TextBlock Text="{Binding Label}" Style="{StaticResource TitleMedium}" Foreground="White" />
+                                            <TextBlock Text="{Binding Description}" Style="{StaticResource BodySmall}" Foreground="#CCFFFFFF" />
+                                        </StackPanel>
+                                    </Grid>
+                                </utu:CardContentControl>
+                            </DataTemplate>
+                        </ItemsRepeater.ItemTemplate>
+                    </ItemsRepeater>
+                </StackPanel>
+                <!-- Search bar -->
+                <!-- Popular Destinations -->
+                <!-- Explore Categories -->
+
+            </StackPanel>
+        </ScrollViewer>
+        <!-- Header -->
+    </Grid>
+</Page>
