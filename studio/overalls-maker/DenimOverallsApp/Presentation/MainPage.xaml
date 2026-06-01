@@ -1,0 +1,800 @@
+<Page x:Class="DenimOverallsApp.Presentation.MainPage"
+      x:Name="PageRoot"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:utu="using:Uno.Toolkit.UI"
+      xmlns:uen="using:Uno.Extensions.Navigation.UI"
+      xmlns:conv="using:DenimOverallsApp.Converters"
+      Background="{StaticResource LinenBackgroundBrush}">
+
+    <Page.Resources>
+        <conv:HexColorToBrushConverter x:Key="HexToBrush"/>
+        <conv:BooleanToVisibilityConverter x:Key="BoolToVis"/>
+        <conv:SelectionToThicknessConverter x:Key="SelThickness"/>
+
+        <!-- Classic golden denim topstitching -->
+        <SolidColorBrush x:Key="TopStitchBrush" Color="#E8B95C"/>
+
+        <!-- ════ Ambience palette (warm linen / ink / brass) ════ -->
+        <LinearGradientBrush x:Key="LinenBackgroundBrush" StartPoint="0,0" EndPoint="1,1">
+            <GradientStop Offset="0"    Color="#F7F4ED"/>
+            <GradientStop Offset="0.55" Color="#F0EBDF"/>
+            <GradientStop Offset="1"    Color="#E6DFCF"/>
+        </LinearGradientBrush>
+        <RadialGradientBrush x:Key="LinenMottleBrush" Center="0.3,0.25" RadiusX="0.9" RadiusY="0.9">
+            <GradientStop Offset="0"   Color="#22FFFFFF"/>
+            <GradientStop Offset="0.6" Color="#08FFFFFF"/>
+            <GradientStop Offset="1"   Color="#00FFFFFF"/>
+        </RadialGradientBrush>
+        <RadialGradientBrush x:Key="VignetteBrush" Center="0.5,0.5" RadiusX="0.75" RadiusY="0.75">
+            <GradientStop Offset="0"    Color="#001F2430"/>
+            <GradientStop Offset="0.72" Color="#001F2430"/>
+            <GradientStop Offset="1"    Color="#1A1F2430"/>
+        </RadialGradientBrush>
+        <LinearGradientBrush x:Key="PreviewCardBrush" StartPoint="0,0" EndPoint="0.4,1">
+            <GradientStop Offset="0" Color="#FBF8F1"/>
+            <GradientStop Offset="1" Color="#F1ECE0"/>
+        </LinearGradientBrush>
+        <SolidColorBrush x:Key="MotifInkBrush"   Color="#1F2430" Opacity="0.16"/>
+        <SolidColorBrush x:Key="MotifBrassBrush" Color="#B07B3C" Opacity="0.22"/>
+        <SolidColorBrush x:Key="PreviewCardBorderBrush" Color="#C9A36A" Opacity="0.35"/>
+
+        <!-- ════ Denim depth overlays (color-independent; painted over the bound fill) ════ -->
+        <LinearGradientBrush x:Key="BibShadeBrush" StartPoint="0.5,0" EndPoint="0.5,1">
+            <GradientStop Offset="0.0"  Color="#00000000"/>
+            <GradientStop Offset="0.55" Color="#14000000"/>
+            <GradientStop Offset="1.0"  Color="#3A000000"/>
+        </LinearGradientBrush>
+        <LinearGradientBrush x:Key="ChestSheenBrush" StartPoint="0.1,0.05" EndPoint="0.85,0.9">
+            <GradientStop Offset="0.0"  Color="#26FFFFFF"/>
+            <GradientStop Offset="0.35" Color="#0CFFFFFF"/>
+            <GradientStop Offset="1.0"  Color="#00FFFFFF"/>
+        </LinearGradientBrush>
+        <LinearGradientBrush x:Key="LegShadeBrush" StartPoint="0,0.5" EndPoint="1,0.5">
+            <GradientStop Offset="0.0"  Color="#33000000"/>
+            <GradientStop Offset="0.18" Color="#0A000000"/>
+            <GradientStop Offset="0.5"  Color="#2E000000"/>
+            <GradientStop Offset="0.82" Color="#0A000000"/>
+            <GradientStop Offset="1.0"  Color="#33000000"/>
+        </LinearGradientBrush>
+        <LinearGradientBrush x:Key="LegHemShadeBrush" StartPoint="0.5,0" EndPoint="0.5,1">
+            <GradientStop Offset="0.0"  Color="#00000000"/>
+            <GradientStop Offset="0.78" Color="#00000000"/>
+            <GradientStop Offset="1.0"  Color="#33000000"/>
+        </LinearGradientBrush>
+        <LinearGradientBrush x:Key="CuffBrush" StartPoint="0.5,0" EndPoint="0.5,1">
+            <GradientStop Offset="0.0"  Color="#33FFFFFF"/>
+            <GradientStop Offset="0.22" Color="#10000000"/>
+            <GradientStop Offset="1.0"  Color="#40000000"/>
+        </LinearGradientBrush>
+        <LinearGradientBrush x:Key="PocketShadeBrush" StartPoint="0.5,0" EndPoint="0.5,1">
+            <GradientStop Offset="0.0" Color="#08000000"/>
+            <GradientStop Offset="1.0" Color="#28000000"/>
+        </LinearGradientBrush>
+        <RadialGradientBrush x:Key="WearHighlightBrush" Center="0.5,0.5" RadiusX="0.65" RadiusY="0.55">
+            <GradientStop Offset="0.0" Color="#22FFFFFF"/>
+            <GradientStop Offset="1.0" Color="#00FFFFFF"/>
+        </RadialGradientBrush>
+        <RadialGradientBrush x:Key="BrassBrush" Center="0.35,0.3" RadiusX="0.85" RadiusY="0.85">
+            <GradientStop Offset="0.0"  Color="#F2E4B8"/>
+            <GradientStop Offset="0.38" Color="#C9A36A"/>
+            <GradientStop Offset="1.0"  Color="#8A5E2C"/>
+        </RadialGradientBrush>
+        <SolidColorBrush x:Key="BrassRimBrush" Color="#6E4A21"/>
+
+        <!-- Borderless click surface: the CardContentControl inside provides all visuals -->
+        <Style x:Key="OptionCardButtonStyle" TargetType="Button">
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+            <Setter Property="VerticalAlignment" Value="Stretch"/>
+            <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="UseSystemFocusVisuals" Value="True"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <ContentPresenter Content="{TemplateBinding Content}"
+                                          HorizontalAlignment="Stretch"
+                                          VerticalAlignment="Stretch"
+                                          HorizontalContentAlignment="Stretch"
+                                          VerticalContentAlignment="Stretch"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Page.Resources>
+
+    <Grid x:Name="RootGrid" utu:SafeArea.Insets="VisibleBounds">
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState x:Name="WideLayout">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="900"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="PreviewCol.Width" Value="280"/>
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="NarrowLayout">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="PreviewCol.Width" Value="0"/>
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- ── Ambience: linen background, soft mottle, edge vignette (behind everything) ── -->
+        <Rectangle Grid.Row="0" Grid.RowSpan="3" Fill="{StaticResource LinenBackgroundBrush}" IsHitTestVisible="False"/>
+        <Rectangle Grid.Row="0" Grid.RowSpan="3" Fill="{StaticResource LinenMottleBrush}" IsHitTestVisible="False"/>
+        <Rectangle Grid.Row="0" Grid.RowSpan="3" Fill="{StaticResource VignetteBrush}" IsHitTestVisible="False"/>
+
+        <!-- ── Header ─────────────────────────────────────────────────── -->
+        <utu:CardContentControl Grid.Row="0"
+                                Style="{StaticResource FilledCardContentControlStyle}"
+                                HorizontalAlignment="Stretch"
+                                IsClickable="False">
+            <StackPanel Padding="16,12" Spacing="2">
+                <TextBlock Text="DENIM STUDIO"
+                           Style="{StaticResource LabelExtraSmall}"
+                           Foreground="{ThemeResource SecondaryBrush}"
+                           CharacterSpacing="150"/>
+                <TextBlock Text="Build Your Overalls"
+                           Style="{StaticResource HeadlineMedium}"
+                           Foreground="{ThemeResource OnSurfaceBrush}"/>
+                <TextBlock Text="Design your perfect pair."
+                           Style="{StaticResource BodySmall}"
+                           Foreground="{ThemeResource OnSurfaceVariantBrush}"/>
+            </StackPanel>
+        </utu:CardContentControl>
+
+        <!-- ── Body: responsive split ─────────────────────────────────── -->
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition x:Name="PreviewCol" Width="0"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- LEFT — Overall Preview Panel (shown on wide screens) -->
+            <ScrollViewer Grid.Column="0" VerticalScrollBarVisibility="Auto">
+                <StackPanel Margin="16" Spacing="16">
+                    <TextBlock Text="PREVIEW"
+                               Style="{StaticResource LabelExtraSmall}"
+                               CharacterSpacing="150"
+                               Foreground="{ThemeResource SecondaryBrush}"
+                               HorizontalAlignment="Center"/>
+
+                    <!-- ════════════════════════════════════════════════════════════
+                         Preview card — warm linen, faint line-art motifs behind a
+                         reactive, semi-realistic denim overall illustration.
+                         ════════════════════════════════════════════════════════════ -->
+                    <Border CornerRadius="18"
+                            Background="{StaticResource PreviewCardBrush}"
+                            BorderBrush="{StaticResource PreviewCardBorderBrush}"
+                            BorderThickness="1"
+                            Padding="8"
+                            HorizontalAlignment="Stretch">
+                        <Grid MinHeight="410">
+
+                            <!-- ░░ Decorative line-art motifs (behind figure, non-interactive) ░░ -->
+                            <Grid IsHitTestVisible="False">
+                                <!-- Botanical sprig — top-left -->
+                                <Viewbox Width="54" Height="70" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="8,8,0,0">
+                                    <Canvas Width="58" Height="74">
+                                        <Path Stroke="{StaticResource MotifBrassBrush}" StrokeThickness="1"
+                                              StrokeLineJoin="Round" StrokeStartLineCap="Round" StrokeEndLineCap="Round"
+                                              Data="M 29,72 C 27,52 26,34 30,8"/>
+                                        <Path Stroke="{StaticResource MotifBrassBrush}" StrokeThickness="1" StrokeLineJoin="Round"
+                                              Data="M 28,56 C 14,52 8,44 6,34 C 18,36 26,44 28,56 Z"/>
+                                        <Path Stroke="{StaticResource MotifBrassBrush}" StrokeThickness="1" StrokeLineJoin="Round"
+                                              Data="M 29,44 C 43,40 50,32 52,22 C 40,24 31,32 29,44 Z"/>
+                                        <Path Stroke="{StaticResource MotifBrassBrush}" StrokeThickness="1" StrokeLineJoin="Round"
+                                              Data="M 30,30 C 20,26 15,18 14,10 C 24,12 29,20 30,30 Z"/>
+                                    </Canvas>
+                                </Viewbox>
+
+                                <!-- Sun with rays — top-right -->
+                                <Viewbox Width="54" Height="54" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,10,10,0">
+                                    <Canvas Width="60" Height="60">
+                                        <Ellipse Canvas.Left="20" Canvas.Top="20" Width="20" Height="20"
+                                                 Stroke="{StaticResource MotifBrassBrush}" StrokeThickness="1"/>
+                                        <Line X1="30" Y1="2"  X2="30" Y2="12" Stroke="{StaticResource MotifBrassBrush}" StrokeThickness="1" StrokeStartLineCap="Round" StrokeEndLineCap="Round"/>
+                                        <Line X1="30" Y1="48" X2="30" Y2="58" Stroke="{StaticResource MotifBrassBrush}" StrokeThickness="1" StrokeStartLineCap="Round" StrokeEndLineCap="Round"/>
+                                        <Line X1="2"  Y1="30" X2="12" Y2="30" Stroke="{StaticResource MotifBrassBrush}" StrokeThickness="1" StrokeStartLineCap="Round" StrokeEndLineCap="Round"/>
+                                        <Line X1="48" Y1="30" X2="58" Y2="30" Stroke="{StaticResource MotifBrassBrush}" StrokeThickness="1" StrokeStartLineCap="Round" StrokeEndLineCap="Round"/>
+                                        <Line X1="11" Y1="11" X2="18" Y2="18" Stroke="{StaticResource MotifBrassBrush}" StrokeThickness="1" StrokeStartLineCap="Round" StrokeEndLineCap="Round"/>
+                                        <Line X1="49" Y1="11" X2="42" Y2="18" Stroke="{StaticResource MotifBrassBrush}" StrokeThickness="1" StrokeStartLineCap="Round" StrokeEndLineCap="Round"/>
+                                        <Line X1="11" Y1="49" X2="18" Y2="42" Stroke="{StaticResource MotifBrassBrush}" StrokeThickness="1" StrokeStartLineCap="Round" StrokeEndLineCap="Round"/>
+                                        <Line X1="49" Y1="49" X2="42" Y2="42" Stroke="{StaticResource MotifBrassBrush}" StrokeThickness="1" StrokeStartLineCap="Round" StrokeEndLineCap="Round"/>
+                                    </Canvas>
+                                </Viewbox>
+
+                                <!-- Mountain range — mid-right -->
+                                <Viewbox Width="72" Height="42" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,150,8,0">
+                                    <Canvas Width="74" Height="44">
+                                        <Polyline Stroke="{StaticResource MotifInkBrush}" StrokeThickness="1" StrokeLineJoin="Round"
+                                                  Points="0,42 16,18 26,30 40,6 54,26 62,16 74,42"/>
+                                        <Polyline Stroke="{StaticResource MotifInkBrush}" StrokeThickness="1" StrokeLineJoin="Round"
+                                                  Points="34,14 40,6 46,15 42,13 38,16"/>
+                                    </Canvas>
+                                </Viewbox>
+
+                                <!-- Wavy water lines — bottom -->
+                                <Viewbox Width="150" Height="34" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,14">
+                                    <Canvas Width="150" Height="34">
+                                        <Path Stroke="{StaticResource MotifInkBrush}" StrokeThickness="1" StrokeStartLineCap="Round" StrokeEndLineCap="Round"
+                                              Data="M 0,8 C 12,2 24,14 36,8 C 48,2 60,14 72,8 C 84,2 96,14 108,8 C 120,2 132,14 150,8"/>
+                                        <Path Stroke="{StaticResource MotifInkBrush}" StrokeThickness="1" StrokeStartLineCap="Round" StrokeEndLineCap="Round"
+                                              Data="M 0,22 C 12,16 24,28 36,22 C 48,16 60,28 72,22 C 84,16 96,28 108,22 C 120,16 132,28 150,22"/>
+                                    </Canvas>
+                                </Viewbox>
+                            </Grid>
+
+                            <!-- ░░ Hero denim figure (reactive: colour, length, bib, pockets, embroidery) ░░ -->
+                            <Viewbox MaxWidth="240" MaxHeight="384" StretchDirection="DownOnly" HorizontalAlignment="Center">
+                                <StackPanel Width="220" VerticalAlignment="Bottom" HorizontalAlignment="Center">
+
+                                    <!-- ████ SHOULDERS / BIB BLOCK (fixed height) ████ -->
+                                    <Grid Width="220" Height="158">
+
+                                        <!-- FRONT BIB + STRAIGHT STRAPS (hidden for cross-back) -->
+                                        <Grid Visibility="{Binding ShowBibPanel, Converter={StaticResource BoolToVis}}">
+
+                                            <!-- Left strap — slightly steeper angle for asymmetry -->
+                                            <Grid HorizontalAlignment="Center" VerticalAlignment="Top" Margin="-64,0,0,0" RenderTransformOrigin="0.5,1">
+                                                <Grid.RenderTransform>
+                                                    <RotateTransform Angle="-4"/>
+                                                </Grid.RenderTransform>
+                                                <Path Stretch="Fill" Width="26" Height="118"
+                                                      Fill="{Binding SelectedColorHex, Converter={StaticResource HexToBrush}}"
+                                                      Data="M4,0 L22,0 C24,0 26,2 26,5 L24,108 C24,114 18,118 13,118 C8,118 2,114 2,108 L0,5 C0,2 2,0 4,0 Z"/>
+                                                <Path Stretch="Fill" Width="26" Height="118"
+                                                      Fill="{StaticResource BibShadeBrush}"
+                                                      Data="M4,0 L22,0 C24,0 26,2 26,5 L24,108 C24,114 18,118 13,118 C8,118 2,114 2,108 L0,5 C0,2 2,0 4,0 Z"/>
+                                                <Path Stretch="Fill" Width="26" Height="118"
+                                                      Stroke="{StaticResource TopStitchBrush}" StrokeThickness="1.2" StrokeDashArray="3 2.2" Opacity="0.8"
+                                                      Data="M5,3 L4,108 M21,3 L22,108"/>
+                                            </Grid>
+
+                                            <!-- Right strap — different angle -->
+                                            <Grid HorizontalAlignment="Center" VerticalAlignment="Top" Margin="64,0,0,0" RenderTransformOrigin="0.5,1">
+                                                <Grid.RenderTransform>
+                                                    <RotateTransform Angle="6"/>
+                                                </Grid.RenderTransform>
+                                                <Path Stretch="Fill" Width="26" Height="112"
+                                                      Fill="{Binding SelectedColorHex, Converter={StaticResource HexToBrush}}"
+                                                      Data="M4,0 L22,0 C24,0 26,2 26,5 L24,102 C24,108 18,112 13,112 C8,112 2,108 2,102 L0,5 C0,2 2,0 4,0 Z"/>
+                                                <Path Stretch="Fill" Width="26" Height="112"
+                                                      Fill="{StaticResource BibShadeBrush}"
+                                                      Data="M4,0 L22,0 C24,0 26,2 26,5 L24,102 C24,108 18,112 13,112 C8,112 2,108 2,102 L0,5 C0,2 2,0 4,0 Z"/>
+                                                <Path Stretch="Fill" Width="26" Height="112"
+                                                      Stroke="{StaticResource TopStitchBrush}" StrokeThickness="1.2" StrokeDashArray="3 2.2" Opacity="0.8"
+                                                      Data="M5,3 L4,102 M21,3 L22,102"/>
+                                            </Grid>
+
+                                            <!-- Bib panel (organic, gently asymmetric) -->
+                                            <Path Stretch="Fill" Width="130" Height="116" VerticalAlignment="Bottom" HorizontalAlignment="Center"
+                                                  Fill="{Binding SelectedColorHex, Converter={StaticResource HexToBrush}}"
+                                                  Data="M14,6 C40,-2 92,-2 117,6 C123,8 128,12 128,20 L130,104 C130,110 125,114 119,114 L11,114 C5,114 0,110 0,104 L2,20 C2,12 7,8 14,6 Z"/>
+                                            <Path Stretch="Fill" Width="130" Height="116" VerticalAlignment="Bottom" HorizontalAlignment="Center"
+                                                  Fill="{StaticResource BibShadeBrush}"
+                                                  Data="M14,6 C40,-2 92,-2 117,6 C123,8 128,12 128,20 L130,104 C130,110 125,114 119,114 L11,114 C5,114 0,110 0,104 L2,20 C2,12 7,8 14,6 Z"/>
+                                            <Path Stretch="Fill" Width="130" Height="116" VerticalAlignment="Bottom" HorizontalAlignment="Center"
+                                                  Fill="{StaticResource ChestSheenBrush}"
+                                                  Data="M14,6 C40,-2 92,-2 117,6 C123,8 128,12 128,20 L130,104 C130,110 125,114 119,114 L11,114 C5,114 0,110 0,104 L2,20 C2,12 7,8 14,6 Z"/>
+                                            <Path Stretch="Fill" Width="118" Height="104" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,0,0,6"
+                                                  Stroke="{StaticResource TopStitchBrush}" StrokeThickness="1.3" StrokeDashArray="3.2 2.4" Opacity="0.85"
+                                                  Data="M12,6 C36,0 84,0 106,6 C112,8 116,11 116,18 L116,92 C116,97 112,100 107,100 L11,100 C6,100 2,97 2,92 L2,18 C2,11 6,8 12,6 Z"/>
+
+                                            <!-- Embroidery text (mirrors the input box live) -->
+                                            <TextBlock Text="{Binding Text, ElementName=EmbroideryBox}"
+                                                       VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,0,0,74"
+                                                       FontSize="11" FontWeight="SemiBold"
+                                                       Foreground="{StaticResource TopStitchBrush}" CharacterSpacing="80"/>
+
+                                            <!-- Single chest pocket (classic) — slight tilt -->
+                                            <Grid Width="46" Height="40" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="2,0,0,22"
+                                                  RenderTransformOrigin="0.5,0.5"
+                                                  Visibility="{Binding ShowSingleChestPocket, Converter={StaticResource BoolToVis}}">
+                                                <Grid.RenderTransform>
+                                                    <RotateTransform Angle="-2.5"/>
+                                                </Grid.RenderTransform>
+                                                <Path Stretch="Fill" Fill="{Binding SelectedColorHex, Converter={StaticResource HexToBrush}}"
+                                                      Data="M2,2 L44,2 L43,26 C43,28 42,30 40,32 L24,39 C23,39.5 22,39.5 21,39 L4,31 C2,30 1,28 1,26 Z"/>
+                                                <Path Stretch="Fill" Fill="{StaticResource PocketShadeBrush}"
+                                                      Data="M2,2 L44,2 L43,26 C43,28 42,30 40,32 L24,39 C23,39.5 22,39.5 21,39 L4,31 C2,30 1,28 1,26 Z"/>
+                                                <Path Stretch="None" Stroke="{StaticResource TopStitchBrush}" StrokeThickness="1.2" StrokeDashArray="3 2" Opacity="0.9"
+                                                      Data="M3,3 L43,3 L42,26 C42,28 41,29 39,31 L23,38 L5,30 C3,29 2,28 2,26 Z M6,9 C16,17 30,17 40,9"/>
+                                            </Grid>
+
+                                            <!-- Double chest pockets (wide) -->
+                                            <Grid VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,0,0,20"
+                                                  Visibility="{Binding ShowDoubleChestPocket, Converter={StaticResource BoolToVis}}">
+                                                <Grid Width="40" Height="36" Margin="-26,0,0,0" RenderTransformOrigin="0.5,0.5">
+                                                    <Grid.RenderTransform>
+                                                        <RotateTransform Angle="-3"/>
+                                                    </Grid.RenderTransform>
+                                                    <Path Stretch="Fill" Fill="{Binding SelectedColorHex, Converter={StaticResource HexToBrush}}"
+                                                          Data="M2,2 L38,2 L37,24 C37,26 36,27 34,28 L20,34 L6,28 C4,27 3,26 3,24 Z"/>
+                                                    <Path Stretch="Fill" Fill="{StaticResource PocketShadeBrush}"
+                                                          Data="M2,2 L38,2 L37,24 C37,26 36,27 34,28 L20,34 L6,28 C4,27 3,26 3,24 Z"/>
+                                                    <Path Stretch="None" Stroke="{StaticResource TopStitchBrush}" StrokeThickness="1.1" StrokeDashArray="2.8 1.9" Opacity="0.9"
+                                                          Data="M3,3 L37,3 L36,24 L20,33 L4,24 Z M6,8 C14,14 26,14 34,8"/>
+                                                </Grid>
+                                                <Grid Width="40" Height="36" Margin="26,0,0,0" RenderTransformOrigin="0.5,0.5">
+                                                    <Grid.RenderTransform>
+                                                        <RotateTransform Angle="4"/>
+                                                    </Grid.RenderTransform>
+                                                    <Path Stretch="Fill" Fill="{Binding SelectedColorHex, Converter={StaticResource HexToBrush}}"
+                                                          Data="M2,2 L38,2 L37,24 C37,26 36,27 34,28 L20,34 L6,28 C4,27 3,26 3,24 Z"/>
+                                                    <Path Stretch="Fill" Fill="{StaticResource PocketShadeBrush}"
+                                                          Data="M2,2 L38,2 L37,24 C37,26 36,27 34,28 L20,34 L6,28 C4,27 3,26 3,24 Z"/>
+                                                    <Path Stretch="None" Stroke="{StaticResource TopStitchBrush}" StrokeThickness="1.1" StrokeDashArray="2.8 1.9" Opacity="0.9"
+                                                          Data="M3,3 L37,3 L36,24 L20,33 L4,24 Z M6,8 C14,14 26,14 34,8"/>
+                                                </Grid>
+                                            </Grid>
+
+                                            <!-- Brass buckles where straps meet the bib (slightly mismatched) -->
+                                            <Grid Width="20" Height="20" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="-46,0,0,98" RenderTransformOrigin="0.5,0.5">
+                                                <Grid.RenderTransform>
+                                                    <RotateTransform Angle="-4"/>
+                                                </Grid.RenderTransform>
+                                                <Rectangle Width="20" Height="20" RadiusX="4" RadiusY="4" Fill="{StaticResource BrassBrush}" Stroke="{StaticResource BrassRimBrush}" StrokeThickness="1"/>
+                                                <Rectangle Width="9" Height="4" RadiusX="2" RadiusY="2" Fill="{StaticResource BrassRimBrush}" Opacity="0.55"/>
+                                            </Grid>
+                                            <Grid Width="20" Height="20" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="46,0,0,96" RenderTransformOrigin="0.5,0.5">
+                                                <Grid.RenderTransform>
+                                                    <RotateTransform Angle="5"/>
+                                                </Grid.RenderTransform>
+                                                <Rectangle Width="20" Height="20" RadiusX="4" RadiusY="4" Fill="{StaticResource BrassBrush}" Stroke="{StaticResource BrassRimBrush}" StrokeThickness="1"/>
+                                                <Rectangle Width="9" Height="4" RadiusX="2" RadiusY="2" Fill="{StaticResource BrassRimBrush}" Opacity="0.55"/>
+                                            </Grid>
+                                        </Grid>
+
+                                        <!-- CROSS-BACK STRAPS (X) — shown only for cross-back -->
+                                        <Grid Visibility="{Binding ShowCrossStraps, Converter={StaticResource BoolToVis}}">
+                                            <Grid HorizontalAlignment="Center" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5">
+                                                <Grid.RenderTransform>
+                                                    <RotateTransform Angle="21"/>
+                                                </Grid.RenderTransform>
+                                                <Path Stretch="Fill" Width="24" Height="156"
+                                                      Fill="{Binding SelectedColorHex, Converter={StaticResource HexToBrush}}"
+                                                      Data="M4,0 L20,0 C22,0 24,2 24,5 L22,150 C22,154 18,156 12,156 C6,156 2,154 2,150 L0,5 C0,2 2,0 4,0 Z"/>
+                                                <Path Stretch="Fill" Width="24" Height="156" Fill="{StaticResource BibShadeBrush}"
+                                                      Data="M4,0 L20,0 C22,0 24,2 24,5 L22,150 C22,154 18,156 12,156 C6,156 2,154 2,150 L0,5 C0,2 2,0 4,0 Z"/>
+                                                <Path Stretch="Fill" Width="24" Height="156"
+                                                      Stroke="{StaticResource TopStitchBrush}" StrokeThickness="1.1" StrokeDashArray="3 2.2" Opacity="0.8"
+                                                      Data="M5,3 L4,150 M19,3 L20,150"/>
+                                            </Grid>
+                                            <Grid HorizontalAlignment="Center" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5">
+                                                <Grid.RenderTransform>
+                                                    <RotateTransform Angle="-23"/>
+                                                </Grid.RenderTransform>
+                                                <Path Stretch="Fill" Width="24" Height="156"
+                                                      Fill="{Binding SelectedColorHex, Converter={StaticResource HexToBrush}}"
+                                                      Data="M4,0 L20,0 C22,0 24,2 24,5 L22,150 C22,154 18,156 12,156 C6,156 2,154 2,150 L0,5 C0,2 2,0 4,0 Z"/>
+                                                <Path Stretch="Fill" Width="24" Height="156" Fill="{StaticResource BibShadeBrush}"
+                                                      Data="M4,0 L20,0 C22,0 24,2 24,5 L22,150 C22,154 18,156 12,156 C6,156 2,154 2,150 L0,5 C0,2 2,0 4,0 Z"/>
+                                                <Path Stretch="Fill" Width="24" Height="156"
+                                                      Stroke="{StaticResource TopStitchBrush}" StrokeThickness="1.1" StrokeDashArray="3 2.2" Opacity="0.8"
+                                                      Data="M5,3 L4,150 M19,3 L20,150"/>
+                                            </Grid>
+                                            <Ellipse Width="13" Height="13" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,-6,0,0"
+                                                     Fill="{StaticResource BrassBrush}" Stroke="{StaticResource BrassRimBrush}" StrokeThickness="1"/>
+                                        </Grid>
+                                    </Grid>
+
+                                    <!-- ████ WAISTBAND ████ -->
+                                    <Grid Width="146" Height="22" HorizontalAlignment="Center">
+                                        <Path Stretch="Fill" Fill="{Binding SelectedColorHex, Converter={StaticResource HexToBrush}}"
+                                              Data="M4,0 L142,0 C144,0 146,2 146,4 L146,18 C146,20 144,22 142,22 L4,22 C2,22 0,20 0,18 L0,4 C0,2 2,0 4,0 Z"/>
+                                        <Path Stretch="Fill" Fill="{StaticResource BibShadeBrush}"
+                                              Data="M4,0 L142,0 C144,0 146,2 146,4 L146,18 C146,20 144,22 142,22 L4,22 C2,22 0,20 0,18 L0,4 C0,2 2,0 4,0 Z"/>
+                                        <Line X1="6" Y1="4.5" X2="140" Y2="4.5" Stroke="{StaticResource TopStitchBrush}" StrokeThickness="1.1" StrokeDashArray="3 2.2" Opacity="0.75"/>
+                                        <Line X1="6" Y1="17.5" X2="140" Y2="17.5" Stroke="{StaticResource TopStitchBrush}" StrokeThickness="1.1" StrokeDashArray="3 2.2" Opacity="0.6"/>
+                                        <Ellipse Width="9" Height="9" HorizontalAlignment="Center" Fill="{StaticResource BrassBrush}" Stroke="{StaticResource BrassRimBrush}" StrokeThickness="0.8"/>
+                                    </Grid>
+
+                                    <!-- ████ LEGS — Height reacts to {Binding LegHeight}; silhouette scales ████ -->
+                                    <Grid Width="146" Height="{Binding LegHeight}" HorizontalAlignment="Center" Margin="0,2,0,0">
+
+                                        <Path Stretch="Fill" Fill="{Binding SelectedColorHex, Converter={StaticResource HexToBrush}}"
+                                              Data="M0,0 L146,0 C146,0 142,40 140,120 C138,200 134,240 132,250 C131,254 128,256 124,256 L80,256 C78,256 76,254 75,251 L73,150 L71,251 C70,254 68,256 66,256 L22,256 C18,256 15,254 14,250 C12,240 8,200 6,120 C4,40 0,0 0,0 Z"/>
+                                        <Path Stretch="Fill" Fill="{StaticResource LegShadeBrush}"
+                                              Data="M0,0 L146,0 C146,0 142,40 140,120 C138,200 134,240 132,250 C131,254 128,256 124,256 L80,256 C78,256 76,254 75,251 L73,150 L71,251 C70,254 68,256 66,256 L22,256 C18,256 15,254 14,250 C12,240 8,200 6,120 C4,40 0,0 0,0 Z"/>
+                                        <Path Stretch="Fill" Fill="{StaticResource LegHemShadeBrush}"
+                                              Data="M0,0 L146,0 C146,0 142,40 140,120 C138,200 134,240 132,250 C131,254 128,256 124,256 L80,256 C78,256 76,254 75,251 L73,150 L71,251 C70,254 68,256 66,256 L22,256 C18,256 15,254 14,250 C12,240 8,200 6,120 C4,40 0,0 0,0 Z"/>
+
+                                        <Line X1="73" Y1="6" X2="73" Y2="248" Stroke="{StaticResource TopStitchBrush}" StrokeThickness="1.1" StrokeDashArray="3 2.4" Opacity="0.5" Stretch="Fill"/>
+                                        <Line X1="9" Y1="10" X2="11" Y2="246" Stroke="{StaticResource TopStitchBrush}" StrokeThickness="1" StrokeDashArray="3 2.6" Opacity="0.4" Stretch="Fill"/>
+                                        <Line X1="137" Y1="10" X2="135" Y2="246" Stroke="{StaticResource TopStitchBrush}" StrokeThickness="1" StrokeDashArray="3 2.6" Opacity="0.4" Stretch="Fill"/>
+
+                                        <!-- subtle wear highlights on the knees/thighs -->
+                                        <Ellipse Width="34" Height="46" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="22,40,0,0" Fill="{StaticResource WearHighlightBrush}" RenderTransformOrigin="0.5,0.5">
+                                            <Ellipse.RenderTransform>
+                                                <RotateTransform Angle="-8"/>
+                                            </Ellipse.RenderTransform>
+                                        </Ellipse>
+                                        <Ellipse Width="32" Height="42" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,52,22,0" Fill="{StaticResource WearHighlightBrush}" RenderTransformOrigin="0.5,0.5">
+                                            <Ellipse.RenderTransform>
+                                                <RotateTransform Angle="7"/>
+                                            </Ellipse.RenderTransform>
+                                        </Ellipse>
+
+                                        <!-- Thigh pockets (patch & cargo) -->
+                                        <Grid VerticalAlignment="Top" Margin="0,18,0,0" Visibility="{Binding ShowThighPockets, Converter={StaticResource BoolToVis}}">
+                                            <Grid Width="42" Height="36" HorizontalAlignment="Left" Margin="14,0,0,0" RenderTransformOrigin="0.5,0.5">
+                                                <Grid.RenderTransform>
+                                                    <RotateTransform Angle="-3"/>
+                                                </Grid.RenderTransform>
+                                                <Path Stretch="Fill" Fill="{Binding SelectedColorHex, Converter={StaticResource HexToBrush}}"
+                                                      Data="M2,2 L40,2 C41,2 42,3 42,5 L41,30 C41,33 39,35 36,35 L6,35 C3,35 1,33 1,30 L2,5 C2,3 2,2 2,2 Z"/>
+                                                <Path Stretch="Fill" Fill="{StaticResource PocketShadeBrush}"
+                                                      Data="M2,2 L40,2 C41,2 42,3 42,5 L41,30 C41,33 39,35 36,35 L6,35 C3,35 1,33 1,30 L2,5 C2,3 2,2 2,2 Z"/>
+                                                <Path Stretch="None" Stroke="{StaticResource TopStitchBrush}" StrokeThickness="1.1" StrokeDashArray="3 2" Opacity="0.85"
+                                                      Data="M3,3 L40,3 L39,30 C39,32 38,34 35,34 L7,34 C4,34 3,32 3,30 Z M3,11 L39,11"/>
+                                                <Ellipse Width="6" Height="6" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="4,0,0,3" Fill="{StaticResource BrassBrush}"/>
+                                            </Grid>
+                                            <Grid Width="42" Height="36" HorizontalAlignment="Right" Margin="0,0,14,0" RenderTransformOrigin="0.5,0.5">
+                                                <Grid.RenderTransform>
+                                                    <RotateTransform Angle="4"/>
+                                                </Grid.RenderTransform>
+                                                <Path Stretch="Fill" Fill="{Binding SelectedColorHex, Converter={StaticResource HexToBrush}}"
+                                                      Data="M2,2 L40,2 C41,2 42,3 42,5 L41,30 C41,33 39,35 36,35 L6,35 C3,35 1,33 1,30 L2,5 C2,3 2,2 2,2 Z"/>
+                                                <Path Stretch="Fill" Fill="{StaticResource PocketShadeBrush}"
+                                                      Data="M2,2 L40,2 C41,2 42,3 42,5 L41,30 C41,33 39,35 36,35 L6,35 C3,35 1,33 1,30 L2,5 C2,3 2,2 2,2 Z"/>
+                                                <Path Stretch="None" Stroke="{StaticResource TopStitchBrush}" StrokeThickness="1.1" StrokeDashArray="3 2" Opacity="0.85"
+                                                      Data="M3,3 L40,3 L39,30 C39,32 38,34 35,34 L7,34 C4,34 3,32 3,30 Z M3,11 L39,11"/>
+                                                <Ellipse Width="6" Height="6" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,4,3" Fill="{StaticResource BrassBrush}"/>
+                                            </Grid>
+                                        </Grid>
+
+                                        <!-- Rolled-up cuffs — anchored to the bottom -->
+                                        <Grid VerticalAlignment="Bottom" Height="26">
+                                            <Border Width="62" Height="22" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="6,0,0,2" CornerRadius="3,3,8,8"
+                                                    Background="{StaticResource CuffBrush}" RenderTransformOrigin="0.5,1">
+                                                <Border.RenderTransform>
+                                                    <RotateTransform Angle="-1.5"/>
+                                                </Border.RenderTransform>
+                                            </Border>
+                                            <Line X1="10" Y1="8" X2="64" Y2="8" Stroke="{StaticResource TopStitchBrush}" StrokeThickness="1" StrokeDashArray="3 2.2" Opacity="0.55" VerticalAlignment="Bottom" Margin="0,0,0,14"/>
+                                            <Border Width="62" Height="24" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,6,2" CornerRadius="3,3,8,8"
+                                                    Background="{StaticResource CuffBrush}" RenderTransformOrigin="0.5,1">
+                                                <Border.RenderTransform>
+                                                    <RotateTransform Angle="2"/>
+                                                </Border.RenderTransform>
+                                            </Border>
+                                            <Line X1="78" Y1="8" X2="132" Y2="8" Stroke="{StaticResource TopStitchBrush}" StrokeThickness="1" StrokeDashArray="3 2.2" Opacity="0.55" VerticalAlignment="Bottom" Margin="0,0,0,15"/>
+                                        </Grid>
+                                    </Grid>
+                                </StackPanel>
+                            </Viewbox>
+                        </Grid>
+                    </Border>
+
+                    <!-- Selected color badge -->
+                    <utu:CardContentControl Style="{StaticResource FilledCardContentControlStyle}"
+                                            IsClickable="False"
+                                            HorizontalAlignment="Center">
+                        <StackPanel Padding="12,6" Orientation="Horizontal" Spacing="8">
+                            <Ellipse Width="14" Height="14"
+                                     Fill="{Binding SelectedColorHex, Converter={StaticResource HexToBrush}}"
+                                     VerticalAlignment="Center"/>
+                            <TextBlock Text="{Binding SelectedColorName}"
+                                       Style="{StaticResource LabelMedium}"
+                                       Foreground="{ThemeResource OnSurfaceBrush}"
+                                       VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </utu:CardContentControl>
+
+                    <!-- Config summary pills -->
+                    <StackPanel Spacing="6" HorizontalAlignment="Center">
+                        <utu:CardContentControl Style="{StaticResource OutlinedCardContentControlStyle}"
+                                                IsClickable="False">
+                            <TextBlock Text="{Binding PreviewLengthLabel}"
+                                       Style="{StaticResource BodySmall}"
+                                       Foreground="{ThemeResource OnSurfaceVariantBrush}"
+                                       Padding="10,4"/>
+                        </utu:CardContentControl>
+                        <utu:CardContentControl Style="{StaticResource OutlinedCardContentControlStyle}"
+                                                IsClickable="False">
+                            <TextBlock Text="{Binding PreviewBibLabel}"
+                                       Style="{StaticResource BodySmall}"
+                                       Foreground="{ThemeResource OnSurfaceVariantBrush}"
+                                       Padding="10,4"/>
+                        </utu:CardContentControl>
+                        <utu:CardContentControl Style="{StaticResource OutlinedCardContentControlStyle}"
+                                                IsClickable="False">
+                            <TextBlock Text="{Binding PreviewPocketLabel}"
+                                       Style="{StaticResource BodySmall}"
+                                       Foreground="{ThemeResource OnSurfaceVariantBrush}"
+                                       Padding="10,4"/>
+                        </utu:CardContentControl>
+                    </StackPanel>
+                </StackPanel>
+            </ScrollViewer>
+
+            <!-- RIGHT — Options Panel -->
+            <ScrollViewer Grid.Column="1" VerticalScrollBarVisibility="Auto">
+                <StackPanel Margin="16" Spacing="20">
+
+                    <!-- ── Length ──────────────────────────────────────── -->
+                    <StackPanel Spacing="10">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <FontIcon Glyph="&#xE8A5;" FontSize="16" Foreground="{ThemeResource SecondaryBrush}"/>
+                            <TextBlock Text="LENGTH"
+                                       Style="{StaticResource LabelLarge}"
+                                       CharacterSpacing="80"
+                                       Foreground="{ThemeResource OnBackgroundBrush}"/>
+                        </StackPanel>
+                        <ItemsRepeater ItemsSource="{Binding Lengths}">
+                            <ItemsRepeater.Layout>
+                                <UniformGridLayout MinItemWidth="140" MinColumnSpacing="8" MinRowSpacing="8"/>
+                            </ItemsRepeater.Layout>
+                            <ItemsRepeater.ItemTemplate>
+                                <DataTemplate>
+                                    <Button Style="{StaticResource OptionCardButtonStyle}"
+                                            Command="{Binding DataContext.SelectLength, ElementName=PageRoot}"
+                                            CommandParameter="{Binding Option}"
+                                            AutomationProperties.Name="{Binding Option.Label}">
+                                        <Grid>
+                                            <utu:CardContentControl Style="{StaticResource ElevatedCardContentControlStyle}"
+                                                                    IsClickable="True"
+                                                                    HorizontalAlignment="Stretch">
+                                                <StackPanel Padding="14,12" Spacing="4">
+                                                    <TextBlock Text="{Binding Option.Label}"
+                                                               Style="{StaticResource TitleSmall}"
+                                                               Foreground="{ThemeResource OnSurfaceBrush}"/>
+                                                    <TextBlock Text="{Binding Option.Description}"
+                                                               Style="{StaticResource BodySmall}"
+                                                               Foreground="{ThemeResource OnSurfaceVariantBrush}"
+                                                               TextWrapping="Wrap"/>
+                                                </StackPanel>
+                                            </utu:CardContentControl>
+                                            <Border CornerRadius="8"
+                                                    BorderBrush="{ThemeResource PrimaryBrush}"
+                                                    BorderThickness="{Binding IsSelected, Converter={StaticResource SelThickness}}"
+                                                    IsHitTestVisible="False"/>
+                                            <Border Width="22" Height="22" CornerRadius="11"
+                                                    Background="{ThemeResource PrimaryBrush}"
+                                                    HorizontalAlignment="Right" VerticalAlignment="Top"
+                                                    Margin="0,8,8,0" IsHitTestVisible="False"
+                                                    Visibility="{Binding IsSelected, Converter={StaticResource BoolToVis}}">
+                                                <FontIcon Glyph="&#xE73E;" FontSize="12" Foreground="{ThemeResource OnPrimaryBrush}"/>
+                                            </Border>
+                                        </Grid>
+                                    </Button>
+                                </DataTemplate>
+                            </ItemsRepeater.ItemTemplate>
+                        </ItemsRepeater>
+                    </StackPanel>
+
+                    <!-- ── Bib Type ────────────────────────────────────── -->
+                    <StackPanel Spacing="10">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <FontIcon Glyph="&#xE8FD;" FontSize="16" Foreground="{ThemeResource SecondaryBrush}"/>
+                            <TextBlock Text="BIB TYPE"
+                                       Style="{StaticResource LabelLarge}"
+                                       CharacterSpacing="80"
+                                       Foreground="{ThemeResource OnBackgroundBrush}"/>
+                        </StackPanel>
+                        <ItemsRepeater ItemsSource="{Binding Bibs}">
+                            <ItemsRepeater.Layout>
+                                <UniformGridLayout MinItemWidth="140" MinColumnSpacing="8" MinRowSpacing="8"/>
+                            </ItemsRepeater.Layout>
+                            <ItemsRepeater.ItemTemplate>
+                                <DataTemplate>
+                                    <Button Style="{StaticResource OptionCardButtonStyle}"
+                                            Command="{Binding DataContext.SelectBib, ElementName=PageRoot}"
+                                            CommandParameter="{Binding Option}"
+                                            AutomationProperties.Name="{Binding Option.Label}">
+                                        <Grid>
+                                            <utu:CardContentControl Style="{StaticResource ElevatedCardContentControlStyle}"
+                                                                    IsClickable="True"
+                                                                    HorizontalAlignment="Stretch">
+                                                <StackPanel Padding="14,12" Spacing="4">
+                                                    <TextBlock Text="{Binding Option.Label}"
+                                                               Style="{StaticResource TitleSmall}"
+                                                               Foreground="{ThemeResource OnSurfaceBrush}"/>
+                                                    <TextBlock Text="{Binding Option.Description}"
+                                                               Style="{StaticResource BodySmall}"
+                                                               Foreground="{ThemeResource OnSurfaceVariantBrush}"
+                                                               TextWrapping="Wrap"/>
+                                                </StackPanel>
+                                            </utu:CardContentControl>
+                                            <Border CornerRadius="8"
+                                                    BorderBrush="{ThemeResource PrimaryBrush}"
+                                                    BorderThickness="{Binding IsSelected, Converter={StaticResource SelThickness}}"
+                                                    IsHitTestVisible="False"/>
+                                            <Border Width="22" Height="22" CornerRadius="11"
+                                                    Background="{ThemeResource PrimaryBrush}"
+                                                    HorizontalAlignment="Right" VerticalAlignment="Top"
+                                                    Margin="0,8,8,0" IsHitTestVisible="False"
+                                                    Visibility="{Binding IsSelected, Converter={StaticResource BoolToVis}}">
+                                                <FontIcon Glyph="&#xE73E;" FontSize="12" Foreground="{ThemeResource OnPrimaryBrush}"/>
+                                            </Border>
+                                        </Grid>
+                                    </Button>
+                                </DataTemplate>
+                            </ItemsRepeater.ItemTemplate>
+                        </ItemsRepeater>
+                    </StackPanel>
+
+                    <!-- ── Denim Color ────────────────────────────────── -->
+                    <StackPanel Spacing="10">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <FontIcon Glyph="&#xE771;" FontSize="16" Foreground="{ThemeResource SecondaryBrush}"/>
+                            <TextBlock Text="DENIM COLOR"
+                                       Style="{StaticResource LabelLarge}"
+                                       CharacterSpacing="80"
+                                       Foreground="{ThemeResource OnBackgroundBrush}"/>
+                        </StackPanel>
+                        <ItemsRepeater ItemsSource="{Binding Colors}">
+                            <ItemsRepeater.Layout>
+                                <UniformGridLayout MinItemWidth="110" MinColumnSpacing="8" MinRowSpacing="8"/>
+                            </ItemsRepeater.Layout>
+                            <ItemsRepeater.ItemTemplate>
+                                <DataTemplate>
+                                    <Button Style="{StaticResource OptionCardButtonStyle}"
+                                            Command="{Binding DataContext.SelectColor, ElementName=PageRoot}"
+                                            CommandParameter="{Binding Option}"
+                                            AutomationProperties.Name="{Binding Option.Label}">
+                                        <Grid>
+                                            <utu:CardContentControl Style="{StaticResource ElevatedCardContentControlStyle}"
+                                                                    IsClickable="True"
+                                                                    HorizontalAlignment="Stretch">
+                                                <StackPanel Padding="12,10" Spacing="6">
+                                                    <Border Width="36" Height="36"
+                                                            CornerRadius="18"
+                                                            HorizontalAlignment="Left"
+                                                            Background="{Binding Option.HexColor, Converter={StaticResource HexToBrush}}"/>
+                                                    <TextBlock Text="{Binding Option.Label}"
+                                                               Style="{StaticResource LabelMedium}"
+                                                               Foreground="{ThemeResource OnSurfaceBrush}"
+                                                               TextWrapping="Wrap"/>
+                                                </StackPanel>
+                                            </utu:CardContentControl>
+                                            <Border CornerRadius="8"
+                                                    BorderBrush="{ThemeResource PrimaryBrush}"
+                                                    BorderThickness="{Binding IsSelected, Converter={StaticResource SelThickness}}"
+                                                    IsHitTestVisible="False"/>
+                                            <Border Width="22" Height="22" CornerRadius="11"
+                                                    Background="{ThemeResource PrimaryBrush}"
+                                                    HorizontalAlignment="Right" VerticalAlignment="Top"
+                                                    Margin="0,8,8,0" IsHitTestVisible="False"
+                                                    Visibility="{Binding IsSelected, Converter={StaticResource BoolToVis}}">
+                                                <FontIcon Glyph="&#xE73E;" FontSize="12" Foreground="{ThemeResource OnPrimaryBrush}"/>
+                                            </Border>
+                                        </Grid>
+                                    </Button>
+                                </DataTemplate>
+                            </ItemsRepeater.ItemTemplate>
+                        </ItemsRepeater>
+                    </StackPanel>
+
+                    <!-- ── Custom Text ────────────────────────────────── -->
+                    <StackPanel Spacing="10">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <FontIcon Glyph="&#xE70F;" FontSize="16" Foreground="{ThemeResource SecondaryBrush}"/>
+                            <TextBlock Text="EMBROIDERY TEXT"
+                                       Style="{StaticResource LabelLarge}"
+                                       CharacterSpacing="80"
+                                       Foreground="{ThemeResource OnBackgroundBrush}"/>
+                        </StackPanel>
+                        <utu:CardContentControl Style="{StaticResource ElevatedCardContentControlStyle}"
+                                                IsClickable="False"
+                                                HorizontalAlignment="Stretch">
+                            <StackPanel Padding="16,12" Spacing="8">
+                                <TextBlock Text="Add your personal touch &#x2014; name, motto, or short phrase"
+                                           Style="{StaticResource BodySmall}"
+                                           Foreground="{ThemeResource OnSurfaceVariantBrush}"
+                                           TextWrapping="Wrap"/>
+                                <TextBox x:Name="EmbroideryBox"
+                                         Text="{Binding CustomText, Mode=TwoWay}"
+                                         PlaceholderText="e.g. Alex, REBEL, 1987 …"
+                                         MaxLength="20"
+                                         Style="{StaticResource OutlinedTextBoxStyle}"
+                                         HorizontalAlignment="Stretch"
+                                         AutomationProperties.Name="Custom embroidery text"/>
+                                <TextBlock Text="Max 20 characters &#x00B7; Stitched on the bib chest"
+                                           Style="{StaticResource LabelSmall}"
+                                           Foreground="{ThemeResource OutlineBrush}"/>
+                            </StackPanel>
+                        </utu:CardContentControl>
+                    </StackPanel>
+
+                    <!-- ── Pocket Type ────────────────────────────────── -->
+                    <StackPanel Spacing="10">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <FontIcon Glyph="&#xE8FD;" FontSize="16" Foreground="{ThemeResource SecondaryBrush}"/>
+                            <TextBlock Text="POCKET STYLE"
+                                       Style="{StaticResource LabelLarge}"
+                                       CharacterSpacing="80"
+                                       Foreground="{ThemeResource OnBackgroundBrush}"/>
+                        </StackPanel>
+                        <ItemsRepeater ItemsSource="{Binding Pockets}">
+                            <ItemsRepeater.Layout>
+                                <UniformGridLayout MinItemWidth="140" MinColumnSpacing="8" MinRowSpacing="8"/>
+                            </ItemsRepeater.Layout>
+                            <ItemsRepeater.ItemTemplate>
+                                <DataTemplate>
+                                    <Button Style="{StaticResource OptionCardButtonStyle}"
+                                            Command="{Binding DataContext.SelectPocket, ElementName=PageRoot}"
+                                            CommandParameter="{Binding Option}"
+                                            AutomationProperties.Name="{Binding Option.Label}">
+                                        <Grid>
+                                            <utu:CardContentControl Style="{StaticResource ElevatedCardContentControlStyle}"
+                                                                    IsClickable="True"
+                                                                    HorizontalAlignment="Stretch">
+                                                <StackPanel Padding="14,12" Spacing="4">
+                                                    <TextBlock Text="{Binding Option.Label}"
+                                                               Style="{StaticResource TitleSmall}"
+                                                               Foreground="{ThemeResource OnSurfaceBrush}"/>
+                                                    <TextBlock Text="{Binding Option.Description}"
+                                                               Style="{StaticResource BodySmall}"
+                                                               Foreground="{ThemeResource OnSurfaceVariantBrush}"
+                                                               TextWrapping="Wrap"/>
+                                                </StackPanel>
+                                            </utu:CardContentControl>
+                                            <Border CornerRadius="8"
+                                                    BorderBrush="{ThemeResource PrimaryBrush}"
+                                                    BorderThickness="{Binding IsSelected, Converter={StaticResource SelThickness}}"
+                                                    IsHitTestVisible="False"/>
+                                            <Border Width="22" Height="22" CornerRadius="11"
+                                                    Background="{ThemeResource PrimaryBrush}"
+                                                    HorizontalAlignment="Right" VerticalAlignment="Top"
+                                                    Margin="0,8,8,0" IsHitTestVisible="False"
+                                                    Visibility="{Binding IsSelected, Converter={StaticResource BoolToVis}}">
+                                                <FontIcon Glyph="&#xE73E;" FontSize="12" Foreground="{ThemeResource OnPrimaryBrush}"/>
+                                            </Border>
+                                        </Grid>
+                                    </Button>
+                                </DataTemplate>
+                            </ItemsRepeater.ItemTemplate>
+                        </ItemsRepeater>
+                    </StackPanel>
+
+                    <Border Height="16"/>
+                </StackPanel>
+            </ScrollViewer>
+        </Grid>
+
+        <!-- ── Pricing + CTA bar (single price) ────────────────────────── -->
+        <utu:CardContentControl Grid.Row="2"
+                                Style="{StaticResource FilledCardContentControlStyle}"
+                                HorizontalAlignment="Stretch"
+                                IsClickable="False">
+            <Grid Padding="16,12">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0" Spacing="2" VerticalAlignment="Center">
+                    <TextBlock Text="ESTIMATED PRICE"
+                               Style="{StaticResource LabelExtraSmall}"
+                               CharacterSpacing="80"
+                               Foreground="{ThemeResource OnSurfaceVariantBrush}"/>
+                    <TextBlock Text="{Binding PriceLabel}"
+                               Style="{StaticResource HeadlineSmall}"
+                               Foreground="{ThemeResource PrimaryBrush}"/>
+                </StackPanel>
+                <Button Grid.Column="1"
+                        Content="Review Order"
+                        Style="{StaticResource FilledButtonStyle}"
+                        VerticalAlignment="Center"
+                        AutomationProperties.Name="Review your order"
+                        Command="{Binding ReviewOrder}"/>
+            </Grid>
+        </utu:CardContentControl>
+    </Grid>
+</Page>
