@@ -8,7 +8,7 @@
                 <StackPanel Spacing="2" Margin="0,0,0,20">
                     <TextBlock Text="{Binding GreetingMessage}" Style="{StaticResource HeadlineMedium}" Foreground="{ThemeResource OnBackgroundBrush}" />
                     <StackPanel Orientation="Horizontal" Spacing="6">
-                        <FontIcon Glyph="" FontSize="16" Foreground="{ThemeResource SecondaryBrush}" />
+                        <FontIcon Glyph="&#xE945;" FontSize="16" Foreground="{ThemeResource SecondaryBrush}" />
                         <TextBlock Text="{Binding MotivationMessage}" Style="{StaticResource BodyMedium}" Foreground="{ThemeResource SecondaryBrush}" />
                     </StackPanel>
                 </StackPanel>
@@ -53,18 +53,18 @@
                     </Grid.ColumnDefinitions>
 
                     <utu:CardContentControl Grid.Column="0" Style="{StaticResource FilledCardContentControlStyle}" HorizontalAlignment="Stretch" IsClickable="False">
-                        <StackPanel Padding="16,14" Spacing="4">
-                            <FontIcon Glyph="" FontSize="22" Foreground="{ThemeResource PrimaryBrush}" />
-                            <TextBlock Text="{Binding TotalMinutesThisWeek}" Style="{StaticResource HeadlineMedium}" Foreground="{ThemeResource OnSurfaceBrush}" />
-                            <TextBlock Text="minutes active" Style="{StaticResource LabelSmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" />
+                        <StackPanel Padding="16,14" Spacing="4" HorizontalAlignment="Center">
+                            <FontIcon Glyph="&#xE787;" FontSize="22" Foreground="{ThemeResource PrimaryBrush}" HorizontalAlignment="Center" />
+                            <TextBlock Text="{Binding TotalMinutesThisWeek}" Style="{StaticResource HeadlineMedium}" Foreground="{ThemeResource OnSurfaceBrush}" HorizontalTextAlignment="Center" />
+                            <TextBlock Text="minutes active" Style="{StaticResource LabelSmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" HorizontalTextAlignment="Center" />
                         </StackPanel>
                     </utu:CardContentControl>
 
                     <utu:CardContentControl Grid.Column="2" Style="{StaticResource FilledCardContentControlStyle}" HorizontalAlignment="Stretch" IsClickable="False">
-                        <StackPanel Padding="16,14" Spacing="4">
-                            <FontIcon Glyph="" FontSize="22" Foreground="{ThemeResource SecondaryBrush}" />
-                            <TextBlock Text="{Binding CaloriesBurnedThisWeek}" Style="{StaticResource HeadlineMedium}" Foreground="{ThemeResource OnSurfaceBrush}" />
-                            <TextBlock Text="calories burned" Style="{StaticResource LabelSmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" />
+                        <StackPanel Padding="16,14" Spacing="4" HorizontalAlignment="Center">
+                            <FontIcon Glyph="&#xE945;" FontSize="22" Foreground="{ThemeResource SecondaryBrush}" HorizontalAlignment="Center" />
+                            <TextBlock Text="{Binding CaloriesBurnedThisWeek}" Style="{StaticResource HeadlineMedium}" Foreground="{ThemeResource OnSurfaceBrush}" HorizontalTextAlignment="Center" />
+                            <TextBlock Text="calories burned" Style="{StaticResource LabelSmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" HorizontalTextAlignment="Center" />
                         </StackPanel>
                     </utu:CardContentControl>
                 </Grid>
@@ -84,13 +84,13 @@
                                         <StackPanel Orientation="Horizontal" Spacing="8">
                                             <TextBlock Text="{Binding DurationMinutes}" Style="{StaticResource BodySmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" />
                                             <TextBlock Text="min" Style="{StaticResource BodySmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" />
-                                            <TextBlock Text="•" Style="{StaticResource BodySmall}" Foreground="{ThemeResource OutlineVariantBrush}" />
+                                            <TextBlock Text="&#x2022;" Style="{StaticResource BodySmall}" Foreground="{ThemeResource OutlineVariantBrush}" />
                                             <TextBlock Text="{Binding CaloriesBurned}" Style="{StaticResource BodySmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" />
                                             <TextBlock Text="kcal" Style="{StaticResource BodySmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" />
                                         </StackPanel>
                                     </StackPanel>
                                     <Border Grid.Column="1" Background="{ThemeResource PrimaryContainerBrush}" CornerRadius="8" Padding="8,4">
-                                        <TextBlock Text="{Binding Feeling}" Style="{StaticResource LabelSmall}" Foreground="{ThemeResource OnPrimaryContainerBrush}" />
+                                        <TextBlock Text="{Binding Feeling}" Style="{StaticResource LabelSmall}" Foreground="{ThemeResource OnPrimaryContainerBrush}" HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalTextAlignment="Center" />
                                     </Border>
                                 </Grid>
                             </utu:CardContentControl>
@@ -122,11 +122,6 @@
                         </DataTemplate>
                     </ItemsRepeater.ItemTemplate>
                 </ItemsRepeater>
-                <!-- Greeting Header -->
-                <!-- Today's Workout Card -->
-                <!-- Weekly Stats Row -->
-                <!-- Recent Activity -->
-                <!-- Tips Section -->
 
             </StackPanel>
         </ScrollViewer>
