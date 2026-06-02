@@ -9,64 +9,134 @@
         <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
       </ResourceDictionary.MergedDictionaries>
 
-      <Color x:Key="DashboardPageBackgroundColor">#FFFAFAFA</Color>
-      <Color x:Key="DashboardSurfaceColor">#FFFFFFFF</Color>
-      <Color x:Key="DashboardMutedSurfaceColor">#FFF8F8F8</Color>
-      <Color x:Key="DashboardControlColor">#FFF0F0F0</Color>
-      <Color x:Key="DashboardBorderColor">#FFE5E5E5</Color>
-      <Color x:Key="DashboardDividerColor">#FFF0F0F0</Color>
-      <Color x:Key="DashboardMutedTextColor">#FFAAAAAA</Color>
-      <Color x:Key="DashboardSubtleTextColor">#FF8A8A8A</Color>
-      <Color x:Key="DashboardDisabledTextColor">#FFBBBBBB</Color>
-      <Color x:Key="DashboardPrimaryTextColor">#FF1A1A1A</Color>
-      <Color x:Key="DashboardAccentColor">#FF0D6E6E</Color>
-      <Color x:Key="DashboardAccentSoftColor">#FFE8F4F3</Color>
-      <Color x:Key="DashboardBlueColor">#FF3B82F6</Color>
-      <Color x:Key="DashboardPurpleColor">#FF8B5CF6</Color>
-      <Color x:Key="DashboardAmberColor">#FFF59E0B</Color>
-      <Color x:Key="DashboardRedColor">#FFEF4444</Color>
-      <Color x:Key="DashboardGreenColor">#FF10B981</Color>
-      <Color x:Key="DashboardLostColor">#FF6B7280</Color>
-      <Color x:Key="DashboardActivityOrangeColor">#FFE07B54</Color>
-      <Color x:Key="DashboardActivitySoftColor">#FFFFF2EC</Color>
-      <Color x:Key="DashboardBlueSoftColor">#FFEFF4FF</Color>
-      <Color x:Key="DashboardPurpleSoftColor">#FFF5F0FF</Color>
-      <Color x:Key="DashboardAmberSoftColor">#FFFFF5E7</Color>
-      <Color x:Key="DashboardRedSoftColor">#FFFFEFEF</Color>
-      <Color x:Key="DashboardGreenSoftColor">#FFEFFBF6</Color>
+      <!--
+        Theme-aware palette.
+        "Light" is used when the OS/app is in Light mode, "Default" when in Dark mode.
+        Each dictionary is self-contained: the colors are declared first, then the
+        brushes reference those colors so the entire palette swaps with the system theme.
+        The app does not set RequestedTheme, so it automatically follows the OS theme.
+      -->
+      <ResourceDictionary.ThemeDictionaries>
 
-      <SolidColorBrush x:Key="DashboardPageBackgroundBrush" Color="{StaticResource DashboardPageBackgroundColor}" />
-      <SolidColorBrush x:Key="DashboardSurfaceBrush" Color="{StaticResource DashboardSurfaceColor}" />
-      <SolidColorBrush x:Key="DashboardMutedSurfaceBrush" Color="{StaticResource DashboardMutedSurfaceColor}" />
-      <SolidColorBrush x:Key="DashboardControlBrush" Color="{StaticResource DashboardControlColor}" />
-      <SolidColorBrush x:Key="DashboardBorderBrush" Color="{StaticResource DashboardBorderColor}" />
-      <SolidColorBrush x:Key="DashboardDividerBrush" Color="{StaticResource DashboardDividerColor}" />
-      <SolidColorBrush x:Key="DashboardMutedTextBrush" Color="{StaticResource DashboardMutedTextColor}" />
-      <SolidColorBrush x:Key="DashboardSubtleTextBrush" Color="{StaticResource DashboardSubtleTextColor}" />
-      <SolidColorBrush x:Key="DashboardDisabledTextBrush" Color="{StaticResource DashboardDisabledTextColor}" />
-      <SolidColorBrush x:Key="DashboardPrimaryTextBrush" Color="{StaticResource DashboardPrimaryTextColor}" />
-      <SolidColorBrush x:Key="DashboardAccentBrush" Color="{StaticResource DashboardAccentColor}" />
-      <SolidColorBrush x:Key="DashboardAccentSoftBrush" Color="{StaticResource DashboardAccentSoftColor}" />
-      <SolidColorBrush x:Key="DashboardBlueBrush" Color="{StaticResource DashboardBlueColor}" />
-      <SolidColorBrush x:Key="DashboardPurpleBrush" Color="{StaticResource DashboardPurpleColor}" />
-      <SolidColorBrush x:Key="DashboardAmberBrush" Color="{StaticResource DashboardAmberColor}" />
-      <SolidColorBrush x:Key="DashboardRedBrush" Color="{StaticResource DashboardRedColor}" />
-      <SolidColorBrush x:Key="DashboardGreenBrush" Color="{StaticResource DashboardGreenColor}" />
-      <SolidColorBrush x:Key="DashboardLostBrush" Color="{StaticResource DashboardLostColor}" />
-      <SolidColorBrush x:Key="DashboardActivityOrangeBrush" Color="{StaticResource DashboardActivityOrangeColor}" />
-      <SolidColorBrush x:Key="DashboardActivitySoftBrush" Color="{StaticResource DashboardActivitySoftColor}" />
-      <SolidColorBrush x:Key="DashboardBlueSoftBrush" Color="{StaticResource DashboardBlueSoftColor}" />
-      <SolidColorBrush x:Key="DashboardPurpleSoftBrush" Color="{StaticResource DashboardPurpleSoftColor}" />
-      <SolidColorBrush x:Key="DashboardAmberSoftBrush" Color="{StaticResource DashboardAmberSoftColor}" />
-      <SolidColorBrush x:Key="DashboardRedSoftBrush" Color="{StaticResource DashboardRedSoftColor}" />
-      <SolidColorBrush x:Key="DashboardGreenSoftBrush" Color="{StaticResource DashboardGreenSoftColor}" />
+        <!-- LIGHT THEME -->
+        <ResourceDictionary x:Key="Light">
+          <Color x:Key="DashboardPageBackgroundColor">#FFFAFAFA</Color>
+          <Color x:Key="DashboardSurfaceColor">#FFFFFFFF</Color>
+          <Color x:Key="DashboardMutedSurfaceColor">#FFF8F8F8</Color>
+          <Color x:Key="DashboardControlColor">#FFF0F0F0</Color>
+          <Color x:Key="DashboardBorderColor">#FFE5E5E5</Color>
+          <Color x:Key="DashboardDividerColor">#FFF0F0F0</Color>
+          <Color x:Key="DashboardMutedTextColor">#FFAAAAAA</Color>
+          <Color x:Key="DashboardSubtleTextColor">#FF8A8A8A</Color>
+          <Color x:Key="DashboardDisabledTextColor">#FFBBBBBB</Color>
+          <Color x:Key="DashboardPrimaryTextColor">#FF1A1A1A</Color>
+          <Color x:Key="DashboardAccentColor">#FF0D6E6E</Color>
+          <Color x:Key="DashboardAccentSoftColor">#FFE8F4F3</Color>
+          <Color x:Key="DashboardBlueColor">#FF3B82F6</Color>
+          <Color x:Key="DashboardPurpleColor">#FF8B5CF6</Color>
+          <Color x:Key="DashboardAmberColor">#FFF59E0B</Color>
+          <Color x:Key="DashboardRedColor">#FFEF4444</Color>
+          <Color x:Key="DashboardGreenColor">#FF10B981</Color>
+          <Color x:Key="DashboardLostColor">#FF6B7280</Color>
+          <Color x:Key="DashboardActivityOrangeColor">#FFE07B54</Color>
+          <Color x:Key="DashboardActivitySoftColor">#FFFFF2EC</Color>
+          <Color x:Key="DashboardBlueSoftColor">#FFEFF4FF</Color>
+          <Color x:Key="DashboardPurpleSoftColor">#FFF5F0FF</Color>
+          <Color x:Key="DashboardAmberSoftColor">#FFFFF5E7</Color>
+          <Color x:Key="DashboardRedSoftColor">#FFFFEFEF</Color>
+          <Color x:Key="DashboardGreenSoftColor">#FFEFFBF6</Color>
 
+          <SolidColorBrush x:Key="DashboardPageBackgroundBrush" Color="{StaticResource DashboardPageBackgroundColor}" />
+          <SolidColorBrush x:Key="DashboardSurfaceBrush" Color="{StaticResource DashboardSurfaceColor}" />
+          <SolidColorBrush x:Key="DashboardMutedSurfaceBrush" Color="{StaticResource DashboardMutedSurfaceColor}" />
+          <SolidColorBrush x:Key="DashboardControlBrush" Color="{StaticResource DashboardControlColor}" />
+          <SolidColorBrush x:Key="DashboardBorderBrush" Color="{StaticResource DashboardBorderColor}" />
+          <SolidColorBrush x:Key="DashboardDividerBrush" Color="{StaticResource DashboardDividerColor}" />
+          <SolidColorBrush x:Key="DashboardMutedTextBrush" Color="{StaticResource DashboardMutedTextColor}" />
+          <SolidColorBrush x:Key="DashboardSubtleTextBrush" Color="{StaticResource DashboardSubtleTextColor}" />
+          <SolidColorBrush x:Key="DashboardDisabledTextBrush" Color="{StaticResource DashboardDisabledTextColor}" />
+          <SolidColorBrush x:Key="DashboardPrimaryTextBrush" Color="{StaticResource DashboardPrimaryTextColor}" />
+          <SolidColorBrush x:Key="DashboardAccentBrush" Color="{StaticResource DashboardAccentColor}" />
+          <SolidColorBrush x:Key="DashboardAccentSoftBrush" Color="{StaticResource DashboardAccentSoftColor}" />
+          <SolidColorBrush x:Key="DashboardBlueBrush" Color="{StaticResource DashboardBlueColor}" />
+          <SolidColorBrush x:Key="DashboardPurpleBrush" Color="{StaticResource DashboardPurpleColor}" />
+          <SolidColorBrush x:Key="DashboardAmberBrush" Color="{StaticResource DashboardAmberColor}" />
+          <SolidColorBrush x:Key="DashboardRedBrush" Color="{StaticResource DashboardRedColor}" />
+          <SolidColorBrush x:Key="DashboardGreenBrush" Color="{StaticResource DashboardGreenColor}" />
+          <SolidColorBrush x:Key="DashboardLostBrush" Color="{StaticResource DashboardLostColor}" />
+          <SolidColorBrush x:Key="DashboardActivityOrangeBrush" Color="{StaticResource DashboardActivityOrangeColor}" />
+          <SolidColorBrush x:Key="DashboardActivitySoftBrush" Color="{StaticResource DashboardActivitySoftColor}" />
+          <SolidColorBrush x:Key="DashboardBlueSoftBrush" Color="{StaticResource DashboardBlueSoftColor}" />
+          <SolidColorBrush x:Key="DashboardPurpleSoftBrush" Color="{StaticResource DashboardPurpleSoftColor}" />
+          <SolidColorBrush x:Key="DashboardAmberSoftBrush" Color="{StaticResource DashboardAmberSoftColor}" />
+          <SolidColorBrush x:Key="DashboardRedSoftBrush" Color="{StaticResource DashboardRedSoftColor}" />
+          <SolidColorBrush x:Key="DashboardGreenSoftBrush" Color="{StaticResource DashboardGreenSoftColor}" />
+        </ResourceDictionary>
+
+        <!-- DARK THEME ("Default" maps to the OS dark mode) -->
+        <ResourceDictionary x:Key="Default">
+          <Color x:Key="DashboardPageBackgroundColor">#FF0E1213</Color>
+          <Color x:Key="DashboardSurfaceColor">#FF181E20</Color>
+          <Color x:Key="DashboardMutedSurfaceColor">#FF13191A</Color>
+          <Color x:Key="DashboardControlColor">#FF222A2C</Color>
+          <Color x:Key="DashboardBorderColor">#FF2B3336</Color>
+          <Color x:Key="DashboardDividerColor">#FF232A2C</Color>
+          <Color x:Key="DashboardMutedTextColor">#FF7E888D</Color>
+          <Color x:Key="DashboardSubtleTextColor">#FF9AA4A9</Color>
+          <Color x:Key="DashboardDisabledTextColor">#FF565E62</Color>
+          <Color x:Key="DashboardPrimaryTextColor">#FFECF1F2</Color>
+          <Color x:Key="DashboardAccentColor">#FF1FA39E</Color>
+          <Color x:Key="DashboardAccentSoftColor">#FF123230</Color>
+          <Color x:Key="DashboardBlueColor">#FF5B97F7</Color>
+          <Color x:Key="DashboardPurpleColor">#FFA482F8</Color>
+          <Color x:Key="DashboardAmberColor">#FFF6AE33</Color>
+          <Color x:Key="DashboardRedColor">#FFF26B6B</Color>
+          <Color x:Key="DashboardGreenColor">#FF2DD0A0</Color>
+          <Color x:Key="DashboardLostColor">#FF8B939E</Color>
+          <Color x:Key="DashboardActivityOrangeColor">#FFE89070</Color>
+          <Color x:Key="DashboardActivitySoftColor">#FF33241D</Color>
+          <Color x:Key="DashboardBlueSoftColor">#FF17263E</Color>
+          <Color x:Key="DashboardPurpleSoftColor">#FF241D3A</Color>
+          <Color x:Key="DashboardAmberSoftColor">#FF332915</Color>
+          <Color x:Key="DashboardRedSoftColor">#FF3A2122</Color>
+          <Color x:Key="DashboardGreenSoftColor">#FF123026</Color>
+
+          <SolidColorBrush x:Key="DashboardPageBackgroundBrush" Color="{StaticResource DashboardPageBackgroundColor}" />
+          <SolidColorBrush x:Key="DashboardSurfaceBrush" Color="{StaticResource DashboardSurfaceColor}" />
+          <SolidColorBrush x:Key="DashboardMutedSurfaceBrush" Color="{StaticResource DashboardMutedSurfaceColor}" />
+          <SolidColorBrush x:Key="DashboardControlBrush" Color="{StaticResource DashboardControlColor}" />
+          <SolidColorBrush x:Key="DashboardBorderBrush" Color="{StaticResource DashboardBorderColor}" />
+          <SolidColorBrush x:Key="DashboardDividerBrush" Color="{StaticResource DashboardDividerColor}" />
+          <SolidColorBrush x:Key="DashboardMutedTextBrush" Color="{StaticResource DashboardMutedTextColor}" />
+          <SolidColorBrush x:Key="DashboardSubtleTextBrush" Color="{StaticResource DashboardSubtleTextColor}" />
+          <SolidColorBrush x:Key="DashboardDisabledTextBrush" Color="{StaticResource DashboardDisabledTextColor}" />
+          <SolidColorBrush x:Key="DashboardPrimaryTextBrush" Color="{StaticResource DashboardPrimaryTextColor}" />
+          <SolidColorBrush x:Key="DashboardAccentBrush" Color="{StaticResource DashboardAccentColor}" />
+          <SolidColorBrush x:Key="DashboardAccentSoftBrush" Color="{StaticResource DashboardAccentSoftColor}" />
+          <SolidColorBrush x:Key="DashboardBlueBrush" Color="{StaticResource DashboardBlueColor}" />
+          <SolidColorBrush x:Key="DashboardPurpleBrush" Color="{StaticResource DashboardPurpleColor}" />
+          <SolidColorBrush x:Key="DashboardAmberBrush" Color="{StaticResource DashboardAmberColor}" />
+          <SolidColorBrush x:Key="DashboardRedBrush" Color="{StaticResource DashboardRedColor}" />
+          <SolidColorBrush x:Key="DashboardGreenBrush" Color="{StaticResource DashboardGreenColor}" />
+          <SolidColorBrush x:Key="DashboardLostBrush" Color="{StaticResource DashboardLostColor}" />
+          <SolidColorBrush x:Key="DashboardActivityOrangeBrush" Color="{StaticResource DashboardActivityOrangeColor}" />
+          <SolidColorBrush x:Key="DashboardActivitySoftBrush" Color="{StaticResource DashboardActivitySoftColor}" />
+          <SolidColorBrush x:Key="DashboardBlueSoftBrush" Color="{StaticResource DashboardBlueSoftColor}" />
+          <SolidColorBrush x:Key="DashboardPurpleSoftBrush" Color="{StaticResource DashboardPurpleSoftColor}" />
+          <SolidColorBrush x:Key="DashboardAmberSoftBrush" Color="{StaticResource DashboardAmberSoftColor}" />
+          <SolidColorBrush x:Key="DashboardRedSoftBrush" Color="{StaticResource DashboardRedSoftColor}" />
+          <SolidColorBrush x:Key="DashboardGreenSoftBrush" Color="{StaticResource DashboardGreenSoftColor}" />
+        </ResourceDictionary>
+
+      </ResourceDictionary.ThemeDictionaries>
+
+      <!-- Theme-independent resources (shared across Light and Dark) -->
       <Thickness x:Key="DashboardCardPadding">24</Thickness>
       <CornerRadius x:Key="DashboardCardCornerRadius">18</CornerRadius>
 
       <Style x:Key="DashboardPanelBorderStyle" TargetType="Border">
-        <Setter Property="Background" Value="{StaticResource DashboardSurfaceBrush}" />
-        <Setter Property="BorderBrush" Value="{StaticResource DashboardBorderBrush}" />
+        <Setter Property="Background" Value="{ThemeResource DashboardSurfaceBrush}" />
+        <Setter Property="BorderBrush" Value="{ThemeResource DashboardBorderBrush}" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="CornerRadius" Value="18" />
       </Style>
@@ -85,76 +155,76 @@
       </Style>
 
       <Style x:Key="DashboardSectionLabelStyle" TargetType="TextBlock">
-        <Setter Property="Foreground" Value="{StaticResource DashboardMutedTextBrush}" />
+        <Setter Property="Foreground" Value="{ThemeResource DashboardMutedTextBrush}" />
         <Setter Property="CharacterSpacing" Value="280" />
         <Setter Property="FontSize" Value="13" />
         <Setter Property="TextWrapping" Value="Wrap" />
       </Style>
 
       <Style x:Key="DashboardCardTitleStyle" TargetType="TextBlock">
-        <Setter Property="Foreground" Value="{StaticResource DashboardPrimaryTextBrush}" />
+        <Setter Property="Foreground" Value="{ThemeResource DashboardPrimaryTextBrush}" />
         <Setter Property="FontFamily" Value="Georgia" />
         <Setter Property="FontSize" Value="30" />
         <Setter Property="TextWrapping" Value="Wrap" />
       </Style>
 
       <Style x:Key="DashboardBodyTextStyle" TargetType="TextBlock">
-        <Setter Property="Foreground" Value="{StaticResource DashboardPrimaryTextBrush}" />
+        <Setter Property="Foreground" Value="{ThemeResource DashboardPrimaryTextBrush}" />
         <Setter Property="FontSize" Value="15" />
         <Setter Property="TextWrapping" Value="Wrap" />
       </Style>
 
       <Style x:Key="DashboardSubtleTextStyle" TargetType="TextBlock">
-        <Setter Property="Foreground" Value="{StaticResource DashboardMutedTextBrush}" />
+        <Setter Property="Foreground" Value="{ThemeResource DashboardMutedTextBrush}" />
         <Setter Property="FontSize" Value="14" />
         <Setter Property="TextWrapping" Value="Wrap" />
       </Style>
 
       <Style x:Key="DashboardMicroTextStyle" TargetType="TextBlock">
-        <Setter Property="Foreground" Value="{StaticResource DashboardMutedTextBrush}" />
+        <Setter Property="Foreground" Value="{ThemeResource DashboardMutedTextBrush}" />
         <Setter Property="FontSize" Value="11" />
         <Setter Property="TextWrapping" Value="Wrap" />
       </Style>
 
       <Style x:Key="DashboardMetricValueStyle" TargetType="TextBlock">
-        <Setter Property="Foreground" Value="{StaticResource DashboardPrimaryTextBrush}" />
+        <Setter Property="Foreground" Value="{ThemeResource DashboardPrimaryTextBrush}" />
         <Setter Property="FontSize" Value="32" />
         <Setter Property="FontWeight" Value="SemiBold" />
       </Style>
 
       <Style x:Key="DashboardSearchBoxStyle" TargetType="TextBox">
-        <Setter Property="Background" Value="{StaticResource DashboardSurfaceBrush}" />
-        <Setter Property="BorderBrush" Value="{StaticResource DashboardBorderBrush}" />
+        <Setter Property="Background" Value="{ThemeResource DashboardSurfaceBrush}" />
+        <Setter Property="BorderBrush" Value="{ThemeResource DashboardBorderBrush}" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="CornerRadius" Value="12" />
         <Setter Property="Padding" Value="14,10" />
-        <Setter Property="Foreground" Value="{StaticResource DashboardPrimaryTextBrush}" />
-        <Setter Property="PlaceholderForeground" Value="{StaticResource DashboardMutedTextBrush}" />
+        <Setter Property="Foreground" Value="{ThemeResource DashboardPrimaryTextBrush}" />
+        <Setter Property="PlaceholderForeground" Value="{ThemeResource DashboardMutedTextBrush}" />
       </Style>
 
       <Style x:Key="DashboardIconButtonStyle" TargetType="Button">
         <Setter Property="Width" Value="38" />
         <Setter Property="Height" Value="38" />
-        <Setter Property="Background" Value="{StaticResource DashboardSurfaceBrush}" />
-        <Setter Property="BorderBrush" Value="{StaticResource DashboardBorderBrush}" />
+        <Setter Property="Background" Value="{ThemeResource DashboardSurfaceBrush}" />
+        <Setter Property="BorderBrush" Value="{ThemeResource DashboardBorderBrush}" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="CornerRadius" Value="10" />
         <Setter Property="Padding" Value="0" />
       </Style>
 
       <Style x:Key="DashboardFilterButtonStyle" TargetType="Button">
-        <Setter Property="Background" Value="{StaticResource DashboardSurfaceBrush}" />
-        <Setter Property="BorderBrush" Value="{StaticResource DashboardBorderBrush}" />
+        <Setter Property="Background" Value="{ThemeResource DashboardSurfaceBrush}" />
+        <Setter Property="BorderBrush" Value="{ThemeResource DashboardBorderBrush}" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="CornerRadius" Value="10" />
         <Setter Property="Padding" Value="14,10" />
-        <Setter Property="Foreground" Value="{StaticResource DashboardPrimaryTextBrush}" />
+        <Setter Property="Foreground" Value="{ThemeResource DashboardPrimaryTextBrush}" />
         <Setter Property="FontSize" Value="13" />
       </Style>
 
       <Style x:Key="DashboardPrimaryButtonStyle" TargetType="Button">
-        <Setter Property="Background" Value="{StaticResource DashboardAccentBrush}" />
-        <Setter Property="BorderBrush" Value="{StaticResource DashboardAccentBrush}" />
+        <Setter Property="Background" Value="{ThemeResource DashboardAccentBrush}" />
+        <Setter Property="BorderBrush" Value="{ThemeResource DashboardAccentBrush}" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="CornerRadius" Value="10" />
         <Setter Property="Padding" Value="16,10" />
@@ -164,8 +234,8 @@
       </Style>
 
       <Style x:Key="DashboardKanbanCardStyle" TargetType="Border">
-        <Setter Property="Background" Value="{StaticResource DashboardSurfaceBrush}" />
-        <Setter Property="BorderBrush" Value="{StaticResource DashboardBorderBrush}" />
+        <Setter Property="Background" Value="{ThemeResource DashboardSurfaceBrush}" />
+        <Setter Property="BorderBrush" Value="{ThemeResource DashboardBorderBrush}" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="CornerRadius" Value="14" />
         <Setter Property="Padding" Value="14,12" />

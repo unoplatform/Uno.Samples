@@ -3,8 +3,8 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:lvc="using:LiveChartsCore.SkiaSharpView.WinUI"
       x:Uid="LeadsPage"
-      Background="{StaticResource DashboardPageBackgroundBrush}">
-  <Grid Background="{StaticResource DashboardPageBackgroundBrush}">
+      Background="{ThemeResource DashboardPageBackgroundBrush}">
+  <Grid Background="{ThemeResource DashboardPageBackgroundBrush}">
     <VisualStateManager.VisualStateGroups>
       <VisualStateGroup>
         <VisualState x:Name="MobileState" />
@@ -27,8 +27,8 @@
       </Grid.ColumnDefinitions>
 
       <Border Grid.Column="0"
-              Background="{StaticResource DashboardSurfaceBrush}"
-              BorderBrush="{StaticResource DashboardBorderBrush}"
+              Background="{ThemeResource DashboardSurfaceBrush}"
+              BorderBrush="{ThemeResource DashboardBorderBrush}"
               BorderThickness="0,0,1,0">
         <Grid Padding="20,24,20,24">
           <Grid.RowDefinitions>
@@ -42,7 +42,7 @@
               <Border Width="28"
                       Height="28"
                       CornerRadius="8"
-                      Background="{StaticResource DashboardAccentBrush}" />
+                      Background="{ThemeResource DashboardAccentBrush}" />
               <TextBlock Text="Uno CRM"
                          VerticalAlignment="Center"
                          Style="{StaticResource DashboardBodyTextStyle}"
@@ -61,7 +61,7 @@
                   <StackPanel Orientation="Horizontal" Spacing="12">
                     <FontIcon Glyph="&#xE80F;"
                               FontSize="16"
-                              Foreground="{StaticResource DashboardMutedTextBrush}" />
+                              Foreground="{ThemeResource DashboardMutedTextBrush}" />
                     <TextBlock Text="Dashboard"
                                Style="{StaticResource DashboardSubtleTextStyle}" />
                   </StackPanel>
@@ -74,7 +74,7 @@
                   <StackPanel Orientation="Horizontal" Spacing="12">
                     <FontIcon Glyph="&#xE8C8;"
                               FontSize="16"
-                              Foreground="{StaticResource DashboardMutedTextBrush}" />
+                              Foreground="{ThemeResource DashboardMutedTextBrush}" />
                     <TextBlock Text="Pipeline"
                                Style="{StaticResource DashboardSubtleTextStyle}" />
                   </StackPanel>
@@ -82,13 +82,13 @@
               </Button>
 
               <Border Style="{StaticResource DashboardSidebarItemBorderStyle}"
-                      Background="{StaticResource DashboardAccentSoftBrush}">
+                      Background="{ThemeResource DashboardAccentSoftBrush}">
                 <StackPanel Orientation="Horizontal" Spacing="12">
                   <FontIcon Glyph="&#xE716;"
                             FontSize="16"
-                            Foreground="{StaticResource DashboardAccentBrush}" />
+                            Foreground="{ThemeResource DashboardAccentBrush}" />
                   <TextBlock Text="Leads"
-                             Foreground="{StaticResource DashboardAccentBrush}"
+                             Foreground="{ThemeResource DashboardAccentBrush}"
                              Style="{StaticResource DashboardBodyTextStyle}" />
                 </StackPanel>
               </Border>
@@ -99,7 +99,7 @@
                   <StackPanel Orientation="Horizontal" Spacing="12">
                     <FontIcon Glyph="&#xE77B;"
                               FontSize="16"
-                              Foreground="{StaticResource DashboardMutedTextBrush}" />
+                              Foreground="{ThemeResource DashboardMutedTextBrush}" />
                     <TextBlock Text="Contacts"
                                Style="{StaticResource DashboardSubtleTextStyle}" />
                   </StackPanel>
@@ -115,7 +115,7 @@
             <Border Width="32"
                     Height="32"
                     CornerRadius="16"
-                    Background="{StaticResource DashboardAccentBrush}" />
+                    Background="{ThemeResource DashboardAccentBrush}" />
             <StackPanel>
               <TextBlock Text="Alex Morgan"
                          Style="{StaticResource DashboardBodyTextStyle}" />
@@ -167,7 +167,7 @@
                          Padding="36,10,14,10" />
                 <FontIcon Glyph="&#xE721;"
                           FontSize="14"
-                          Foreground="{StaticResource DashboardMutedTextBrush}"
+                          Foreground="{ThemeResource DashboardMutedTextBrush}"
                           Margin="14,0,0,0"
                           VerticalAlignment="Center"
                           HorizontalAlignment="Left" />
@@ -176,7 +176,7 @@
               <Button Style="{StaticResource DashboardIconButtonStyle}">
                 <FontIcon Glyph="&#xE7ED;"
                           FontSize="15"
-                          Foreground="{StaticResource DashboardMutedTextBrush}" />
+                          Foreground="{ThemeResource DashboardMutedTextBrush}" />
               </Button>
             </StackPanel>
           </Grid>
@@ -192,50 +192,78 @@
 
             <Border Grid.Column="0"
                     Style="{StaticResource DashboardPanelBorderStyle}"
-                    Padding="20,16">
-              <StackPanel Spacing="8">
+                    Padding="20,16"
+                    MinHeight="112">
+              <Grid>
+                <Grid.RowDefinitions>
+                  <RowDefinition Height="Auto" />
+                  <RowDefinition Height="*" />
+                  <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
                 <TextBlock Text="NEW LEADS"
                            Style="{StaticResource DashboardSectionLabelStyle}" />
-                <TextBlock Text="{Binding NewLeadsText}"
+                <TextBlock Grid.Row="2"
+                           Text="{Binding NewLeadsText}"
                            Style="{StaticResource DashboardMetricValueStyle}"
                            FontSize="28" />
-              </StackPanel>
+              </Grid>
             </Border>
 
             <Border Grid.Column="1"
                     Style="{StaticResource DashboardPanelBorderStyle}"
-                    Padding="20,16">
-              <StackPanel Spacing="8">
+                    Padding="20,16"
+                    MinHeight="112">
+              <Grid>
+                <Grid.RowDefinitions>
+                  <RowDefinition Height="Auto" />
+                  <RowDefinition Height="*" />
+                  <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
                 <TextBlock Text="QUALIFICATION RATE"
                            Style="{StaticResource DashboardSectionLabelStyle}" />
-                <TextBlock Text="{Binding QualificationRateText}"
+                <TextBlock Grid.Row="2"
+                           Text="{Binding QualificationRateText}"
                            Style="{StaticResource DashboardMetricValueStyle}"
                            FontSize="28" />
-              </StackPanel>
+              </Grid>
             </Border>
 
             <Border Grid.Column="2"
                     Style="{StaticResource DashboardPanelBorderStyle}"
-                    Padding="20,16">
-              <StackPanel Spacing="8">
+                    Padding="20,16"
+                    MinHeight="112">
+              <Grid>
+                <Grid.RowDefinitions>
+                  <RowDefinition Height="Auto" />
+                  <RowDefinition Height="*" />
+                  <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
                 <TextBlock Text="PIPELINE VALUE"
                            Style="{StaticResource DashboardSectionLabelStyle}" />
-                <TextBlock Text="{Binding PipelineValueText}"
+                <TextBlock Grid.Row="2"
+                           Text="{Binding PipelineValueText}"
                            Style="{StaticResource DashboardMetricValueStyle}"
                            FontSize="28" />
-              </StackPanel>
+              </Grid>
             </Border>
 
             <Border Grid.Column="3"
                     Style="{StaticResource DashboardPanelBorderStyle}"
-                    Padding="20,16">
-              <StackPanel Spacing="8">
+                    Padding="20,16"
+                    MinHeight="112">
+              <Grid>
+                <Grid.RowDefinitions>
+                  <RowDefinition Height="Auto" />
+                  <RowDefinition Height="*" />
+                  <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
                 <TextBlock Text="AVG DEAL SIZE"
                            Style="{StaticResource DashboardSectionLabelStyle}" />
-                <TextBlock Text="{Binding AverageDealSizeText}"
+                <TextBlock Grid.Row="2"
+                           Text="{Binding AverageDealSizeText}"
                            Style="{StaticResource DashboardMetricValueStyle}"
                            FontSize="28" />
-              </StackPanel>
+              </Grid>
             </Border>
           </Grid>
 
@@ -308,7 +336,7 @@
                            FontFamily="Georgia"
                            FontSize="22" />
 
-                <Border BorderBrush="{StaticResource DashboardBorderBrush}"
+                <Border BorderBrush="{ThemeResource DashboardBorderBrush}"
                         BorderThickness="0,0,0,1"
                         Padding="0,0,0,10">
                   <Grid>
@@ -321,11 +349,11 @@
                     <TextBlock Grid.Column="1"
                                Text="$132,000"
                                Style="{StaticResource DashboardBodyTextStyle}"
-                               Foreground="{StaticResource DashboardAccentBrush}" />
+                               Foreground="{ThemeResource DashboardAccentBrush}" />
                   </Grid>
                 </Border>
 
-                <Border BorderBrush="{StaticResource DashboardBorderBrush}"
+                <Border BorderBrush="{ThemeResource DashboardBorderBrush}"
                         BorderThickness="0,0,0,1"
                         Padding="0,0,0,10">
                   <Grid>
@@ -338,11 +366,11 @@
                     <TextBlock Grid.Column="1"
                                Text="$108,500"
                                Style="{StaticResource DashboardBodyTextStyle}"
-                               Foreground="{StaticResource DashboardAccentBrush}" />
+                               Foreground="{ThemeResource DashboardAccentBrush}" />
                   </Grid>
                 </Border>
 
-                <Border BorderBrush="{StaticResource DashboardBorderBrush}"
+                <Border BorderBrush="{ThemeResource DashboardBorderBrush}"
                         BorderThickness="0,0,0,1"
                         Padding="0,0,0,10">
                   <Grid>
@@ -355,7 +383,7 @@
                     <TextBlock Grid.Column="1"
                                Text="$89,900"
                                Style="{StaticResource DashboardBodyTextStyle}"
-                               Foreground="{StaticResource DashboardAccentBrush}" />
+                               Foreground="{ThemeResource DashboardAccentBrush}" />
                   </Grid>
                 </Border>
 
@@ -369,7 +397,7 @@
                   <TextBlock Grid.Column="1"
                              Text="$67,400"
                              Style="{StaticResource DashboardBodyTextStyle}"
-                             Foreground="{StaticResource DashboardAccentBrush}" />
+                             Foreground="{ThemeResource DashboardAccentBrush}" />
                 </Grid>
               </StackPanel>
             </Border>
@@ -407,7 +435,7 @@
                     Style="{StaticResource DashboardIconButtonStyle}">
               <FontIcon Glyph="&#xE7ED;"
                         FontSize="15"
-                        Foreground="{StaticResource DashboardMutedTextBrush}" />
+                        Foreground="{ThemeResource DashboardMutedTextBrush}" />
             </Button>
           </Grid>
 
@@ -498,8 +526,8 @@
               MinWidth="320"
               MaxWidth="560"
               CornerRadius="34"
-              Background="{StaticResource DashboardSurfaceBrush}"
-              BorderBrush="{StaticResource DashboardBorderBrush}"
+              Background="{ThemeResource DashboardSurfaceBrush}"
+              BorderBrush="{ThemeResource DashboardBorderBrush}"
               BorderThickness="1">
         <Grid ColumnSpacing="10">
           <Grid.ColumnDefinitions>
@@ -517,10 +545,10 @@
                         Spacing="8">
               <FontIcon Glyph="&#xE80F;"
                         FontSize="20"
-                        Foreground="{StaticResource DashboardSubtleTextBrush}" />
+                        Foreground="{ThemeResource DashboardSubtleTextBrush}" />
               <TextBlock Text="HOME"
                          HorizontalAlignment="Center"
-                         Foreground="{StaticResource DashboardSubtleTextBrush}"
+                         Foreground="{ThemeResource DashboardSubtleTextBrush}"
                          FontSize="12" />
             </StackPanel>
           </Button>
@@ -533,15 +561,15 @@
                         Spacing="8">
               <FontIcon Glyph="&#xE9D2;"
                         FontSize="20"
-                        Foreground="{StaticResource DashboardSubtleTextBrush}" />
+                        Foreground="{ThemeResource DashboardSubtleTextBrush}" />
               <TextBlock Text="PIPELINE"
-                         Foreground="{StaticResource DashboardSubtleTextBrush}"
+                         Foreground="{ThemeResource DashboardSubtleTextBrush}"
                          FontSize="12" />
             </StackPanel>
           </Button>
 
           <Border Grid.Column="2"
-                  Background="{StaticResource DashboardAccentBrush}"
+                  Background="{ThemeResource DashboardAccentBrush}"
                   CornerRadius="28"
                   Padding="20,14">
             <StackPanel HorizontalAlignment="Center"
@@ -565,9 +593,9 @@
                         Spacing="8">
               <FontIcon Glyph="&#xE77B;"
                         FontSize="20"
-                        Foreground="{StaticResource DashboardSubtleTextBrush}" />
+                        Foreground="{ThemeResource DashboardSubtleTextBrush}" />
               <TextBlock Text="CONTACTS"
-                         Foreground="{StaticResource DashboardSubtleTextBrush}"
+                         Foreground="{ThemeResource DashboardSubtleTextBrush}"
                          FontSize="12" />
             </StackPanel>
           </Button>
