@@ -1,322 +1,356 @@
-<Page x:Class="DenimOverallsApp.Presentation.CheckoutPage"
-      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:utu="using:Uno.Toolkit.UI"
-      xmlns:uen="using:Uno.Extensions.Navigation.UI"
-      Background="{ThemeResource BackgroundBrush}">
+﻿<Page x:Class="DenimOverallsApp.Presentation.CheckoutPage"
+	  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	  xmlns:utu="using:Uno.Toolkit.UI"
+	  xmlns:uen="using:Uno.Extensions.Navigation.UI"
+	  Background="{ThemeResource BackgroundBrush}">
 
-    <Grid utu:SafeArea.Insets="SoftInput,VisibleBounds">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
+	<Grid utu:SafeArea.Insets="SoftInput,VisibleBounds">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="*" />
+			<RowDefinition Height="Auto" />
+		</Grid.RowDefinitions>
 
-        <!-- ── Navigation Bar ─────────────────────────────────────────── -->
-        <utu:NavigationBar Grid.Row="0"
-                           Content="Checkout"
-                           AutomationProperties.Name="Checkout navigation bar"/>
+		<!-- ── Navigation Bar ─────────────────────────────────────────── -->
+		<utu:NavigationBar Grid.Row="0"
+						   Content="Checkout"
+						   AutomationProperties.Name="Checkout navigation bar" />
 
-        <!-- ── Scrollable form body ───────────────────────────────────── -->
-        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
-            <StackPanel Margin="16" Spacing="20">
+		<!-- ── Scrollable form body ───────────────────────────────────── -->
+		<ScrollViewer Grid.Row="1"
+					  VerticalScrollBarVisibility="Auto">
+			<StackPanel Margin="16"
+						Spacing="20">
 
-                <!-- ── Trust badges ───────────────────────────────────── -->
-                <ItemsRepeater ItemsSource="{Binding TrustBadges}">
-                    <ItemsRepeater.Layout>
-                        <UniformGridLayout MinItemWidth="120" MinColumnSpacing="8" MinRowSpacing="8"/>
-                    </ItemsRepeater.Layout>
-                    <ItemsRepeater.ItemTemplate>
-                        <DataTemplate>
-                            <utu:CardContentControl Style="{StaticResource FilledCardContentControlStyle}"
-                                                    IsClickable="False"
-                                                    HorizontalAlignment="Stretch">
-                                <StackPanel Padding="10,6" Orientation="Horizontal" Spacing="6">
-                                    <FontIcon Glyph="&#xE946;"
-                                              FontSize="13"
-                                              Foreground="{ThemeResource TertiaryBrush}"
-                                              VerticalAlignment="Center"/>
-                                    <TextBlock Text="{Binding}"
-                                               Style="{StaticResource LabelSmall}"
-                                               Foreground="{ThemeResource OnSurfaceBrush}"
-                                               TextWrapping="Wrap"
-                                               VerticalAlignment="Center"/>
-                                </StackPanel>
-                            </utu:CardContentControl>
-                        </DataTemplate>
-                    </ItemsRepeater.ItemTemplate>
-                </ItemsRepeater>
+				<!-- ── Trust badges ───────────────────────────────────── -->
+				<!--
+					MinWidth matches UniformGridLayout.MinItemWidth so the repeater is never measured below one
+					item width; otherwise UniformGridLayout computes itemsPerLine = 0 and throws DivideByZeroException.
+				-->
+				<ItemsRepeater ItemsSource="{Binding TrustBadges}"
+							   MinWidth="120">
+					<ItemsRepeater.Layout>
+						<UniformGridLayout MinItemWidth="120"
+										   MinColumnSpacing="8"
+										   MinRowSpacing="8" />
+					</ItemsRepeater.Layout>
+					<ItemsRepeater.ItemTemplate>
+						<DataTemplate>
+							<utu:CardContentControl Style="{StaticResource FilledCardContentControlStyle}"
+													IsClickable="False"
+													HorizontalAlignment="Stretch">
+								<StackPanel Padding="10,6"
+											Orientation="Horizontal"
+											Spacing="6">
+									<FontIcon Glyph="&#xE946;"
+											  FontSize="13"
+											  Foreground="{ThemeResource TertiaryBrush}"
+											  VerticalAlignment="Center" />
+									<TextBlock Text="{Binding}"
+											   Style="{StaticResource LabelSmall}"
+											   Foreground="{ThemeResource OnSurfaceBrush}"
+											   TextWrapping="Wrap"
+											   VerticalAlignment="Center" />
+								</StackPanel>
+							</utu:CardContentControl>
+						</DataTemplate>
+					</ItemsRepeater.ItemTemplate>
+				</ItemsRepeater>
 
-                <!-- ── Shipping Address ───────────────────────────────── -->
-                <StackPanel Spacing="10">
-                    <StackPanel Orientation="Horizontal" Spacing="8">
-                        <FontIcon Glyph="&#xE707;" FontSize="16" Foreground="{ThemeResource SecondaryBrush}"/>
-                        <TextBlock Text="SHIPPING ADDRESS"
-                                   Style="{StaticResource LabelLarge}"
-                                   CharacterSpacing="80"
-                                   Foreground="{ThemeResource OnBackgroundBrush}"/>
-                    </StackPanel>
+				<!-- ── Shipping Address ───────────────────────────────── -->
+				<StackPanel Spacing="10">
+					<StackPanel Orientation="Horizontal"
+								Spacing="8">
+						<FontIcon Glyph="&#xE707;"
+								  FontSize="16"
+								  Foreground="{ThemeResource SecondaryBrush}" />
+						<TextBlock Text="SHIPPING ADDRESS"
+								   Style="{StaticResource LabelLarge}"
+								   CharacterSpacing="80"
+								   Foreground="{ThemeResource OnBackgroundBrush}" />
+					</StackPanel>
 
-                    <utu:CardContentControl Style="{StaticResource ElevatedCardContentControlStyle}"
-                                            IsClickable="False"
-                                            HorizontalAlignment="Stretch">
-                        <StackPanel Padding="16" Spacing="12">
-                            <!-- Name row -->
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="8"/>
-                                    <ColumnDefinition Width="*"/>
-                                </Grid.ColumnDefinitions>
-                                <StackPanel Grid.Column="0" Spacing="4">
-                                    <TextBlock Text="First Name"
-                                               Style="{StaticResource LabelSmall}"
-                                               Foreground="{ThemeResource OnSurfaceVariantBrush}"/>
-                                    <TextBox PlaceholderText="Alex"
-                                             Style="{StaticResource OutlinedTextBoxStyle}"
-                                             HorizontalAlignment="Stretch"
-                                             AutomationProperties.Name="First name"/>
-                                </StackPanel>
-                                <StackPanel Grid.Column="2" Spacing="4">
-                                    <TextBlock Text="Last Name"
-                                               Style="{StaticResource LabelSmall}"
-                                               Foreground="{ThemeResource OnSurfaceVariantBrush}"/>
-                                    <TextBox PlaceholderText="Morgan"
-                                             Style="{StaticResource OutlinedTextBoxStyle}"
-                                             HorizontalAlignment="Stretch"
-                                             AutomationProperties.Name="Last name"/>
-                                </StackPanel>
-                            </Grid>
+					<utu:CardContentControl Style="{StaticResource ElevatedCardContentControlStyle}"
+											IsClickable="False"
+											HorizontalAlignment="Stretch">
+						<StackPanel Padding="16"
+									Spacing="12">
+							<!-- Name row -->
+							<Grid>
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition Width="*" />
+									<ColumnDefinition Width="8" />
+									<ColumnDefinition Width="*" />
+								</Grid.ColumnDefinitions>
+								<StackPanel Grid.Column="0"
+											Spacing="4">
+									<TextBlock Text="First Name"
+											   Style="{StaticResource LabelSmall}"
+											   Foreground="{ThemeResource OnSurfaceVariantBrush}" />
+									<TextBox PlaceholderText="Alex"
+											 Style="{StaticResource OutlinedTextBoxStyle}"
+											 HorizontalAlignment="Stretch"
+											 AutomationProperties.Name="First name" />
+								</StackPanel>
+								<StackPanel Grid.Column="2"
+											Spacing="4">
+									<TextBlock Text="Last Name"
+											   Style="{StaticResource LabelSmall}"
+											   Foreground="{ThemeResource OnSurfaceVariantBrush}" />
+									<TextBox PlaceholderText="Morgan"
+											 Style="{StaticResource OutlinedTextBoxStyle}"
+											 HorizontalAlignment="Stretch"
+											 AutomationProperties.Name="Last name" />
+								</StackPanel>
+							</Grid>
 
-                            <!-- Email -->
-                            <StackPanel Spacing="4">
-                                <TextBlock Text="Email Address"
-                                           Style="{StaticResource LabelSmall}"
-                                           Foreground="{ThemeResource OnSurfaceVariantBrush}"/>
-                                <TextBox PlaceholderText="alex@example.com"
-                                         InputScope="EmailSmtpAddress"
-                                         Style="{StaticResource OutlinedTextBoxStyle}"
-                                         HorizontalAlignment="Stretch"
-                                         AutomationProperties.Name="Email address"/>
-                            </StackPanel>
+							<!-- Email -->
+							<StackPanel Spacing="4">
+								<TextBlock Text="Email Address"
+										   Style="{StaticResource LabelSmall}"
+										   Foreground="{ThemeResource OnSurfaceVariantBrush}" />
+								<TextBox PlaceholderText="alex@example.com"
+										 InputScope="EmailSmtpAddress"
+										 Style="{StaticResource OutlinedTextBoxStyle}"
+										 HorizontalAlignment="Stretch"
+										 AutomationProperties.Name="Email address" />
+							</StackPanel>
 
-                            <!-- Phone -->
-                            <StackPanel Spacing="4">
-                                <TextBlock Text="Phone (optional)"
-                                           Style="{StaticResource LabelSmall}"
-                                           Foreground="{ThemeResource OnSurfaceVariantBrush}"/>
-                                <TextBox PlaceholderText="+1 555 000 1234"
-                                         InputScope="TelephoneNumber"
-                                         Style="{StaticResource OutlinedTextBoxStyle}"
-                                         HorizontalAlignment="Stretch"
-                                         AutomationProperties.Name="Phone number"/>
-                            </StackPanel>
+							<!-- Phone -->
+							<StackPanel Spacing="4">
+								<TextBlock Text="Phone (optional)"
+										   Style="{StaticResource LabelSmall}"
+										   Foreground="{ThemeResource OnSurfaceVariantBrush}" />
+								<TextBox PlaceholderText="+1 555 000 1234"
+										 InputScope="TelephoneNumber"
+										 Style="{StaticResource OutlinedTextBoxStyle}"
+										 HorizontalAlignment="Stretch"
+										 AutomationProperties.Name="Phone number" />
+							</StackPanel>
 
-                            <!-- Address line 1 -->
-                            <StackPanel Spacing="4">
-                                <TextBlock Text="Address"
-                                           Style="{StaticResource LabelSmall}"
-                                           Foreground="{ThemeResource OnSurfaceVariantBrush}"/>
-                                <TextBox PlaceholderText="123 Denim Lane"
-                                         Style="{StaticResource OutlinedTextBoxStyle}"
-                                         HorizontalAlignment="Stretch"
-                                         AutomationProperties.Name="Street address"/>
-                            </StackPanel>
+							<!-- Address line 1 -->
+							<StackPanel Spacing="4">
+								<TextBlock Text="Address"
+										   Style="{StaticResource LabelSmall}"
+										   Foreground="{ThemeResource OnSurfaceVariantBrush}" />
+								<TextBox PlaceholderText="123 Denim Lane"
+										 Style="{StaticResource OutlinedTextBoxStyle}"
+										 HorizontalAlignment="Stretch"
+										 AutomationProperties.Name="Street address" />
+							</StackPanel>
 
-                            <!-- Address line 2 -->
-                            <StackPanel Spacing="4">
-                                <TextBlock Text="Apt / Suite (optional)"
-                                           Style="{StaticResource LabelSmall}"
-                                           Foreground="{ThemeResource OnSurfaceVariantBrush}"/>
-                                <TextBox PlaceholderText="Apt 4B"
-                                         Style="{StaticResource OutlinedTextBoxStyle}"
-                                         HorizontalAlignment="Stretch"
-                                         AutomationProperties.Name="Apartment or suite"/>
-                            </StackPanel>
+							<!-- Address line 2 -->
+							<StackPanel Spacing="4">
+								<TextBlock Text="Apt / Suite (optional)"
+										   Style="{StaticResource LabelSmall}"
+										   Foreground="{ThemeResource OnSurfaceVariantBrush}" />
+								<TextBox PlaceholderText="Apt 4B"
+										 Style="{StaticResource OutlinedTextBoxStyle}"
+										 HorizontalAlignment="Stretch"
+										 AutomationProperties.Name="Apartment or suite" />
+							</StackPanel>
 
-                            <!-- City + Postal -->
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="8"/>
-                                    <ColumnDefinition Width="120"/>
-                                </Grid.ColumnDefinitions>
-                                <StackPanel Grid.Column="0" Spacing="4">
-                                    <TextBlock Text="City"
-                                               Style="{StaticResource LabelSmall}"
-                                               Foreground="{ThemeResource OnSurfaceVariantBrush}"/>
-                                    <TextBox PlaceholderText="New York"
-                                             Style="{StaticResource OutlinedTextBoxStyle}"
-                                             HorizontalAlignment="Stretch"
-                                             AutomationProperties.Name="City"/>
-                                </StackPanel>
-                                <StackPanel Grid.Column="2" Spacing="4">
-                                    <TextBlock Text="ZIP / Postal"
-                                               Style="{StaticResource LabelSmall}"
-                                               Foreground="{ThemeResource OnSurfaceVariantBrush}"/>
-                                    <TextBox PlaceholderText="10001"
-                                             InputScope="Number"
-                                             Style="{StaticResource OutlinedTextBoxStyle}"
-                                             HorizontalAlignment="Stretch"
-                                             AutomationProperties.Name="Postal code"/>
-                                </StackPanel>
-                            </Grid>
+							<!-- City + Postal -->
+							<Grid>
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition Width="*" />
+									<ColumnDefinition Width="8" />
+									<ColumnDefinition Width="120" />
+								</Grid.ColumnDefinitions>
+								<StackPanel Grid.Column="0"
+											Spacing="4">
+									<TextBlock Text="City"
+											   Style="{StaticResource LabelSmall}"
+											   Foreground="{ThemeResource OnSurfaceVariantBrush}" />
+									<TextBox PlaceholderText="New York"
+											 Style="{StaticResource OutlinedTextBoxStyle}"
+											 HorizontalAlignment="Stretch"
+											 AutomationProperties.Name="City" />
+								</StackPanel>
+								<StackPanel Grid.Column="2"
+											Spacing="4">
+									<TextBlock Text="ZIP / Postal"
+											   Style="{StaticResource LabelSmall}"
+											   Foreground="{ThemeResource OnSurfaceVariantBrush}" />
+									<TextBox PlaceholderText="10001"
+											 InputScope="Number"
+											 Style="{StaticResource OutlinedTextBoxStyle}"
+											 HorizontalAlignment="Stretch"
+											 AutomationProperties.Name="Postal code" />
+								</StackPanel>
+							</Grid>
 
-                            <!-- Country -->
-                            <StackPanel Spacing="4">
-                                <TextBlock Text="Country"
-                                           Style="{StaticResource LabelSmall}"
-                                           Foreground="{ThemeResource OnSurfaceVariantBrush}"/>
-                                <ComboBox Style="{StaticResource ComboBoxStyle}"
-                                          HorizontalAlignment="Stretch"
-                                          SelectedIndex="0"
-                                          AutomationProperties.Name="Country">
-                                    <ComboBox.Items>
-                                        <ComboBoxItem Content="United States"/>
-                                        <ComboBoxItem Content="Canada"/>
-                                        <ComboBoxItem Content="United Kingdom"/>
-                                        <ComboBoxItem Content="France"/>
-                                        <ComboBoxItem Content="Germany"/>
-                                        <ComboBoxItem Content="Australia"/>
-                                        <ComboBoxItem Content="Japan"/>
-                                    </ComboBox.Items>
-                                </ComboBox>
-                            </StackPanel>
-                        </StackPanel>
-                    </utu:CardContentControl>
-                </StackPanel>
+							<!-- Country -->
+							<StackPanel Spacing="4">
+								<TextBlock Text="Country"
+										   Style="{StaticResource LabelSmall}"
+										   Foreground="{ThemeResource OnSurfaceVariantBrush}" />
+								<ComboBox Style="{StaticResource ComboBoxStyle}"
+										  HorizontalAlignment="Stretch"
+										  SelectedIndex="0"
+										  AutomationProperties.Name="Country">
+									<ComboBox.Items>
+										<ComboBoxItem Content="United States" />
+										<ComboBoxItem Content="Canada" />
+										<ComboBoxItem Content="United Kingdom" />
+										<ComboBoxItem Content="France" />
+										<ComboBoxItem Content="Germany" />
+										<ComboBoxItem Content="Australia" />
+										<ComboBoxItem Content="Japan" />
+									</ComboBox.Items>
+								</ComboBox>
+							</StackPanel>
+						</StackPanel>
+					</utu:CardContentControl>
+				</StackPanel>
 
-                <!-- ── Payment Method ─────────────────────────────────── -->
-                <StackPanel Spacing="10">
-                    <StackPanel Orientation="Horizontal" Spacing="8">
-                        <FontIcon Glyph="&#xE8C5;" FontSize="16" Foreground="{ThemeResource SecondaryBrush}"/>
-                        <TextBlock Text="PAYMENT METHOD"
-                                   Style="{StaticResource LabelLarge}"
-                                   CharacterSpacing="80"
-                                   Foreground="{ThemeResource OnBackgroundBrush}"/>
-                    </StackPanel>
+				<!-- ── Payment Method ─────────────────────────────────── -->
+				<StackPanel Spacing="10">
+					<StackPanel Orientation="Horizontal"
+								Spacing="8">
+						<FontIcon Glyph="&#xE8C5;"
+								  FontSize="16"
+								  Foreground="{ThemeResource SecondaryBrush}" />
+						<TextBlock Text="PAYMENT METHOD"
+								   Style="{StaticResource LabelLarge}"
+								   CharacterSpacing="80"
+								   Foreground="{ThemeResource OnBackgroundBrush}" />
+					</StackPanel>
 
-                    <ItemsRepeater ItemsSource="{Binding PaymentMethods}">
-                        <ItemsRepeater.Layout>
-                            <StackLayout Spacing="8"/>
-                        </ItemsRepeater.Layout>
-                        <ItemsRepeater.ItemTemplate>
-                            <DataTemplate>
-                                <utu:CardContentControl Style="{StaticResource ElevatedCardContentControlStyle}"
-                                                        IsClickable="True"
-                                                        HorizontalAlignment="Stretch"
-                                                        AutomationProperties.Name="{Binding Label}">
-                                    <StackPanel Padding="16,12" Orientation="Horizontal" Spacing="12">
-                                        <RadioButton GroupName="PaymentGroup"
-                                                     VerticalAlignment="Center"
-                                                     AutomationProperties.Name="{Binding Label}"/>
-                                        <FontIcon Glyph="{Binding Glyph}"
-                                                  FontSize="20"
-                                                  Foreground="{ThemeResource PrimaryBrush}"
-                                                  VerticalAlignment="Center"/>
-                                        <TextBlock Text="{Binding Label}"
-                                                   Style="{StaticResource TitleSmall}"
-                                                   Foreground="{ThemeResource OnSurfaceBrush}"
-                                                   VerticalAlignment="Center"/>
-                                    </StackPanel>
-                                </utu:CardContentControl>
-                            </DataTemplate>
-                        </ItemsRepeater.ItemTemplate>
-                    </ItemsRepeater>
+					<ItemsRepeater ItemsSource="{Binding PaymentMethods}">
+						<ItemsRepeater.Layout>
+							<StackLayout Spacing="8" />
+						</ItemsRepeater.Layout>
+						<ItemsRepeater.ItemTemplate>
+							<DataTemplate>
+								<utu:CardContentControl Style="{StaticResource ElevatedCardContentControlStyle}"
+														IsClickable="True"
+														HorizontalAlignment="Stretch"
+														AutomationProperties.Name="{Binding Label}">
+									<StackPanel Padding="16,12"
+												Orientation="Horizontal"
+												Spacing="12">
+										<RadioButton GroupName="PaymentGroup"
+													 VerticalAlignment="Center"
+													 AutomationProperties.Name="{Binding Label}" />
+										<FontIcon Glyph="{Binding Glyph}"
+												  FontSize="20"
+												  Foreground="{ThemeResource PrimaryBrush}"
+												  VerticalAlignment="Center" />
+										<TextBlock Text="{Binding Label}"
+												   Style="{StaticResource TitleSmall}"
+												   Foreground="{ThemeResource OnSurfaceBrush}"
+												   VerticalAlignment="Center" />
+									</StackPanel>
+								</utu:CardContentControl>
+							</DataTemplate>
+						</ItemsRepeater.ItemTemplate>
+					</ItemsRepeater>
 
-                    <!-- Card number placeholder (shown when card selected) -->
-                    <utu:CardContentControl Style="{StaticResource ElevatedCardContentControlStyle}"
-                                            IsClickable="False"
-                                            HorizontalAlignment="Stretch">
-                        <StackPanel Padding="16" Spacing="12">
-                            <StackPanel Spacing="4">
-                                <TextBlock Text="Card Number"
-                                           Style="{StaticResource LabelSmall}"
-                                           Foreground="{ThemeResource OnSurfaceVariantBrush}"/>
-                                <TextBox PlaceholderText="1234 5678 9012 3456"
-                                         InputScope="Number"
-                                         MaxLength="19"
-                                         Style="{StaticResource OutlinedTextBoxStyle}"
-                                         HorizontalAlignment="Stretch"
-                                         AutomationProperties.Name="Card number"/>
-                            </StackPanel>
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="8"/>
-                                    <ColumnDefinition Width="100"/>
-                                </Grid.ColumnDefinitions>
-                                <StackPanel Grid.Column="0" Spacing="4">
-                                    <TextBlock Text="Expiry"
-                                               Style="{StaticResource LabelSmall}"
-                                               Foreground="{ThemeResource OnSurfaceVariantBrush}"/>
-                                    <TextBox PlaceholderText="MM / YY"
-                                             MaxLength="7"
-                                             Style="{StaticResource OutlinedTextBoxStyle}"
-                                             HorizontalAlignment="Stretch"
-                                             AutomationProperties.Name="Card expiry"/>
-                                </StackPanel>
-                                <StackPanel Grid.Column="2" Spacing="4">
-                                    <TextBlock Text="CVV"
-                                               Style="{StaticResource LabelSmall}"
-                                               Foreground="{ThemeResource OnSurfaceVariantBrush}"/>
-                                    <PasswordBox PlaceholderText="&#x2022;&#x2022;&#x2022;"
-                                                 MaxLength="4"
-                                                 Style="{StaticResource FilledPasswordBoxStyle}"
-                                                 HorizontalAlignment="Stretch"
-                                                 AutomationProperties.Name="CVV"/>
-                                </StackPanel>
-                            </Grid>
-                            <TextBlock Text="&#xE72E; Payments are secured with 256-bit SSL encryption"
-                                       Style="{StaticResource LabelSmall}"
-                                       Foreground="{ThemeResource TertiaryBrush}"/>
-                        </StackPanel>
-                    </utu:CardContentControl>
-                </StackPanel>
+					<!-- Card number placeholder (shown when card selected) -->
+					<utu:CardContentControl Style="{StaticResource ElevatedCardContentControlStyle}"
+											IsClickable="False"
+											HorizontalAlignment="Stretch">
+						<StackPanel Padding="16"
+									Spacing="12">
+							<StackPanel Spacing="4">
+								<TextBlock Text="Card Number"
+										   Style="{StaticResource LabelSmall}"
+										   Foreground="{ThemeResource OnSurfaceVariantBrush}" />
+								<TextBox PlaceholderText="1234 5678 9012 3456"
+										 InputScope="Number"
+										 MaxLength="19"
+										 Style="{StaticResource OutlinedTextBoxStyle}"
+										 HorizontalAlignment="Stretch"
+										 AutomationProperties.Name="Card number" />
+							</StackPanel>
+							<Grid>
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition Width="*" />
+									<ColumnDefinition Width="8" />
+									<ColumnDefinition Width="100" />
+								</Grid.ColumnDefinitions>
+								<StackPanel Grid.Column="0"
+											Spacing="4">
+									<TextBlock Text="Expiry"
+											   Style="{StaticResource LabelSmall}"
+											   Foreground="{ThemeResource OnSurfaceVariantBrush}" />
+									<TextBox PlaceholderText="MM / YY"
+											 MaxLength="7"
+											 Style="{StaticResource OutlinedTextBoxStyle}"
+											 HorizontalAlignment="Stretch"
+											 AutomationProperties.Name="Card expiry" />
+								</StackPanel>
+								<StackPanel Grid.Column="2"
+											Spacing="4">
+									<TextBlock Text="CVV"
+											   Style="{StaticResource LabelSmall}"
+											   Foreground="{ThemeResource OnSurfaceVariantBrush}" />
+									<PasswordBox PlaceholderText="&#x2022;&#x2022;&#x2022;"
+												 MaxLength="4"
+												 Style="{StaticResource FilledPasswordBoxStyle}"
+												 HorizontalAlignment="Stretch"
+												 AutomationProperties.Name="CVV" />
+								</StackPanel>
+							</Grid>
+							<TextBlock Text="&#xE72E; Payments are secured with 256-bit SSL encryption"
+									   Style="{StaticResource LabelSmall}"
+									   Foreground="{ThemeResource TertiaryBrush}" />
+						</StackPanel>
+					</utu:CardContentControl>
+				</StackPanel>
 
-                <!-- ── Delivery reminder ──────────────────────────────── -->
-                <utu:CardContentControl Style="{StaticResource FilledCardContentControlStyle}"
-                                        IsClickable="False"
-                                        HorizontalAlignment="Stretch">
-                    <StackPanel Padding="16,10" Orientation="Horizontal" Spacing="12">
-                        <FontIcon Glyph="&#xE787;" FontSize="18" Foreground="{ThemeResource TertiaryBrush}" VerticalAlignment="Center"/>
-                        <TextBlock Text="{Binding LeadTimeSummary}"
-                                   Style="{StaticResource BodyMedium}"
-                                   Foreground="{ThemeResource OnSurfaceVariantBrush}"
-                                   TextWrapping="Wrap"
-                                   VerticalAlignment="Center"/>
-                    </StackPanel>
-                </utu:CardContentControl>
+				<!-- ── Delivery reminder ──────────────────────────────── -->
+				<utu:CardContentControl Style="{StaticResource FilledCardContentControlStyle}"
+										IsClickable="False"
+										HorizontalAlignment="Stretch">
+					<StackPanel Padding="16,10"
+								Orientation="Horizontal"
+								Spacing="12">
+						<FontIcon Glyph="&#xE787;"
+								  FontSize="18"
+								  Foreground="{ThemeResource TertiaryBrush}"
+								  VerticalAlignment="Center" />
+						<TextBlock Text="{Binding LeadTimeSummary}"
+								   Style="{StaticResource BodyMedium}"
+								   Foreground="{ThemeResource OnSurfaceVariantBrush}"
+								   TextWrapping="Wrap"
+								   VerticalAlignment="Center" />
+					</StackPanel>
+				</utu:CardContentControl>
 
-                <Border Height="16"/>
-            </StackPanel>
-        </ScrollViewer>
+				<Border Height="16" />
+			</StackPanel>
+		</ScrollViewer>
 
-        <!-- ── Place Order bar ────────────────────────────────────────── -->
-        <utu:CardContentControl Grid.Row="2"
-                                Style="{StaticResource FilledCardContentControlStyle}"
-                                HorizontalAlignment="Stretch"
-                                IsClickable="False">
-            <Grid Padding="16,12">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="Auto"/>
-                </Grid.ColumnDefinitions>
-                <StackPanel Grid.Column="0" Spacing="2" VerticalAlignment="Center">
-                    <TextBlock Text="ORDER TOTAL"
-                               Style="{StaticResource LabelExtraSmall}"
-                               CharacterSpacing="80"
-                               Foreground="{ThemeResource OnSurfaceVariantBrush}"/>
-                    <TextBlock Text="{Binding OrderTotal}"
-                               Style="{StaticResource HeadlineSmall}"
-                               Foreground="{ThemeResource PrimaryBrush}"/>
-                </StackPanel>
-                <Button Grid.Column="1"
-                        Content="Place Order"
-                        Style="{StaticResource FilledButtonStyle}"
-                        VerticalAlignment="Center"
-                        AutomationProperties.Name="Place your order"/>
-            </Grid>
-        </utu:CardContentControl>
-    </Grid>
+		<!-- ── Place Order bar ────────────────────────────────────────── -->
+		<utu:CardContentControl Grid.Row="2"
+								Style="{StaticResource FilledCardContentControlStyle}"
+								HorizontalAlignment="Stretch"
+								IsClickable="False">
+			<Grid Padding="16,12">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="*" />
+					<ColumnDefinition Width="Auto" />
+				</Grid.ColumnDefinitions>
+				<StackPanel Grid.Column="0"
+							Spacing="2"
+							VerticalAlignment="Center">
+					<TextBlock Text="ORDER TOTAL"
+							   Style="{StaticResource LabelExtraSmall}"
+							   CharacterSpacing="80"
+							   Foreground="{ThemeResource OnSurfaceVariantBrush}" />
+					<TextBlock Text="{Binding OrderTotal}"
+							   Style="{StaticResource HeadlineSmall}"
+							   Foreground="{ThemeResource PrimaryBrush}" />
+				</StackPanel>
+				<Button Grid.Column="1"
+						Content="Place Order"
+						Style="{StaticResource FilledButtonStyle}"
+						VerticalAlignment="Center"
+						AutomationProperties.Name="Place your order" />
+			</Grid>
+		</utu:CardContentControl>
+	</Grid>
 </Page>
