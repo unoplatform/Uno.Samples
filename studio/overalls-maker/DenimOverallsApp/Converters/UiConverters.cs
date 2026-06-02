@@ -10,12 +10,16 @@ namespace DenimOverallsApp.Converters;
 public sealed partial class HexColorToBrushConverter : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, string language)
-        => new SolidColorBrush(ParseColor(value as string));
+        => new SolidColorBrush(HexColor.Parse(value as string));
 
     public object ConvertBack(object value, Type targetType, object parameter, string language)
         => throw new NotSupportedException();
+}
 
-    private static Color ParseColor(string? hex)
+/// <summary>Parsing helpers for "#RRGGBB" / "#AARRGGBB" denim colour strings.</summary>
+internal static class HexColor
+{
+    public static Color Parse(string? hex)
     {
         if (string.IsNullOrWhiteSpace(hex))
         {
@@ -45,6 +49,29 @@ public sealed partial class HexColorToBrushConverter : IValueConverter
 
         return Color.FromArgb(a, r, g, b);
     }
+
+    /// <summary>Perceived brightness (0 = black, 1 = white) using the Rec. 601 luma weights.</summary>
+    public static double Luminance(Color color)
+        => (0.299 * color.R + 0.587 * color.G + 0.114 * color.B) / 255d;
+}
+
+/// <summary>
+/// Picks a readable embroidery thread colour for the bound denim hex: the golden topstitch
+/// thread on dark denim, switching to a dark charcoal on light washes so the text stays legible.
+/// </summary>
+public sealed partial class EmbroideryThreadBrushConverter : IValueConverter
+{
+    /// <summary>Washes brighter than this read better with dark thread than with the gold.</summary>
+    public double LightThreshold { get; set; } = 0.6d;
+
+    private static readonly SolidColorBrush GoldThread = new(Color.FromArgb(0xFF, 0xE8, 0xB9, 0x5C));
+    private static readonly SolidColorBrush DarkThread = new(Color.FromArgb(0xFF, 0x2A, 0x2A, 0x2A));
+
+    public object Convert(object value, Type targetType, object parameter, string language)
+        => HexColor.Luminance(HexColor.Parse(value as string)) > LightThreshold ? DarkThread : GoldThread;
+
+    public object ConvertBack(object value, Type targetType, object parameter, string language)
+        => throw new NotSupportedException();
 }
 
 /// <summary>Converts a boolean into <see cref="Visibility"/> (true =&gt; Visible). Invert with parameter "invert".</summary>

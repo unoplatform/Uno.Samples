@@ -4,6 +4,7 @@
       xmlns:utu="using:Uno.Toolkit.UI"
       xmlns:uen="using:Uno.Extensions.Navigation.UI"
       xmlns:conv="using:DenimOverallsApp.Converters"
+      xmlns:local="using:DenimOverallsApp.Presentation"
       Background="{ThemeResource BackgroundBrush}">
 
     <Page.Resources>
@@ -36,56 +37,18 @@
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
 
-                        <!-- Mini overall silhouette -->
-                        <Grid Grid.Column="0" Width="80" Height="130" Margin="0,0,16,0">
-                            <!-- Legs -->
-                            <Rectangle Width="48" Height="80"
-                                       VerticalAlignment="Bottom"
-                                       HorizontalAlignment="Center"
-                                       RadiusX="5" RadiusY="5"
-                                       Fill="{Binding ColorHex, Converter={StaticResource HexToBrush}}"/>
-                            <!-- Leg seam -->
-                            <Rectangle Width="1" Height="64"
-                                       VerticalAlignment="Bottom"
-                                       HorizontalAlignment="Center"
-                                       Margin="0,0,0,4">
-                                <Rectangle.Fill>
-                                    <SolidColorBrush Color="#FF000000" Opacity="0.12"/>
-                                </Rectangle.Fill>
-                            </Rectangle>
-                            <!-- Left strap -->
-                            <Rectangle Width="8" Height="34"
-                                       VerticalAlignment="Top"
-                                       HorizontalAlignment="Left"
-                                       Margin="14,0,0,0"
-                                       RadiusX="3" RadiusY="3"
-                                       Fill="{ThemeResource PrimaryContainerBrush}"/>
-                            <!-- Right strap -->
-                            <Rectangle Width="8" Height="34"
-                                       VerticalAlignment="Top"
-                                       HorizontalAlignment="Right"
-                                       Margin="0,0,14,0"
-                                       RadiusX="3" RadiusY="3"
-                                       Fill="{ThemeResource PrimaryContainerBrush}"/>
-                            <!-- Bib -->
-                            <Rectangle Width="48" Height="55"
-                                       VerticalAlignment="Top"
-                                       HorizontalAlignment="Center"
-                                       RadiusX="6" RadiusY="6"
-                                       Fill="{Binding ColorHex, Converter={StaticResource HexToBrush}}"
-                                       Margin="0,12,0,0"/>
-                            <!-- Brass buttons -->
-                            <Ellipse Width="6" Height="6"
-                                     VerticalAlignment="Top"
-                                     HorizontalAlignment="Left"
-                                     Margin="22,14,0,0"
-                                     Fill="{ThemeResource SecondaryBrush}"/>
-                            <Ellipse Width="6" Height="6"
-                                     VerticalAlignment="Top"
-                                     HorizontalAlignment="Right"
-                                     Margin="0,14,22,0"
-                                     Fill="{ThemeResource SecondaryBrush}"/>
-                        </Grid>
+                        <!-- Overall preview — same reactive figure as the configurator -->
+                        <local:OverallPreview Grid.Column="0"
+                                              Width="96"
+                                              Height="170"
+                                              Margin="0,0,16,0"
+                                              VerticalAlignment="Center"
+                                              ColorHex="{Binding ColorHex}"
+                                              LengthOption="{Binding Configuration.LengthOption}"
+                                              BibType="{Binding Configuration.BibType}"
+                                              PocketType="{Binding Configuration.PocketType}"
+                                              HasLogo="{Binding Configuration.HasLogo}"
+                                              EmbroideryText="{Binding CustomText}"/>
 
                         <!-- Config details -->
                         <StackPanel Grid.Column="1" Spacing="10" VerticalAlignment="Center">

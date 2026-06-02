@@ -62,6 +62,12 @@ public partial record MainModel(INavigator Navigator)
 
     // ── Preview helpers ─────────────────────────────────────────────────────
     public IFeed<string> SelectedColorHex  => Configuration.Select(c => c.DenimColorHex);
+
+    // Raw selection ids that drive the shared OverallPreview control.
+    public IFeed<string> LengthId => Configuration.Select(c => c.LengthOption);
+    public IFeed<string> BibId    => Configuration.Select(c => c.BibType);
+    public IFeed<string> PocketId => Configuration.Select(c => c.PocketType);
+
     public IFeed<string> SelectedColorName => Configuration.Select(c => OverallCatalog.ColorLabel(c.DenimColor));
     public IFeed<string> PreviewLengthLabel => Configuration.Select(c => OverallCatalog.LengthLabel(c.LengthOption));
     public IFeed<string> PreviewBibLabel    => Configuration.Select(c => OverallCatalog.BibLabel(c.BibType));
