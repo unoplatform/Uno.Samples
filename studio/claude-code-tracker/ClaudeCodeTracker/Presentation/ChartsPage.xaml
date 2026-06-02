@@ -73,26 +73,39 @@
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="12" />
+                        <ColumnDefinition Width="16" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
 
                     <!-- Token type donut -->
                     <utu:CardContentControl Grid.Column="0"
                                             Style="{StaticResource ElevatedCardContentControlStyle}"
-                                            HorizontalAlignment="Stretch">
+                                            HorizontalAlignment="Stretch"
+                                            MinHeight="340">
                         <utu:CardContentControl.ContentTemplate>
                             <DataTemplate>
-                                <StackPanel Padding="16" Spacing="10">
-                                    <TextBlock Style="{StaticResource TitleSmall}"
+                                <Grid Margin="16">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+                                    <TextBlock Grid.Row="0"
+                                               Style="{StaticResource TitleSmall}"
                                                Foreground="{ThemeResource OnSurfaceBrush}"
                                                Text="Token Types" />
-                                    <Grid Height="160">
-                                        <lvc:PieChart Series="{Binding TokenTypeSeries}"
-                                                      LegendPosition="Bottom"
-                                                      InitialRotation="-90" />
-                                    </Grid>
-                                </StackPanel>
+                                    <TextBlock Grid.Row="1"
+                                               Style="{StaticResource LabelSmall}"
+                                               Foreground="{ThemeResource OnSurfaceVariantBrush}"
+                                               Margin="0,2,0,8"
+                                               Text="Breakdown of token usage by type" />
+                                    <lvc:PieChart Grid.Row="2"
+                                                  Series="{Binding TokenTypeSeries}"
+                                                  LegendPosition="Bottom"
+                                                  LegendTextPaint="{Binding LegendTextPaint}"
+                                                  InitialRotation="-90"
+                                                  Height="260" />
+                                </Grid>
                             </DataTemplate>
                         </utu:CardContentControl.ContentTemplate>
                     </utu:CardContentControl>
@@ -100,19 +113,32 @@
                     <!-- Model share donut -->
                     <utu:CardContentControl Grid.Column="2"
                                             Style="{StaticResource ElevatedCardContentControlStyle}"
-                                            HorizontalAlignment="Stretch">
+                                            HorizontalAlignment="Stretch"
+                                            MinHeight="340">
                         <utu:CardContentControl.ContentTemplate>
                             <DataTemplate>
-                                <StackPanel Padding="16" Spacing="10">
-                                    <TextBlock Style="{StaticResource TitleSmall}"
+                                <Grid Margin="16">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+                                    <TextBlock Grid.Row="0"
+                                               Style="{StaticResource TitleSmall}"
                                                Foreground="{ThemeResource OnSurfaceBrush}"
                                                Text="Model Share" />
-                                    <Grid Height="160">
-                                        <lvc:PieChart Series="{Binding ModelShareSeries}"
-                                                      LegendPosition="Bottom"
-                                                      InitialRotation="-90" />
-                                    </Grid>
-                                </StackPanel>
+                                    <TextBlock Grid.Row="1"
+                                               Style="{StaticResource LabelSmall}"
+                                               Foreground="{ThemeResource OnSurfaceVariantBrush}"
+                                               Margin="0,2,0,8"
+                                               Text="Token share by Claude model" />
+                                    <lvc:PieChart Grid.Row="2"
+                                                  Series="{Binding ModelShareSeries}"
+                                                  LegendPosition="Bottom"
+                                                  LegendTextPaint="{Binding LegendTextPaint}"
+                                                  InitialRotation="-90"
+                                                  Height="260" />
+                                </Grid>
                             </DataTemplate>
                         </utu:CardContentControl.ContentTemplate>
                     </utu:CardContentControl>
