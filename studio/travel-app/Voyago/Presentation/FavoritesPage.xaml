@@ -43,7 +43,11 @@
                            Style="{StaticResource BodyMedium}"
                            Foreground="{ThemeResource OnSurfaceVariantBrush}" />
 
-                <ItemsRepeater ItemsSource="{Binding SavedDestinations}">
+                <!--
+                    MinWidth matches UniformGridLayout.MinItemWidth so the repeater is never measured below one
+                    item width; otherwise UniformGridLayout computes itemsPerLine = 0 and throws DivideByZeroException.
+                -->
+                <ItemsRepeater ItemsSource="{Binding SavedDestinations}" MinWidth="150">
                     <ItemsRepeater.Layout>
                         <UniformGridLayout MinItemWidth="150"
                                            MinItemHeight="220"

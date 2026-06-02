@@ -71,7 +71,11 @@
                 <StackPanel Padding="16,24,16,0" Spacing="12">
                     <TextBlock Text="Explore" Style="{StaticResource TitleMedium}" Foreground="{ThemeResource OnBackgroundBrush}" />
 
-                    <ItemsRepeater ItemsSource="{Binding QuickActions}">
+                    <!--
+                        MinWidth matches UniformGridLayout.MinItemWidth so the repeater is never measured below one
+                        item width; otherwise UniformGridLayout computes itemsPerLine = 0 and throws DivideByZeroException.
+                    -->
+                    <ItemsRepeater ItemsSource="{Binding QuickActions}" MinWidth="80">
                         <ItemsRepeater.Layout>
                             <UniformGridLayout MinItemWidth="80" MinItemHeight="80" MinColumnSpacing="12" MinRowSpacing="12" MaximumRowsOrColumns="6" Orientation="Horizontal" />
                         </ItemsRepeater.Layout>
@@ -124,7 +128,11 @@
                 <StackPanel Padding="16,24" Spacing="12">
                     <TextBlock Text="Explore Categories" Style="{StaticResource TitleMedium}" Foreground="{ThemeResource OnBackgroundBrush}" />
 
-                    <ItemsRepeater ItemsSource="{Binding ExploreCategories}">
+                    <!--
+                        MinWidth matches UniformGridLayout.MinItemWidth so the repeater is never measured below one
+                        item width; otherwise UniformGridLayout computes itemsPerLine = 0 and throws DivideByZeroException.
+                    -->
+                    <ItemsRepeater ItemsSource="{Binding ExploreCategories}" MinWidth="160">
                         <ItemsRepeater.Layout>
                             <UniformGridLayout MinItemWidth="160" MinItemHeight="110" MinColumnSpacing="12" MinRowSpacing="12" Orientation="Horizontal" />
                         </ItemsRepeater.Layout>
