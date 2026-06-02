@@ -1,6 +1,6 @@
 parameters:
-  DotNetVersions: ['8.0.100', '9.0.300']
-  UnoCheck_Version: '1.28.3'
+  DotNetVersions: ['8.0.100', '9.0.300', '10.0.100']
+  UnoCheck_Version: '1.34.1'
 
 steps:
 
@@ -16,7 +16,7 @@ steps:
 
   - template: jdk-setup.yml
 
-  # Install the necessary workloads for both .NET 8 and .NET 9
+  # Install the necessary workloads for .NET 8, 9 and 10
   - powershell: |
       & dotnet tool update --global uno.check --version ${{ parameters.UnoCheck_Version }} --add-source https://api.nuget.org/v3/index.json
       & uno-check --pre -v --ci --non-interactive --fix --skip androidsdk --skip androidemulator --skip xcode --skip gtk3 --skip vswin --skip vsmac
