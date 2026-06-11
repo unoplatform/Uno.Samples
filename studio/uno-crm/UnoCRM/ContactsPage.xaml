@@ -8,10 +8,10 @@
       Background="{ThemeResource DashboardPageBackgroundBrush}">
   <Page.Resources>
     <!--
-      Strip the ListView item chrome so the rounded contact cards render on their own.
-      A bare-ContentPresenter template removes every per-state background (the default
-      WinUI square gray hover/press rectangle) on all platforms. SelectionMode is None,
-      so no hover/selection feedback is needed.
+      Custom ListView item template: replaces the default WinUI item chrome (the square
+      gray hover/press rectangle) with a hover ring that exactly matches the contact
+      card's rounded shape and bottom margin. The ring sits above the card (hit-test
+      transparent) and turns accent on pointer-over / press.
     -->
     <Style x:Key="ContactListItemStyle" TargetType="ListViewItem">
       <Setter Property="Background" Value="Transparent" />
@@ -22,11 +22,35 @@
       <Setter Property="Template">
         <Setter.Value>
           <ControlTemplate TargetType="ListViewItem">
-            <ContentPresenter HorizontalAlignment="Stretch"
-                              HorizontalContentAlignment="Stretch"
-                              Content="{TemplateBinding Content}"
-                              ContentTemplate="{TemplateBinding ContentTemplate}"
-                              ContentTransitions="{TemplateBinding ContentTransitions}" />
+            <Grid>
+              <VisualStateManager.VisualStateGroups>
+                <VisualStateGroup x:Name="CommonStates">
+                  <VisualState x:Name="Normal" />
+                  <VisualState x:Name="PointerOver">
+                    <VisualState.Setters>
+                      <Setter Target="HoverRing.BorderBrush" Value="{ThemeResource DashboardAccentBrush}" />
+                    </VisualState.Setters>
+                  </VisualState>
+                  <VisualState x:Name="Pressed">
+                    <VisualState.Setters>
+                      <Setter Target="HoverRing.BorderBrush" Value="{ThemeResource DashboardAccentBrush}" />
+                    </VisualState.Setters>
+                  </VisualState>
+                  <VisualState x:Name="Disabled" />
+                </VisualStateGroup>
+              </VisualStateManager.VisualStateGroups>
+              <ContentPresenter HorizontalAlignment="Stretch"
+                                HorizontalContentAlignment="Stretch"
+                                Content="{TemplateBinding Content}"
+                                ContentTemplate="{TemplateBinding ContentTemplate}"
+                                ContentTransitions="{TemplateBinding ContentTransitions}" />
+              <Border x:Name="HoverRing"
+                      Margin="0,0,0,10"
+                      CornerRadius="14"
+                      BorderThickness="1.5"
+                      BorderBrush="Transparent"
+                      IsHitTestVisible="False" />
+            </Grid>
           </ControlTemplate>
         </Setter.Value>
       </Setter>
