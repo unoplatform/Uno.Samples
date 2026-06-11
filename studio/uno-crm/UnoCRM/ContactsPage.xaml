@@ -8,23 +8,28 @@
       Background="{ThemeResource DashboardPageBackgroundBrush}">
   <Page.Resources>
     <!--
-      Flatten the ListView item chrome so the rounded contact cards render on their own,
-      without the default WinUI square gray hover/selection rectangle behind them.
+      Strip the ListView item chrome so the rounded contact cards render on their own.
+      A bare-ContentPresenter template removes every per-state background (the default
+      WinUI square gray hover/press rectangle) on all platforms. SelectionMode is None,
+      so no hover/selection feedback is needed.
     -->
-    <SolidColorBrush x:Key="ListViewItemBackground" Color="Transparent" />
-    <SolidColorBrush x:Key="ListViewItemBackgroundPointerOver" Color="Transparent" />
-    <SolidColorBrush x:Key="ListViewItemBackgroundPressed" Color="Transparent" />
-    <SolidColorBrush x:Key="ListViewItemBackgroundSelected" Color="Transparent" />
-    <SolidColorBrush x:Key="ListViewItemBackgroundSelectedPointerOver" Color="Transparent" />
-    <SolidColorBrush x:Key="ListViewItemBackgroundSelectedPressed" Color="Transparent" />
-
     <Style x:Key="ContactListItemStyle" TargetType="ListViewItem">
       <Setter Property="Background" Value="Transparent" />
       <Setter Property="Padding" Value="0" />
       <Setter Property="Margin" Value="0" />
       <Setter Property="MinHeight" Value="0" />
       <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-      <Setter Property="VerticalContentAlignment" Value="Stretch" />
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="ListViewItem">
+            <ContentPresenter HorizontalAlignment="Stretch"
+                              HorizontalContentAlignment="Stretch"
+                              Content="{TemplateBinding Content}"
+                              ContentTemplate="{TemplateBinding ContentTemplate}"
+                              ContentTransitions="{TemplateBinding ContentTransitions}" />
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
     </Style>
   </Page.Resources>
   <Grid Background="{ThemeResource DashboardPageBackgroundBrush}">
