@@ -199,14 +199,15 @@
             </Button>
           </StackPanel>
 
-          <ScrollViewer Grid.Row="2"
-                        HorizontalScrollBarVisibility="Auto"
-                        HorizontalScrollMode="Enabled"
-                        VerticalScrollBarVisibility="Disabled"
-                        VerticalScrollMode="Disabled">
-            <StackPanel Orientation="Horizontal"
-                        Spacing="14">
-            <StackPanel Width="176"
+          <Grid Grid.Row="2" ColumnSpacing="14">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0"
                         Spacing="12">
               <StackPanel Orientation="Horizontal" Spacing="8">
                 <Ellipse Width="10" Height="10" Fill="{ThemeResource DashboardBlueBrush}" Margin="0,5,0,0" />
@@ -334,7 +335,7 @@
               </Border>
             </StackPanel>
 
-            <StackPanel Width="176"
+            <StackPanel Grid.Column="1"
                         Spacing="12">
               <StackPanel Orientation="Horizontal" Spacing="8">
                 <Ellipse Width="10" Height="10" Fill="{ThemeResource DashboardPurpleBrush}" Margin="0,5,0,0" />
@@ -413,7 +414,7 @@
               </Border>
             </StackPanel>
 
-            <StackPanel Width="176"
+            <StackPanel Grid.Column="2"
                         Spacing="12">
               <StackPanel Orientation="Horizontal" Spacing="8">
                 <Ellipse Width="10" Height="10" Fill="{ThemeResource DashboardAmberBrush}" Margin="0,5,0,0" />
@@ -492,7 +493,7 @@
               </Border>
             </StackPanel>
 
-            <StackPanel Width="176"
+            <StackPanel Grid.Column="3"
                         Spacing="12">
               <StackPanel Orientation="Horizontal" Spacing="8">
                 <Ellipse Width="10" Height="10" Fill="{ThemeResource DashboardRedBrush}" Margin="0,5,0,0" />
@@ -571,7 +572,7 @@
               </Border>
             </StackPanel>
 
-            <StackPanel Width="176"
+            <StackPanel Grid.Column="4"
                         Spacing="12">
               <StackPanel Orientation="Horizontal" Spacing="8">
                 <Ellipse Width="10" Height="10" Fill="{ThemeResource DashboardGreenBrush}" Margin="0,5,0,0" />
@@ -673,8 +674,7 @@
                 </StackPanel>
               </Border>
             </StackPanel>
-            </StackPanel>
-          </ScrollViewer>
+          </Grid>
         </Grid>
       </ScrollViewer>
     </Grid>
