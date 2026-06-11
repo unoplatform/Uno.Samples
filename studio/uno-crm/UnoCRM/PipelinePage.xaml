@@ -222,117 +222,33 @@
                 </Border>
               </StackPanel>
 
-              <Border Style="{StaticResource DashboardKanbanCardStyle}">
-                <StackPanel Spacing="8">
-                  <Grid>
-                    <TextBlock Text="Acme Corp"
-                               Style="{StaticResource DashboardBodyTextStyle}"
-                               FontFamily="Georgia"
-                               FontSize="16" />
-                    <Ellipse HorizontalAlignment="Right"
-                             Width="8"
-                             Height="8"
-                             Fill="{ThemeResource DashboardRedBrush}"
-                             Margin="0,4,0,0" />
-                  </Grid>
-                  <TextBlock Text="$45,000"
-                             Style="{StaticResource DashboardMetricValueStyle}"
-                             FontSize="20" />
-                  <Grid>
-                    <TextBlock Text="Sarah Chen"
-                               Style="{StaticResource DashboardSubtleTextStyle}"
-                               FontSize="13" />
-                    <TextBlock HorizontalAlignment="Right"
-                               Text="2d"
-                               Style="{StaticResource DashboardMicroTextStyle}"
-                               FontSize="11" />
-                  </Grid>
-                </StackPanel>
-              </Border>
+              <controls:PipelineCard Company="Acme Corp"
+                                     Amount="$45,000"
+                                     Owner="Sarah Chen"
+                                     Meta="2d"
+                                     Accent="{ThemeResource DashboardRedBrush}"
+                                     MetaBrush="{ThemeResource DashboardMutedTextBrush}" />
 
-              <Border Style="{StaticResource DashboardKanbanCardStyle}">
-                <StackPanel Spacing="8">
-                  <Grid>
-                    <TextBlock Text="TechVision Inc"
-                               Style="{StaticResource DashboardBodyTextStyle}"
-                               FontFamily="Georgia"
-                               FontSize="16" />
-                    <Ellipse HorizontalAlignment="Right"
-                             Width="8"
-                             Height="8"
-                             Fill="{ThemeResource DashboardAmberBrush}"
-                             Margin="0,4,0,0" />
-                  </Grid>
-                  <TextBlock Text="$28,500"
-                             Style="{StaticResource DashboardMetricValueStyle}"
-                             FontSize="20" />
-                  <Grid>
-                    <TextBlock Text="Mike Johnson"
-                               Style="{StaticResource DashboardSubtleTextStyle}"
-                               FontSize="13" />
-                    <TextBlock HorizontalAlignment="Right"
-                               Text="5d"
-                               Style="{StaticResource DashboardMicroTextStyle}"
-                               FontSize="11" />
-                  </Grid>
-                </StackPanel>
-              </Border>
+              <controls:PipelineCard Company="TechVision Inc"
+                                     Amount="$28,500"
+                                     Owner="Mike Johnson"
+                                     Meta="5d"
+                                     Accent="{ThemeResource DashboardAmberBrush}"
+                                     MetaBrush="{ThemeResource DashboardMutedTextBrush}" />
 
-              <Border Style="{StaticResource DashboardKanbanCardStyle}">
-                <StackPanel Spacing="8">
-                  <Grid>
-                    <TextBlock Text="Bright Solutions"
-                               Style="{StaticResource DashboardBodyTextStyle}"
-                               FontFamily="Georgia"
-                               FontSize="16" />
-                    <Ellipse HorizontalAlignment="Right"
-                             Width="8"
-                             Height="8"
-                             Fill="{ThemeResource DashboardGreenBrush}"
-                             Margin="0,4,0,0" />
-                  </Grid>
-                  <TextBlock Text="$12,000"
-                             Style="{StaticResource DashboardMetricValueStyle}"
-                             FontSize="20" />
-                  <Grid>
-                    <TextBlock Text="Lisa Park"
-                               Style="{StaticResource DashboardSubtleTextStyle}"
-                               FontSize="13" />
-                    <TextBlock HorizontalAlignment="Right"
-                               Text="1d"
-                               Style="{StaticResource DashboardMicroTextStyle}"
-                               FontSize="11" />
-                  </Grid>
-                </StackPanel>
-              </Border>
+              <controls:PipelineCard Company="Bright Solutions"
+                                     Amount="$12,000"
+                                     Owner="Lisa Park"
+                                     Meta="1d"
+                                     Accent="{ThemeResource DashboardGreenBrush}"
+                                     MetaBrush="{ThemeResource DashboardMutedTextBrush}" />
 
-              <Border Style="{StaticResource DashboardKanbanCardStyle}">
-                <StackPanel Spacing="8">
-                  <Grid>
-                    <TextBlock Text="DataFlow Ltd"
-                               Style="{StaticResource DashboardBodyTextStyle}"
-                               FontFamily="Georgia"
-                               FontSize="16" />
-                    <Ellipse HorizontalAlignment="Right"
-                             Width="8"
-                             Height="8"
-                             Fill="{ThemeResource DashboardAmberBrush}"
-                             Margin="0,4,0,0" />
-                  </Grid>
-                  <TextBlock Text="$67,200"
-                             Style="{StaticResource DashboardMetricValueStyle}"
-                             FontSize="20" />
-                  <Grid>
-                    <TextBlock Text="James Wright"
-                               Style="{StaticResource DashboardSubtleTextStyle}"
-                               FontSize="13" />
-                    <TextBlock HorizontalAlignment="Right"
-                               Text="3d"
-                               Style="{StaticResource DashboardMicroTextStyle}"
-                               FontSize="11" />
-                  </Grid>
-                </StackPanel>
-              </Border>
+              <controls:PipelineCard Company="DataFlow Ltd"
+                                     Amount="$67,200"
+                                     Owner="James Wright"
+                                     Meta="3d"
+                                     Accent="{ThemeResource DashboardAmberBrush}"
+                                     MetaBrush="{ThemeResource DashboardMutedTextBrush}" />
             </StackPanel>
 
             <StackPanel Grid.Column="1"
@@ -350,68 +266,26 @@
                 </Border>
               </StackPanel>
 
-              <Border Style="{StaticResource DashboardKanbanCardStyle}">
-                <StackPanel Spacing="8">
-                  <Grid>
-                    <TextBlock Text="NovaTech"
-                               Style="{StaticResource DashboardBodyTextStyle}"
-                               FontFamily="Georgia"
-                               FontSize="16" />
-                    <Ellipse HorizontalAlignment="Right" Width="8" Height="8" Fill="{ThemeResource DashboardRedBrush}" Margin="0,4,0,0" />
-                  </Grid>
-                  <TextBlock Text="$89,000"
-                             Style="{StaticResource DashboardMetricValueStyle}"
-                             FontSize="20" />
-                  <Grid>
-                    <TextBlock Text="David Kim"
-                               Style="{StaticResource DashboardSubtleTextStyle}"
-                               FontSize="13" />
-                    <TextBlock HorizontalAlignment="Right" Text="8d" Style="{StaticResource DashboardMicroTextStyle}" FontSize="11" />
-                  </Grid>
-                </StackPanel>
-              </Border>
+              <controls:PipelineCard Company="NovaTech"
+                                     Amount="$89,000"
+                                     Owner="David Kim"
+                                     Meta="8d"
+                                     Accent="{ThemeResource DashboardRedBrush}"
+                                     MetaBrush="{ThemeResource DashboardMutedTextBrush}" />
 
-              <Border Style="{StaticResource DashboardKanbanCardStyle}">
-                <StackPanel Spacing="8">
-                  <Grid>
-                    <TextBlock Text="CloudSync"
-                               Style="{StaticResource DashboardBodyTextStyle}"
-                               FontFamily="Georgia"
-                               FontSize="16" />
-                    <Ellipse HorizontalAlignment="Right" Width="8" Height="8" Fill="{ThemeResource DashboardGreenBrush}" Margin="0,4,0,0" />
-                  </Grid>
-                  <TextBlock Text="$34,750"
-                             Style="{StaticResource DashboardMetricValueStyle}"
-                             FontSize="20" />
-                  <Grid>
-                    <TextBlock Text="Anna Lopez"
-                               Style="{StaticResource DashboardSubtleTextStyle}"
-                               FontSize="13" />
-                    <TextBlock HorizontalAlignment="Right" Text="12d" Style="{StaticResource DashboardMicroTextStyle}" FontSize="11" />
-                  </Grid>
-                </StackPanel>
-              </Border>
+              <controls:PipelineCard Company="CloudSync"
+                                     Amount="$34,750"
+                                     Owner="Anna Lopez"
+                                     Meta="12d"
+                                     Accent="{ThemeResource DashboardGreenBrush}"
+                                     MetaBrush="{ThemeResource DashboardMutedTextBrush}" />
 
-              <Border Style="{StaticResource DashboardKanbanCardStyle}">
-                <StackPanel Spacing="8">
-                  <Grid>
-                    <TextBlock Text="Pinnacle Group"
-                               Style="{StaticResource DashboardBodyTextStyle}"
-                               FontFamily="Georgia"
-                               FontSize="16" />
-                    <Ellipse HorizontalAlignment="Right" Width="8" Height="8" Fill="{ThemeResource DashboardAmberBrush}" Margin="0,4,0,0" />
-                  </Grid>
-                  <TextBlock Text="$52,300"
-                             Style="{StaticResource DashboardMetricValueStyle}"
-                             FontSize="20" />
-                  <Grid>
-                    <TextBlock Text="Tom Rivera"
-                               Style="{StaticResource DashboardSubtleTextStyle}"
-                               FontSize="13" />
-                    <TextBlock HorizontalAlignment="Right" Text="6d" Style="{StaticResource DashboardMicroTextStyle}" FontSize="11" />
-                  </Grid>
-                </StackPanel>
-              </Border>
+              <controls:PipelineCard Company="Pinnacle Group"
+                                     Amount="$52,300"
+                                     Owner="Tom Rivera"
+                                     Meta="6d"
+                                     Accent="{ThemeResource DashboardAmberBrush}"
+                                     MetaBrush="{ThemeResource DashboardMutedTextBrush}" />
             </StackPanel>
 
             <StackPanel Grid.Column="2"
@@ -429,68 +303,26 @@
                 </Border>
               </StackPanel>
 
-              <Border Style="{StaticResource DashboardKanbanCardStyle}">
-                <StackPanel Spacing="8">
-                  <Grid>
-                    <TextBlock Text="Meridian Health"
-                               Style="{StaticResource DashboardBodyTextStyle}"
-                               FontFamily="Georgia"
-                               FontSize="16" />
-                    <Ellipse HorizontalAlignment="Right" Width="8" Height="8" Fill="{ThemeResource DashboardRedBrush}" Margin="0,4,0,0" />
-                  </Grid>
-                  <TextBlock Text="$124,000"
-                             Style="{StaticResource DashboardMetricValueStyle}"
-                             FontSize="20" />
-                  <Grid>
-                    <TextBlock Text="Rachel Adams"
-                               Style="{StaticResource DashboardSubtleTextStyle}"
-                               FontSize="13" />
-                    <TextBlock HorizontalAlignment="Right" Text="15d" Style="{StaticResource DashboardMicroTextStyle}" FontSize="11" />
-                  </Grid>
-                </StackPanel>
-              </Border>
+              <controls:PipelineCard Company="Meridian Health"
+                                     Amount="$124,000"
+                                     Owner="Rachel Adams"
+                                     Meta="15d"
+                                     Accent="{ThemeResource DashboardRedBrush}"
+                                     MetaBrush="{ThemeResource DashboardMutedTextBrush}" />
 
-              <Border Style="{StaticResource DashboardKanbanCardStyle}">
-                <StackPanel Spacing="8">
-                  <Grid>
-                    <TextBlock Text="UrbanEdge"
-                               Style="{StaticResource DashboardBodyTextStyle}"
-                               FontFamily="Georgia"
-                               FontSize="16" />
-                    <Ellipse HorizontalAlignment="Right" Width="8" Height="8" Fill="{ThemeResource DashboardAmberBrush}" Margin="0,4,0,0" />
-                  </Grid>
-                  <TextBlock Text="$56,800"
-                             Style="{StaticResource DashboardMetricValueStyle}"
-                             FontSize="20" />
-                  <Grid>
-                    <TextBlock Text="Chris Taylor"
-                               Style="{StaticResource DashboardSubtleTextStyle}"
-                               FontSize="13" />
-                    <TextBlock HorizontalAlignment="Right" Text="9d" Style="{StaticResource DashboardMicroTextStyle}" FontSize="11" />
-                  </Grid>
-                </StackPanel>
-              </Border>
+              <controls:PipelineCard Company="UrbanEdge"
+                                     Amount="$56,800"
+                                     Owner="Chris Taylor"
+                                     Meta="9d"
+                                     Accent="{ThemeResource DashboardAmberBrush}"
+                                     MetaBrush="{ThemeResource DashboardMutedTextBrush}" />
 
-              <Border Style="{StaticResource DashboardKanbanCardStyle}">
-                <StackPanel Spacing="8">
-                  <Grid>
-                    <TextBlock Text="BluePeak Inc"
-                               Style="{StaticResource DashboardBodyTextStyle}"
-                               FontFamily="Georgia"
-                               FontSize="16" />
-                    <Ellipse HorizontalAlignment="Right" Width="8" Height="8" Fill="{ThemeResource DashboardGreenBrush}" Margin="0,4,0,0" />
-                  </Grid>
-                  <TextBlock Text="$41,500"
-                             Style="{StaticResource DashboardMetricValueStyle}"
-                             FontSize="20" />
-                  <Grid>
-                    <TextBlock Text="Maya Patel"
-                               Style="{StaticResource DashboardSubtleTextStyle}"
-                               FontSize="13" />
-                    <TextBlock HorizontalAlignment="Right" Text="4d" Style="{StaticResource DashboardMicroTextStyle}" FontSize="11" />
-                  </Grid>
-                </StackPanel>
-              </Border>
+              <controls:PipelineCard Company="BluePeak Inc"
+                                     Amount="$41,500"
+                                     Owner="Maya Patel"
+                                     Meta="4d"
+                                     Accent="{ThemeResource DashboardGreenBrush}"
+                                     MetaBrush="{ThemeResource DashboardMutedTextBrush}" />
             </StackPanel>
 
             <StackPanel Grid.Column="3"
@@ -508,68 +340,26 @@
                 </Border>
               </StackPanel>
 
-              <Border Style="{StaticResource DashboardKanbanCardStyle}">
-                <StackPanel Spacing="8">
-                  <Grid>
-                    <TextBlock Text="Vertex Labs"
-                               Style="{StaticResource DashboardBodyTextStyle}"
-                               FontFamily="Georgia"
-                               FontSize="16" />
-                    <Ellipse HorizontalAlignment="Right" Width="8" Height="8" Fill="{ThemeResource DashboardRedBrush}" Margin="0,4,0,0" />
-                  </Grid>
-                  <TextBlock Text="$210,000"
-                             Style="{StaticResource DashboardMetricValueStyle}"
-                             FontSize="20" />
-                  <Grid>
-                    <TextBlock Text="Kevin Zhang"
-                               Style="{StaticResource DashboardSubtleTextStyle}"
-                               FontSize="13" />
-                    <TextBlock HorizontalAlignment="Right" Text="22d" Style="{StaticResource DashboardMicroTextStyle}" FontSize="11" />
-                  </Grid>
-                </StackPanel>
-              </Border>
+              <controls:PipelineCard Company="Vertex Labs"
+                                     Amount="$210,000"
+                                     Owner="Kevin Zhang"
+                                     Meta="22d"
+                                     Accent="{ThemeResource DashboardRedBrush}"
+                                     MetaBrush="{ThemeResource DashboardMutedTextBrush}" />
 
-              <Border Style="{StaticResource DashboardKanbanCardStyle}">
-                <StackPanel Spacing="8">
-                  <Grid>
-                    <TextBlock Text="Orion Systems"
-                               Style="{StaticResource DashboardBodyTextStyle}"
-                               FontFamily="Georgia"
-                               FontSize="16" />
-                    <Ellipse HorizontalAlignment="Right" Width="8" Height="8" Fill="{ThemeResource DashboardAmberBrush}" Margin="0,4,0,0" />
-                  </Grid>
-                  <TextBlock Text="$73,400"
-                             Style="{StaticResource DashboardMetricValueStyle}"
-                             FontSize="20" />
-                  <Grid>
-                    <TextBlock Text="Elena Ross"
-                               Style="{StaticResource DashboardSubtleTextStyle}"
-                               FontSize="13" />
-                    <TextBlock HorizontalAlignment="Right" Text="18d" Style="{StaticResource DashboardMicroTextStyle}" FontSize="11" />
-                  </Grid>
-                </StackPanel>
-              </Border>
+              <controls:PipelineCard Company="Orion Systems"
+                                     Amount="$73,400"
+                                     Owner="Elena Ross"
+                                     Meta="18d"
+                                     Accent="{ThemeResource DashboardAmberBrush}"
+                                     MetaBrush="{ThemeResource DashboardMutedTextBrush}" />
 
-              <Border Style="{StaticResource DashboardKanbanCardStyle}">
-                <StackPanel Spacing="8">
-                  <Grid>
-                    <TextBlock Text="Atlas Financial"
-                               Style="{StaticResource DashboardBodyTextStyle}"
-                               FontFamily="Georgia"
-                               FontSize="16" />
-                    <Ellipse HorizontalAlignment="Right" Width="8" Height="8" Fill="{ThemeResource DashboardGreenBrush}" Margin="0,4,0,0" />
-                  </Grid>
-                  <TextBlock Text="$95,600"
-                             Style="{StaticResource DashboardMetricValueStyle}"
-                             FontSize="20" />
-                  <Grid>
-                    <TextBlock Text="Nina Brooks"
-                               Style="{StaticResource DashboardSubtleTextStyle}"
-                               FontSize="13" />
-                    <TextBlock HorizontalAlignment="Right" Text="11d" Style="{StaticResource DashboardMicroTextStyle}" FontSize="11" />
-                  </Grid>
-                </StackPanel>
-              </Border>
+              <controls:PipelineCard Company="Atlas Financial"
+                                     Amount="$95,600"
+                                     Owner="Nina Brooks"
+                                     Meta="11d"
+                                     Accent="{ThemeResource DashboardGreenBrush}"
+                                     MetaBrush="{ThemeResource DashboardMutedTextBrush}" />
             </StackPanel>
 
             <StackPanel Grid.Column="4"
@@ -587,92 +377,29 @@
                 </Border>
               </StackPanel>
 
-              <Border Style="{StaticResource DashboardKanbanCardStyle}">
-                <StackPanel Spacing="8">
-                  <Grid>
-                    <TextBlock Text="Summit Retail"
-                               Style="{StaticResource DashboardBodyTextStyle}"
-                               FontFamily="Georgia"
-                               FontSize="16" />
-                    <FontIcon HorizontalAlignment="Right"
-                              Glyph="&#xE73E;"
-                              FontSize="12"
-                              Foreground="{ThemeResource DashboardGreenBrush}"
-                              Margin="0,2,0,0" />
-                  </Grid>
-                  <TextBlock Text="$156,000"
-                             Style="{StaticResource DashboardMetricValueStyle}"
-                             FontSize="20" />
-                  <Grid>
-                    <TextBlock Text="Paul Martinez"
-                               Style="{StaticResource DashboardSubtleTextStyle}"
-                               FontSize="13" />
-                    <TextBlock HorizontalAlignment="Right"
-                               Text="Won"
-                               Foreground="{ThemeResource DashboardGreenBrush}"
-                               FontSize="11"
-                               FontWeight="SemiBold" />
-                  </Grid>
-                </StackPanel>
-              </Border>
+              <controls:PipelineCard Company="Summit Retail"
+                                     Amount="$156,000"
+                                     Owner="Paul Martinez"
+                                     Meta="Won"
+                                     IsWon="True"
+                                     Accent="{ThemeResource DashboardGreenBrush}"
+                                     MetaBrush="{ThemeResource DashboardGreenBrush}" />
 
-              <Border Style="{StaticResource DashboardKanbanCardStyle}">
-                <StackPanel Spacing="8">
-                  <Grid>
-                    <TextBlock Text="Crest Dynamics"
-                               Style="{StaticResource DashboardBodyTextStyle}"
-                               FontFamily="Georgia"
-                               FontSize="16" />
-                    <FontIcon HorizontalAlignment="Right"
-                              Glyph="&#xE73E;"
-                              FontSize="12"
-                              Foreground="{ThemeResource DashboardGreenBrush}"
-                              Margin="0,2,0,0" />
-                  </Grid>
-                  <TextBlock Text="$82,500"
-                             Style="{StaticResource DashboardMetricValueStyle}"
-                             FontSize="20" />
-                  <Grid>
-                    <TextBlock Text="Jenna Cole"
-                               Style="{StaticResource DashboardSubtleTextStyle}"
-                               FontSize="13" />
-                    <TextBlock HorizontalAlignment="Right"
-                               Text="Won"
-                               Foreground="{ThemeResource DashboardGreenBrush}"
-                               FontSize="11"
-                               FontWeight="SemiBold" />
-                  </Grid>
-                </StackPanel>
-              </Border>
+              <controls:PipelineCard Company="Crest Dynamics"
+                                     Amount="$82,500"
+                                     Owner="Jenna Cole"
+                                     Meta="Won"
+                                     IsWon="True"
+                                     Accent="{ThemeResource DashboardGreenBrush}"
+                                     MetaBrush="{ThemeResource DashboardGreenBrush}" />
 
-              <Border Style="{StaticResource DashboardKanbanCardStyle}">
-                <StackPanel Spacing="8">
-                  <Grid>
-                    <TextBlock Text="Forge Media"
-                               Style="{StaticResource DashboardBodyTextStyle}"
-                               FontFamily="Georgia"
-                               FontSize="16" />
-                    <FontIcon HorizontalAlignment="Right"
-                              Glyph="&#xE73E;"
-                              FontSize="12"
-                              Foreground="{ThemeResource DashboardGreenBrush}"
-                              Margin="0,2,0,0" />
-                  </Grid>
-                  <TextBlock Text="$47,200"
-                             Style="{StaticResource DashboardMetricValueStyle}"
-                             FontSize="20" />
-                  <Grid>
-                    <TextBlock Text="Leo Harris"
-                               Style="{StaticResource DashboardSubtleTextStyle}"
-                               FontSize="13" />
-                    <TextBlock HorizontalAlignment="Right"
-                               Text="Won"
-                               Foreground="{ThemeResource DashboardGreenBrush}"
-                               FontSize="11"
-                               FontWeight="SemiBold" />
-                  </Grid>
-                </StackPanel>
-              </Border>
+              <controls:PipelineCard Company="Forge Media"
+                                     Amount="$47,200"
+                                     Owner="Leo Harris"
+                                     Meta="Won"
+                                     IsWon="True"
+                                     Accent="{ThemeResource DashboardGreenBrush}"
+                                     MetaBrush="{ThemeResource DashboardGreenBrush}" />
             </StackPanel>
           </Grid>
         </Grid>
