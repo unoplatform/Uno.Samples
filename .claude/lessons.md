@@ -15,6 +15,7 @@ applies**. Code is illustrative — adapt names to the target sample.
 | 2 | `TextBlock` + `MaxWidth` centers | A `Stretch` element capped by `MaxWidth` is centered — pin it `Left`. |
 | 3 | `ComboBox` won't fill its column | Default `HorizontalAlignment` is `Left`; set `Stretch`. |
 | 4 | Mixed control heights | Give a row of inputs one explicit `Height` so edges align. |
+| 4b | Stacked rows share column ratios | Two multi-column rows must use the *same* `*` ratios to line up. |
 | 5 | `TextBox` placeholder centering | VCA doesn't move the watermark — use symmetric vertical `Padding`. |
 | 6 | Consistent corner radius | `ComboBox`/`Button` default radius ≠ your custom `TextBox` radius; set it. |
 | 7 | Don't fake alignment with margins | Use `VerticalAlignment="Center"`, not `Margin` nudges. |
@@ -97,6 +98,19 @@ is ~32px.
 ```
 
 **Applies to:** any sample mixing `TextBox` / `ComboBox` / `Button` on one line.
+
+## 4b. Stacked multi-column rows must share the same column ratios
+
+**Symptom.** Panels in a dashboard's second row don't line up with the row above —
+the vertical divider and panel edges shift between rows.
+
+**Cause.** Each row's `Grid` declares its own column proportions, e.g. row 2 is
+`1.35*/1*` while row 3 is `1.15*/1*`, so the split lands at a different x per row.
+
+**Fix.** Use identical `ColumnDefinitions` ratios on every row that should align into
+columns (or share one definition). Same applies to `ColumnSpacing`.
+
+**Applies to:** dashboards/report pages that stack several multi-column panel rows.
 
 ## 5. `TextBox` placeholder ("watermark") centering
 
