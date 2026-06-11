@@ -1,8 +1,8 @@
 # Uno CRM — Lessons Learned
 
 A catalogue of the fixes and patterns applied while modernizing the **Uno CRM**
-sample ([studio/uno-crm](.)), written so they can be reused on the other samples
-in this repo. Most of these are WinUI/Uno layout gotchas that recur across samples.
+sample ([studio/uno-crm](../studio/uno-crm)), written so they can be reused on the other
+samples in this repo. Most of these are WinUI/Uno layout gotchas that recur across samples.
 
 Each lesson lists the **symptom**, the **cause**, the **fix**, and **where else it
 applies**. Code is illustrative — adapt names to the target sample.
@@ -202,8 +202,8 @@ own column.
 ## 11. Fold duplicated markup into a `UserControl` (and bind `Mode=OneWay`)
 
 **Pattern.** Repeated card/nav markup → a `UserControl` with `DependencyProperty`
-inputs. The CRM has [`Controls/PipelineCard`](UnoCRM/Controls/PipelineCard.xaml) and
-[`Controls/BottomNavBar`](UnoCRM/Controls/BottomNavBar.xaml).
+inputs. The CRM has [`Controls/PipelineCard`](../studio/uno-crm/UnoCRM/Controls/PipelineCard.xaml) and
+[`Controls/BottomNavBar`](../studio/uno-crm/UnoCRM/Controls/BottomNavBar.xaml).
 
 **Gotchas:**
 - Use **`{x:Bind …, Mode=OneWay}`** in the control. The default `OneTime` evaluates
@@ -251,7 +251,7 @@ overhangs the rounded card and fills the item's bottom-margin gap.
 ## 14. Auto-hide a floating bar on scroll (self-wiring)
 
 **Pattern.** A bottom/top bar that slides away on scroll-down and back on scroll-up,
-with no per-page wiring — see [`Controls/BottomNavBar.xaml.cs`](UnoCRM/Controls/BottomNavBar.xaml.cs).
+with no per-page wiring — see [`Controls/BottomNavBar.xaml.cs`](../studio/uno-crm/UnoCRM/Controls/BottomNavBar.xaml.cs).
 
 - On `Loaded`, walk to the parent grid and find the sibling page `ScrollViewer`;
   subscribe to `ViewChanged`. Unsubscribe on `Unloaded`.
@@ -280,7 +280,7 @@ them or return the wrong theme variant.
 
 **Fix.** Keep color in XAML via `{ThemeResource …}` where possible. If you must read
 it in code (e.g. to feed a chart `SKColor`), resolve with `TryGetValue` **and a
-hardcoded fallback** (see [`LeadsPage.xaml.cs`](UnoCRM/LeadsPage.xaml.cs) `ResolveColor`).
+hardcoded fallback** (see [`LeadsPage.xaml.cs`](../studio/uno-crm/UnoCRM/LeadsPage.xaml.cs) `ResolveColor`).
 
 **Applies to:** any sample that drives non-XAML drawing (SkiaSharp, charts) from
 theme colors.
