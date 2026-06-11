@@ -23,8 +23,27 @@
     -->
     <UnoFeatures>
       SkiaRenderer;
+      Toolkit;
     </UnoFeatures>
   </PropertyGroup>
+
+  <!--
+    App icon + splash screen via Uno.Resizetizer (all platforms).
+    Source is a bar-chart logo (transparent corners) on a #151515 dark background,
+    so the background colour fills the corners/adaptive-icon background seamlessly.
+  -->
+  <PropertyGroup>
+    <UnoIconForegroundFile>Assets/Icons/iconapp_foreground.png</UnoIconForegroundFile>
+    <UnoIconColor>#151515</UnoIconColor>
+    <UnoSplashScreenFile>Assets/Splash/splashscreen.png</UnoSplashScreenFile>
+    <UnoSplashScreenColor>#151515</UnoSplashScreenColor>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- Logo shown on the extended splash screen (see Shell.xaml). -->
+    <UnoImage Include="Assets/Images/*" />
+  </ItemGroup>
+
   <ItemGroup>
     <PackageReference Include="LiveChartsCore.SkiaSharpView.Uno.WinUI" />
     <PackageReference Include="Mapsui.Uno.WinUI" />
