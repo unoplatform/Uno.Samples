@@ -26,6 +26,7 @@ applies**. Code is illustrative — adapt names to the target sample.
 | 12 | Kill the gray `ListViewItem` rectangle | Transparent container states or a bare template. |
 | 13 | Button pressed state | Replace the gray rectangle with a rounded theme-aware highlight. |
 | 14 | Auto-hide a bar on scroll | Find the host `ScrollViewer`, animate a `TranslateTransform`. |
+| 14b | No nested scroll inside a page | A `ListView`/inner `ScrollViewer` breaks scroll-driven UI; use `ItemsControl`. |
 | 15 | LiveCharts donut & legend | `MaxRadialColumnWidth` over fixed `InnerRadius`; bottom legend in narrow columns. |
 | 16 | Theme brushes in code-behind | They live in `ThemeDictionaries`; resolve with a fallback or keep in XAML. |
 | 17 | App icon & splash | One icon for **all** platforms & form factors via `Uno.Resizetizer`; `ExtendedSplashScreen` is white on iOS. |
@@ -275,6 +276,32 @@ with no per-page wiring — see [`Controls/BottomNavBar.xaml.cs`](../studio/uno-
   (`CubicEase`, `EnableDependentAnimation="True"`, ~280ms) for fluid motion.
 
 **Applies to:** any sample with a persistent floating bar over scrollable content.
+
+## 14b. Don't nest a scrolling list inside a scrolling page
+
+**Symptom.** A scroll-driven behavior (e.g. the auto-hide bar in #14) doesn't react
+when you scroll a list, and the page shows two independent scrollbars (double scroll).
+
+**Cause.** A `ListView` (or any inner `ScrollViewer`, e.g. one created by `MaxHeight`)
+inside the page's `ScrollViewer` scrolls internally, so the page's `VerticalOffset`
+never changes and the outer `ViewChanged` never fires.
+
+**Fix.** For an in-page list that should flow with the page, use an `ItemsControl`
+(no built-in scroll) instead of a `ListView`, and drop the `MaxHeight`. The page
+becomes the single scroll surface.
+
+```xml
+<ItemsControl ItemsSource="{Binding Items}">
+  <ItemsControl.ItemTemplate><DataTemplate>…</DataTemplate></ItemsControl.ItemTemplate>
+</ItemsControl>
+```
+
+> Trade-off: `ItemsControl` doesn't virtualize — fine for small/filtered lists. For very
+> long lists, keep the `ListView` and instead let *only* the list scroll (don't wrap the
+> page in an outer `ScrollViewer`).
+
+**Applies to:** any mobile/page layout that wraps a list in a page-level `ScrollViewer`,
+especially when combined with a scroll-driven behavior like #14.
 
 ## 15. LiveCharts2 donut thickness & legend placement
 

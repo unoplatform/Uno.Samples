@@ -438,13 +438,14 @@
                          Style="{StaticResource DashboardBodyTextStyle}"
                          FontFamily="Georgia"
                          FontSize="20" />
-              <ListView ItemsSource="{Binding FilteredContacts}"
-                        BorderThickness="0"
-                        Background="Transparent"
-                        SelectionMode="None"
-                        MaxHeight="360"
-                        ItemContainerStyle="{StaticResource ContactListItemStyle}">
-                <ListView.ItemTemplate>
+              <!--
+                ItemsControl (not ListView) so the list has no inner scroll: the
+                whole page scrolls as one, which is what BottomNavBar's auto-hide
+                tracks. A nested ListView scroll would never move the page offset,
+                so the bar would never hide.
+              -->
+              <ItemsControl ItemsSource="{Binding FilteredContacts}">
+                <ItemsControl.ItemTemplate>
                   <DataTemplate>
                     <Border Style="{StaticResource DashboardKanbanCardStyle}"
                             Margin="0,0,0,10">
@@ -462,8 +463,8 @@
                       </StackPanel>
                     </Border>
                   </DataTemplate>
-                </ListView.ItemTemplate>
-              </ListView>
+                </ItemsControl.ItemTemplate>
+              </ItemsControl>
             </StackPanel>
           </Border>
         </Grid>
