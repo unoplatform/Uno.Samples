@@ -6,6 +6,27 @@
       xmlns:controls="using:UnoCRM.Controls"
       x:Uid="ContactsPage"
       Background="{ThemeResource DashboardPageBackgroundBrush}">
+  <Page.Resources>
+    <!--
+      Flatten the ListView item chrome so the rounded contact cards render on their own,
+      without the default WinUI square gray hover/selection rectangle behind them.
+    -->
+    <SolidColorBrush x:Key="ListViewItemBackground" Color="Transparent" />
+    <SolidColorBrush x:Key="ListViewItemBackgroundPointerOver" Color="Transparent" />
+    <SolidColorBrush x:Key="ListViewItemBackgroundPressed" Color="Transparent" />
+    <SolidColorBrush x:Key="ListViewItemBackgroundSelected" Color="Transparent" />
+    <SolidColorBrush x:Key="ListViewItemBackgroundSelectedPointerOver" Color="Transparent" />
+    <SolidColorBrush x:Key="ListViewItemBackgroundSelectedPressed" Color="Transparent" />
+
+    <Style x:Key="ContactListItemStyle" TargetType="ListViewItem">
+      <Setter Property="Background" Value="Transparent" />
+      <Setter Property="Padding" Value="0" />
+      <Setter Property="Margin" Value="0" />
+      <Setter Property="MinHeight" Value="0" />
+      <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+      <Setter Property="VerticalContentAlignment" Value="Stretch" />
+    </Style>
+  </Page.Resources>
   <Grid Background="{ThemeResource DashboardPageBackgroundBrush}">
     <Grid x:Name="DesktopRoot" Visibility="{utu:Responsive Narrow=Collapsed, Wide=Visible}">
       <Grid.ColumnDefinitions>
@@ -248,7 +269,8 @@
                           ItemsSource="{Binding FilteredContacts}"
                           BorderThickness="0"
                           Background="Transparent"
-                          SelectionMode="None">
+                          SelectionMode="None"
+                          ItemContainerStyle="{StaticResource ContactListItemStyle}">
                   <ListView.ItemTemplate>
                     <DataTemplate>
                       <Border Style="{StaticResource DashboardKanbanCardStyle}"
@@ -383,7 +405,8 @@
                         BorderThickness="0"
                         Background="Transparent"
                         SelectionMode="None"
-                        MaxHeight="360">
+                        MaxHeight="360"
+                        ItemContainerStyle="{StaticResource ContactListItemStyle}">
                 <ListView.ItemTemplate>
                   <DataTemplate>
                     <Border Style="{StaticResource DashboardKanbanCardStyle}"
