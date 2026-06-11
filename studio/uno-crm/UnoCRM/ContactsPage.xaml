@@ -195,7 +195,9 @@
               <TextBox x:Name="DesktopSearchBox"
                        PlaceholderText="Search contacts, company, city"
                        Style="{StaticResource DashboardSearchBoxStyle}"
-                       Padding="36,10,14,10"
+                       Padding="36,0,14,0"
+                       Height="44"
+                       VerticalContentAlignment="Center"
                        TextChanged="SearchContacts_TextChanged" />
               <FontIcon Glyph="&#xE721;"
                         FontSize="14"
@@ -208,6 +210,8 @@
             <ComboBox x:Name="DesktopRegionFilter"
                       Grid.Column="1"
                       HorizontalAlignment="Stretch"
+                      Height="44"
+                      VerticalContentAlignment="Center"
                       SelectedIndex="0"
                       SelectionChanged="RegionFilter_SelectionChanged">
               <ComboBoxItem Content="All Regions" />
@@ -220,6 +224,8 @@
             <ComboBox x:Name="DesktopSegmentFilter"
                       Grid.Column="2"
                       HorizontalAlignment="Stretch"
+                      Height="44"
+                      VerticalContentAlignment="Center"
                       SelectedIndex="0"
                       SelectionChanged="SegmentFilter_SelectionChanged">
               <ComboBoxItem Content="All Segments" />
