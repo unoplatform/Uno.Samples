@@ -342,8 +342,15 @@ theme colors.
 - `utu:ExtendedSplashScreen` renders **white on iOS** (it doesn't auto-paint the
   native splash) — put the logo in `LoadingContent` so it shows on every platform.
 - Android: call `ExtendedSplashScreen.Init(this)` in `MainActivity.OnCreate`.
+- **Showing the logo *inside* the UI** (e.g. a brand mark next to the app name): reference
+  a `UnoImage` asset (`Assets/Images/…`, like the splash logo), **not** the
+  `UnoIconForegroundFile` — the icon source isn't guaranteed to be runtime-loadable via
+  `Image.Source`. A foreground designed for the dark icon background (`#151515`) is light,
+  so place it on its own `#151515` rounded tile; otherwise it vanishes on a light-theme
+  surface (sidebar surface is white in light mode, dark in dark mode).
 
-**Applies to:** any single-project sample that needs branded icon/splash.
+**Applies to:** any single-project sample that needs branded icon/splash, or that shows
+its logo in-app.
 
 ## 18. Verifying sample UI changes
 
