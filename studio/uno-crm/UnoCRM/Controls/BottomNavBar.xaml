@@ -91,7 +91,8 @@
       </VisualStateGroup>
     </VisualStateManager.VisualStateGroups>
 
-    <Border HorizontalAlignment="Center"
+    <Border x:Name="BarRoot"
+            HorizontalAlignment="Center"
             Margin="16,0,16,18"
             Padding="10"
             MinWidth="320"
@@ -100,6 +101,9 @@
             Background="{ThemeResource DashboardSurfaceBrush}"
             BorderBrush="{ThemeResource DashboardBorderBrush}"
             BorderThickness="1">
+      <Border.RenderTransform>
+        <TranslateTransform x:Name="BarTransform" />
+      </Border.RenderTransform>
       <Grid ColumnSpacing="10">
         <Grid.ColumnDefinitions>
           <ColumnDefinition Width="*" />
@@ -127,7 +131,8 @@
                          Text="HOME"
                          HorizontalAlignment="Center"
                          Foreground="{ThemeResource DashboardSubtleTextBrush}"
-                         FontSize="12" />
+                         FontSize="10"
+                         CharacterSpacing="40" />
             </StackPanel>
           </Border>
         </Button>
@@ -151,7 +156,8 @@
                          Text="PIPELINE"
                          HorizontalAlignment="Center"
                          Foreground="{ThemeResource DashboardSubtleTextBrush}"
-                         FontSize="12" />
+                         FontSize="10"
+                         CharacterSpacing="40" />
             </StackPanel>
           </Border>
         </Button>
@@ -175,7 +181,8 @@
                          Text="LEADS"
                          HorizontalAlignment="Center"
                          Foreground="{ThemeResource DashboardSubtleTextBrush}"
-                         FontSize="12" />
+                         FontSize="10"
+                         CharacterSpacing="40" />
             </StackPanel>
           </Border>
         </Button>
@@ -199,7 +206,8 @@
                          Text="CONTACTS"
                          HorizontalAlignment="Center"
                          Foreground="{ThemeResource DashboardSubtleTextBrush}"
-                         FontSize="12" />
+                         FontSize="10"
+                         CharacterSpacing="40" />
             </StackPanel>
           </Border>
         </Button>
