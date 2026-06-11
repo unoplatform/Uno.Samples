@@ -324,14 +324,9 @@
                         VerticalAlignment="Center"
                         HorizontalAlignment="Left" />
             </Grid>
-            <Grid ColumnSpacing="10">
-              <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-              </Grid.ColumnDefinitions>
+            <StackPanel Orientation="Horizontal" Spacing="10">
 
               <ComboBox x:Name="MobileRegionFilter"
-                        Grid.Column="0"
                         SelectedIndex="0"
                         SelectionChanged="RegionFilter_SelectionChanged">
                 <ComboBoxItem Content="All Regions" />
@@ -342,7 +337,6 @@
               </ComboBox>
 
               <ComboBox x:Name="MobileSegmentFilter"
-                        Grid.Column="1"
                         SelectedIndex="0"
                         SelectionChanged="SegmentFilter_SelectionChanged">
                 <ComboBoxItem Content="All Segments" />
@@ -350,7 +344,7 @@
                 <ComboBoxItem Content="Mid-Market" />
                 <ComboBoxItem Content="SMB" />
               </ComboBox>
-            </Grid>
+            </StackPanel>
           </StackPanel>
 
           <Border Grid.Row="2"
