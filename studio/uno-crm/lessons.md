@@ -27,7 +27,7 @@ applies**. Code is illustrative — adapt names to the target sample.
 | 14 | Auto-hide a bar on scroll | Find the host `ScrollViewer`, animate a `TranslateTransform`. |
 | 15 | LiveCharts donut & legend | `MaxRadialColumnWidth` over fixed `InnerRadius`; bottom legend in narrow columns. |
 | 16 | Theme brushes in code-behind | They live in `ThemeDictionaries`; resolve with a fallback or keep in XAML. |
-| 17 | App icon & splash | `Uno.Resizetizer` props; `ExtendedSplashScreen` is white on iOS. |
+| 17 | App icon & splash | One icon for **all** platforms & form factors via `Uno.Resizetizer`; `ExtendedSplashScreen` is white on iOS. |
 | 18 | Verifying samples | iOS sim for screenshots; WASM + Playwright for fast width checks. |
 
 ---
@@ -287,6 +287,13 @@ theme colors.
 
 ## 17. App icon & splash via `Uno.Resizetizer`
 
+- **A real app icon is mandatory on every target.** Every sample must ship a proper
+  app icon that is applied across **all platforms** (iOS, Android, Windows, WebAssembly,
+  macOS/Catalyst, Linux/Skia) and **all form factors** (phone, tablet, desktop) — never
+  the default Uno placeholder, and never a per-platform one-off. Define it **once** with
+  `Uno.Resizetizer` from a single source asset; Resizetizer generates the required sizes,
+  densities and platform formats so the one icon shows everywhere (home screen, task
+  switcher, taskbar, browser favicon/PWA tile, dock).
 - `.csproj` props: `UnoIconForegroundFile` + `UnoIconColor`, `UnoSplashScreenFile` +
   `UnoSplashScreenColor`; register extra images with `<UnoImage Include="…" />`.
 - A logo PNG with **transparent corners** bleeds white over a dark icon background —
