@@ -1,0 +1,46 @@
+<UserControl x:Class="UnoCRM.Shell"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:utu="using:Uno.Toolkit.UI"
+             xmlns:controls="using:UnoCRM.Controls"
+             HorizontalAlignment="Stretch"
+             VerticalAlignment="Stretch">
+
+  <!--
+    Extended splash screen: continues the native (Resizetizer) splash image while the
+    app finishes loading, overlaying a progress ring. The native splash image is shown
+    automatically by the control, so it reuses the same splash_screen.svg.
+  -->
+  <utu:ExtendedSplashScreen x:Name="Splash"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"
+                            HorizontalContentAlignment="Stretch"
+                            VerticalContentAlignment="Stretch">
+    <utu:ExtendedSplashScreen.LoadingContent>
+      <!-- Mirrors the native splash (logo on #151515) and adds a loading ring below. -->
+      <Grid Background="#151515">
+        <Grid.RowDefinitions>
+          <RowDefinition Height="*" />
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <controls:AppLogo Grid.Row="1"
+                          Width="200"
+                          Height="200"
+                          HorizontalAlignment="Center"
+                          VerticalAlignment="Center" />
+        <ProgressRing Grid.Row="2"
+                      IsActive="True"
+                      Width="56"
+                      Height="56"
+                      Margin="0,48,0,0"
+                      VerticalAlignment="Top"
+                      HorizontalAlignment="Center"
+                      Foreground="#23CDE3" />
+      </Grid>
+    </utu:ExtendedSplashScreen.LoadingContent>
+    <utu:ExtendedSplashScreen.Content>
+      <Frame x:Name="ShellFrame" />
+    </utu:ExtendedSplashScreen.Content>
+  </utu:ExtendedSplashScreen>
+</UserControl>

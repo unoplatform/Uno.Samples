@@ -2,25 +2,12 @@
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:local="using:UnoCRM"
+      xmlns:utu="using:Uno.Toolkit.UI"
+      xmlns:controls="using:UnoCRM.Controls"
       x:Uid="MainPage"
       Background="{ThemeResource DashboardPageBackgroundBrush}">
   <Grid Background="{ThemeResource DashboardPageBackgroundBrush}">
-    <VisualStateManager.VisualStateGroups>
-      <VisualStateGroup>
-        <VisualState x:Name="MobileState" />
-        <VisualState x:Name="DesktopState">
-          <VisualState.StateTriggers>
-            <AdaptiveTrigger MinWindowWidth="900" />
-          </VisualState.StateTriggers>
-          <VisualState.Setters>
-            <Setter Target="DesktopRoot.Visibility" Value="Visible" />
-            <Setter Target="MobileRoot.Visibility" Value="Collapsed" />
-          </VisualState.Setters>
-        </VisualState>
-      </VisualStateGroup>
-    </VisualStateManager.VisualStateGroups>
-
-    <Grid x:Name="DesktopRoot" Visibility="Collapsed">
+    <Grid x:Name="DesktopRoot" Visibility="{utu:Responsive Narrow=Collapsed, Wide=Visible}">
       <Grid.ColumnDefinitions>
         <ColumnDefinition Width="204" />
         <ColumnDefinition Width="*" />
@@ -30,7 +17,7 @@
               Background="{ThemeResource DashboardSurfaceBrush}"
               BorderBrush="{ThemeResource DashboardBorderBrush}"
               BorderThickness="0,0,1,0">
-        <Grid Padding="20,48,20,24">
+        <Grid Padding="20,24,20,24">
           <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
@@ -39,10 +26,7 @@
 
           <StackPanel Spacing="30">
             <StackPanel Orientation="Horizontal" Spacing="12">
-              <Border Width="28"
-                      Height="28"
-                      CornerRadius="8"
-                      Background="{ThemeResource DashboardAccentBrush}" />
+              <controls:AppLogo Width="28" Height="28" />
               <TextBlock Text="Uno CRM"
                          VerticalAlignment="Center"
                          Style="{StaticResource DashboardBodyTextStyle}"
@@ -580,13 +564,13 @@
     </Grid>
 
     <Grid x:Name="MobileRoot"
-          Visibility="Visible">
+          Visibility="{utu:Responsive Narrow=Visible, Wide=Collapsed}"
+          utu:SafeArea.Insets="Top,Bottom">
       <ScrollViewer VerticalScrollBarVisibility="Auto"
                     HorizontalScrollBarVisibility="Disabled">
-        <Grid Padding="20,14,20,132"
-              RowSpacing="22">
+        <Grid Padding="20,16,20,130"
+              RowSpacing="18">
           <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
@@ -598,56 +582,27 @@
               <ColumnDefinition Width="*" />
               <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
-            <TextBlock Text="9:41"
-                       Style="{StaticResource DashboardBodyTextStyle}"
-                       FontSize="17"
-                       FontWeight="SemiBold" />
-            <StackPanel Grid.Column="1"
-                        Orientation="Horizontal"
-                        Spacing="10">
-              <FontIcon Glyph="&#xEC3A;"
-                        FontSize="14"
-                        Foreground="{ThemeResource DashboardPrimaryTextBrush}" />
-              <FontIcon Glyph="&#xE701;"
-                        FontSize="14"
-                        Foreground="{ThemeResource DashboardPrimaryTextBrush}" />
-              <FontIcon Glyph="&#xE850;"
-                        FontSize="14"
-                        Foreground="{ThemeResource DashboardPrimaryTextBrush}" />
-            </StackPanel>
-          </Grid>
 
-          <Grid Grid.Row="1">
-            <Grid.ColumnDefinitions>
-              <ColumnDefinition Width="*" />
-              <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
-
-            <StackPanel Spacing="8">
-              <TextBlock Text="DASHBOARD"
-                         Style="{StaticResource DashboardSectionLabelStyle}" />
+            <StackPanel Spacing="4">
               <TextBlock Text="Good morning, Alex"
                          Style="{StaticResource DashboardCardTitleStyle}"
-                         FontSize="34" />
+                         FontSize="32" />
+              <TextBlock Text="Here's your sales overview"
+                         Style="{StaticResource DashboardSubtleTextStyle}" />
             </StackPanel>
 
             <Button Grid.Column="1"
                     x:Uid="MainPage.MobileNotifications"
                     AutomationProperties.Name="Notifications"
-                    Width="64"
-                    Height="64"
-                    Background="{ThemeResource DashboardSurfaceBrush}"
-                    BorderBrush="{ThemeResource DashboardBorderBrush}"
-                    BorderThickness="1"
-                    CornerRadius="18"
-                    VerticalAlignment="Center">
+                    VerticalAlignment="Top"
+                    Style="{StaticResource DashboardIconButtonStyle}">
               <FontIcon Glyph="&#xE7ED;"
-                        FontSize="24"
+                        FontSize="15"
                         Foreground="{ThemeResource DashboardMutedTextBrush}" />
             </Button>
           </Grid>
 
-          <Grid Grid.Row="2"
+          <Grid Grid.Row="1"
                 ColumnSpacing="16"
                 RowSpacing="16">
             <Grid.ColumnDefinitions>
@@ -688,7 +643,7 @@
             </Border>
           </Grid>
 
-          <StackPanel Grid.Row="3"
+          <StackPanel Grid.Row="2"
                       Spacing="14">
             <TextBlock Text="PIPELINE SUMMARY"
                        Style="{StaticResource DashboardSectionLabelStyle}" />
@@ -834,7 +789,7 @@
             </Border>
           </StackPanel>
 
-          <StackPanel Grid.Row="4"
+          <StackPanel Grid.Row="3"
                       Spacing="14">
             <TextBlock Text="RECENT ACTIVITY"
                        Style="{StaticResource DashboardSectionLabelStyle}" />
@@ -867,7 +822,8 @@
                       <TextBlock Text="New lead assigned"
                                  Style="{StaticResource DashboardBodyTextStyle}"
                                  FontFamily="Georgia"
-                                 FontSize="22" />
+                                 FontSize="18"
+                                 FontWeight="Light" />
                       <TextBlock Text="Sarah Chen — Enterprise Plan"
                                  Style="{StaticResource DashboardSubtleTextStyle}"
                                  FontSize="16" />
@@ -905,7 +861,8 @@
                       <TextBlock Text="Deal moved to Proposal"
                                  Style="{StaticResource DashboardBodyTextStyle}"
                                  FontFamily="Georgia"
-                                 FontSize="22" />
+                                 FontSize="18"
+                                 FontWeight="Light" />
                       <TextBlock Text="Acme Corp — $48,000"
                                  Style="{StaticResource DashboardSubtleTextStyle}"
                                  FontSize="16" />
@@ -943,7 +900,8 @@
                       <TextBlock Text="Deal won!"
                                  Style="{StaticResource DashboardBodyTextStyle}"
                                  FontFamily="Georgia"
-                                 FontSize="22" />
+                                 FontSize="18"
+                                 FontWeight="Light" />
                       <TextBlock Text="TechFlow Inc — $125,000"
                                  Style="{StaticResource DashboardSubtleTextStyle}"
                                  FontSize="16" />
@@ -981,7 +939,8 @@
                       <TextBlock Text="Meeting scheduled"
                                  Style="{StaticResource DashboardBodyTextStyle}"
                                  FontFamily="Georgia"
-                                 FontSize="22" />
+                                 FontSize="18"
+                                 FontWeight="Light" />
                       <TextBlock Text="Rivera Group — Tomorrow 2:00 PM"
                                  Style="{StaticResource DashboardSubtleTextStyle}"
                                  FontSize="16" />
@@ -1017,7 +976,8 @@
                     <TextBlock Text="Email opened by lead"
                                Style="{StaticResource DashboardBodyTextStyle}"
                                FontFamily="Georgia"
-                               FontSize="22" />
+                               FontSize="18"
+                               FontWeight="Light" />
                     <TextBlock Text="GlobalTech Ltd — Follow-up touchpoint"
                                Style="{StaticResource DashboardSubtleTextStyle}"
                                FontSize="16" />
@@ -1034,87 +994,7 @@
         </Grid>
       </ScrollViewer>
 
-      <Border VerticalAlignment="Bottom"
-              HorizontalAlignment="Center"
-              Margin="16,0,16,18"
-              Padding="10"
-              MinWidth="320"
-              MaxWidth="560"
-              CornerRadius="34"
-              Background="{ThemeResource DashboardSurfaceBrush}"
-              BorderBrush="{ThemeResource DashboardBorderBrush}"
-              BorderThickness="1">
-        <Grid ColumnSpacing="10">
-          <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="*" />
-          </Grid.ColumnDefinitions>
-
-          <Border Grid.Column="0"
-                  Background="{ThemeResource DashboardAccentBrush}"
-                  CornerRadius="28"
-                  Padding="20,14">
-            <StackPanel HorizontalAlignment="Center"
-                        Spacing="8">
-              <FontIcon Glyph="&#xE80F;"
-                        FontSize="20"
-                        Foreground="White" />
-              <TextBlock Text="HOME"
-                         HorizontalAlignment="Center"
-                         Foreground="White"
-                         FontSize="12"
-                         FontWeight="SemiBold" />
-            </StackPanel>
-          </Border>
-
-          <Button Grid.Column="1"
-                  Click="NavigateToPipeline_Click"
-                  Style="{StaticResource DashboardNavButtonStyle}">
-            <StackPanel HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Spacing="8">
-              <FontIcon Glyph="&#xE9D2;"
-                        FontSize="20"
-                        Foreground="{ThemeResource DashboardSubtleTextBrush}" />
-              <TextBlock Text="PIPELINE"
-                         Foreground="{ThemeResource DashboardSubtleTextBrush}"
-                         FontSize="12" />
-            </StackPanel>
-          </Button>
-
-          <Button Grid.Column="2"
-                  Click="NavigateToLeads_Click"
-                  Style="{StaticResource DashboardNavButtonStyle}">
-            <StackPanel HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Spacing="8">
-              <FontIcon Glyph="&#xE716;"
-                        FontSize="20"
-                        Foreground="{ThemeResource DashboardSubtleTextBrush}" />
-              <TextBlock Text="LEADS"
-                         Foreground="{ThemeResource DashboardSubtleTextBrush}"
-                         FontSize="12" />
-            </StackPanel>
-          </Button>
-
-          <Button Grid.Column="3"
-                  Click="NavigateToContacts_Click"
-                  Style="{StaticResource DashboardNavButtonStyle}">
-            <StackPanel HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Spacing="8">
-              <FontIcon Glyph="&#xE77B;"
-                        FontSize="20"
-                        Foreground="{ThemeResource DashboardSubtleTextBrush}" />
-              <TextBlock Text="CONTACTS"
-                         Foreground="{ThemeResource DashboardSubtleTextBrush}"
-                         FontSize="12" />
-            </StackPanel>
-          </Button>
-        </Grid>
-      </Border>
+      <controls:BottomNavBar ActiveTab="Home" />
     </Grid>
   </Grid>
 </Page>

@@ -12,6 +12,11 @@ public partial class App : Application
     /// </summary>
     public App()
     {
+        // Open ComboBox drop-downs below the control (with the list content beneath it)
+        // instead of the WinUI default that overlays the selected item on the box.
+        Uno.UI.FeatureConfiguration.ComboBox.DefaultDropDownPreferredPlacement =
+            Uno.UI.Xaml.Controls.DropDownPlacement.Below;
+
         this.InitializeComponent();
     }
 
@@ -27,23 +32,23 @@ public partial class App : Application
 
         // Do not repeat app initialization when the Window already has content,
         // just ensure that the window is active
-        if (MainWindow.Content is not Frame rootFrame)
+        if (MainWindow.Content is not Shell shell)
         {
-            // Create a Frame to act as the navigation context and navigate to the first page
-            rootFrame = new Frame();
+            // Create the Shell (hosts the extended splash screen + navigation Frame)
+            shell = new Shell();
 
-            // Place the frame in the current Window
-            MainWindow.Content = rootFrame;
+            // Place the shell in the current Window
+            MainWindow.Content = shell;
 
-            rootFrame.NavigationFailed += OnNavigationFailed;
+            shell.RootFrame.NavigationFailed += OnNavigationFailed;
         }
 
-        if (rootFrame.Content == null)
+        if (shell.RootFrame.Content == null)
         {
             // When the navigation stack isn't restored navigate to the first page,
             // configuring the new page by passing required information as a navigation
             // parameter
-            rootFrame.Navigate(typeof(MainPage), args.Arguments);
+            shell.RootFrame.Navigate(typeof(MainPage), args.Arguments);
         }
 
         MainWindow.SetWindowIcon();

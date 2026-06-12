@@ -103,11 +103,11 @@ public sealed partial class LeadsPage : Page
 
         StageDistributionSeries =
         [
-            new PieSeries<int> { Name = stageLabels[0], Values = [stageValues[0]], Fill = new SolidColorPaint(blue), InnerRadius = 62 },
-            new PieSeries<int> { Name = stageLabels[1], Values = [stageValues[1]], Fill = new SolidColorPaint(purple), InnerRadius = 62 },
-            new PieSeries<int> { Name = stageLabels[2], Values = [stageValues[2]], Fill = new SolidColorPaint(amber), InnerRadius = 62 },
-            new PieSeries<int> { Name = stageLabels[3], Values = [stageValues[3]], Fill = new SolidColorPaint(red), InnerRadius = 62 },
-            new PieSeries<int> { Name = stageLabels[4], Values = [stageValues[4]], Fill = new SolidColorPaint(green), InnerRadius = 62 }
+            new PieSeries<int> { Name = stageLabels[0], Values = [stageValues[0]], Fill = new SolidColorPaint(blue), MaxRadialColumnWidth = 28 },
+            new PieSeries<int> { Name = stageLabels[1], Values = [stageValues[1]], Fill = new SolidColorPaint(purple), MaxRadialColumnWidth = 28 },
+            new PieSeries<int> { Name = stageLabels[2], Values = [stageValues[2]], Fill = new SolidColorPaint(amber), MaxRadialColumnWidth = 28 },
+            new PieSeries<int> { Name = stageLabels[3], Values = [stageValues[3]], Fill = new SolidColorPaint(red), MaxRadialColumnWidth = 28 },
+            new PieSeries<int> { Name = stageLabels[4], Values = [stageValues[4]], Fill = new SolidColorPaint(green), MaxRadialColumnWidth = 28 }
         ];
 
         MonthXAxis =

@@ -1,6 +1,7 @@
 <Application x:Class="UnoCRM.App"
        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+       xmlns:utu="using:Uno.Toolkit.UI">
 
   <Application.Resources>
     <ResourceDictionary>
@@ -71,6 +72,32 @@
           <SolidColorBrush x:Key="DashboardAmberSoftBrush" Color="{StaticResource DashboardAmberSoftColor}" />
           <SolidColorBrush x:Key="DashboardRedSoftBrush" Color="{StaticResource DashboardRedSoftColor}" />
           <SolidColorBrush x:Key="DashboardGreenSoftBrush" Color="{StaticResource DashboardGreenSoftColor}" />
+
+          <!-- ComboBox lightweight styling: align the closed box, chevron, drop-down and items with the dashboard palette. -->
+          <SolidColorBrush x:Key="ComboBoxBackground" Color="{StaticResource DashboardSurfaceColor}" />
+          <SolidColorBrush x:Key="ComboBoxBackgroundPointerOver" Color="{StaticResource DashboardControlColor}" />
+          <SolidColorBrush x:Key="ComboBoxBackgroundPressed" Color="{StaticResource DashboardControlColor}" />
+          <SolidColorBrush x:Key="ComboBoxBackgroundFocused" Color="{StaticResource DashboardSurfaceColor}" />
+          <SolidColorBrush x:Key="ComboBoxBackgroundUnfocused" Color="{StaticResource DashboardSurfaceColor}" />
+          <SolidColorBrush x:Key="ComboBoxForeground" Color="{StaticResource DashboardPrimaryTextColor}" />
+          <SolidColorBrush x:Key="ComboBoxForegroundFocused" Color="{StaticResource DashboardPrimaryTextColor}" />
+          <SolidColorBrush x:Key="ComboBoxBorderBrush" Color="{StaticResource DashboardBorderColor}" />
+          <SolidColorBrush x:Key="ComboBoxBorderBrushPointerOver" Color="{StaticResource DashboardBorderColor}" />
+          <SolidColorBrush x:Key="ComboBoxBorderBrushPressed" Color="{StaticResource DashboardAccentColor}" />
+          <SolidColorBrush x:Key="ComboBoxBorderBrushFocused" Color="{StaticResource DashboardAccentColor}" />
+          <SolidColorBrush x:Key="ComboBoxDropDownGlyphForeground" Color="{StaticResource DashboardMutedTextColor}" />
+          <SolidColorBrush x:Key="ComboBoxDropDownGlyphForegroundPointerOver" Color="{StaticResource DashboardPrimaryTextColor}" />
+          <SolidColorBrush x:Key="ComboBoxDropDownGlyphForegroundPressed" Color="{StaticResource DashboardPrimaryTextColor}" />
+          <SolidColorBrush x:Key="ComboBoxDropDownBackground" Color="{StaticResource DashboardSurfaceColor}" />
+          <SolidColorBrush x:Key="ComboBoxDropDownForeground" Color="{StaticResource DashboardPrimaryTextColor}" />
+          <SolidColorBrush x:Key="ComboBoxDropDownBorderBrush" Color="{StaticResource DashboardBorderColor}" />
+          <SolidColorBrush x:Key="ComboBoxItemForeground" Color="{StaticResource DashboardPrimaryTextColor}" />
+          <SolidColorBrush x:Key="ComboBoxItemBackgroundPointerOver" Color="{StaticResource DashboardControlColor}" />
+          <SolidColorBrush x:Key="ComboBoxItemBackgroundPressed" Color="{StaticResource DashboardControlColor}" />
+          <SolidColorBrush x:Key="ComboBoxItemBackgroundSelected" Color="{StaticResource DashboardAccentSoftColor}" />
+          <SolidColorBrush x:Key="ComboBoxItemBackgroundSelectedPointerOver" Color="{StaticResource DashboardAccentSoftColor}" />
+          <SolidColorBrush x:Key="ComboBoxItemBackgroundSelectedPressed" Color="{StaticResource DashboardAccentSoftColor}" />
+          <SolidColorBrush x:Key="ComboBoxItemForegroundSelected" Color="{StaticResource DashboardAccentColor}" />
         </ResourceDictionary>
 
         <!-- DARK THEME ("Default" maps to the OS dark mode) -->
@@ -126,9 +153,40 @@
           <SolidColorBrush x:Key="DashboardAmberSoftBrush" Color="{StaticResource DashboardAmberSoftColor}" />
           <SolidColorBrush x:Key="DashboardRedSoftBrush" Color="{StaticResource DashboardRedSoftColor}" />
           <SolidColorBrush x:Key="DashboardGreenSoftBrush" Color="{StaticResource DashboardGreenSoftColor}" />
+
+          <!-- ComboBox lightweight styling: align the closed box, chevron, drop-down and items with the dashboard palette. -->
+          <SolidColorBrush x:Key="ComboBoxBackground" Color="{StaticResource DashboardSurfaceColor}" />
+          <SolidColorBrush x:Key="ComboBoxBackgroundPointerOver" Color="{StaticResource DashboardControlColor}" />
+          <SolidColorBrush x:Key="ComboBoxBackgroundPressed" Color="{StaticResource DashboardControlColor}" />
+          <SolidColorBrush x:Key="ComboBoxBackgroundFocused" Color="{StaticResource DashboardSurfaceColor}" />
+          <SolidColorBrush x:Key="ComboBoxBackgroundUnfocused" Color="{StaticResource DashboardSurfaceColor}" />
+          <SolidColorBrush x:Key="ComboBoxForeground" Color="{StaticResource DashboardPrimaryTextColor}" />
+          <SolidColorBrush x:Key="ComboBoxForegroundFocused" Color="{StaticResource DashboardPrimaryTextColor}" />
+          <SolidColorBrush x:Key="ComboBoxBorderBrush" Color="{StaticResource DashboardBorderColor}" />
+          <SolidColorBrush x:Key="ComboBoxBorderBrushPointerOver" Color="{StaticResource DashboardBorderColor}" />
+          <SolidColorBrush x:Key="ComboBoxBorderBrushPressed" Color="{StaticResource DashboardAccentColor}" />
+          <SolidColorBrush x:Key="ComboBoxBorderBrushFocused" Color="{StaticResource DashboardAccentColor}" />
+          <SolidColorBrush x:Key="ComboBoxDropDownGlyphForeground" Color="{StaticResource DashboardMutedTextColor}" />
+          <SolidColorBrush x:Key="ComboBoxDropDownGlyphForegroundPointerOver" Color="{StaticResource DashboardPrimaryTextColor}" />
+          <SolidColorBrush x:Key="ComboBoxDropDownGlyphForegroundPressed" Color="{StaticResource DashboardPrimaryTextColor}" />
+          <SolidColorBrush x:Key="ComboBoxDropDownBackground" Color="{StaticResource DashboardSurfaceColor}" />
+          <SolidColorBrush x:Key="ComboBoxDropDownForeground" Color="{StaticResource DashboardPrimaryTextColor}" />
+          <SolidColorBrush x:Key="ComboBoxDropDownBorderBrush" Color="{StaticResource DashboardBorderColor}" />
+          <SolidColorBrush x:Key="ComboBoxItemForeground" Color="{StaticResource DashboardPrimaryTextColor}" />
+          <SolidColorBrush x:Key="ComboBoxItemBackgroundPointerOver" Color="{StaticResource DashboardControlColor}" />
+          <SolidColorBrush x:Key="ComboBoxItemBackgroundPressed" Color="{StaticResource DashboardControlColor}" />
+          <SolidColorBrush x:Key="ComboBoxItemBackgroundSelected" Color="{StaticResource DashboardAccentSoftColor}" />
+          <SolidColorBrush x:Key="ComboBoxItemBackgroundSelectedPointerOver" Color="{StaticResource DashboardAccentSoftColor}" />
+          <SolidColorBrush x:Key="ComboBoxItemBackgroundSelectedPressed" Color="{StaticResource DashboardAccentSoftColor}" />
+          <SolidColorBrush x:Key="ComboBoxItemForegroundSelected" Color="{StaticResource DashboardAccentColor}" />
         </ResourceDictionary>
 
       </ResourceDictionary.ThemeDictionaries>
+
+      <!-- Window-width breakpoint shared by the responsive page layouts: mobile below 900px, desktop at/above (matches the former AdaptiveTrigger MinWindowWidth). -->
+      <utu:ResponsiveLayout x:Key="DefaultResponsiveLayout"
+                            Narrow="0"
+                            Wide="900" />
 
       <!-- Theme-independent resources (shared across Light and Dark) -->
       <Thickness x:Key="DashboardCardPadding">24</Thickness>
@@ -146,12 +204,48 @@
         <Setter Property="Padding" Value="12,10" />
       </Style>
 
+      <!--
+        Used by the desktop sidebar nav rows (each wraps a DashboardSidebarItemBorderStyle,
+        CornerRadius 12). Custom template so press/hover is a rounded, theme-aware highlight
+        instead of the default WinUI square gray "ButtonBackgroundPressed" rectangle.
+      -->
       <Style x:Key="DashboardNavButtonStyle" TargetType="Button">
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="Padding" Value="0" />
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="UseSystemFocusVisuals" Value="False" />
+        <Setter Property="Template">
+          <Setter.Value>
+            <ControlTemplate TargetType="Button">
+              <Grid x:Name="ContentRoot"
+                    Background="{TemplateBinding Background}"
+                    CornerRadius="12">
+                <VisualStateManager.VisualStateGroups>
+                  <VisualStateGroup x:Name="CommonStates">
+                    <VisualState x:Name="Normal" />
+                    <VisualState x:Name="PointerOver">
+                      <VisualState.Setters>
+                        <Setter Target="ContentRoot.Background" Value="{ThemeResource DashboardControlBrush}" />
+                      </VisualState.Setters>
+                    </VisualState>
+                    <VisualState x:Name="Pressed">
+                      <VisualState.Setters>
+                        <Setter Target="ContentRoot.Background" Value="{ThemeResource DashboardControlBrush}" />
+                      </VisualState.Setters>
+                    </VisualState>
+                    <VisualState x:Name="Disabled" />
+                  </VisualStateGroup>
+                </VisualStateManager.VisualStateGroups>
+                <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                  Padding="{TemplateBinding Padding}"
+                                  Content="{TemplateBinding Content}" />
+              </Grid>
+            </ControlTemplate>
+          </Setter.Value>
+        </Setter>
       </Style>
 
       <Style x:Key="DashboardSectionLabelStyle" TargetType="TextBlock">
