@@ -28,6 +28,7 @@ applies**. Code is illustrative — adapt names to the target sample.
 | 13 | Button pressed state | Replace the gray rectangle with a rounded theme-aware highlight. |
 | 14 | Auto-hide a bar on scroll | Find the host `ScrollViewer`, animate a `TranslateTransform`. |
 | 14b | No nested scroll inside a page | A `ListView`/inner `ScrollViewer` breaks scroll-driven UI; use `ItemsControl`. |
+| 14c | Tab nav back stack | Clear `Frame.BackStack` after a tab navigate; keep the nav control decoupled. |
 | 15 | LiveCharts donut & legend | `MaxRadialColumnWidth` over fixed `InnerRadius`; bottom legend in narrow columns. |
 | 16 | Theme brushes in code-behind | They live in `ThemeDictionaries`; resolve with a fallback or keep in XAML. |
 | 17 | App icon & splash | One icon for **all** platforms & form factors via `Uno.Resizetizer`; `ExtendedSplashScreen` is white on iOS. |
@@ -54,6 +55,11 @@ bound to a single app-wide breakpoint, instead of per-page
 - Requires the `Toolkit` UnoFeature in the `.csproj`.
 - Honor the safe area with `utu:SafeArea.Insets` — **do not** hardcode a fake
   status bar.
+- The switch toggles `Visibility` but keeps **both** layout subtrees alive (and their
+  controls live). Work driven off shared state (map refreshes, list rebuilds) runs for the
+  hidden layout too; mirroring selection/search between the two layouts re-raises the
+  counterpart's change event — guard re-entrancy with a flag, and prefer doing per-instance
+  work only for the visible layout.
 
 **Applies to:** any sample with hand-rolled adaptive triggers or a faked status bar.
 
@@ -174,6 +180,11 @@ Related `ComboBox` improvements:
   `ItemsSource`; set `FontSize` so the drop-down content is legible. With classic
   `{Binding}`, populate the collection **before** setting `DataContext` (or raise
   `PropertyChanged`) — otherwise the binding captures an empty value and the box looks empty.
+- **Set the initial selection in code-behind**, not via a parse-time `SelectedIndex="0"` in
+  XAML. With a late-bound `ItemsSource` the index is coerced to `-1` on the then-empty combo
+  and isn't re-applied when items arrive (varies per target) — the box renders blank. Assign
+  `SelectedIndex`/`SelectedItem` after binding (e.g. in `Loaded`); guard the resulting
+  `SelectionChanged` so it doesn't churn during init.
 
 **Applies to:** any sample using default `ComboBox`/`CheckBox`/`Slider`/etc. that should be on-brand.
 
@@ -260,6 +271,10 @@ inputs. The CRM has [`Controls/PipelineCard`](../studio/uno-crm/UnoCRM/Controls/
 - Type names: the **`FontWeight` struct is `Windows.UI.Text.FontWeight`**; the
   **`FontWeights` statics are `Microsoft.UI.Text.FontWeights`**. Mixing them up is a
   `CS0246`.
+- x:Bind's generated code lives in the same partial class, so its target methods/properties
+  may be **`private`**. x:Bind also converts `bool`→`Visibility` implicitly
+  (`Visibility="{x:Bind SomeBool}"` needs no converter) — though the *inverse* still needs a
+  helper/negated property.
 
 **Applies to:** any sample repeating a card/row/nav many times.
 
@@ -333,6 +348,25 @@ becomes the single scroll surface.
 **Applies to:** any mobile/page layout that wraps a list in a page-level `ScrollViewer`,
 especially when combined with a scroll-driven behavior like #14.
 
+## 14c. Tab navigation: clear the back stack, keep the nav control decoupled
+
+**Symptom.** `Frame.Navigate` on every tab tap grows the back stack without bound — on
+Android the hardware Back button then replays the whole tab history.
+
+**Fix.** Clear the back stack after a successful tab navigation:
+
+```csharp
+if (frame.Navigate(pageType)) frame.BackStack.Clear();
+```
+
+**Also.** A genuinely reusable nav control shouldn't hard-code the app's page types (that
+inverts the dependency) — raise a `TabSelected` event / expose tab metadata and let the host
+navigate. For a single-app sample a direct tab→page-type switch is acceptable, but note the
+trade-off; and a `string` tab id whose valid set lives in several places is a smell (an enum
+or shared constants is sturdier).
+
+**Applies to:** any tab bar / nav rail that drives a `Frame`.
+
 ## 15. LiveCharts2 donut thickness & legend placement
 
 - **Donut collapses to a thin ring on resize** — a fixed pixel `InnerRadius` doesn't
@@ -365,24 +399,29 @@ theme colors.
   `Uno.Resizetizer` from a single source asset; Resizetizer generates the required sizes,
   densities and platform formats so the one icon shows everywhere (home screen, task
   switcher, taskbar, browser favicon/PWA tile, dock).
-- `.csproj` props: `UnoIconForegroundFile` + `UnoIconColor`, `UnoSplashScreenFile` +
-  `UnoSplashScreenColor`; register extra images with `<UnoImage Include="…" />`.
-- **Prefer SVG sources** — Resizetizer rasterizes per density, so a vector source stays
-  crisp at every size. For the icon, supply the **foreground only** (the logo on a
-  transparent background) and set the background via `UnoIconColor`; *don't* bake the
-  background rect into the foreground SVG, so adaptive-icon masking/safe-zone behave. Use a
-  separate **full** SVG (background + logo) for the splash and any in-app logo.
-- A logo PNG with **transparent corners** bleeds white over a dark icon background —
-  darken the icon background fill to match.
+- `.csproj` props: `UnoIconForegroundFile` with `UnoIconBackgroundColor`, and
+  `UnoSplashScreenFile` with `UnoSplashScreenColor`; register extra images with `<UnoImage Include="…" />`.
+  > **`UnoIconColor` is a no-op** — the SDK reads **`UnoIconBackgroundColor`** (it maps to the
+  > `UnoIcon` `Color`). `UnoIconColor` appears only in an erroneous doc example and silently
+  > leaves the Android adaptive-icon background **transparent**. Sanity-check the generated
+  > `obj/<config>/<tfm>/UnoImage.inputs` — the `IsAppIcon` row should show your `Color=#…`, not `#00000000`.
+- **Prefer SVG sources** — Resizetizer rasterizes per density. The app icon is the auto-detected
+  **background** `icon.svg` (`IsAppIcon`) merged with the **foreground** `UnoIconForegroundFile`,
+  over `UnoIconBackgroundColor`. Keep `icon.svg` a solid background, put the logo (transparent bg)
+  in the foreground so adaptive masking / safe-zone behave; the colour fills any transparent corners.
 - `utu:ExtendedSplashScreen` renders **white on iOS** (it doesn't auto-paint the
   native splash) — put the logo in `LoadingContent` so it shows on every platform.
+- The splash `ILoadable` must **always** clear `IsExecuting` — a fire-and-forget
+  `Task.Delay().ContinueWith(d => d.TryEnqueue(…))` hangs on the splash forever if the enqueue
+  returns false / the continuation faults. `await` the delay then complete defensively (fall
+  back to flipping the flag inline). Don't hardcode a long fake delay in a sample — name a
+  `SplashMinimumDuration` constant (demo-only) or gate on real readiness.
 - Android: call `ExtendedSplashScreen.Init(this)` in `MainActivity.OnCreate`.
-- **Showing the logo *inside* the UI** (e.g. a brand mark next to the app name): reference
-  a `UnoImage` asset (`Assets/Images/…`, like the splash logo), **not** the
-  `UnoIconForegroundFile` — the icon source isn't guaranteed to be runtime-loadable via
-  `Image.Source`. A foreground designed for the dark icon background (`#151515`) is light,
-  so place it on its own `#151515` rounded tile; otherwise it vanishes on a light-theme
-  surface (sidebar surface is white in light mode, dark in dark mode).
+- **Showing the logo *inside* the UI** (brand mark next to the app name, splash content):
+  draw it with **native XAML shapes** — e.g. `Rectangle`s + a `LinearGradientBrush` in a
+  `Viewbox` — **not** an SVG `<Image>`. A gradient/`<defs>` SVG can fail through the runtime
+  `Image` path and render as a **solid black tile**; native shapes always render and scale
+  crisply. See [`Controls/AppLogo.xaml`](../studio/uno-crm/UnoCRM/Controls/AppLogo.xaml).
 
 **Applies to:** any single-project sample that needs branded icon/splash, or that shows
 its logo in-app.
