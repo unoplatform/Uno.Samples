@@ -18,11 +18,25 @@ public sealed partial class ContactsPage : Page, INotifyPropertyChanged
     public ContactsPage()
     {
         InitializeComponent();
+        BuildSampleContacts();
+
+        // Filter options are derived from the contact data (not hardcoded), with an
+        // "All …" entry first. Populated before DataContext is set so the bound
+        // ComboBoxes pick them up.
+        Regions = new[] { "All Regions" }
+            .Concat(_allContacts.Select(c => c.Region).Distinct(StringComparer.OrdinalIgnoreCase))
+            .ToArray();
+        Segments = new[] { "All Segments" }
+            .Concat(_allContacts.Select(c => c.Segment).Distinct(StringComparer.OrdinalIgnoreCase))
+            .ToArray();
+
         DataContext = this;
         Loaded += ContactsPage_Loaded;
-
-        BuildSampleContacts();
     }
+
+    public string[] Regions { get; private set; } = [];
+
+    public string[] Segments { get; private set; } = [];
 
     private void ContactsPage_Loaded(object sender, RoutedEventArgs e)
     {
@@ -142,15 +156,8 @@ public sealed partial class ContactsPage : Page, INotifyPropertyChanged
         ApplyFiltersAndRefreshMap(resetViewport: false);
     }
 
-    private static string GetComboSelection(ComboBox? combo)
-    {
-        if (combo?.SelectedItem is ComboBoxItem item && item.Content is string text)
-        {
-            return text;
-        }
-
-        return string.Empty;
-    }
+    private static string GetComboSelection(ComboBox? combo) =>
+        combo?.SelectedItem as string ?? string.Empty;
 
     private static void SyncComboSelection(ComboBox? first, ComboBox? second, string value, ComboBox? sender)
     {
@@ -167,15 +174,9 @@ public sealed partial class ContactsPage : Page, INotifyPropertyChanged
 
     private static void SetComboSelection(ComboBox combo, string value)
     {
-        foreach (var entry in combo.Items)
+        if (!Equals(combo.SelectedItem as string, value))
         {
-            if (entry is ComboBoxItem item
-                && item.Content is string text
-                && string.Equals(text, value, StringComparison.OrdinalIgnoreCase))
-            {
-                combo.SelectedItem = item;
-                return;
-            }
+            combo.SelectedItem = value;
         }
     }
 

@@ -164,6 +164,17 @@ Define them in **both** the Light and Default dictionaries so they swap with the
 > A misspelled key is a silent no-op (that state keeps the framework default), not a build
 > error — so verify each state (rest, hover, open, selected) visually.
 
+Related `ComboBox` improvements:
+- **Open the drop-down *below* the box** (WinUI overlays the selected item on the control).
+  Uno-only: `Uno.UI.FeatureConfiguration.ComboBox.DefaultDropDownPreferredPlacement =
+  DropDownPlacement.Below;` in `App` startup (applies to all), or per control
+  `not_win:ComboBox.DropDownPreferredPlacement="Below"` (`xmlns:not_win="using:Uno.UI.Xaml.Controls"`).
+- **Bind the items, don't hardcode `ComboBoxItem`s** — derive options from the data
+  (`_items.Select(x => x.Field).Distinct()`, with an "All …" entry first) and bind
+  `ItemsSource`; set `FontSize` so the drop-down content is legible. With classic
+  `{Binding}`, populate the collection **before** setting `DataContext` (or raise
+  `PropertyChanged`) — otherwise the binding captures an empty value and the box looks empty.
+
 **Applies to:** any sample using default `ComboBox`/`CheckBox`/`Slider`/etc. that should be on-brand.
 
 ## 7. Don't fake alignment with `Margin` nudges

@@ -12,6 +12,11 @@ public partial class App : Application
     /// </summary>
     public App()
     {
+        // Open ComboBox drop-downs below the control (with the list content beneath it)
+        // instead of the WinUI default that overlays the selected item on the box.
+        Uno.UI.FeatureConfiguration.ComboBox.DefaultDropDownPreferredPlacement =
+            Uno.UI.Xaml.Controls.DropDownPlacement.Below;
+
         this.InitializeComponent();
     }
 

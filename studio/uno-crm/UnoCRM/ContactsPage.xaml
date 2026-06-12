@@ -214,29 +214,22 @@
                       HorizontalAlignment="Stretch"
                       Height="44"
                       CornerRadius="12"
+                      FontSize="14"
                       VerticalContentAlignment="Center"
+                      ItemsSource="{Binding Regions}"
                       SelectedIndex="0"
-                      SelectionChanged="RegionFilter_SelectionChanged">
-              <ComboBoxItem Content="All Regions" />
-              <ComboBoxItem Content="North America" />
-              <ComboBoxItem Content="Europe" />
-              <ComboBoxItem Content="APAC" />
-              <ComboBoxItem Content="LATAM" />
-            </ComboBox>
+                      SelectionChanged="RegionFilter_SelectionChanged" />
 
             <ComboBox x:Name="DesktopSegmentFilter"
                       Grid.Column="2"
                       HorizontalAlignment="Stretch"
                       Height="44"
                       CornerRadius="12"
+                      FontSize="14"
                       VerticalContentAlignment="Center"
+                      ItemsSource="{Binding Segments}"
                       SelectedIndex="0"
-                      SelectionChanged="SegmentFilter_SelectionChanged">
-              <ComboBoxItem Content="All Segments" />
-              <ComboBoxItem Content="Enterprise" />
-              <ComboBoxItem Content="Mid-Market" />
-              <ComboBoxItem Content="SMB" />
-            </ComboBox>
+                      SelectionChanged="SegmentFilter_SelectionChanged" />
           </Grid>
 
           <Grid Grid.Row="2" ColumnSpacing="16">
@@ -388,24 +381,17 @@
 
               <ComboBox x:Name="MobileRegionFilter"
                         CornerRadius="12"
+                        FontSize="14"
+                        ItemsSource="{Binding Regions}"
                         SelectedIndex="0"
-                        SelectionChanged="RegionFilter_SelectionChanged">
-                <ComboBoxItem Content="All Regions" />
-                <ComboBoxItem Content="North America" />
-                <ComboBoxItem Content="Europe" />
-                <ComboBoxItem Content="APAC" />
-                <ComboBoxItem Content="LATAM" />
-              </ComboBox>
+                        SelectionChanged="RegionFilter_SelectionChanged" />
 
               <ComboBox x:Name="MobileSegmentFilter"
                         CornerRadius="12"
+                        FontSize="14"
+                        ItemsSource="{Binding Segments}"
                         SelectedIndex="0"
-                        SelectionChanged="SegmentFilter_SelectionChanged">
-                <ComboBoxItem Content="All Segments" />
-                <ComboBoxItem Content="Enterprise" />
-                <ComboBoxItem Content="Mid-Market" />
-                <ComboBoxItem Content="SMB" />
-              </ComboBox>
+                        SelectionChanged="SegmentFilter_SelectionChanged" />
             </StackPanel>
           </StackPanel>
 
