@@ -6,7 +6,12 @@ namespace UnoCRM.Controls;
 /// Floating bottom navigation bar shared by the mobile layouts of every page.
 /// Set <see cref="ActiveTab"/> ("Home" | "Pipeline" | "Leads" | "Contacts") to highlight
 /// the current page; the control navigates the hosting <see cref="Frame"/> on tap.
+/// <para>
 /// The bar slides out of view while the page scrolls down and slides back in on scroll up.
+/// It watches the <see cref="ScrollViewer"/> assigned to <see cref="ScrollHost"/>, or — when
+/// that is unset — the first <see cref="ScrollViewer"/> sibling of the bar's parent. If a page
+/// nests its scroller inside another element, set <see cref="ScrollHost"/> to keep auto-hide working.
+/// </para>
 /// </summary>
 public sealed partial class BottomNavBar : UserControl
 {
@@ -32,6 +37,23 @@ public sealed partial class BottomNavBar : UserControl
     {
         get => (string)GetValue(ActiveTabProperty);
         set => SetValue(ActiveTabProperty, value);
+    }
+
+    /// <summary>
+    /// Optional explicit scroll host driving the auto-hide. When unset, the bar falls back to
+    /// the first <see cref="ScrollViewer"/> sibling of its parent. ElementName-bindable.
+    /// </summary>
+    public static readonly DependencyProperty ScrollHostProperty =
+        DependencyProperty.Register(
+            nameof(ScrollHost),
+            typeof(ScrollViewer),
+            typeof(BottomNavBar),
+            new PropertyMetadata(null));
+
+    public ScrollViewer? ScrollHost
+    {
+        get => (ScrollViewer?)GetValue(ScrollHostProperty);
+        set => SetValue(ScrollHostProperty, value);
     }
 
     private void OnLoaded(object sender, RoutedEventArgs e)
@@ -64,9 +86,23 @@ public sealed partial class BottomNavBar : UserControl
             return;
         }
 
-        if (VisualTreeHelper.GetParent(this) is not DependencyObject parent)
+        // Explicit host wins; otherwise fall back to the first ScrollViewer sibling.
+        var scrollViewer = ScrollHost ?? FindSiblingScrollViewer();
+        if (scrollViewer is null)
         {
             return;
+        }
+
+        _scrollViewer = scrollViewer;
+        _lastOffset = scrollViewer.VerticalOffset;
+        scrollViewer.ViewChanged += OnHostViewChanged;
+    }
+
+    private ScrollViewer? FindSiblingScrollViewer()
+    {
+        if (VisualTreeHelper.GetParent(this) is not DependencyObject parent)
+        {
+            return null;
         }
 
         var count = VisualTreeHelper.GetChildrenCount(parent);
@@ -74,12 +110,11 @@ public sealed partial class BottomNavBar : UserControl
         {
             if (VisualTreeHelper.GetChild(parent, i) is ScrollViewer scrollViewer)
             {
-                _scrollViewer = scrollViewer;
-                _lastOffset = scrollViewer.VerticalOffset;
-                scrollViewer.ViewChanged += OnHostViewChanged;
-                return;
+                return scrollViewer;
             }
         }
+
+        return null;
     }
 
     private void OnHostViewChanged(object? sender, ScrollViewerViewChangedEventArgs e)
@@ -170,9 +205,17 @@ public sealed partial class BottomNavBar : UserControl
             _ => null,
         };
 
-        if (target is not null)
+        if (target is null)
         {
-            FindFrame()?.Navigate(target);
+            return;
+        }
+
+        // Tab navigation shouldn't grow a back stack — otherwise Android's Back button
+        // replays the whole tab history. Clear it after a successful navigation.
+        var frame = FindFrame();
+        if (frame is not null && frame.Navigate(target))
+        {
+            frame.BackStack.Clear();
         }
     }
 

@@ -10,10 +10,15 @@ namespace UnoCRM;
 
 public sealed partial class ContactsPage : Page, INotifyPropertyChanged
 {
+    private const string AllRegions = "All Regions";
+    private const string AllSegments = "All Segments";
+
     private readonly List<ContactLocation> _allContacts = [];
     private string _searchQuery = string.Empty;
-    private string _regionFilter = "All Regions";
-    private string _segmentFilter = "All Segments";
+    private string _regionFilter = AllRegions;
+    private string _segmentFilter = AllSegments;
+    private bool _initialized;
+    private bool _syncing;
 
     public ContactsPage()
     {
@@ -23,10 +28,10 @@ public sealed partial class ContactsPage : Page, INotifyPropertyChanged
         // Filter options are derived from the contact data (not hardcoded), with an
         // "All …" entry first. Populated before DataContext is set so the bound
         // ComboBoxes pick them up.
-        Regions = new[] { "All Regions" }
+        Regions = new[] { AllRegions }
             .Concat(_allContacts.Select(c => c.Region).Distinct(StringComparer.OrdinalIgnoreCase))
             .ToArray();
-        Segments = new[] { "All Segments" }
+        Segments = new[] { AllSegments }
             .Concat(_allContacts.Select(c => c.Segment).Distinct(StringComparer.OrdinalIgnoreCase))
             .ToArray();
 
@@ -34,12 +39,21 @@ public sealed partial class ContactsPage : Page, INotifyPropertyChanged
         Loaded += ContactsPage_Loaded;
     }
 
-    public string[] Regions { get; private set; } = [];
+    public IReadOnlyList<string> Regions { get; }
 
-    public string[] Segments { get; private set; } = [];
+    public IReadOnlyList<string> Segments { get; }
 
     private void ContactsPage_Loaded(object sender, RoutedEventArgs e)
     {
+        // ItemsSource is bound after InitializeComponent, so apply the initial selection
+        // here — a parse-time SelectedIndex can be coerced to -1 on the then-empty combo
+        // and is not re-applied when the items arrive (behavior varies per target).
+        DesktopRegionFilter.SelectedIndex = 0;
+        DesktopSegmentFilter.SelectedIndex = 0;
+        MobileRegionFilter.SelectedIndex = 0;
+        MobileSegmentFilter.SelectedIndex = 0;
+        _initialized = true;
+
         ApplyFiltersAndRefreshMap(resetViewport: true);
     }
 
@@ -132,6 +146,13 @@ public sealed partial class ContactsPage : Page, INotifyPropertyChanged
 
     private void RegionFilter_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
+        // Skip while applying the initial selection, and while mirroring to the counterpart
+        // layout (the mirror raises its own SelectionChanged) so a change refreshes once.
+        if (!_initialized || _syncing)
+        {
+            return;
+        }
+
         var selected = GetComboSelection(sender as ComboBox);
         if (string.IsNullOrWhiteSpace(selected))
         {
@@ -139,12 +160,21 @@ public sealed partial class ContactsPage : Page, INotifyPropertyChanged
         }
 
         _regionFilter = selected;
+
+        _syncing = true;
         SyncComboSelection(DesktopRegionFilter, MobileRegionFilter, selected, sender as ComboBox);
+        _syncing = false;
+
         ApplyFiltersAndRefreshMap(resetViewport: false);
     }
 
     private void SegmentFilter_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
+        if (!_initialized || _syncing)
+        {
+            return;
+        }
+
         var selected = GetComboSelection(sender as ComboBox);
         if (string.IsNullOrWhiteSpace(selected))
         {
@@ -152,7 +182,11 @@ public sealed partial class ContactsPage : Page, INotifyPropertyChanged
         }
 
         _segmentFilter = selected;
+
+        _syncing = true;
         SyncComboSelection(DesktopSegmentFilter, MobileSegmentFilter, selected, sender as ComboBox);
+        _syncing = false;
+
         ApplyFiltersAndRefreshMap(resetViewport: false);
     }
 
@@ -183,8 +217,8 @@ public sealed partial class ContactsPage : Page, INotifyPropertyChanged
     private void ApplyFiltersAndRefreshMap(bool resetViewport)
     {
         var filtered = _allContacts
-            .Where(x => _regionFilter == "All Regions" || x.Region.Equals(_regionFilter, StringComparison.OrdinalIgnoreCase))
-            .Where(x => _segmentFilter == "All Segments" || x.Segment.Equals(_segmentFilter, StringComparison.OrdinalIgnoreCase))
+            .Where(x => _regionFilter == AllRegions || x.Region.Equals(_regionFilter, StringComparison.OrdinalIgnoreCase))
+            .Where(x => _segmentFilter == AllSegments || x.Segment.Equals(_segmentFilter, StringComparison.OrdinalIgnoreCase))
             .Where(x => string.IsNullOrWhiteSpace(_searchQuery)
                 || x.Name.Contains(_searchQuery, StringComparison.OrdinalIgnoreCase)
                 || x.Company.Contains(_searchQuery, StringComparison.OrdinalIgnoreCase)

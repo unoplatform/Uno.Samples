@@ -44,9 +44,10 @@ public sealed partial class PipelineCard : UserControl
     public Brush? MetaBrush { get => (Brush?)GetValue(MetaBrushProperty); set => SetValue(MetaBrushProperty, value); }
     public bool IsWon { get => (bool)GetValue(IsWonProperty); set => SetValue(IsWonProperty, value); }
 
-    public Visibility DotVisibility(bool isWon) => isWon ? Visibility.Collapsed : Visibility.Visible;
+    // Consumed only by this control's own x:Bind (generated into the same partial class).
+    private Visibility DotVisibility(bool isWon) => isWon ? Visibility.Collapsed : Visibility.Visible;
 
-    public Visibility CheckVisibility(bool isWon) => isWon ? Visibility.Visible : Visibility.Collapsed;
+    private Visibility CheckVisibility(bool isWon) => isWon ? Visibility.Visible : Visibility.Collapsed;
 
-    public Windows.UI.Text.FontWeight MetaWeight(bool isWon) => isWon ? FontWeights.SemiBold : FontWeights.Normal;
+    private Windows.UI.Text.FontWeight MetaWeight(bool isWon) => isWon ? FontWeights.SemiBold : FontWeights.Normal;
 }

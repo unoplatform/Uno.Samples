@@ -401,4 +401,4 @@ its logo in-app.
 ---
 
 *Generated from the change history on branch `dev/jenny/update-uno-crm-sample`
-(PR for unoplatform/studio.live#2416).*
+(PR unoplatform/Uno.Samples#918).*
