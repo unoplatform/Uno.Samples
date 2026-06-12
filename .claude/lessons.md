@@ -337,6 +337,11 @@ theme colors.
   switcher, taskbar, browser favicon/PWA tile, dock).
 - `.csproj` props: `UnoIconForegroundFile` + `UnoIconColor`, `UnoSplashScreenFile` +
   `UnoSplashScreenColor`; register extra images with `<UnoImage Include="…" />`.
+- **Prefer SVG sources** — Resizetizer rasterizes per density, so a vector source stays
+  crisp at every size. For the icon, supply the **foreground only** (the logo on a
+  transparent background) and set the background via `UnoIconColor`; *don't* bake the
+  background rect into the foreground SVG, so adaptive-icon masking/safe-zone behave. Use a
+  separate **full** SVG (background + logo) for the splash and any in-app logo.
 - A logo PNG with **transparent corners** bleeds white over a dark icon background —
   darken the icon background fill to match.
 - `utu:ExtendedSplashScreen` renders **white on iOS** (it doesn't auto-paint the
