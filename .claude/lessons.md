@@ -416,7 +416,12 @@ theme colors.
   returns false / the continuation faults. `await` the delay then complete defensively (fall
   back to flipping the flag inline). Don't hardcode a long fake delay in a sample — name a
   `SplashMinimumDuration` constant (demo-only) or gate on real readiness.
-- Android: call `ExtendedSplashScreen.Init(this)` in `MainActivity.OnCreate`.
+- Android: `MainActivity.OnCreate` only needs
+  `AndroidX.Core.SplashScreen.SplashScreen.InstallSplashScreen(this)`. **There is no
+  `Uno.Toolkit.UI.ExtendedSplashScreen.Init` method** — calling it is a `CS0117` build
+  break (it slipped past local desktop/iOS builds and only failed the `net10.0-android`
+  CI leg). `ExtendedSplashScreen` works purely from its XAML usage; the other studio
+  samples (Voyago, etc.) install the native splash and nothing more.
 - **Showing the logo *inside* the UI** (brand mark next to the app name, splash content):
   draw it with **native XAML shapes** — e.g. `Rectangle`s + a `LinearGradientBrush` in a
   `Viewbox` — **not** an SVG `<Image>`. A gradient/`<defs>` SVG can fail through the runtime
@@ -435,7 +440,21 @@ its logo in-app.
   drive with Playwright. The app renders to a `<canvas>`, so navigate with
   **coordinate clicks**, and capture at specific viewport widths (and
   `colorScheme: 'dark'`) to validate responsive breakpoints.
-- **Android** builds need JDK 17; Skia desktop is windowless from a headless shell.
+- **Android** can be run/screenshotted from the headless shell, with two prerequisites:
+  - **JDK 17.** `net10.0-android` needs JDK 17, but the machine default is JDK 11. Point
+    the build at the Homebrew `openjdk@17`:
+    `JAVA_HOME=/opt/homebrew/opt/openjdk@17/libexec/openjdk.jdk/Contents/Home dotnet build -f net10.0-android -p:JavaSdkDirectory="$JAVA_HOME"`.
+  - **Embed the assemblies for `adb install`.** A plain Debug APK uses Fast Deployment —
+    the managed assemblies are pushed *separately* by `dotnet ... -t:Run`, so a manual
+    `adb install` of the APK aborts at launch with `SIGABRT` / *"No assemblies found in
+    `…/.__override__/arm64-v8a` … Assuming this is part of Fast Deployment. Exiting…"*.
+    Rebuild with **`-p:EmbedAssembliesIntoApk=true`** before `adb install`. Then boot the
+    AVD (`emulator -avd <name>`), poll `adb shell getprop sys.boot_completed`,
+    `adb install -r <…-Signed.apk>`, launch with `adb shell am start -n <pkg>/<activity>`
+    (resolve the mangled `crc…MainActivity` via `adb shell cmd package resolve-activity
+    --brief -c android.intent.category.LAUNCHER <pkg>`), and capture with
+    `adb exec-out screencap -p > out.png`.
+- **Skia desktop** is windowless from a headless shell.
 
 ---
 
