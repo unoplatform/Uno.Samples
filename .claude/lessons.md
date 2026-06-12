@@ -18,6 +18,7 @@ applies**. Code is illustrative — adapt names to the target sample.
 | 4b | Stacked rows share column ratios | Two multi-column rows must use the *same* `*` ratios to line up. |
 | 5 | `TextBox` placeholder centering | VCA doesn't move the watermark — use symmetric vertical `Padding`. |
 | 6 | Consistent corner radius | `ComboBox`/`Button` default radius ≠ your custom `TextBox` radius; set it. |
+| 6b | Re-skin built-in controls | Override `ComboBox*` (etc.) lightweight-styling brushes in `ThemeDictionaries`, per theme. |
 | 7 | Don't fake alignment with margins | Use `VerticalAlignment="Center"`, not `Margin` nudges. |
 | 8 | Shared chrome must match across pages | One stray padding value makes shared UI jump on navigation. |
 | 9 | Fill width on large screens | Replace fixed-width scrolling columns with equal `*` `Grid` columns. |
@@ -146,6 +147,24 @@ override `ControlCornerRadius` once in app resources to round everything globall
 ```
 
 **Applies to:** any sample with a mix of styled and default input controls.
+
+## 6b. Re-skin a built-in control with lightweight styling (not a custom template)
+
+**Goal.** Make a framework control (e.g. `ComboBox`) match your palette — the closed box,
+chevron, drop-down popup and item hover/selected states — without rewriting its
+`ControlTemplate`.
+
+**Fix.** Override the control's lightweight-styling brush resources inside the app
+`ThemeDictionaries` (one set per theme), mapped to your palette. For `ComboBox`:
+`ComboBoxBackground`/`…PointerOver`/`…Pressed`/`…Focused`, `ComboBoxBorderBrush…`,
+`ComboBoxForeground…`, `ComboBoxDropDownGlyphForeground…` (the chevron),
+`ComboBoxDropDownBackground`/`…BorderBrush`, and `ComboBoxItem…Selected`/`…PointerOver`.
+Define them in **both** the Light and Default dictionaries so they swap with the theme.
+
+> A misspelled key is a silent no-op (that state keeps the framework default), not a build
+> error — so verify each state (rest, hover, open, selected) visually.
+
+**Applies to:** any sample using default `ComboBox`/`CheckBox`/`Slider`/etc. that should be on-brand.
 
 ## 7. Don't fake alignment with `Margin` nudges
 
