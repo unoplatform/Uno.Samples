@@ -519,13 +519,24 @@ DataContextChanged += (_, _) => { if (DataContext is not DashboardData) DataCont
 
 (For a self-context page, guard `DataContext != this`.)
 
-**Adaptive default state isn't applied.** A `VisualState` with **no** `StateTrigger`
-(the implicit narrow default) is not reliably selected at load for a page the navigator
-*injects* into a region — so the bottom `TabBar` stayed hidden. Give that state an
-explicit `<AdaptiveTrigger MinWindowWidth="0" />` so it's trigger-selected like the others.
+**Responsive switching: never use `AdaptiveTrigger` / `VisualStateManager`.** Drive
+size-based layout with the Toolkit `{utu:Responsive}` extension set directly on each
+property — `Visibility="{utu:Responsive Narrow=Visible, Wide=Collapsed}"`,
+`PaneDisplayMode="{utu:Responsive Narrow=LeftMinimal, Wide=Auto}"`,
+`IsPaneToggleButtonVisible="{utu:Responsive Narrow=False, Wide=True}"` (it handles
+enums/bools, not just `Visibility`). A `VisualState` with **no** `StateTrigger` (the
+implicit narrow default) is **not** reliably applied to a page the navigator *injects*
+into a region — that's how the bottom `TabBar` ended up hidden on phones. `{utu:Responsive}`
+has no such load-order trap and keeps breakpoints consistent with the content pages
+(which already use `Narrow`/`Wide`). This is a hard rule — see lesson 1.
 
-**Applies to:** any Uno.Extensions Navigation shell with view-only pages and/or an
-adaptive (`VisualStateManager`) layout on a navigated page.
+This is **not** unique to the CRM: running `travel-app/Voyago` on an iPhone shows the
+same symptom — its `MainPage` uses a triggerless `NarrowState`, so its bottom `TabBar`
+doesn't appear on phones (its `HomePage` content still renders fine). The fix there is the
+same: replace the `VisualStateManager` with `{utu:Responsive}` on the affected properties.
+
+**Applies to:** any Uno.Extensions Navigation shell with view-only pages and/or a
+size-adaptive layout on a navigated page.
 
 ---
 

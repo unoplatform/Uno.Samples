@@ -7,48 +7,22 @@
 
   <!--
     Navigation shell. Owns the chrome once for the whole app: a NavigationView pane on
-    wide layouts and a bottom TabBar on narrow ones. The content region below is left
-    empty - Uno.Extensions Navigation injects the page for the active route (Dashboard /
-    Pipeline / Leads / Contacts) into it, so the pages themselves carry no nav chrome.
+    wide layouts and a bottom TabBar on narrow ones. Responsive switching is driven by the
+    Toolkit {utu:Responsive} extension on each property (not AdaptiveTrigger/VisualState) so
+    it applies reliably to this navigation-injected page and matches the content pages'
+    Narrow/Wide breakpoints. The content region below is left empty - Uno.Extensions
+    Navigation injects the active route (Dashboard / Pipeline / Leads / Contacts) into it.
   -->
   <Grid x:Name="RootShellGrid" uen:Region.Attached="True">
 
-    <VisualStateManager.VisualStateGroups>
-      <VisualStateGroup x:Name="AdaptiveStates">
-        <!-- Narrow (default): bottom TabBar, NavigationView pane hidden -->
-        <VisualState x:Name="NarrowState">
-          <VisualState.StateTriggers>
-            <!-- Explicit 0-width trigger so this state is selected at load even when the
-                 page is injected by navigation (a no-trigger default isn't reliably applied). -->
-            <AdaptiveTrigger MinWindowWidth="0" />
-          </VisualState.StateTriggers>
-          <VisualState.Setters>
-            <Setter Target="BottomTabs.Visibility" Value="Visible" />
-            <Setter Target="NavView.IsPaneToggleButtonVisible" Value="False" />
-            <Setter Target="NavView.PaneDisplayMode" Value="LeftMinimal" />
-            <Setter Target="NavView.IsPaneOpen" Value="False" />
-          </VisualState.Setters>
-        </VisualState>
-        <!-- Wide (>=700px): NavigationView sidebar, no TabBar -->
-        <VisualState x:Name="WideState">
-          <VisualState.StateTriggers>
-            <AdaptiveTrigger MinWindowWidth="700" />
-          </VisualState.StateTriggers>
-          <VisualState.Setters>
-            <Setter Target="BottomTabs.Visibility" Value="Collapsed" />
-            <Setter Target="NavView.IsPaneToggleButtonVisible" Value="True" />
-            <Setter Target="NavView.IsPaneVisible" Value="True" />
-            <Setter Target="NavView.PaneDisplayMode" Value="Auto" />
-          </VisualState.Setters>
-        </VisualState>
-      </VisualStateGroup>
-    </VisualStateManager.VisualStateGroups>
-
-    <!-- NavigationView: sidebar on Wide, hidden pane on Narrow -->
+    <!-- NavigationView: sidebar pane on Wide; collapsed (TabBar takes over) on Narrow -->
     <NavigationView x:Name="NavView"
                     uen:Region.Attached="True"
                     IsSettingsVisible="False"
-                    IsBackButtonVisible="Collapsed">
+                    IsBackButtonVisible="Collapsed"
+                    PaneDisplayMode="{utu:Responsive Narrow=LeftMinimal, Wide=Auto}"
+                    IsPaneToggleButtonVisible="{utu:Responsive Narrow=False, Wide=True}"
+                    IsPaneOpen="{utu:Responsive Narrow=False, Wide=True}">
       <NavigationView.MenuItems>
         <NavigationViewItem uen:Region.Name="Dashboard" Content="Dashboard">
           <NavigationViewItem.Icon>
@@ -84,12 +58,12 @@
                 uen:Region.Attached="True"
                 uen:Region.Navigator="Visibility" />
 
-          <!-- Bottom TabBar: visible on Narrow only -->
+          <!-- Bottom TabBar: shown on Narrow, hidden once the pane appears on Wide -->
           <utu:TabBar x:Name="BottomTabs"
                       Grid.Row="1"
                       uen:Region.Attached="True"
                       Style="{StaticResource BottomTabBarStyle}"
-                      Visibility="Collapsed">
+                      Visibility="{utu:Responsive Narrow=Visible, Wide=Collapsed}">
             <utu:TabBarItem uen:Region.Name="Dashboard" Content="Dashboard">
               <utu:TabBarItem.Icon>
                 <FontIcon Glyph="&#xE80F;" />
