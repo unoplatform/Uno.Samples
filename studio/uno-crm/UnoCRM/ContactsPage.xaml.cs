@@ -330,21 +330,6 @@ public sealed partial class ContactsPage : Page, INotifyPropertyChanged
 
     public event PropertyChangedEventHandler? PropertyChanged;
 
-    private void NavigateToDashboard_Click(object sender, RoutedEventArgs e)
-    {
-        Frame.Navigate(typeof(MainPage));
-    }
-
-    private void NavigateToPipeline_Click(object sender, RoutedEventArgs e)
-    {
-        Frame.Navigate(typeof(PipelinePage));
-    }
-
-    private void NavigateToLeads_Click(object sender, RoutedEventArgs e)
-    {
-        Frame.Navigate(typeof(LeadsPage));
-    }
-
     public sealed record ContactLocation(
         string Name,
         string Company,

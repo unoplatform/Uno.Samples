@@ -1,7 +1,8 @@
 <Application x:Class="UnoCRM.App"
        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-       xmlns:utu="using:Uno.Toolkit.UI">
+       xmlns:utu="using:Uno.Toolkit.UI"
+       xmlns:conv="using:UnoCRM.Converters">
 
   <Application.Resources>
     <ResourceDictionary>
@@ -189,6 +190,8 @@
                             Wide="900" />
 
       <!-- Theme-independent resources (shared across Light and Dark) -->
+      <conv:ResourceKeyToBrushConverter x:Key="ResourceKeyToBrush" />
+
       <Thickness x:Key="DashboardCardPadding">24</Thickness>
       <CornerRadius x:Key="DashboardCardCornerRadius">18</CornerRadius>
 
