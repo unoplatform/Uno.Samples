@@ -154,6 +154,18 @@ public static class CrmData
 {
     private static readonly CultureInfo Usd = CultureInfo.GetCultureInfo("en-US");
 
+    // Declared before the Dashboard/Leads properties below: static members initialize in
+    // declaration order, and BuildDashboard/BuildLeads read these during that init. If they
+    // sat lower in the file they'd still be null when those builders run (a TypeInitializer
+    // crash on first access of CrmData).
+
+    // Stable monthly lead volume (Jan–Dec). Seeded once so the Leads charts no longer reshuffle
+    // on every visit the way the previous Random-based data did.
+    private static readonly int[] MonthlyLeadSeed =
+        [118, 132, 121, 145, 162, 158, 174, 169, 188, 196, 207, 172];
+
+    private static readonly string[] SourceOrder = ["Web", "Email", "Referral", "Ads", "Event"];
+
     public static IReadOnlyList<Deal> Deals { get; } = BuildDeals();
 
     public static IReadOnlyList<PipelineStage> Stages { get; } = BuildStages();
@@ -269,13 +281,6 @@ public static class CrmData
         new("Negotiation started — Vertex Labs", "$210,000  •  Negotiation", "3h ago",
             "DashboardRedBrush", "DashboardRedSoftBrush", ""),
     ];
-
-    // Stable monthly lead volume (Jan–Dec). Seeded once so the Leads charts no longer reshuffle
-    // on every visit the way the previous Random-based data did.
-    private static readonly int[] MonthlyLeadSeed =
-        [118, 132, 121, 145, 162, 158, 174, 169, 188, 196, 207, 172];
-
-    private static readonly string[] SourceOrder = ["Web", "Email", "Referral", "Ads", "Event"];
 
     private static LeadsAnalytics BuildLeads()
     {
