@@ -43,15 +43,7 @@
   </Page.Resources>
   <Grid Background="{ThemeResource DashboardPageBackgroundBrush}">
     <Grid x:Name="DesktopRoot" Visibility="{utu:Responsive Narrow=Collapsed, Wide=Visible}">
-      <Grid.ColumnDefinitions>
-        <ColumnDefinition Width="204" />
-        <ColumnDefinition Width="*" />
-      </Grid.ColumnDefinitions>
-
-      <controls:SideNavBar Grid.Column="0" ActiveTab="Pipeline" />
-
-      <ScrollViewer Grid.Column="1"
-            HorizontalScrollBarVisibility="Disabled"
+      <ScrollViewer HorizontalScrollBarVisibility="Disabled"
             VerticalScrollBarVisibility="Auto">
           <Grid Padding="28,20,28,28"
           RowSpacing="18">
@@ -312,8 +304,6 @@
           </ItemsControl>
         </Grid>
       </ScrollViewer>
-
-      <controls:BottomNavBar ActiveTab="Pipeline" />
     </Grid>
   </Grid>
 </Page>

@@ -37,6 +37,16 @@ public sealed partial class ContactsPage : Page, INotifyPropertyChanged
 
         DataContext = this;
         Loaded += ContactsPage_Loaded;
+
+        // Uno.Extensions Navigation reassigns DataContext when it activates a view that has
+        // no mapped view model. This page is its own context, so re-apply it.
+        DataContextChanged += (_, _) =>
+        {
+            if (DataContext != this)
+            {
+                DataContext = this;
+            }
+        };
     }
 
     public IReadOnlyList<string> Regions { get; }

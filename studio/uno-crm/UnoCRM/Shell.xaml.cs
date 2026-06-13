@@ -21,9 +21,6 @@ public sealed partial class Shell : UserControl
         loader.Begin(DispatcherQueue, SplashMinimumDuration);
     }
 
-    /// <summary>The navigation frame hosted behind the extended splash screen.</summary>
-    public Frame RootFrame => ShellFrame;
-
     /// <summary>
     /// Minimal <see cref="ILoadable"/> that reports "executing" for a fixed delay, then
     /// flips to done so the <see cref="ExtendedSplashScreen"/> reveals its content. The

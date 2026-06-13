@@ -1,5 +1,4 @@
-using System;
-using Microsoft.Extensions.Logging;
+using System.Diagnostics.CodeAnalysis;
 using Uno.Resizetizer;
 
 namespace UnoCRM;
@@ -21,53 +20,66 @@ public partial class App : Application
     }
 
     protected Window? MainWindow { get; private set; }
+    protected IHost? Host { get; private set; }
 
-    protected override void OnLaunched(LaunchActivatedEventArgs args)
+    [SuppressMessage("Trimming", "IL2026:Members annotated with 'RequiresUnreferencedCodeAttribute' require dynamic access otherwise can break functionality when trimming application code", Justification = "Uno.Extensions APIs are used in a way that is safe for trimming in this template context.")]
+    protected async override void OnLaunched(LaunchActivatedEventArgs args)
     {
-        MainWindow = new Window();
+        var builder = this.CreateBuilder(args)
+            // Add navigation support for toolkit controls such as TabBar and NavigationView
+            .UseToolkitNavigation()
+            .Configure(host => host
+#if DEBUG
+                // Switch to Development environment when running in DEBUG
+                .UseEnvironment(Environments.Development)
+#endif
+                .UseNavigation(RegisterRoutes)
+            );
+        MainWindow = builder.Window;
+
 #if DEBUG
         MainWindow.UseStudio();
 #endif
-
-
-        // Do not repeat app initialization when the Window already has content,
-        // just ensure that the window is active
-        if (MainWindow.Content is not Shell shell)
-        {
-            // Create the Shell (hosts the extended splash screen + navigation Frame)
-            shell = new Shell();
-
-            // Place the shell in the current Window
-            MainWindow.Content = shell;
-
-            shell.RootFrame.NavigationFailed += OnNavigationFailed;
-        }
-
-        if (shell.RootFrame.Content == null)
-        {
-            // When the navigation stack isn't restored navigate to the first page,
-            // configuring the new page by passing required information as a navigation
-            // parameter
-            shell.RootFrame.Navigate(typeof(MainPage), args.Arguments);
-        }
-
         MainWindow.SetWindowIcon();
-        // Ensure the current window is active
-        MainWindow.Activate();
+
+        // Navigate to the Shell, which shows the extended splash screen while the host
+        // starts and then reveals the navigated content (Main -> Dashboard) in its place.
+        Host = await builder.NavigateAsync<Shell>();
     }
 
-    /// <summary>
-    /// Invoked when Navigation to a certain page fails
-    /// </summary>
-    /// <param name="sender">The Frame which failed navigation</param>
-    /// <param name="e">Details about the navigation failure</param>
-    void OnNavigationFailed(object sender, NavigationFailedEventArgs e)
+    private static void RegisterRoutes(IViewRegistry views, IRouteRegistry routes)
     {
-        throw new InvalidOperationException($"Failed to load {e.SourcePageType.FullName}: {e.Exception}");
+        views.Register(
+            new ViewMap(ViewModel: typeof(ShellViewModel)),
+            new ViewMap<MainPage>(),
+            new ViewMap<DashboardPage>(),
+            new ViewMap<PipelinePage>(),
+            new ViewMap<LeadsPage>(),
+            new ViewMap<ContactsPage>()
+        );
+
+        routes.Register(
+            // The Shell hosts the extended splash screen and is the navigation root.
+            new RouteMap("", View: views.FindByViewModel<ShellViewModel>(),
+                Nested:
+                [
+                    // MainPage is the navigation shell: it owns the NavigationView / TabBar
+                    // chrome and a content region the pages below are injected into.
+                    new RouteMap("Main", View: views.FindByView<MainPage>(),
+                        IsDefault: true,
+                        Nested:
+                        [
+                            new RouteMap("Dashboard", View: views.FindByView<DashboardPage>(), IsDefault: true),
+                            new RouteMap("Pipeline", View: views.FindByView<PipelinePage>()),
+                            new RouteMap("Leads", View: views.FindByView<LeadsPage>()),
+                            new RouteMap("Contacts", View: views.FindByView<ContactsPage>())
+                        ])
+                ])
+        );
     }
 
     /// <summary>
-    /// Configures global Uno Platform logging
+    /// Configures global Uno Platform logging. Invoked from each platform entry point.
     /// </summary>
     public static void InitializeLogging()
     {
@@ -99,33 +111,6 @@ public partial class App : Application
             builder.AddFilter("Uno", LogLevel.Warning);
             builder.AddFilter("Windows", LogLevel.Warning);
             builder.AddFilter("Microsoft", LogLevel.Warning);
-
-            // Generic Xaml events
-            // builder.AddFilter("Microsoft.UI.Xaml", LogLevel.Debug );
-            // builder.AddFilter("Microsoft.UI.Xaml.VisualStateGroup", LogLevel.Debug );
-            // builder.AddFilter("Microsoft.UI.Xaml.StateTriggerBase", LogLevel.Debug );
-            // builder.AddFilter("Microsoft.UI.Xaml.UIElement", LogLevel.Debug );
-            // builder.AddFilter("Microsoft.UI.Xaml.FrameworkElement", LogLevel.Trace );
-
-            // Layouter specific messages
-            // builder.AddFilter("Microsoft.UI.Xaml.Controls", LogLevel.Debug );
-            // builder.AddFilter("Microsoft.UI.Xaml.Controls.Layouter", LogLevel.Debug );
-            // builder.AddFilter("Microsoft.UI.Xaml.Controls.Panel", LogLevel.Debug );
-
-            // builder.AddFilter("Windows.Storage", LogLevel.Debug );
-
-            // Binding related messages
-            // builder.AddFilter("Microsoft.UI.Xaml.Data", LogLevel.Debug );
-            // builder.AddFilter("Microsoft.UI.Xaml.Data", LogLevel.Debug );
-
-            // Binder memory references tracking
-            // builder.AddFilter("Uno.UI.DataBinding.BinderReferenceHolder", LogLevel.Debug );
-
-            // DevServer and HotReload related
-            // builder.AddFilter("Uno.UI.RemoteControl", LogLevel.Information);
-
-            // Debug JS interop
-            // builder.AddFilter("Uno.Foundation.WebAssemblyRuntime", LogLevel.Debug );
         });
 
         global::Uno.Extensions.LogExtensionPoint.AmbientLoggerFactory = factory;

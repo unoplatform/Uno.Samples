@@ -14,6 +14,16 @@ public sealed partial class LeadsPage : Page
         InitializeComponent();
         BuildCharts();
         DataContext = this;
+
+        // Uno.Extensions Navigation reassigns DataContext when it activates a view that has
+        // no mapped view model. This page is its own context, so re-apply it.
+        DataContextChanged += (_, _) =>
+        {
+            if (DataContext != this)
+            {
+                DataContext = this;
+            }
+        };
     }
 
     public string NewLeadsText { get; private set; } = "0";

@@ -3,7 +3,6 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:lvc="using:LiveChartsCore.SkiaSharpView.WinUI"
       xmlns:utu="using:Uno.Toolkit.UI"
-      xmlns:controls="using:UnoCRM.Controls"
       x:Uid="LeadsPage"
       Background="{ThemeResource DashboardPageBackgroundBrush}">
   <Page.Resources>
@@ -25,15 +24,7 @@
   </Page.Resources>
   <Grid Background="{ThemeResource DashboardPageBackgroundBrush}">
     <Grid x:Name="DesktopRoot" Visibility="{utu:Responsive Narrow=Collapsed, Wide=Visible}">
-      <Grid.ColumnDefinitions>
-        <ColumnDefinition Width="204" />
-        <ColumnDefinition Width="*" />
-      </Grid.ColumnDefinitions>
-
-      <controls:SideNavBar Grid.Column="0" ActiveTab="Leads" />
-
-      <ScrollViewer Grid.Column="1"
-                    HorizontalScrollBarVisibility="Disabled"
+      <ScrollViewer HorizontalScrollBarVisibility="Disabled"
                     VerticalScrollBarVisibility="Auto">
         <Grid Padding="28,22,28,28"
               RowSpacing="18">
@@ -363,8 +354,6 @@
           </Border>
         </Grid>
       </ScrollViewer>
-
-      <controls:BottomNavBar ActiveTab="Leads" />
     </Grid>
   </Grid>
 </Page>

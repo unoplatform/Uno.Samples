@@ -3,7 +3,6 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:maps="clr-namespace:Mapsui.UI.WinUI;assembly=Mapsui.UI.Uno.WinUI"
       xmlns:utu="using:Uno.Toolkit.UI"
-      xmlns:controls="using:UnoCRM.Controls"
       x:Uid="ContactsPage"
       Background="{ThemeResource DashboardPageBackgroundBrush}">
   <Page.Resources>
@@ -58,15 +57,7 @@
   </Page.Resources>
   <Grid Background="{ThemeResource DashboardPageBackgroundBrush}">
     <Grid x:Name="DesktopRoot" Visibility="{utu:Responsive Narrow=Collapsed, Wide=Visible}">
-      <Grid.ColumnDefinitions>
-        <ColumnDefinition Width="204" />
-        <ColumnDefinition Width="*" />
-      </Grid.ColumnDefinitions>
-
-      <controls:SideNavBar Grid.Column="0" ActiveTab="Contacts" />
-
-      <Grid Grid.Column="1"
-        Padding="28,22,28,28"
+      <Grid Padding="28,22,28,28"
         RowSpacing="18">
           <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -344,10 +335,9 @@
                          FontFamily="Georgia"
                          FontSize="20" />
               <!--
-                ItemsControl (not ListView) so the list has no inner scroll: the
-                whole page scrolls as one, which is what BottomNavBar's auto-hide
-                tracks. A nested ListView scroll would never move the page offset,
-                so the bar would never hide.
+                ItemsControl (not ListView) so the list has no inner scroll and the
+                whole page scrolls as one. A nested ListView scroll would trap the
+                gesture and never move the page offset.
               -->
               <ItemsControl ItemsSource="{Binding FilteredContacts}">
                 <ItemsControl.ItemTemplate>
@@ -374,8 +364,6 @@
           </Border>
         </Grid>
       </ScrollViewer>
-
-      <controls:BottomNavBar ActiveTab="Contacts" />
     </Grid>
   </Grid>
 </Page>
