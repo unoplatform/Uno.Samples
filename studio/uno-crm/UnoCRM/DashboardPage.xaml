@@ -12,17 +12,14 @@
       <Border BorderBrush="{ThemeResource DashboardBorderBrush}" BorderThickness="0,0,0,1" Padding="0,14">
         <Grid ColumnSpacing="12">
           <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="Auto" />
           </Grid.ColumnDefinitions>
-          <Ellipse Width="8" Height="8" Margin="0,8,0,0"
-                   Fill="{Binding AccentKey, Converter={StaticResource ResourceKeyToBrush}}" />
-          <StackPanel Grid.Column="1" Spacing="4">
+          <StackPanel Spacing="4">
             <TextBlock Text="{Binding Title}" Style="{StaticResource DashboardBodyTextStyle}" />
             <TextBlock Text="{Binding Detail}" Style="{StaticResource DashboardSubtleTextStyle}" />
           </StackPanel>
-          <TextBlock Grid.Column="2" Text="{Binding TimeAgo}"
+          <TextBlock Grid.Column="1" Text="{Binding TimeAgo}"
                      Style="{StaticResource DashboardSubtleTextStyle}" FontSize="12" />
         </Grid>
       </Border>
