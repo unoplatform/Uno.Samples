@@ -29,22 +29,15 @@
       <Border BorderBrush="{ThemeResource DashboardBorderBrush}" BorderThickness="0,0,0,1" Padding="16,16">
         <Grid ColumnSpacing="14">
           <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="Auto" />
           </Grid.ColumnDefinitions>
-          <Border Width="54" Height="54" CornerRadius="27"
-                  Background="{Binding SoftKey, Converter={StaticResource ResourceKeyToBrush}}">
-            <FontIcon Glyph="{Binding Glyph}" FontSize="20"
-                      Foreground="{Binding AccentKey, Converter={StaticResource ResourceKeyToBrush}}"
-                      VerticalAlignment="Center" HorizontalAlignment="Center" />
-          </Border>
-          <StackPanel Grid.Column="1" Spacing="4" VerticalAlignment="Center">
+          <StackPanel Spacing="4" VerticalAlignment="Center">
             <TextBlock Text="{Binding Title}" Style="{StaticResource DashboardBodyTextStyle}"
                        FontFamily="Georgia" FontSize="18" FontWeight="Light" />
             <TextBlock Text="{Binding Detail}" Style="{StaticResource DashboardSubtleTextStyle}" FontSize="16" />
           </StackPanel>
-          <TextBlock Grid.Column="2" Text="{Binding TimeAgo}"
+          <TextBlock Grid.Column="1" Text="{Binding TimeAgo}"
                      Style="{StaticResource DashboardSubtleTextStyle}" FontSize="14" VerticalAlignment="Center" />
         </Grid>
       </Border>
