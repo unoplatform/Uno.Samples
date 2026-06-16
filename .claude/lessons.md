@@ -33,6 +33,9 @@ applies**. Code is illustrative — adapt names to the target sample.
 | 16 | Theme brushes in code-behind | They live in `ThemeDictionaries`; resolve with a fallback or keep in XAML. |
 | 17 | App icon & splash | One icon for **all** platforms & form factors via `Uno.Resizetizer`; `ExtendedSplashScreen` is white on iOS. |
 | 18 | Verifying samples | iOS sim for screenshots; WASM + Playwright for fast width checks. |
+| 19 | Static field init order | A static prop initializer that reads a field declared lower crashes at first access; declare consumed fields first. |
+| 20 | Shell nav via Uno.Extensions | Nav chrome once in a shell page; pages become content-only and the framework injects them into a region. |
+| 21 | Extensions nav gotchas | View-only pages lose their constructor `DataContext`; adaptive default `VisualState` isn't applied to injected pages. |
 
 ---
 
@@ -455,6 +458,85 @@ its logo in-app.
     --brief -c android.intent.category.LAUNCHER <pkg>`), and capture with
     `adb exec-out screencap -p > out.png`.
 - **Skia desktop** is windowless from a headless shell.
+
+## 19. Order static fields before the members that consume them
+
+**Symptom.** The app crashed at launch (only surfaced on iOS — Skia desktop is windowless
+from the shell) with `TypeInitializationException` → `ArgumentNullException (Parameter
+'source')` from `System.Linq`.
+
+**Cause.** Static members initialize in **declaration order**. A `static` auto-property
+initializer (`Dashboard { get; } = BuildDashboard();`) ran a builder that read a
+`static readonly int[]` declared ~100 lines *below* it — so the array was still `null`
+when the builder's `.Sum()` ran.
+
+**Fix.** Declare any `static` field a property initializer depends on **above** that
+property. (A `static` ctor that assigns everything in one place sidesteps the ordering
+trap too.)
+
+**Applies to:** any `static` data class whose properties are computed from other static
+fields — easy to hit when refactoring data into a `CrmData`-style singleton.
+
+## 20. Move shared nav chrome into a shell page (Uno.Extensions Navigation)
+
+**Symptom.** Every page repeats the same navigation chrome (sidebar / bottom bar), so a
+tweak has to be made N times and the pages drift.
+
+**Fix.** Adopt the shell pattern the other `studio/` samples (Voyago, fit-app) use:
+
+- Add `Hosting; Navigation;` to `<UnoFeatures>` (keep `Toolkit; SkiaRenderer;`).
+- `App.OnLaunched`: `this.CreateBuilder(args).UseToolkitNavigation().Configure(host =>
+  host.UseNavigation(RegisterRoutes))`, then `Host = await builder.NavigateAsync<Shell>();`.
+  No MVUX needed — `UseNavigation(RegisterRoutes)` works without the reactive mappings,
+  and pages can be **view-only** (`new ViewMap<DashboardPage>()`).
+- A `MainPage` shell owns a `NavigationView` (wide) + `utu:TabBar` (narrow, style
+  `BottomTabBarStyle`) wrapping an empty content region
+  (`uen:Region.Attached="True" uen:Region.Navigator="Visibility"`); `uen:Region.Name`
+  on each item maps to a nested route. Content pages then carry **no** nav chrome.
+- Routes nest: `RouteMap("", View: Shell, Nested:[ RouteMap("Main", View: MainPage,
+  IsDefault, Nested:[ Dashboard(IsDefault), Pipeline, Leads, Contacts ]) ])`.
+
+**Splash + Navigation.** Keep the `ExtendedSplashScreen` in `Shell.xaml` but with **no
+`Content` and no `Region.Attached`** inside it (the host isn't ready during Shell
+construction). Register the Shell at root route `""` via a tiny `ShellViewModel` whose
+`Start()` calls `NavigateRouteAsync(this, "Main")`; the framework injects the navigated
+content into the splash and reveals it once loading completes.
+
+**Applies to:** any multi-page sample still using manual `Frame.Navigate` + a per-page nav
+control. Trade-off: this replaces bespoke nav controls with `NavigationView`/`TabBar`
+(auto selection-sync) and drops scroll-driven auto-hide (lesson 14).
+
+## 21. Two traps when pages are injected by Uno.Extensions Navigation
+
+**DataContext is reset.** A page with a **view-only** route (no mapped view model) has its
+`DataContext` reassigned (to null) by the framework during activation — *after* the
+constructor — so `DataContext = CrmData.X` set in the ctor is lost and only hardcoded
+text renders. Re-apply it with a guard that survives the reassignment:
+
+```csharp
+DataContextChanged += (_, _) => { if (DataContext is not DashboardData) DataContext = CrmData.Dashboard; };
+```
+
+(For a self-context page, guard `DataContext != this`.)
+
+**Responsive switching: never use `AdaptiveTrigger` / `VisualStateManager`.** Drive
+size-based layout with the Toolkit `{utu:Responsive}` extension set directly on each
+property — `Visibility="{utu:Responsive Narrow=Visible, Wide=Collapsed}"`,
+`PaneDisplayMode="{utu:Responsive Narrow=LeftMinimal, Wide=Auto}"`,
+`IsPaneToggleButtonVisible="{utu:Responsive Narrow=False, Wide=True}"` (it handles
+enums/bools, not just `Visibility`). A `VisualState` with **no** `StateTrigger` (the
+implicit narrow default) is **not** reliably applied to a page the navigator *injects*
+into a region — that's how the bottom `TabBar` ended up hidden on phones. `{utu:Responsive}`
+has no such load-order trap and keeps breakpoints consistent with the content pages
+(which already use `Narrow`/`Wide`). This is a hard rule — see lesson 1.
+
+This is **not** unique to the CRM: running `travel-app/Voyago` on an iPhone shows the
+same symptom — its `MainPage` uses a triggerless `NarrowState`, so its bottom `TabBar`
+doesn't appear on phones (its `HomePage` content still renders fine). The fix there is the
+same: replace the `VisualStateManager` with `{utu:Responsive}` on the affected properties.
+
+**Applies to:** any Uno.Extensions Navigation shell with view-only pages and/or a
+size-adaptive layout on a navigated page.
 
 ---
 

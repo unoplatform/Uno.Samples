@@ -37,6 +37,16 @@ public sealed partial class ContactsPage : Page, INotifyPropertyChanged
 
         DataContext = this;
         Loaded += ContactsPage_Loaded;
+
+        // Uno.Extensions Navigation reassigns DataContext when it activates a view that has
+        // no mapped view model. This page is its own context, so re-apply it.
+        DataContextChanged += (_, _) =>
+        {
+            if (DataContext != this)
+            {
+                DataContext = this;
+            }
+        };
     }
 
     public IReadOnlyList<string> Regions { get; }
@@ -329,21 +339,6 @@ public sealed partial class ContactsPage : Page, INotifyPropertyChanged
     }
 
     public event PropertyChangedEventHandler? PropertyChanged;
-
-    private void NavigateToDashboard_Click(object sender, RoutedEventArgs e)
-    {
-        Frame.Navigate(typeof(MainPage));
-    }
-
-    private void NavigateToPipeline_Click(object sender, RoutedEventArgs e)
-    {
-        Frame.Navigate(typeof(PipelinePage));
-    }
-
-    private void NavigateToLeads_Click(object sender, RoutedEventArgs e)
-    {
-        Frame.Navigate(typeof(LeadsPage));
-    }
 
     public sealed record ContactLocation(
         string Name,

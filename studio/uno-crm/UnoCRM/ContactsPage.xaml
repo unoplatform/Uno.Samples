@@ -3,7 +3,6 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:maps="clr-namespace:Mapsui.UI.WinUI;assembly=Mapsui.UI.Uno.WinUI"
       xmlns:utu="using:Uno.Toolkit.UI"
-      xmlns:controls="using:UnoCRM.Controls"
       x:Uid="ContactsPage"
       Background="{ThemeResource DashboardPageBackgroundBrush}">
   <Page.Resources>
@@ -58,93 +57,7 @@
   </Page.Resources>
   <Grid Background="{ThemeResource DashboardPageBackgroundBrush}">
     <Grid x:Name="DesktopRoot" Visibility="{utu:Responsive Narrow=Collapsed, Wide=Visible}">
-      <Grid.ColumnDefinitions>
-        <ColumnDefinition Width="204" />
-        <ColumnDefinition Width="*" />
-      </Grid.ColumnDefinitions>
-
-      <Border Grid.Column="0"
-              Background="{ThemeResource DashboardSurfaceBrush}"
-              BorderBrush="{ThemeResource DashboardBorderBrush}"
-              BorderThickness="0,0,1,0">
-        <Grid Padding="20,24,20,24">
-          <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
-          </Grid.RowDefinitions>
-
-          <StackPanel Spacing="30">
-            <StackPanel Orientation="Horizontal" Spacing="12">
-              <controls:AppLogo Width="28" Height="28" />
-              <TextBlock Text="Uno CRM"
-                         VerticalAlignment="Center"
-                         Style="{StaticResource DashboardBodyTextStyle}"
-                         FontFamily="Georgia"
-                         FontSize="20" />
-            </StackPanel>
-
-            <StackPanel Spacing="8">
-              <Button Click="NavigateToDashboard_Click"
-                      Style="{StaticResource DashboardNavButtonStyle}">
-                <Border Style="{StaticResource DashboardSidebarItemBorderStyle}">
-                  <StackPanel Orientation="Horizontal" Spacing="12">
-                    <FontIcon Glyph="&#xE80F;" FontSize="16" Foreground="{ThemeResource DashboardMutedTextBrush}" />
-                    <TextBlock Text="Dashboard" Style="{StaticResource DashboardSubtleTextStyle}" />
-                  </StackPanel>
-                </Border>
-              </Button>
-
-              <Button Click="NavigateToPipeline_Click"
-                      Style="{StaticResource DashboardNavButtonStyle}">
-                <Border Style="{StaticResource DashboardSidebarItemBorderStyle}">
-                  <StackPanel Orientation="Horizontal" Spacing="12">
-                    <FontIcon Glyph="&#xE8C8;" FontSize="16" Foreground="{ThemeResource DashboardMutedTextBrush}" />
-                    <TextBlock Text="Pipeline" Style="{StaticResource DashboardSubtleTextStyle}" />
-                  </StackPanel>
-                </Border>
-              </Button>
-
-              <Button Click="NavigateToLeads_Click"
-                      Style="{StaticResource DashboardNavButtonStyle}">
-                <Border Style="{StaticResource DashboardSidebarItemBorderStyle}">
-                  <StackPanel Orientation="Horizontal" Spacing="12">
-                    <FontIcon Glyph="&#xE716;" FontSize="16" Foreground="{ThemeResource DashboardMutedTextBrush}" />
-                    <TextBlock Text="Leads" Style="{StaticResource DashboardSubtleTextStyle}" />
-                  </StackPanel>
-                </Border>
-              </Button>
-
-              <Border Style="{StaticResource DashboardSidebarItemBorderStyle}"
-                      Background="{ThemeResource DashboardAccentSoftBrush}">
-                <StackPanel Orientation="Horizontal" Spacing="12">
-                  <FontIcon Glyph="&#xE77B;" FontSize="16" Foreground="{ThemeResource DashboardAccentBrush}" />
-                  <TextBlock Text="Contacts"
-                             Foreground="{ThemeResource DashboardAccentBrush}"
-                             Style="{StaticResource DashboardBodyTextStyle}" />
-                </StackPanel>
-              </Border>
-            </StackPanel>
-          </StackPanel>
-
-          <StackPanel Grid.Row="2"
-                      Orientation="Horizontal"
-                      Spacing="12"
-                      VerticalAlignment="Bottom">
-            <Border Width="32"
-                    Height="32"
-                    CornerRadius="16"
-                    Background="{ThemeResource DashboardAccentBrush}" />
-            <StackPanel>
-              <TextBlock Text="Alex Morgan" Style="{StaticResource DashboardBodyTextStyle}" />
-              <TextBlock Text="Sales Manager" Style="{StaticResource DashboardSubtleTextStyle}" FontSize="12" />
-            </StackPanel>
-          </StackPanel>
-        </Grid>
-      </Border>
-
-      <Grid Grid.Column="1"
-        Padding="28,22,28,28"
+      <Grid Padding="28,22,28,28"
         RowSpacing="18">
           <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -422,10 +335,9 @@
                          FontFamily="Georgia"
                          FontSize="20" />
               <!--
-                ItemsControl (not ListView) so the list has no inner scroll: the
-                whole page scrolls as one, which is what BottomNavBar's auto-hide
-                tracks. A nested ListView scroll would never move the page offset,
-                so the bar would never hide.
+                ItemsControl (not ListView) so the list has no inner scroll and the
+                whole page scrolls as one. A nested ListView scroll would trap the
+                gesture and never move the page offset.
               -->
               <ItemsControl ItemsSource="{Binding FilteredContacts}">
                 <ItemsControl.ItemTemplate>
@@ -452,8 +364,6 @@
           </Border>
         </Grid>
       </ScrollViewer>
-
-      <controls:BottomNavBar ActiveTab="Contacts" />
     </Grid>
   </Grid>
 </Page>

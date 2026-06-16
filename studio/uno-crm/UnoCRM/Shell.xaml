@@ -39,8 +39,10 @@
                       Foreground="#23CDE3" />
       </Grid>
     </utu:ExtendedSplashScreen.LoadingContent>
-    <utu:ExtendedSplashScreen.Content>
-      <Frame x:Name="ShellFrame" />
-    </utu:ExtendedSplashScreen.Content>
+    <!--
+      No Content / Region.Attached here: Uno.Extensions Navigation injects the navigated
+      content (Main -> Dashboard) into the splash screen and reveals it once loading is done.
+      See https://aka.platform.uno/navigation (regions must live on MainPage, not the Shell).
+    -->
   </utu:ExtendedSplashScreen>
 </UserControl>

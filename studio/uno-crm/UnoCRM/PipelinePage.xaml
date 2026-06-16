@@ -5,109 +5,45 @@
       xmlns:utu="using:Uno.Toolkit.UI"
       xmlns:controls="using:UnoCRM.Controls"
       Background="{ThemeResource DashboardPageBackgroundBrush}">
+  <Page.Resources>
+    <!-- One deal tile, bound to a Deal from the shared dataset. Reused by every stage column
+         (desktop) and by the stacked stage list (mobile). -->
+    <DataTemplate x:Key="DealCardTemplate">
+      <controls:PipelineCard Company="{Binding Company}"
+                             Amount="{Binding AmountDisplay}"
+                             Owner="{Binding Owner}"
+                             Meta="{Binding MetaDisplay}"
+                             IsWon="{Binding IsWon}"
+                             Accent="{Binding AccentKey, Converter={StaticResource ResourceKeyToBrush}}"
+                             MetaBrush="{Binding MetaKey, Converter={StaticResource ResourceKeyToBrush}}" />
+    </DataTemplate>
+
+    <ItemsPanelTemplate x:Key="DealStackPanel">
+      <StackPanel Spacing="12" />
+    </ItemsPanelTemplate>
+
+    <!-- A full mobile stage section: colored header with live count, then its deal cards. -->
+    <DataTemplate x:Key="MobileStageTemplate">
+      <StackPanel Spacing="12" Margin="0,0,0,6">
+        <StackPanel Orientation="Horizontal" Spacing="8">
+          <Ellipse Width="10" Height="10" VerticalAlignment="Center"
+                   Fill="{Binding AccentKey, Converter={StaticResource ResourceKeyToBrush}}" />
+          <TextBlock Text="{Binding Name}" Style="{StaticResource DashboardSectionLabelStyle}" VerticalAlignment="Center" />
+          <Border CornerRadius="8" Padding="6,1" VerticalAlignment="Center"
+                  Background="{Binding SoftKey, Converter={StaticResource ResourceKeyToBrush}}">
+            <TextBlock Text="{Binding Count}" FontSize="11"
+                       Foreground="{Binding AccentKey, Converter={StaticResource ResourceKeyToBrush}}" />
+          </Border>
+        </StackPanel>
+        <ItemsControl ItemsSource="{Binding Deals}"
+                      ItemTemplate="{StaticResource DealCardTemplate}"
+                      ItemsPanel="{StaticResource DealStackPanel}" />
+      </StackPanel>
+    </DataTemplate>
+  </Page.Resources>
   <Grid Background="{ThemeResource DashboardPageBackgroundBrush}">
     <Grid x:Name="DesktopRoot" Visibility="{utu:Responsive Narrow=Collapsed, Wide=Visible}">
-      <Grid.ColumnDefinitions>
-        <ColumnDefinition Width="204" />
-        <ColumnDefinition Width="*" />
-      </Grid.ColumnDefinitions>
-
-      <Border Grid.Column="0"
-              Background="{ThemeResource DashboardSurfaceBrush}"
-              BorderBrush="{ThemeResource DashboardBorderBrush}"
-              BorderThickness="0,0,1,0">
-        <Grid Padding="20,24,20,24">
-          <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
-          </Grid.RowDefinitions>
-
-          <StackPanel Spacing="30">
-            <StackPanel Orientation="Horizontal" Spacing="12">
-              <controls:AppLogo Width="28" Height="28" />
-              <TextBlock Text="Uno CRM"
-                         VerticalAlignment="Center"
-                         Style="{StaticResource DashboardBodyTextStyle}"
-                         FontFamily="Georgia"
-                         FontSize="20" />
-            </StackPanel>
-
-            <StackPanel Spacing="8">
-              <Button Click="NavigateToDashboard_Click"
-                      Style="{StaticResource DashboardNavButtonStyle}">
-                <Border Style="{StaticResource DashboardSidebarItemBorderStyle}">
-                  <StackPanel Orientation="Horizontal" Spacing="12">
-                    <FontIcon Glyph="&#xE80F;"
-                              FontSize="16"
-                              Foreground="{ThemeResource DashboardMutedTextBrush}" />
-                    <TextBlock Text="Dashboard"
-                               Style="{StaticResource DashboardSubtleTextStyle}" />
-                  </StackPanel>
-                </Border>
-              </Button>
-
-              <Border Style="{StaticResource DashboardSidebarItemBorderStyle}"
-                      Background="{ThemeResource DashboardAccentSoftBrush}">
-                <StackPanel Orientation="Horizontal" Spacing="12">
-                  <FontIcon Glyph="&#xE8C8;"
-                            FontSize="16"
-                            Foreground="{ThemeResource DashboardAccentBrush}" />
-                  <TextBlock Text="Pipeline"
-                             Foreground="{ThemeResource DashboardAccentBrush}"
-                             Style="{StaticResource DashboardBodyTextStyle}" />
-                </StackPanel>
-              </Border>
-
-              <Button Click="NavigateToLeads_Click"
-                      Style="{StaticResource DashboardNavButtonStyle}">
-                <Border Style="{StaticResource DashboardSidebarItemBorderStyle}">
-                  <StackPanel Orientation="Horizontal" Spacing="12">
-                    <FontIcon Glyph="&#xE716;"
-                              FontSize="16"
-                              Foreground="{ThemeResource DashboardMutedTextBrush}" />
-                    <TextBlock Text="Leads"
-                               Style="{StaticResource DashboardSubtleTextStyle}" />
-                  </StackPanel>
-                </Border>
-              </Button>
-
-              <Button Click="NavigateToContacts_Click"
-                      Style="{StaticResource DashboardNavButtonStyle}">
-                <Border Style="{StaticResource DashboardSidebarItemBorderStyle}">
-                  <StackPanel Orientation="Horizontal" Spacing="12">
-                    <FontIcon Glyph="&#xE77B;"
-                              FontSize="16"
-                              Foreground="{ThemeResource DashboardMutedTextBrush}" />
-                    <TextBlock Text="Contacts"
-                               Style="{StaticResource DashboardSubtleTextStyle}" />
-                  </StackPanel>
-                </Border>
-              </Button>
-            </StackPanel>
-          </StackPanel>
-
-          <StackPanel Grid.Row="2"
-                      Orientation="Horizontal"
-                      Spacing="12"
-                      VerticalAlignment="Bottom">
-            <Border Width="32"
-                    Height="32"
-                    CornerRadius="16"
-                    Background="{ThemeResource DashboardAccentBrush}" />
-            <StackPanel>
-              <TextBlock Text="Alex Morgan"
-                         Style="{StaticResource DashboardBodyTextStyle}" />
-              <TextBlock Text="Sales Manager"
-                         Style="{StaticResource DashboardSubtleTextStyle}"
-                         FontSize="12" />
-            </StackPanel>
-          </StackPanel>
-        </Grid>
-      </Border>
-
-      <ScrollViewer Grid.Column="1"
-            HorizontalScrollBarVisibility="Disabled"
+      <ScrollViewer HorizontalScrollBarVisibility="Disabled"
             VerticalScrollBarVisibility="Auto">
           <Grid Padding="28,20,28,28"
           RowSpacing="18">
@@ -196,6 +132,8 @@
             </Button>
           </StackPanel>
 
+          <!-- Kanban board: each column is a stage from the shared dataset; the count badge and
+               the cards are bound, so they always agree with the Dashboard and Leads pages. -->
           <Grid Grid.Row="2" ColumnSpacing="14">
             <Grid.ColumnDefinitions>
               <ColumnDefinition Width="*" />
@@ -204,199 +142,70 @@
               <ColumnDefinition Width="*" />
               <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <StackPanel Grid.Column="0"
-                        Spacing="12">
+
+            <StackPanel Grid.Column="0" Spacing="12">
               <StackPanel Orientation="Horizontal" Spacing="8">
                 <Ellipse Width="10" Height="10" Fill="{ThemeResource DashboardBlueBrush}" Margin="0,5,0,0" />
-                <TextBlock Text="NEW LEAD"
-                           Style="{StaticResource DashboardSectionLabelStyle}" />
-                <Border Background="{ThemeResource DashboardBlueSoftBrush}"
-                        CornerRadius="8"
-                        Padding="6,1">
-                  <TextBlock Text="4"
-                             Foreground="{ThemeResource DashboardBlueBrush}"
-                             FontSize="11" />
+                <TextBlock Text="NEW LEAD" Style="{StaticResource DashboardSectionLabelStyle}" />
+                <Border Background="{ThemeResource DashboardBlueSoftBrush}" CornerRadius="8" Padding="6,1">
+                  <TextBlock Text="{Binding NewLead.Count}" Foreground="{ThemeResource DashboardBlueBrush}" FontSize="11" />
                 </Border>
               </StackPanel>
-
-              <controls:PipelineCard Company="Acme Corp"
-                                     Amount="$45,000"
-                                     Owner="Sarah Chen"
-                                     Meta="2d"
-                                     Accent="{ThemeResource DashboardRedBrush}"
-                                     MetaBrush="{ThemeResource DashboardMutedTextBrush}" />
-
-              <controls:PipelineCard Company="TechVision Inc"
-                                     Amount="$28,500"
-                                     Owner="Mike Johnson"
-                                     Meta="5d"
-                                     Accent="{ThemeResource DashboardAmberBrush}"
-                                     MetaBrush="{ThemeResource DashboardMutedTextBrush}" />
-
-              <controls:PipelineCard Company="Bright Solutions"
-                                     Amount="$12,000"
-                                     Owner="Lisa Park"
-                                     Meta="1d"
-                                     Accent="{ThemeResource DashboardGreenBrush}"
-                                     MetaBrush="{ThemeResource DashboardMutedTextBrush}" />
-
-              <controls:PipelineCard Company="DataFlow Ltd"
-                                     Amount="$67,200"
-                                     Owner="James Wright"
-                                     Meta="3d"
-                                     Accent="{ThemeResource DashboardAmberBrush}"
-                                     MetaBrush="{ThemeResource DashboardMutedTextBrush}" />
+              <ItemsControl ItemsSource="{Binding NewLead.Deals}"
+                            ItemTemplate="{StaticResource DealCardTemplate}"
+                            ItemsPanel="{StaticResource DealStackPanel}" />
             </StackPanel>
 
-            <StackPanel Grid.Column="1"
-                        Spacing="12">
+            <StackPanel Grid.Column="1" Spacing="12">
               <StackPanel Orientation="Horizontal" Spacing="8">
                 <Ellipse Width="10" Height="10" Fill="{ThemeResource DashboardPurpleBrush}" Margin="0,5,0,0" />
-                <TextBlock Text="QUALIFIED"
-                           Style="{StaticResource DashboardSectionLabelStyle}" />
-                <Border Background="{ThemeResource DashboardPurpleSoftBrush}"
-                        CornerRadius="8"
-                        Padding="6,1">
-                  <TextBlock Text="3"
-                             Foreground="{ThemeResource DashboardPurpleBrush}"
-                             FontSize="11" />
+                <TextBlock Text="QUALIFIED" Style="{StaticResource DashboardSectionLabelStyle}" />
+                <Border Background="{ThemeResource DashboardPurpleSoftBrush}" CornerRadius="8" Padding="6,1">
+                  <TextBlock Text="{Binding Qualified.Count}" Foreground="{ThemeResource DashboardPurpleBrush}" FontSize="11" />
                 </Border>
               </StackPanel>
-
-              <controls:PipelineCard Company="NovaTech"
-                                     Amount="$89,000"
-                                     Owner="David Kim"
-                                     Meta="8d"
-                                     Accent="{ThemeResource DashboardRedBrush}"
-                                     MetaBrush="{ThemeResource DashboardMutedTextBrush}" />
-
-              <controls:PipelineCard Company="CloudSync"
-                                     Amount="$34,750"
-                                     Owner="Anna Lopez"
-                                     Meta="12d"
-                                     Accent="{ThemeResource DashboardGreenBrush}"
-                                     MetaBrush="{ThemeResource DashboardMutedTextBrush}" />
-
-              <controls:PipelineCard Company="Pinnacle Group"
-                                     Amount="$52,300"
-                                     Owner="Tom Rivera"
-                                     Meta="6d"
-                                     Accent="{ThemeResource DashboardAmberBrush}"
-                                     MetaBrush="{ThemeResource DashboardMutedTextBrush}" />
+              <ItemsControl ItemsSource="{Binding Qualified.Deals}"
+                            ItemTemplate="{StaticResource DealCardTemplate}"
+                            ItemsPanel="{StaticResource DealStackPanel}" />
             </StackPanel>
 
-            <StackPanel Grid.Column="2"
-                        Spacing="12">
+            <StackPanel Grid.Column="2" Spacing="12">
               <StackPanel Orientation="Horizontal" Spacing="8">
                 <Ellipse Width="10" Height="10" Fill="{ThemeResource DashboardAmberBrush}" Margin="0,5,0,0" />
-                <TextBlock Text="PROPOSAL"
-                           Style="{StaticResource DashboardSectionLabelStyle}" />
-                <Border Background="{ThemeResource DashboardAmberSoftBrush}"
-                        CornerRadius="8"
-                        Padding="6,1">
-                  <TextBlock Text="3"
-                             Foreground="{ThemeResource DashboardAmberBrush}"
-                             FontSize="11" />
+                <TextBlock Text="PROPOSAL" Style="{StaticResource DashboardSectionLabelStyle}" />
+                <Border Background="{ThemeResource DashboardAmberSoftBrush}" CornerRadius="8" Padding="6,1">
+                  <TextBlock Text="{Binding Proposal.Count}" Foreground="{ThemeResource DashboardAmberBrush}" FontSize="11" />
                 </Border>
               </StackPanel>
-
-              <controls:PipelineCard Company="Meridian Health"
-                                     Amount="$124,000"
-                                     Owner="Rachel Adams"
-                                     Meta="15d"
-                                     Accent="{ThemeResource DashboardRedBrush}"
-                                     MetaBrush="{ThemeResource DashboardMutedTextBrush}" />
-
-              <controls:PipelineCard Company="UrbanEdge"
-                                     Amount="$56,800"
-                                     Owner="Chris Taylor"
-                                     Meta="9d"
-                                     Accent="{ThemeResource DashboardAmberBrush}"
-                                     MetaBrush="{ThemeResource DashboardMutedTextBrush}" />
-
-              <controls:PipelineCard Company="BluePeak Inc"
-                                     Amount="$41,500"
-                                     Owner="Maya Patel"
-                                     Meta="4d"
-                                     Accent="{ThemeResource DashboardGreenBrush}"
-                                     MetaBrush="{ThemeResource DashboardMutedTextBrush}" />
+              <ItemsControl ItemsSource="{Binding Proposal.Deals}"
+                            ItemTemplate="{StaticResource DealCardTemplate}"
+                            ItemsPanel="{StaticResource DealStackPanel}" />
             </StackPanel>
 
-            <StackPanel Grid.Column="3"
-                        Spacing="12">
+            <StackPanel Grid.Column="3" Spacing="12">
               <StackPanel Orientation="Horizontal" Spacing="8">
                 <Ellipse Width="10" Height="10" Fill="{ThemeResource DashboardRedBrush}" Margin="0,5,0,0" />
-                <TextBlock Text="NEGOTIATION"
-                           Style="{StaticResource DashboardSectionLabelStyle}" />
-                <Border Background="{ThemeResource DashboardRedSoftBrush}"
-                        CornerRadius="8"
-                        Padding="6,1">
-                  <TextBlock Text="3"
-                             Foreground="{ThemeResource DashboardRedBrush}"
-                             FontSize="11" />
+                <TextBlock Text="NEGOTIATION" Style="{StaticResource DashboardSectionLabelStyle}" />
+                <Border Background="{ThemeResource DashboardRedSoftBrush}" CornerRadius="8" Padding="6,1">
+                  <TextBlock Text="{Binding Negotiation.Count}" Foreground="{ThemeResource DashboardRedBrush}" FontSize="11" />
                 </Border>
               </StackPanel>
-
-              <controls:PipelineCard Company="Vertex Labs"
-                                     Amount="$210,000"
-                                     Owner="Kevin Zhang"
-                                     Meta="22d"
-                                     Accent="{ThemeResource DashboardRedBrush}"
-                                     MetaBrush="{ThemeResource DashboardMutedTextBrush}" />
-
-              <controls:PipelineCard Company="Orion Systems"
-                                     Amount="$73,400"
-                                     Owner="Elena Ross"
-                                     Meta="18d"
-                                     Accent="{ThemeResource DashboardAmberBrush}"
-                                     MetaBrush="{ThemeResource DashboardMutedTextBrush}" />
-
-              <controls:PipelineCard Company="Atlas Financial"
-                                     Amount="$95,600"
-                                     Owner="Nina Brooks"
-                                     Meta="11d"
-                                     Accent="{ThemeResource DashboardGreenBrush}"
-                                     MetaBrush="{ThemeResource DashboardMutedTextBrush}" />
+              <ItemsControl ItemsSource="{Binding Negotiation.Deals}"
+                            ItemTemplate="{StaticResource DealCardTemplate}"
+                            ItemsPanel="{StaticResource DealStackPanel}" />
             </StackPanel>
 
-            <StackPanel Grid.Column="4"
-                        Spacing="12">
+            <StackPanel Grid.Column="4" Spacing="12">
               <StackPanel Orientation="Horizontal" Spacing="8">
                 <Ellipse Width="10" Height="10" Fill="{ThemeResource DashboardGreenBrush}" Margin="0,5,0,0" />
-                <TextBlock Text="CLOSED WON"
-                           Style="{StaticResource DashboardSectionLabelStyle}" />
-                <Border Background="{ThemeResource DashboardGreenSoftBrush}"
-                        CornerRadius="8"
-                        Padding="6,1">
-                  <TextBlock Text="3"
-                             Foreground="{ThemeResource DashboardGreenBrush}"
-                             FontSize="11" />
+                <TextBlock Text="CLOSED WON" Style="{StaticResource DashboardSectionLabelStyle}" />
+                <Border Background="{ThemeResource DashboardGreenSoftBrush}" CornerRadius="8" Padding="6,1">
+                  <TextBlock Text="{Binding ClosedWon.Count}" Foreground="{ThemeResource DashboardGreenBrush}" FontSize="11" />
                 </Border>
               </StackPanel>
-
-              <controls:PipelineCard Company="Summit Retail"
-                                     Amount="$156,000"
-                                     Owner="Paul Martinez"
-                                     Meta="Won"
-                                     IsWon="True"
-                                     Accent="{ThemeResource DashboardGreenBrush}"
-                                     MetaBrush="{ThemeResource DashboardGreenBrush}" />
-
-              <controls:PipelineCard Company="Crest Dynamics"
-                                     Amount="$82,500"
-                                     Owner="Jenna Cole"
-                                     Meta="Won"
-                                     IsWon="True"
-                                     Accent="{ThemeResource DashboardGreenBrush}"
-                                     MetaBrush="{ThemeResource DashboardGreenBrush}" />
-
-              <controls:PipelineCard Company="Forge Media"
-                                     Amount="$47,200"
-                                     Owner="Leo Harris"
-                                     Meta="Won"
-                                     IsWon="True"
-                                     Accent="{ThemeResource DashboardGreenBrush}"
-                                     MetaBrush="{ThemeResource DashboardGreenBrush}" />
+              <ItemsControl ItemsSource="{Binding ClosedWon.Deals}"
+                            ItemTemplate="{StaticResource DealCardTemplate}"
+                            ItemsPanel="{StaticResource DealStackPanel}" />
             </StackPanel>
           </Grid>
         </Grid>
@@ -409,9 +218,6 @@
         <Grid Padding="20,16,20,130"
               RowSpacing="18">
           <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
@@ -486,102 +292,18 @@
             </StackPanel>
           </ScrollViewer>
 
-          <StackPanel Grid.Row="3" Spacing="12">
-            <StackPanel Orientation="Horizontal" Spacing="8">
-              <Ellipse Width="10" Height="10" Fill="{ThemeResource DashboardBlueBrush}" VerticalAlignment="Center" />
-              <TextBlock Text="NEW LEAD" Style="{StaticResource DashboardSectionLabelStyle}" VerticalAlignment="Center" />
-              <Border Background="{ThemeResource DashboardBlueSoftBrush}" CornerRadius="8" Padding="6,1" VerticalAlignment="Center">
-                <TextBlock Text="4" Foreground="{ThemeResource DashboardBlueBrush}" FontSize="11" />
-              </Border>
-            </StackPanel>
-            <Border Style="{StaticResource DashboardKanbanCardStyle}">
-              <StackPanel Spacing="8">
-                <TextBlock Text="Acme Corp" FontFamily="Georgia" FontSize="17" Foreground="{ThemeResource DashboardPrimaryTextBrush}" />
-                <TextBlock Text="$45,000" FontSize="22" FontWeight="SemiBold" Foreground="{ThemeResource DashboardPrimaryTextBrush}" />
-                <Grid>
-                  <TextBlock Text="Sarah Chen" Style="{StaticResource DashboardSubtleTextStyle}" FontSize="13" />
-                  <TextBlock HorizontalAlignment="Right" Text="2d" Style="{StaticResource DashboardMicroTextStyle}" FontSize="11" />
-                </Grid>
-              </StackPanel>
-            </Border>
-            <Border Style="{StaticResource DashboardKanbanCardStyle}">
-              <StackPanel Spacing="8">
-                <TextBlock Text="TechVision Inc" FontFamily="Georgia" FontSize="17" Foreground="{ThemeResource DashboardPrimaryTextBrush}" />
-                <TextBlock Text="$28,500" FontSize="22" FontWeight="SemiBold" Foreground="{ThemeResource DashboardPrimaryTextBrush}" />
-                <Grid>
-                  <TextBlock Text="Mike Johnson" Style="{StaticResource DashboardSubtleTextStyle}" FontSize="13" />
-                  <TextBlock HorizontalAlignment="Right" Text="5d" Style="{StaticResource DashboardMicroTextStyle}" FontSize="11" />
-                </Grid>
-              </StackPanel>
-            </Border>
-          </StackPanel>
-
-          <StackPanel Grid.Row="4" Spacing="12">
-            <StackPanel Orientation="Horizontal" Spacing="8">
-              <Ellipse Width="10" Height="10" Fill="{ThemeResource DashboardPurpleBrush}" VerticalAlignment="Center" />
-              <TextBlock Text="QUALIFIED" Style="{StaticResource DashboardSectionLabelStyle}" VerticalAlignment="Center" />
-              <Border Background="{ThemeResource DashboardPurpleSoftBrush}" CornerRadius="8" Padding="6,1" VerticalAlignment="Center">
-                <TextBlock Text="3" Foreground="{ThemeResource DashboardPurpleBrush}" FontSize="11" />
-              </Border>
-            </StackPanel>
-            <Border Style="{StaticResource DashboardKanbanCardStyle}">
-              <StackPanel Spacing="8">
-                <TextBlock Text="NovaTech" FontFamily="Georgia" FontSize="17" Foreground="{ThemeResource DashboardPrimaryTextBrush}" />
-                <TextBlock Text="$89,000" FontSize="22" FontWeight="SemiBold" Foreground="{ThemeResource DashboardPrimaryTextBrush}" />
-                <Grid>
-                  <TextBlock Text="David Kim" Style="{StaticResource DashboardSubtleTextStyle}" FontSize="13" />
-                  <TextBlock HorizontalAlignment="Right" Text="8d" Style="{StaticResource DashboardMicroTextStyle}" FontSize="11" />
-                </Grid>
-              </StackPanel>
-            </Border>
-          </StackPanel>
-
-          <StackPanel Grid.Row="5" Spacing="12">
-            <StackPanel Orientation="Horizontal" Spacing="8">
-              <Ellipse Width="10" Height="10" Fill="{ThemeResource DashboardAmberBrush}" VerticalAlignment="Center" />
-              <TextBlock Text="PROPOSAL" Style="{StaticResource DashboardSectionLabelStyle}" VerticalAlignment="Center" />
-              <Border Background="{ThemeResource DashboardAmberSoftBrush}" CornerRadius="8" Padding="6,1" VerticalAlignment="Center">
-                <TextBlock Text="3" Foreground="{ThemeResource DashboardAmberBrush}" FontSize="11" />
-              </Border>
-            </StackPanel>
-            <Border Style="{StaticResource DashboardKanbanCardStyle}">
-              <StackPanel Spacing="8">
-                <TextBlock Text="Meridian Health" FontFamily="Georgia" FontSize="17" Foreground="{ThemeResource DashboardPrimaryTextBrush}" />
-                <TextBlock Text="$124,000" FontSize="22" FontWeight="SemiBold" Foreground="{ThemeResource DashboardPrimaryTextBrush}" />
-                <Grid>
-                  <TextBlock Text="Rachel Adams" Style="{StaticResource DashboardSubtleTextStyle}" FontSize="13" />
-                  <TextBlock HorizontalAlignment="Right" Text="15d" Style="{StaticResource DashboardMicroTextStyle}" FontSize="11" />
-                </Grid>
-              </StackPanel>
-            </Border>
-          </StackPanel>
-
-          <StackPanel Grid.Row="6" Spacing="12">
-            <StackPanel Orientation="Horizontal" Spacing="8">
-              <Ellipse Width="10" Height="10" Fill="{ThemeResource DashboardGreenBrush}" VerticalAlignment="Center" />
-              <TextBlock Text="CLOSED WON" Style="{StaticResource DashboardSectionLabelStyle}" VerticalAlignment="Center" />
-              <Border Background="{ThemeResource DashboardGreenSoftBrush}" CornerRadius="8" Padding="6,1" VerticalAlignment="Center">
-                <TextBlock Text="3" Foreground="{ThemeResource DashboardGreenBrush}" FontSize="11" />
-              </Border>
-            </StackPanel>
-            <Border Style="{StaticResource DashboardKanbanCardStyle}">
-              <StackPanel Spacing="8">
-                <Grid>
-                  <TextBlock Text="Summit Retail" FontFamily="Georgia" FontSize="17" Foreground="{ThemeResource DashboardPrimaryTextBrush}" />
-                  <FontIcon HorizontalAlignment="Right" Glyph="&#xE73E;" FontSize="12" Foreground="{ThemeResource DashboardGreenBrush}" Margin="0,2,0,0" />
-                </Grid>
-                <TextBlock Text="$156,000" FontSize="22" FontWeight="SemiBold" Foreground="{ThemeResource DashboardPrimaryTextBrush}" />
-                <Grid>
-                  <TextBlock Text="Paul Martinez" Style="{StaticResource DashboardSubtleTextStyle}" FontSize="13" />
-                  <TextBlock HorizontalAlignment="Right" Text="Won" Foreground="{ThemeResource DashboardGreenBrush}" FontSize="11" FontWeight="SemiBold" />
-                </Grid>
-              </StackPanel>
-            </Border>
-          </StackPanel>
+          <!-- All stages, stacked, bound to the same dataset the desktop board uses. -->
+          <ItemsControl Grid.Row="3"
+                        ItemsSource="{Binding Stages}"
+                        ItemTemplate="{StaticResource MobileStageTemplate}">
+            <ItemsControl.ItemsPanel>
+              <ItemsPanelTemplate>
+                <StackPanel Spacing="18" />
+              </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+          </ItemsControl>
         </Grid>
       </ScrollViewer>
-
-      <controls:BottomNavBar ActiveTab="Pipeline" />
     </Grid>
   </Grid>
 </Page>

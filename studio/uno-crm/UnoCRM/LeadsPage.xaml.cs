@@ -14,12 +14,25 @@ public sealed partial class LeadsPage : Page
         InitializeComponent();
         BuildCharts();
         DataContext = this;
+
+        // Uno.Extensions Navigation reassigns DataContext when it activates a view that has
+        // no mapped view model. This page is its own context, so re-apply it.
+        DataContextChanged += (_, _) =>
+        {
+            if (DataContext != this)
+            {
+                DataContext = this;
+            }
+        };
     }
 
     public string NewLeadsText { get; private set; } = "0";
     public string QualificationRateText { get; private set; } = "0%";
     public string PipelineValueText { get; private set; } = "$0";
     public string AverageDealSizeText { get; private set; } = "$0";
+
+    // The "Top Open Leads" list, derived from the shared dataset (highest-value open deals).
+    public IReadOnlyList<TopLead> TopOpenLeads { get; } = CrmData.Leads.TopOpenLeads;
 
     public ISeries[] LeadTrendSeries { get; private set; } = [];
     public ISeries[] LeadsBySourceSeries { get; private set; } = [];
@@ -32,36 +45,20 @@ public sealed partial class LeadsPage : Page
 
     private void BuildCharts()
     {
-        var random = new Random();
-        var monthLabels = new[] { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
+        // All chart inputs come from the shared, deterministic dataset — so the Leads page is
+        // stable across visits and consistent with the Pipeline and Dashboard pages.
+        var leads = CrmData.Leads;
+        var monthLabels = leads.MonthLabels;
+        var monthlyLeads = leads.MonthlyLeads;
+        var leadSourceLabels = leads.SourceLabels;
+        var sourceValues = leads.SourceCounts;
+        var stageLabels = leads.StageLabels;
+        var stageValues = leads.StageCounts;
 
-        var monthlyLeads = Enumerable
-            .Range(0, monthLabels.Length)
-            .Select(_ => random.Next(90, 240))
-            .ToArray();
-
-        var leadSourceLabels = new[] { "Web", "Email", "Referral", "Ads", "Event" };
-        var sourceValues = Enumerable
-            .Range(0, leadSourceLabels.Length)
-            .Select(_ => random.Next(40, 160))
-            .ToArray();
-
-        var stageLabels = new[] { "Prospecting", "Qualified", "Proposal", "Negotiation", "Won" };
-        var stageValues = Enumerable
-            .Range(0, stageLabels.Length)
-            .Select(_ => random.Next(18, 120))
-            .ToArray();
-
-        var totalLeads = monthlyLeads.Sum();
-        var qualifiedCount = stageValues[1] + stageValues[2] + stageValues[3] + stageValues[4];
-        var qualificationRate = totalLeads == 0 ? 0 : (double)qualifiedCount / totalLeads;
-        var avgDealSize = random.Next(18000, 54000);
-        var pipelineValue = (stageValues[2] + stageValues[3] + stageValues[4]) * avgDealSize;
-
-        NewLeadsText = totalLeads.ToString("N0");
-        QualificationRateText = $"{qualificationRate:P0}";
-        PipelineValueText = $"${pipelineValue / 1000d:N0}K";
-        AverageDealSizeText = $"${avgDealSize / 1000d:N0}K";
+        NewLeadsText = leads.NewLeadsText;
+        QualificationRateText = leads.QualificationRateText;
+        PipelineValueText = leads.PipelineValueText;
+        AverageDealSizeText = leads.AverageDealSizeText;
 
         var accent = ResolveColor("DashboardAccentColor", new SKColor(13, 110, 110));
         var blue = ResolveColor("DashboardBlueColor", new SKColor(59, 130, 246));
@@ -170,20 +167,5 @@ public sealed partial class LeadsPage : Page
         }
 
         return fallback;
-    }
-
-    private void NavigateToDashboard_Click(object sender, RoutedEventArgs e)
-    {
-        Frame.Navigate(typeof(MainPage));
-    }
-
-    private void NavigateToPipeline_Click(object sender, RoutedEventArgs e)
-    {
-        Frame.Navigate(typeof(PipelinePage));
-    }
-
-    private void NavigateToContacts_Click(object sender, RoutedEventArgs e)
-    {
-        Frame.Navigate(typeof(ContactsPage));
     }
 }
