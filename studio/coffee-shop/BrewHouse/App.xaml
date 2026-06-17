@@ -13,21 +13,45 @@
       </ResourceDictionary.MergedDictionaries>
 
       <!--
+        BrewHouse coffee palette, theme-aware (lessons 6b/16). Same keys resolve to a warm
+        cream/espresso scheme in Light and a deep dark-roast scheme in Dark, so the two
+        themes read very differently while staying earthy. Reference these with
+        {ThemeResource ...} (not StaticResource) so they swap when the theme changes.
+      -->
+      <ResourceDictionary.ThemeDictionaries>
+        <ResourceDictionary x:Key="Light">
+          <SolidColorBrush x:Key="BrewCreamBrush" Color="#FFFDF6EE" />   <!-- page background -->
+          <SolidColorBrush x:Key="BrewSurfaceBrush" Color="#FFFFFFFF" /> <!-- cards -->
+          <SolidColorBrush x:Key="BrewFoamBrush" Color="#FFF5EFE6" />    <!-- chips / muted fill -->
+          <SolidColorBrush x:Key="BrewCocoaBrush" Color="#FF2C1A0E" />   <!-- primary text -->
+          <SolidColorBrush x:Key="BrewMochaBrush" Color="#FF8C7060" />   <!-- secondary text -->
+          <SolidColorBrush x:Key="BrewCaramelBrush" Color="#FF8C5A28" /> <!-- accent / price -->
+          <SolidColorBrush x:Key="BrewEspressoBrush" Color="#FF4A2810" /><!-- CTA bg / strong accent -->
+          <SolidColorBrush x:Key="BrewOnPrimaryBrush" Color="#FFFFFFFF" /><!-- text on CTA -->
+          <SolidColorBrush x:Key="BrewHeaderBrush" Color="#FF4A2810" />  <!-- header / banner bar -->
+          <SolidColorBrush x:Key="BrewCardBorderBrush" Color="#1A000000" />
+        </ResourceDictionary>
+        <ResourceDictionary x:Key="Default">
+          <SolidColorBrush x:Key="BrewCreamBrush" Color="#FF181210" />   <!-- deep espresso bg -->
+          <SolidColorBrush x:Key="BrewSurfaceBrush" Color="#FF281B13" /> <!-- dark-roast cards -->
+          <SolidColorBrush x:Key="BrewFoamBrush" Color="#FF3A2A20" />    <!-- chips / muted fill -->
+          <SolidColorBrush x:Key="BrewCocoaBrush" Color="#FFF3E9DA" />   <!-- warm cream text -->
+          <SolidColorBrush x:Key="BrewMochaBrush" Color="#FFBBA894" />   <!-- muted tan text -->
+          <SolidColorBrush x:Key="BrewCaramelBrush" Color="#FFE3A85E" /> <!-- bright amber accent -->
+          <SolidColorBrush x:Key="BrewEspressoBrush" Color="#FFCB8B52" /><!-- caramel CTA bg -->
+          <SolidColorBrush x:Key="BrewOnPrimaryBrush" Color="#FF20140C" /><!-- dark text on CTA -->
+          <SolidColorBrush x:Key="BrewHeaderBrush" Color="#FF20140C" />  <!-- near-black header bar -->
+          <SolidColorBrush x:Key="BrewCardBorderBrush" Color="#2EFFFFFF" />
+        </ResourceDictionary>
+      </ResourceDictionary.ThemeDictionaries>
+
+      <!--
         Window-width breakpoint shared by the responsive shell (MainPage) and any
         {utu:Responsive} usage: phone below 900px, desktop at/above. (Lesson 1.)
       -->
       <utu:ResponsiveLayout x:Key="DefaultResponsiveLayout"
                             Narrow="0"
                             Wide="900" />
-
-      <!-- BrewHouse coffee palette: one source of truth for the brand colours -->
-      <SolidColorBrush x:Key="BrewEspressoBrush" Color="#FF4A2810" />
-      <SolidColorBrush x:Key="BrewCocoaBrush" Color="#FF2C1A0E" />
-      <SolidColorBrush x:Key="BrewCaramelBrush" Color="#FF8C5A28" />
-      <SolidColorBrush x:Key="BrewMochaBrush" Color="#FF8C7060" />
-      <SolidColorBrush x:Key="BrewCreamBrush" Color="#FFFDF6EE" />
-      <SolidColorBrush x:Key="BrewFoamBrush" Color="#FFF5EFE6" />
-      <SolidColorBrush x:Key="BrewCardBorderBrush" Color="#15000000" />
 
       <!-- Highlight overlays for the button hover/press states (theme-agnostic). -->
       <SolidColorBrush x:Key="BrewHoverOnDarkBrush" Color="#26FFFFFF" />
@@ -41,8 +65,8 @@
         theme-aware highlight instead, with CornerRadius template-bound through.
       -->
       <Style x:Key="PrimaryButtonStyle" TargetType="Button">
-        <Setter Property="Background" Value="{StaticResource BrewEspressoBrush}" />
-        <Setter Property="Foreground" Value="White" />
+        <Setter Property="Background" Value="{ThemeResource BrewEspressoBrush}" />
+        <Setter Property="Foreground" Value="{ThemeResource BrewOnPrimaryBrush}" />
         <Setter Property="CornerRadius" Value="12" />
         <Setter Property="Padding" Value="20,10" />
         <Setter Property="FontWeight" Value="SemiBold" />
@@ -105,8 +129,8 @@
 
       <!-- Light/secondary variant: foam background, dark text, dark highlight. -->
       <Style x:Key="SecondaryButtonStyle" TargetType="Button" BasedOn="{StaticResource PrimaryButtonStyle}">
-        <Setter Property="Background" Value="{StaticResource BrewFoamBrush}" />
-        <Setter Property="Foreground" Value="{StaticResource BrewEspressoBrush}" />
+        <Setter Property="Background" Value="{ThemeResource BrewFoamBrush}" />
+        <Setter Property="Foreground" Value="{ThemeResource BrewEspressoBrush}" />
         <Setter Property="Template">
           <Setter.Value>
             <ControlTemplate TargetType="Button">

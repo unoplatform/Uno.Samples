@@ -11,9 +11,9 @@
         add-to-cart command come in via DependencyProperties bound with x:Bind Mode=OneWay
         (the default OneTime would capture nulls before the parent assigns the values).
     -->
-    <Border Background="White"
+    <Border Background="{ThemeResource BrewSurfaceBrush}"
             CornerRadius="16"
-            BorderBrush="{StaticResource BrewCardBorderBrush}"
+            BorderBrush="{ThemeResource BrewCardBorderBrush}"
             BorderThickness="1">
         <Grid>
             <Grid.ColumnDefinitions>
@@ -25,7 +25,7 @@
             <Border Grid.Column="0"
                     CornerRadius="16,0,0,16"
                     Height="104"
-                    Background="{StaticResource BrewFoamBrush}">
+                    Background="{ThemeResource BrewFoamBrush}">
                 <Image Source="{x:Bind Product.ImageUrl, Mode=OneWay}"
                        Stretch="UniformToFill"
                        Width="104"
@@ -38,7 +38,7 @@
                         Spacing="3"
                         VerticalAlignment="Center">
 
-                <Border Background="{StaticResource BrewFoamBrush}"
+                <Border Background="{ThemeResource BrewFoamBrush}"
                         CornerRadius="6"
                         Padding="6,2"
                         HorizontalAlignment="Left"
@@ -46,20 +46,20 @@
                     <TextBlock Text="Today's Special"
                                FontSize="10"
                                FontWeight="SemiBold"
-                               Foreground="{StaticResource BrewCaramelBrush}" />
+                               Foreground="{ThemeResource BrewCaramelBrush}" />
                 </Border>
 
                 <TextBlock Text="{x:Bind Product.Name, Mode=OneWay}"
                            FontSize="16"
                            FontWeight="SemiBold"
-                           Foreground="{StaticResource BrewCocoaBrush}"
+                           Foreground="{ThemeResource BrewCocoaBrush}"
                            TextWrapping="NoWrap"
                            TextTrimming="CharacterEllipsis" />
 
                 <!-- Two-line reserve keeps every card the same height (lesson 10). -->
                 <TextBlock Text="{x:Bind Product.Description, Mode=OneWay}"
                            FontSize="12"
-                           Foreground="{StaticResource BrewMochaBrush}"
+                           Foreground="{ThemeResource BrewMochaBrush}"
                            TextWrapping="Wrap"
                            MaxLines="2"
                            Height="32"
@@ -72,7 +72,7 @@
                     <TextBlock Text="{x:Bind Money(Product.Price), Mode=OneWay}"
                                FontSize="17"
                                FontWeight="Bold"
-                               Foreground="{StaticResource BrewCaramelBrush}"
+                               Foreground="{ThemeResource BrewCaramelBrush}"
                                VerticalAlignment="Center" />
                     <Button Content="+ Add"
                             AutomationProperties.Name="Add to cart"

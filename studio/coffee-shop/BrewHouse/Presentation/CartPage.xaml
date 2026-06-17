@@ -3,7 +3,7 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:utu="using:Uno.Toolkit.UI"
       xmlns:mock="using:BrewHouse.Presentation.MockData"
-      Background="#FFFDF6EE">
+      Background="{ThemeResource BrewCreamBrush}">
 
     <utu:SafeArea Insets="VisibleBounds">
         <!-- MaxWidth keeps a readable centred column on desktop; full width on phones (lesson 9). -->
@@ -19,18 +19,18 @@
 
             <!-- Header -->
             <Border Grid.Row="0"
-                    Background="#FFFDF6EE"
+                    Background="{ThemeResource BrewCreamBrush}"
                     Padding="20,16,20,12"
-                    BorderBrush="#20000000"
+                    BorderBrush="{ThemeResource BrewCardBorderBrush}"
                     BorderThickness="0,0,0,1">
                 <StackPanel Spacing="2">
                     <TextBlock Text="Your Cart"
                                FontSize="28"
                                FontWeight="Bold"
-                               Foreground="#FF2C1A0E" />
+                               Foreground="{ThemeResource BrewCocoaBrush}" />
                     <TextBlock Text="{Binding ItemCountText}"
                                FontSize="14"
-                               Foreground="#FF8C7060" />
+                               Foreground="{ThemeResource BrewMochaBrush}" />
                 </StackPanel>
             </Border>
 
@@ -49,15 +49,15 @@
                     <TextBlock Text="Your cart is empty"
                                FontSize="22"
                                FontWeight="Bold"
-                               Foreground="#FF2C1A0E"
+                               Foreground="{ThemeResource BrewCocoaBrush}"
                                HorizontalAlignment="Center" />
                     <TextBlock Text="Looks like you haven't added anything yet. Browse our menu and pick your favourite brew!"
                                FontSize="14"
-                               Foreground="#FF8C7060"
+                               Foreground="{ThemeResource BrewMochaBrush}"
                                HorizontalAlignment="Center"
                                TextAlignment="Center"
                                TextWrapping="Wrap" />
-                    <Border Background="#FFF5EFE6"
+                    <Border Background="{ThemeResource BrewFoamBrush}"
                             CornerRadius="16"
                             Padding="20,16"
                             Margin="0,8,0,0">
@@ -65,31 +65,31 @@
                             <TextBlock Text="Popular choices:"
                                        FontSize="13"
                                        FontWeight="SemiBold"
-                                       Foreground="#FF8C5A28"
+                                       Foreground="{ThemeResource BrewCaramelBrush}"
                                        HorizontalAlignment="Center" />
                             <StackPanel Orientation="Horizontal"
                                         HorizontalAlignment="Center"
                                         Spacing="8">
-                                <Border Background="White"
+                                <Border Background="{ThemeResource BrewSurfaceBrush}"
                                         CornerRadius="10"
                                         Padding="12,6">
                                     <TextBlock Text="Latte"
                                                FontSize="13"
-                                               Foreground="#FF4A2810" />
+                                               Foreground="{ThemeResource BrewCocoaBrush}" />
                                 </Border>
-                                <Border Background="White"
+                                <Border Background="{ThemeResource BrewSurfaceBrush}"
                                         CornerRadius="10"
                                         Padding="12,6">
                                     <TextBlock Text="Croissant"
                                                FontSize="13"
-                                               Foreground="#FF4A2810" />
+                                               Foreground="{ThemeResource BrewCocoaBrush}" />
                                 </Border>
-                                <Border Background="White"
+                                <Border Background="{ThemeResource BrewSurfaceBrush}"
                                         CornerRadius="10"
                                         Padding="12,6">
                                     <TextBlock Text="Matcha"
                                                FontSize="13"
-                                               Foreground="#FF4A2810" />
+                                               Foreground="{ThemeResource BrewCocoaBrush}" />
                                 </Border>
                             </StackPanel>
                         </StackPanel>
@@ -126,10 +126,10 @@
                             </ItemsControl.ItemsPanel>
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
-                                    <Border Background="White"
+                                    <Border Background="{ThemeResource BrewSurfaceBrush}"
                                             CornerRadius="16"
                                             Padding="12"
-                                            BorderBrush="#15000000"
+                                            BorderBrush="{ThemeResource BrewCardBorderBrush}"
                                             BorderThickness="1">
                                         <Grid>
                                             <Grid.ColumnDefinitions>
@@ -157,16 +157,16 @@
                                                 <TextBlock Text="{Binding Name}"
                                                            FontSize="15"
                                                            FontWeight="SemiBold"
-                                                           Foreground="#FF2C1A0E"
+                                                           Foreground="{ThemeResource BrewCocoaBrush}"
                                                            TextTrimming="CharacterEllipsis" />
                                                 <TextBlock FontSize="13"
-                                                           Foreground="#FF8C5A28"
+                                                           Foreground="{ThemeResource BrewCaramelBrush}"
                                                            FontWeight="SemiBold">
                                                     <Run Text="$" />
                                                     <Run Text="{Binding PriceFormatted}" />
                                                 </TextBlock>
                                                 <TextBlock FontSize="12"
-                                                           Foreground="#FF8C7060">
+                                                           Foreground="{ThemeResource BrewMochaBrush}">
                                                     <Run Text="Line total: $" />
                                                     <Run Text="{Binding LineTotalFormatted}" />
                                                 </TextBlock>
@@ -192,7 +192,7 @@
                                                 <TextBlock Text="{Binding Quantity}"
                                                            FontSize="16"
                                                            FontWeight="Bold"
-                                                           Foreground="#FF2C1A0E"
+                                                           Foreground="{ThemeResource BrewCocoaBrush}"
                                                            HorizontalAlignment="Center" />
                                                 <Button Content="-"
                                                         AutomationProperties.Name="Decrease quantity"
@@ -218,10 +218,10 @@
 
                 <!-- Order Summary + Place Order -->
                 <Border Grid.Row="1"
-                        Background="White"
+                        Background="{ThemeResource BrewSurfaceBrush}"
                         CornerRadius="20,20,0,0"
                         Padding="20,20,20,24"
-                        BorderBrush="#15000000"
+                        BorderBrush="{ThemeResource BrewCardBorderBrush}"
                         BorderThickness="0,1,0,0">
                     <StackPanel Spacing="0">
 
@@ -249,7 +249,7 @@
                         <TextBlock Text="Order Summary"
                                    FontSize="18"
                                    FontWeight="Bold"
-                                   Foreground="#FF2C1A0E"
+                                   Foreground="{ThemeResource BrewCocoaBrush}"
                                    Margin="0,0,0,14" />
 
                         <!-- Subtotal Row -->
@@ -260,11 +260,11 @@
                             </Grid.ColumnDefinitions>
                             <TextBlock Text="Subtotal"
                                        FontSize="14"
-                                       Foreground="#FF8C7060"
+                                       Foreground="{ThemeResource BrewMochaBrush}"
                                        Grid.Column="0" />
                             <TextBlock Grid.Column="1"
                                        FontSize="14"
-                                       Foreground="#FF2C1A0E"
+                                       Foreground="{ThemeResource BrewCocoaBrush}"
                                        FontWeight="SemiBold">
                                 <Run Text="$" />
                                 <Run Text="{Binding SubtotalFormatted}" />
@@ -279,11 +279,11 @@
                             </Grid.ColumnDefinitions>
                             <TextBlock Text="Tax (8%)"
                                        FontSize="14"
-                                       Foreground="#FF8C7060"
+                                       Foreground="{ThemeResource BrewMochaBrush}"
                                        Grid.Column="0" />
                             <TextBlock Grid.Column="1"
                                        FontSize="14"
-                                       Foreground="#FF2C1A0E"
+                                       Foreground="{ThemeResource BrewCocoaBrush}"
                                        FontWeight="SemiBold">
                                 <Run Text="$" />
                                 <Run Text="{Binding TaxFormatted}" />
@@ -292,7 +292,7 @@
 
                         <!-- Divider -->
                         <Border Height="1"
-                                Background="#FFE8DDD0"
+                                Background="{ThemeResource BrewFoamBrush}"
                                 Margin="0,0,0,12" />
 
                         <!-- Total Row -->
@@ -304,12 +304,12 @@
                             <TextBlock Text="Total"
                                        FontSize="18"
                                        FontWeight="Bold"
-                                       Foreground="#FF2C1A0E"
+                                       Foreground="{ThemeResource BrewCocoaBrush}"
                                        Grid.Column="0" />
                             <TextBlock Grid.Column="1"
                                        FontSize="20"
                                        FontWeight="Bold"
-                                       Foreground="#FF4A2810">
+                                       Foreground="{ThemeResource BrewEspressoBrush}">
                                 <Run Text="$" />
                                 <Run Text="{Binding TotalFormatted}" />
                             </TextBlock>

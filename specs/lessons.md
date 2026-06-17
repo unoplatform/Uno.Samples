@@ -39,6 +39,7 @@ applies**. Code is illustrative — adapt names to the target sample.
 | 22 | Commands from item templates | `RelativeSource FindAncestor`/`Self` don't reach the page VM in WinUI/Uno; use `{utu:ItemsControlBinding Path=DataContext.Cmd}`. |
 | 23 | Cap content width on desktop | A constant `MaxWidth` + `HorizontalAlignment="Stretch"` = full-width on phones, centred column on desktop, no magic numbers. |
 | 24 | Emoji render as tofu on Skia | The Skia renderer's bundled fonts have no color-emoji; use `FontIcon` (Segoe Fluent Icons) glyphs, verified per glyph. |
+| 25 | Distinct light/dark from one palette | Put **semantic** brushes in `ThemeDictionaries` (referenced via `{ThemeResource}`); split any brush used as both bg and fg. |
 
 ---
 
@@ -646,6 +647,34 @@ Verified-good here: `EC32` (coffee cup), `E7C3` (page/receipt), `E73E` (checkmar
 > rather than shipping tofu.
 
 **Applies to:** any sample using emoji as UI icons that targets Skia (desktop/WASM/mobile).
+
+## 25. Make light and dark visibly different from one brand palette
+
+**Goal.** A single earthy brand that reads as a warm cream/espresso scheme in Light and a
+deep dark-roast scheme in Dark — not the same colours in both.
+
+**Do it with `ThemeDictionaries`.** Define the palette once per theme in
+`ResourceDictionary.ThemeDictionaries` with keys **`Light`** and **`Default`** (`Default`
+is the dark theme), same brush keys in each, and reference them with **`{ThemeResource …}`**
+everywhere — `{StaticResource …}` resolves once at parse time and will **not** swap when the
+theme changes (this includes brush refs inside `Style` setters and `ControlTemplate`s).
+
+**Name brushes by role, not colour, and split conflicting roles.** A colour-named brush
+(`BrewEspressoBrush`) used as *both* a background and a foreground can't theme cleanly — a
+background wants to contrast the page, a foreground wants to contrast its surface, and in
+dark those pull opposite ways. Use semantic keys — `BrewPage`, `BrewSurface`, `BrewText`,
+`BrewAccent`, `BrewPrimary` (CTA bg) + **`BrewOnPrimary`** (CTA text), `BrewHeader`,
+`BrewBorder` — and:
+- For a single-accent brand, flip the **accent** across themes (espresso ↔ caramel) **and**
+  flip its text (`BrewOnPrimary` white ↔ near-black) so button contrast survives both.
+- Keep header/banner bars on a dedicated `BrewHeader` brush that stays dark in *both* themes,
+  so their light text (and any inset white button) keep contrast without per-theme tweaks.
+- Borders go translucent-black in Light, translucent-**white** in Dark (`#1A000000` ↔
+  `#2EFFFFFF`) so cards stay separated on a dark page.
+
+**Verify both themes** — drive WASM with Playwright `colorScheme: 'light'` and `'dark'`.
+
+**Applies to:** any sample that should support a real dark theme (not just a tinted light one).
 
 ---
 

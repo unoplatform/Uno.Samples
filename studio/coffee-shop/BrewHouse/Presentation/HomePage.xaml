@@ -91,9 +91,9 @@
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
                                         <Border Width="158"
-                                                Background="White"
+                                                Background="{ThemeResource BrewSurfaceBrush}"
                                                 CornerRadius="16"
-                                                BorderBrush="#18000000"
+                                                BorderBrush="{ThemeResource BrewCardBorderBrush}"
                                                 BorderThickness="1">
                                             <StackPanel Spacing="0">
                                                 <Border CornerRadius="16,16,0,0"
@@ -192,7 +192,7 @@
 
                         <!-- Cart Summary Strip (visible when cart has items) -->
                         <Border Visibility="{Binding Cart.HasItems}"
-                                Background="{ThemeResource BrewEspressoBrush}"
+                                Background="{ThemeResource BrewHeaderBrush}"
                                 CornerRadius="16"
                                 Margin="20,20,20,4"
                                 Padding="18,14">
@@ -228,7 +228,7 @@
 
                         <!-- Empty Cart State -->
                         <Border Visibility="{Binding Cart.IsEmpty}"
-                                Background="White"
+                                Background="{ThemeResource BrewSurfaceBrush}"
                                 CornerRadius="16"
                                 Margin="20,20,20,4"
                                 Padding="24,28"
@@ -243,7 +243,7 @@
                                 <TextBlock Text="Your cup is empty"
                                            FontSize="18"
                                            FontWeight="Bold"
-                                           Foreground="{ThemeResource BrewEspressoBrush}"
+                                           Foreground="{ThemeResource BrewCocoaBrush}"
                                            HorizontalAlignment="Center" />
                                 <TextBlock Text="Add your favourite brew above to get started"
                                            FontSize="13"

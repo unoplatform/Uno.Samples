@@ -3,7 +3,7 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:utu="using:Uno.Toolkit.UI"
       xmlns:mock="using:BrewHouse.Presentation.MockData"
-      Background="#FFFDF6EE">
+      Background="{ThemeResource BrewCreamBrush}">
 
     <utu:SafeArea Insets="VisibleBounds">
         <!-- MaxWidth keeps a readable centred column on desktop; full width on phones (lesson 9). -->
@@ -19,16 +19,16 @@
 
             <!-- Header -->
             <Border Grid.Row="0"
-                    Background="#FFFDF6EE"
+                    Background="{ThemeResource BrewCreamBrush}"
                     Padding="20,20,20,12">
                 <StackPanel Spacing="4">
                     <TextBlock Text="My Orders"
                                FontSize="28"
                                FontWeight="Bold"
-                               Foreground="#FF2C1A0E" />
+                               Foreground="{ThemeResource BrewCocoaBrush}" />
                     <TextBlock Text="Track your current and past orders"
                                FontSize="14"
-                               Foreground="#FF8C7060" />
+                               Foreground="{ThemeResource BrewMochaBrush}" />
                 </StackPanel>
             </Border>
 
@@ -48,10 +48,10 @@
                         </ItemsRepeater.Layout>
                         <ItemsRepeater.ItemTemplate>
                             <DataTemplate>
-                                <Border Background="White"
+                                <Border Background="{ThemeResource BrewSurfaceBrush}"
                                         CornerRadius="16"
                                         Padding="16"
-                                        BorderBrush="#15000000"
+                                        BorderBrush="{ThemeResource BrewCardBorderBrush}"
                                         BorderThickness="1">
                                     <StackPanel Spacing="12">
 
@@ -66,10 +66,10 @@
                                                 <TextBlock Text="{Binding Id}"
                                                            FontSize="15"
                                                            FontWeight="Bold"
-                                                           Foreground="#FF2C1A0E" />
+                                                           Foreground="{ThemeResource BrewCocoaBrush}" />
                                                 <TextBlock Text="{Binding PlacedAt}"
                                                            FontSize="12"
-                                                           Foreground="#FF8C7060" />
+                                                           Foreground="{ThemeResource BrewMochaBrush}" />
                                             </StackPanel>
 
                                             <!-- Status Badge -->
@@ -87,7 +87,7 @@
 
                                         <!-- Divider -->
                                         <Border Height="1"
-                                                Background="#FFE8DDD0"
+                                                Background="{ThemeResource BrewFoamBrush}"
                                                 HorizontalAlignment="Stretch" />
 
                                         <!-- Items Summary -->
@@ -95,11 +95,11 @@
                                             <TextBlock Text="Items"
                                                        FontSize="11"
                                                        FontWeight="SemiBold"
-                                                       Foreground="#FF8C7060"
+                                                       Foreground="{ThemeResource BrewMochaBrush}"
                                                        CharacterSpacing="50" />
                                             <TextBlock Text="{Binding ItemSummary}"
                                                        FontSize="13"
-                                                       Foreground="#FF4A2810"
+                                                       Foreground="{ThemeResource BrewCocoaBrush}"
                                                        TextWrapping="Wrap" />
                                         </StackPanel>
 
@@ -113,13 +113,13 @@
                                             <TextBlock Grid.Column="0"
                                                        Text="Order Total"
                                                        FontSize="13"
-                                                       Foreground="#FF8C7060"
+                                                       Foreground="{ThemeResource BrewMochaBrush}"
                                                        VerticalAlignment="Center" />
 
                                             <TextBlock Grid.Column="1"
                                                        FontSize="17"
                                                        FontWeight="Bold"
-                                                       Foreground="#FF4A2810">
+                                                       Foreground="{ThemeResource BrewEspressoBrush}">
                                                 <Run Text="$" />
                                                 <Run Text="{Binding TotalFormatted}" />
                                             </TextBlock>
@@ -132,11 +132,11 @@
                     </ItemsRepeater>
 
                     <!-- Empty State -->
-                    <Border Background="White"
+                    <Border Background="{ThemeResource BrewSurfaceBrush}"
                             CornerRadius="16"
                             Padding="32,40"
                             Visibility="{Binding EmptyStateVisibility}"
-                            BorderBrush="#15000000"
+                            BorderBrush="{ThemeResource BrewCardBorderBrush}"
                             BorderThickness="1">
                         <StackPanel HorizontalAlignment="Center"
                                     Spacing="12">
@@ -147,11 +147,11 @@
                             <TextBlock Text="No orders yet"
                                        FontSize="20"
                                        FontWeight="Bold"
-                                       Foreground="#FF2C1A0E"
+                                       Foreground="{ThemeResource BrewCocoaBrush}"
                                        HorizontalAlignment="Center" />
                             <TextBlock Text="Your order history will appear here once you place your first order."
                                        FontSize="13"
-                                       Foreground="#FF8C7060"
+                                       Foreground="{ThemeResource BrewMochaBrush}"
                                        HorizontalAlignment="Center"
                                        TextAlignment="Center"
                                        TextWrapping="Wrap"
