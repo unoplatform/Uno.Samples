@@ -38,6 +38,7 @@ applies**. Code is illustrative — adapt names to the target sample.
 | 21 | Extensions nav gotchas | View-only pages lose their constructor `DataContext`; adaptive default `VisualState` isn't applied to injected pages. |
 | 22 | Commands from item templates | `RelativeSource FindAncestor`/`Self` don't reach the page VM in WinUI/Uno; use `{utu:ItemsControlBinding Path=DataContext.Cmd}`. |
 | 23 | Cap content width on desktop | A constant `MaxWidth` + `HorizontalAlignment="Stretch"` = full-width on phones, centred column on desktop, no magic numbers. |
+| 24 | Emoji render as tofu on Skia | The Skia renderer's bundled fonts have no color-emoji; use `FontIcon` (Segoe Fluent Icons) glyphs, verified per glyph. |
 
 ---
 
@@ -602,6 +603,30 @@ lesson 9 (multi-column grid on wide) is a possible further enhancement; the cent
 is the minimal, robust win.
 
 **Applies to:** any phone-first sample that also ships a desktop/WASM head.
+
+## 24. Emoji glyphs render as "tofu" (☐ NO GLYPH) on the Skia renderer
+
+**Symptom.** Unicode emoji used as decorative icons — `&#x2615;` ☕ for an empty cart,
+`&#x1F4CB;` 📋 for "no orders", `&#x279C;` ➜ on a button, inline `☕/🥐/🍵` chips — show
+as a missing-glyph box. (`FontIcon`s in the nav render fine, which is the tell.)
+
+**Cause.** Uno's **Skia renderer** (desktop **and** WASM — both rasterize with SkiaSharp,
+not the browser) ships a limited set of bundled fonts with **no colour-emoji font**, so any
+emoji codepoint has no glyph. The symbol font it *does* bundle — **Segoe Fluent Icons /
+Segoe MDL2 Assets**, used by `FontIcon` — is what makes the nav icons work.
+
+**Fix.** Replace decorative emoji with `<FontIcon Glyph="&#x….;" />` using a glyph that
+exists in Segoe Fluent Icons (no `FontFamily` needed — the default `SymbolThemeFontFamily`
+resolves). **Verify each glyph** — a missing codepoint is just more tofu. Quick way: drop a
+temporary strip of `FontIcon`s with candidate glyphs onto a visible page and screenshot.
+Verified-good here: `EC32` (coffee cup), `E7C3` (page/receipt), `E73E` (checkmark),
+`E81C` (history), `EA37`/`E71D` (lists).
+
+> The symbol font has **no food icons** (croissant, ice, etc.). Where no sensible glyph
+> exists (category chips: Hot/Cold/Pastries), drop the icon and keep a **text-only** chip
+> rather than shipping tofu.
+
+**Applies to:** any sample using emoji as UI icons that targets Skia (desktop/WASM/mobile).
 
 ---
 

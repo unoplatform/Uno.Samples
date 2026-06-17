@@ -42,9 +42,10 @@
                             VerticalAlignment="Center"
                             Spacing="16"
                             Padding="40,60,40,40">
-                    <TextBlock Text="&#x2615;"
-                               FontSize="72"
-                               HorizontalAlignment="Center" />
+                    <FontIcon Glyph="&#xEC32;"
+                              FontSize="64"
+                              Foreground="{ThemeResource BrewEspressoBrush}"
+                              HorizontalAlignment="Center" />
                     <TextBlock Text="Your cart is empty"
                                FontSize="22"
                                FontWeight="Bold"
@@ -72,21 +73,21 @@
                                 <Border Background="White"
                                         CornerRadius="20"
                                         Padding="12,6">
-                                    <TextBlock Text="☕ Latte"
+                                    <TextBlock Text="Latte"
                                                FontSize="13"
                                                Foreground="#FF4A2810" />
                                 </Border>
                                 <Border Background="White"
                                         CornerRadius="20"
                                         Padding="12,6">
-                                    <TextBlock Text="🥐 Croissant"
+                                    <TextBlock Text="Croissant"
                                                FontSize="13"
                                                Foreground="#FF4A2810" />
                                 </Border>
                                 <Border Background="White"
                                         CornerRadius="20"
                                         Padding="12,6">
-                                    <TextBlock Text="🍵 Matcha"
+                                    <TextBlock Text="Matcha"
                                                FontSize="13"
                                                Foreground="#FF4A2810" />
                                 </Border>
@@ -231,11 +232,10 @@
                                 Padding="16,12"
                                 Margin="0,0,0,14">
                             <StackPanel Orientation="Horizontal" Spacing="10">
-                                <TextBlock Text="✓"
-                                           FontSize="18"
-                                           FontWeight="Bold"
-                                           Foreground="#FF2E7D32"
-                                           VerticalAlignment="Center" />
+                                <FontIcon Glyph="&#xE73E;"
+                                          FontSize="16"
+                                          Foreground="#FF2E7D32"
+                                          VerticalAlignment="Center" />
                                 <TextBlock Text="{Binding OrderPlacedMessage}"
                                            FontSize="14"
                                            FontWeight="SemiBold"

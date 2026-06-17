@@ -56,16 +56,11 @@
                                     AutomationProperties.Name="{Binding Name}"
                                     Command="{utu:ItemsControlBinding Path=DataContext.FilterByCategoryCommand}"
                                     CommandParameter="{Binding Id}">
-                                <StackPanel Orientation="Horizontal" Spacing="6">
-                                    <TextBlock Text="{Binding Icon}"
-                                               FontSize="14"
-                                               VerticalAlignment="Center" />
-                                    <TextBlock Text="{Binding Name}"
-                                               FontSize="13"
-                                               FontWeight="SemiBold"
-                                               Foreground="{ThemeResource BrewEspressoBrush}"
-                                               VerticalAlignment="Center" />
-                                </StackPanel>
+                                <TextBlock Text="{Binding Name}"
+                                           FontSize="13"
+                                           FontWeight="SemiBold"
+                                           Foreground="{ThemeResource BrewEspressoBrush}"
+                                           VerticalAlignment="Center" />
                             </Button>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>

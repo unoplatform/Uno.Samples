@@ -50,7 +50,7 @@
                                                        FontSize="13"
                                                        Foreground="#CCF5EFE6"
                                                        TextWrapping="Wrap" />
-                                            <Button Content="Order Now &#x279C;"
+                                            <Button Content="Order Now"
                                                     AutomationProperties.Name="Order Now"
                                                     Style="{StaticResource PrimaryButtonStyle}"
                                                     FontSize="14"
@@ -154,16 +154,11 @@
                                                     Padding="14,8"
                                                     BorderBrush="{ThemeResource BrewCaramelBrush}"
                                                     BorderThickness="1.5">
-                                                <StackPanel Orientation="Horizontal" Spacing="6">
-                                                    <TextBlock Text="{Binding Icon}"
-                                                               FontSize="15"
-                                                               VerticalAlignment="Center" />
-                                                    <TextBlock Text="{Binding Name}"
-                                                               FontSize="13"
-                                                               FontWeight="SemiBold"
-                                                               Foreground="{ThemeResource BrewEspressoBrush}"
-                                                               VerticalAlignment="Center" />
-                                                </StackPanel>
+                                                <TextBlock Text="{Binding Name}"
+                                                           FontSize="13"
+                                                           FontWeight="SemiBold"
+                                                           Foreground="{ThemeResource BrewEspressoBrush}"
+                                                           VerticalAlignment="Center" />
                                             </Border>
                                         </DataTemplate>
                                     </ItemsControl.ItemTemplate>
@@ -240,9 +235,10 @@
                                 BorderThickness="1">
                             <StackPanel HorizontalAlignment="Center"
                                         Spacing="10">
-                                <TextBlock Text="&#x2615;"
-                                           FontSize="52"
-                                           HorizontalAlignment="Center" />
+                                <FontIcon Glyph="&#xEC32;"
+                                          FontSize="48"
+                                          Foreground="{ThemeResource BrewEspressoBrush}"
+                                          HorizontalAlignment="Center" />
                                 <TextBlock Text="Your cup is empty"
                                            FontSize="18"
                                            FontWeight="Bold"
