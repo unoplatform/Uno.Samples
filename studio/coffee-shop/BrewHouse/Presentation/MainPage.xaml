@@ -3,48 +3,89 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:uen="using:Uno.Extensions.Navigation.UI"
       xmlns:utu="using:Uno.Toolkit.UI"
-      Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+      Background="{ThemeResource BrewCreamBrush}">
 
-    <Grid>
-        <Grid uen:Region.Attached="True">
-            <Grid.RowDefinitions>
-                <RowDefinition />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
+    <!--
+      Navigation shell. Owns the chrome once: a NavigationView pane on wide layouts and a
+      bottom TabBar on narrow ones. Responsive switching is driven by {utu:Responsive} on
+      each property (not AdaptiveTrigger/VisualState) so it applies reliably to this
+      navigation-injected page and matches the content pages' Narrow/Wide breakpoints
+      (lessons 1, 20, 21). The content region is left empty - Uno.Extensions Navigation
+      injects the active route (Home / Menu / Cart / Orders) into it.
+    -->
+    <Grid x:Name="RootShellGrid" uen:Region.Attached="True">
 
-            <!-- Content area: navigation framework injects child views automatically -->
-            <Grid Grid.Row="0"
-                  uen:Region.Attached="True"
-                  uen:Region.Navigator="Visibility" />
-
-            <!-- Bottom TabBar -->
-            <utu:TabBar Grid.Row="1"
-                        uen:Region.Attached="True">
-                <utu:TabBarItem uen:Region.Name="Home"
-                                Content="Home">
-                    <utu:TabBarItem.Icon>
+        <NavigationView x:Name="NavView"
+                        uen:Region.Attached="True"
+                        IsSettingsVisible="False"
+                        IsBackButtonVisible="Collapsed"
+                        PaneDisplayMode="{utu:Responsive Narrow=LeftMinimal, Wide=Auto}"
+                        IsPaneToggleButtonVisible="{utu:Responsive Narrow=False, Wide=True}"
+                        IsPaneOpen="{utu:Responsive Narrow=False, Wide=True}">
+            <NavigationView.MenuItems>
+                <NavigationViewItem uen:Region.Name="Home" Content="Home">
+                    <NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE80F;" />
-                    </utu:TabBarItem.Icon>
-                </utu:TabBarItem>
-                <utu:TabBarItem uen:Region.Name="Menu"
-                                Content="Menu">
-                    <utu:TabBarItem.Icon>
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+                <NavigationViewItem uen:Region.Name="Menu" Content="Menu">
+                    <NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE8FD;" />
-                    </utu:TabBarItem.Icon>
-                </utu:TabBarItem>
-                <utu:TabBarItem uen:Region.Name="Cart"
-                                Content="Cart">
-                    <utu:TabBarItem.Icon>
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+                <NavigationViewItem uen:Region.Name="Cart" Content="Cart">
+                    <NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE7BF;" />
-                    </utu:TabBarItem.Icon>
-                </utu:TabBarItem>
-                <utu:TabBarItem uen:Region.Name="Orders"
-                                Content="Orders">
-                    <utu:TabBarItem.Icon>
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+                <NavigationViewItem uen:Region.Name="Orders" Content="Orders">
+                    <NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE9D9;" />
-                    </utu:TabBarItem.Icon>
-                </utu:TabBarItem>
-            </utu:TabBar>
-        </Grid>
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+            </NavigationView.MenuItems>
+
+            <NavigationView.Content>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <!-- Shared content area - navigation framework injects the active page here -->
+                    <Grid Grid.Row="0"
+                          uen:Region.Attached="True"
+                          uen:Region.Navigator="Visibility" />
+
+                    <!-- Bottom TabBar: shown on Narrow, hidden once the pane appears on Wide -->
+                    <utu:TabBar x:Name="BottomTabs"
+                                Grid.Row="1"
+                                uen:Region.Attached="True"
+                                Style="{StaticResource BottomTabBarStyle}"
+                                Visibility="{utu:Responsive Narrow=Visible, Wide=Collapsed}">
+                        <utu:TabBarItem uen:Region.Name="Home" Content="Home">
+                            <utu:TabBarItem.Icon>
+                                <FontIcon Glyph="&#xE80F;" />
+                            </utu:TabBarItem.Icon>
+                        </utu:TabBarItem>
+                        <utu:TabBarItem uen:Region.Name="Menu" Content="Menu">
+                            <utu:TabBarItem.Icon>
+                                <FontIcon Glyph="&#xE8FD;" />
+                            </utu:TabBarItem.Icon>
+                        </utu:TabBarItem>
+                        <utu:TabBarItem uen:Region.Name="Cart" Content="Cart">
+                            <utu:TabBarItem.Icon>
+                                <FontIcon Glyph="&#xE7BF;" />
+                            </utu:TabBarItem.Icon>
+                        </utu:TabBarItem>
+                        <utu:TabBarItem uen:Region.Name="Orders" Content="Orders">
+                            <utu:TabBarItem.Icon>
+                                <FontIcon Glyph="&#xE9D9;" />
+                            </utu:TabBarItem.Icon>
+                        </utu:TabBarItem>
+                    </utu:TabBar>
+                </Grid>
+            </NavigationView.Content>
+        </NavigationView>
     </Grid>
 </Page>

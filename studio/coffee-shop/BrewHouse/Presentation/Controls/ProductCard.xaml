@@ -1,0 +1,89 @@
+<UserControl x:Class="BrewHouse.Presentation.Controls.ProductCard"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d">
+
+    <!--
+        Reusable horizontal product row (lesson 11). Used by the Home "Featured Products"
+        list and the Menu list, so the markup lives in one place. Product fields and the
+        add-to-cart command come in via DependencyProperties bound with x:Bind Mode=OneWay
+        (the default OneTime would capture nulls before the parent assigns the values).
+    -->
+    <Border Background="White"
+            CornerRadius="16"
+            BorderBrush="{StaticResource BrewCardBorderBrush}"
+            BorderThickness="1">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="104" />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+
+            <!-- Product image -->
+            <Border Grid.Column="0"
+                    CornerRadius="16,0,0,16"
+                    Height="104"
+                    Background="{StaticResource BrewFoamBrush}">
+                <Image Source="{x:Bind Product.ImageUrl, Mode=OneWay}"
+                       Stretch="UniformToFill"
+                       Width="104"
+                       Height="104" />
+            </Border>
+
+            <!-- Product info -->
+            <StackPanel Grid.Column="1"
+                        Padding="14"
+                        Spacing="3"
+                        VerticalAlignment="Center">
+
+                <Border Background="{StaticResource BrewFoamBrush}"
+                        CornerRadius="6"
+                        Padding="6,2"
+                        HorizontalAlignment="Left"
+                        Visibility="{x:Bind BadgeVisibility(Product, ShowSpecialBadge), Mode=OneWay}">
+                    <TextBlock Text="Today's Special"
+                               FontSize="10"
+                               FontWeight="SemiBold"
+                               Foreground="{StaticResource BrewCaramelBrush}" />
+                </Border>
+
+                <TextBlock Text="{x:Bind Product.Name, Mode=OneWay}"
+                           FontSize="16"
+                           FontWeight="SemiBold"
+                           Foreground="{StaticResource BrewCocoaBrush}"
+                           TextWrapping="NoWrap"
+                           TextTrimming="CharacterEllipsis" />
+
+                <!-- Two-line reserve keeps every card the same height (lesson 10). -->
+                <TextBlock Text="{x:Bind Product.Description, Mode=OneWay}"
+                           FontSize="12"
+                           Foreground="{StaticResource BrewMochaBrush}"
+                           TextWrapping="Wrap"
+                           MaxLines="2"
+                           Height="32"
+                           TextTrimming="CharacterEllipsis" />
+
+                <StackPanel Orientation="Horizontal"
+                            Spacing="10"
+                            Margin="0,6,0,0"
+                            VerticalAlignment="Center">
+                    <TextBlock Text="{x:Bind Money(Product.Price), Mode=OneWay}"
+                               FontSize="17"
+                               FontWeight="Bold"
+                               Foreground="{StaticResource BrewCaramelBrush}"
+                               VerticalAlignment="Center" />
+                    <Button Content="+ Add"
+                            AutomationProperties.Name="Add to cart"
+                            Style="{StaticResource PrimaryButtonStyle}"
+                            CornerRadius="10"
+                            Padding="14,7"
+                            FontSize="13"
+                            Command="{x:Bind AddCommand, Mode=OneWay}"
+                            CommandParameter="{x:Bind Product, Mode=OneWay}" />
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+    </Border>
+</UserControl>

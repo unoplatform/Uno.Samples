@@ -1,6 +1,7 @@
 <Application x:Class="BrewHouse.App"
        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+       xmlns:utu="using:Uno.Toolkit.UI"
        xmlns:utus="using:Uno.Toolkit.UI.Simple">
 
   <Application.Resources>
@@ -11,7 +12,154 @@
         <utus:SimpleToolkitTheme xmlns:utus="using:Uno.Toolkit.UI.Simple" />
       </ResourceDictionary.MergedDictionaries>
 
-      <!-- Add resources here -->
+      <!--
+        Window-width breakpoint shared by the responsive shell (MainPage) and any
+        {utu:Responsive} usage: phone below 900px, desktop at/above. (Lesson 1.)
+      -->
+      <utu:ResponsiveLayout x:Key="DefaultResponsiveLayout"
+                            Narrow="0"
+                            Wide="900" />
+
+      <!-- BrewHouse coffee palette: one source of truth for the brand colours -->
+      <SolidColorBrush x:Key="BrewEspressoBrush" Color="#FF4A2810" />
+      <SolidColorBrush x:Key="BrewCocoaBrush" Color="#FF2C1A0E" />
+      <SolidColorBrush x:Key="BrewCaramelBrush" Color="#FF8C5A28" />
+      <SolidColorBrush x:Key="BrewMochaBrush" Color="#FF8C7060" />
+      <SolidColorBrush x:Key="BrewCreamBrush" Color="#FFFDF6EE" />
+      <SolidColorBrush x:Key="BrewFoamBrush" Color="#FFF5EFE6" />
+      <SolidColorBrush x:Key="BrewCardBorderBrush" Color="#15000000" />
+
+      <!-- Highlight overlays for the button hover/press states (theme-agnostic). -->
+      <SolidColorBrush x:Key="BrewHoverOnDarkBrush" Color="#26FFFFFF" />
+      <SolidColorBrush x:Key="BrewPressOnDarkBrush" Color="#3DFFFFFF" />
+      <SolidColorBrush x:Key="BrewHoverOnLightBrush" Color="#14000000" />
+      <SolidColorBrush x:Key="BrewPressOnLightBrush" Color="#24000000" />
+
+      <!--
+        Lesson 13: the default WinUI Button paints a grey rectangle on hover/press.
+        These templates keep the button's own Background and overlay a rounded,
+        theme-aware highlight instead, with CornerRadius template-bound through.
+      -->
+      <Style x:Key="PrimaryButtonStyle" TargetType="Button">
+        <Setter Property="Background" Value="{StaticResource BrewEspressoBrush}" />
+        <Setter Property="Foreground" Value="White" />
+        <Setter Property="CornerRadius" Value="12" />
+        <Setter Property="Padding" Value="20,10" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="UseSystemFocusVisuals" Value="True" />
+        <Setter Property="Template">
+          <Setter.Value>
+            <ControlTemplate TargetType="Button">
+              <Grid x:Name="RootGrid"
+                    Background="{TemplateBinding Background}"
+                    CornerRadius="{TemplateBinding CornerRadius}">
+                <Border x:Name="Highlight"
+                        CornerRadius="{TemplateBinding CornerRadius}"
+                        Background="{StaticResource BrewHoverOnDarkBrush}"
+                        Opacity="0"
+                        IsHitTestVisible="False" />
+                <ContentPresenter x:Name="ContentPresenter"
+                                  Padding="{TemplateBinding Padding}"
+                                  HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                  VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                  Content="{TemplateBinding Content}"
+                                  ContentTemplate="{TemplateBinding ContentTemplate}"
+                                  AutomationProperties.AccessibilityView="Raw" />
+                <VisualStateManager.VisualStateGroups>
+                  <VisualStateGroup x:Name="CommonStates">
+                    <VisualState x:Name="Normal" />
+                    <VisualState x:Name="PointerOver">
+                      <Storyboard>
+                        <DoubleAnimation Storyboard.TargetName="Highlight"
+                                         Storyboard.TargetProperty="Opacity"
+                                         To="1" Duration="0:0:0.08" />
+                      </Storyboard>
+                    </VisualState>
+                    <VisualState x:Name="Pressed">
+                      <Storyboard>
+                        <DoubleAnimation Storyboard.TargetName="Highlight"
+                                         Storyboard.TargetProperty="Opacity"
+                                         To="1" Duration="0" />
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Highlight"
+                                                       Storyboard.TargetProperty="Background">
+                          <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource BrewPressOnDarkBrush}" />
+                        </ObjectAnimationUsingKeyFrames>
+                      </Storyboard>
+                    </VisualState>
+                    <VisualState x:Name="Disabled">
+                      <Storyboard>
+                        <DoubleAnimation Storyboard.TargetName="RootGrid"
+                                         Storyboard.TargetProperty="Opacity"
+                                         To="0.45" Duration="0" />
+                      </Storyboard>
+                    </VisualState>
+                  </VisualStateGroup>
+                </VisualStateManager.VisualStateGroups>
+              </Grid>
+            </ControlTemplate>
+          </Setter.Value>
+        </Setter>
+      </Style>
+
+      <!-- Light/secondary variant: foam background, dark text, dark highlight. -->
+      <Style x:Key="SecondaryButtonStyle" TargetType="Button" BasedOn="{StaticResource PrimaryButtonStyle}">
+        <Setter Property="Background" Value="{StaticResource BrewFoamBrush}" />
+        <Setter Property="Foreground" Value="{StaticResource BrewEspressoBrush}" />
+        <Setter Property="Template">
+          <Setter.Value>
+            <ControlTemplate TargetType="Button">
+              <Grid x:Name="RootGrid"
+                    Background="{TemplateBinding Background}"
+                    CornerRadius="{TemplateBinding CornerRadius}">
+                <Border x:Name="Highlight"
+                        CornerRadius="{TemplateBinding CornerRadius}"
+                        Background="{StaticResource BrewHoverOnLightBrush}"
+                        Opacity="0"
+                        IsHitTestVisible="False" />
+                <ContentPresenter x:Name="ContentPresenter"
+                                  Padding="{TemplateBinding Padding}"
+                                  HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                  VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                  Content="{TemplateBinding Content}"
+                                  ContentTemplate="{TemplateBinding ContentTemplate}"
+                                  AutomationProperties.AccessibilityView="Raw" />
+                <VisualStateManager.VisualStateGroups>
+                  <VisualStateGroup x:Name="CommonStates">
+                    <VisualState x:Name="Normal" />
+                    <VisualState x:Name="PointerOver">
+                      <Storyboard>
+                        <DoubleAnimation Storyboard.TargetName="Highlight"
+                                         Storyboard.TargetProperty="Opacity"
+                                         To="1" Duration="0:0:0.08" />
+                      </Storyboard>
+                    </VisualState>
+                    <VisualState x:Name="Pressed">
+                      <Storyboard>
+                        <DoubleAnimation Storyboard.TargetName="Highlight"
+                                         Storyboard.TargetProperty="Opacity"
+                                         To="1" Duration="0" />
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Highlight"
+                                                       Storyboard.TargetProperty="Background">
+                          <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource BrewPressOnLightBrush}" />
+                        </ObjectAnimationUsingKeyFrames>
+                      </Storyboard>
+                    </VisualState>
+                    <VisualState x:Name="Disabled">
+                      <Storyboard>
+                        <DoubleAnimation Storyboard.TargetName="RootGrid"
+                                         Storyboard.TargetProperty="Opacity"
+                                         To="0.45" Duration="0" />
+                      </Storyboard>
+                    </VisualState>
+                  </VisualStateGroup>
+                </VisualStateManager.VisualStateGroups>
+              </Grid>
+            </ControlTemplate>
+          </Setter.Value>
+        </Setter>
+      </Style>
 
     </ResourceDictionary>
   </Application.Resources>

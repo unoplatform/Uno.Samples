@@ -6,7 +6,8 @@
       Background="#FFFDF6EE">
 
     <utu:SafeArea Insets="VisibleBounds">
-        <Grid>
+        <!-- MaxWidth keeps a readable centred column on desktop; full width on phones (lesson 9). -->
+        <Grid MaxWidth="1100" HorizontalAlignment="Stretch">
             <Grid.DataContext>
                 <mock:CartPageData />
             </Grid.DataContext>
@@ -94,11 +95,8 @@
                     </Border>
                     <Button Content="Browse Menu"
                             AutomationProperties.Name="Browse menu"
-                            Background="#FF4A2810"
-                            Foreground="White"
-                            CornerRadius="12"
+                            Style="{StaticResource PrimaryButtonStyle}"
                             Padding="32,14"
-                            FontWeight="SemiBold"
                             FontSize="15"
                             HorizontalAlignment="Center"
                             Margin="0,8,0,0" />
@@ -180,16 +178,15 @@
                                                         HorizontalAlignment="Center">
                                                 <Button Content="+"
                                                         AutomationProperties.Name="Increase quantity"
+                                                        Style="{StaticResource PrimaryButtonStyle}"
                                                         Width="34"
                                                         Height="34"
-                                                        Background="#FF4A2810"
-                                                        Foreground="White"
                                                         CornerRadius="10"
                                                         FontSize="18"
                                                         FontWeight="Bold"
                                                         Padding="0"
                                                         HorizontalAlignment="Center"
-                                                        Command="{Binding DataContext.IncrementCommand, RelativeSource={RelativeSource Mode=Self}}"
+                                                        Command="{utu:ItemsControlBinding Path=DataContext.IncrementCommand}"
                                                         CommandParameter="{Binding}" />
                                                 <TextBlock Text="{Binding Quantity}"
                                                            FontSize="16"
@@ -198,16 +195,15 @@
                                                            HorizontalAlignment="Center" />
                                                 <Button Content="-"
                                                         AutomationProperties.Name="Decrease quantity"
+                                                        Style="{StaticResource SecondaryButtonStyle}"
                                                         Width="34"
                                                         Height="34"
-                                                        Background="#FFF5EFE6"
-                                                        Foreground="#FF4A2810"
                                                         CornerRadius="10"
                                                         FontSize="18"
                                                         FontWeight="Bold"
                                                         Padding="0"
                                                         HorizontalAlignment="Center"
-                                                        Command="{Binding DataContext.DecrementCommand, RelativeSource={RelativeSource Mode=Self}}"
+                                                        Command="{utu:ItemsControlBinding Path=DataContext.DecrementCommand}"
                                                         CommandParameter="{Binding}" />
                                             </StackPanel>
                                         </Grid>
@@ -322,10 +318,8 @@
                         <!-- Place Order Button -->
                         <Button Content="Place Order"
                                 AutomationProperties.Name="Place order"
+                                Style="{StaticResource PrimaryButtonStyle}"
                                 HorizontalAlignment="Stretch"
-                                Background="#FF4A2810"
-                                Foreground="White"
-                                CornerRadius="12"
                                 Padding="0,16"
                                 FontSize="16"
                                 FontWeight="Bold"

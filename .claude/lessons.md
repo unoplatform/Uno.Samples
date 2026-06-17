@@ -36,6 +36,8 @@ applies**. Code is illustrative — adapt names to the target sample.
 | 19 | Static field init order | A static prop initializer that reads a field declared lower crashes at first access; declare consumed fields first. |
 | 20 | Shell nav via Uno.Extensions | Nav chrome once in a shell page; pages become content-only and the framework injects them into a region. |
 | 21 | Extensions nav gotchas | View-only pages lose their constructor `DataContext`; adaptive default `VisualState` isn't applied to injected pages. |
+| 22 | Commands from item templates | `RelativeSource FindAncestor`/`Self` don't reach the page VM in WinUI/Uno; use `{utu:ItemsControlBinding Path=DataContext.Cmd}`. |
+| 23 | Cap content width on desktop | A constant `MaxWidth` + `HorizontalAlignment="Stretch"` = full-width on phones, centred column on desktop, no magic numbers. |
 
 ---
 
@@ -537,6 +539,69 @@ same: replace the `VisualStateManager` with `{utu:Responsive}` on the affected p
 
 **Applies to:** any Uno.Extensions Navigation shell with view-only pages and/or a
 size-adaptive layout on a navigated page.
+
+## 22. Invoking a page-VM command from inside an item template
+
+**Symptom.** A button inside a `ListView`/`ItemsControl`/`FlipView` `ItemTemplate`
+(e.g. "Add to Cart", a category filter, cart +/-) does nothing — the `Command` binding
+silently resolves to nothing.
+
+**Cause.** Two dead-ends that *compile* but don't work:
+- `Command="{Binding DataContext.Cmd, RelativeSource={RelativeSource Mode=Self}}"` — in a
+  `DataTemplate` `Self.DataContext` is the **item model**, not the page VM, so
+  `…Cmd` doesn't exist (silent no-op).
+- `RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=…}` — **`FindAncestor`
+  is WPF only.** In WinUI/Uno `RelativeSourceMode` is just `Self` / `TemplatedParent`, so
+  this is a hard build error (`UXAML0001: 'FindAncestor' is not a valid 'RelativeSourceMode'`).
+  `ElementName` into a *virtualized* `ListView` template is also unreliable.
+
+**Fix.** Use the Toolkit ancestor-binding markup extension (needs the `Toolkit` UnoFeature
+and `xmlns:utu`), which is purpose-built for "I'm in an item but need my page's data":
+
+```xml
+<!-- closest ItemsControl's DataContext = the page VM -->
+<Button Command="{utu:ItemsControlBinding Path=DataContext.AddToCartCommand}"
+        CommandParameter="{Binding}" />
+```
+
+`{utu:ItemsControlBinding Path=…}` is shorthand for
+`{utu:AncestorBinding AncestorType=ItemsControl, Path=…}`. It works inside a virtualized
+`ListView` template too (verified end-to-end). When the command lives on a reusable
+`UserControl` (e.g. a `ProductCard` with an `AddCommand` DP), bind that DP at the call
+site the same way: `AddCommand="{utu:ItemsControlBinding Path=DataContext.AddToCartCommand}"`.
+
+**Also (x:Bind helpers):** an `x:Bind` function binding calls the method as an **instance**
+member of the page/control — a `static` helper fails with `CS0176` ("cannot be accessed
+with an instance reference"). Make `Money(...)`/`BadgeVisibility(...)`-style x:Bind helpers
+**instance** methods.
+
+**Applies to:** any list/grid whose item rows raise commands handled by the page/VM, and
+any reusable item `UserControl` that surfaces a command DP.
+
+## 23. Cap content width so a phone layout doesn't sprawl on desktop
+
+**Symptom.** A sample designed phone-first (single column, fixed-width cards) targets
+`desktop`/`wasm` too; on a wide window the column stretches edge-to-edge into very wide
+bands, or fixed-width cards bunch at the left.
+
+**Fix (low-risk).** Put the page content in a container with a constant `MaxWidth` and
+`HorizontalAlignment="Stretch"`. Below the cap the element fills the screen (phones);
+above it, WinUI centres the capped element in the leftover space (lesson 2) — a tidy
+centred column on desktop. **No `{utu:Responsive}` and no magic numbers** for this part.
+
+```xml
+<ScrollViewer>
+  <Grid>                                  <!-- fills the viewport -->
+    <StackPanel MaxWidth="1100" HorizontalAlignment="Stretch"> … </StackPanel>
+  </Grid>
+</ScrollViewer>
+```
+
+Pair it with a responsive shell (lessons 20/21) for the nav chrome. A stricter reading of
+lesson 9 (multi-column grid on wide) is a possible further enhancement; the centred column
+is the minimal, robust win.
+
+**Applies to:** any phone-first sample that also ships a desktop/WASM head.
 
 ---
 

@@ -2,11 +2,13 @@
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:utu="using:Uno.Toolkit.UI"
+      xmlns:controls="using:BrewHouse.Presentation.Controls"
       xmlns:mock="using:BrewHouse.Presentation.MockData"
-      Background="#FFFDF6EE">
+      Background="{ThemeResource BrewCreamBrush}">
 
     <utu:SafeArea Insets="VisibleBounds">
-        <Grid>
+        <!-- MaxWidth keeps a readable centred column on desktop; full width on phones (lesson 9). -->
+        <Grid MaxWidth="1100" HorizontalAlignment="Stretch">
             <Grid.DataContext>
                 <mock:MenuPageData />
             </Grid.DataContext>
@@ -19,7 +21,7 @@
 
             <!-- Header -->
             <StackPanel Grid.Row="0"
-                        Background="#FF4A2810"
+                        Background="{ThemeResource BrewEspressoBrush}"
                         Padding="20,20,20,16"
                         Spacing="2">
                 <TextBlock Text="Our Menu"
@@ -36,7 +38,7 @@
                           HorizontalScrollBarVisibility="Hidden"
                           VerticalScrollBarVisibility="Disabled"
                           HorizontalScrollMode="Enabled"
-                          Background="#FFFDF6EE"
+                          Background="{ThemeResource BrewCreamBrush}"
                           Padding="0,12,0,12">
                 <ItemsControl ItemsSource="{Binding Categories}"
                               Padding="16,0,16,0">
@@ -48,13 +50,11 @@
                     </ItemsControl.ItemsPanel>
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <Button Background="#FFF5EFE6"
+                            <Button Style="{StaticResource SecondaryButtonStyle}"
                                     CornerRadius="20"
                                     Padding="16,8"
-                                    BorderBrush="#FF8C5A28"
-                                    BorderThickness="1.5"
                                     AutomationProperties.Name="{Binding Name}"
-                                    Command="{Binding DataContext.FilterByCategoryCommand, RelativeSource={RelativeSource Mode=Self}}"
+                                    Command="{utu:ItemsControlBinding Path=DataContext.FilterByCategoryCommand}"
                                     CommandParameter="{Binding Id}">
                                 <StackPanel Orientation="Horizontal" Spacing="6">
                                     <TextBlock Text="{Binding Icon}"
@@ -63,7 +63,7 @@
                                     <TextBlock Text="{Binding Name}"
                                                FontSize="13"
                                                FontWeight="SemiBold"
-                                               Foreground="#FF4A2810"
+                                               Foreground="{ThemeResource BrewEspressoBrush}"
                                                VerticalAlignment="Center" />
                                 </StackPanel>
                             </Button>
@@ -77,94 +77,35 @@
                       ItemsSource="{Binding FilteredProducts}"
                       SelectionMode="None"
                       Padding="16,4,16,16">
+                <!--
+                    Lesson 12: the default ListViewItem paints a grey hover/press rectangle
+                    over the rounded cards. A bare ContentPresenter template (no CommonStates)
+                    with zeroed container metrics removes it for this touch list.
+                -->
                 <ListView.ItemContainerStyle>
                     <Style TargetType="ListViewItem">
                         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                         <Setter Property="Padding" Value="0" />
                         <Setter Property="Margin" Value="0,0,0,12" />
+                        <Setter Property="MinHeight" Value="0" />
                         <Setter Property="Background" Value="Transparent" />
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="ListViewItem">
+                                    <ContentPresenter HorizontalAlignment="Stretch"
+                                                      HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                      Content="{TemplateBinding Content}"
+                                                      ContentTemplate="{TemplateBinding ContentTemplate}"
+                                                      Margin="{TemplateBinding Padding}" />
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
                     </Style>
                 </ListView.ItemContainerStyle>
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        <Border Background="White"
-                                CornerRadius="16"
-                                BorderBrush="#15000000"
-                                BorderThickness="1"
-                                Padding="0">
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="100" />
-                                    <ColumnDefinition />
-                                </Grid.ColumnDefinitions>
-
-                                <!-- Product Image -->
-                                <Border Grid.Column="0"
-                                        CornerRadius="16,0,0,16"
-                                        Background="#FFE8DDD0">
-                                    <Image Source="{Binding ImageUrl}"
-                                           Width="100"
-                                           Height="110"
-                                           Stretch="UniformToFill" />
-                                </Border>
-
-                                <!-- Product Info -->
-                                <StackPanel Grid.Column="1"
-                                            Padding="14,14,14,14"
-                                            Spacing="4"
-                                            VerticalAlignment="Center">
-
-                                    <!-- Special Badge -->
-                                    <Border Background="#FFF5EFE6"
-                                            CornerRadius="6"
-                                            Padding="6,2"
-                                            HorizontalAlignment="Left"
-                                            Visibility="{Binding IsSpecial}">
-                                        <TextBlock Text="Today's Special"
-                                                   FontSize="10"
-                                                   FontWeight="SemiBold"
-                                                   Foreground="#FF8C5A28" />
-                                    </Border>
-
-                                    <TextBlock Text="{Binding Name}"
-                                               FontSize="16"
-                                               FontWeight="SemiBold"
-                                               Foreground="#FF2C1A0E"
-                                               TextWrapping="NoWrap"
-                                               TextTrimming="CharacterEllipsis" />
-
-                                    <TextBlock Text="{Binding Description}"
-                                               FontSize="12"
-                                               Foreground="#FF8C7060"
-                                               TextWrapping="Wrap"
-                                               MaxLines="2"
-                                               TextTrimming="CharacterEllipsis" />
-
-                                    <StackPanel Orientation="Horizontal"
-                                                HorizontalAlignment="Stretch"
-                                                Spacing="10"
-                                                Margin="0,6,0,0">
-                                        <TextBlock FontSize="17"
-                                                   FontWeight="Bold"
-                                                   Foreground="#FF8C5A28"
-                                                   VerticalAlignment="Center">
-                                            <Run Text="$" /><Run Text="{Binding Price}" />
-                                        </TextBlock>
-
-                                        <Button Content="+ Add to Cart"
-                                                AutomationProperties.Name="Add to cart"
-                                                Background="#FF4A2810"
-                                                Foreground="White"
-                                                CornerRadius="12"
-                                                Padding="12,7"
-                                                FontSize="12"
-                                                FontWeight="SemiBold"
-                                                Command="{Binding DataContext.AddToCartCommand, RelativeSource={RelativeSource Mode=Self}}"
-                                                CommandParameter="{Binding}" />
-                                    </StackPanel>
-                                </StackPanel>
-                            </Grid>
-                        </Border>
+                        <controls:ProductCard Product="{Binding}"
+                                              AddCommand="{utu:ItemsControlBinding Path=DataContext.AddToCartCommand}" />
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
