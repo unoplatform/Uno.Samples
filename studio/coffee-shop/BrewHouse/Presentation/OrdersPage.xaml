@@ -38,13 +38,15 @@
                           Padding="20,0,20,16">
                 <StackPanel Spacing="12">
 
-                    <ItemsControl ItemsSource="{Binding Orders}">
-                        <ItemsControl.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <StackPanel Spacing="12" />
-                            </ItemsPanelTemplate>
-                        </ItemsControl.ItemsPanel>
-                        <ItemsControl.ItemTemplate>
+                    <!-- Order cards reflow into 2 columns on desktop, 1 on phones (lesson 9). -->
+                    <ItemsRepeater ItemsSource="{Binding Orders}">
+                        <ItemsRepeater.Layout>
+                            <UniformGridLayout MinItemWidth="420"
+                                               MinColumnSpacing="12"
+                                               MinRowSpacing="12"
+                                               ItemsStretch="Fill" />
+                        </ItemsRepeater.Layout>
+                        <ItemsRepeater.ItemTemplate>
                             <DataTemplate>
                                 <Border Background="White"
                                         CornerRadius="16"
@@ -126,8 +128,8 @@
                                     </StackPanel>
                                 </Border>
                             </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
+                        </ItemsRepeater.ItemTemplate>
+                    </ItemsRepeater>
 
                     <!-- Empty State -->
                     <Border Background="White"

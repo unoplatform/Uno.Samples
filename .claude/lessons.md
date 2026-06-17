@@ -598,9 +598,28 @@ centred column on desktop. **No `{utu:Responsive}` and no magic numbers** for th
 </ScrollViewer>
 ```
 
-Pair it with a responsive shell (lessons 20/21) for the nav chrome. A stricter reading of
-lesson 9 (multi-column grid on wide) is a possible further enhancement; the centred column
-is the minimal, robust win.
+Pair it with a responsive shell (lessons 20/21) for the nav chrome.
+
+**Multi-column on wide (the fuller lesson-9 win).** For card/list content, let an
+`ItemsRepeater` + `UniformGridLayout` reflow the items by available width — **1 column on
+phones, 2-3 on desktop, no breakpoints**:
+
+```xml
+<ScrollViewer>
+  <ItemsRepeater ItemsSource="{Binding Items}">
+    <ItemsRepeater.Layout>
+      <UniformGridLayout MinItemWidth="340" MinColumnSpacing="12" MinRowSpacing="12" ItemsStretch="Fill" />
+    </ItemsRepeater.Layout>
+    <ItemsRepeater.ItemTemplate><DataTemplate> … </DataTemplate></ItemsRepeater.ItemTemplate>
+  </ItemsRepeater>
+</ScrollViewer>
+```
+
+Two `ItemsRepeater` notes that bite:
+- It is **not** an `ItemsControl`, so `{utu:ItemsControlBinding}` (lesson 22) finds nothing —
+  reach the page VM with **`{utu:AncestorBinding AncestorType=ItemsRepeater, Path=DataContext.Cmd}`**.
+- It has **no item-container chrome**, so the lesson-12 grey hover rectangle never appears —
+  no `ItemContainerStyle` needed (it replaces the `ListView`+bare-template dance).
 
 **Applies to:** any phone-first sample that also ships a desktop/WASM head.
 

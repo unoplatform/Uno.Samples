@@ -173,20 +173,21 @@
                                        FontWeight="Bold"
                                        Foreground="{ThemeResource BrewCocoaBrush}" />
 
-                            <ItemsControl ItemsSource="{Binding FeaturedProducts}">
-                                <ItemsControl.ItemsPanel>
-                                    <ItemsPanelTemplate>
-                                        <StackPanel Spacing="12" />
-                                    </ItemsPanelTemplate>
-                                </ItemsControl.ItemsPanel>
-                                <ItemsControl.ItemTemplate>
+                            <ItemsRepeater ItemsSource="{Binding FeaturedProducts}">
+                                <ItemsRepeater.Layout>
+                                    <UniformGridLayout MinItemWidth="340"
+                                                       MinColumnSpacing="12"
+                                                       MinRowSpacing="12"
+                                                       ItemsStretch="Fill" />
+                                </ItemsRepeater.Layout>
+                                <ItemsRepeater.ItemTemplate>
                                     <DataTemplate>
                                         <controls:ProductCard Product="{Binding}"
                                                               ShowSpecialBadge="False"
-                                                              AddCommand="{utu:ItemsControlBinding Path=DataContext.AddToCartCommand}" />
+                                                              AddCommand="{utu:AncestorBinding AncestorType=ItemsRepeater, Path=DataContext.AddToCartCommand}" />
                                     </DataTemplate>
-                                </ItemsControl.ItemTemplate>
-                            </ItemsControl>
+                                </ItemsRepeater.ItemTemplate>
+                            </ItemsRepeater>
                         </StackPanel>
 
                         <!-- Cart Summary Strip (visible when cart has items) -->

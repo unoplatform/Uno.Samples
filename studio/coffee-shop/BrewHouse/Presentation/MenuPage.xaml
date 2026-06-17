@@ -67,43 +67,30 @@
                 </ItemsControl>
             </ScrollViewer>
 
-            <!-- Product List -->
-            <ListView Grid.Row="2"
-                      ItemsSource="{Binding FilteredProducts}"
-                      SelectionMode="None"
-                      Padding="16,4,16,16">
-                <!--
-                    Lesson 12: the default ListViewItem paints a grey hover/press rectangle
-                    over the rounded cards. A bare ContentPresenter template (no CommonStates)
-                    with zeroed container metrics removes it for this touch list.
-                -->
-                <ListView.ItemContainerStyle>
-                    <Style TargetType="ListViewItem">
-                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                        <Setter Property="Padding" Value="0" />
-                        <Setter Property="Margin" Value="0,0,0,12" />
-                        <Setter Property="MinHeight" Value="0" />
-                        <Setter Property="Background" Value="Transparent" />
-                        <Setter Property="Template">
-                            <Setter.Value>
-                                <ControlTemplate TargetType="ListViewItem">
-                                    <ContentPresenter HorizontalAlignment="Stretch"
-                                                      HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                                      Content="{TemplateBinding Content}"
-                                                      ContentTemplate="{TemplateBinding ContentTemplate}"
-                                                      Margin="{TemplateBinding Padding}" />
-                                </ControlTemplate>
-                            </Setter.Value>
-                        </Setter>
-                    </Style>
-                </ListView.ItemContainerStyle>
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <controls:ProductCard Product="{Binding}"
-                                              AddCommand="{utu:ItemsControlBinding Path=DataContext.AddToCartCommand}" />
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
+            <!--
+                Product list: a UniformGridLayout reflows the cards into 1 column on phones
+                and 2-3 on desktop as width grows (lesson 9) - no breakpoints, and an
+                ItemsRepeater has no item chrome so the lesson-12 hover rectangle never
+                appears. Commands reach the page VM via {utu:AncestorBinding} on the repeater.
+            -->
+            <ScrollViewer Grid.Row="2"
+                          VerticalScrollBarVisibility="Hidden"
+                          Padding="16,4,16,16">
+                <ItemsRepeater ItemsSource="{Binding FilteredProducts}">
+                    <ItemsRepeater.Layout>
+                        <UniformGridLayout MinItemWidth="340"
+                                           MinColumnSpacing="12"
+                                           MinRowSpacing="12"
+                                           ItemsStretch="Fill" />
+                    </ItemsRepeater.Layout>
+                    <ItemsRepeater.ItemTemplate>
+                        <DataTemplate>
+                            <controls:ProductCard Product="{Binding}"
+                                                  AddCommand="{utu:AncestorBinding AncestorType=ItemsRepeater, Path=DataContext.AddToCartCommand}" />
+                        </DataTemplate>
+                    </ItemsRepeater.ItemTemplate>
+                </ItemsRepeater>
+            </ScrollViewer>
         </Grid>
     </utu:SafeArea>
 </Page>
