@@ -11,6 +11,7 @@ applies**. Code is illustrative — adapt names to the target sample.
 
 | # | Lesson | One-line takeaway |
 |---|--------|-------------------|
+| 0 | Target every platform | Every sample must build for mobile (iOS, Android), WASM, and desktop (Win/macOS/Linux). |
 | 1 | Responsive layout | Use `{utu:Responsive}` + a shared `ResponsiveLayout`, not `AdaptiveTrigger`. |
 | 2 | `TextBlock` + `MaxWidth` centers | A `Stretch` element capped by `MaxWidth` is centered — pin it `Left`. |
 | 3 | `ComboBox` won't fill its column | Default `HorizontalAlignment` is `Left`; set `Stretch`. |
@@ -42,6 +43,42 @@ applies**. Code is illustrative — adapt names to the target sample.
 | 25 | Distinct light/dark from one palette | Put **semantic** brushes in `ThemeDictionaries` (referenced via `{ThemeResource}`); split any brush used as both bg and fg. |
 
 ---
+
+## 0. Every sample must target every platform
+
+**Rule.** A sample is not done until it builds and runs on **mobile (iOS, Android)**,
+**WebAssembly**, and **desktop (Windows, macOS, Linux)**. Don't ship a sample that only
+targets a subset — a phone-shaped UI that can't actually install on a phone is a half-sample.
+
+**TFMs (the repo convention, e.g. uno-crm / Voyago):**
+
+```xml
+<TargetFrameworks>net10.0-android;net10.0-ios;net10.0-browserwasm;net10.0-desktop</TargetFrameworks>
+```
+
+`net10.0-desktop` is the Skia head and **covers Windows, macOS and Linux** in one TFM — you
+do **not** need a separate `windows10.0.x` or `maccatalyst` target for desktop coverage.
+
+**Each native head needs platform scaffolding under `Platforms/`** — adding the TFM alone
+fails the build. The Uno asset task aborts with an `MSB4018` reading the iOS `Info.plist` if
+`Platforms/iOS/` is missing. Copy the heads from a sibling all-platform sample and adapt:
+- `Platforms/iOS/`: `Info.plist`, `Entitlements.plist`, `PrivacyInfo.xcprivacy`,
+  `Main.iOS.cs` (namespace `<App>.iOS`), `Media.xcassets/LaunchImages.launchimage/`.
+- `Platforms/Android/`: `AndroidManifest.xml`, `Main.Android.cs` + `MainActivity.Android.cs`
+  (namespace `<App>.Droid`), `Resources/values/Strings.xml` (`ApplicationName`) + `Styles.xml`,
+  `environment.conf`, the `AboutAssets`/`AboutResources` stubs.
+- After copying, rewrite the old app's name/namespace, and **delete any `App.InitializeLogging()`
+  call the entry points carry if your `App` doesn't define it** (BrewHouse configures logging
+  in `OnLaunched` instead — a stray call is a build break).
+
+**Building/running the native heads (from the headless shell):**
+- iOS: `dotnet build -f net10.0-ios -p:RuntimeIdentifier=iossimulator-arm64`, then
+  `xcrun simctl install booted <…>.app` + `launch booted <app-id>` + `io booted screenshot`.
+- Android: needs **JDK 17** —
+  `JAVA_HOME=/opt/homebrew/opt/openjdk@17/libexec/openjdk.jdk/Contents/Home dotnet build
+  -f net10.0-android -p:JavaSdkDirectory="$JAVA_HOME"` (see lesson 18 for the `adb install` path).
+
+**Applies to:** every sample in this repo.
 
 ## 1. Responsive layout: `{utu:Responsive}` over `AdaptiveTrigger`
 
