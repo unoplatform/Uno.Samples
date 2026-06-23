@@ -65,21 +65,10 @@ public partial class App : Application
                 )
                 // Enable localization (see appsettings.json for supported languages)
                 .UseLocalization()
-                .UseHttp((context, services) => {
-#if DEBUG
-                // DelegatingHandler will be automatically injected
-                services.AddTransient<DelegatingHandler, DebugHttpHandler>();
-#endif
-
-})
-                .ConfigureServices((context, services) =>
-                {
-                    // TODO: Register your services
-                    //services.AddSingleton<IMyService, MyService>();
-                })
                 .UseNavigation(ReactiveViewModelMappings.ViewModelMappings, RegisterRoutes)
             );
         MainWindow = builder.Window;
+        MainWindow.Title = "Claude Code Tracker";
 
         #if DEBUG
         MainWindow.UseStudio();
@@ -96,11 +85,11 @@ public partial class App : Application
 	{
 		views.Register(
 			new ViewMap<MainPage, MainModel>(),
-			new ViewMap<DashboardPage>(),
-			new ViewMap<SessionsPage>(),
-			new ViewMap<UsagePage>(),
-			new ViewMap<ChartsPage>(),
-			new ViewMap<SessionDetailPage>()
+			new ViewMap<DashboardPage, DashboardModel>(),
+			new ViewMap<SessionsPage, SessionsModel>(),
+			new ViewMap<UsagePage, UsageModel>(),
+			new ViewMap<ChartsPage, ChartsModel>(),
+			new DataViewMap<SessionDetailPage, SessionDetailModel, SessionEntry>()
 		);
 
 		routes.Register(

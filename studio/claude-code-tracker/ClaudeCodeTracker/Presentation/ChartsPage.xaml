@@ -5,13 +5,17 @@
       xmlns:lvc="using:LiveChartsCore.SkiaSharpView.WinUI"
       Background="{ThemeResource BackgroundBrush}">
 
-    <Grid x:Name="Root">
+    <Grid x:Name="Root" utu:SafeArea.Insets="Top">
         <ScrollViewer VerticalScrollBarVisibility="Auto">
-            <StackPanel Spacing="20" Padding="20,16,20,24">
+            <StackPanel Spacing="20"
+                        Padding="20,16,20,24"
+                        MaxWidth="{utu:Responsive Narrow=10000, Wide=1100}"
+                        HorizontalAlignment="Stretch">
 
                 <!-- Header -->
                 <StackPanel Spacing="2">
-                    <TextBlock Style="{StaticResource TitleLarge}"
+                    <TextBlock x:Uid="Charts_TitleLabel"
+                               Style="{StaticResource TitleLarge}"
                                Foreground="{ThemeResource OnBackgroundBrush}"
                                Text="Charts" />
                     <TextBlock Style="{StaticResource BodyMedium}"
@@ -21,12 +25,14 @@
 
                 <!-- Daily cost line chart -->
                 <utu:CardContentControl Style="{StaticResource ElevatedCardContentControlStyle}"
+                                        IsClickable="False"
                                         HorizontalAlignment="Stretch">
                     <utu:CardContentControl.ContentTemplate>
                         <DataTemplate>
                             <StackPanel Padding="16" Spacing="12">
                                 <StackPanel Spacing="2">
-                                    <TextBlock Style="{StaticResource TitleSmall}"
+                                    <TextBlock x:Uid="Charts_DailyCostLabel"
+                                               Style="{StaticResource TitleSmall}"
                                                Foreground="{ThemeResource OnSurfaceBrush}"
                                                Text="Daily Cost Trend" />
                                     <TextBlock Style="{StaticResource LabelSmall}"
@@ -37,7 +43,8 @@
                                     <lvc:CartesianChart Series="{Binding DailyCostSeries}"
                                                         XAxes="{Binding DailyCostXAxes}"
                                                         YAxes="{Binding DailyCostYAxes}"
-                                                        LegendPosition="Hidden" />
+                                                        LegendPosition="Hidden"
+                                                        AutomationProperties.Name="Daily cost trend chart" />
                                 </Grid>
                             </StackPanel>
                         </DataTemplate>
@@ -46,12 +53,14 @@
 
                 <!-- Weekly sessions bar chart -->
                 <utu:CardContentControl Style="{StaticResource ElevatedCardContentControlStyle}"
+                                        IsClickable="False"
                                         HorizontalAlignment="Stretch">
                     <utu:CardContentControl.ContentTemplate>
                         <DataTemplate>
                             <StackPanel Padding="16" Spacing="12">
                                 <StackPanel Spacing="2">
-                                    <TextBlock Style="{StaticResource TitleSmall}"
+                                    <TextBlock x:Uid="Charts_SessionsLabel"
+                                               Style="{StaticResource TitleSmall}"
                                                Foreground="{ThemeResource OnSurfaceBrush}"
                                                Text="Sessions Per Day" />
                                     <TextBlock Style="{StaticResource LabelSmall}"
@@ -62,24 +71,31 @@
                                     <lvc:CartesianChart Series="{Binding WeeklySessionsSeries}"
                                                         XAxes="{Binding WeeklySessionsXAxes}"
                                                         YAxes="{Binding WeeklySessionsYAxes}"
-                                                        LegendPosition="Hidden" />
+                                                        LegendPosition="Hidden"
+                                                        AutomationProperties.Name="Sessions per day chart" />
                                 </Grid>
                             </StackPanel>
                         </DataTemplate>
                     </utu:CardContentControl.ContentTemplate>
                 </utu:CardContentControl>
 
-                <!-- Donut charts row -->
-                <Grid>
+                <!-- Donut charts row: two-up on Wide, stacked on Narrow -->
+                <Grid ColumnSpacing="16" RowSpacing="16">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="16" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
 
                     <!-- Token type donut -->
-                    <utu:CardContentControl Grid.Column="0"
+                    <utu:CardContentControl Grid.Row="0"
+                                            Grid.Column="0"
+                                            Grid.ColumnSpan="{utu:Responsive Narrow=2, Wide=1}"
                                             Style="{StaticResource ElevatedCardContentControlStyle}"
+                                            IsClickable="False"
                                             HorizontalAlignment="Stretch"
                                             MinHeight="340">
                         <utu:CardContentControl.ContentTemplate>
@@ -91,6 +107,7 @@
                                         <RowDefinition Height="*" />
                                     </Grid.RowDefinitions>
                                     <TextBlock Grid.Row="0"
+                                               x:Uid="Charts_TokenTypesLabel"
                                                Style="{StaticResource TitleSmall}"
                                                Foreground="{ThemeResource OnSurfaceBrush}"
                                                Text="Token Types" />
@@ -104,15 +121,19 @@
                                                   LegendPosition="Bottom"
                                                   LegendTextPaint="{Binding LegendTextPaint}"
                                                   InitialRotation="-90"
-                                                  Height="260" />
+                                                  Height="260"
+                                                  AutomationProperties.Name="Token type breakdown chart" />
                                 </Grid>
                             </DataTemplate>
                         </utu:CardContentControl.ContentTemplate>
                     </utu:CardContentControl>
 
                     <!-- Model share donut -->
-                    <utu:CardContentControl Grid.Column="2"
+                    <utu:CardContentControl Grid.Row="{utu:Responsive Narrow=1, Wide=0}"
+                                            Grid.Column="{utu:Responsive Narrow=0, Wide=1}"
+                                            Grid.ColumnSpan="{utu:Responsive Narrow=2, Wide=1}"
                                             Style="{StaticResource ElevatedCardContentControlStyle}"
+                                            IsClickable="False"
                                             HorizontalAlignment="Stretch"
                                             MinHeight="340">
                         <utu:CardContentControl.ContentTemplate>
@@ -124,6 +145,7 @@
                                         <RowDefinition Height="*" />
                                     </Grid.RowDefinitions>
                                     <TextBlock Grid.Row="0"
+                                               x:Uid="Charts_ModelShareLabel"
                                                Style="{StaticResource TitleSmall}"
                                                Foreground="{ThemeResource OnSurfaceBrush}"
                                                Text="Model Share" />
@@ -137,7 +159,8 @@
                                                   LegendPosition="Bottom"
                                                   LegendTextPaint="{Binding LegendTextPaint}"
                                                   InitialRotation="-90"
-                                                  Height="260" />
+                                                  Height="260"
+                                                  AutomationProperties.Name="Model token share chart" />
                                 </Grid>
                             </DataTemplate>
                         </utu:CardContentControl.ContentTemplate>

@@ -4,9 +4,12 @@
       xmlns:utu="using:Uno.Toolkit.UI"
       Background="{ThemeResource BackgroundBrush}">
 
-    <Grid x:Name="Root">
+    <Grid x:Name="Root" utu:SafeArea.Insets="Top">
         <ScrollViewer VerticalScrollBarVisibility="Auto">
-            <StackPanel Spacing="20" Padding="20,16,20,24">
+            <StackPanel Spacing="20"
+                        Padding="20,16,20,24"
+                        MaxWidth="{utu:Responsive Narrow=10000, Wide=1100}"
+                        HorizontalAlignment="Stretch">
 
                 <!-- Header -->
                 <Grid>
@@ -15,18 +18,27 @@
                         <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
                     <StackPanel Grid.Column="0" Spacing="2">
-                        <TextBlock Style="{StaticResource HeadlineMedium}"
+                        <TextBlock x:Uid="Dashboard_TitleLabel"
+                                   Style="{StaticResource HeadlineMedium}"
                                    Foreground="{ThemeResource OnBackgroundBrush}"
+                                   TextWrapping="Wrap"
+                                   HorizontalAlignment="Left"
                                    Text="Claude Code Tracker" />
                         <TextBlock Style="{StaticResource BodyMedium}"
                                    Foreground="{ThemeResource OnSurfaceVariantBrush}"
                                    Text="{Binding PeriodLabel}" />
                     </StackPanel>
-                    <StackPanel Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center" Spacing="2">
+                    <StackPanel Grid.Column="1"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Center"
+                                Spacing="2"
+                                Visibility="{utu:Responsive Narrow=Collapsed, Wide=Visible}">
                         <TextBlock Style="{StaticResource LabelSmall}"
+                                   HorizontalAlignment="Right"
                                    Foreground="{ThemeResource OnSurfaceVariantBrush}"
                                    Text="{Binding ResetWindowLabel}" />
                         <TextBlock Style="{StaticResource LabelSmall}"
+                                   HorizontalAlignment="Right"
                                    Foreground="{ThemeResource PrimaryBrush}"
                                    Text="{Binding ResetCountdown}" />
                     </StackPanel>
@@ -34,6 +46,7 @@
 
                 <!-- Budget progress card -->
                 <utu:CardContentControl Style="{StaticResource ElevatedCardContentControlStyle}"
+                                        IsClickable="False"
                                         HorizontalAlignment="Stretch">
                     <utu:CardContentControl.ContentTemplate>
                         <DataTemplate>
@@ -44,27 +57,26 @@
                                         <ColumnDefinition Width="Auto" />
                                     </Grid.ColumnDefinitions>
                                     <StackPanel Grid.Column="0" Spacing="2">
-                                        <TextBlock Style="{StaticResource LabelMedium}"
+                                        <TextBlock x:Uid="Dashboard_BudgetLabel"
+                                                   Style="{StaticResource LabelMedium}"
                                                    Foreground="{ThemeResource OnSurfaceVariantBrush}"
                                                    Text="Monthly Budget" />
                                         <StackPanel Orientation="Horizontal" Spacing="4">
                                             <TextBlock Style="{StaticResource TitleLarge}"
-                                                       Foreground="{ThemeResource PrimaryBrush}">
-                                                <Run Text="$" /><Run Text="{Binding TotalCostUsd}" />
-                                            </TextBlock>
+                                                       Foreground="{ThemeResource PrimaryBrush}"
+                                                       Text="{Binding TotalCostDisplay}" />
                                             <TextBlock Style="{StaticResource BodyMedium}"
                                                        VerticalAlignment="Bottom"
                                                        Foreground="{ThemeResource OnSurfaceVariantBrush}">
-                                                <Run Text="/ $" /><Run Text="{Binding BudgetLimitUsd}" />
+                                                <Run Text="/ " /><Run Text="{Binding BudgetLimitDisplay}" />
                                             </TextBlock>
                                         </StackPanel>
                                     </StackPanel>
                                     <StackPanel Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center" Spacing="2">
                                         <TextBlock Style="{StaticResource TitleMedium}"
                                                    HorizontalAlignment="Right"
-                                                   Foreground="{ThemeResource OnSurfaceBrush}">
-                                            <Run Text="{Binding BudgetUsedPercent}" /><Run Text="%" />
-                                        </TextBlock>
+                                                   Foreground="{ThemeResource OnSurfaceBrush}"
+                                                   Text="{Binding BudgetUsedDisplay}" />
                                         <TextBlock Style="{StaticResource LabelSmall}"
                                                    Foreground="{ThemeResource OnSurfaceVariantBrush}"
                                                    Text="used" />
@@ -74,34 +86,39 @@
                                              Maximum="100"
                                              HorizontalAlignment="Stretch"
                                              Height="8" />
-                                <!-- vs last month indicator -->
+                                <!-- vs last month indicator (color/glyph driven by the trend flag) -->
                                 <StackPanel Orientation="Horizontal" Spacing="4">
-                                    <FontIcon Glyph="&#xE74A;"
+                                    <FontIcon Glyph="{Binding TrendGlyph}"
                                               FontSize="11"
-                                              Foreground="{ThemeResource ErrorBrush}" />
+                                              Foreground="{Binding TrendBrush}" />
                                     <TextBlock Style="{StaticResource LabelSmall}"
-                                               Foreground="{ThemeResource ErrorBrush}">
-                                        <Run Text="+"/><Run Text="{Binding BudgetVsLastMonth}" /><Run Text="% vs last month" />
-                                    </TextBlock>
+                                               Foreground="{Binding TrendBrush}"
+                                               Text="{Binding TrendDeltaDisplay}" />
                                 </StackPanel>
                             </StackPanel>
                         </DataTemplate>
                     </utu:CardContentControl.ContentTemplate>
                 </utu:CardContentControl>
 
-                <!-- KPI stat row -->
-                <Grid>
+                <!-- KPI stat row: 4-across on wide, 2x2 on narrow -->
+                <Grid ColumnSpacing="8" RowSpacing="{utu:Responsive Narrow=8, Wide=0}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="8" />
                         <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="8" />
+                        <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
 
                     <!-- Total tokens -->
-                    <utu:CardContentControl Grid.Column="0"
+                    <utu:CardContentControl Grid.Row="0"
+                                            Grid.Column="0"
+                                            Grid.ColumnSpan="{utu:Responsive Narrow=2, Wide=1}"
                                             Style="{StaticResource ElevatedCardContentControlStyle}"
+                                            IsClickable="False"
                                             HorizontalAlignment="Stretch">
                         <utu:CardContentControl.ContentTemplate>
                             <DataTemplate>
@@ -112,7 +129,7 @@
                                               Foreground="{ThemeResource SecondaryBrush}" />
                                     <TextBlock Style="{StaticResource TitleMedium}"
                                                Foreground="{ThemeResource OnSurfaceBrush}"
-                                               Text="{Binding TotalTokens}" />
+                                               Text="{Binding TotalTokensDisplay}" />
                                     <TextBlock Style="{StaticResource LabelSmall}"
                                                Foreground="{ThemeResource OnSurfaceVariantBrush}"
                                                Text="Total Tokens" />
@@ -122,8 +139,11 @@
                     </utu:CardContentControl>
 
                     <!-- Sessions -->
-                    <utu:CardContentControl Grid.Column="2"
+                    <utu:CardContentControl Grid.Row="0"
+                                            Grid.Column="{utu:Responsive Narrow=2, Wide=1}"
+                                            Grid.ColumnSpan="{utu:Responsive Narrow=2, Wide=1}"
                                             Style="{StaticResource ElevatedCardContentControlStyle}"
+                                            IsClickable="False"
                                             HorizontalAlignment="Stretch">
                         <utu:CardContentControl.ContentTemplate>
                             <DataTemplate>
@@ -134,7 +154,7 @@
                                               Foreground="{ThemeResource TertiaryBrush}" />
                                     <TextBlock Style="{StaticResource TitleMedium}"
                                                Foreground="{ThemeResource OnSurfaceBrush}"
-                                               Text="{Binding TotalSessions}" />
+                                               Text="{Binding TotalSessionsDisplay}" />
                                     <TextBlock Style="{StaticResource LabelSmall}"
                                                Foreground="{ThemeResource OnSurfaceVariantBrush}"
                                                Text="Sessions" />
@@ -144,8 +164,11 @@
                     </utu:CardContentControl>
 
                     <!-- Active days -->
-                    <utu:CardContentControl Grid.Column="4"
+                    <utu:CardContentControl Grid.Row="{utu:Responsive Narrow=1, Wide=0}"
+                                            Grid.Column="{utu:Responsive Narrow=0, Wide=2}"
+                                            Grid.ColumnSpan="{utu:Responsive Narrow=2, Wide=1}"
                                             Style="{StaticResource ElevatedCardContentControlStyle}"
+                                            IsClickable="False"
                                             HorizontalAlignment="Stretch">
                         <utu:CardContentControl.ContentTemplate>
                             <DataTemplate>
@@ -156,10 +179,35 @@
                                               Foreground="{ThemeResource PrimaryBrush}" />
                                     <TextBlock Style="{StaticResource TitleMedium}"
                                                Foreground="{ThemeResource OnSurfaceBrush}"
-                                               Text="{Binding ActiveDays}" />
+                                               Text="{Binding ActiveDaysDisplay}" />
                                     <TextBlock Style="{StaticResource LabelSmall}"
                                                Foreground="{ThemeResource OnSurfaceVariantBrush}"
                                                Text="Active Days" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </utu:CardContentControl.ContentTemplate>
+                    </utu:CardContentControl>
+
+                    <!-- Avg cost / session -->
+                    <utu:CardContentControl Grid.Row="{utu:Responsive Narrow=1, Wide=0}"
+                                            Grid.Column="{utu:Responsive Narrow=2, Wide=3}"
+                                            Grid.ColumnSpan="{utu:Responsive Narrow=2, Wide=1}"
+                                            Style="{StaticResource ElevatedCardContentControlStyle}"
+                                            IsClickable="False"
+                                            HorizontalAlignment="Stretch">
+                        <utu:CardContentControl.ContentTemplate>
+                            <DataTemplate>
+                                <StackPanel Padding="12,10" Spacing="4">
+                                    <FontIcon Glyph="&#xE8EF;"
+                                              FontSize="18"
+                                              HorizontalAlignment="Left"
+                                              Foreground="{ThemeResource SecondaryBrush}" />
+                                    <TextBlock Style="{StaticResource TitleMedium}"
+                                               Foreground="{ThemeResource OnSurfaceBrush}"
+                                               Text="{Binding AvgCostDisplay}" />
+                                    <TextBlock Style="{StaticResource LabelSmall}"
+                                               Foreground="{ThemeResource OnSurfaceVariantBrush}"
+                                               Text="Avg / Session" />
                                 </StackPanel>
                             </DataTemplate>
                         </utu:CardContentControl.ContentTemplate>
@@ -168,11 +216,13 @@
 
                 <!-- Model breakdown -->
                 <utu:CardContentControl Style="{StaticResource ElevatedCardContentControlStyle}"
+                                        IsClickable="False"
                                         HorizontalAlignment="Stretch">
                     <utu:CardContentControl.ContentTemplate>
                         <DataTemplate>
                             <StackPanel Padding="16" Spacing="12">
-                                <TextBlock Style="{StaticResource TitleSmall}"
+                                <TextBlock x:Uid="Dashboard_ModelUsageLabel"
+                                           Style="{StaticResource TitleSmall}"
                                            Foreground="{ThemeResource OnSurfaceBrush}"
                                            Text="Model Usage" />
                                 <ItemsRepeater ItemsSource="{Binding ModelBreakdown}">
@@ -195,9 +245,8 @@
                                                                Width="160" />
                                                     <TextBlock Grid.Column="2"
                                                                Style="{StaticResource LabelSmall}"
-                                                               Foreground="{ThemeResource OnSurfaceVariantBrush}">
-                                                        <Run Text="$" /><Run Text="{Binding TotalCostUsd}" />
-                                                    </TextBlock>
+                                                               Foreground="{ThemeResource OnSurfaceVariantBrush}"
+                                                               Text="{Binding TotalCostDisplay}" />
                                                 </Grid>
                                                 <ProgressBar Value="{Binding SharePercent}"
                                                              Maximum="100"
@@ -205,7 +254,7 @@
                                                              Height="6" />
                                                 <TextBlock Style="{StaticResource LabelSmall}"
                                                            Foreground="{ThemeResource OnSurfaceVariantBrush}">
-                                                    <Run Text="{Binding SessionCount}" /><Run Text=" sessions · " /><Run Text="{Binding SharePercent}" /><Run Text="% of tokens" />
+                                                    <Run Text="{Binding SessionCount}" /><Run Text=" sessions · " /><Run Text="{Binding SharePercentDisplay}" /><Run Text="% of tokens" />
                                                 </TextBlock>
                                             </StackPanel>
                                         </DataTemplate>
@@ -218,7 +267,8 @@
 
                 <!-- Recent sessions -->
                 <StackPanel Spacing="8">
-                    <TextBlock Style="{StaticResource TitleSmall}"
+                    <TextBlock x:Uid="Dashboard_RecentSessionsLabel"
+                               Style="{StaticResource TitleSmall}"
                                Foreground="{ThemeResource OnBackgroundBrush}"
                                Text="Recent Sessions" />
                     <ItemsRepeater ItemsSource="{Binding RecentSessions}">
@@ -229,6 +279,7 @@
                             <DataTemplate>
                                 <utu:CardContentControl Content="{Binding}"
                                                         Style="{StaticResource ElevatedCardContentControlStyle}"
+                                                        IsClickable="False"
                                                         HorizontalAlignment="Stretch">
                                     <utu:CardContentControl.ContentTemplate>
                                         <DataTemplate>
@@ -240,6 +291,7 @@
                                                 <StackPanel Grid.Column="0" Spacing="3">
                                                     <TextBlock Style="{StaticResource LabelMedium}"
                                                                Foreground="{ThemeResource OnSurfaceBrush}"
+                                                               TextTrimming="CharacterEllipsis"
                                                                Text="{Binding ProjectName}" />
                                                     <StackPanel Orientation="Horizontal" Spacing="6">
                                                         <TextBlock Style="{StaticResource LabelSmall}"
@@ -264,14 +316,12 @@
                                                 <StackPanel Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center" Spacing="2">
                                                     <TextBlock Style="{StaticResource LabelMedium}"
                                                                HorizontalAlignment="Right"
-                                                               Foreground="{ThemeResource PrimaryBrush}">
-                                                        <Run Text="$" /><Run Text="{Binding CostUsd}" />
-                                                    </TextBlock>
+                                                               Foreground="{ThemeResource PrimaryBrush}"
+                                                               Text="{Binding CostDisplay}" />
                                                     <TextBlock Style="{StaticResource LabelSmall}"
                                                                HorizontalAlignment="Right"
-                                                               Foreground="{ThemeResource OnSurfaceVariantBrush}">
-                                                        <Run Text="{Binding InputTokens}" /><Run Text=" in" />
-                                                    </TextBlock>
+                                                               Foreground="{ThemeResource OnSurfaceVariantBrush}"
+                                                               Text="{Binding StartedAtDisplay}" />
                                                 </StackPanel>
                                             </Grid>
                                         </DataTemplate>
