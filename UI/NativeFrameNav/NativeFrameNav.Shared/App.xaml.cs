@@ -23,9 +23,11 @@ namespace NativeFrameNav
         {
             InitializeLogging();
 
-#if __IOS__ || __ANDROID__
-			Uno.UI.FeatureConfiguration.Style.ConfigureNativeFrameNavigation();
-#endif
+            // This cannot be used with IOS because of this bug: https://github.com/unoplatform/uno/issues/13284
+            //#if __IOS__ || __ANDROID__
+//#if __ANDROID__
+//            Uno.UI.FeatureConfiguration.Style.ConfigureNativeFrameNavigation();
+//#endif
             this.InitializeComponent();
 
 #if HAS_UNO || NETFX_CORE
