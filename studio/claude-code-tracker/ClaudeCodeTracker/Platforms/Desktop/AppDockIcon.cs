@@ -20,7 +20,13 @@ public partial class App
             return;
         }
 
-        var iconPath = Path.Combine(AppContext.BaseDirectory, "images", "icon.png");
+        // Prefer the macOS-styled icon (rounded "squircle" body with the standard margin) since
+        // macOS shows applicationIconImage as-is without masking; fall back to the square icon.
+        var iconPath = Path.Combine(AppContext.BaseDirectory, "images", "icon-macos.png");
+        if (!File.Exists(iconPath))
+        {
+            iconPath = Path.Combine(AppContext.BaseDirectory, "images", "icon.png");
+        }
         if (!File.Exists(iconPath))
         {
             return;
