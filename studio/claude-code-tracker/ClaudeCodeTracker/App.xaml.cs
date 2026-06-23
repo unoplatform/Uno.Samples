@@ -74,12 +74,18 @@ public partial class App : Application
         MainWindow.UseStudio();
 #endif
                 MainWindow.SetWindowIcon();
+        // Show the app icon in the macOS Dock when launched unbundled (Windows/Linux use the
+        // window icon above). No-op on other platforms — see Platforms/Desktop/AppDockIcon.cs.
+        SetMacOSDockIcon();
 
         Host = await MainWindow.InitializeNavigationAsync(
             () => Task.FromResult(builder.Build()),
             initialRoute: "Main"
         );
     }
+
+    /// <summary>macOS Dock icon hook, implemented for the desktop head only; no-op elsewhere.</summary>
+    partial void SetMacOSDockIcon();
 
     	private static void RegisterRoutes(IViewRegistry views, IRouteRegistry routes)
 	{
