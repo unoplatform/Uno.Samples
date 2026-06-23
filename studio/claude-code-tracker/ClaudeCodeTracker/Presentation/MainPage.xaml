@@ -14,13 +14,22 @@
         Navigation injects the active route (Dashboard / Sessions / Usage / Charts) into it.
     -->
     <Grid uen:Region.Attached="True">
+        <!--
+            The pane uses the NavigationView's own width-based adaptation (PaneDisplayMode="Auto"
+            with the expand threshold lowered to 640) rather than {utu:Responsive}. Native
+            adaptation reacts to the control's real width, so the expanded (labeled) pane also
+            shows in Studio Web / Hot Design, where {utu:Responsive} doesn't resolve to Wide. At
+            >= 640 the pane is expanded with labels; below that it collapses to minimal and the
+            bottom TabBar takes over. The toggle is hidden so the labeled pane can't be collapsed.
+        -->
         <NavigationView x:Name="NavView"
                         uen:Region.Attached="True"
                         IsSettingsVisible="False"
                         IsBackButtonVisible="Collapsed"
-                        PaneDisplayMode="{utu:Responsive Narrow=LeftMinimal, Wide=Left}"
-                        IsPaneToggleButtonVisible="{utu:Responsive Narrow=False, Wide=True}"
-                        IsPaneOpen="{utu:Responsive Narrow=False, Wide=True}">
+                        PaneDisplayMode="Auto"
+                        CompactModeThresholdWidth="640"
+                        ExpandedModeThresholdWidth="640"
+                        IsPaneToggleButtonVisible="False">
             <NavigationView.MenuItems>
                 <NavigationViewItem x:Uid="Dashboard_NavItem" uen:Region.Name="Dashboard" Content="Dashboard">
                     <NavigationViewItem.Icon>
