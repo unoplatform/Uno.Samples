@@ -22,7 +22,7 @@
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
                 <StackPanel Grid.Column="0" Spacing="2">
-                    <TextBlock x:Uid="Sessions_TitleLabel"
+                    <TextBlock
                                Style="{StaticResource TitleLarge}"
                                Foreground="{ThemeResource OnSurfaceVariantBrush}"
                                Text="Sessions" />
@@ -39,7 +39,6 @@
             </Grid>
 
             <TextBox x:Name="SearchBox"
-                     x:Uid="Sessions_SearchBox"
                      PlaceholderText="Search sessions by name…"
                      HorizontalAlignment="Stretch"
                      TextChanged="SearchBox_TextChanged" />
@@ -117,7 +116,6 @@
 
         <!-- Empty state when search/filter excludes every session -->
         <TextBlock x:Name="EmptyState"
-                   x:Uid="Sessions_EmptyState"
                    Grid.Row="1"
                    Visibility="Collapsed"
                    HorizontalAlignment="Center"
