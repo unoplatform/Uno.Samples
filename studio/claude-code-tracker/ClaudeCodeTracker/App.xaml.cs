@@ -63,8 +63,6 @@ public partial class App : Application
                         .EmbeddedSource<App>()
                         .Section<AppConfig>()
                 )
-                // Enable localization (see appsettings.json for supported languages)
-                .UseLocalization()
                 .UseNavigation(ReactiveViewModelMappings.ViewModelMappings, RegisterRoutes)
             );
         MainWindow = builder.Window;

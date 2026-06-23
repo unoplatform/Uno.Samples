@@ -13,7 +13,7 @@
 
                 <!-- Header -->
                 <StackPanel Spacing="2">
-                    <TextBlock x:Uid="Usage_TitleLabel"
+                    <TextBlock
                                Style="{StaticResource TitleLarge}"
                                Foreground="{ThemeResource OnBackgroundBrush}"
                                Text="Usage &amp; Limits" />
@@ -70,7 +70,7 @@
                     <utu:CardContentControl.ContentTemplate>
                         <DataTemplate>
                             <StackPanel Padding="16" Spacing="14">
-                                <TextBlock x:Uid="Usage_TokenBreakdownLabel" Style="{StaticResource TitleSmall}" Foreground="{ThemeResource OnSurfaceBrush}" Text="Token Breakdown" />
+                                <TextBlock Style="{StaticResource TitleSmall}" Foreground="{ThemeResource OnSurfaceBrush}" Text="Token Breakdown" />
 
                                 <StackPanel Spacing="4">
                                     <Grid>
@@ -131,7 +131,7 @@
 
                 <!-- Rate limits -->
                 <StackPanel Spacing="8">
-                    <TextBlock x:Uid="Usage_RateLimitsLabel" Style="{StaticResource TitleSmall}" Foreground="{ThemeResource OnBackgroundBrush}" Text="Rate Limits" />
+                    <TextBlock Style="{StaticResource TitleSmall}" Foreground="{ThemeResource OnBackgroundBrush}" Text="Rate Limits" />
                     <ItemsRepeater ItemsSource="{Binding RateLimits}">
                         <ItemsRepeater.Layout>
                             <StackLayout Spacing="8" Orientation="Vertical" />
@@ -173,7 +173,7 @@
                     <utu:CardContentControl.ContentTemplate>
                         <DataTemplate>
                             <StackPanel Padding="16" Spacing="12">
-                                <TextBlock x:Uid="Usage_ModelCostLabel" Style="{StaticResource TitleSmall}" Foreground="{ThemeResource OnSurfaceBrush}" Text="Model Usage &amp; Cost" />
+                                <TextBlock Style="{StaticResource TitleSmall}" Foreground="{ThemeResource OnSurfaceBrush}" Text="Model Usage &amp; Cost" />
                                 <ItemsRepeater ItemsSource="{Binding ModelBreakdown}">
                                     <ItemsRepeater.Layout>
                                         <StackLayout Spacing="10" Orientation="Vertical" />
@@ -208,7 +208,7 @@
                     <utu:CardContentControl.ContentTemplate>
                         <DataTemplate>
                             <StackPanel Padding="16" Spacing="12">
-                                <TextBlock x:Uid="Usage_PricingRefLabel" Style="{StaticResource TitleSmall}" Foreground="{ThemeResource OnSurfaceBrush}" Text="Model Pricing Reference" />
+                                <TextBlock Style="{StaticResource TitleSmall}" Foreground="{ThemeResource OnSurfaceBrush}" Text="Model Pricing Reference" />
                                 <StackPanel Spacing="2">
                                     <Grid>
                                         <Grid.ColumnDefinitions>
