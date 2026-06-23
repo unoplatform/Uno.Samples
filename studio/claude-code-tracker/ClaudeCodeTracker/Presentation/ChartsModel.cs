@@ -1,30 +1,33 @@
 using LiveChartsCore;
 using LiveChartsCore.SkiaSharpView;
 using LiveChartsCore.SkiaSharpView.Painting;
+using Microsoft.UI.Xaml.Media;
 using SkiaSharp;
 
 namespace ClaudeCodeTracker.Presentation;
 
 /// <summary>
-/// Builds the LiveCharts series from the shared <see cref="SampleData"/> rollup. Axis/legend
-/// and series paints are resolved from the active theme palette (see <see cref="ResolveColor"/>)
-/// so the charts stay legible in both light and dark — never the hardcoded gray that vanished
-/// in dark mode (lesson 16). Paints are built here at navigation time (after resources load),
-/// avoiding the static-initialization-order trap of lesson 19.
+/// Builds the LiveCharts series from the shared <see cref="SampleData"/> rollup. Axis and series
+/// colors are resolved from the active theme palette (see <see cref="Resolve"/>) so the charts
+/// stay legible and on-brand in both light and dark (lesson 16); paints are built here at
+/// navigation time, after resources load, avoiding the static-init-order trap (lesson 19).
+///
+/// Donuts use a hidden built-in legend plus a custom <see cref="LegendEntry"/> legend (rendered in
+/// XAML) so both donuts draw at the same fixed size and each item shows its percentage.
 /// </summary>
 [Uno.Extensions.Reactive.ReactiveBindable(false)]
 public partial record ChartsModel
 {
     public ChartsModel()
     {
-        var labelColor = ResolveColor("OnSurfaceVariantColor", new SKColor(0x52, 0x45, 0x3D));
-        var axisLabel = new SolidColorPaint(labelColor);
-        LegendTextPaint = new SolidColorPaint(labelColor);
+        var labelClr = Resolve("OnSurfaceVariantColor", Rgb(0x51, 0x46, 0x3B));
+        var primaryClr = Resolve("PrimaryColor", Rgb(0xC2, 0x41, 0x0C));
+        var secondaryClr = Resolve("SecondaryColor", Rgb(0x0F, 0x76, 0x6E));
+        var tertiaryClr = Resolve("TertiaryColor", Rgb(0xB4, 0x53, 0x09));
+        var outlineClr = Resolve("OutlineColor", Rgb(0x8A, 0x77, 0x66));
 
-        var primary = ResolveColor("PrimaryColor", new SKColor(0x7C, 0x3A, 0xED));
-        var secondary = ResolveColor("SecondaryColor", new SKColor(0x1A, 0x7A, 0x8A));
-        var tertiary = ResolveColor("TertiaryColor", new SKColor(0x6B, 0x3F, 0xA0));
-        var outline = ResolveColor("OutlineColor", new SKColor(0x85, 0x70, 0x68));
+        var axisLabel = new SolidColorPaint(Sk(labelClr));
+        SKColor primary = Sk(primaryClr), secondary = Sk(secondaryClr), tertiary = Sk(tertiaryClr), outline = Sk(outlineClr);
 
         var days = SampleData.DailyUsage;
 
@@ -43,9 +46,9 @@ public partial record ChartsModel
         };
         DailyCostXAxes = new[]
         {
-            new Axis { Labels = days.Select(d => d.DayLabel).ToArray(), LabelsRotation = -30, TextSize = 10, LabelsPaint = axisLabel },
+            new Axis { Labels = days.Select(d => d.DayLabel).ToArray(), LabelsRotation = -30, TextSize = 11, LabelsPaint = axisLabel },
         };
-        DailyCostYAxes = new[] { new Axis { MinLimit = 0, TextSize = 10, LabelsPaint = axisLabel } };
+        DailyCostYAxes = new[] { new Axis { MinLimit = 0, TextSize = 11, LabelsPaint = axisLabel } };
 
         var week = days.TakeLast(7).ToArray();
         WeeklySessionsSeries = new ISeries[]
@@ -60,9 +63,9 @@ public partial record ChartsModel
         };
         WeeklySessionsXAxes = new[]
         {
-            new Axis { Labels = week.Select(d => d.DayLabel).ToArray(), TextSize = 10, LabelsPaint = axisLabel },
+            new Axis { Labels = week.Select(d => d.DayLabel).ToArray(), TextSize = 11, LabelsPaint = axisLabel },
         };
-        WeeklySessionsYAxes = new[] { new Axis { MinLimit = 0, TextSize = 10, LabelsPaint = axisLabel } };
+        WeeklySessionsYAxes = new[] { new Axis { MinLimit = 0, TextSize = 11, LabelsPaint = axisLabel } };
 
         var tokens = SampleData.Tokens;
         TokenTypeSeries = new ISeries[]
@@ -72,10 +75,21 @@ public partial record ChartsModel
             Slice("Cache Read", tokens.CacheReadPercent, tertiary),
             Slice("Cache Write", tokens.CacheWritePercent, outline),
         };
+        TokenTypeLegend = new[]
+        {
+            new LegendEntry("Input", Pct(tokens.InputPercent), Swatch(primaryClr)),
+            new LegendEntry("Output", Pct(tokens.OutputPercent), Swatch(secondaryClr)),
+            new LegendEntry("Cache Read", Pct(tokens.CacheReadPercent), Swatch(tertiaryClr)),
+            new LegendEntry("Cache Write", Pct(tokens.CacheWritePercent), Swatch(outlineClr)),
+        };
 
-        var sharePalette = new[] { primary, secondary, tertiary };
+        var paletteSk = new[] { primary, secondary, tertiary };
+        var paletteClr = new[] { primaryClr, secondaryClr, tertiaryClr };
         ModelShareSeries = SampleData.ModelBreakdown
-            .Select((m, i) => Slice(m.ShortName, m.SharePercent, sharePalette[i % sharePalette.Length]))
+            .Select((m, i) => Slice(m.ShortName, m.SharePercent, paletteSk[i % paletteSk.Length]))
+            .ToArray();
+        ModelShareLegend = SampleData.ModelBreakdown
+            .Select((m, i) => new LegendEntry(m.ShortName, Pct(m.SharePercent), Swatch(paletteClr[i % paletteClr.Length])))
             .ToArray();
     }
 
@@ -89,19 +103,28 @@ public partial record ChartsModel
     public Axis[] WeeklySessionsYAxes { get; }
     public ISeries[] TokenTypeSeries { get; }
     public ISeries[] ModelShareSeries { get; }
-    public SolidColorPaint LegendTextPaint { get; }
+    public IReadOnlyList<LegendEntry> TokenTypeLegend { get; }
+    public IReadOnlyList<LegendEntry> ModelShareLegend { get; }
 
     private static PieSeries<double> Slice(string name, double value, SKColor color) => new()
     {
         Name = name,
         Values = new[] { value },
         Fill = new SolidColorPaint(color),
-        MaxRadialColumnWidth = 40, // pin band thickness; let the hole scale (lesson 15)
+        MaxRadialColumnWidth = 38, // pin band thickness; let the hole scale (lesson 15)
         DataLabelsPaint = null,
     };
 
-    private static SKColor ResolveColor(string key, SKColor fallback) =>
+    private static string Pct(double value) => $"{Fmt.Percent(value)}%";
+    private static SKColor Sk(Windows.UI.Color c) => new(c.R, c.G, c.B, c.A);
+    private static Brush Swatch(Windows.UI.Color c) => new SolidColorBrush(c);
+    private static Windows.UI.Color Rgb(byte r, byte g, byte b) => Windows.UI.Color.FromArgb(0xFF, r, g, b);
+
+    private static Windows.UI.Color Resolve(string key, Windows.UI.Color fallback) =>
         Application.Current.Resources.TryGetValue(key, out var value) && value is Windows.UI.Color color
-            ? new SKColor(color.R, color.G, color.B, color.A)
+            ? color
             : fallback;
 }
+
+/// <summary>One row of a chart legend: a colored swatch, a label, and its percentage.</summary>
+public partial record LegendEntry(string Label, string ValueDisplay, Microsoft.UI.Xaml.Media.Brush Swatch);

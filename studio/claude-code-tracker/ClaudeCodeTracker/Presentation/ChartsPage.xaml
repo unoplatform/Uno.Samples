@@ -96,34 +96,40 @@
                                             Grid.ColumnSpan="{utu:Responsive Narrow=2, Wide=1}"
                                             Style="{StaticResource ElevatedCardContentControlStyle}"
                                             IsClickable="False"
-                                            HorizontalAlignment="Stretch"
-                                            MinHeight="340">
+                                            VerticalAlignment="Stretch"
+                                            HorizontalAlignment="Stretch">
                         <utu:CardContentControl.ContentTemplate>
                             <DataTemplate>
-                                <Grid Margin="16">
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto" />
-                                        <RowDefinition Height="Auto" />
-                                        <RowDefinition Height="*" />
-                                    </Grid.RowDefinitions>
-                                    <TextBlock Grid.Row="0"
-                                               x:Uid="Charts_TokenTypesLabel"
+                                <StackPanel Margin="16" Spacing="2">
+                                    <TextBlock x:Uid="Charts_TokenTypesLabel"
                                                Style="{StaticResource TitleSmall}"
                                                Foreground="{ThemeResource OnSurfaceBrush}"
                                                Text="Token Types" />
-                                    <TextBlock Grid.Row="1"
-                                               Style="{StaticResource LabelSmall}"
+                                    <TextBlock Style="{StaticResource LabelSmall}"
                                                Foreground="{ThemeResource OnSurfaceVariantBrush}"
-                                               Margin="0,2,0,8"
                                                Text="Breakdown of token usage by type" />
-                                    <lvc:PieChart Grid.Row="2"
-                                                  Series="{Binding TokenTypeSeries}"
-                                                  LegendPosition="Bottom"
-                                                  LegendTextPaint="{Binding LegendTextPaint}"
+                                    <!-- Fixed height so both donuts draw identically; legend is custom below -->
+                                    <lvc:PieChart Series="{Binding TokenTypeSeries}"
+                                                  LegendPosition="Hidden"
                                                   InitialRotation="-90"
-                                                  Height="260"
+                                                  Height="200"
+                                                  Margin="0,8,0,0"
                                                   AutomationProperties.Name="Token type breakdown chart" />
-                                </Grid>
+                                    <ItemsRepeater ItemsSource="{Binding TokenTypeLegend}" Margin="0,12,0,0">
+                                        <ItemsRepeater.Layout>
+                                            <UniformGridLayout MinItemWidth="130" MinColumnSpacing="8" MinRowSpacing="6" />
+                                        </ItemsRepeater.Layout>
+                                        <ItemsRepeater.ItemTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal" Spacing="6">
+                                                    <Ellipse Width="10" Height="10" VerticalAlignment="Center" Fill="{Binding Swatch}" />
+                                                    <TextBlock Style="{StaticResource LabelSmall}" VerticalAlignment="Center" Foreground="{ThemeResource OnSurfaceVariantBrush}" Text="{Binding Label}" />
+                                                    <TextBlock Style="{StaticResource LabelSmall}" VerticalAlignment="Center" Foreground="{ThemeResource OnSurfaceBrush}" Text="{Binding ValueDisplay}" />
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </ItemsRepeater.ItemTemplate>
+                                    </ItemsRepeater>
+                                </StackPanel>
                             </DataTemplate>
                         </utu:CardContentControl.ContentTemplate>
                     </utu:CardContentControl>
@@ -134,34 +140,39 @@
                                             Grid.ColumnSpan="{utu:Responsive Narrow=2, Wide=1}"
                                             Style="{StaticResource ElevatedCardContentControlStyle}"
                                             IsClickable="False"
-                                            HorizontalAlignment="Stretch"
-                                            MinHeight="340">
+                                            VerticalAlignment="Stretch"
+                                            HorizontalAlignment="Stretch">
                         <utu:CardContentControl.ContentTemplate>
                             <DataTemplate>
-                                <Grid Margin="16">
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto" />
-                                        <RowDefinition Height="Auto" />
-                                        <RowDefinition Height="*" />
-                                    </Grid.RowDefinitions>
-                                    <TextBlock Grid.Row="0"
-                                               x:Uid="Charts_ModelShareLabel"
+                                <StackPanel Margin="16" Spacing="2">
+                                    <TextBlock x:Uid="Charts_ModelShareLabel"
                                                Style="{StaticResource TitleSmall}"
                                                Foreground="{ThemeResource OnSurfaceBrush}"
                                                Text="Model Share" />
-                                    <TextBlock Grid.Row="1"
-                                               Style="{StaticResource LabelSmall}"
+                                    <TextBlock Style="{StaticResource LabelSmall}"
                                                Foreground="{ThemeResource OnSurfaceVariantBrush}"
-                                               Margin="0,2,0,8"
                                                Text="Token share by Claude model" />
-                                    <lvc:PieChart Grid.Row="2"
-                                                  Series="{Binding ModelShareSeries}"
-                                                  LegendPosition="Bottom"
-                                                  LegendTextPaint="{Binding LegendTextPaint}"
+                                    <lvc:PieChart Series="{Binding ModelShareSeries}"
+                                                  LegendPosition="Hidden"
                                                   InitialRotation="-90"
-                                                  Height="260"
+                                                  Height="200"
+                                                  Margin="0,8,0,0"
                                                   AutomationProperties.Name="Model token share chart" />
-                                </Grid>
+                                    <ItemsRepeater ItemsSource="{Binding ModelShareLegend}" Margin="0,12,0,0">
+                                        <ItemsRepeater.Layout>
+                                            <UniformGridLayout MinItemWidth="130" MinColumnSpacing="8" MinRowSpacing="6" />
+                                        </ItemsRepeater.Layout>
+                                        <ItemsRepeater.ItemTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal" Spacing="6">
+                                                    <Ellipse Width="10" Height="10" VerticalAlignment="Center" Fill="{Binding Swatch}" />
+                                                    <TextBlock Style="{StaticResource LabelSmall}" VerticalAlignment="Center" Foreground="{ThemeResource OnSurfaceVariantBrush}" Text="{Binding Label}" />
+                                                    <TextBlock Style="{StaticResource LabelSmall}" VerticalAlignment="Center" Foreground="{ThemeResource OnSurfaceBrush}" Text="{Binding ValueDisplay}" />
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </ItemsRepeater.ItemTemplate>
+                                    </ItemsRepeater>
+                                </StackPanel>
                             </DataTemplate>
                         </utu:CardContentControl.ContentTemplate>
                     </utu:CardContentControl>
