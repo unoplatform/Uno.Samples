@@ -549,7 +549,62 @@ same: replace the `VisualStateManager` with `{utu:Responsive}` on the affected p
 **Applies to:** any Uno.Extensions Navigation shell with view-only pages and/or a
 size-adaptive layout on a navigated page.
 
+## 22. `x:Uid` text is blank in Studio Web / Hot Design — use literal `Content`/`Text` in shells
+
+**Symptom.** `NavigationView`/`TabBar` item labels (or any `x:Uid`-localized text) are **blank in
+Studio Web and Hot Design** (the nav pane shows icons only) but render correctly in the exported
+app.
+
+**Cause.** `x:Uid` **overrides any inline `Content`/`Text` at parse time**, and the Studio Web /
+Hot Design **design-time `ResourceLoader` does not apply the `.resw` values** the way the exported
+build does — so the property resolves to **empty** in those surfaces. The exported app loads the
+`.resw` normally, so labels appear there. Diagnostic that nails it: it's the **only** difference
+from a known-good sample — `claude-code-tracker`'s MainPage was the *only* `NavigationView` in the
+whole `studio/` repo using `x:Uid`; `uno-crm` and `travel-app/Voyago` use a plain literal `Content`
+with **no** `x:Uid`.
+
+**Fix.** Don't source shell label text via `x:Uid` if the shell must render in the design surfaces.
+Use a **literal** `Content="Dashboard"` (the `NavigationViewItem`/`TabBarItem` accessible name comes
+from `Content`). Removing `x:Uid` is the fix — **not** adding a literal *alongside* `x:Uid` (x:Uid
+wins and blanks it). Trade-off: this drops per-item localization for those labels; every other
+studio NavigationView sample accepts that. (The same applies to page/section title `TextBlock`s
+driven by `x:Uid` — they're also blank in the design surfaces.)
+
+> Misdiagnoses burned on this exact bug before finding it (all wrong axes — the symptom is
+> design-time text, not pane mode): literal `Content` alongside `x:Uid`; native `NavigationView`
+> `Auto` + lowered `ExpandedModeThresholdWidth`; code-behind `ActualWidth`-driven pane visibility;
+> adding `<utu:ResponsiveLayout x:Key="DefaultResponsiveLayout">`. Lesson: when something renders
+> in the exported app but not in Studio Web / Hot Design, **diff the failing XAML against a
+> known-good sample of the same control first** (here: the lone `x:Uid` usage) instead of theorizing
+> about responsive/layout. (`DefaultResponsiveLayout` is still worth having to keep `{utu:Responsive}`
+> breakpoints consistent, and `Wide=Left` beats `Wide=Auto` for the pane — but neither was the cause.)
+
+**Applies to:** any shell whose responsive state must be visible while editing in Studio Web /
+Hot Design, especially a `NavigationView` pane.
+
+## 23. Two desktop app-icon traps (Skia)
+
+- **A charting/other NuGet package can hijack the Skia desktop window icon.** On Skia desktop,
+  `MainWindow.SetWindowIcon()` loads `images/icon.png` from the app output as the window/taskbar
+  icon. `LiveChartsCore.SkiaSharpView.Uno.WinUI` ships *its own logo* as a content file at that
+  exact path, so the LiveCharts logo silently replaced the app icon (every other platform was
+  fine — they generate icons at different paths). Fix: `<ExcludeAssets>contentFiles</ExcludeAssets>`
+  on the offending `PackageReference`, and supply the real composed icon at `images/icon.png`
+  yourself (desktop-scoped `Content`). Diagnose via `md5`/content of the built `images/icon.png`
+  vs the package's `contentFiles/**/images/icon.png` in `~/.nuget`.
+- **macOS Dock icon ≠ window icon, and needs the rounded grid.** macOS shows a generic "exec"
+  Dock tile for an **unbundled** run (`dotnet run`); the real icon only appears for a packaged
+  `.app` (`dotnet publish -p:PackageFormat=app`). To show it during dev-run, set
+  `NSApplication.applicationIconImage` at startup via ObjC P/Invoke (isolate in a desktop-head-only
+  partial method so the interop never compiles into wasm/iOS/Android). macOS does **not** mask
+  `applicationIconImage` (unlike iOS), so bake the macOS icon grid into the PNG — rounded
+  "squircle" body at ~80% with ~10% transparent margin and ~22% corner radius — otherwise a
+  full-bleed square looks foreign. Keep a separate square icon for the Windows/Linux taskbar.
+
+**Applies to:** any single-project sample with LiveCharts (or similar content-shipping packages)
+and/or a Skia desktop head that wants a correct taskbar/Dock icon.
+
 ---
 
 *Generated from the change history on branch `dev/jenny/update-uno-crm-sample`
-(PR unoplatform/Uno.Samples#918).*
+(PR unoplatform/Uno.Samples#918); extended on `dev/jenny/claude-tracker-exemplar`.*
