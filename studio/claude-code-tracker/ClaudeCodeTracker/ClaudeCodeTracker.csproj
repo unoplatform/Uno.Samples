@@ -51,6 +51,23 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="LiveChartsCore.SkiaSharpView.Uno.WinUI" />
+    <!--
+      ExcludeAssets="contentFiles": the LiveChartsCore.SkiaSharpView.Uno.WinUI package ships its
+      own logo as a content file at "images/icon.png" — the exact path Uno's SetWindowIcon() loads
+      for the Skia desktop window/taskbar icon — which otherwise overwrites the app's generated
+      icon. Excluding the package's content assets lets the real app icon win on desktop.
+    -->
+    <PackageReference Include="LiveChartsCore.SkiaSharpView.Uno.WinUI">
+      <ExcludeAssets>contentFiles</ExcludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <!--
+    Desktop (Skia) window/taskbar icon. MainWindow.SetWindowIcon() loads "images/icon.png" from
+    the app output at runtime; this is the composed app icon (logo + ring on #151515). Without it
+    the slot is empty (and previously the LiveCharts package's own logo landed here — see above).
+  -->
+  <ItemGroup Condition="$(TargetFramework.Contains('-desktop'))">
+    <Content Include="images\icon.png" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 </Project>
