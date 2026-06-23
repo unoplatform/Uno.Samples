@@ -15,20 +15,20 @@
     -->
     <Grid uen:Region.Attached="True">
         <!--
-            The pane mode is driven from MainPage.xaml.cs based on the page's actual rendered
-            width — not {utu:Responsive} or NavigationView's native Auto, both of which read the
-            ResponsiveHelper / window metrics that report "narrow" in Studio Web / Hot Design and
-            keep the pane collapsed (no labels) there even though the page lays out wide. The
-            default (and the >= 640 "wide" case) is an expanded, labeled Left pane; below 640 the
-            code-behind hides the pane and shows the bottom TabBar. Defaulting to the wide state
-            means labels still show in the design surfaces if SizeChanged never fires there.
+            Responsive shell pane: an expanded, labeled NavigationView pane on wide, hidden in
+            favor of the bottom TabBar on narrow — switched by {utu:Responsive} against the
+            app-wide DefaultResponsiveLayout breakpoint declared in App.xaml. That resource is
+            required for the extension to resolve correctly (including in Studio Web / Hot Design);
+            Wide=Left (not Auto) keeps the pane expanded with labels rather than dropping to the
+            icon-only compact band on mid-width desktops.
         -->
         <NavigationView x:Name="NavView"
                         uen:Region.Attached="True"
                         IsSettingsVisible="False"
                         IsBackButtonVisible="Collapsed"
-                        PaneDisplayMode="Left"
-                        IsPaneToggleButtonVisible="False">
+                        PaneDisplayMode="{utu:Responsive Narrow=LeftMinimal, Wide=Left}"
+                        IsPaneToggleButtonVisible="{utu:Responsive Narrow=False, Wide=True}"
+                        IsPaneOpen="{utu:Responsive Narrow=False, Wide=True}">
             <NavigationView.MenuItems>
                 <NavigationViewItem x:Uid="Dashboard_NavItem" uen:Region.Name="Dashboard" Content="Dashboard">
                     <NavigationViewItem.Icon>
@@ -64,12 +64,12 @@
                           uen:Region.Attached="True"
                           uen:Region.Navigator="Visibility" />
 
-                    <!-- Bottom TabBar: shown on narrow, hidden on wide (toggled in code-behind) -->
+                    <!-- Bottom TabBar: shown on narrow, hidden on wide -->
                     <utu:TabBar x:Name="BottomTabs"
                                 Grid.Row="1"
                                 uen:Region.Attached="True"
                                 Style="{StaticResource BottomTabBarStyle}"
-                                Visibility="Collapsed">
+                                Visibility="{utu:Responsive Narrow=Visible, Wide=Collapsed}">
                         <utu:TabBarItem x:Uid="Dashboard_NavItem" uen:Region.Name="Dashboard" Content="Dashboard">
                             <utu:TabBarItem.Icon>
                                 <FontIcon Glyph="&#xE80F;" />
