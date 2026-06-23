@@ -75,8 +75,11 @@ namespace AdvancedXBind.ViewModel
         {
             DateTimeOffset now = DateTimeOffset.Now;
             Stopwatch sw = Stopwatch.StartNew();
-            await Task.Delay(50);
-            sw.Stop();
+			// We cannot use Delay on WASM because of this issue: https://github.com/unoplatform/uno/issues/13370
+#if !__WASM__
+			await Task.Delay(50);
+#endif
+			sw.Stop();
             return $"Started {now} Elapsed: {sw.Elapsed}";
         }
     }
