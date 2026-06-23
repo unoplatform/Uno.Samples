@@ -430,6 +430,17 @@ theme colors.
   `Viewbox` — **not** an SVG `<Image>`. A gradient/`<defs>` SVG can fail through the runtime
   `Image` path and render as a **solid black tile**; native shapes always render and scale
   crisply. See [`Controls/AppLogo.xaml`](../studio/uno-crm/UnoCRM/Controls/AppLogo.xaml).
+- **A Figma-exported SVG icon won't rasterize faithfully through Resizetizer.** Figma exports
+  fancy fills (e.g. a conic-gradient ring) as a `<foreignObject>` holding an HTML
+  `conic-gradient` plus a sibling `<path data-figma-gradient-fill="…">` — both are Figma-only
+  extensions that **Resizetizer's SVG rasterizer (Svg.Skia) ignores**, and the real `<path>`
+  inherits the root `fill="none"`, so that element renders **invisible** (you get the logo/shapes
+  but the gradient/ring vanishes). Re-author the effect with **standard SVG**: a
+  `<linearGradient>`/`<radialGradient>` + `<mask>`/`<clipPath>` (all supported by Svg.Skia), on a
+  transparent foreground (the bg colour comes from `UnoIconBackgroundColor`). Validate twice: a
+  headless-Chrome render confirms the *design*, and a real build (which runs Resizetizer) plus an
+  on-device/WASM screenshot confirms the *rasterizer* kept the effect. (Claude Code Tracker hit
+  this — the pink→red conic ring disappeared until rebuilt as `linearGradient` + `mask`.)
 
 **Applies to:** any single-project sample that needs branded icon/splash, or that shows
 its logo in-app.
