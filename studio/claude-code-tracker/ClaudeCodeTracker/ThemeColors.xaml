@@ -1,54 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+	<!--
+		Warm "Claude" palette: a terracotta/coral primary (matching the app icon) over warm
+		cream/charcoal neutrals, with a deep-teal secondary and amber tertiary. Cards (Surface)
+		sit clearly above the page (Background) in both themes, and every On-/role pairing meets
+		WCAG AA contrast. The Charts page resolves Primary/Secondary/Tertiary/OnSurfaceVariant
+		from these keys, so charts re-theme automatically.
+	-->
 	<ResourceDictionary.ThemeDictionaries>
 		<ResourceDictionary x:Key="Light">
-			<Color x:Key="PrimaryColor">#7C3AED</Color>
+			<Color x:Key="PrimaryColor">#C2410C</Color>
 			<Color x:Key="OnPrimaryColor">#FFFFFF</Color>
-			<Color x:Key="PrimaryContainerColor">#EDE9FE</Color>
-			<Color x:Key="OnPrimaryContainerColor">#2E1065</Color>
-			<Color x:Key="SecondaryColor">#1A7A8A</Color>
+			<Color x:Key="PrimaryContainerColor">#FBE3D3</Color>
+			<Color x:Key="OnPrimaryContainerColor">#4A1503</Color>
+			<Color x:Key="SecondaryColor">#0F766E</Color>
 			<Color x:Key="OnSecondaryColor">#FFFFFF</Color>
-			<Color x:Key="SecondaryContainerColor">#C8F0F5</Color>
-			<Color x:Key="OnSecondaryContainerColor">#002A30</Color>
-			<Color x:Key="TertiaryColor">#6B3FA0</Color>
+			<Color x:Key="SecondaryContainerColor">#CCEEE9</Color>
+			<Color x:Key="OnSecondaryContainerColor">#00201C</Color>
+			<Color x:Key="TertiaryColor">#B45309</Color>
 			<Color x:Key="OnTertiaryColor">#FFFFFF</Color>
-			<Color x:Key="TertiaryContainerColor">#EADDFF</Color>
-			<Color x:Key="OnTertiaryContainerColor">#250052</Color>
+			<Color x:Key="TertiaryContainerColor">#FCE8C8</Color>
+			<Color x:Key="OnTertiaryContainerColor">#3A2400</Color>
 			<Color x:Key="ErrorColor">#BA1A1A</Color>
 			<Color x:Key="OnErrorColor">#FFFFFF</Color>
-			<Color x:Key="SurfaceColor">#FBF8F6</Color>
-			<Color x:Key="OnSurfaceColor">#1C1917</Color>
-			<Color x:Key="SurfaceVariantColor">#F0E8E2</Color>
-			<Color x:Key="OnSurfaceVariantColor">#52453D</Color>
-			<Color x:Key="BackgroundColor">#F5F0EC</Color>
-			<Color x:Key="OnBackgroundColor">#1C1917</Color>
-			<Color x:Key="OutlineColor">#857068</Color>
-			<Color x:Key="OutlineVariantColor">#D8C8BE</Color>
+			<Color x:Key="SurfaceColor">#FFFFFF</Color>
+			<Color x:Key="OnSurfaceColor">#1F1A16</Color>
+			<Color x:Key="SurfaceVariantColor">#ECE3D9</Color>
+			<Color x:Key="OnSurfaceVariantColor">#51463B</Color>
+			<Color x:Key="BackgroundColor">#F3ECE4</Color>
+			<Color x:Key="OnBackgroundColor">#1F1A16</Color>
+			<Color x:Key="OutlineColor">#8A7766</Color>
+			<Color x:Key="OutlineVariantColor">#D8CCBE</Color>
 		</ResourceDictionary>
 		<ResourceDictionary x:Key="Default">
-			<Color x:Key="PrimaryColor">#A78BFA</Color>
-			<Color x:Key="OnPrimaryColor">#2E1065</Color>
-			<Color x:Key="PrimaryContainerColor">#5B21B6</Color>
-			<Color x:Key="OnPrimaryContainerColor">#EDE9FE</Color>
-			<Color x:Key="SecondaryColor">#4ECFE0</Color>
-			<Color x:Key="OnSecondaryColor">#003640</Color>
-			<Color x:Key="SecondaryContainerColor">#004E5C</Color>
-			<Color x:Key="OnSecondaryContainerColor">#C8F0F5</Color>
-			<Color x:Key="TertiaryColor">#CFBCFF</Color>
-			<Color x:Key="OnTertiaryColor">#381E72</Color>
-			<Color x:Key="TertiaryContainerColor">#4F3788</Color>
-			<Color x:Key="OnTertiaryContainerColor">#EADDFF</Color>
+			<Color x:Key="PrimaryColor">#FB923C</Color>
+			<Color x:Key="OnPrimaryColor">#4A1503</Color>
+			<Color x:Key="PrimaryContainerColor">#7C2D12</Color>
+			<Color x:Key="OnPrimaryContainerColor">#FFE0CC</Color>
+			<Color x:Key="SecondaryColor">#5EEAD4</Color>
+			<Color x:Key="OnSecondaryColor">#00201C</Color>
+			<Color x:Key="SecondaryContainerColor">#0F5249</Color>
+			<Color x:Key="OnSecondaryContainerColor">#B8F5EC</Color>
+			<Color x:Key="TertiaryColor">#FBBF24</Color>
+			<Color x:Key="OnTertiaryColor">#3A2400</Color>
+			<Color x:Key="TertiaryContainerColor">#6B4500</Color>
+			<Color x:Key="OnTertiaryContainerColor">#FCE8C8</Color>
 			<Color x:Key="ErrorColor">#FFB4AB</Color>
 			<Color x:Key="OnErrorColor">#690005</Color>
-			<Color x:Key="SurfaceColor">#1A1614</Color>
-			<Color x:Key="OnSurfaceColor">#EDE0D8</Color>
-			<Color x:Key="SurfaceVariantColor">#2A221E</Color>
-			<Color x:Key="OnSurfaceVariantColor">#C4B4AA</Color>
-			<Color x:Key="BackgroundColor">#141210</Color>
-			<Color x:Key="OnBackgroundColor">#EDE0D8</Color>
-			<Color x:Key="OutlineColor">#9E8B82</Color>
-			<Color x:Key="OutlineVariantColor">#3D332E</Color>
+			<Color x:Key="SurfaceColor">#2A231C</Color>
+			<Color x:Key="OnSurfaceColor">#ECE1D7</Color>
+			<Color x:Key="SurfaceVariantColor">#332B22</Color>
+			<Color x:Key="OnSurfaceVariantColor">#CFC0B2</Color>
+			<Color x:Key="BackgroundColor">#14110E</Color>
+			<Color x:Key="OnBackgroundColor">#ECE1D7</Color>
+			<Color x:Key="OutlineColor">#9C8B7B</Color>
+			<Color x:Key="OutlineVariantColor">#3D352D</Color>
 		</ResourceDictionary>
 	</ResourceDictionary.ThemeDictionaries>
 </ResourceDictionary>
