@@ -6,7 +6,11 @@ public sealed partial class UsagePage : Page
     {
         this.InitializeComponent();
 
-        // Hot Design fallback; Navigation injects the UsageModel from the ViewMap at runtime.
-        this.DataContext = new UsageModel();
+        // Hot Design fallback only; Navigation injects the UsageModel from the ViewMap at runtime
+        // (gate on design mode so the injected instance wins; lesson 21).
+        if (Windows.ApplicationModel.DesignMode.DesignModeEnabled)
+        {
+            this.DataContext = new UsageModel();
+        }
     }
 }

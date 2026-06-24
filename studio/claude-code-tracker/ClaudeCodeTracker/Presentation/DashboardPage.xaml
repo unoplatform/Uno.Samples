@@ -8,7 +8,7 @@
         <ScrollViewer VerticalScrollBarVisibility="Auto">
             <StackPanel Spacing="20"
                         Padding="20,16,20,24"
-                        MaxWidth="{utu:Responsive Narrow=10000, Wide=1100}"
+                        MaxWidth="1100"
                         HorizontalAlignment="Stretch">
 
                 <!-- Header -->
@@ -86,14 +86,26 @@
                                              Maximum="100"
                                              HorizontalAlignment="Stretch"
                                              Height="8" />
-                                <!-- vs last month indicator (color/glyph driven by the trend flag) -->
+                                <!-- vs last month indicator: two {ThemeResource}-tinted variants
+                                     toggled by the trend flag so the colour re-themes on a theme
+                                     switch (up = over last month/Error, down = under/Secondary) -->
                                 <StackPanel Orientation="Horizontal" Spacing="4">
                                     <FontIcon Glyph="{Binding TrendGlyph}"
                                               FontSize="11"
-                                              Foreground="{Binding TrendBrush}" />
+                                              Foreground="{ThemeResource ErrorBrush}"
+                                              Visibility="{Binding TrendUpVisibility}" />
+                                    <FontIcon Glyph="{Binding TrendGlyph}"
+                                              FontSize="11"
+                                              Foreground="{ThemeResource SecondaryBrush}"
+                                              Visibility="{Binding TrendDownVisibility}" />
                                     <TextBlock Style="{StaticResource LabelSmall}"
-                                               Foreground="{Binding TrendBrush}"
-                                               Text="{Binding TrendDeltaDisplay}" />
+                                               Foreground="{ThemeResource ErrorBrush}"
+                                               Text="{Binding TrendDeltaDisplay}"
+                                               Visibility="{Binding TrendUpVisibility}" />
+                                    <TextBlock Style="{StaticResource LabelSmall}"
+                                               Foreground="{ThemeResource SecondaryBrush}"
+                                               Text="{Binding TrendDeltaDisplay}"
+                                               Visibility="{Binding TrendDownVisibility}" />
                                 </StackPanel>
                             </StackPanel>
                         </DataTemplate>

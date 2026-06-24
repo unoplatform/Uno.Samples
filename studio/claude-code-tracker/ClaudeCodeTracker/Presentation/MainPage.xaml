@@ -17,10 +17,11 @@
         <!--
             Responsive shell pane: an expanded, labeled NavigationView pane on wide, hidden in
             favor of the bottom TabBar on narrow — switched by {utu:Responsive} against the
-            app-wide DefaultResponsiveLayout breakpoint declared in App.xaml. That resource is
-            required for the extension to resolve correctly (including in Studio Web / Hot Design);
-            Wide=Left (not Auto) keeps the pane expanded with labels rather than dropping to the
-            icon-only compact band on mid-width desktops.
+            app-wide DefaultResponsiveLayout breakpoint declared in App.xaml, which keeps every
+            {utu:Responsive} usage on one consistent breakpoint. Wide=Left (not Auto) keeps the
+            pane expanded with labels rather than dropping to the icon-only compact band on
+            mid-width desktops. Labels come from the literal Content below (not x:Uid), so they
+            render in Studio Web / Hot Design too — see lesson 26.
         -->
         <NavigationView x:Name="NavView"
                         uen:Region.Attached="True"
