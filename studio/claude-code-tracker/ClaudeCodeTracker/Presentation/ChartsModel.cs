@@ -21,10 +21,11 @@ public partial record ChartsModel
     public ChartsModel()
     {
         var labelClr = Resolve("OnSurfaceVariantColor", Rgb(0x51, 0x46, 0x3B));
-        var primaryClr = Resolve("PrimaryColor", Rgb(0xC2, 0x41, 0x0C));
+        var primaryClr = Resolve("PrimaryColor", Rgb(0xB2, 0x3A, 0x0A));
         var secondaryClr = Resolve("SecondaryColor", Rgb(0x0F, 0x76, 0x6E));
         var tertiaryClr = Resolve("TertiaryColor", Rgb(0xB4, 0x53, 0x09));
         var outlineClr = Resolve("OutlineColor", Rgb(0x8A, 0x77, 0x66));
+        var surfaceClr = Resolve("SurfaceColor", Rgb(0xFF, 0xFF, 0xFF));
 
         var axisLabel = new SolidColorPaint(Sk(labelClr));
         SKColor primary = Sk(primaryClr), secondary = Sk(secondaryClr), tertiary = Sk(tertiaryClr), outline = Sk(outlineClr);
@@ -41,7 +42,7 @@ public partial record ChartsModel
                 Stroke = new SolidColorPaint(primary, 2),
                 GeometrySize = 6,
                 GeometryStroke = new SolidColorPaint(primary, 2),
-                GeometryFill = new SolidColorPaint(SKColors.White),
+                GeometryFill = new SolidColorPaint(Sk(surfaceClr)), // hollow marker = card surface, per theme
             },
         };
         DailyCostXAxes = new[]

@@ -36,10 +36,11 @@
 
             <!--
                 App-wide responsive breakpoint: mobile below 900px, desktop at/above. The Toolkit
-                {utu:Responsive} extension auto-resolves the "DefaultResponsiveLayout" resource key
-                for its breakpoints; without it the extension falls back to built-in defaults that
-                don't resolve reliably in Studio Web / Hot Design (the NavigationView pane then
-                stays collapsed with no labels). Mirrors studio/uno-crm.
+                {utu:Responsive} extension resolves the "DefaultResponsiveLayout" resource key for
+                its breakpoints; defining it here keeps every {utu:Responsive} usage on one
+                consistent breakpoint (and aligns the design-time breakpoint resolution in Studio
+                Web / Hot Design). Mirrors studio/uno-crm. The nav labels themselves render from
+                literal Content (not x:Uid) — see lesson 26 — not from this resource.
             -->
             <utu:ResponsiveLayout x:Key="DefaultResponsiveLayout"
                                   Narrow="0"

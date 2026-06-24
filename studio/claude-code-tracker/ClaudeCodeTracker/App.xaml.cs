@@ -68,10 +68,10 @@ public partial class App : Application
         MainWindow = builder.Window;
         MainWindow.Title = "Claude Code Tracker";
 
-        #if DEBUG
+#if DEBUG
         MainWindow.UseStudio();
 #endif
-                MainWindow.SetWindowIcon();
+        MainWindow.SetWindowIcon();
         // Show the app icon in the macOS Dock when launched unbundled (Windows/Linux use the
         // window icon above). No-op on other platforms — see Platforms/Desktop/AppDockIcon.cs.
         SetMacOSDockIcon();
@@ -85,30 +85,29 @@ public partial class App : Application
     /// <summary>macOS Dock icon hook, implemented for the desktop head only; no-op elsewhere.</summary>
     partial void SetMacOSDockIcon();
 
-    	private static void RegisterRoutes(IViewRegistry views, IRouteRegistry routes)
-	{
-		views.Register(
-			new ViewMap<MainPage, MainModel>(),
-			new ViewMap<DashboardPage, DashboardModel>(),
-			new ViewMap<SessionsPage, SessionsModel>(),
-			new ViewMap<UsagePage, UsageModel>(),
-			new ViewMap<ChartsPage, ChartsModel>(),
-			new DataViewMap<SessionDetailPage, SessionDetailModel, SessionEntry>()
-		);
+    private static void RegisterRoutes(IViewRegistry views, IRouteRegistry routes)
+    {
+        views.Register(
+            new ViewMap<MainPage, MainModel>(),
+            new ViewMap<DashboardPage, DashboardModel>(),
+            new ViewMap<SessionsPage, SessionsModel>(),
+            new ViewMap<UsagePage, UsageModel>(),
+            new ViewMap<ChartsPage, ChartsModel>(),
+            new DataViewMap<SessionDetailPage, SessionDetailModel, SessionEntry>()
+        );
 
-		routes.Register(
-			new RouteMap("Main", View: views.FindByViewModel<MainModel>(),
-				IsDefault: true,
-				Nested:
-				[
-					new RouteMap("Dashboard", View: views.FindByView<DashboardPage>(), IsDefault: true),
-					new RouteMap("Sessions", View: views.FindByView<SessionsPage>()),
-					new RouteMap("Usage", View: views.FindByView<UsagePage>()),
-					new RouteMap("Charts", View: views.FindByView<ChartsPage>()),
-					new RouteMap("SessionDetail", View: views.FindByView<SessionDetailPage>())
-				]
-			)
-		);
-	}
-
+        routes.Register(
+            new RouteMap("Main", View: views.FindByViewModel<MainModel>(),
+                IsDefault: true,
+                Nested:
+                [
+                    new RouteMap("Dashboard", View: views.FindByView<DashboardPage>(), IsDefault: true),
+                    new RouteMap("Sessions", View: views.FindByView<SessionsPage>()),
+                    new RouteMap("Usage", View: views.FindByView<UsagePage>()),
+                    new RouteMap("Charts", View: views.FindByView<ChartsPage>()),
+                    new RouteMap("SessionDetail", View: views.FindByView<SessionDetailPage>())
+                ]
+            )
+        );
+    }
 }

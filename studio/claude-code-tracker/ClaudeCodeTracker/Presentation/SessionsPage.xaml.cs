@@ -11,8 +11,12 @@ public sealed partial class SessionsPage : Page
     {
         this.InitializeComponent();
 
-        // Hot Design fallback; Navigation injects the SessionsModel from the ViewMap at runtime.
-        this.DataContext = new SessionsModel();
+        // Hot Design fallback only; at runtime Navigation injects the SessionsModel from the
+        // ViewMap, so gate this on design mode to avoid shadowing the injected instance (lesson 21).
+        if (Windows.ApplicationModel.DesignMode.DesignModeEnabled)
+        {
+            this.DataContext = new SessionsModel();
+        }
         Loaded += OnLoaded;
     }
 

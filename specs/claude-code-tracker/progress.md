@@ -3,9 +3,11 @@
 Branch: `dev/jenny/claude-tracker-exemplar`. Plan approved (see decisions below).
 Source review: 50 verified findings (66-agent workflow) + direct read of all 22 files.
 
-**Decisions:** Full MVUX page-Models (real backbone). Localization: nav + page/section
-titles via `x:Uid`, translated across en/es/fr/pt-BR. Keep classic `{Binding}` (gold-standard
+**Decisions:** Full MVUX page-Models (real backbone). Keep classic `{Binding}` (gold-standard
 samples don't use `x:Bind`/`FeedView`). Never `AdaptiveTrigger`/`VSM` — always `{utu:Responsive}`.
+(Localization was attempted via `x:Uid` but **reverted to literal `Content`/`Text`** — `x:Uid`
+blanks shell/title text in Studio Web / Hot Design; see lesson 26. App is English-only;
+currency/number/date still format via `CurrentCulture`.)
 
 ## Workstreams
 
@@ -18,7 +20,9 @@ samples don't use `x:Bind`/`FeedView`). Never `AdaptiveTrigger`/`VSM` — always
   on-brand fills; delete DarkLabelPaint; responsive donut row; chart `AutomationProperties.Name`.
 - [x] **D — App.xaml/theming**: reformat multi-line; delete 22 dead `App.*` brushes; flag-driven
   trend brush/glyph/sign on DashboardModel (no hardcoded ErrorBrush).
-- [x] **E — Localization**: `x:Uid` nav + titles; en keys; rewrite es/fr/pt-BR with translations.
+- [x] **E — Localization (reverted)**: `x:Uid` nav + titles blanked text in Studio Web / Hot
+  Design, so this was **reverted to literal `Content`/`Text`** and the `Strings/*.resw` removed
+  (English-only; currency/number/date still format via `CurrentCulture`). See lesson 26.
 - [x] **F — Polish**: number-format display props; Dashboard Avg/Session KPI + ColumnSpacing +
   StartedAt + drop dead fields; Sessions ChipGroup filter + SafeArea + ellipsis + empty-state;
   Usage model-cost card + cache price cols + comment cleanup; SessionDetail IsClickable + SafeArea;
@@ -54,8 +58,8 @@ SVG rasterizes through Resizetizer without error. Verified via WASM + Playwright
   shared `SampleData`; classic `{Binding}` retained per gold-standard. ✓
 - **Polish** — `N0`/currency/date formatting everywhere; Avg/Session KPI (2×2 on narrow);
   ChipGroup filter; empty-state; Usage model-cost card + cache pricing line; SafeArea. ✓
-- **Localization** — nav + page/section titles via `x:Uid`, translated en/es/fr/pt-BR
-  (en default). ✓
+- **Localization** — *reverted*: `x:Uid` blanked shell/title text in Studio Web / Hot Design, so
+  labels use literal `Content`/`Text` (English-only) and the `.resw` files were removed (lesson 26). ✓
 - **Icon/splash** — user's Claude mark; Figma conic ring rebuilt as standard `linearGradient` +
   `mask` (see lesson 17 addendum) so Resizetizer keeps it; verified via Chrome render + build. ✓
 - **Hygiene** — real README, manifest platforms, removed HttpKiota/DebugHandler leftovers,

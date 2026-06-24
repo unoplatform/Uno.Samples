@@ -21,10 +21,8 @@ backend — swap that one file for a real service to go live.
   model pricing reference.
 - **Charts** — daily-cost line, sessions-per-day bars, and token-type / model-share donuts
   (LiveCharts2), themed to the active light/dark palette.
-- **Theming** — the Uno **Simple** theme with a custom purple/teal palette and a distinct dark
-  theme (`ThemeColors.xaml`).
-- **Localization** — English, Spanish, French and Portuguese (Brazil) for navigation and page
-  titles, via `x:Uid` + `Strings/*/Resources.resw`.
+- **Theming** — the Uno **Simple** theme with a warm terracotta/coral palette (teal secondary,
+  amber tertiary) and a distinct dark theme (`ThemeColors.xaml`), referenced via `{ThemeResource}`.
 
 ## Architecture
 

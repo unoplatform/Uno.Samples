@@ -6,7 +6,12 @@ public sealed partial class ChartsPage : Page
     {
         this.InitializeComponent();
 
-        // Hot Design fallback; Navigation injects the ChartsModel from the ViewMap at runtime.
-        this.DataContext = new ChartsModel();
+        // Hot Design fallback only; Navigation injects the ChartsModel from the ViewMap at runtime.
+        // Gate on design mode so the injected instance wins and ChartsModel's paint-building ctor
+        // doesn't run twice per navigation (lesson 21).
+        if (Windows.ApplicationModel.DesignMode.DesignModeEnabled)
+        {
+            this.DataContext = new ChartsModel();
+        }
     }
 }
