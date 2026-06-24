@@ -53,10 +53,10 @@
                     <NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE7BF;" />
                     </NavigationViewItem.Icon>
-                    <!-- Live item-count badge from the shared AppState (MainPage.DataContext) -->
+                    <!-- Live item-count badge (page-scoped x:Bind to the shared AppState) -->
                     <NavigationViewItem.InfoBadge>
-                        <InfoBadge Value="{Binding CartItemCount}"
-                                   Visibility="{Binding CartHasItems, Converter={StaticResource BoolToVisibility}}" />
+                        <InfoBadge Value="{x:Bind CartState.CartItemCount, Mode=OneWay}"
+                                   Visibility="{x:Bind CartState.CartHasItems, Mode=OneWay, Converter={StaticResource BoolToVisibility}}" />
                     </NavigationViewItem.InfoBadge>
                 </NavigationViewItem>
                 <NavigationViewItem uen:Region.Name="Orders" Content="Orders">
@@ -110,8 +110,8 @@
                                         Height="18"
                                         Padding="5,0"
                                         VerticalAlignment="Center"
-                                        Visibility="{Binding CartHasItems, Converter={StaticResource BoolToVisibility}}">
-                                    <TextBlock Text="{Binding CartItemCount}"
+                                        Visibility="{x:Bind CartState.CartHasItems, Mode=OneWay, Converter={StaticResource BoolToVisibility}}">
+                                    <TextBlock Text="{x:Bind CartState.CartItemCountText, Mode=OneWay}"
                                                Foreground="{ThemeResource OnPrimaryBrush}"
                                                FontSize="10"
                                                FontWeight="Bold"
