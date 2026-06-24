@@ -1,3 +1,5 @@
+using Microsoft.UI.Xaml.Input;
+
 namespace BrewHouse.Presentation;
 
 public sealed partial class HomePage : Page
@@ -12,4 +14,8 @@ public sealed partial class HomePage : Page
         // never on a child element, so the injected model wins.
         this.DataContext = new HomePageData(AppState.Current);
     }
+
+    // The "Browse by Category" chips jump to the full Menu (the page VM owns navigation).
+    private void OnBrowseCategoryTapped(object sender, TappedRoutedEventArgs e)
+        => (DataContext as HomePageData)?.GoToMenuCommand.Execute(null);
 }

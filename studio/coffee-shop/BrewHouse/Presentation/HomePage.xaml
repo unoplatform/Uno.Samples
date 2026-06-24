@@ -14,19 +14,23 @@
 
                     <!-- Hero Carousel -->
                     <Grid Height="280">
-                        <FlipView ItemsSource="{Binding HeroBanners}"
+                        <FlipView x:Name="HeroFlip"
+                                  ItemsSource="{Binding HeroBanners}"
                                   AutomationProperties.Name="Featured promotions carousel">
                             <FlipView.ItemTemplate>
                                 <DataTemplate>
                                     <Grid>
+                                        <!-- Decorative: the caption + carousel name carry the meaning -->
                                         <Image Source="{Binding ImageUrl}"
-                                               Stretch="UniformToFill" />
+                                               Stretch="UniformToFill"
+                                               AutomationProperties.AccessibilityView="Raw" />
                                         <!-- Dark scrim keeps the white caption legible over any photo -->
                                         <Rectangle>
                                             <Rectangle.Fill>
-                                                <LinearGradientBrush StartPoint="0,0.3" EndPoint="0,1">
-                                                    <GradientStop Color="#00000000" Offset="0.0" />
-                                                    <GradientStop Color="#E5140800" Offset="1.0" />
+                                                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                                    <GradientStop Color="#00140800" Offset="0.0" />
+                                                    <GradientStop Color="#40140800" Offset="0.45" />
+                                                    <GradientStop Color="#F0140800" Offset="1.0" />
                                                 </LinearGradientBrush>
                                             </Rectangle.Fill>
                                         </Rectangle>
@@ -40,7 +44,7 @@
                                                        TextWrapping="Wrap" />
                                             <TextBlock Text="{Binding Subtitle}"
                                                        FontSize="13"
-                                                       Foreground="#CCFFFFFF"
+                                                       Foreground="White"
                                                        TextWrapping="Wrap" />
                                             <Button Content="Order Now"
                                                     AutomationProperties.Name="Order Now"
@@ -58,6 +62,12 @@
                                 </DataTemplate>
                             </FlipView.ItemTemplate>
                         </FlipView>
+                        <!-- Pager so mouse/keyboard users can page the carousel (FlipView default is swipe-only) -->
+                        <PipsPager NumberOfPages="{Binding HeroBanners.Count}"
+                                   SelectedPageIndex="{Binding SelectedIndex, ElementName=HeroFlip, Mode=TwoWay}"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Bottom"
+                                   Margin="0,0,0,10" />
                     </Grid>
 
                     <!-- Today's Specials Section -->
@@ -149,9 +159,12 @@
                                     </ItemsControl.ItemsPanel>
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate>
+                                            <!-- Tap a category to jump to the full Menu -->
                                             <Border Background="{ThemeResource SurfaceVariantBrush}"
                                                     CornerRadius="20"
-                                                    Padding="16,8">
+                                                    Padding="16,8"
+                                                    Tapped="OnBrowseCategoryTapped"
+                                                    AutomationProperties.Name="{Binding Name}">
                                                 <TextBlock Text="{Binding Name}"
                                                            FontSize="13"
                                                            FontWeight="SemiBold"
@@ -292,7 +305,8 @@
                                 <FontIcon Glyph="&#xEC32;"
                                           FontSize="48"
                                           Foreground="{ThemeResource SecondaryBrush}"
-                                          HorizontalAlignment="Center" />
+                                          HorizontalAlignment="Center"
+                                          AutomationProperties.AccessibilityView="Raw" />
                                 <TextBlock Text="Your cup is empty"
                                            FontSize="18"
                                            FontWeight="Bold"
