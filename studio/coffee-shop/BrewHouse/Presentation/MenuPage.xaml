@@ -37,15 +37,22 @@
             <StackPanel Grid.Row="0"
                         Background="{ThemeResource BrewHeaderBrush}"
                         Padding="20,20,20,16"
-                        Spacing="2">
-                <TextBlock Text="Our Menu"
-                           FontSize="26"
-                           FontWeight="Bold"
-                           Foreground="{ThemeResource BrewOnHeaderBrush}" />
-                <TextBlock Text="Find your perfect brew"
-                           FontSize="13"
-                           Foreground="{ThemeResource BrewOnHeaderBrush}"
-                           Opacity="0.8" />
+                        Spacing="12">
+                <StackPanel Spacing="2">
+                    <TextBlock Text="Our Menu"
+                               FontSize="26"
+                               FontWeight="Bold"
+                               Foreground="{ThemeResource BrewOnHeaderBrush}" />
+                    <TextBlock Text="Find your perfect brew"
+                               FontSize="13"
+                               Foreground="{ThemeResource BrewOnHeaderBrush}"
+                               Opacity="0.8" />
+                </StackPanel>
+                <!-- Live text search, combined with the category filter -->
+                <AutoSuggestBox PlaceholderText="Search the menu"
+                                Text="{Binding SearchText, Mode=TwoWay}"
+                                QueryIcon="Find"
+                                AutomationProperties.Name="Search the menu" />
             </StackPanel>
 
             <!-- Category Chip Filter Bar -->

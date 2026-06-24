@@ -1,11 +1,16 @@
 using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Windows.Input;
 
 namespace BrewHouse.Presentation.MockData;
 
-public class MenuPageData
+public class MenuPageData : INotifyPropertyChanged
 {
     private readonly AppState _state;
+
+    private string _categoryId = "all";
+    private string _searchText = "";
 
     public MenuPageData(AppState state, INavigator? navigator = null)
     {
@@ -21,11 +26,11 @@ public class MenuPageData
 
         FilterByCategoryCommand = new RelayCommand<string>(categoryId =>
         {
-            var id = string.IsNullOrEmpty(categoryId) ? "all" : categoryId;
-            ApplyFilter(id);
+            _categoryId = string.IsNullOrEmpty(categoryId) ? "all" : categoryId;
+            ApplyFilter();
 
             foreach (var cat in Categories)
-                cat.IsSelected = cat.Id == id;
+                cat.IsSelected = cat.Id == _categoryId;
         });
     }
 
@@ -35,16 +40,35 @@ public class MenuPageData
 
     public ObservableCollection<ProductItem> FilteredProducts { get; }
 
+    // Text search, combined with the category filter; re-filters live as the user types.
+    public string SearchText
+    {
+        get => _searchText;
+        set
+        {
+            if (_searchText != value)
+            {
+                _searchText = value ?? "";
+                OnPropertyChanged();
+                ApplyFilter();
+            }
+        }
+    }
+
     public ICommand AddToCartCommand { get; }
     public ICommand FilterByCategoryCommand { get; }
 
     // Sync the bound collection in place — remove dropped items, insert/move the rest to match the
     // filtered order — instead of Clear()+Add(). Items that stay keep their containers and loaded
-    // images, so switching filters doesn't tear the whole list down and rebuild it (no flicker).
-    private void ApplyFilter(string id)
+    // images, so switching filters/search doesn't tear the whole list down and rebuild it (no flicker).
+    private void ApplyFilter()
     {
+        var search = _searchText.Trim();
         var target = _state.AllProducts
-            .Where(p => id == "all" || p.CategoryId == id)
+            .Where(p => (_categoryId == "all" || p.CategoryId == _categoryId)
+                        && (search.Length == 0
+                            || p.Name.Contains(search, StringComparison.OrdinalIgnoreCase)
+                            || p.Description.Contains(search, StringComparison.OrdinalIgnoreCase)))
             .ToList();
 
         for (int i = FilteredProducts.Count - 1; i >= 0; i--)
@@ -63,4 +87,8 @@ public class MenuPageData
                 FilteredProducts.Move(current, i);
         }
     }
+
+    public event PropertyChangedEventHandler? PropertyChanged;
+    protected void OnPropertyChanged([CallerMemberName] string? name = null)
+        => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
 }
