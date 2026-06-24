@@ -62,6 +62,9 @@ public class CartPageData : INotifyPropertyChanged
         if (_navigator is not null)
         {
             _state.Cart.CollectionChanged += (_, _) => RefreshTotals();
+            // Coarse signal so totals refresh when an existing line's quantity is bumped off-page
+            // (AddToCart of an item already in the cart raises no CollectionChanged) — see lesson 32.
+            _state.PropertyChanged += (_, _) => RefreshTotals();
             _confirmTimer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(4) };
             _confirmTimer.Tick += (_, _) => { _confirmTimer.Stop(); ShowOrderConfirmed = false; };
         }
