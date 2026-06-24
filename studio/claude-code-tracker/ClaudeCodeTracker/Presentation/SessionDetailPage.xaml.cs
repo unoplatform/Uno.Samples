@@ -6,12 +6,11 @@ public sealed partial class SessionDetailPage : Page
     {
         this.InitializeComponent();
 
-        // DataContext is provided by navigation: the DataViewMap injects the tapped SessionEntry
-        // as a SessionDetailModel, so each row opens its own detail. A design-time-only fallback
-        // keeps Hot Design previews populated without overriding the navigated data at runtime.
-        if (Windows.ApplicationModel.DesignMode.DesignModeEnabled)
-        {
-            this.DataContext = new SessionDetailModel(SampleData.Sessions[0]);
-        }
+        // Hot Design fallback (unconditional): preview a representative session when Navigation isn't
+        // running. At runtime the DataViewMap injects the tapped SessionEntry's model and overrides this
+        // *page* DataContext (each row opens its own detail). Setting a *child* element's DataContext
+        // instead would shadow the injected model — that was the original "every row opens s-001" bug.
+        // DesignMode.DesignModeEnabled is false in Hot Design, so don't gate on it (lesson 21).
+        this.DataContext = new SessionDetailModel(SampleData.Sessions[0]);
     }
 }
