@@ -92,11 +92,13 @@
                                                 BorderBrush="{ThemeResource BrewCardBorderBrush}"
                                                 BorderThickness="1">
                                             <StackPanel Spacing="0">
+                                                <!-- Banner image; top corners match the card -->
                                                 <Border CornerRadius="16,16,0,0"
                                                         Height="112">
-                                                    <Image Source="{Binding ImageUrl}"
-                                                           Stretch="UniformToFill"
-                                                           Height="112" />
+                                                    <Border.Background>
+                                                        <ImageBrush ImageSource="{Binding ImageUrl}"
+                                                                    Stretch="UniformToFill" />
+                                                    </Border.Background>
                                                 </Border>
                                                 <StackPanel Padding="10,10,10,12" Spacing="4">
                                                     <TextBlock Text="{Binding Name}"
@@ -187,13 +189,13 @@
                                                     <ColumnDefinition Width="104" />
                                                     <ColumnDefinition />
                                                 </Grid.ColumnDefinitions>
+                                                <!-- Image fills the card height; corners match the card -->
                                                 <Border Grid.Column="0"
-                                                        CornerRadius="16,0,0,16"
-                                                        Height="104">
-                                                    <Image Source="{Binding ImageUrl}"
-                                                           Stretch="UniformToFill"
-                                                           Width="104"
-                                                           Height="104" />
+                                                        CornerRadius="16,0,0,16">
+                                                    <Border.Background>
+                                                        <ImageBrush ImageSource="{Binding ImageUrl}"
+                                                                    Stretch="UniformToFill" />
+                                                    </Border.Background>
                                                 </Border>
                                                 <StackPanel Grid.Column="1"
                                                             Padding="14"

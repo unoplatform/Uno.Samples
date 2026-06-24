@@ -119,14 +119,13 @@
                                         <ColumnDefinition />
                                     </Grid.ColumnDefinitions>
 
-                                    <!-- Product Image -->
+                                    <!-- Product image: fills the card height; corners match the card -->
                                     <Border Grid.Column="0"
-                                            CornerRadius="16,0,0,16"
-                                            Background="{ThemeResource SurfaceVariantBrush}">
-                                        <Image Source="{Binding ImageUrl}"
-                                               Width="100"
-                                               Height="110"
-                                               Stretch="UniformToFill" />
+                                            CornerRadius="16,0,0,16">
+                                        <Border.Background>
+                                            <ImageBrush ImageSource="{Binding ImageUrl}"
+                                                        Stretch="UniformToFill" />
+                                        </Border.Background>
                                     </Border>
 
                                     <!-- Product Info -->
