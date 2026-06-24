@@ -1,7 +1,5 @@
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using Microsoft.UI.Xaml;
 
 namespace BrewHouse.Presentation.MockData;
 
@@ -29,29 +27,15 @@ public class ProductItem
 public class CategoryItem : INotifyPropertyChanged
 {
     private bool _isSelected;
-    private string _chipBackground = "#FFF5EFE6";
-    private string _chipForeground = "#FF2C1A0E";
 
     public string Id { get; set; } = "";
     public string Name { get; set; } = "";
-    public string Icon { get; set; } = "";
 
+    // Drives the filter chip's selected look in XAML (theme brushes), not a hardcoded colour.
     public bool IsSelected
     {
         get => _isSelected;
         set { _isSelected = value; OnPropertyChanged(); }
-    }
-
-    public string ChipBackground
-    {
-        get => _chipBackground;
-        set { _chipBackground = value; OnPropertyChanged(); }
-    }
-
-    public string ChipForeground
-    {
-        get => _chipForeground;
-        set { _chipForeground = value; OnPropertyChanged(); }
     }
 
     public event PropertyChangedEventHandler? PropertyChanged;
@@ -104,9 +88,14 @@ public class OrderRecord
 {
     public string Id { get; set; } = "";
     public string PlacedAt { get; set; } = "";
+
+    // A short status label ("Ready for Pickup", "Preparing", "Completed", "Confirmed").
+    // The flags below are data the XAML uses to pick the status indicator colour (the colours
+    // themselves live in App.xaml, not here).
     public string Status { get; set; } = "";
-    public string StatusColor { get; set; } = "#FF8C5A28";
-    public string StatusBackground { get; set; } = "#FFF5EFE6";
+    public bool IsReady => Status.Contains("Ready") || Status.Contains("Confirmed");
+    public bool IsPreparing => Status.Contains("Preparing");
+    public bool IsCompleted => !IsReady && !IsPreparing;
     public double Total { get; set; }
     public string TotalFormatted => Total.ToString("F2");
     public List<OrderLineItem> Items { get; set; } = new();

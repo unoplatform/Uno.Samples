@@ -117,6 +117,16 @@ public class AppState : INotifyPropertyChanged
         },
     };
 
+    // Shared category definitions; each page builds its own instances so per-page
+    // selection state never leaks between screens.
+    public static List<CategoryItem> CreateCategories() =>
+    [
+        new() { Id = "all",      Name = "All",         IsSelected = true },
+        new() { Id = "hot",      Name = "Hot Drinks" },
+        new() { Id = "cold",     Name = "Cold Drinks" },
+        new() { Id = "pastries", Name = "Pastries" },
+    ];
+
     public ObservableCollection<CartItem> Cart { get; } = new();
     public ObservableCollection<OrderRecord> Orders { get; } = new();
 
@@ -154,6 +164,39 @@ public class AppState : INotifyPropertyChanged
     private AppState()
     {
         Cart.CollectionChanged += (_, _) => RecalcCart();
+        SeedOrderHistory();
+    }
+
+    // A little order history so the Orders tab has content on first run; orders placed from the
+    // cart are inserted at the top of this same collection (see PlaceOrder), so the screens share
+    // one source of truth.
+    private void SeedOrderHistory()
+    {
+        Orders.Add(new OrderRecord
+        {
+            Id = "ORD-1042", PlacedAt = "Today, 9:14 AM", Status = "Ready for Pickup", Total = 12.25,
+            Items = [ new() { Name = "Latte", Quantity = 1, Price = 5.50 }, new() { Name = "Croissant", Quantity = 2, Price = 3.25 } ]
+        });
+        Orders.Add(new OrderRecord
+        {
+            Id = "ORD-1041", PlacedAt = "Today, 8:02 AM", Status = "Preparing", Total = 10.75,
+            Items = [ new() { Name = "Cappuccino", Quantity = 1, Price = 4.75 }, new() { Name = "Iced Matcha", Quantity = 1, Price = 6.00 } ]
+        });
+        Orders.Add(new OrderRecord
+        {
+            Id = "ORD-1039", PlacedAt = "Yesterday, 3:45 PM", Status = "Completed", Total = 5.50,
+            Items = [ new() { Name = "Latte", Quantity = 1, Price = 5.50 } ]
+        });
+        Orders.Add(new OrderRecord
+        {
+            Id = "ORD-1037", PlacedAt = "Mar 22, 11:30 AM", Status = "Completed", Total = 15.50,
+            Items = [ new() { Name = "Cappuccino", Quantity = 2, Price = 4.75 }, new() { Name = "Croissant", Quantity = 1, Price = 3.25 }, new() { Name = "Iced Matcha", Quantity = 1, Price = 6.00 } ]
+        });
+        Orders.Add(new OrderRecord
+        {
+            Id = "ORD-1033", PlacedAt = "Mar 20, 8:55 AM", Status = "Completed", Total = 9.25,
+            Items = [ new() { Name = "Iced Matcha", Quantity = 1, Price = 6.00 }, new() { Name = "Croissant", Quantity = 1, Price = 3.25 } ]
+        });
     }
 
     public void AddToCart(ProductItem product)
@@ -250,8 +293,6 @@ public class AppState : INotifyPropertyChanged
             Id = $"ORD-{1042 + Orders.Count + 1:D4}",
             PlacedAt = DateTime.Now.ToString("MMM d, yyyy h:mm tt"),
             Status = "Confirmed",
-            StatusColor = "#FFFFFFFF",
-            StatusBackground = "#FF2E7D32",
             Total = total,
             Items = orderItems
         });

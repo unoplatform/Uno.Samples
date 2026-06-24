@@ -2,14 +2,14 @@
   "$schema": "https://schemas.platform.uno/sample/v1",
   "id": "coffee-shop",
   "displayName": "BrewHouse",
-  "description": "A production-ready modern Coffee Shop mobile app (home + ordering flow) with mock state, SafeArea root + AutoLayout/Flex, SOLID components (HomeScreen, CategoryChip, ProductCard, SpecialsCarousel, CartSummary, BottomNavBar), and a warm cozy UI (beige/coffee tones, gentle shadows, clean typography).",
-  "platforms": ["desktop", "wasm"],
+  "description": "A cross-platform coffee-shop ordering app — browse the menu, filter by category, build a cart, and place orders. Demonstrates a responsive bottom-TabBar navigation shell, page view-models wired through Uno.Extensions Navigation with shared cart/orders state, and a warm light/dark theme — from one Uno single project targeting iOS, Android, WebAssembly, and desktop.",
+  "platforms": ["desktop", "wasm", "android", "ios"],
   "sourcePath": "BrewHouse/BrewHouse.csproj",
   "userConversation": {
     "messages": [
       {
         "role": "user",
-        "content": "Generate a production-ready modern Coffee Shop mobile app (home + ordering flow) with:\n- mock state\n- SafeArea root + AutoLayout/Flex only (no absolute positioning)\n- SOLID components (HomeScreen, CategoryChip, ProductCard, SpecialsCarousel, CartSummary, BottomNavBar)\n- warm cozy UI (beige/coffee tones, gentle shadows, clean typography)\n\nHome screen:\n- hero image/carousel with primary \"Order Now\" CTA\n- Today's Specials (horizontal scrolling cards)\n- category chips for filtering\n- featured products (image, name, description, price, +Add button)\n- rich empty cart state\n\nNavigation:\n- bottom nav (Home, Menu, Orders, Cart/Profile)\n- functional Menu screen with category filter\n- Cart screen (line items, quantity controls, total, Place Order)\n\nInclude:\n- full working code\n- navigation\n- mock state\n- reusable components\n- seeded sample items (Latte, Cappuccino, Croissant, Iced Matcha)"
+        "content": "Generate a production-ready modern Coffee Shop mobile app (home + ordering flow) with:\n- mock state\n- a warm, cozy UI (beige/coffee tones) that also has a proper dark theme\n- a bottom navigation bar (Home, Menu, Cart, Orders)\n\nHome screen:\n- hero image carousel with a primary \"Order Now\" CTA\n- Today's Specials (horizontal scrolling cards)\n- category chips\n- featured products (image, name, description, price, +Add button)\n- a cart summary strip and a rich empty-cart state\n\nNavigation:\n- a Menu screen with a working category filter\n- a Cart screen (line items, quantity controls, totals, Place Order)\n- an Orders screen with order history and status\n\nInclude:\n- full working code\n- navigation between screens that shares one cart/orders state\n- seeded sample items (Latte, Cappuccino, Croissant, Iced Matcha)"
       },
       {
         "role": "assistant",
@@ -17,20 +17,21 @@
       }
     ],
     "suggestedPrompts": [
-      "Change the color theme",
-      "Add a new page with navigation",
-      "Improve the layout and spacing"
+      "Add a light/dark theme toggle",
+      "Add a product detail page with navigation",
+      "Add a search box to the menu",
+      "Show a running item count badge on the Cart tab"
     ]
   },
   "agentContext": {
     "messages": [
       {
         "role": "user",
-        "content": "Generate a production-ready modern Coffee Shop mobile app (home + ordering flow) with:\n- mock state\n- SafeArea root + AutoLayout/Flex only (no absolute positioning)\n- SOLID components (HomeScreen, CategoryChip, ProductCard, SpecialsCarousel, CartSummary, BottomNavBar)\n- warm cozy UI (beige/coffee tones, gentle shadows, clean typography)\n\nHome screen:\n- hero image/carousel with primary \"Order Now\" CTA\n- Today's Specials (horizontal scrolling cards)\n- category chips for filtering\n- featured products (image, name, description, price, +Add button)\n- rich empty cart state\n\nNavigation:\n- bottom nav (Home, Menu, Orders, Cart/Profile)\n- functional Menu screen with category filter\n- Cart screen (line items, quantity controls, total, Place Order)\n\nInclude:\n- full working code\n- navigation\n- mock state\n- reusable components\n- seeded sample items (Latte, Cappuccino, Croissant, Iced Matcha)"
+        "content": "Generate a production-ready modern Coffee Shop mobile app (home + ordering flow) with a warm cozy UI plus a dark theme, a bottom nav bar (Home, Menu, Cart, Orders), a category filter, a cart with quantity controls and Place Order, and an order-history screen. Share one cart/orders state across screens and seed sample items."
       },
       {
         "role": "assistant",
-        "content": "I've created a complete Uno Platform app at BrewHouse/BrewHouse.csproj.\n\n**Key files:**\n- BrewHouse/App.xaml\n- BrewHouse/App.xaml.cs\n- BrewHouse/BrewHouse.csproj\n- BrewHouse/GlobalUsings.cs\n- BrewHouse/Models/AppConfig.cs\n- BrewHouse/Platforms/WebAssembly/Program.cs\n- BrewHouse/Presentation/CartPage.xaml\n- BrewHouse/Presentation/CartPage.xaml.cs\n- BrewHouse/Presentation/HomePage.xaml\n- BrewHouse/Presentation/HomePage.xaml.cs\n- BrewHouse/Presentation/MainModel.cs\n- BrewHouse/Presentation/MainPage.xaml\n- BrewHouse/Presentation/MainPage.xaml.cs\n- BrewHouse/Presentation/MenuPage.xaml\n- BrewHouse/Presentation/MenuPage.xaml.cs\n- BrewHouse/Presentation/MockData/AppState.cs\n- BrewHouse/Presentation/MockData/CartPageData.cs\n- BrewHouse/Presentation/MockData/HomePageData.cs\n- BrewHouse/Presentation/MockData/MenuPageData.cs\n- BrewHouse/Presentation/MockData/Models.cs\n- BrewHouse/Presentation/MockData/OrdersPageData.cs\n- BrewHouse/Presentation/MockData/RelayCommand.cs\n- BrewHouse/Presentation/OrdersPage.xaml\n- BrewHouse/Presentation/OrdersPage.xaml.cs\n- BrewHouse/Presentation/Shell.xaml\n- BrewHouse/Presentation/Shell.xaml.cs\n- BrewHouse/Presentation/ShellModel.cs\n- BrewHouse/Services/Endpoints/DebugHandler.cs\n\nThe app is built and running. The user may ask me to modify it."
+        "content": "I've created a cross-platform Uno Platform app at BrewHouse/BrewHouse.csproj (a single project targeting iOS, Android, WebAssembly, and desktop). It uses Uno.Extensions Navigation and Uno Toolkit on the Uno Simple theme, with a warm light/dark palette.\n\n**Shell** — Presentation/Shell.xaml is the navigation root; Presentation/MainPage.xaml is a bottom utu:TabBar shell (Home / Menu / Cart / Orders) over a region-based content area (uen:Region.Attached) that Navigation injects the active page into.\n\n**Pages & view-models** — HomePage, MenuPage, CartPage and OrdersPage each bind a page view-model (HomePageData / MenuPageData / CartPageData / OrdersPageData) registered via ViewMap in App.xaml.cs and constructed by DI with an INavigator for the cross-tab navigation commands (Order Now, View Cart, Browse Menu). Buttons inside item templates reach their page VM through the Toolkit {utu:ItemsControlBinding} markup extension.\n\n**State & data** — Presentation/MockData/ holds the seeded catalogue and a shared AppState (registered as a singleton) that owns the cart and order history, so adding to the cart on one screen updates the cart strip, Cart page and Orders page together. Models.cs holds the entity classes; RelayCommand.cs the ICommand helper.\n\n**Theming** — ThemeColors.xaml defines the cream/espresso (light) and dark-roast (dark) palettes as ThemeDictionaries, merged onto the Simple theme via SimpleToolkitTheme ColorOverrideSource and referenced everywhere with {ThemeResource}; Presentation/Converters.cs maps an order status to a semantic indicator-dot colour. The app icon and splash are generated from the SVGs in Assets/ by Uno.Resizetizer.\n\nThe app is built and running. The user may ask me to modify it."
       }
     ]
   }

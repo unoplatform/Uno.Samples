@@ -6,7 +6,6 @@ global using Microsoft.Extensions.Logging;
 global using Microsoft.Extensions.Options;
 global using BrewHouse.Models;
 global using BrewHouse.Presentation;
-global using BrewHouse.Services.Endpoints;
-global using Uno.Extensions.Http.Kiota;
+global using BrewHouse.Presentation.MockData;
+global using Uno.Extensions.Navigation;
 global using ApplicationExecutionState = Windows.ApplicationModel.Activation.ApplicationExecutionState;
-[assembly: Uno.Extensions.Reactive.Config.BindableGenerationTool(3)]

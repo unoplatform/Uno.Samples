@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Project Sdk="Uno.Sdk.Private">
+<Project Sdk="Uno.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net10.0-browserwasm;net10.0-desktop</TargetFrameworks>
+    <TargetFrameworks>net10.0-android;net10.0-ios;net10.0-browserwasm;net10.0-desktop</TargetFrameworks>
 
     <OutputType>Exe</OutputType>
     <UnoSingleProject>true</UnoSingleProject>
@@ -27,15 +27,24 @@
       Hosting;
       Toolkit;
       Logging;
-      MVUX;
       Configuration;
-      HttpKiota;
-      Serialization;
       Localization;
       Navigation;
-      ThemeService;
       SkiaRenderer;
     </UnoFeatures>
   </PropertyGroup>
 
-<ItemGroup><PackageReference Include="Uno.UI.HotDesign" VersionOverride="1.19.0-alc.129" /></ItemGroup></Project>
+  <!--
+    App icon + splash screen via Uno.Resizetizer (all platforms). Required on Android:
+    the generated manifest references @mipmap/icon, and Resources/values/Styles.xml
+    references @drawable/uno_splash_image / @color/uno_splash_color — the resizetizer
+    only emits these resources when an icon and splash screen are declared here.
+  -->
+  <PropertyGroup>
+    <UnoIconForegroundFile>Assets/Icons/icon_foreground.svg</UnoIconForegroundFile>
+    <UnoIconBackgroundColor>#151515</UnoIconBackgroundColor>
+    <UnoSplashScreenFile>Assets/Splash/splash_screen.svg</UnoSplashScreenFile>
+    <UnoSplashScreenColor>#151515</UnoSplashScreenColor>
+  </PropertyGroup>
+
+</Project>

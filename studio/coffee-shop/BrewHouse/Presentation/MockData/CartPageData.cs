@@ -2,53 +2,62 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
-using Microsoft.UI.Xaml;
 
 namespace BrewHouse.Presentation.MockData;
 
 public class CartPageData : INotifyPropertyChanged
 {
+    private readonly AppState _state;
+    private readonly INavigator? _navigator;
+
     private string _orderPlacedMessage = "";
-    private Visibility _orderPlacedVisibility = Visibility.Collapsed;
-    private Visibility _emptyCartVisibility = Visibility.Visible;
-    private Visibility _cartContentVisibility = Visibility.Collapsed;
+    private bool _showOrderConfirmed;
+    private bool _isCartEmpty = true;
     private double _subtotal;
     private double _tax;
     private double _total;
 
-    public CartPageData()
+    public CartPageData(AppState state, INavigator? navigator = null)
     {
-        CartItems = AppState.Current.Cart;
-        AppState.Current.Cart.CollectionChanged += (s, e) => RefreshTotals();
+        _state = state;
+        _navigator = navigator;
+        CartItems = _state.Cart;
 
         IncrementCommand = new RelayCommand<object>(item =>
         {
             if (item is CartItem ci)
-                AppState.Current.IncrementItem(ci.ProductId);
+                _state.IncrementItem(ci.ProductId);
             RefreshTotals();
         });
 
         DecrementCommand = new RelayCommand<object>(item =>
         {
             if (item is CartItem ci)
-                AppState.Current.DecrementItem(ci.ProductId);
+                _state.DecrementItem(ci.ProductId);
             RefreshTotals();
         });
 
         RemoveItemCommand = new RelayCommand<object>(item =>
         {
             if (item is CartItem ci)
-                AppState.Current.RemoveFromCart(ci.ProductId);
+                _state.RemoveFromCart(ci.ProductId);
             RefreshTotals();
         });
 
         PlaceOrderCommand = new RelayCommand(() =>
         {
-            AppState.Current.PlaceOrder();
+            _state.PlaceOrder();
             RefreshTotals();
-            OrderPlacedMessage = "Your order has been placed! ☕";
-            OrderPlacedVisibility = Visibility.Visible;
+            OrderPlacedMessage = "Your order has been placed!";
+            ShowOrderConfirmed = true;
         });
+
+        GoToMenuCommand = new RelayCommand(() => _ = _navigator?.NavigateRouteAsync(this, "Menu"));
+
+        // Only the navigation-injected instance wires into the shared singleton's event; the
+        // ctor-built Hot Design fallback (navigator == null) stays side-effect-free.
+        if (_navigator is not null)
+            _state.Cart.CollectionChanged += (_, _) => RefreshTotals();
 
         RefreshTotals();
     }
@@ -59,6 +68,7 @@ public class CartPageData : INotifyPropertyChanged
     public ICommand DecrementCommand { get; }
     public ICommand RemoveItemCommand { get; }
     public ICommand PlaceOrderCommand { get; }
+    public ICommand GoToMenuCommand { get; }
 
     public string OrderPlacedMessage
     {
@@ -66,22 +76,17 @@ public class CartPageData : INotifyPropertyChanged
         set { _orderPlacedMessage = value; OnPropertyChanged(); }
     }
 
-    public Visibility OrderPlacedVisibility
+    // View state as data; XAML maps these bools to Visibility.
+    public bool ShowOrderConfirmed
     {
-        get => _orderPlacedVisibility;
-        set { _orderPlacedVisibility = value; OnPropertyChanged(); }
+        get => _showOrderConfirmed;
+        set { _showOrderConfirmed = value; OnPropertyChanged(); }
     }
 
-    public Visibility EmptyCartVisibility
+    public bool IsCartEmpty
     {
-        get => _emptyCartVisibility;
-        set { _emptyCartVisibility = value; OnPropertyChanged(); }
-    }
-
-    public Visibility CartContentVisibility
-    {
-        get => _cartContentVisibility;
-        set { _cartContentVisibility = value; OnPropertyChanged(); }
+        get => _isCartEmpty;
+        set { _isCartEmpty = value; OnPropertyChanged(); }
     }
 
     public double Subtotal
@@ -115,14 +120,14 @@ public class CartPageData : INotifyPropertyChanged
         Tax = Math.Round(Subtotal * 0.08, 2);
         Total = Subtotal + Tax;
 
-        bool hasItems = CartItems.Count > 0;
-        EmptyCartVisibility = hasItems ? Visibility.Collapsed : Visibility.Visible;
-        CartContentVisibility = hasItems ? Visibility.Visible : Visibility.Collapsed;
+        IsCartEmpty = CartItems.Count == 0;
+
+        // Dismiss the "order placed" confirmation as soon as the cart has items again.
+        if (!IsCartEmpty)
+            ShowOrderConfirmed = false;
+
         OnPropertyChanged(nameof(ItemCount));
         OnPropertyChanged(nameof(ItemCountText));
-        OnPropertyChanged(nameof(SubtotalFormatted));
-        OnPropertyChanged(nameof(TaxFormatted));
-        OnPropertyChanged(nameof(TotalFormatted));
     }
 
     public event PropertyChangedEventHandler? PropertyChanged;
