@@ -10,7 +10,7 @@ public sealed partial class DashboardPage : Page
         // so it needs a DataContext to preview; at runtime Uno.Extensions Navigation injects its own
         // DashboardModel after construction and overrides this (harmless — same type, same data).
         // NB: DesignMode.DesignModeEnabled is false in Hot Design (it flags only the classic XAML
-        // designer), so gating on it would blank the preview (lesson 21).
+        // designer), so gating on it would blank the preview.
         this.DataContext = new DashboardModel();
     }
 }

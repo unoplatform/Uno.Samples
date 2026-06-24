@@ -9,8 +9,8 @@ namespace ClaudeCodeTracker.Presentation;
 /// <summary>
 /// Builds the LiveCharts series from the shared <see cref="SampleData"/> rollup. Axis and series
 /// colors are resolved from the active theme palette (see <see cref="Resolve"/>) so the charts
-/// stay legible and on-brand in both light and dark (lesson 16); paints are built here at
-/// navigation time, after resources load, avoiding the static-init-order trap (lesson 19).
+/// stay legible and on-brand in both light and dark; paints are built here at navigation time,
+/// after resources load, avoiding a static-initialization-order trap.
 ///
 /// Donuts use a hidden built-in legend plus a custom <see cref="LegendEntry"/> legend (rendered in
 /// XAML) so both donuts draw at the same fixed size and each item shows its percentage.
@@ -112,7 +112,7 @@ public partial record ChartsModel
         Name = name,
         Values = new[] { value },
         Fill = new SolidColorPaint(color),
-        MaxRadialColumnWidth = 38, // pin band thickness; let the hole scale (lesson 15)
+        MaxRadialColumnWidth = 38, // pin band thickness; let the hole scale with the chart
         DataLabelsPaint = null,
     };
 
