@@ -157,9 +157,13 @@ public class AppState : INotifyPropertyChanged
             {
                 _cartItemCount = value;
                 OnPropertyChanged();
+                OnPropertyChanged(nameof(CartHasItems));
             }
         }
     }
+
+    // Drives the cart-tab count badge's visibility (data, not UI).
+    public bool CartHasItems => CartItemCount > 0;
 
     private AppState()
     {

@@ -37,6 +37,11 @@
                     <NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE7BF;" />
                     </NavigationViewItem.Icon>
+                    <!-- Live item-count badge from the shared AppState (MainPage.DataContext) -->
+                    <NavigationViewItem.InfoBadge>
+                        <InfoBadge Value="{Binding CartItemCount}"
+                                   Visibility="{Binding CartHasItems, Converter={StaticResource BoolToVisibility}}" />
+                    </NavigationViewItem.InfoBadge>
                 </NavigationViewItem>
                 <NavigationViewItem uen:Region.Name="Orders" Content="Orders">
                     <NavigationViewItem.Icon>
@@ -74,10 +79,30 @@
                                 <FontIcon Glyph="&#xE8FD;" />
                             </utu:TabBarItem.Icon>
                         </utu:TabBarItem>
-                        <utu:TabBarItem uen:Region.Name="Cart" Content="Cart">
+                        <utu:TabBarItem uen:Region.Name="Cart">
                             <utu:TabBarItem.Icon>
                                 <FontIcon Glyph="&#xE7BF;" />
                             </utu:TabBarItem.Icon>
+                            <!-- Label + live count badge (shared AppState via MainPage.DataContext) -->
+                            <StackPanel Orientation="Horizontal"
+                                        Spacing="5"
+                                        VerticalAlignment="Center">
+                                <TextBlock Text="Cart" VerticalAlignment="Center" />
+                                <Border Background="{ThemeResource PrimaryBrush}"
+                                        CornerRadius="9"
+                                        MinWidth="18"
+                                        Height="18"
+                                        Padding="5,0"
+                                        VerticalAlignment="Center"
+                                        Visibility="{Binding CartHasItems, Converter={StaticResource BoolToVisibility}}">
+                                    <TextBlock Text="{Binding CartItemCount}"
+                                               Foreground="{ThemeResource OnPrimaryBrush}"
+                                               FontSize="10"
+                                               FontWeight="Bold"
+                                               HorizontalAlignment="Center"
+                                               VerticalAlignment="Center" />
+                                </Border>
+                            </StackPanel>
                         </utu:TabBarItem>
                         <utu:TabBarItem uen:Region.Name="Orders" Content="Orders">
                             <utu:TabBarItem.Icon>
