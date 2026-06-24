@@ -193,10 +193,13 @@
                                 </ItemsRepeater.Layout>
                                 <ItemsRepeater.ItemTemplate>
                                     <DataTemplate>
+                                        <!-- Tap the card to open the product detail page -->
                                         <Border Background="{ThemeResource SurfaceBrush}"
                                                 CornerRadius="16"
                                                 BorderBrush="{ThemeResource BrewCardBorderBrush}"
-                                                BorderThickness="1">
+                                                BorderThickness="1"
+                                                Tapped="OnProductTapped"
+                                                AutomationProperties.Name="{Binding Name}">
                                             <Grid>
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="104" />
@@ -243,6 +246,7 @@
                                                                 Padding="14,6"
                                                                 FontSize="13"
                                                                 FontWeight="SemiBold"
+                                                                Tapped="OnAddTapped"
                                                                 Command="{utu:AncestorBinding AncestorType=ItemsRepeater, Path=DataContext.AddToCartCommand}"
                                                                 CommandParameter="{Binding}" />
                                                     </StackPanel>

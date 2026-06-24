@@ -26,6 +26,12 @@ public class HomePageData : INotifyPropertyChanged
         GoToCartCommand = new RelayCommand(() => _ = _navigator?.NavigateRouteAsync(this, "Cart"));
         GoToMenuCommand = new RelayCommand(() => _ = _navigator?.NavigateRouteAsync(this, "Menu"));
 
+        ViewProductCommand = new RelayCommand<ProductItem>(product =>
+        {
+            if (product is not null)
+                _ = _navigator?.NavigateRouteAsync(this, "ProductDetail", data: product);
+        });
+
         // Only the navigation-injected instance listens to the shared singleton; the ctor-built
         // Hot Design fallback (navigator == null) stays side-effect-free. AppState raises
         // PropertyChanged on every cart mutation (new line, quantity +/-, remove, clear), so the
@@ -74,6 +80,7 @@ public class HomePageData : INotifyPropertyChanged
     public ICommand OrderNowCommand { get; }
     public ICommand GoToCartCommand { get; }
     public ICommand GoToMenuCommand { get; }
+    public ICommand ViewProductCommand { get; }
 
     private void RefreshCart()
     {

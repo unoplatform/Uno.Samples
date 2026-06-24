@@ -72,7 +72,8 @@ public partial class App : Application
             new ViewMap<HomePage, HomePageData>(),
             new ViewMap<MenuPage, MenuPageData>(),
             new ViewMap<CartPage, CartPageData>(),
-            new ViewMap<OrdersPage, OrdersPageData>()
+            new ViewMap<OrdersPage, OrdersPageData>(),
+            new DataViewMap<ProductDetailPage, ProductDetailModel, ProductItem>()
         );
 
         routes.Register(
@@ -87,6 +88,7 @@ public partial class App : Application
                             new RouteMap("Menu", View: views.FindByView<MenuPage>()),
                             new RouteMap("Cart", View: views.FindByView<CartPage>()),
                             new RouteMap("Orders", View: views.FindByView<OrdersPage>()),
+                            new RouteMap("ProductDetail", View: views.FindByView<ProductDetailPage>()),
                         ]
                     ),
                 ]

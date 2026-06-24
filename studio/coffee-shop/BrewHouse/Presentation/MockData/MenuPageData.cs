@@ -8,6 +8,7 @@ namespace BrewHouse.Presentation.MockData;
 public class MenuPageData : INotifyPropertyChanged
 {
     private readonly AppState _state;
+    private readonly INavigator? _navigator;
 
     private string _categoryId = "all";
     private string _searchText = "";
@@ -15,6 +16,7 @@ public class MenuPageData : INotifyPropertyChanged
     public MenuPageData(AppState state, INavigator? navigator = null)
     {
         _state = state;
+        _navigator = navigator;
 
         FilteredProducts = new ObservableCollection<ProductItem>(_state.AllProducts);
 
@@ -22,6 +24,12 @@ public class MenuPageData : INotifyPropertyChanged
         {
             if (product is not null)
                 _state.AddToCart(product);
+        });
+
+        ViewProductCommand = new RelayCommand<ProductItem>(product =>
+        {
+            if (product is not null)
+                _ = _navigator?.NavigateRouteAsync(this, "ProductDetail", data: product);
         });
 
         FilterByCategoryCommand = new RelayCommand<string>(categoryId =>
@@ -57,6 +65,7 @@ public class MenuPageData : INotifyPropertyChanged
 
     public ICommand AddToCartCommand { get; }
     public ICommand FilterByCategoryCommand { get; }
+    public ICommand ViewProductCommand { get; }
 
     // Sync the bound collection in place — remove dropped items, insert/move the rest to match the
     // filtered order — instead of Clear()+Add(). Items that stay keep their containers and loaded
