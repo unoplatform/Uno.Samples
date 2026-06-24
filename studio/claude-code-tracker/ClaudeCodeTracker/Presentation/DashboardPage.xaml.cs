@@ -6,12 +6,11 @@ public sealed partial class DashboardPage : Page
     {
         this.InitializeComponent();
 
-        // Hot Design fallback only; at runtime Uno.Extensions Navigation resolves DashboardModel
-        // from the ViewMap<TPage, TModel> and injects its own instance, so gate this on design mode
-        // (matches SessionDetailPage and avoids constructing a throwaway model per navigation; lesson 21).
-        if (Windows.ApplicationModel.DesignMode.DesignModeEnabled)
-        {
-            this.DataContext = new DashboardModel();
-        }
+        // Hot Design fallback (unconditional): Hot Design renders the page WITHOUT running Navigation,
+        // so it needs a DataContext to preview; at runtime Uno.Extensions Navigation injects its own
+        // DashboardModel after construction and overrides this (harmless — same type, same data).
+        // NB: DesignMode.DesignModeEnabled is false in Hot Design (it flags only the classic XAML
+        // designer), so gating on it would blank the preview (lesson 21).
+        this.DataContext = new DashboardModel();
     }
 }

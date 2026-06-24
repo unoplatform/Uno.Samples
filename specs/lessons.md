@@ -659,22 +659,34 @@ DataContextChanged += (_, _) => { if (DataContext is not DashboardData) DataCont
 
 (For a self-context page, guard `DataContext != this`.)
 
-**A code-behind `DataContext` shadows navigation-injected data.** The inverse of the above: a
-page mapped with `DataViewMap<TPage,TModel,TData>` receives the navigated payload as its `TModel`
-via **constructor injection** — but if the code-behind *also* assigns `DataContext` to mock data
-unconditionally, that assignment **wins and discards the injected model**, so every list row opens
-the *same* hardcoded detail (Claude Code Tracker: every session opened `s-001`). Don't set
-`DataContext` to sample data in the ctor; gate the design-time fallback on
-`DesignMode.DesignModeEnabled` so Hot Design previews populate while the runtime keeps the
-injected model:
+**A *child* element's `DataContext` shadows navigation-injected data — and `DesignMode` ≠ Hot
+Design.** A page mapped with `DataViewMap<TPage,TModel,TData>` receives the navigated payload as
+its `TModel`, which Navigation assigns to the **page's** `DataContext` *after* construction. Two
+traps here:
+
+- **Don't set a child element's `DataContext` to mock data.** `Root.DataContext = mockData` on a
+  child element shadows the page-level injected model for that whole subtree — so every list row
+  opens the *same* hardcoded detail (Claude Code Tracker: every session opened `s-001`). Set the
+  **page** `DataContext` (`this.DataContext`), never a child's — Navigation overrides
+  `this.DataContext` at runtime, so the correct per-row model wins (verified: distinct rows open
+  distinct details).
+- **To populate Hot Design previews, set the fallback *unconditionally* — do NOT gate it on
+  `DesignMode.DesignModeEnabled`.** Hot Design renders the page *without* running Navigation, so it
+  needs a `DataContext` from the ctor. `Windows.ApplicationModel.DesignMode.DesignModeEnabled` is
+  `true` only in the **classic XAML designer** and is **`false` in Hot Design** (Hot Design runs
+  the live app), so gating on it leaves the preview **blank**. Set it unconditionally; Navigation
+  still overrides it at runtime (same applies to plain `ViewMap` pages — the throwaway instance is
+  harmless because Navigation reassigns its own).
 
 ```csharp
 public SessionDetailPage()
 {
     this.InitializeComponent();
-    // Runtime DataContext is the navigation-injected SessionDetailModel; this fallback is preview-only.
-    if (Windows.ApplicationModel.DesignMode.DesignModeEnabled)
-        this.DataContext = new SessionDetailModel(SampleData.Sessions[0]);
+    // Hot Design renders without Navigation, so seed a representative sample. At runtime the
+    // DataViewMap injects the tapped model onto this *page* DataContext and overrides this, so
+    // each row opens its own detail. (Setting a child's DataContext instead = the s-001 bug;
+    // gating on DesignMode.DesignModeEnabled = blank in Hot Design.)
+    this.DataContext = new SessionDetailModel(SampleData.Sessions[0]);
 }
 ```
 
