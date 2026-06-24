@@ -31,8 +31,8 @@ public partial record DashboardModel
     // rose vs last month (the unwanted direction for a cost tracker) so the XAML shows it in the
     // error tint; "down" shows in the positive (secondary) tint. Two visibility-toggled variants
     // (each with its own {ThemeResource} foreground in XAML) replace a code-resolved brush so the
-    // tint re-themes on a light/dark switch (lesson 16 carves out code resolution only for the
-    // non-XAML chart drawing; this is plain XAML foreground).
+    // tint re-themes on a light/dark switch (a brush captured once in code-behind would not update
+    // when the theme changes).
     public bool BudgetVsLastMonthUp => SampleData.BudgetVsLastMonthUp;
     public Visibility TrendUpVisibility => BudgetVsLastMonthUp ? Visibility.Visible : Visibility.Collapsed;
     public Visibility TrendDownVisibility => BudgetVsLastMonthUp ? Visibility.Collapsed : Visibility.Visible;
