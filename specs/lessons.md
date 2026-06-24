@@ -576,9 +576,17 @@ automated UI testing/assertions — a structured alternative to the manual scree
   **coordinate clicks**, and capture at specific viewport widths (and
   `colorScheme: 'dark'`) to validate responsive breakpoints.
 - **Android** can be run/screenshotted from the headless shell, with two prerequisites:
-  - **JDK 17.** `net10.0-android` needs JDK 17, but the machine default is JDK 11. Point
-    the build at the Homebrew `openjdk@17`:
-    `JAVA_HOME=/opt/homebrew/opt/openjdk@17/libexec/openjdk.jdk/Contents/Home dotnet build -f net10.0-android -p:JavaSdkDirectory="$JAVA_HOME"`.
+  - **JDK 17.** `net10.0-android` needs JDK 17. A machine defaulting to JDK 11 fails the
+    Java-based **manifest-merge** step (the managed C# compile itself is fine) with
+    `error XAAMM0000: java.lang.UnsupportedClassVersionError: com/xamarin/manifestmerger/Main has
+    been compiled by a more recent version of the Java Runtime (class file version 61.0), this
+    version … only recognizes … up to 55.0` — class file **61.0 = Java 17**, **55.0 = Java 11**.
+    Point the build at a real JDK 17 home; **the Homebrew keg symlink `/opt/homebrew/opt/openjdk@17`
+    is rejected by .NET Android — use the `…/libexec/openjdk.jdk/Contents/Home` path**:
+    `JAVA_HOME=/opt/homebrew/opt/openjdk@17/libexec/openjdk.jdk/Contents/Home dotnet build -f net10.0-android -p:JavaSdkDirectory="$JAVA_HOME"`
+    (env var or `-p:JavaSdkDirectory` both work). Permanent fix so no per-build flag is needed:
+    install the **Microsoft Build of OpenJDK 17** (or run **`uno-check`**, which provisions the
+    correct JDK) and set `JAVA_HOME` to it.
   - **Embed the assemblies for `adb install`.** A plain Debug APK uses Fast Deployment —
     the managed assemblies are pushed *separately* by `dotnet ... -t:Run`, so a manual
     `adb install` of the APK aborts at launch with `SIGABRT` / *"No assemblies found in
