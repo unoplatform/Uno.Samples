@@ -2,6 +2,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
+using Microsoft.UI.Xaml;
 
 namespace BrewHouse.Presentation.MockData;
 
@@ -9,6 +10,7 @@ public class CartPageData : INotifyPropertyChanged
 {
     private readonly AppState _state;
     private readonly INavigator? _navigator;
+    private readonly DispatcherTimer? _confirmTimer;
 
     private string _orderPlacedMessage = "";
     private bool _showOrderConfirmed;
@@ -50,14 +52,19 @@ public class CartPageData : INotifyPropertyChanged
             RefreshTotals();
             OrderPlacedMessage = "Your order has been placed!";
             ShowOrderConfirmed = true;
+            _confirmTimer?.Start(); // auto-dismiss (transient toast)
         });
 
         GoToMenuCommand = new RelayCommand(() => _ = _navigator?.NavigateRouteAsync(this, "Menu"));
 
-        // Only the navigation-injected instance wires into the shared singleton's event; the
-        // ctor-built Hot Design fallback (navigator == null) stays side-effect-free.
+        // Only the navigation-injected instance wires into the shared singleton's event / a timer;
+        // the ctor-built Hot Design fallback (navigator == null) stays side-effect-free.
         if (_navigator is not null)
+        {
             _state.Cart.CollectionChanged += (_, _) => RefreshTotals();
+            _confirmTimer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(4) };
+            _confirmTimer.Tick += (_, _) => { _confirmTimer.Stop(); ShowOrderConfirmed = false; };
+        }
 
         RefreshTotals();
     }
@@ -80,14 +87,17 @@ public class CartPageData : INotifyPropertyChanged
     public bool ShowOrderConfirmed
     {
         get => _showOrderConfirmed;
-        set { _showOrderConfirmed = value; OnPropertyChanged(); }
+        set { _showOrderConfirmed = value; OnPropertyChanged(); OnPropertyChanged(nameof(IsEmptyStateVisible)); }
     }
 
     public bool IsCartEmpty
     {
         get => _isCartEmpty;
-        set { _isCartEmpty = value; OnPropertyChanged(); }
+        set { _isCartEmpty = value; OnPropertyChanged(); OnPropertyChanged(nameof(IsEmptyStateVisible)); }
     }
+
+    // The empty-cart hero and the "order placed" confirmation must never show together.
+    public bool IsEmptyStateVisible => IsCartEmpty && !ShowOrderConfirmed;
 
     public double Subtotal
     {
@@ -124,7 +134,10 @@ public class CartPageData : INotifyPropertyChanged
 
         // Dismiss the "order placed" confirmation as soon as the cart has items again.
         if (!IsCartEmpty)
+        {
             ShowOrderConfirmed = false;
+            _confirmTimer?.Stop();
+        }
 
         OnPropertyChanged(nameof(ItemCount));
         OnPropertyChanged(nameof(ItemCountText));

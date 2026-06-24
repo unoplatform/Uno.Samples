@@ -5,7 +5,7 @@
       Background="{ThemeResource BackgroundBrush}">
 
     <utu:SafeArea Insets="VisibleBounds">
-        <Grid MaxWidth="720" HorizontalAlignment="Stretch">
+        <Grid MaxWidth="1100" HorizontalAlignment="Stretch">
 
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
@@ -29,9 +29,9 @@
                 </StackPanel>
             </Border>
 
-            <!-- Empty Cart State -->
+            <!-- Empty Cart State (hidden while the order-placed confirmation is up) -->
             <ScrollViewer Grid.Row="1"
-                          Visibility="{Binding IsCartEmpty, Converter={StaticResource BoolToVisibility}}"
+                          Visibility="{Binding IsEmptyStateVisible, Converter={StaticResource BoolToVisibility}}"
                           VerticalScrollBarVisibility="Hidden">
                 <StackPanel HorizontalAlignment="Center"
                             VerticalAlignment="Center"
@@ -40,7 +40,8 @@
                     <FontIcon Glyph="&#xEC32;"
                               FontSize="64"
                               Foreground="{ThemeResource SecondaryBrush}"
-                              HorizontalAlignment="Center" />
+                              HorizontalAlignment="Center"
+                              AutomationProperties.AccessibilityView="Raw" />
                     <TextBlock Text="Your cart is empty"
                                FontSize="22"
                                FontWeight="Bold"
@@ -62,26 +63,33 @@
                                        FontWeight="SemiBold"
                                        Foreground="{ThemeResource SecondaryBrush}"
                                        HorizontalAlignment="Center" />
+                            <!-- Pills jump to the Menu -->
                             <StackPanel Orientation="Horizontal"
                                         HorizontalAlignment="Center"
                                         Spacing="8">
                                 <Border Background="{ThemeResource SurfaceBrush}"
                                         CornerRadius="20"
-                                        Padding="12,6">
+                                        Padding="12,6"
+                                        Tapped="OnPopularChoiceTapped"
+                                        AutomationProperties.Name="Browse Latte">
                                     <TextBlock Text="Latte"
                                                FontSize="13"
                                                Foreground="{ThemeResource OnSurfaceBrush}" />
                                 </Border>
                                 <Border Background="{ThemeResource SurfaceBrush}"
                                         CornerRadius="20"
-                                        Padding="12,6">
+                                        Padding="12,6"
+                                        Tapped="OnPopularChoiceTapped"
+                                        AutomationProperties.Name="Browse Croissant">
                                     <TextBlock Text="Croissant"
                                                FontSize="13"
                                                Foreground="{ThemeResource OnSurfaceBrush}" />
                                 </Border>
                                 <Border Background="{ThemeResource SurfaceBrush}"
                                         CornerRadius="20"
-                                        Padding="12,6">
+                                        Padding="12,6"
+                                        Tapped="OnPopularChoiceTapped"
+                                        AutomationProperties.Name="Browse Matcha">
                                     <TextBlock Text="Matcha"
                                                FontSize="13"
                                                Foreground="{ThemeResource OnSurfaceBrush}" />
@@ -103,9 +111,17 @@
                 </StackPanel>
             </ScrollViewer>
 
-            <!-- Cart Content -->
+            <!-- Cart Content: one column on phones (items above, summary below);
+                 two columns on wide desktop/web (items left, sticky summary right) -->
             <Grid Grid.Row="1"
-                  Visibility="{Binding IsCartEmpty, Converter={StaticResource BoolToVisibility}, ConverterParameter=Invert}">
+                  Visibility="{Binding IsCartEmpty, Converter={StaticResource BoolToVisibility}, ConverterParameter=Invert}"
+                  Padding="16,12,16,12"
+                  ColumnSpacing="16"
+                  RowSpacing="12">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="{utu:Responsive Narrow=Auto, Wide=360}" />
+                </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />
                     <RowDefinition Height="Auto" />
@@ -113,117 +129,117 @@
 
                 <!-- Cart Items List -->
                 <ScrollViewer Grid.Row="0"
-                              VerticalScrollBarVisibility="Hidden"
-                              Padding="0,0,0,8">
-                    <StackPanel Spacing="0" Padding="16,12,16,0">
+                              Grid.Column="0"
+                              Grid.ColumnSpan="{utu:Responsive Narrow=2, Wide=1}"
+                              VerticalScrollBarVisibility="Hidden">
+                    <ItemsControl ItemsSource="{Binding CartItems}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Spacing="10" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border Background="{ThemeResource SurfaceBrush}"
+                                        CornerRadius="16"
+                                        Padding="12"
+                                        BorderBrush="{ThemeResource BrewCardBorderBrush}"
+                                        BorderThickness="1">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="72" />
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
 
-                        <ItemsControl ItemsSource="{Binding CartItems}">
-                            <ItemsControl.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <StackPanel Spacing="10" />
-                                </ItemsPanelTemplate>
-                            </ItemsControl.ItemsPanel>
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate>
-                                    <Border Background="{ThemeResource SurfaceBrush}"
-                                            CornerRadius="16"
-                                            Padding="12"
-                                            BorderBrush="{ThemeResource BrewCardBorderBrush}"
-                                            BorderThickness="1">
-                                        <Grid>
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="72" />
-                                                <ColumnDefinition Width="*" />
-                                                <ColumnDefinition Width="Auto" />
-                                            </Grid.ColumnDefinitions>
+                                        <!-- Product Image -->
+                                        <Border Grid.Column="0"
+                                                CornerRadius="10"
+                                                Width="72"
+                                                Height="72">
+                                            <Border.Background>
+                                                <ImageBrush ImageSource="{Binding ImageUrl}"
+                                                            Stretch="UniformToFill" />
+                                            </Border.Background>
+                                        </Border>
 
-                                            <!-- Product Image -->
-                                            <Border Grid.Column="0"
+                                        <!-- Product Info -->
+                                        <StackPanel Grid.Column="1"
+                                                    Padding="12,4,8,4"
+                                                    Spacing="4"
+                                                    VerticalAlignment="Center">
+                                            <TextBlock Text="{Binding Name}"
+                                                       FontSize="15"
+                                                       FontWeight="SemiBold"
+                                                       Foreground="{ThemeResource OnSurfaceBrush}"
+                                                       TextTrimming="CharacterEllipsis" />
+                                            <TextBlock FontSize="13"
+                                                       Foreground="{ThemeResource SecondaryBrush}"
+                                                       FontWeight="SemiBold">
+                                                <Run Text="$" />
+                                                <Run Text="{Binding PriceFormatted}" />
+                                            </TextBlock>
+                                            <TextBlock FontSize="12"
+                                                       Foreground="{ThemeResource OnSurfaceVariantBrush}">
+                                                <Run Text="Line total: $" />
+                                                <Run Text="{Binding LineTotalFormatted}" />
+                                            </TextBlock>
+                                        </StackPanel>
+
+                                        <!-- Quantity Controls -->
+                                        <StackPanel Grid.Column="2"
+                                                    VerticalAlignment="Center"
+                                                    Spacing="6"
+                                                    HorizontalAlignment="Center">
+                                            <Button Content="+"
+                                                    AutomationProperties.Name="Increase quantity"
+                                                    Width="34"
+                                                    Height="34"
+                                                    Background="{ThemeResource PrimaryBrush}"
+                                                    Foreground="{ThemeResource OnPrimaryBrush}"
                                                     CornerRadius="10"
-                                                    Width="72"
-                                                    Height="72">
-                                                <Border.Background>
-                                                    <ImageBrush ImageSource="{Binding ImageUrl}"
-                                                                Stretch="UniformToFill" />
-                                                </Border.Background>
-                                            </Border>
-
-                                            <!-- Product Info -->
-                                            <StackPanel Grid.Column="1"
-                                                        Padding="12,4,8,4"
-                                                        Spacing="4"
-                                                        VerticalAlignment="Center">
-                                                <TextBlock Text="{Binding Name}"
-                                                           FontSize="15"
-                                                           FontWeight="SemiBold"
-                                                           Foreground="{ThemeResource OnSurfaceBrush}"
-                                                           TextTrimming="CharacterEllipsis" />
-                                                <TextBlock FontSize="13"
-                                                           Foreground="{ThemeResource SecondaryBrush}"
-                                                           FontWeight="SemiBold">
-                                                    <Run Text="$" />
-                                                    <Run Text="{Binding PriceFormatted}" />
-                                                </TextBlock>
-                                                <TextBlock FontSize="12"
-                                                           Foreground="{ThemeResource OnSurfaceVariantBrush}">
-                                                    <Run Text="Line total: $" />
-                                                    <Run Text="{Binding LineTotalFormatted}" />
-                                                </TextBlock>
-                                            </StackPanel>
-
-                                            <!-- Quantity Controls -->
-                                            <StackPanel Grid.Column="2"
-                                                        VerticalAlignment="Center"
-                                                        Spacing="6"
-                                                        HorizontalAlignment="Center">
-                                                <Button Content="+"
-                                                        AutomationProperties.Name="Increase quantity"
-                                                        Width="34"
-                                                        Height="34"
-                                                        Background="{ThemeResource PrimaryBrush}"
-                                                        Foreground="{ThemeResource OnPrimaryBrush}"
-                                                        CornerRadius="10"
-                                                        FontSize="18"
-                                                        FontWeight="Bold"
-                                                        Padding="0"
-                                                        HorizontalAlignment="Center"
-                                                        Command="{utu:ItemsControlBinding Path=DataContext.IncrementCommand}"
-                                                        CommandParameter="{Binding}" />
-                                                <TextBlock Text="{Binding Quantity}"
-                                                           FontSize="16"
-                                                           FontWeight="Bold"
-                                                           Foreground="{ThemeResource OnSurfaceBrush}"
-                                                           HorizontalAlignment="Center" />
-                                                <Button Content="&#x2212;"
-                                                        AutomationProperties.Name="Decrease quantity"
-                                                        Width="34"
-                                                        Height="34"
-                                                        Background="{ThemeResource SurfaceVariantBrush}"
-                                                        Foreground="{ThemeResource OnSurfaceVariantBrush}"
-                                                        CornerRadius="10"
-                                                        FontSize="18"
-                                                        FontWeight="Bold"
-                                                        Padding="0"
-                                                        HorizontalAlignment="Center"
-                                                        Command="{utu:ItemsControlBinding Path=DataContext.DecrementCommand}"
-                                                        CommandParameter="{Binding}" />
-                                            </StackPanel>
-                                        </Grid>
-                                    </Border>
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                        </ItemsControl>
-
-                    </StackPanel>
+                                                    FontSize="18"
+                                                    FontWeight="Bold"
+                                                    Padding="0"
+                                                    HorizontalAlignment="Center"
+                                                    Command="{utu:ItemsControlBinding Path=DataContext.IncrementCommand}"
+                                                    CommandParameter="{Binding}" />
+                                            <TextBlock Text="{Binding Quantity}"
+                                                       FontSize="16"
+                                                       FontWeight="Bold"
+                                                       Foreground="{ThemeResource OnSurfaceBrush}"
+                                                       HorizontalAlignment="Center" />
+                                            <Button Content="&#x2212;"
+                                                    AutomationProperties.Name="Decrease quantity"
+                                                    Width="34"
+                                                    Height="34"
+                                                    Background="{ThemeResource SurfaceVariantBrush}"
+                                                    Foreground="{ThemeResource OnSurfaceVariantBrush}"
+                                                    CornerRadius="10"
+                                                    FontSize="18"
+                                                    FontWeight="Bold"
+                                                    Padding="0"
+                                                    HorizontalAlignment="Center"
+                                                    Command="{utu:ItemsControlBinding Path=DataContext.DecrementCommand}"
+                                                    CommandParameter="{Binding}" />
+                                        </StackPanel>
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
                 </ScrollViewer>
 
-                <!-- Order Summary + Place Order -->
-                <Border Grid.Row="1"
+                <!-- Order Summary + Place Order: docked below on phone, sticky right column on wide -->
+                <Border Grid.Row="{utu:Responsive Narrow=1, Wide=0}"
+                        Grid.Column="{utu:Responsive Narrow=0, Wide=1}"
+                        Grid.ColumnSpan="{utu:Responsive Narrow=2, Wide=1}"
+                        VerticalAlignment="{utu:Responsive Narrow=Stretch, Wide=Top}"
                         Background="{ThemeResource SurfaceBrush}"
-                        CornerRadius="20,20,0,0"
-                        Padding="20,20,20,24"
+                        CornerRadius="16"
+                        Padding="20"
                         BorderBrush="{ThemeResource BrewCardBorderBrush}"
-                        BorderThickness="0,1,0,0">
+                        BorderThickness="1">
                     <StackPanel Spacing="0">
 
                         <!-- Summary Title -->
@@ -313,8 +329,8 @@
 
             </Grid>
 
-            <!-- Order Confirmed banner: a page-level overlay so it survives the cart emptying
-                 on Place Order (it sits outside the empty/content panels, dismissed when items return) -->
+            <!-- Order Confirmed banner: page-level overlay so it survives the cart emptying on
+                 Place Order; auto-dismisses after a few seconds (or when items return) -->
             <Border Grid.Row="1"
                     VerticalAlignment="Top"
                     Margin="16,12,16,0"
