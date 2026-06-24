@@ -19,12 +19,13 @@ Before any Uno UI/XAML work on a sample in this repo, consult **both**:
   that skill for the full API — the lesson only adds the trap on top, and **the skill wins**
   if they disagree.
 
-**Setup (Claude Code):** the marketplace **and** plugin are declared in `.claude/settings.json`
-(`extraKnownMarketplaces` + `enabledPlugins: { "uno-platform-studio@uno-platform": true }`),
-so Claude Code provisions the plugin automatically on first launch in this repo — approve the
-trust prompt if shown, and reload the window/session to pick it up. No manual `/plugin install`
-needed; afterwards the skills are auto-invoked by description. Other agents (Cursor/Gemini/etc.)
-copy the raw skills from `unoplatform/studio` → `studio/skills/uno-*` into their skills folder.
+**Setup (Claude Code):** the repo-local **`uno-sample-lessons`** skill lives in `.claude/skills/`
+and is auto-discovered by description — no setup needed. The external **`uno-*`** skills ship as
+the `uno-platform-studio` plugin in `unoplatform/studio`; install them once with
+`/plugin marketplace add unoplatform/studio` then `/plugin install uno-platform-studio@uno-platform`
+(this repo intentionally does not vendor a marketplace declaration). Other agents
+(Cursor/Gemini/etc.) copy the raw skills from `unoplatform/studio` → `studio/skills/uno-*` into
+their skills folder.
 
 <flow_orchestration>
 
@@ -44,14 +45,14 @@ copy the raw skills from `unoplatform/studio` → `studio/skills/uno-*` into the
 - After ANY correction from the user: update `specs/lessons.md` with the pattern. If the file does not exist, create it
 - Write rules for yourself that prevent the same mistake
 - Ruthlessly iterate on these lessons until mistake rate drops
-- When modifying the agentic workflow (system prompts, sub-agent instructions, skills, phase pipeline, agent orchestration code), review and update `.claude/skills/studio-live-agentic-workflow-audit/SKILL.md` to keep its methodology and known issues current
+- When modifying the agentic workflow (system prompts, sub-agent instructions, skills, phase pipeline, agent orchestration code), review and update the workflow rules in this `AGENTS.md` (the `<flow_orchestration>` section) to keep its methodology and known issues current
 - Review lessons at session start for relevant project
 
 #### Where corrections are recorded
 
 User corrections, "do this / never do that" rules, workflow guardrails, and tool-usage policies that should bind **every** agent working on this repo MUST be written to a checked-in, shared file:
 - Repo-wide rules → `AGENTS.md` (this file).
-- Workflow / orchestration rules → `.claude/skills/studio-live-agentic-workflow-audit/SKILL.md`.
+- Workflow / orchestration rules → this `AGENTS.md` (the `<flow_orchestration>` section).
 - Skill-specific rules (e.g. how to use a particular tool/MCP) → the relevant `.claude/skills/<skill>/SKILL.md`.
 - Domain lessons / postmortems → `specs/lessons.md`.
 
