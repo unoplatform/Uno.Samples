@@ -112,7 +112,8 @@
                             <Border Background="{ThemeResource SurfaceBrush}"
                                     CornerRadius="16"
                                     BorderBrush="{ThemeResource BrewCardBorderBrush}"
-                                    BorderThickness="1">
+                                    BorderThickness="1"
+                                    VerticalAlignment="Stretch">
                                 <Grid>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="100" />
@@ -134,24 +135,34 @@
                                                 Spacing="2"
                                                 VerticalAlignment="Center">
 
-                                        <!-- Special Badge -->
-                                        <Border Background="{ThemeResource SurfaceVariantBrush}"
-                                                CornerRadius="6"
-                                                Padding="6,2"
-                                                HorizontalAlignment="Left"
-                                                Visibility="{Binding IsSpecial, Converter={StaticResource BoolToVisibility}}">
-                                            <TextBlock Text="Today's Special"
-                                                       FontSize="10"
+                                        <!-- Name + right-aligned "Today's Special" badge on one row, so the
+                                             badge never adds height and every tile stays the same height -->
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Grid.Column="0"
+                                                       Text="{Binding Name}"
+                                                       FontSize="16"
                                                        FontWeight="SemiBold"
-                                                       Foreground="{ThemeResource SecondaryBrush}" />
-                                        </Border>
-
-                                        <TextBlock Text="{Binding Name}"
-                                                   FontSize="16"
-                                                   FontWeight="SemiBold"
-                                                   Foreground="{ThemeResource OnSurfaceBrush}"
-                                                   TextWrapping="NoWrap"
-                                                   TextTrimming="CharacterEllipsis" />
+                                                       Foreground="{ThemeResource OnSurfaceBrush}"
+                                                       TextWrapping="NoWrap"
+                                                       TextTrimming="CharacterEllipsis"
+                                                       VerticalAlignment="Center" />
+                                            <Border Grid.Column="1"
+                                                    Background="{ThemeResource SurfaceVariantBrush}"
+                                                    CornerRadius="6"
+                                                    Padding="6,2"
+                                                    Margin="8,0,0,0"
+                                                    VerticalAlignment="Center"
+                                                    Visibility="{Binding IsSpecial, Converter={StaticResource BoolToVisibility}}">
+                                                <TextBlock Text="Today's Special"
+                                                           FontSize="10"
+                                                           FontWeight="SemiBold"
+                                                           Foreground="{ThemeResource SecondaryBrush}" />
+                                            </Border>
+                                        </Grid>
 
                                         <TextBlock Text="{Binding Description}"
                                                    FontSize="12"
