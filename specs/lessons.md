@@ -55,11 +55,12 @@ canonical skill (platform targeting, LiveCharts, emoji tofu, static init order, 
 | 18 | Verifying samples | iOS sim for screenshots; WASM + Playwright for fast width checks. |
 | 19 | Static field init order | A static prop initializer that reads a field declared lower crashes at first access; declare consumed fields first. |
 | 20 | Shell nav via Uno.Extensions | Nav chrome once in a shell page; pages become content-only and the framework injects them into a region. |
-| 21 | Extensions nav gotchas | View-only pages lose their constructor `DataContext`; adaptive default `VisualState` isn't applied to injected pages. |
+| 21 | Extensions nav gotchas | View-only pages lose their ctor `DataContext`; a code-behind `DataContext` shadows `DataViewMap`-injected data; default `VisualState` isn't applied to injected pages. |
 | 22 | Commands from item templates | `RelativeSource FindAncestor`/`Self` don't reach the page VM in WinUI/Uno; use `{utu:ItemsControlBinding Path=DataContext.Cmd}`. |
 | 23 | Cap content width on desktop | A constant `MaxWidth` + `HorizontalAlignment="Stretch"` = full-width on phones, centred column on desktop, no magic numbers. |
 | 24 | Emoji render as tofu on Skia | The Skia renderer's bundled fonts have no color-emoji; use `FontIcon` (Segoe Fluent Icons) glyphs, verified per glyph. |
 | 25 | Distinct light/dark from one palette | Put **semantic** brushes in `ThemeDictionaries` (referenced via `{ThemeResource}`); split any brush used as both bg and fg. |
+| 26 | `x:Uid` blanks text in design surfaces | `x:Uid` labels render empty in Studio Web / Hot Design; use literal `Content`/`Text` in shells. |
 
 ---
 
@@ -478,6 +479,16 @@ them or return the wrong theme variant.
 it in code (e.g. to feed a chart `SKColor`), resolve with `TryGetValue` **and a
 hardcoded fallback** (see [`LeadsPage.xaml.cs`](../studio/uno-crm/UnoCRM/LeadsPage.xaml.cs) `ResolveColor`).
 
+> **Hardcoded chart paints are invisible in the opposite theme.** A LiveCharts series/axis/
+> legend painted a literal colour (e.g. `#333`) vanishes against a dark background — always
+> theme-resolve so the chart is legible in light **and** dark. And **build the paints at
+> runtime** — in the model/page constructor, *after* the app resources have loaded — **not** in
+> a `static` field initializer: a static `ResolveColor` runs before
+> `Application.Current.Resources` is populated and silently takes the fallback (lesson 19, static
+> init order). Claude Code Tracker hit both — hardcoded `#333` axis/labels that disappeared in
+> dark, fixed by resolving `OnSurfaceVariantColor`/`PrimaryColor`/… per theme at `ChartsModel`
+> construction.
+
 **Applies to:** any sample that drives non-XAML drawing (SkiaSharp, charts) from
 theme colors.
 
@@ -521,9 +532,36 @@ splash install), `uno-toolkit-loadingview` (the `ILoadable`/`LoadingView` it bin
   `Viewbox` — **not** an SVG `<Image>`. A gradient/`<defs>` SVG can fail through the runtime
   `Image` path and render as a **solid black tile**; native shapes always render and scale
   crisply. See [`Controls/AppLogo.xaml`](../studio/uno-crm/UnoCRM/Controls/AppLogo.xaml).
+- **A Figma-exported SVG icon won't rasterize faithfully through Resizetizer.** Figma exports
+  fancy fills (e.g. a conic-gradient ring) as a `<foreignObject>` holding an HTML
+  `conic-gradient` plus a sibling `<path data-figma-gradient-fill="…">` — both are Figma-only
+  extensions that **Resizetizer's SVG rasterizer (Svg.Skia) ignores**, and the real `<path>`
+  inherits the root `fill="none"`, so that element renders **invisible** (you get the logo/shapes
+  but the gradient/ring vanishes). Re-author the effect with **standard SVG**: a
+  `<linearGradient>`/`<radialGradient>` + `<mask>`/`<clipPath>` (all supported by Svg.Skia), on a
+  transparent foreground. Validate twice — a headless-Chrome render confirms the *design*, and a
+  real build (which runs Resizetizer) plus an on-device/WASM screenshot confirms the *rasterizer*
+  kept the effect. (Claude Code Tracker hit this — the pink→red conic ring vanished until rebuilt
+  as `linearGradient` + `mask`.)
+- **A NuGet package can hijack the Skia desktop window/taskbar icon.** On the desktop (Skia) head,
+  `MainWindow.SetWindowIcon()` loads `images/icon.png` from the app output as the window/taskbar
+  icon. `LiveChartsCore.SkiaSharpView.Uno.WinUI` ships *its own logo* as a content file at that
+  exact path, so the LiveCharts logo silently replaced the app icon (other platforms generate
+  icons elsewhere and were fine). Fix: `<ExcludeAssets>contentFiles</ExcludeAssets>` on the
+  offending `PackageReference`, and supply the real composed `images/icon.png` yourself
+  (desktop-scoped `Content`). Diagnose by comparing the built `images/icon.png` against the
+  package's `contentFiles/**/images/icon.png` under `~/.nuget`.
+- **macOS Dock icon ≠ window icon, and needs the rounded grid.** macOS shows a generic “exec” Dock
+  tile for an **unbundled** run (`dotnet run`); the real icon only appears for a packaged `.app`
+  (`dotnet publish -p:PackageFormat=app`). To show it during a dev run, set
+  `NSApplication.applicationIconImage` at startup via ObjC P/Invoke, **isolated in a
+  desktop-head-only partial method** so the interop never compiles into wasm/iOS/Android. macOS
+  does **not** mask `applicationIconImage` (unlike iOS), so bake the macOS icon grid into the PNG
+  — rounded “squircle” body at ~80% with a ~10% transparent margin and ~22% corner radius — and
+  keep a separate full-bleed square icon for the Windows/Linux taskbar.
 
 **Applies to:** any single-project sample that needs branded icon/splash, or that shows
-its logo in-app.
+its logo in-app (and any Skia desktop head — incl. LiveCharts — wanting a correct taskbar/Dock icon).
 
 ## 18. Verifying sample UI changes
 
@@ -604,7 +642,7 @@ content into the splash and reveals it once loading completes.
 control. Trade-off: this replaces bespoke nav controls with `NavigationView`/`TabBar`
 (auto selection-sync) and drops scroll-driven auto-hide (lesson 14).
 
-## 21. Two traps when pages are injected by Uno.Extensions Navigation
+## 21. Three traps when pages are injected by Uno.Extensions Navigation
 
 **Skill:** `uno-navigation-troubleshooting` and `uno-navigation-regions` (injection/region
 behaviour), `uno-toolkit-responsive` + `uno-toolkit-visualstatemanager-extensions` (drive
@@ -620,6 +658,25 @@ DataContextChanged += (_, _) => { if (DataContext is not DashboardData) DataCont
 ```
 
 (For a self-context page, guard `DataContext != this`.)
+
+**A code-behind `DataContext` shadows navigation-injected data.** The inverse of the above: a
+page mapped with `DataViewMap<TPage,TModel,TData>` receives the navigated payload as its `TModel`
+via **constructor injection** — but if the code-behind *also* assigns `DataContext` to mock data
+unconditionally, that assignment **wins and discards the injected model**, so every list row opens
+the *same* hardcoded detail (Claude Code Tracker: every session opened `s-001`). Don't set
+`DataContext` to sample data in the ctor; gate the design-time fallback on
+`DesignMode.DesignModeEnabled` so Hot Design previews populate while the runtime keeps the
+injected model:
+
+```csharp
+public SessionDetailPage()
+{
+    this.InitializeComponent();
+    // Runtime DataContext is the navigation-injected SessionDetailModel; this fallback is preview-only.
+    if (Windows.ApplicationModel.DesignMode.DesignModeEnabled)
+        this.DataContext = new SessionDetailModel(SampleData.Sessions[0]);
+}
+```
 
 **Responsive switching: never use `AdaptiveTrigger` / `VisualStateManager`.** Drive
 size-based layout with the Toolkit `{utu:Responsive}` extension set directly on each
@@ -786,7 +843,38 @@ dark those pull opposite ways. Use semantic keys — `BrewPage`, `BrewSurface`, 
 
 **Applies to:** any sample that should support a real dark theme (not just a tinted light one).
 
+## 26. `x:Uid` text is blank in Studio Web / Hot Design — use literal `Content`/`Text` in shells
+
+**Symptom.** `NavigationView`/`TabBar` item labels (or any `x:Uid`-localized text) are **blank in
+Studio Web and Hot Design** — the nav pane shows icons only — but render correctly in the exported
+app.
+
+**Cause.** `x:Uid` **overrides any inline `Content`/`Text` at parse time**, and the design-time
+`ResourceLoader` in Studio Web / Hot Design **does not apply the `.resw` values** the way the
+exported build does — so the property resolves to **empty** in those surfaces. The diagnostic that
+nails it: it was the **only** difference from the known-good samples — Claude Code Tracker's
+`MainPage` was the *only* `NavigationView` in `studio/` using `x:Uid`; `uno-crm` and `Voyago` use a
+plain literal `Content` with **no** `x:Uid`.
+
+**Fix.** Don't source shell label text via `x:Uid` if the shell must render in the design surfaces.
+Use a **literal** `Content="Dashboard"` (a `NavigationViewItem`/`TabBarItem`'s accessible name comes
+from `Content`). Removing `x:Uid` is the fix — **not** adding a literal *alongside* it (x:Uid wins
+and blanks it). Trade-off: this drops per-item localization for those labels; every other studio
+`NavigationView` accepts that. The same applies to page/section-title `TextBlock`s driven by `x:Uid`.
+
+> When something renders in the **exported app** but not in **Studio Web / Hot Design**, diff the
+> failing XAML against a known-good sample of the same control **first** — don't theorize about
+> responsive/layout. Burned on this exact bug: a literal `Content` *alongside* `x:Uid`; native
+> `NavigationView` `Auto` + a lowered `ExpandedModeThresholdWidth`; code-behind `ActualWidth`-driven
+> pane visibility; and adding `<utu:ResponsiveLayout x:Key="DefaultResponsiveLayout">` — all wrong
+> axes. (A shared `DefaultResponsiveLayout` is still worth having for breakpoint consistency, and
+> `Wide=Left` beats `Wide=Auto` for the pane — but neither was the cause here.)
+
+**Applies to:** any shell (especially a `NavigationView` pane) whose text must be visible while
+editing in Studio Web / Hot Design.
+
 ---
 
 *Generated from the change history on branch `dev/jenny/update-uno-crm-sample`
-(PR unoplatform/Uno.Samples#918).*
+(PR unoplatform/Uno.Samples#918); extended for `claude-code-tracker` (lessons 16/17/21 amended,
+lesson 26 added) on `dev/jenny/claude-tracker-exemplar`.*
