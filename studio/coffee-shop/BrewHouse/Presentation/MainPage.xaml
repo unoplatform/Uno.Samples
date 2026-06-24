@@ -22,6 +22,22 @@
                         PaneDisplayMode="{utu:Responsive Narrow=LeftMinimal, Wide=Auto}"
                         IsPaneToggleButtonVisible="{utu:Responsive Narrow=False, Wide=True}"
                         IsPaneOpen="{utu:Responsive Narrow=False, Wide=True}">
+            <!-- Light/dark toggle in the pane footer (desktop/web); phone follows the OS theme -->
+            <NavigationView.PaneFooter>
+                <Button Background="Transparent"
+                        BorderThickness="0"
+                        HorizontalAlignment="Stretch"
+                        HorizontalContentAlignment="Left"
+                        Padding="14,12"
+                        Margin="4,4,4,8"
+                        AutomationProperties.Name="Toggle light or dark theme"
+                        Click="OnToggleTheme">
+                    <StackPanel Orientation="Horizontal" Spacing="14" VerticalAlignment="Center">
+                        <FontIcon Glyph="&#xE706;" FontSize="16" />
+                        <TextBlock Text="Theme" VerticalAlignment="Center" />
+                    </StackPanel>
+                </Button>
+            </NavigationView.PaneFooter>
             <NavigationView.MenuItems>
                 <NavigationViewItem uen:Region.Name="Home" Content="Home">
                     <NavigationViewItem.Icon>
