@@ -21,28 +21,11 @@
                 </Setter.Value>
             </Setter>
         </Style>
-
-        <!-- Bare container so list rows never flash the grey hover/selection rectangle -->
-        <Style x:Key="CardListItemStyle" TargetType="ListViewItem">
-            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-            <Setter Property="Padding" Value="0" />
-            <Setter Property="Margin" Value="0,0,0,12" />
-            <Setter Property="MinHeight" Value="0" />
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="ListViewItem">
-                        <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                          Content="{TemplateBinding Content}"
-                                          ContentTemplate="{TemplateBinding ContentTemplate}"
-                                          Margin="{TemplateBinding Padding}" />
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
     </Page.Resources>
 
     <utu:SafeArea Insets="VisibleBounds">
-        <Grid MaxWidth="720" HorizontalAlignment="Stretch">
+        <!-- Centred, capped content; the product grid below reflows to fill the width on desktop/web -->
+        <Grid MaxWidth="1100" HorizontalAlignment="Stretch">
 
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
@@ -113,94 +96,100 @@
                 </ItemsControl>
             </ScrollViewer>
 
-            <!-- Product List -->
-            <ListView Grid.Row="2"
-                      ItemsSource="{Binding FilteredProducts}"
-                      SelectionMode="None"
-                      ItemContainerStyle="{StaticResource CardListItemStyle}"
-                      Padding="16,4,16,16">
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <Border Background="{ThemeResource SurfaceBrush}"
-                                CornerRadius="16"
-                                BorderBrush="{ThemeResource BrewCardBorderBrush}"
-                                BorderThickness="1">
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="100" />
-                                    <ColumnDefinition />
-                                </Grid.ColumnDefinitions>
+            <!-- Product grid: 1 column on phones, reflows to 2-3 on wide screens (no breakpoints) -->
+            <ScrollViewer Grid.Row="2"
+                          VerticalScrollBarVisibility="Hidden"
+                          Padding="16,4,16,16">
+                <ItemsRepeater ItemsSource="{Binding FilteredProducts}">
+                    <ItemsRepeater.Layout>
+                        <UniformGridLayout MinItemWidth="320"
+                                           MinColumnSpacing="12"
+                                           MinRowSpacing="12"
+                                           ItemsStretch="Fill" />
+                    </ItemsRepeater.Layout>
+                    <ItemsRepeater.ItemTemplate>
+                        <DataTemplate>
+                            <Border Background="{ThemeResource SurfaceBrush}"
+                                    CornerRadius="16"
+                                    BorderBrush="{ThemeResource BrewCardBorderBrush}"
+                                    BorderThickness="1">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="100" />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
 
-                                <!-- Product Image -->
-                                <Border Grid.Column="0"
-                                        CornerRadius="16,0,0,16"
-                                        Background="{ThemeResource SurfaceVariantBrush}">
-                                    <Image Source="{Binding ImageUrl}"
-                                           Width="100"
-                                           Height="110"
-                                           Stretch="UniformToFill" />
-                                </Border>
-
-                                <!-- Product Info -->
-                                <StackPanel Grid.Column="1"
-                                            Padding="14"
-                                            Spacing="4"
-                                            VerticalAlignment="Center">
-
-                                    <!-- Special Badge -->
-                                    <Border Background="{ThemeResource SurfaceVariantBrush}"
-                                            CornerRadius="6"
-                                            Padding="6,2"
-                                            HorizontalAlignment="Left"
-                                            Visibility="{Binding IsSpecial, Converter={StaticResource BoolToVisibility}}">
-                                        <TextBlock Text="Today's Special"
-                                                   FontSize="10"
-                                                   FontWeight="SemiBold"
-                                                   Foreground="{ThemeResource SecondaryBrush}" />
+                                    <!-- Product Image -->
+                                    <Border Grid.Column="0"
+                                            CornerRadius="16,0,0,16"
+                                            Background="{ThemeResource SurfaceVariantBrush}">
+                                        <Image Source="{Binding ImageUrl}"
+                                               Width="100"
+                                               Height="110"
+                                               Stretch="UniformToFill" />
                                     </Border>
 
-                                    <TextBlock Text="{Binding Name}"
-                                               FontSize="16"
-                                               FontWeight="SemiBold"
-                                               Foreground="{ThemeResource OnSurfaceBrush}"
-                                               TextWrapping="NoWrap"
-                                               TextTrimming="CharacterEllipsis" />
+                                    <!-- Product Info -->
+                                    <StackPanel Grid.Column="1"
+                                                Padding="14"
+                                                Spacing="4"
+                                                VerticalAlignment="Center">
 
-                                    <TextBlock Text="{Binding Description}"
-                                               FontSize="12"
-                                               Foreground="{ThemeResource OnSurfaceVariantBrush}"
-                                               TextWrapping="Wrap"
-                                               MaxLines="2"
-                                               TextTrimming="CharacterEllipsis" />
+                                        <!-- Special Badge -->
+                                        <Border Background="{ThemeResource SurfaceVariantBrush}"
+                                                CornerRadius="6"
+                                                Padding="6,2"
+                                                HorizontalAlignment="Left"
+                                                Visibility="{Binding IsSpecial, Converter={StaticResource BoolToVisibility}}">
+                                            <TextBlock Text="Today's Special"
+                                                       FontSize="10"
+                                                       FontWeight="SemiBold"
+                                                       Foreground="{ThemeResource SecondaryBrush}" />
+                                        </Border>
 
-                                    <StackPanel Orientation="Horizontal"
-                                                HorizontalAlignment="Stretch"
-                                                Spacing="10"
-                                                Margin="0,6,0,0">
-                                        <TextBlock FontSize="17"
-                                                   FontWeight="Bold"
-                                                   Foreground="{ThemeResource SecondaryBrush}"
-                                                   VerticalAlignment="Center">
-                                            <Run Text="$" /><Run Text="{Binding Price}" />
-                                        </TextBlock>
+                                        <TextBlock Text="{Binding Name}"
+                                                   FontSize="16"
+                                                   FontWeight="SemiBold"
+                                                   Foreground="{ThemeResource OnSurfaceBrush}"
+                                                   TextWrapping="NoWrap"
+                                                   TextTrimming="CharacterEllipsis" />
 
-                                        <Button Content="+ Add to Cart"
-                                                AutomationProperties.Name="Add to cart"
-                                                Background="{ThemeResource PrimaryBrush}"
-                                                Foreground="{ThemeResource OnPrimaryBrush}"
-                                                CornerRadius="12"
-                                                Padding="12,7"
-                                                FontSize="12"
-                                                FontWeight="SemiBold"
-                                                Command="{utu:ItemsControlBinding Path=DataContext.AddToCartCommand}"
-                                                CommandParameter="{Binding}" />
+                                        <TextBlock Text="{Binding Description}"
+                                                   FontSize="12"
+                                                   Foreground="{ThemeResource OnSurfaceVariantBrush}"
+                                                   TextWrapping="Wrap"
+                                                   MaxLines="2"
+                                                   TextTrimming="CharacterEllipsis" />
+
+                                        <StackPanel Orientation="Horizontal"
+                                                    HorizontalAlignment="Stretch"
+                                                    Spacing="10"
+                                                    Margin="0,6,0,0">
+                                            <TextBlock FontSize="17"
+                                                       FontWeight="Bold"
+                                                       Foreground="{ThemeResource SecondaryBrush}"
+                                                       VerticalAlignment="Center">
+                                                <Run Text="$" /><Run Text="{Binding Price}" />
+                                            </TextBlock>
+
+                                            <Button Content="+ Add to Cart"
+                                                    AutomationProperties.Name="Add to cart"
+                                                    Background="{ThemeResource PrimaryBrush}"
+                                                    Foreground="{ThemeResource OnPrimaryBrush}"
+                                                    CornerRadius="12"
+                                                    Padding="12,7"
+                                                    FontSize="12"
+                                                    FontWeight="SemiBold"
+                                                    Command="{utu:AncestorBinding AncestorType=ItemsRepeater, Path=DataContext.AddToCartCommand}"
+                                                    CommandParameter="{Binding}" />
+                                        </StackPanel>
                                     </StackPanel>
-                                </StackPanel>
-                            </Grid>
-                        </Border>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsRepeater.ItemTemplate>
+                </ItemsRepeater>
+            </ScrollViewer>
         </Grid>
     </utu:SafeArea>
 </Page>

@@ -5,7 +5,7 @@
       Background="{ThemeResource BackgroundBrush}">
 
     <utu:SafeArea Insets="VisibleBounds">
-        <Grid MaxWidth="720" HorizontalAlignment="Stretch">
+        <Grid MaxWidth="1100" HorizontalAlignment="Stretch">
 
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
@@ -27,19 +27,20 @@
                 </StackPanel>
             </Border>
 
-            <!-- Orders List -->
+            <!-- Orders: 1 column on phones, reflows to 2 on wide screens (no breakpoints) -->
             <ScrollViewer Grid.Row="1"
                           VerticalScrollBarVisibility="Hidden"
                           Padding="20,0,20,16">
                 <StackPanel Spacing="12">
 
-                    <ItemsControl ItemsSource="{Binding Orders}">
-                        <ItemsControl.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <StackPanel Spacing="12" />
-                            </ItemsPanelTemplate>
-                        </ItemsControl.ItemsPanel>
-                        <ItemsControl.ItemTemplate>
+                    <ItemsRepeater ItemsSource="{Binding Orders}">
+                        <ItemsRepeater.Layout>
+                            <UniformGridLayout MinItemWidth="360"
+                                               MinColumnSpacing="12"
+                                               MinRowSpacing="12"
+                                               ItemsStretch="Fill" />
+                        </ItemsRepeater.Layout>
+                        <ItemsRepeater.ItemTemplate>
                             <DataTemplate>
                                 <Border Background="{ThemeResource SurfaceBrush}"
                                         CornerRadius="16"
@@ -137,8 +138,8 @@
                                     </StackPanel>
                                 </Border>
                             </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
+                        </ItemsRepeater.ItemTemplate>
+                    </ItemsRepeater>
 
                     <!-- Empty State -->
                     <Border Background="{ThemeResource SurfaceBrush}"

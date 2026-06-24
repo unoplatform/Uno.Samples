@@ -5,8 +5,8 @@
       Background="{ThemeResource BackgroundBrush}">
 
     <utu:SafeArea Insets="VisibleBounds">
-        <!-- Phone-first column; caps to a centred column on wide desktop/WASM -->
-        <Grid MaxWidth="720" HorizontalAlignment="Stretch">
+        <!-- Phone-first; caps to a centred, width-filling column on wide desktop/WASM -->
+        <Grid MaxWidth="1100" HorizontalAlignment="Stretch">
 
             <ScrollViewer VerticalScrollBarVisibility="Hidden"
                           VerticalScrollMode="Enabled">
@@ -169,13 +169,14 @@
                                        FontWeight="Bold"
                                        Foreground="{ThemeResource OnBackgroundBrush}" />
 
-                            <ItemsControl ItemsSource="{Binding FeaturedProducts}">
-                                <ItemsControl.ItemsPanel>
-                                    <ItemsPanelTemplate>
-                                        <StackPanel Spacing="12" />
-                                    </ItemsPanelTemplate>
-                                </ItemsControl.ItemsPanel>
-                                <ItemsControl.ItemTemplate>
+                            <ItemsRepeater ItemsSource="{Binding FeaturedProducts}">
+                                <ItemsRepeater.Layout>
+                                    <UniformGridLayout MinItemWidth="320"
+                                                       MinColumnSpacing="12"
+                                                       MinRowSpacing="12"
+                                                       ItemsStretch="Fill" />
+                                </ItemsRepeater.Layout>
+                                <ItemsRepeater.ItemTemplate>
                                     <DataTemplate>
                                         <Border Background="{ThemeResource SurfaceBrush}"
                                                 CornerRadius="16"
@@ -227,15 +228,15 @@
                                                                 Padding="14,7"
                                                                 FontSize="13"
                                                                 FontWeight="SemiBold"
-                                                                Command="{utu:ItemsControlBinding Path=DataContext.AddToCartCommand}"
+                                                                Command="{utu:AncestorBinding AncestorType=ItemsRepeater, Path=DataContext.AddToCartCommand}"
                                                                 CommandParameter="{Binding}" />
                                                     </StackPanel>
                                                 </StackPanel>
                                             </Grid>
                                         </Border>
                                     </DataTemplate>
-                                </ItemsControl.ItemTemplate>
-                            </ItemsControl>
+                                </ItemsRepeater.ItemTemplate>
+                            </ItemsRepeater>
                         </StackPanel>
 
                         <!-- Cart Summary Strip (visible when cart has items) -->
