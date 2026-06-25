@@ -56,6 +56,9 @@ public partial record MenuModel(ICartService Cart, INavigator Navigator)
     public async ValueTask ViewProduct(ProductItem product, CancellationToken ct)
         => await Navigator.NavigateRouteAsync(this, "ProductDetail", data: product, cancellation: ct);
 
-    public async ValueTask FilterByCategory(string categoryId, CancellationToken ct)
-        => await CategoryId.SetAsync(string.IsNullOrEmpty(categoryId) ? "all" : categoryId, ct);
+    // The parameter is named so it does NOT match a state/feed property: MVUX injects the current
+    // value of any parameter whose name matches a feed (here that would be CategoryId), which would
+    // swallow the CommandParameter (the tapped chip's id) and re-select the active category instead.
+    public async ValueTask FilterByCategory(string selectedCategoryId, CancellationToken ct)
+        => await CategoryId.SetAsync(string.IsNullOrEmpty(selectedCategoryId) ? "all" : selectedCategoryId, ct);
 }
