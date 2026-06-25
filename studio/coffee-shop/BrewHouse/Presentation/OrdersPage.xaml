@@ -49,7 +49,8 @@
                                         CornerRadius="16"
                                         Padding="16"
                                         BorderBrush="{ThemeResource BrewCardBorderBrush}"
-                                        BorderThickness="1">
+                                        BorderThickness="1"
+                                        HorizontalAlignment="Stretch">
                                     <StackPanel Spacing="12">
 
                                         <!-- Order Header Row -->
@@ -69,32 +70,44 @@
                                                            Foreground="{ThemeResource OnSurfaceVariantBrush}" />
                                             </StackPanel>
 
-                                            <!-- Status Badge: themed pill + semantic status dot -->
+                                            <!-- Status badge: three visibility-toggled coloured pills, one per status — the
+                                                 pill background itself carries the status colour (not just a dot); the choice
+                                                 stays in XAML and re-themes via {ThemeResource} (lesson 28). -->
                                             <Border Grid.Column="1"
-                                                    Background="{ThemeResource SurfaceVariantBrush}"
+                                                    Background="{ThemeResource BrewStatusReadyContainerBrush}"
                                                     CornerRadius="20"
                                                     Padding="10,5"
-                                                    VerticalAlignment="Center">
-                                                <StackPanel Orientation="Horizontal"
-                                                            Spacing="6"
-                                                            VerticalAlignment="Center">
-                                                    <!-- Status dot: pre-styled, visibility-toggled by status flags
-                                                         (the colours live in App.xaml, the choice stays in XAML) -->
-                                                    <Ellipse Width="8" Height="8" VerticalAlignment="Center"
-                                                             Fill="{StaticResource BrewStatusReadyBrush}"
-                                                             Visibility="{Binding IsReady, Converter={StaticResource BoolToVisibility}}" />
-                                                    <Ellipse Width="8" Height="8" VerticalAlignment="Center"
-                                                             Fill="{StaticResource BrewStatusPreparingBrush}"
-                                                             Visibility="{Binding IsPreparing, Converter={StaticResource BoolToVisibility}}" />
-                                                    <Ellipse Width="8" Height="8" VerticalAlignment="Center"
-                                                             Fill="{StaticResource BrewStatusDoneBrush}"
-                                                             Visibility="{Binding IsCompleted, Converter={StaticResource BoolToVisibility}}" />
-                                                    <TextBlock Text="{Binding Status}"
-                                                               FontSize="11"
-                                                               FontWeight="SemiBold"
-                                                               Foreground="{ThemeResource OnSurfaceVariantBrush}"
-                                                               VerticalAlignment="Center" />
-                                                </StackPanel>
+                                                    VerticalAlignment="Center"
+                                                    Visibility="{Binding IsReady, Converter={StaticResource BoolToVisibility}}">
+                                                <TextBlock Text="{Binding Status}"
+                                                           FontSize="11"
+                                                           FontWeight="SemiBold"
+                                                           Foreground="{ThemeResource BrewStatusReadyOnContainerBrush}"
+                                                           VerticalAlignment="Center" />
+                                            </Border>
+                                            <Border Grid.Column="1"
+                                                    Background="{ThemeResource BrewStatusPreparingContainerBrush}"
+                                                    CornerRadius="20"
+                                                    Padding="10,5"
+                                                    VerticalAlignment="Center"
+                                                    Visibility="{Binding IsPreparing, Converter={StaticResource BoolToVisibility}}">
+                                                <TextBlock Text="{Binding Status}"
+                                                           FontSize="11"
+                                                           FontWeight="SemiBold"
+                                                           Foreground="{ThemeResource BrewStatusPreparingOnContainerBrush}"
+                                                           VerticalAlignment="Center" />
+                                            </Border>
+                                            <Border Grid.Column="1"
+                                                    Background="{ThemeResource BrewStatusCompletedContainerBrush}"
+                                                    CornerRadius="20"
+                                                    Padding="10,5"
+                                                    VerticalAlignment="Center"
+                                                    Visibility="{Binding IsCompleted, Converter={StaticResource BoolToVisibility}}">
+                                                <TextBlock Text="{Binding Status}"
+                                                           FontSize="11"
+                                                           FontWeight="SemiBold"
+                                                           Foreground="{ThemeResource BrewStatusCompletedOnContainerBrush}"
+                                                           VerticalAlignment="Center" />
                                             </Border>
                                         </Grid>
 
