@@ -54,7 +54,9 @@
       <presentation:BoolToVisibilityConverter x:Key="BoolToVisibility" />
 
       <!-- Chrome-less, keyboard-focusable button: makes a card / chip / pill a real, accessible
-           control (focus + Invoke automation peer) while the inner content defines the look. -->
+           control (focus + Invoke automation peer) while the inner content defines the look. A
+           foreground-neutral state layer (rounded to the button's CornerRadius) gives hover/pressed
+           feedback; set CornerRadius on the button to match the content's rounding. -->
       <Style x:Key="FlatButtonStyle" TargetType="Button">
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="BorderThickness" Value="0" />
@@ -63,12 +65,100 @@
         <Setter Property="Template">
           <Setter.Value>
             <ControlTemplate TargetType="Button">
-              <ContentPresenter Content="{TemplateBinding Content}"
-                                ContentTemplate="{TemplateBinding ContentTemplate}"
-                                HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-                                Padding="{TemplateBinding Padding}"
-                                Background="Transparent" />
+              <Grid Background="Transparent">
+                <VisualStateManager.VisualStateGroups>
+                  <VisualStateGroup x:Name="CommonStates">
+                    <VisualState x:Name="Normal" />
+                    <VisualState x:Name="PointerOver">
+                      <VisualState.Setters>
+                        <Setter Target="FlatStateLayer.Opacity" Value="0.06" />
+                      </VisualState.Setters>
+                    </VisualState>
+                    <VisualState x:Name="Pressed">
+                      <VisualState.Setters>
+                        <Setter Target="FlatStateLayer.Opacity" Value="0.12" />
+                      </VisualState.Setters>
+                    </VisualState>
+                    <VisualState x:Name="Disabled">
+                      <VisualState.Setters>
+                        <Setter Target="FlatContent.Opacity" Value="0.4" />
+                      </VisualState.Setters>
+                    </VisualState>
+                  </VisualStateGroup>
+                </VisualStateManager.VisualStateGroups>
+                <ContentPresenter x:Name="FlatContent"
+                                  Content="{TemplateBinding Content}"
+                                  ContentTemplate="{TemplateBinding ContentTemplate}"
+                                  HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                  VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                  Padding="{TemplateBinding Padding}"
+                                  Background="Transparent" />
+                <Border x:Name="FlatStateLayer"
+                        CornerRadius="{TemplateBinding CornerRadius}"
+                        Background="{ThemeResource OnSurfaceBrush}"
+                        Opacity="0"
+                        IsHitTestVisible="False" />
+              </Grid>
+            </ControlTemplate>
+          </Setter.Value>
+        </Setter>
+      </Style>
+
+      <!-- Filled action button: one crisp rounded Border for the fill (no themed border to alias at
+           small sizes), plus a foreground-coloured state layer for hover/pressed. The canonical button
+           for every coloured action (Add, Place Order, +/-, etc.); callers override Background/Foreground
+           for secondary/neutral variants. See specs/lessons.md lesson 42. -->
+      <Style x:Key="BrewButtonStyle" TargetType="Button">
+        <Setter Property="Background" Value="{ThemeResource PrimaryBrush}" />
+        <Setter Property="Foreground" Value="{ThemeResource OnPrimaryBrush}" />
+        <Setter Property="CornerRadius" Value="8" />
+        <Setter Property="Padding" Value="14,8" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="UseSystemFocusVisuals" Value="True" />
+        <Setter Property="Template">
+          <Setter.Value>
+            <ControlTemplate TargetType="Button">
+              <Border x:Name="Root"
+                      Background="{TemplateBinding Background}"
+                      CornerRadius="{TemplateBinding CornerRadius}">
+                <VisualStateManager.VisualStateGroups>
+                  <VisualStateGroup x:Name="CommonStates">
+                    <VisualState x:Name="Normal" />
+                    <VisualState x:Name="PointerOver">
+                      <VisualState.Setters>
+                        <Setter Target="StateLayer.Opacity" Value="0.10" />
+                      </VisualState.Setters>
+                    </VisualState>
+                    <VisualState x:Name="Pressed">
+                      <VisualState.Setters>
+                        <Setter Target="StateLayer.Opacity" Value="0.20" />
+                      </VisualState.Setters>
+                    </VisualState>
+                    <VisualState x:Name="Disabled">
+                      <VisualState.Setters>
+                        <Setter Target="Root.Opacity" Value="0.4" />
+                      </VisualState.Setters>
+                    </VisualState>
+                  </VisualStateGroup>
+                </VisualStateManager.VisualStateGroups>
+                <Grid>
+                  <Border x:Name="StateLayer"
+                          CornerRadius="{TemplateBinding CornerRadius}"
+                          Background="{TemplateBinding Foreground}"
+                          Opacity="0"
+                          IsHitTestVisible="False" />
+                  <ContentPresenter Content="{TemplateBinding Content}"
+                                    ContentTemplate="{TemplateBinding ContentTemplate}"
+                                    Padding="{TemplateBinding Padding}"
+                                    Foreground="{TemplateBinding Foreground}"
+                                    FontWeight="{TemplateBinding FontWeight}"
+                                    FontSize="{TemplateBinding FontSize}"
+                                    HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                    VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                </Grid>
+              </Border>
             </ControlTemplate>
           </Setter.Value>
         </Setter>

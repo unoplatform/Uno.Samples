@@ -13,8 +13,8 @@
 
             <!-- Back bar -->
             <Button Grid.Row="0"
-                    Background="Transparent"
-                    BorderThickness="0"
+                    Style="{StaticResource FlatButtonStyle}"
+                    CornerRadius="10"
                     Padding="12,10"
                     HorizontalAlignment="Left"
                     AutomationProperties.Name="Back"
@@ -75,11 +75,10 @@
                                    TextWrapping="Wrap"
                                    Margin="0,4,0,0" />
 
-                        <Button Content="+ Add to Cart"
+                        <Button Style="{StaticResource BrewButtonStyle}"
+                                Content="+ Add to Cart"
                                 AutomationProperties.Name="Add to cart"
                                 HorizontalAlignment="Stretch"
-                                Background="{ThemeResource PrimaryBrush}"
-                                Foreground="{ThemeResource OnPrimaryBrush}"
                                 CornerRadius="12"
                                 Padding="0,12"
                                 FontSize="14"

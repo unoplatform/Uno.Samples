@@ -110,51 +110,44 @@
                                                     </TextBlock>
                                                 </StackPanel>
 
-                                                <!-- Quantity stepper: chrome-less FlatButtonStyle + a single rounded Border per button, so
-                                                     the corners stay crisp (the default themed Button drew a 1px border that aliased at 28px). -->
+                                                <!-- Quantity stepper: BrewButtonStyle at a deliberately small 28px size (MinWidth/MinHeight
+                                                     zeroed so the theme minimum doesn't clamp it up); a single rounded fill keeps the corners
+                                                     crisp at this size and the foreground state layer gives hover/pressed feedback. -->
                                                 <StackPanel Grid.Column="2"
                                                             VerticalAlignment="Center"
                                                             Spacing="6"
                                                             HorizontalAlignment="Center">
-                                                    <Button Style="{StaticResource FlatButtonStyle}"
+                                                    <Button Style="{StaticResource BrewButtonStyle}"
+                                                            Content="+"
                                                             AutomationProperties.Name="Increase quantity"
                                                             Width="28"
                                                             Height="28"
-                                                            HorizontalContentAlignment="Stretch"
-                                                            VerticalContentAlignment="Stretch"
+                                                            MinWidth="0"
+                                                            MinHeight="0"
+                                                            Padding="0"
+                                                            CornerRadius="8"
+                                                            FontSize="15"
                                                             Command="{Binding DataContext.Increment, ElementName=Root}"
-                                                            CommandParameter="{Binding}">
-                                                        <Border Background="{ThemeResource PrimaryBrush}" CornerRadius="8">
-                                                            <TextBlock Text="+"
-                                                                       Foreground="{ThemeResource OnPrimaryBrush}"
-                                                                       FontSize="15"
-                                                                       FontWeight="Bold"
-                                                                       HorizontalAlignment="Center"
-                                                                       VerticalAlignment="Center" />
-                                                        </Border>
-                                                    </Button>
+                                                            CommandParameter="{Binding}" />
                                                     <TextBlock Text="{Binding Quantity}"
                                                                FontSize="16"
                                                                FontWeight="Bold"
                                                                Foreground="{ThemeResource OnSurfaceBrush}"
                                                                HorizontalAlignment="Center" />
-                                                    <Button Style="{StaticResource FlatButtonStyle}"
+                                                    <Button Style="{StaticResource BrewButtonStyle}"
+                                                            Content="&#x2212;"
                                                             AutomationProperties.Name="Decrease quantity"
+                                                            Background="{ThemeResource SurfaceVariantBrush}"
+                                                            Foreground="{ThemeResource OnSurfaceVariantBrush}"
                                                             Width="28"
                                                             Height="28"
-                                                            HorizontalContentAlignment="Stretch"
-                                                            VerticalContentAlignment="Stretch"
+                                                            MinWidth="0"
+                                                            MinHeight="0"
+                                                            Padding="0"
+                                                            CornerRadius="8"
+                                                            FontSize="15"
                                                             Command="{Binding DataContext.Decrement, ElementName=Root}"
-                                                            CommandParameter="{Binding}">
-                                                        <Border Background="{ThemeResource SurfaceVariantBrush}" CornerRadius="8">
-                                                            <TextBlock Text="&#x2212;"
-                                                                       Foreground="{ThemeResource OnSurfaceVariantBrush}"
-                                                                       FontSize="15"
-                                                                       FontWeight="Bold"
-                                                                       HorizontalAlignment="Center"
-                                                                       VerticalAlignment="Center" />
-                                                        </Border>
-                                                    </Button>
+                                                            CommandParameter="{Binding}" />
                                                 </StackPanel>
                                             </Grid>
                                         </Border>
@@ -247,11 +240,10 @@
 
                                 <!-- Place Order: runs the VM command (reached via Root) and the
                                      code-behind toast handler (transient confirmation banner). -->
-                                <Button Content="Place Order"
+                                <Button Style="{StaticResource BrewButtonStyle}"
+                                        Content="Place Order"
                                         AutomationProperties.Name="Place order"
                                         HorizontalAlignment="Stretch"
-                                        Background="{ThemeResource PrimaryBrush}"
-                                        Foreground="{ThemeResource OnPrimaryBrush}"
                                         CornerRadius="12"
                                         Padding="0,16"
                                         FontSize="16"
@@ -303,6 +295,7 @@
                                                     HorizontalAlignment="Center"
                                                     Spacing="8">
                                             <Button Style="{StaticResource FlatButtonStyle}"
+                                                    CornerRadius="20"
                                                     Command="{Binding DataContext.GoToMenu, ElementName=Root}"
                                                     AutomationProperties.Name="Browse Latte">
                                                 <Border Background="{ThemeResource SurfaceBrush}"
@@ -314,6 +307,7 @@
                                                 </Border>
                                             </Button>
                                             <Button Style="{StaticResource FlatButtonStyle}"
+                                                    CornerRadius="20"
                                                     Command="{Binding DataContext.GoToMenu, ElementName=Root}"
                                                     AutomationProperties.Name="Browse Croissant">
                                                 <Border Background="{ThemeResource SurfaceBrush}"
@@ -325,6 +319,7 @@
                                                 </Border>
                                             </Button>
                                             <Button Style="{StaticResource FlatButtonStyle}"
+                                                    CornerRadius="20"
                                                     Command="{Binding DataContext.GoToMenu, ElementName=Root}"
                                                     AutomationProperties.Name="Browse Matcha">
                                                 <Border Background="{ThemeResource SurfaceBrush}"
@@ -338,13 +333,11 @@
                                         </StackPanel>
                                     </StackPanel>
                                 </Border>
-                                <Button Content="Browse Menu"
+                                <Button Style="{StaticResource BrewButtonStyle}"
+                                        Content="Browse Menu"
                                         AutomationProperties.Name="Browse menu"
-                                        Background="{ThemeResource PrimaryBrush}"
-                                        Foreground="{ThemeResource OnPrimaryBrush}"
                                         CornerRadius="12"
                                         Padding="32,14"
-                                        FontWeight="SemiBold"
                                         FontSize="15"
                                         HorizontalAlignment="Center"
                                         Margin="0,8,0,0"
