@@ -281,47 +281,26 @@
                                                    FontWeight="SemiBold"
                                                    Foreground="{ThemeResource SecondaryBrush}"
                                                    HorizontalAlignment="Center" />
-                                        <!-- Pills jump to the Menu (command on the page VM, via Root) -->
-                                        <StackPanel Orientation="Horizontal"
-                                                    HorizontalAlignment="Center"
-                                                    Spacing="8">
-                                            <Button Style="{StaticResource FlatButtonStyle}"
-                                                    CornerRadius="20"
-                                                    Command="{Binding DataContext.GoToMenu, ElementName=Root}"
-                                                    AutomationProperties.Name="Browse Latte">
-                                                <Border Background="{ThemeResource SurfaceBrush}"
+                                        <!-- Popular-choice pills: one ItemsControl + shared template; each jumps to the Menu -->
+                                        <ItemsControl ItemsSource="{Binding PopularChoices}" HorizontalAlignment="Center">
+                                            <ItemsControl.ItemsPanel>
+                                                <ItemsPanelTemplate>
+                                                    <StackPanel Orientation="Horizontal" Spacing="8" />
+                                                </ItemsPanelTemplate>
+                                            </ItemsControl.ItemsPanel>
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate>
+                                                <Button Style="{StaticResource FlatButtonStyle}"
                                                         CornerRadius="20"
-                                                        Padding="12,6">
-                                                    <TextBlock Text="Latte"
-                                                               FontSize="13"
-                                                               Foreground="{ThemeResource OnSurfaceBrush}" />
-                                                </Border>
-                                            </Button>
-                                            <Button Style="{StaticResource FlatButtonStyle}"
-                                                    CornerRadius="20"
-                                                    Command="{Binding DataContext.GoToMenu, ElementName=Root}"
-                                                    AutomationProperties.Name="Browse Croissant">
-                                                <Border Background="{ThemeResource SurfaceBrush}"
-                                                        CornerRadius="20"
-                                                        Padding="12,6">
-                                                    <TextBlock Text="Croissant"
-                                                               FontSize="13"
-                                                               Foreground="{ThemeResource OnSurfaceBrush}" />
-                                                </Border>
-                                            </Button>
-                                            <Button Style="{StaticResource FlatButtonStyle}"
-                                                    CornerRadius="20"
-                                                    Command="{Binding DataContext.GoToMenu, ElementName=Root}"
-                                                    AutomationProperties.Name="Browse Matcha">
-                                                <Border Background="{ThemeResource SurfaceBrush}"
-                                                        CornerRadius="20"
-                                                        Padding="12,6">
-                                                    <TextBlock Text="Matcha"
-                                                               FontSize="13"
-                                                               Foreground="{ThemeResource OnSurfaceBrush}" />
-                                                </Border>
-                                            </Button>
-                                        </StackPanel>
+                                                        AutomationProperties.Name="{Binding}"
+                                                        Command="{Binding DataContext.GoToMenu, ElementName=Root}">
+                                                    <Border Background="{ThemeResource SurfaceBrush}" CornerRadius="20" Padding="12,6">
+                                                        <TextBlock Text="{Binding}" FontSize="13" Foreground="{ThemeResource OnSurfaceBrush}" />
+                                                    </Border>
+                                                </Button>
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
                                     </StackPanel>
                                 </Border>
                                 <Button Style="{StaticResource BrewButtonStyle}"

@@ -15,40 +15,32 @@
                                  ColorOverrideSource="ms-appx:///ThemeColors.xaml" />
       </ResourceDictionary.MergedDictionaries>
 
-      <!-- App-specific brushes that aren't part of the M3 palette -->
+      <!-- App-specific brushes. Only genuinely theme-VARYING chrome lives in ThemeDictionaries;
+           everything theme-invariant (header, status pills, the ready dot) sits at the root. -->
       <ResourceDictionary.ThemeDictionaries>
         <ResourceDictionary x:Key="Light">
-          <!-- A dark espresso banner that stays dark in both themes (light text reads on it) -->
-          <SolidColorBrush x:Key="BrewHeaderBrush" Color="#3A2012" />
-          <SolidColorBrush x:Key="BrewOnHeaderBrush" Color="#FBEFE2" />
-          <!-- Card separators: translucent black in light, translucent white in dark -->
+          <!-- Card separator: translucent black in light, translucent white in dark -->
           <SolidColorBrush x:Key="BrewCardBorderBrush" Color="#14000000" />
-          <!-- Order-status pill containers (theme-aware): coloured background + legible on-colour -->
-          <SolidColorBrush x:Key="BrewStatusReadyContainerBrush" Color="#3FB368" />
-          <SolidColorBrush x:Key="BrewStatusReadyOnContainerBrush" Color="#0C3A1E" />
-          <SolidColorBrush x:Key="BrewStatusPreparingContainerBrush" Color="#F0A23C" />
-          <SolidColorBrush x:Key="BrewStatusPreparingOnContainerBrush" Color="#4A2A08" />
-          <SolidColorBrush x:Key="BrewStatusCompletedContainerBrush" Color="#A99A88" />
-          <SolidColorBrush x:Key="BrewStatusCompletedOnContainerBrush" Color="#33291F" />
         </ResourceDictionary>
         <ResourceDictionary x:Key="Default">
-          <SolidColorBrush x:Key="BrewHeaderBrush" Color="#3A2012" />
-          <SolidColorBrush x:Key="BrewOnHeaderBrush" Color="#FBEFE2" />
           <SolidColorBrush x:Key="BrewCardBorderBrush" Color="#24FFFFFF" />
-          <!-- Order-status pill containers (theme-aware): coloured background + legible on-colour -->
-          <SolidColorBrush x:Key="BrewStatusReadyContainerBrush" Color="#3FB368" />
-          <SolidColorBrush x:Key="BrewStatusReadyOnContainerBrush" Color="#0C3A1E" />
-          <SolidColorBrush x:Key="BrewStatusPreparingContainerBrush" Color="#F0A23C" />
-          <SolidColorBrush x:Key="BrewStatusPreparingOnContainerBrush" Color="#4A2A08" />
-          <SolidColorBrush x:Key="BrewStatusCompletedContainerBrush" Color="#A99A88" />
-          <SolidColorBrush x:Key="BrewStatusCompletedOnContainerBrush" Color="#33291F" />
         </ResourceDictionary>
       </ResourceDictionary.ThemeDictionaries>
 
-      <!-- Order-status indicator dots: semantic, theme-invariant (read on light + dark) -->
+      <!-- A dark espresso banner that stays dark in both themes (light text reads on it) -->
+      <SolidColorBrush x:Key="BrewHeaderBrush" Color="#3A2012" />
+      <SolidColorBrush x:Key="BrewOnHeaderBrush" Color="#FBEFE2" />
+
+      <!-- Order-status pill containers: bright background + legible on-colour, read on light + dark -->
+      <SolidColorBrush x:Key="BrewStatusReadyContainerBrush" Color="#3FB368" />
+      <SolidColorBrush x:Key="BrewStatusReadyOnContainerBrush" Color="#0C3A1E" />
+      <SolidColorBrush x:Key="BrewStatusPreparingContainerBrush" Color="#F0A23C" />
+      <SolidColorBrush x:Key="BrewStatusPreparingOnContainerBrush" Color="#4A2A08" />
+      <SolidColorBrush x:Key="BrewStatusCompletedContainerBrush" Color="#A99A88" />
+      <SolidColorBrush x:Key="BrewStatusCompletedOnContainerBrush" Color="#33291F" />
+
+      <!-- 'Ready' status dot (used by the Cart's ready note) -->
       <SolidColorBrush x:Key="BrewStatusReadyBrush" Color="#3FA34D" />
-      <SolidColorBrush x:Key="BrewStatusPreparingBrush" Color="#D98A2B" />
-      <SolidColorBrush x:Key="BrewStatusDoneBrush" Color="#9C8B7E" />
 
       <!-- Converter (content-free value transform; brush/visibility choices stay in XAML) -->
       <presentation:BoolToVisibilityConverter x:Key="BoolToVisibility" />

@@ -31,6 +31,9 @@ public partial record CartModel(ICartService Cart, INavigator Navigator)
         .AsFeed()
         .Select(items => items.Sum(i => i.Quantity) > 0);
 
+    // Quick "popular choices" shown in the empty-cart state; each pill jumps to the Menu.
+    public IReadOnlyList<string> PopularChoices { get; } = ["Latte", "Croissant", "Matcha"];
+
     public async ValueTask Increment(CartItem item, CancellationToken ct)
         => await Cart.IncrementAsync(item.ProductId, ct);
 

@@ -24,6 +24,7 @@ public partial record CartPageMockData
     public CartSummary Summary => new(SampleCart);
     public string ItemCountText => Summary.ItemCountText;
     public bool CartHasItems => Summary.HasItems;
+    public IReadOnlyList<string> PopularChoices { get; } = ["Latte", "Croissant", "Matcha"];
 
     public void Increment(CartItem item) { }
     public void Decrement(CartItem item) { }
