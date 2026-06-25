@@ -14,9 +14,11 @@ public sealed partial class CartPage : Page
     {
         this.InitializeComponent();
 
-        // Hot Design fallback; Navigation injects the generated CartModel VM at runtime and
-        // overrides this. Set on the page's root element, not a deeper child.
-        Root.DataContext = CartPageMockData.Data;
+        // Hot Design fallback for the preview; at runtime Navigation injects the generated CartModel
+        // VM as the page's DataContext. Set on the *page* (this.DataContext), never a child element:
+        // a child with its own DataContext would shadow the injected VM, leaving the buttons' commands
+        // bound to the inert mock.
+        this.DataContext = CartPageMockData.Data;
 
         _confirmTimer.Tick += (_, _) =>
         {

@@ -8,8 +8,10 @@ public sealed partial class MenuPage : Page
     {
         this.InitializeComponent();
 
-        // Hot Design fallback; Navigation injects the generated MenuModel VM at runtime and
-        // overrides this. Set on the page's root element, not a deeper child.
-        Root.DataContext = MenuPageMockData.Data;
+        // Hot Design fallback for the preview; at runtime Navigation injects the generated MenuModel
+        // VM as the page's DataContext. Set on the *page* (this.DataContext), never a child element:
+        // a child with its own DataContext would shadow the injected VM, leaving every binding on the
+        // inert mock.
+        this.DataContext = MenuPageMockData.Data;
     }
 }
