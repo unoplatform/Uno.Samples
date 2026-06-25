@@ -88,9 +88,11 @@ public partial class App : Application
                             new RouteMap("Menu", View: views.FindByView<MenuPage>()),
                             new RouteMap("Cart", View: views.FindByView<CartPage>()),
                             new RouteMap("Orders", View: views.FindByView<OrdersPage>()),
-                            new RouteMap("ProductDetail", View: views.FindByView<ProductDetailPage>()),
                         ]
                     ),
+                    // Sibling of Main (not a tab): shown full-screen in the shell's content area, so
+                    // the product detail isn't overlaid by the TabBar / nav pane. Back returns to Main.
+                    new RouteMap("ProductDetail", View: views.FindByView<ProductDetailPage>()),
                 ]
             )
         );
