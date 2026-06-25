@@ -65,10 +65,13 @@
                           uen:Region.Attached="True"
                           uen:Region.Navigator="Visibility" />
 
-                    <!-- Bottom TabBar: shown on narrow, hidden on wide -->
+                    <!-- Bottom TabBar: shown on narrow, hidden on wide. SafeArea.Insets=Bottom keeps
+                         the tabs clear of the iOS home indicator / Android gesture bar — the Simple
+                         theme's BottomTabBarStyle adds no bottom inset of its own. -->
                     <utu:TabBar x:Name="BottomTabs"
                                 Grid.Row="1"
                                 uen:Region.Attached="True"
+                                utu:SafeArea.Insets="Bottom"
                                 Style="{StaticResource BottomTabBarStyle}"
                                 Visibility="{utu:Responsive Narrow=Visible, Wide=Collapsed}">
                         <utu:TabBarItem uen:Region.Name="Dashboard" Content="Dashboard" FontSize="11">

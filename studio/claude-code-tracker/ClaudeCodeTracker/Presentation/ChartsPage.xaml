@@ -3,7 +3,12 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:utu="using:Uno.Toolkit.UI"
       xmlns:lvc="using:LiveChartsCore.SkiaSharpView.WinUI"
+      xmlns:conv="using:ClaudeCodeTracker.Converters"
       Background="{ThemeResource BackgroundBrush}">
+
+    <Page.Resources>
+        <conv:ColorToBrushConverter x:Key="ColorToBrush" />
+    </Page.Resources>
 
     <Grid x:Name="Root" utu:SafeArea.Insets="Top">
         <ScrollViewer VerticalScrollBarVisibility="Auto">
@@ -122,7 +127,7 @@
                                         <ItemsRepeater.ItemTemplate>
                                             <DataTemplate>
                                                 <StackPanel Orientation="Horizontal" Spacing="6">
-                                                    <Ellipse Width="10" Height="10" VerticalAlignment="Center" Fill="{Binding Swatch}" />
+                                                    <Ellipse Width="10" Height="10" VerticalAlignment="Center" Fill="{Binding Swatch, Converter={StaticResource ColorToBrush}}" />
                                                     <TextBlock Style="{StaticResource LabelSmall}" VerticalAlignment="Center" Foreground="{ThemeResource OnSurfaceVariantBrush}" Text="{Binding Label}" />
                                                     <TextBlock Style="{StaticResource LabelSmall}" VerticalAlignment="Center" Foreground="{ThemeResource OnSurfaceBrush}" Text="{Binding ValueDisplay}" />
                                                 </StackPanel>
@@ -165,7 +170,7 @@
                                         <ItemsRepeater.ItemTemplate>
                                             <DataTemplate>
                                                 <StackPanel Orientation="Horizontal" Spacing="6">
-                                                    <Ellipse Width="10" Height="10" VerticalAlignment="Center" Fill="{Binding Swatch}" />
+                                                    <Ellipse Width="10" Height="10" VerticalAlignment="Center" Fill="{Binding Swatch, Converter={StaticResource ColorToBrush}}" />
                                                     <TextBlock Style="{StaticResource LabelSmall}" VerticalAlignment="Center" Foreground="{ThemeResource OnSurfaceVariantBrush}" Text="{Binding Label}" />
                                                     <TextBlock Style="{StaticResource LabelSmall}" VerticalAlignment="Center" Foreground="{ThemeResource OnSurfaceBrush}" Text="{Binding ValueDisplay}" />
                                                 </StackPanel>

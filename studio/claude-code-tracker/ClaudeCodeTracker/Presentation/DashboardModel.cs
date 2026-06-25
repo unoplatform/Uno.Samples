@@ -1,5 +1,3 @@
-using Microsoft.UI.Xaml;
-
 namespace ClaudeCodeTracker.Presentation;
 
 [Uno.Extensions.Reactive.ReactiveBindable(false)]
@@ -27,15 +25,12 @@ public partial record DashboardModel
     public IReadOnlyList<SessionEntry> RecentSessions => SampleData.Sessions.Take(5).ToList();
     public IReadOnlyList<ModelUsageBreakdown> ModelBreakdown => SampleData.ModelBreakdown;
 
-    // Budget-vs-last-month trend indicator, driven entirely off the data flag. "Up" means spend
-    // rose vs last month (the unwanted direction for a cost tracker) so the XAML shows it in the
-    // error tint; "down" shows in the positive (secondary) tint. Two visibility-toggled variants
-    // (each with its own {ThemeResource} foreground in XAML) replace a code-resolved brush so the
-    // tint re-themes on a light/dark switch (a brush captured once in code-behind would not update
-    // when the theme changes).
+    // Budget-vs-last-month trend flag. "Up" means spend rose vs last month (the unwanted direction
+    // for a cost tracker): XAML shows the error-tinted up-arrow variant and hides the down one (and
+    // vice-versa) by binding both to this flag through a BooleanToVisibility converter. Each variant
+    // carries its own {ThemeResource} foreground so the tint re-themes on a light/dark switch.
+    // Exposing the plain bool (not a Visibility) keeps the view decision in XAML.
     public bool BudgetVsLastMonthUp => SampleData.BudgetVsLastMonthUp;
-    public Visibility TrendUpVisibility => BudgetVsLastMonthUp ? Visibility.Visible : Visibility.Collapsed;
-    public Visibility TrendDownVisibility => BudgetVsLastMonthUp ? Visibility.Collapsed : Visibility.Visible;
     public string TrendDeltaDisplay =>
         $"{(BudgetVsLastMonthUp ? "+" : "−")}{Fmt.Percent(SampleData.BudgetVsLastMonth)}% vs last month";
 }

@@ -1,7 +1,6 @@
 using LiveChartsCore;
 using LiveChartsCore.SkiaSharpView;
 using LiveChartsCore.SkiaSharpView.Painting;
-using Microsoft.UI.Xaml.Media;
 using SkiaSharp;
 
 namespace ClaudeCodeTracker.Presentation;
@@ -78,10 +77,10 @@ public partial record ChartsModel
         };
         TokenTypeLegend = new[]
         {
-            new LegendEntry("Input", Pct(tokens.InputPercent), Swatch(primaryClr)),
-            new LegendEntry("Output", Pct(tokens.OutputPercent), Swatch(secondaryClr)),
-            new LegendEntry("Cache Read", Pct(tokens.CacheReadPercent), Swatch(tertiaryClr)),
-            new LegendEntry("Cache Write", Pct(tokens.CacheWritePercent), Swatch(outlineClr)),
+            new LegendEntry("Input", Pct(tokens.InputPercent), primaryClr),
+            new LegendEntry("Output", Pct(tokens.OutputPercent), secondaryClr),
+            new LegendEntry("Cache Read", Pct(tokens.CacheReadPercent), tertiaryClr),
+            new LegendEntry("Cache Write", Pct(tokens.CacheWritePercent), outlineClr),
         };
 
         var paletteSk = new[] { primary, secondary, tertiary };
@@ -90,7 +89,7 @@ public partial record ChartsModel
             .Select((m, i) => Slice(m.ShortName, m.SharePercent, paletteSk[i % paletteSk.Length]))
             .ToArray();
         ModelShareLegend = SampleData.ModelBreakdown
-            .Select((m, i) => new LegendEntry(m.ShortName, Pct(m.SharePercent), Swatch(paletteClr[i % paletteClr.Length])))
+            .Select((m, i) => new LegendEntry(m.ShortName, Pct(m.SharePercent), paletteClr[i % paletteClr.Length]))
             .ToArray();
     }
 
@@ -118,7 +117,6 @@ public partial record ChartsModel
 
     private static string Pct(double value) => $"{Fmt.Percent(value)}%";
     private static SKColor Sk(Windows.UI.Color c) => new(c.R, c.G, c.B, c.A);
-    private static Brush Swatch(Windows.UI.Color c) => new SolidColorBrush(c);
     private static Windows.UI.Color Rgb(byte r, byte g, byte b) => Windows.UI.Color.FromArgb(0xFF, r, g, b);
 
     private static Windows.UI.Color Resolve(string key, Windows.UI.Color fallback) =>
@@ -127,5 +125,6 @@ public partial record ChartsModel
             : fallback;
 }
 
-/// <summary>One row of a chart legend: a colored swatch, a label, and its percentage.</summary>
-public partial record LegendEntry(string Label, string ValueDisplay, Microsoft.UI.Xaml.Media.Brush Swatch);
+/// <summary>One row of a chart legend: a swatch colour (data only — XAML wraps it in a brush), a
+/// label, and its percentage.</summary>
+public partial record LegendEntry(string Label, string ValueDisplay, Windows.UI.Color Swatch);
