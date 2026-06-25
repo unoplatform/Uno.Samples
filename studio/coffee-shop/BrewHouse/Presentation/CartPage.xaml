@@ -110,46 +110,51 @@
                                                     </TextBlock>
                                                 </StackPanel>
 
-                                                <!-- Quantity Controls -->
+                                                <!-- Quantity stepper: chrome-less FlatButtonStyle + a single rounded Border per button, so
+                                                     the corners stay crisp (the default themed Button drew a 1px border that aliased at 28px). -->
                                                 <StackPanel Grid.Column="2"
                                                             VerticalAlignment="Center"
                                                             Spacing="6"
                                                             HorizontalAlignment="Center">
-                                                    <Button Content="+"
+                                                    <Button Style="{StaticResource FlatButtonStyle}"
                                                             AutomationProperties.Name="Increase quantity"
                                                             Width="28"
                                                             Height="28"
-                                                            MinWidth="0"
-                                                            MinHeight="0"
-                                                            Background="{ThemeResource PrimaryBrush}"
-                                                            Foreground="{ThemeResource OnPrimaryBrush}"
-                                                            CornerRadius="8"
-                                                            FontSize="14"
-                                                            FontWeight="Bold"
-                                                            Padding="0"
-                                                            HorizontalAlignment="Center"
+                                                            HorizontalContentAlignment="Stretch"
+                                                            VerticalContentAlignment="Stretch"
                                                             Command="{Binding DataContext.Increment, ElementName=Root}"
-                                                            CommandParameter="{Binding}" />
+                                                            CommandParameter="{Binding}">
+                                                        <Border Background="{ThemeResource PrimaryBrush}" CornerRadius="8">
+                                                            <TextBlock Text="+"
+                                                                       Foreground="{ThemeResource OnPrimaryBrush}"
+                                                                       FontSize="15"
+                                                                       FontWeight="Bold"
+                                                                       HorizontalAlignment="Center"
+                                                                       VerticalAlignment="Center" />
+                                                        </Border>
+                                                    </Button>
                                                     <TextBlock Text="{Binding Quantity}"
                                                                FontSize="16"
                                                                FontWeight="Bold"
                                                                Foreground="{ThemeResource OnSurfaceBrush}"
                                                                HorizontalAlignment="Center" />
-                                                    <Button Content="&#x2212;"
+                                                    <Button Style="{StaticResource FlatButtonStyle}"
                                                             AutomationProperties.Name="Decrease quantity"
                                                             Width="28"
                                                             Height="28"
-                                                            MinWidth="0"
-                                                            MinHeight="0"
-                                                            Background="{ThemeResource SurfaceVariantBrush}"
-                                                            Foreground="{ThemeResource OnSurfaceVariantBrush}"
-                                                            CornerRadius="8"
-                                                            FontSize="14"
-                                                            FontWeight="Bold"
-                                                            Padding="0"
-                                                            HorizontalAlignment="Center"
+                                                            HorizontalContentAlignment="Stretch"
+                                                            VerticalContentAlignment="Stretch"
                                                             Command="{Binding DataContext.Decrement, ElementName=Root}"
-                                                            CommandParameter="{Binding}" />
+                                                            CommandParameter="{Binding}">
+                                                        <Border Background="{ThemeResource SurfaceVariantBrush}" CornerRadius="8">
+                                                            <TextBlock Text="&#x2212;"
+                                                                       Foreground="{ThemeResource OnSurfaceVariantBrush}"
+                                                                       FontSize="15"
+                                                                       FontWeight="Bold"
+                                                                       HorizontalAlignment="Center"
+                                                                       VerticalAlignment="Center" />
+                                                        </Border>
+                                                    </Button>
                                                 </StackPanel>
                                             </Grid>
                                         </Border>
