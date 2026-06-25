@@ -49,10 +49,12 @@ public partial class App : Application
                 .UseLocalization()
                 .ConfigureServices((context, services) =>
                 {
-                    // One shared cart/orders state for the whole app
-                    services.AddSingleton<AppState>(_ => AppState.Current);
+                    // One shared cart/orders state for the whole app: a DI singleton owning the
+                    // cart + order IListStates, injected into every page-Model so a mutation made on
+                    // one page propagates to every feed derived from it.
+                    services.AddSingleton<ICartService, CartService>();
                 })
-                .UseNavigation(RegisterRoutes)
+                .UseNavigation(ReactiveViewModelMappings.ViewModelMappings, RegisterRoutes)
             );
         MainWindow = builder.Window;
 
@@ -68,11 +70,11 @@ public partial class App : Application
     {
         views.Register(
             new ViewMap(ViewModel: typeof(ShellModel)),
-            new ViewMap<MainPage>(),
-            new ViewMap<HomePage, HomePageData>(),
-            new ViewMap<MenuPage, MenuPageData>(),
-            new ViewMap<CartPage, CartPageData>(),
-            new ViewMap<OrdersPage, OrdersPageData>(),
+            new ViewMap<MainPage, MainModel>(),
+            new ViewMap<HomePage, HomeModel>(),
+            new ViewMap<MenuPage, MenuModel>(),
+            new ViewMap<CartPage, CartModel>(),
+            new ViewMap<OrdersPage, OrdersModel>(),
             new DataViewMap<ProductDetailPage, ProductDetailModel, ProductItem>()
         );
 

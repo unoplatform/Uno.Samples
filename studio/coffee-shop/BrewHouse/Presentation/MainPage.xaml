@@ -3,6 +3,7 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:uen="using:Uno.Extensions.Navigation.UI"
       xmlns:utu="using:Uno.Toolkit.UI"
+      xmlns:mvux="using:Uno.Extensions.Reactive.UI"
       Background="{ThemeResource BackgroundBrush}">
 
     <!--
@@ -11,6 +12,12 @@
       driven by the Toolkit {utu:Responsive} extension on each property (not AdaptiveTrigger /
       VisualState) so it applies reliably to this navigation-injected page. The content region is
       left empty - Uno.Extensions Navigation injects the active route (Home / Menu / Cart / Orders).
+
+      The Cart count badges bind to the MainModel's CartItemCount feed via a FeedView: its
+      ValueTemplate shows the badge, its NoneTemplate shows nothing — so the badge appears only when
+      the cart has items (the cart feed goes to None when empty). The bindings reach the page VM via
+      ElementName=RootShellGrid because a region-attached NavigationView/TabBar does not propagate
+      the page DataContext to its item content.
     -->
     <Grid x:Name="RootShellGrid" uen:Region.Attached="True">
 
@@ -49,15 +56,39 @@
                         <FontIcon Glyph="&#xE8FD;" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
-                <NavigationViewItem uen:Region.Name="Cart" Content="Cart">
+                <NavigationViewItem uen:Region.Name="Cart">
                     <NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE7BF;" />
                     </NavigationViewItem.Icon>
-                    <!-- Live item-count badge (page-scoped x:Bind to the shared AppState) -->
-                    <NavigationViewItem.InfoBadge>
-                        <InfoBadge Value="{x:Bind CartState.CartItemCount, Mode=OneWay}"
-                                   Visibility="{x:Bind CartState.CartHasItems, Mode=OneWay, Converter={StaticResource BoolToVisibility}}" />
-                    </NavigationViewItem.InfoBadge>
+                    <!-- Label + live count badge; the badge appears only when the cart has items
+                         (FeedView NoneTemplate hides it on an empty cart) -->
+                    <StackPanel Orientation="Horizontal"
+                                Spacing="8"
+                                VerticalAlignment="Center">
+                        <TextBlock Text="Cart" VerticalAlignment="Center" />
+                        <mvux:FeedView Source="{Binding DataContext.CartItemCount, ElementName=RootShellGrid}">
+                            <DataTemplate>
+                                <Border Background="{ThemeResource PrimaryBrush}"
+                                        CornerRadius="9"
+                                        MinWidth="18"
+                                        Height="18"
+                                        Padding="5,0"
+                                        VerticalAlignment="Center">
+                                    <TextBlock Text="{Binding Data}"
+                                               Foreground="{ThemeResource OnPrimaryBrush}"
+                                               FontSize="10"
+                                               FontWeight="Bold"
+                                               HorizontalAlignment="Center"
+                                               VerticalAlignment="Center" />
+                                </Border>
+                            </DataTemplate>
+                            <mvux:FeedView.NoneTemplate>
+                                <DataTemplate>
+                                    <Border />
+                                </DataTemplate>
+                            </mvux:FeedView.NoneTemplate>
+                        </mvux:FeedView>
+                    </StackPanel>
                 </NavigationViewItem>
                 <NavigationViewItem uen:Region.Name="Orders" Content="Orders">
                     <NavigationViewItem.Icon>
@@ -99,25 +130,34 @@
                             <utu:TabBarItem.Icon>
                                 <FontIcon Glyph="&#xE7BF;" />
                             </utu:TabBarItem.Icon>
-                            <!-- Label + live count badge (shared AppState via MainPage.DataContext) -->
+                            <!-- Label + live count badge; the badge appears only when the cart has
+                                 items (FeedView NoneTemplate hides it on an empty cart) -->
                             <StackPanel Orientation="Horizontal"
                                         Spacing="5"
                                         VerticalAlignment="Center">
                                 <TextBlock Text="Cart" VerticalAlignment="Center" />
-                                <Border Background="{ThemeResource PrimaryBrush}"
-                                        CornerRadius="9"
-                                        MinWidth="18"
-                                        Height="18"
-                                        Padding="5,0"
-                                        VerticalAlignment="Center"
-                                        Visibility="{x:Bind CartState.CartHasItems, Mode=OneWay, Converter={StaticResource BoolToVisibility}}">
-                                    <TextBlock Text="{x:Bind CartState.CartItemCountText, Mode=OneWay}"
-                                               Foreground="{ThemeResource OnPrimaryBrush}"
-                                               FontSize="10"
-                                               FontWeight="Bold"
-                                               HorizontalAlignment="Center"
-                                               VerticalAlignment="Center" />
-                                </Border>
+                                <mvux:FeedView Source="{Binding DataContext.CartItemCount, ElementName=RootShellGrid}">
+                                    <DataTemplate>
+                                        <Border Background="{ThemeResource PrimaryBrush}"
+                                                CornerRadius="9"
+                                                MinWidth="18"
+                                                Height="18"
+                                                Padding="5,0"
+                                                VerticalAlignment="Center">
+                                            <TextBlock Text="{Binding Data}"
+                                                       Foreground="{ThemeResource OnPrimaryBrush}"
+                                                       FontSize="10"
+                                                       FontWeight="Bold"
+                                                       HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center" />
+                                        </Border>
+                                    </DataTemplate>
+                                    <mvux:FeedView.NoneTemplate>
+                                        <DataTemplate>
+                                            <Border />
+                                        </DataTemplate>
+                                    </mvux:FeedView.NoneTemplate>
+                                </mvux:FeedView>
                             </StackPanel>
                         </utu:TabBarItem>
                         <utu:TabBarItem uen:Region.Name="Orders" Content="Orders">

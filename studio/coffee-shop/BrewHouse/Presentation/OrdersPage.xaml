@@ -2,10 +2,11 @@
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:utu="using:Uno.Toolkit.UI"
+      xmlns:mvux="using:Uno.Extensions.Reactive.UI"
       Background="{ThemeResource BackgroundBrush}">
 
     <utu:SafeArea Insets="VisibleBounds">
-        <Grid MaxWidth="1100" HorizontalAlignment="Stretch">
+        <Grid x:Name="Root" MaxWidth="1100" HorizontalAlignment="Stretch">
 
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
@@ -27,13 +28,16 @@
                 </StackPanel>
             </Border>
 
+            <!-- Orders feed: ValueTemplate shows the list, NoneTemplate the empty state. The shared
+                 order book goes to None when there are no orders. -->
+            <mvux:FeedView Grid.Row="1" Source="{Binding Orders}">
+                <DataTemplate>
             <!-- Orders: 1 column on phones, reflows to 2 on wide screens (no breakpoints) -->
-            <ScrollViewer Grid.Row="1"
-                          VerticalScrollBarVisibility="Hidden"
+            <ScrollViewer VerticalScrollBarVisibility="Hidden"
                           Padding="20,0,20,16">
                 <StackPanel Spacing="12">
 
-                    <ItemsRepeater ItemsSource="{Binding Orders}">
+                    <ItemsRepeater ItemsSource="{Binding Data}">
                         <ItemsRepeater.Layout>
                             <UniformGridLayout MinItemWidth="360"
                                                MinColumnSpacing="12"
@@ -141,36 +145,43 @@
                         </ItemsRepeater.ItemTemplate>
                     </ItemsRepeater>
 
-                    <!-- Empty State -->
-                    <Border Background="{ThemeResource SurfaceBrush}"
-                            CornerRadius="16"
-                            Padding="32,40"
-                            Visibility="{Binding IsEmpty, Converter={StaticResource BoolToVisibility}}"
-                            BorderBrush="{ThemeResource BrewCardBorderBrush}"
-                            BorderThickness="1">
-                        <StackPanel HorizontalAlignment="Center"
-                                    Spacing="12">
-                            <FontIcon Glyph="&#xE7C3;"
-                                      FontSize="44"
-                                      Foreground="{ThemeResource SecondaryBrush}"
-                                      HorizontalAlignment="Center" />
-                            <TextBlock Text="No orders yet"
-                                       FontSize="20"
-                                       FontWeight="Bold"
-                                       Foreground="{ThemeResource OnSurfaceBrush}"
-                                       HorizontalAlignment="Center" />
-                            <TextBlock Text="Your order history will appear here once you place your first order."
-                                       FontSize="13"
-                                       Foreground="{ThemeResource OnSurfaceVariantBrush}"
-                                       HorizontalAlignment="Center"
-                                       TextAlignment="Center"
-                                       TextWrapping="Wrap"
-                                       MaxWidth="240" />
-                        </StackPanel>
-                    </Border>
-
                 </StackPanel>
             </ScrollViewer>
+                </DataTemplate>
+
+                <!-- No orders yet -->
+                <mvux:FeedView.NoneTemplate>
+                    <DataTemplate>
+                        <Border Background="{ThemeResource SurfaceBrush}"
+                                CornerRadius="16"
+                                Padding="32,40"
+                                Margin="20,0,20,16"
+                                VerticalAlignment="Top"
+                                BorderBrush="{ThemeResource BrewCardBorderBrush}"
+                                BorderThickness="1">
+                            <StackPanel HorizontalAlignment="Center"
+                                        Spacing="12">
+                                <FontIcon Glyph="&#xE7C3;"
+                                          FontSize="44"
+                                          Foreground="{ThemeResource SecondaryBrush}"
+                                          HorizontalAlignment="Center" />
+                                <TextBlock Text="No orders yet"
+                                           FontSize="20"
+                                           FontWeight="Bold"
+                                           Foreground="{ThemeResource OnSurfaceBrush}"
+                                           HorizontalAlignment="Center" />
+                                <TextBlock Text="Your order history will appear here once you place your first order."
+                                           FontSize="13"
+                                           Foreground="{ThemeResource OnSurfaceVariantBrush}"
+                                           HorizontalAlignment="Center"
+                                           TextAlignment="Center"
+                                           TextWrapping="Wrap"
+                                           MaxWidth="240" />
+                            </StackPanel>
+                        </Border>
+                    </DataTemplate>
+                </mvux:FeedView.NoneTemplate>
+            </mvux:FeedView>
 
         </Grid>
     </utu:SafeArea>

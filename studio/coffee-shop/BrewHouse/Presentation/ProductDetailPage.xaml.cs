@@ -1,3 +1,5 @@
+using BrewHouse.Presentation.MockData;
+
 namespace BrewHouse.Presentation;
 
 public sealed partial class ProductDetailPage : Page
@@ -6,8 +8,9 @@ public sealed partial class ProductDetailPage : Page
     {
         this.InitializeComponent();
 
-        // Hot Design fallback (unconditional): at runtime the DataViewMap injects a
-        // ProductDetailModel built from the tapped product and overrides this.
-        this.DataContext = new ProductDetailModel(AppState.Current.AllProducts[0], AppState.Current);
+        // Hot Design fallback: at runtime the DataViewMap injects a ProductDetailModel built from
+        // the tapped product and overrides this. Set on the *page* DataContext (not a child) so the
+        // injected per-product model wins — setting a child's DataContext would shadow it.
+        this.DataContext = ProductDetailPageMockData.Data;
     }
 }

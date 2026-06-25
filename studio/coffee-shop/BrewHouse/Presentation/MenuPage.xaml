@@ -6,7 +6,7 @@
 
     <utu:SafeArea Insets="VisibleBounds">
         <!-- Centred, capped content; the product grid below reflows to fill the width on desktop/web -->
-        <Grid MaxWidth="1100" HorizontalAlignment="Stretch">
+        <Grid x:Name="Root" MaxWidth="1100" HorizontalAlignment="Stretch">
 
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
@@ -57,7 +57,7 @@
                         <DataTemplate>
                             <Button Style="{StaticResource FlatButtonStyle}"
                                     AutomationProperties.Name="{Binding Name}"
-                                    Command="{utu:ItemsControlBinding Path=DataContext.FilterByCategoryCommand}"
+                                    Command="{utu:ItemsControlBinding Path=DataContext.FilterByCategory}"
                                     CommandParameter="{Binding Id}">
                                 <Grid>
                                     <!-- unselected pill -->
@@ -105,7 +105,7 @@
                                     HorizontalContentAlignment="Stretch"
                                     VerticalContentAlignment="Stretch"
                                     AutomationProperties.Name="{Binding Name}"
-                                    Command="{utu:AncestorBinding AncestorType=ItemsRepeater, Path=DataContext.ViewProductCommand}"
+                                    Command="{utu:AncestorBinding AncestorType=ItemsRepeater, Path=DataContext.ViewProduct}"
                                     CommandParameter="{Binding}">
                                 <Border Background="{ThemeResource SurfaceBrush}"
                                         CornerRadius="16"
@@ -188,7 +188,7 @@
                                                         Padding="12,6"
                                                         FontSize="12"
                                                         FontWeight="SemiBold"
-                                                        Command="{utu:AncestorBinding AncestorType=ItemsRepeater, Path=DataContext.AddToCartCommand}"
+                                                        Command="{utu:AncestorBinding AncestorType=ItemsRepeater, Path=DataContext.AddToCart}"
                                                         CommandParameter="{Binding}" />
                                             </StackPanel>
                                         </StackPanel>
@@ -199,6 +199,37 @@
                     </ItemsRepeater.ItemTemplate>
                 </ItemsRepeater>
             </ScrollViewer>
+
+            <!-- No results: shown over the (empty) grid when the category/search filter matches
+                 nothing. Driven by a plain bool feed so it flips reliably at zero matches. -->
+            <Border Grid.Row="2"
+                    VerticalAlignment="Top"
+                    Margin="16,12,16,16"
+                    Background="{ThemeResource SurfaceBrush}"
+                    CornerRadius="16"
+                    Padding="32,40"
+                    BorderBrush="{ThemeResource BrewCardBorderBrush}"
+                    BorderThickness="1"
+                    Visibility="{Binding HasNoResults, Converter={StaticResource BoolToVisibility}}">
+                <StackPanel HorizontalAlignment="Center" Spacing="12">
+                    <FontIcon Glyph="&#xE721;"
+                              FontSize="44"
+                              Foreground="{ThemeResource SecondaryBrush}"
+                              HorizontalAlignment="Center" />
+                    <TextBlock Text="No matches found"
+                               FontSize="20"
+                               FontWeight="Bold"
+                               Foreground="{ThemeResource OnSurfaceBrush}"
+                               HorizontalAlignment="Center" />
+                    <TextBlock Text="Try a different category or search term."
+                               FontSize="13"
+                               Foreground="{ThemeResource OnSurfaceVariantBrush}"
+                               HorizontalAlignment="Center"
+                               TextAlignment="Center"
+                               TextWrapping="Wrap"
+                               MaxWidth="240" />
+                </StackPanel>
+            </Border>
         </Grid>
     </utu:SafeArea>
 </Page>

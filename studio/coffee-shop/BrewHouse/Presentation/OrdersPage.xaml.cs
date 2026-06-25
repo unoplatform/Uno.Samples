@@ -1,3 +1,5 @@
+using BrewHouse.Presentation.MockData;
+
 namespace BrewHouse.Presentation;
 
 public sealed partial class OrdersPage : Page
@@ -6,8 +8,9 @@ public sealed partial class OrdersPage : Page
     {
         this.InitializeComponent();
 
-        // Hot Design fallback (unconditional); Navigation injects the DI-resolved OrdersPageData at
-        // runtime and overrides this. Set on the page, not a child element.
-        this.DataContext = new OrdersPageData(AppState.Current);
+        // Hot Design renders this page without running Navigation, so seed a representative
+        // DataContext for the preview. At runtime Uno.Extensions Navigation injects the
+        // generated OrdersModel bindable VM onto the page and overrides this.
+        Root.DataContext = OrdersPageMockData.Data;
     }
 }

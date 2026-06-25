@@ -2,11 +2,12 @@
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:utu="using:Uno.Toolkit.UI"
+      xmlns:mvux="using:Uno.Extensions.Reactive.UI"
       Background="{ThemeResource BackgroundBrush}">
 
     <utu:SafeArea Insets="VisibleBounds">
         <!-- Phone-first; caps to a centred, width-filling column on wide desktop/WASM -->
-        <Grid MaxWidth="1100" HorizontalAlignment="Stretch">
+        <Grid x:Name="Root" MaxWidth="1100" HorizontalAlignment="Stretch">
 
             <ScrollViewer VerticalScrollBarVisibility="Hidden"
                           VerticalScrollMode="Enabled">
@@ -56,7 +57,7 @@
                                                     FontSize="14"
                                                     HorizontalAlignment="Left"
                                                     Margin="0,6,0,0"
-                                                    Command="{utu:ItemsControlBinding Path=DataContext.OrderNowCommand}" />
+                                                    Command="{utu:ItemsControlBinding Path=DataContext.OrderNow}" />
                                         </StackPanel>
                                     </Grid>
                                 </DataTemplate>
@@ -101,7 +102,7 @@
                                         <!-- Card is a focusable button -> product detail -->
                                         <Button Style="{StaticResource FlatButtonStyle}"
                                                 AutomationProperties.Name="{Binding Name}"
-                                                Command="{utu:ItemsControlBinding Path=DataContext.ViewProductCommand}"
+                                                Command="{utu:ItemsControlBinding Path=DataContext.ViewProduct}"
                                                 CommandParameter="{Binding}">
                                             <Border Width="158"
                                                     Background="{ThemeResource SurfaceBrush}"
@@ -139,7 +140,7 @@
                                                                 FontWeight="SemiBold"
                                                                 HorizontalAlignment="Stretch"
                                                                 Margin="0,4,0,0"
-                                                                Command="{utu:ItemsControlBinding Path=DataContext.AddToCartCommand}"
+                                                                Command="{utu:ItemsControlBinding Path=DataContext.AddToCart}"
                                                                 CommandParameter="{Binding}" />
                                                     </StackPanel>
                                                 </StackPanel>
@@ -170,7 +171,7 @@
                                             <!-- Tap a category to jump to the full Menu -->
                                             <Button Style="{StaticResource FlatButtonStyle}"
                                                     AutomationProperties.Name="{Binding Name}"
-                                                    Command="{utu:ItemsControlBinding Path=DataContext.GoToMenuCommand}">
+                                                    Command="{utu:ItemsControlBinding Path=DataContext.GoToMenu}">
                                                 <Border Background="{ThemeResource SurfaceVariantBrush}"
                                                         CornerRadius="20"
                                                         Padding="16,8">
@@ -208,7 +209,7 @@
                                                 HorizontalContentAlignment="Stretch"
                                                 VerticalContentAlignment="Stretch"
                                                 AutomationProperties.Name="{Binding Name}"
-                                                Command="{utu:AncestorBinding AncestorType=ItemsRepeater, Path=DataContext.ViewProductCommand}"
+                                                Command="{utu:AncestorBinding AncestorType=ItemsRepeater, Path=DataContext.ViewProduct}"
                                                 CommandParameter="{Binding}">
                                             <Border Background="{ThemeResource SurfaceBrush}"
                                                     CornerRadius="16"
@@ -260,7 +261,7 @@
                                                                     Padding="14,6"
                                                                     FontSize="13"
                                                                     FontWeight="SemiBold"
-                                                                    Command="{utu:AncestorBinding AncestorType=ItemsRepeater, Path=DataContext.AddToCartCommand}"
+                                                                    Command="{utu:AncestorBinding AncestorType=ItemsRepeater, Path=DataContext.AddToCart}"
                                                                     CommandParameter="{Binding}" />
                                                         </StackPanel>
                                                     </StackPanel>
@@ -272,84 +273,91 @@
                             </ItemsRepeater>
                         </StackPanel>
 
-                        <!-- Cart Summary Strip (visible when cart has items) -->
-                        <Border Visibility="{Binding Cart.HasItems, Converter={StaticResource BoolToVisibility}}"
-                                Background="{ThemeResource PrimaryBrush}"
-                                CornerRadius="16"
-                                Margin="20,20,20,4"
-                                Padding="18,14">
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition />
-                                    <ColumnDefinition Width="Auto" />
-                                </Grid.ColumnDefinitions>
-                                <StackPanel Grid.Column="0" Spacing="2" VerticalAlignment="Center">
-                                    <TextBlock FontSize="12"
-                                               Foreground="{ThemeResource OnPrimaryBrush}"
-                                               Opacity="0.85">
-                                        <Run Text="{Binding Cart.ItemCount}" />
-                                        <Run Text="items in your cart" />
-                                    </TextBlock>
-                                    <TextBlock FontSize="17"
-                                               FontWeight="Bold"
-                                               Foreground="{ThemeResource OnPrimaryBrush}">
-                                        <Run Text="Total: $" />
-                                        <Run Text="{Binding Cart.Total}" />
-                                    </TextBlock>
-                                </StackPanel>
-                                <Button Grid.Column="1"
-                                        Content="View Cart"
-                                        AutomationProperties.Name="View cart"
-                                        Background="{ThemeResource SurfaceBrush}"
-                                        Foreground="{ThemeResource PrimaryBrush}"
-                                        CornerRadius="10"
-                                        Padding="16,9"
-                                        FontWeight="SemiBold"
-                                        FontSize="13"
-                                        Command="{Binding GoToCartCommand}" />
-                            </Grid>
-                        </Border>
+                        <!-- Cart summary: ValueTemplate = strip (cart has items), NoneTemplate =
+                             empty-cup card. Driven by the shared cart summary feed, so it tracks
+                             every add/remove from any page. Buttons reach the page VM via Root. -->
+                        <mvux:FeedView Source="{Binding Summary}">
+                            <DataTemplate>
+                                <Border Background="{ThemeResource PrimaryBrush}"
+                                        CornerRadius="16"
+                                        Margin="20,20,20,4"
+                                        Padding="18,14">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <StackPanel Grid.Column="0" Spacing="2" VerticalAlignment="Center">
+                                            <TextBlock FontSize="12"
+                                                       Foreground="{ThemeResource OnPrimaryBrush}"
+                                                       Opacity="0.85">
+                                                <Run Text="{Binding Data.ItemCount}" />
+                                                <Run Text="items in your cart" />
+                                            </TextBlock>
+                                            <TextBlock FontSize="17"
+                                                       FontWeight="Bold"
+                                                       Foreground="{ThemeResource OnPrimaryBrush}">
+                                                <Run Text="Total: $" />
+                                                <Run Text="{Binding Data.SubtotalFormatted}" />
+                                            </TextBlock>
+                                        </StackPanel>
+                                        <Button Grid.Column="1"
+                                                Content="View Cart"
+                                                AutomationProperties.Name="View cart"
+                                                Background="{ThemeResource SurfaceBrush}"
+                                                Foreground="{ThemeResource PrimaryBrush}"
+                                                CornerRadius="10"
+                                                Padding="16,9"
+                                                FontWeight="SemiBold"
+                                                FontSize="13"
+                                                Command="{Binding DataContext.GoToCart, ElementName=Root}" />
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
 
-                        <!-- Empty Cart State -->
-                        <Border Visibility="{Binding Cart.HasItems, Converter={StaticResource BoolToVisibility}, ConverterParameter=Invert}"
-                                Background="{ThemeResource SurfaceBrush}"
-                                CornerRadius="16"
-                                Margin="20,20,20,4"
-                                Padding="24,28"
-                                BorderBrush="{ThemeResource BrewCardBorderBrush}"
-                                BorderThickness="1">
-                            <StackPanel HorizontalAlignment="Center"
-                                        Spacing="10">
-                                <FontIcon Glyph="&#xEC32;"
-                                          FontSize="48"
-                                          Foreground="{ThemeResource SecondaryBrush}"
-                                          HorizontalAlignment="Center"
-                                          AutomationProperties.AccessibilityView="Raw" />
-                                <TextBlock Text="Your cup is empty"
-                                           FontSize="18"
-                                           FontWeight="Bold"
-                                           Foreground="{ThemeResource OnSurfaceBrush}"
-                                           HorizontalAlignment="Center" />
-                                <TextBlock Text="Add your favourite brew above to get started"
-                                           FontSize="13"
-                                           Foreground="{ThemeResource OnSurfaceVariantBrush}"
-                                           HorizontalAlignment="Center"
-                                           TextAlignment="Center"
-                                           TextWrapping="Wrap"
-                                           MaxWidth="240" />
-                                <Button Content="Browse Full Menu"
-                                        AutomationProperties.Name="Browse full menu"
-                                        Background="{ThemeResource PrimaryBrush}"
-                                        Foreground="{ThemeResource OnPrimaryBrush}"
-                                        CornerRadius="12"
-                                        Padding="28,11"
-                                        FontWeight="SemiBold"
-                                        FontSize="14"
-                                        HorizontalAlignment="Center"
-                                        Margin="0,6,0,0"
-                                        Command="{Binding GoToMenuCommand}" />
-                            </StackPanel>
-                        </Border>
+                            <mvux:FeedView.NoneTemplate>
+                                <DataTemplate>
+                                    <Border Background="{ThemeResource SurfaceBrush}"
+                                            CornerRadius="16"
+                                            Margin="20,20,20,4"
+                                            Padding="24,28"
+                                            BorderBrush="{ThemeResource BrewCardBorderBrush}"
+                                            BorderThickness="1">
+                                        <StackPanel HorizontalAlignment="Center"
+                                                    Spacing="10">
+                                            <FontIcon Glyph="&#xEC32;"
+                                                      FontSize="48"
+                                                      Foreground="{ThemeResource SecondaryBrush}"
+                                                      HorizontalAlignment="Center"
+                                                      AutomationProperties.AccessibilityView="Raw" />
+                                            <TextBlock Text="Your cup is empty"
+                                                       FontSize="18"
+                                                       FontWeight="Bold"
+                                                       Foreground="{ThemeResource OnSurfaceBrush}"
+                                                       HorizontalAlignment="Center" />
+                                            <TextBlock Text="Add your favourite brew above to get started"
+                                                       FontSize="13"
+                                                       Foreground="{ThemeResource OnSurfaceVariantBrush}"
+                                                       HorizontalAlignment="Center"
+                                                       TextAlignment="Center"
+                                                       TextWrapping="Wrap"
+                                                       MaxWidth="240" />
+                                            <Button Content="Browse Full Menu"
+                                                    AutomationProperties.Name="Browse full menu"
+                                                    Background="{ThemeResource PrimaryBrush}"
+                                                    Foreground="{ThemeResource OnPrimaryBrush}"
+                                                    CornerRadius="12"
+                                                    Padding="28,11"
+                                                    FontWeight="SemiBold"
+                                                    FontSize="14"
+                                                    HorizontalAlignment="Center"
+                                                    Margin="0,6,0,0"
+                                                    Command="{Binding DataContext.GoToMenu, ElementName=Root}" />
+                                        </StackPanel>
+                                    </Border>
+                                </DataTemplate>
+                            </mvux:FeedView.NoneTemplate>
+                        </mvux:FeedView>
 
                         <!-- Bottom padding -->
                         <Border Height="24" />

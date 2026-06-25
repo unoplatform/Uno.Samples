@@ -1,114 +1,77 @@
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
-
 namespace BrewHouse.Presentation.MockData;
 
-public class HeroBanner
-{
-    public string ImageUrl { get; set; } = "";
-    public string Title { get; set; } = "";
-    public string Subtitle { get; set; } = "";
-}
+// All entities are immutable records (MVUX requirement). Records used inside an IListState<T>
+// declare a [property: Key] so add/update/remove operations and selection match the right item
+// by identity rather than by reference (key equality is auto-generated for partial records).
 
-public class ProductItem
-{
-    public string Id { get; set; } = "";
-    public string Name { get; set; } = "";
-    public string Description { get; set; } = "";
-    public string Category { get; set; } = "";
-    public string CategoryId { get; set; } = "";
-    public string Price { get; set; } = "";
-    public double PriceValue { get; set; }
-    public string ImageUrl { get; set; } = "";
-    public bool IsFeatured { get; set; }
-    public bool IsSpecial { get; set; }
-}
+public partial record HeroBanner(
+    string ImageUrl,
+    string Title,
+    string Subtitle);
 
-public class CategoryItem : INotifyPropertyChanged
-{
-    private bool _isSelected;
+public partial record ProductItem(
+    [property: global::Uno.Extensions.Equality.Key] string Id,
+    string Name,
+    string Description,
+    string Category,
+    string CategoryId,
+    string Price,
+    double PriceValue,
+    string ImageUrl,
+    bool IsFeatured,
+    bool IsSpecial);
 
-    public string Id { get; set; } = "";
-    public string Name { get; set; } = "";
-
+public partial record CategoryItem(
+    string Id,
+    string Name,
     // Drives the filter chip's selected look in XAML (theme brushes), not a hardcoded colour.
-    public bool IsSelected
-    {
-        get => _isSelected;
-        set { _isSelected = value; OnPropertyChanged(); }
-    }
+    bool IsSelected = false);
 
-    public event PropertyChangedEventHandler? PropertyChanged;
-    protected void OnPropertyChanged([CallerMemberName] string? name = null)
-        => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-}
-
-public class CartItem : INotifyPropertyChanged
+public partial record CartItem(
+    [property: global::Uno.Extensions.Equality.Key] string ProductId,
+    string Name,
+    string ImageUrl,
+    double Price,
+    int Quantity)
 {
-    private int _quantity;
-
-    public string ProductId { get; set; } = "";
-    public string Name { get; set; } = "";
-    public string ImageUrl { get; set; } = "";
-    public double Price { get; set; }
-
-    public int Quantity
-    {
-        get => _quantity;
-        set
-        {
-            if (_quantity != value)
-            {
-                _quantity = value;
-                OnPropertyChanged();
-                OnPropertyChanged(nameof(LineTotal));
-                OnPropertyChanged(nameof(LineTotalFormatted));
-            }
-        }
-    }
-
     public double LineTotal => Price * Quantity;
     public string LineTotalFormatted => LineTotal.ToString("F2");
     public string PriceFormatted => Price.ToString("F2");
-
-    public event PropertyChangedEventHandler? PropertyChanged;
-    protected void OnPropertyChanged([CallerMemberName] string? name = null)
-        => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
 }
 
-public class OrderLineItem
-{
-    public string Name { get; set; } = "";
-    public int Quantity { get; set; } = 1;
-    public double Price { get; set; }
-    public string ImageUrl { get; set; } = "";
-}
+public partial record OrderLineItem(
+    string Name,
+    int Quantity,
+    double Price,
+    string ImageUrl = "");
 
-public class OrderRecord
+public partial record OrderRecord(
+    [property: global::Uno.Extensions.Equality.Key] string Id,
+    string PlacedAt,
+    // A short status label ("Ready for Pickup", "Preparing", "Completed", "Confirmed"). The flags
+    // below are data the XAML uses to pick the status indicator colour (the colours live in
+    // App.xaml, not here).
+    string Status,
+    double Total,
+    IImmutableList<OrderLineItem> Items)
 {
-    public string Id { get; set; } = "";
-    public string PlacedAt { get; set; } = "";
-
-    // A short status label ("Ready for Pickup", "Preparing", "Completed", "Confirmed").
-    // The flags below are data the XAML uses to pick the status indicator colour (the colours
-    // themselves live in App.xaml, not here).
-    public string Status { get; set; } = "";
     public bool IsReady => Status.Contains("Ready") || Status.Contains("Confirmed");
     public bool IsPreparing => Status.Contains("Preparing");
     public bool IsCompleted => !IsReady && !IsPreparing;
-    public double Total { get; set; }
     public string TotalFormatted => Total.ToString("F2");
-    public List<OrderLineItem> Items { get; set; } = new();
 
-    public string ItemSummary
-    {
-        get
-        {
-            if (Items == null || Items.Count == 0) return "No items";
-            var names = new List<string>();
-            foreach (var item in Items)
-                names.Add($"{item.Name} x{item.Quantity}");
-            return string.Join(", ", names);
-        }
-    }
+    public string ItemSummary =>
+        Items is { Count: > 0 }
+            ? string.Join(", ", Items.Select(i => $"{i.Name} x{i.Quantity}"))
+            : "No items";
+
+    // Builds an order from the current cart contents at checkout time.
+    public static OrderRecord FromCart(string id, IEnumerable<CartItem> cart, double total) => new(
+        Id: id,
+        PlacedAt: DateTime.Now.ToString("MMM d, yyyy h:mm tt"),
+        Status: "Confirmed",
+        Total: total,
+        Items: cart
+            .Select(ci => new OrderLineItem(ci.Name, ci.Quantity, ci.Price, ci.ImageUrl))
+            .ToImmutableList());
 }
