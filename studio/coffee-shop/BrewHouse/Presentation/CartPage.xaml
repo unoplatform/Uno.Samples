@@ -110,44 +110,30 @@
                                                     </TextBlock>
                                                 </StackPanel>
 
-                                                <!-- Quantity stepper: BrewButtonStyle at a deliberately small 28px size (MinWidth/MinHeight
-                                                     zeroed so the theme minimum doesn't clamp it up); a single rounded fill keeps the corners
-                                                     crisp at this size and the foreground state layer gives hover/pressed feedback. -->
-                                                <StackPanel Grid.Column="2"
-                                                            VerticalAlignment="Center"
-                                                            Spacing="6"
-                                                            HorizontalAlignment="Center">
+                                                <!-- Quantity stepper: BrewButtonStyle at 28px (MinWidth/MinHeight zeroed so the theme minimum
+                                                     can't inflate it); crisp rounded fill + foreground state layer for hover/pressed. The +/-
+                                                     are PathIcons (vector — centre their own geometry, avoiding a text glyph's baseline offset). -->
+                                                <StackPanel Grid.Column="2" VerticalAlignment="Center" Spacing="6" HorizontalAlignment="Center">
                                                     <Button Style="{StaticResource BrewButtonStyle}"
-                                                            Content="+"
                                                             AutomationProperties.Name="Increase quantity"
-                                                            Width="28"
-                                                            Height="28"
-                                                            MinWidth="0"
-                                                            MinHeight="0"
-                                                            Padding="0"
-                                                            CornerRadius="8"
-                                                            FontSize="15"
+                                                            Width="28" Height="28" MinWidth="0" MinHeight="0" Padding="0" CornerRadius="6"
                                                             Command="{Binding DataContext.Increment, ElementName=Root}"
-                                                            CommandParameter="{Binding}" />
-                                                    <TextBlock Text="{Binding Quantity}"
-                                                               FontSize="16"
-                                                               FontWeight="Bold"
-                                                               Foreground="{ThemeResource OnSurfaceBrush}"
-                                                               HorizontalAlignment="Center" />
+                                                            CommandParameter="{Binding}">
+                                                        <PathIcon Data="F1 M11,5 H13 V11 H19 V13 H13 V19 H11 V13 H5 V11 H11 Z"
+                                                                  Foreground="{ThemeResource OnPrimaryBrush}" />
+                                                    </Button>
+                                                    <TextBlock Text="{Binding Quantity}" FontSize="16" FontWeight="Bold"
+                                                               Foreground="{ThemeResource OnSurfaceBrush}" HorizontalAlignment="Center" />
                                                     <Button Style="{StaticResource BrewButtonStyle}"
-                                                            Content="&#x2212;"
                                                             AutomationProperties.Name="Decrease quantity"
                                                             Background="{ThemeResource SurfaceVariantBrush}"
                                                             Foreground="{ThemeResource OnSurfaceVariantBrush}"
-                                                            Width="28"
-                                                            Height="28"
-                                                            MinWidth="0"
-                                                            MinHeight="0"
-                                                            Padding="0"
-                                                            CornerRadius="8"
-                                                            FontSize="15"
+                                                            Width="28" Height="28" MinWidth="0" MinHeight="0" Padding="0" CornerRadius="6"
                                                             Command="{Binding DataContext.Decrement, ElementName=Root}"
-                                                            CommandParameter="{Binding}" />
+                                                            CommandParameter="{Binding}">
+                                                        <PathIcon Data="F1 M5,11 H19 V13 H5 Z"
+                                                                  Foreground="{ThemeResource OnSurfaceVariantBrush}" />
+                                                    </Button>
                                                 </StackPanel>
                                             </Grid>
                                         </Border>

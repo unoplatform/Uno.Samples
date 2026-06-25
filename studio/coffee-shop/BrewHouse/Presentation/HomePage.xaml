@@ -241,26 +241,27 @@
                                                                    TextWrapping="Wrap"
                                                                    MaxLines="1"
                                                                    TextTrimming="CharacterEllipsis" />
-                                                        <StackPanel Orientation="Horizontal"
-                                                                    Spacing="10"
-                                                                    Margin="0,4,0,0"
-                                                                    VerticalAlignment="Center">
-                                                            <TextBlock FontSize="17"
-                                                                       FontWeight="Bold"
-                                                                       Foreground="{ThemeResource SecondaryBrush}"
-                                                                       VerticalAlignment="Center">
-                                                                <Run Text="$" />
-                                                                <Run Text="{Binding Price}" />
+                                                        <Grid Margin="0,4,0,0" VerticalAlignment="Center">
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="*" />
+                                                                <ColumnDefinition Width="Auto" />
+                                                            </Grid.ColumnDefinitions>
+                                                            <TextBlock Grid.Column="0" FontSize="17" FontWeight="Bold"
+                                                                       Foreground="{ThemeResource SecondaryBrush}" VerticalAlignment="Center">
+                                                                <Run Text="$" /><Run Text="{Binding Price}" />
                                                             </TextBlock>
-                                                            <Button Style="{StaticResource BrewButtonStyle}"
+                                                            <Button Grid.Column="1"
+                                                                    Style="{StaticResource BrewButtonStyle}"
                                                                     Content="+ Add"
                                                                     AutomationProperties.Name="Add product to cart"
                                                                     CornerRadius="8"
                                                                     Padding="10,4"
                                                                     FontSize="11"
+                                                                    HorizontalAlignment="Right"
+                                                                    VerticalAlignment="Center"
                                                                     Command="{utu:AncestorBinding AncestorType=ItemsRepeater, Path=DataContext.AddToCart}"
                                                                     CommandParameter="{Binding}" />
-                                                        </StackPanel>
+                                                        </Grid>
                                                     </StackPanel>
                                                 </Grid>
                                             </Border>
