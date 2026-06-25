@@ -2,7 +2,12 @@
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:utu="using:Uno.Toolkit.UI"
+      xmlns:conv="using:ClaudeCodeTracker.Converters"
       Background="{ThemeResource BackgroundBrush}">
+
+    <Page.Resources>
+        <conv:BooleanToVisibilityConverter x:Key="BoolToVis" />
+    </Page.Resources>
 
     <Grid x:Name="Root" utu:SafeArea.Insets="Top">
         <ScrollViewer VerticalScrollBarVisibility="Auto">
@@ -92,24 +97,24 @@
                                 <StackPanel Orientation="Horizontal" Spacing="4">
                                     <Viewbox Width="12" Height="12"
                                              VerticalAlignment="Center"
-                                             Visibility="{Binding TrendUpVisibility}">
+                                             Visibility="{Binding BudgetVsLastMonthUp, Converter={StaticResource BoolToVis}}">
                                         <PathIcon Data="F1 M4.21967 15.5303C4.51256 15.8232 4.98744 15.8232 5.28033 15.5303L12 8.81066L18.7197 15.5303C19.0126 15.8232 19.4874 15.8232 19.7803 15.5303C20.0732 15.2374 20.0732 14.7626 19.7803 14.4697L12.5303 7.21967C12.2374 6.92678 11.7626 6.92678 11.4697 7.21967L4.21967 14.4697C3.92678 14.7626 3.92678 15.2374 4.21967 15.5303Z"
                                                   Foreground="{ThemeResource ErrorBrush}" />
                                     </Viewbox>
                                     <Viewbox Width="12" Height="12"
                                              VerticalAlignment="Center"
-                                             Visibility="{Binding TrendDownVisibility}">
+                                             Visibility="{Binding BudgetVsLastMonthUp, Converter={StaticResource BoolToVis}, ConverterParameter=invert}">
                                         <PathIcon Data="F1 M4.21967 8.46967C4.51256 8.17678 4.98744 8.17678 5.28033 8.46967L12 15.1893L18.7197 8.46967C19.0126 8.17678 19.4874 8.17678 19.7803 8.46967C20.0732 8.76256 20.0732 9.23744 19.7803 9.53033L12.5303 16.7803C12.2374 17.0732 11.7626 17.0732 11.4697 16.7803L4.21967 9.53033C3.92678 9.23744 3.92678 8.76256 4.21967 8.46967Z"
                                                   Foreground="{ThemeResource SecondaryBrush}" />
                                     </Viewbox>
                                     <TextBlock Style="{StaticResource LabelSmall}"
                                                Foreground="{ThemeResource ErrorBrush}"
                                                Text="{Binding TrendDeltaDisplay}"
-                                               Visibility="{Binding TrendUpVisibility}" />
+                                               Visibility="{Binding BudgetVsLastMonthUp, Converter={StaticResource BoolToVis}}" />
                                     <TextBlock Style="{StaticResource LabelSmall}"
                                                Foreground="{ThemeResource SecondaryBrush}"
                                                Text="{Binding TrendDeltaDisplay}"
-                                               Visibility="{Binding TrendDownVisibility}" />
+                                               Visibility="{Binding BudgetVsLastMonthUp, Converter={StaticResource BoolToVis}, ConverterParameter=invert}" />
                                 </StackPanel>
                             </StackPanel>
                         </DataTemplate>
