@@ -36,7 +36,6 @@ public partial record DashboardModel
     public bool BudgetVsLastMonthUp => SampleData.BudgetVsLastMonthUp;
     public Visibility TrendUpVisibility => BudgetVsLastMonthUp ? Visibility.Visible : Visibility.Collapsed;
     public Visibility TrendDownVisibility => BudgetVsLastMonthUp ? Visibility.Collapsed : Visibility.Visible;
-    public string TrendGlyph => BudgetVsLastMonthUp ? "\uE70E" : "\uE70D"; // chevron up / down
     public string TrendDeltaDisplay =>
         $"{(BudgetVsLastMonthUp ? "+" : "−")}{Fmt.Percent(SampleData.BudgetVsLastMonth)}% vs last month";
 }
