@@ -1,5 +1,3 @@
-using Microsoft.UI.Xaml.Input;
-
 namespace BrewHouse.Presentation;
 
 public sealed partial class CartPage : Page
@@ -12,8 +10,4 @@ public sealed partial class CartPage : Page
         // runtime and overrides this. Set on the page, not a child element.
         this.DataContext = new CartPageData(AppState.Current);
     }
-
-    // Empty-cart "Popular choices" pills jump to the Menu.
-    private void OnPopularChoiceTapped(object sender, TappedRoutedEventArgs e)
-        => (DataContext as CartPageData)?.GoToMenuCommand.Execute(null);
 }

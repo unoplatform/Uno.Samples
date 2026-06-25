@@ -1,6 +1,3 @@
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Input;
-
 namespace BrewHouse.Presentation;
 
 public sealed partial class HomePage : Page
@@ -15,18 +12,4 @@ public sealed partial class HomePage : Page
         // never on a child element, so the injected model wins.
         this.DataContext = new HomePageData(AppState.Current);
     }
-
-    // The "Browse by Category" chips jump to the full Menu (the page VM owns navigation).
-    private void OnBrowseCategoryTapped(object sender, TappedRoutedEventArgs e)
-        => (DataContext as HomePageData)?.GoToMenuCommand.Execute(null);
-
-    // Tapping a featured product card opens its detail page.
-    private void OnProductTapped(object sender, TappedRoutedEventArgs e)
-    {
-        if ((sender as FrameworkElement)?.DataContext is ProductItem product)
-            (DataContext as HomePageData)?.ViewProductCommand.Execute(product);
-    }
-
-    // The inner "Add" handles its own tap so it doesn't also open the detail page.
-    private void OnAddTapped(object sender, TappedRoutedEventArgs e) => e.Handled = true;
 }

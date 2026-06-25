@@ -64,36 +64,42 @@
                                        Foreground="{ThemeResource SecondaryBrush}"
                                        HorizontalAlignment="Center" />
                             <!-- Pills jump to the Menu -->
-                            <StackPanel Orientation="Horizontal"
+            <StackPanel Orientation="Horizontal"
                                         HorizontalAlignment="Center"
                                         Spacing="8">
-                                <Border Background="{ThemeResource SurfaceBrush}"
-                                        CornerRadius="20"
-                                        Padding="12,6"
-                                        Tapped="OnPopularChoiceTapped"
+                                <Button Style="{StaticResource FlatButtonStyle}"
+                                        Command="{Binding GoToMenuCommand}"
                                         AutomationProperties.Name="Browse Latte">
-                                    <TextBlock Text="Latte"
-                                               FontSize="13"
-                                               Foreground="{ThemeResource OnSurfaceBrush}" />
-                                </Border>
-                                <Border Background="{ThemeResource SurfaceBrush}"
-                                        CornerRadius="20"
-                                        Padding="12,6"
-                                        Tapped="OnPopularChoiceTapped"
+                                    <Border Background="{ThemeResource SurfaceBrush}"
+                                            CornerRadius="20"
+                                            Padding="12,6">
+                                        <TextBlock Text="Latte"
+                                                   FontSize="13"
+                                                   Foreground="{ThemeResource OnSurfaceBrush}" />
+                                    </Border>
+                                </Button>
+                                <Button Style="{StaticResource FlatButtonStyle}"
+                                        Command="{Binding GoToMenuCommand}"
                                         AutomationProperties.Name="Browse Croissant">
-                                    <TextBlock Text="Croissant"
-                                               FontSize="13"
-                                               Foreground="{ThemeResource OnSurfaceBrush}" />
-                                </Border>
-                                <Border Background="{ThemeResource SurfaceBrush}"
-                                        CornerRadius="20"
-                                        Padding="12,6"
-                                        Tapped="OnPopularChoiceTapped"
+                                    <Border Background="{ThemeResource SurfaceBrush}"
+                                            CornerRadius="20"
+                                            Padding="12,6">
+                                        <TextBlock Text="Croissant"
+                                                   FontSize="13"
+                                                   Foreground="{ThemeResource OnSurfaceBrush}" />
+                                    </Border>
+                                </Button>
+                                <Button Style="{StaticResource FlatButtonStyle}"
+                                        Command="{Binding GoToMenuCommand}"
                                         AutomationProperties.Name="Browse Matcha">
-                                    <TextBlock Text="Matcha"
-                                               FontSize="13"
-                                               Foreground="{ThemeResource OnSurfaceBrush}" />
-                                </Border>
+                                    <Border Background="{ThemeResource SurfaceBrush}"
+                                            CornerRadius="20"
+                                            Padding="12,6">
+                                        <TextBlock Text="Matcha"
+                                                   FontSize="13"
+                                                   Foreground="{ThemeResource OnSurfaceBrush}" />
+                                    </Border>
+                                </Button>
                             </StackPanel>
                         </StackPanel>
                     </Border>
