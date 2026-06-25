@@ -3,7 +3,6 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:uen="using:Uno.Extensions.Navigation.UI"
       xmlns:utu="using:Uno.Toolkit.UI"
-      xmlns:mvux="using:Uno.Extensions.Reactive.UI"
       Background="{ThemeResource BackgroundBrush}">
 
     <!--
@@ -13,11 +12,11 @@
       VisualState) so it applies reliably to this navigation-injected page. The content region is
       left empty - Uno.Extensions Navigation injects the active route (Home / Menu / Cart / Orders).
 
-      The Cart count badges bind to the MainModel's CartItemCount feed via a FeedView: its
-      ValueTemplate shows the badge, its NoneTemplate shows nothing — so the badge appears only when
-      the cart has items (the cart feed goes to None when empty). The bindings reach the page VM via
+      The Cart count badges bind to the MainModel directly: the badge text to the CartItemCount feed
+      value and its visibility to the CartHasItems bool (via BoolToVisibility, lesson 28) — so the
+      badge appears only when the cart has items. The bindings reach the page VM via
       ElementName=RootShellGrid because a region-attached NavigationView/TabBar does not propagate
-      the page DataContext to its item content.
+      the page DataContext to its item content (lesson 36).
     -->
     <Grid x:Name="RootShellGrid" uen:Region.Attached="True">
 
@@ -60,34 +59,26 @@
                     <NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE7BF;" />
                     </NavigationViewItem.Icon>
-                    <!-- Label + live count badge; the badge appears only when the cart has items
-                         (FeedView NoneTemplate hides it on an empty cart) -->
+                    <!-- Label + live count badge; the badge shows only when the cart has items
+                         (visibility = CartHasItems bool via BoolToVisibility, lesson 28) -->
                     <StackPanel Orientation="Horizontal"
                                 Spacing="8"
                                 VerticalAlignment="Center">
                         <TextBlock Text="Cart" VerticalAlignment="Center" />
-                        <mvux:FeedView Source="{Binding DataContext.CartItemCount, ElementName=RootShellGrid}">
-                            <DataTemplate>
-                                <Border Background="{ThemeResource PrimaryBrush}"
-                                        CornerRadius="9"
-                                        MinWidth="18"
-                                        Height="18"
-                                        Padding="5,0"
-                                        VerticalAlignment="Center">
-                                    <TextBlock Text="{Binding Data}"
-                                               Foreground="{ThemeResource OnPrimaryBrush}"
-                                               FontSize="10"
-                                               FontWeight="Bold"
-                                               HorizontalAlignment="Center"
-                                               VerticalAlignment="Center" />
-                                </Border>
-                            </DataTemplate>
-                            <mvux:FeedView.NoneTemplate>
-                                <DataTemplate>
-                                    <Border />
-                                </DataTemplate>
-                            </mvux:FeedView.NoneTemplate>
-                        </mvux:FeedView>
+                        <Border Background="{ThemeResource PrimaryBrush}"
+                                CornerRadius="9"
+                                MinWidth="18"
+                                Height="18"
+                                Padding="5,0"
+                                VerticalAlignment="Center"
+                                Visibility="{Binding DataContext.CartHasItems, ElementName=RootShellGrid, Converter={StaticResource BoolToVisibility}}">
+                            <TextBlock Text="{Binding DataContext.CartItemCount, ElementName=RootShellGrid}"
+                                       Foreground="{ThemeResource OnPrimaryBrush}"
+                                       FontSize="10"
+                                       FontWeight="Bold"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center" />
+                        </Border>
                     </StackPanel>
                 </NavigationViewItem>
                 <NavigationViewItem uen:Region.Name="Orders" Content="Orders">
@@ -130,34 +121,26 @@
                             <utu:TabBarItem.Icon>
                                 <FontIcon Glyph="&#xE7BF;" />
                             </utu:TabBarItem.Icon>
-                            <!-- Label + live count badge; the badge appears only when the cart has
-                                 items (FeedView NoneTemplate hides it on an empty cart) -->
+                            <!-- Label + live count badge; the badge shows only when the cart has
+                                 items (visibility = CartHasItems bool via BoolToVisibility, lesson 28) -->
                             <StackPanel Orientation="Horizontal"
                                         Spacing="5"
                                         VerticalAlignment="Center">
                                 <TextBlock Text="Cart" VerticalAlignment="Center" />
-                                <mvux:FeedView Source="{Binding DataContext.CartItemCount, ElementName=RootShellGrid}">
-                                    <DataTemplate>
-                                        <Border Background="{ThemeResource PrimaryBrush}"
-                                                CornerRadius="9"
-                                                MinWidth="18"
-                                                Height="18"
-                                                Padding="5,0"
-                                                VerticalAlignment="Center">
-                                            <TextBlock Text="{Binding Data}"
-                                                       Foreground="{ThemeResource OnPrimaryBrush}"
-                                                       FontSize="10"
-                                                       FontWeight="Bold"
-                                                       HorizontalAlignment="Center"
-                                                       VerticalAlignment="Center" />
-                                        </Border>
-                                    </DataTemplate>
-                                    <mvux:FeedView.NoneTemplate>
-                                        <DataTemplate>
-                                            <Border />
-                                        </DataTemplate>
-                                    </mvux:FeedView.NoneTemplate>
-                                </mvux:FeedView>
+                                <Border Background="{ThemeResource PrimaryBrush}"
+                                        CornerRadius="9"
+                                        MinWidth="18"
+                                        Height="18"
+                                        Padding="5,0"
+                                        VerticalAlignment="Center"
+                                        Visibility="{Binding DataContext.CartHasItems, ElementName=RootShellGrid, Converter={StaticResource BoolToVisibility}}">
+                                    <TextBlock Text="{Binding DataContext.CartItemCount, ElementName=RootShellGrid}"
+                                               Foreground="{ThemeResource OnPrimaryBrush}"
+                                               FontSize="10"
+                                               FontWeight="Bold"
+                                               HorizontalAlignment="Center"
+                                               VerticalAlignment="Center" />
+                                </Border>
                             </StackPanel>
                         </utu:TabBarItem>
                         <utu:TabBarItem uen:Region.Name="Orders" Content="Orders">

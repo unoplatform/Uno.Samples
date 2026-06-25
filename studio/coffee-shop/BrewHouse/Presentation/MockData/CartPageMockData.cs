@@ -17,12 +17,13 @@ public partial record CartPageMockData
             3.25, 1),
     ];
 
-    public IListFeed<CartItem> CartItems => ListFeed.Async(async _ => SampleCart);
+    // Plain, materialized values (not feeds) so the items list, order summary and header subtitle
+    // render directly in Hot Design; the live CartModel surfaces feeds at runtime.
+    public IReadOnlyList<CartItem> CartItems => SampleCart;
 
-    public IFeed<CartSummary> Summary => Feed.Async(async _ => new CartSummary(SampleCart));
-
-    public IFeed<string> ItemCountText =>
-        Feed.Async(async _ => new CartSummary(SampleCart).ItemCountText);
+    public CartSummary Summary => new(SampleCart);
+    public string ItemCountText => Summary.ItemCountText;
+    public bool CartHasItems => Summary.HasItems;
 
     public void Increment(CartItem item) { }
     public void Decrement(CartItem item) { }

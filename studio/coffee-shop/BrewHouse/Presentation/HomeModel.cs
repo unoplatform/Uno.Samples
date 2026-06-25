@@ -17,11 +17,18 @@ public partial record HomeModel(ICartService Cart, INavigator Navigator)
         CatalogData.AllProducts.Where(p => p.IsFeatured).ToList();
     public IReadOnlyList<CategoryItem> Categories { get; } = CatalogData.Categories;
 
-    // Cart summary strip. Goes to None when the cart is empty, which is exactly when the empty-cart
-    // hero should show instead — the page renders both branches through a single FeedView.
+    // Cart summary strip. A scalar feed projection (never None) so the strip's totals bind directly
+    // (e.g. {Binding Summary.SubtotalFormatted}) and update reactively as items change.
     public IFeed<CartSummary> Summary => Cart.Cart
         .AsFeed()
         .Select(items => new CartSummary(items));
+
+    // Whether the cart has anything in it — drives which branch (summary strip vs. empty-cup card)
+    // is visible, via a bool + BoolToVisibility converter in XAML (lesson 28). A scalar projection
+    // so it flips reliably even at zero items.
+    public IFeed<bool> CartHasItems => Cart.Cart
+        .AsFeed()
+        .Select(items => items.Sum(i => i.Quantity) > 0);
 
     public async ValueTask AddToCart(ProductItem product, CancellationToken ct)
         => await Cart.AddToCartAsync(product, ct);

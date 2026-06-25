@@ -13,16 +13,23 @@ public partial record CartModel(ICartService Cart, INavigator Navigator)
     // page renders as the empty-cart hero via FeedView.
     public IListState<CartItem> CartItems => Cart.Cart;
 
-    // Live summary (counts + money). None when the cart is empty.
+    // Live summary (counts + money). A scalar projection (never None) so the order-summary totals
+    // bind directly (e.g. {Binding Summary.TotalFormatted}) and update reactively.
     public IFeed<CartSummary> Summary => Cart.Cart
         .AsFeed()
         .Select(items => new CartSummary(items));
 
-    // Header subtitle ("N items"). Scalar projection so it shows "0 items" when the cart is empty
-    // (the summary feed itself goes to None then, but the header is always visible).
+    // Header subtitle ("N items"). Scalar projection so it shows "0 items" when the cart is empty.
     public IFeed<string> ItemCountText => Cart.Cart
         .AsFeed()
         .Select(items => new CartSummary(items).ItemCountText);
+
+    // Whether the cart has anything in it — chooses the body branch (items + summary vs. empty-cart
+    // hero) via a bool + BoolToVisibility converter in XAML (lesson 28). Scalar projection so it
+    // flips reliably at zero items.
+    public IFeed<bool> CartHasItems => Cart.Cart
+        .AsFeed()
+        .Select(items => items.Sum(i => i.Quantity) > 0);
 
     public async ValueTask Increment(CartItem item, CancellationToken ct)
         => await Cart.IncrementAsync(item.ProductId, ct);

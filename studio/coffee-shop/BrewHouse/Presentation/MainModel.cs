@@ -7,11 +7,15 @@ namespace BrewHouse.Presentation;
 // the shared cart so it stays current wherever an item is added/removed.
 public partial record MainModel(ICartService Cart)
 {
-    // Item count = sum of line quantities. Derived from the one shared cart state, so the badge
-    // updates from any page. The cart-as-list-feed goes to None when empty (no items), which is
-    // exactly when the badge should be hidden — the shell renders this through a FeedView whose
-    // NoneTemplate shows nothing.
+    // Item count = sum of line quantities. Derived from the one shared cart state, so the badge text
+    // updates from any page. A scalar projection (never None) so it binds directly to the badge.
     public IFeed<int> CartItemCount => Cart.Cart
         .AsFeed()
         .Select(items => items.Sum(i => i.Quantity));
+
+    // Whether the cart has anything in it — the badge is shown only when true, via a bool +
+    // BoolToVisibility converter in XAML (lesson 28). Scalar projection so it flips reliably.
+    public IFeed<bool> CartHasItems => Cart.Cart
+        .AsFeed()
+        .Select(items => items.Sum(i => i.Quantity) > 0);
 }

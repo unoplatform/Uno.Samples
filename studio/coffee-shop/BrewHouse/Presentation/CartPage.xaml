@@ -2,7 +2,6 @@
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:utu="using:Uno.Toolkit.UI"
-      xmlns:mvux="using:Uno.Extensions.Reactive.UI"
       Background="{ThemeResource BackgroundBrush}">
 
     <utu:SafeArea Insets="VisibleBounds">
@@ -24,33 +23,23 @@
                                FontSize="28"
                                FontWeight="Bold"
                                Foreground="{ThemeResource OnBackgroundBrush}" />
-                    <!-- "N items"; NoneTemplate covers the empty cart ("0 items") -->
-                    <mvux:FeedView Source="{Binding ItemCountText}">
-                        <DataTemplate>
-                            <TextBlock Text="{Binding Data}"
-                                       FontSize="14"
-                                       Foreground="{ThemeResource OnSurfaceVariantBrush}" />
-                        </DataTemplate>
-                        <mvux:FeedView.NoneTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="0 items"
-                                           FontSize="14"
-                                           Foreground="{ThemeResource OnSurfaceVariantBrush}" />
-                            </DataTemplate>
-                        </mvux:FeedView.NoneTemplate>
-                    </mvux:FeedView>
+                    <!-- "N items" (the feed projects "0 items" on an empty cart); binds directly. -->
+                    <TextBlock Text="{Binding ItemCountText}"
+                               FontSize="14"
+                               Foreground="{ThemeResource OnSurfaceVariantBrush}" />
                 </StackPanel>
             </Border>
 
-            <!-- Cart body. ValueTemplate = items + order summary; NoneTemplate = empty-cart hero.
-                 The shared cart goes to None when empty, so the two states never show together. -->
-            <mvux:FeedView Grid.Row="1" Source="{Binding Summary}">
-                <DataTemplate>
-                    <!-- Cart Content: one column on phones (items above, summary below);
-                         two columns on wide desktop/web (items left, sticky summary right) -->
-                    <Grid Padding="16,12,16,12"
-                          ColumnSpacing="16"
-                          RowSpacing="12">
+            <!-- Cart body: items + order summary, shown when the cart has items. Totals bind
+                 directly to the shared summary feed value; visibility = CartHasItems bool
+                 (BoolToVisibility, lesson 28). The empty-cart hero below covers the empty state. -->
+            <!-- Cart Content: one column on phones (items above, summary below);
+                 two columns on wide desktop/web (items left, sticky summary right) -->
+            <Grid Grid.Row="1"
+                  Padding="16,12,16,12"
+                  ColumnSpacing="16"
+                  RowSpacing="12"
+                  Visibility="{Binding CartHasItems, Converter={StaticResource BoolToVisibility}}">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="{utu:Responsive Narrow=Auto, Wide=360}" />
@@ -60,9 +49,9 @@
                             <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
 
-                        <!-- Cart Items List. Bound to the shared cart list-state; item +/- and remove
-                             commands live on the page VM, reached via ElementName=Root (inside a
-                             FeedView the template DataContext is the FeedViewState, not the VM). -->
+                        <!-- Cart Items List. Bound to the shared cart list-state via ElementName=Root;
+                             item +/- and remove commands live on the page VM, reached the same way
+                             (the item template's own DataContext is the CartItem, not the page VM). -->
                         <ScrollViewer Grid.Row="0"
                                       Grid.Column="0"
                                       Grid.ColumnSpan="{utu:Responsive Narrow=2, Wide=1}"
@@ -199,7 +188,7 @@
                                                Foreground="{ThemeResource OnSurfaceBrush}"
                                                FontWeight="SemiBold">
                                         <Run Text="$" />
-                                        <Run Text="{Binding Data.SubtotalFormatted}" />
+                                        <Run Text="{Binding Summary.SubtotalFormatted}" />
                                     </TextBlock>
                                 </Grid>
 
@@ -218,7 +207,7 @@
                                                Foreground="{ThemeResource OnSurfaceBrush}"
                                                FontWeight="SemiBold">
                                         <Run Text="$" />
-                                        <Run Text="{Binding Data.TaxFormatted}" />
+                                        <Run Text="{Binding Summary.TaxFormatted}" />
                                     </TextBlock>
                                 </Grid>
 
@@ -243,7 +232,7 @@
                                                FontWeight="Bold"
                                                Foreground="{ThemeResource SecondaryBrush}">
                                         <Run Text="$" />
-                                        <Run Text="{Binding Data.TotalFormatted}" />
+                                        <Run Text="{Binding Summary.TotalFormatted}" />
                                     </TextBlock>
                                 </Grid>
 
@@ -264,13 +253,12 @@
                             </StackPanel>
                         </Border>
 
-                    </Grid>
-                </DataTemplate>
+            </Grid>
 
-                <!-- Empty Cart State -->
-                <mvux:FeedView.NoneTemplate>
-                    <DataTemplate>
-                        <ScrollViewer VerticalScrollBarVisibility="Hidden">
+            <!-- Empty-cart hero: shown when the cart is empty (CartHasItems inverted). -->
+            <ScrollViewer Grid.Row="1"
+                          VerticalScrollBarVisibility="Hidden"
+                          Visibility="{Binding CartHasItems, Converter={StaticResource BoolToVisibility}, ConverterParameter=Invert}">
                             <StackPanel HorizontalAlignment="Center"
                                         VerticalAlignment="Center"
                                         Spacing="16"
@@ -353,10 +341,7 @@
                                         Margin="0,8,0,0"
                                         Command="{Binding DataContext.GoToMenu, ElementName=Root}" />
                             </StackPanel>
-                        </ScrollViewer>
-                    </DataTemplate>
-                </mvux:FeedView.NoneTemplate>
-            </mvux:FeedView>
+            </ScrollViewer>
 
             <!-- Order Confirmed banner: page-level overlay so it survives the cart emptying on
                  Place Order. Shown/auto-dismissed (4 s) by the page code-behind — pure view

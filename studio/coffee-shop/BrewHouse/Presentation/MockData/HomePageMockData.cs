@@ -19,7 +19,10 @@ public partial record HomePageMockData
         new("p-001", "Classic Latte", "", 5.50, 2),
     ];
 
-    public IFeed<CartSummary> Summary => Feed.Async(async _ => new CartSummary(SampleCart));
+    // Plain CartSummary (not a feed) so the summary strip binds directly (e.g.
+    // {Binding Summary.SubtotalFormatted}) in Hot Design; CartHasItems chooses the visible branch.
+    public CartSummary Summary => new(SampleCart);
+    public bool CartHasItems => Summary.HasItems;
 
     public void AddToCart(ProductItem product) { }
     public void OrderNow() { }
