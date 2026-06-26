@@ -61,7 +61,14 @@ public partial class App : Application
         MainWindow.SetWindowIcon();
 
         Host = await builder.NavigateAsync<Shell>();
+
+        // On the macOS desktop (Skia) head, brand the Dock during an unbundled dev run; the partial
+        // method is implemented only in Platforms/Desktop and is elided (a no-op) on every other head.
+        TrySetDesktopDockIcon();
     }
+
+    // Implemented in Platforms/Desktop/App.Desktop.cs; elided on the iOS / Android / WebAssembly heads.
+    partial void TrySetDesktopDockIcon();
 
     private static void RegisterRoutes(IViewRegistry views, IRouteRegistry routes)
     {
