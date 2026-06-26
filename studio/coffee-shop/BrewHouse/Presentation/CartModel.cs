@@ -9,8 +9,8 @@ namespace BrewHouse.Presentation;
 // is pure view behaviour and lives in the page code-behind, not here (lesson 28).
 public partial record CartModel(ICartService Cart, INavigator Navigator)
 {
-    // The shared, mutable cart. Bound directly to the items list; goes to None when empty, which the
-    // page renders as the empty-cart hero via FeedView.
+    // The shared, mutable cart, bound directly to the items list. Whether it has anything in it is
+    // surfaced as the CartHasItems bool below, which the page uses to swap in the empty-cart hero.
     public IListState<CartItem> CartItems => Cart.Cart;
 
     // Live summary (counts + money). A scalar projection (never None) so the order-summary totals
