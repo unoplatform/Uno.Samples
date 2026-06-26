@@ -24,7 +24,7 @@ public partial record HomeModel(ICartService Cart, INavigator Navigator)
         .Select(items => new CartSummary(items));
 
     // Whether the cart has anything in it — drives which branch (summary strip vs. empty-cup card)
-    // is visible, via a bool + BoolToVisibility converter in XAML (lesson 28). A scalar projection
+    // is visible, via a bool + BoolToVisibility converter in XAML. A scalar projection
     // so it flips reliably even at zero items.
     public IFeed<bool> CartHasItems => Cart.Cart
         .AsFeed()

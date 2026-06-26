@@ -7,7 +7,7 @@ namespace BrewHouse.Presentation.Services;
 // screen — a mutation here propagates to every feed derived from them, with no messaging or manual
 // PropertyChanged fan-out.
 // A read-only summary of the cart at a moment in time, derived from the shared cart state. Carries
-// only data (counts, money, formatted strings) — the view decides how to render it (lesson 28).
+// only data (counts, money, formatted strings) — the view decides how to render it.
 public partial record CartSummary(IImmutableList<CartItem> Items)
 {
     public int ItemCount => Items.Sum(i => i.Quantity);

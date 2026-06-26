@@ -6,7 +6,7 @@ namespace BrewHouse.Presentation;
 // The full menu with a live text search and a category chip filter. Both the search box and the
 // selected category are two-way mutable states; the filtered product list and the chip selection
 // are feeds derived from them, so the grid re-filters reactively as the user types or taps a chip
-// (no Clear()+Add() — lesson 30; the derivation rebuilds the immutable list each time).
+// (no Clear()+Add(); the derivation rebuilds the immutable list each time).
 public partial record MenuModel(ICartService Cart, INavigator Navigator)
 {
     public string PageTitle => "Our Menu";
@@ -25,7 +25,7 @@ public partial record MenuModel(ICartService Cart, INavigator Navigator)
 
     // The filtered product list: category + text search combined via Feed.Combine, so it recomputes
     // whenever either state changes — no Clear()+Add(), the whole immutable list is rebuilt and
-    // re-projected (lesson 30). Exposed as a list feed so the grid binds its ItemsSource directly
+    // re-projected. Exposed as a list feed so the grid binds its ItemsSource directly
     // (keeping the page VM as the ItemsRepeater DataContext, so item templates reach the page
     // commands via {utu:AncestorBinding}).
     public IListFeed<ProductItem> FilteredProducts =>

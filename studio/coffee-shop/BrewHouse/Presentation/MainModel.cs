@@ -14,7 +14,7 @@ public partial record MainModel(ICartService Cart)
         .Select(items => items.Sum(i => i.Quantity));
 
     // Whether the cart has anything in it — the badge is shown only when true, via a bool +
-    // BoolToVisibility converter in XAML (lesson 28). Scalar projection so it flips reliably.
+    // BoolToVisibility converter in XAML. Scalar projection so it flips reliably.
     public IFeed<bool> CartHasItems => Cart.Cart
         .AsFeed()
         .Select(items => items.Sum(i => i.Quantity) > 0);
