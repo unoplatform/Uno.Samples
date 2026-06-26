@@ -214,10 +214,10 @@
                     BorderThickness="1"
                     Visibility="{Binding HasNoResults, Converter={StaticResource BoolToVisibility}}">
                 <StackPanel HorizontalAlignment="Center" Spacing="12">
-                    <FontIcon Glyph="&#xE721;"
-                              FontSize="44"
-                              Foreground="{ThemeResource SecondaryBrush}"
-                              HorizontalAlignment="Center" />
+                    <Viewbox Width="44" Height="44" HorizontalAlignment="Center">
+                        <PathIcon Data="F1 M16.1017 17.1624C14.717 18.3101 12.9391 19 11 19C6.58172 19 3 15.4183 3 11C3 6.58172 6.58172 3 11 3C15.4183 3 19 6.58172 19 11C19 12.9391 18.3101 14.717 17.1624 16.1018L21.7803 20.7197C22.0732 21.0126 22.0732 21.4874 21.7803 21.7803C21.4874 22.0732 21.0125 22.0732 20.7196 21.7803L16.1017 17.1624ZM17.5 11C17.5 7.41015 14.5899 4.5 11 4.5C7.41015 4.5 4.5 7.41015 4.5 11C4.5 14.5899 7.41015 17.5 11 17.5C14.5899 17.5 17.5 14.5899 17.5 11Z"
+                                  Foreground="{ThemeResource SecondaryBrush}" />
+                    </Viewbox>
                     <TextBlock Text="No matches found"
                                FontSize="20"
                                FontWeight="Bold"
