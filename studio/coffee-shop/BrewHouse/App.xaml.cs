@@ -58,6 +58,9 @@ public partial class App : Application
             );
         MainWindow = builder.Window;
 
+#if DEBUG
+        MainWindow.UseStudio();
+#endif
         MainWindow.SetWindowIcon();
 
         Host = await builder.NavigateAsync<Shell>();
