@@ -1,0 +1,51 @@
+using BrewHouse.Presentation.MockData;
+using BrewHouse.Presentation.Services;
+
+namespace BrewHouse.Presentation;
+
+// The cart screen: editable line items (quantity +/-, remove), a live order summary (subtotal,
+// 8% tax, total), and Place Order. All of it derives from the one shared cart state, so changes
+// made here are reflected on Home and in the shell badge immediately. The order-confirmation toast
+// is pure view behaviour and lives in the page code-behind, not here.
+public partial record CartModel(ICartService Cart, INavigator Navigator)
+{
+    // The shared, mutable cart, bound directly to the items list. Whether it has anything in it is
+    // surfaced as the CartHasItems bool below, which the page uses to swap in the empty-cart hero.
+    public IListState<CartItem> CartItems => Cart.Cart;
+
+    // Live summary (counts + money). A scalar projection (never None) so the order-summary totals
+    // bind directly (e.g. {Binding Summary.TotalFormatted}) and update reactively.
+    public IFeed<CartSummary> Summary => Cart.Cart
+        .AsFeed()
+        .Select(items => new CartSummary(items));
+
+    // Header subtitle ("N items"). Scalar projection so it shows "0 items" when the cart is empty.
+    public IFeed<string> ItemCountText => Cart.Cart
+        .AsFeed()
+        .Select(items => new CartSummary(items).ItemCountText);
+
+    // Whether the cart has anything in it — chooses the body branch (items + summary vs. empty-cart
+    // hero) via a bool + BoolToVisibility converter in XAML. Scalar projection so it
+    // flips reliably at zero items.
+    public IFeed<bool> CartHasItems => Cart.Cart
+        .AsFeed()
+        .Select(items => items.Sum(i => i.Quantity) > 0);
+
+    // Quick "popular choices" shown in the empty-cart state; each pill jumps to the Menu.
+    public IReadOnlyList<string> PopularChoices { get; } = ["Latte", "Croissant", "Matcha"];
+
+    public async ValueTask Increment(CartItem item, CancellationToken ct)
+        => await Cart.IncrementAsync(item.ProductId, ct);
+
+    public async ValueTask Decrement(CartItem item, CancellationToken ct)
+        => await Cart.DecrementAsync(item.ProductId, ct);
+
+    public async ValueTask RemoveItem(CartItem item, CancellationToken ct)
+        => await Cart.RemoveAsync(item.ProductId, ct);
+
+    public async ValueTask PlaceOrder(CancellationToken ct)
+        => await Cart.PlaceOrderAsync(ct);
+
+    public async ValueTask GoToMenu(CancellationToken ct)
+        => await Navigator.NavigateRouteAsync(this, "Menu", cancellation: ct);
+}

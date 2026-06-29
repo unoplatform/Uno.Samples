@@ -2,14 +2,10 @@
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:utu="using:Uno.Toolkit.UI"
-      xmlns:mock="using:BrewHouse.Presentation.MockData"
-      Background="#FFFDF6EE">
+      Background="{ThemeResource BackgroundBrush}">
 
     <utu:SafeArea Insets="VisibleBounds">
-        <Grid>
-            <Grid.DataContext>
-                <mock:CartPageData />
-            </Grid.DataContext>
+        <Grid x:Name="Root" MaxWidth="1100" HorizontalAlignment="Stretch">
 
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
@@ -18,323 +14,332 @@
 
             <!-- Header -->
             <Border Grid.Row="0"
-                    Background="#FFFDF6EE"
+                    Background="{ThemeResource BackgroundBrush}"
                     Padding="20,16,20,12"
-                    BorderBrush="#20000000"
+                    BorderBrush="{ThemeResource BrewCardBorderBrush}"
                     BorderThickness="0,0,0,1">
                 <StackPanel Spacing="2">
                     <TextBlock Text="Your Cart"
                                FontSize="28"
                                FontWeight="Bold"
-                               Foreground="#FF2C1A0E" />
+                               Foreground="{ThemeResource OnBackgroundBrush}" />
+                    <!-- "N items" (the feed projects "0 items" on an empty cart); binds directly. -->
                     <TextBlock Text="{Binding ItemCountText}"
                                FontSize="14"
-                               Foreground="#FF8C7060" />
+                               Foreground="{ThemeResource OnSurfaceVariantBrush}" />
                 </StackPanel>
             </Border>
 
-            <!-- Empty Cart State -->
-            <ScrollViewer Grid.Row="1"
-                          Visibility="{Binding EmptyCartVisibility}"
-                          VerticalScrollBarVisibility="Hidden">
-                <StackPanel HorizontalAlignment="Center"
-                            VerticalAlignment="Center"
-                            Spacing="16"
-                            Padding="40,60,40,40">
-                    <TextBlock Text="&#x2615;"
-                               FontSize="72"
-                               HorizontalAlignment="Center" />
-                    <TextBlock Text="Your cart is empty"
-                               FontSize="22"
-                               FontWeight="Bold"
-                               Foreground="#FF2C1A0E"
-                               HorizontalAlignment="Center" />
-                    <TextBlock Text="Looks like you haven't added anything yet. Browse our menu and pick your favourite brew!"
-                               FontSize="14"
-                               Foreground="#FF8C7060"
-                               HorizontalAlignment="Center"
-                               TextAlignment="Center"
-                               TextWrapping="Wrap" />
-                    <Border Background="#FFF5EFE6"
-                            CornerRadius="16"
-                            Padding="20,16"
-                            Margin="0,8,0,0">
-                        <StackPanel Spacing="10">
-                            <TextBlock Text="Popular choices:"
-                                       FontSize="13"
-                                       FontWeight="SemiBold"
-                                       Foreground="#FF8C5A28"
-                                       HorizontalAlignment="Center" />
-                            <StackPanel Orientation="Horizontal"
-                                        HorizontalAlignment="Center"
-                                        Spacing="8">
-                                <Border Background="White"
-                                        CornerRadius="20"
-                                        Padding="12,6">
-                                    <TextBlock Text="☕ Latte"
-                                               FontSize="13"
-                                               Foreground="#FF4A2810" />
-                                </Border>
-                                <Border Background="White"
-                                        CornerRadius="20"
-                                        Padding="12,6">
-                                    <TextBlock Text="🥐 Croissant"
-                                               FontSize="13"
-                                               Foreground="#FF4A2810" />
-                                </Border>
-                                <Border Background="White"
-                                        CornerRadius="20"
-                                        Padding="12,6">
-                                    <TextBlock Text="🍵 Matcha"
-                                               FontSize="13"
-                                               Foreground="#FF4A2810" />
-                                </Border>
-                            </StackPanel>
-                        </StackPanel>
-                    </Border>
-                    <Button Content="Browse Menu"
-                            AutomationProperties.Name="Browse menu"
-                            Background="#FF4A2810"
-                            Foreground="White"
-                            CornerRadius="12"
-                            Padding="32,14"
-                            FontWeight="SemiBold"
-                            FontSize="15"
-                            HorizontalAlignment="Center"
-                            Margin="0,8,0,0" />
-                </StackPanel>
-            </ScrollViewer>
-
-            <!-- Cart Content -->
+            <!-- Cart body: items + order summary, shown when the cart has items. Totals bind
+                 directly to the shared summary feed value; visibility = CartHasItems bool
+                 (BoolToVisibility). The empty-cart hero below covers the empty state. -->
+            <!-- Cart Content: one column on phones (items above, summary below);
+                 two columns on wide desktop/web (items left, sticky summary right) -->
             <Grid Grid.Row="1"
-                  Visibility="{Binding CartContentVisibility}">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="Auto" />
-                </Grid.RowDefinitions>
+                  Padding="16,12,16,12"
+                  ColumnSpacing="16"
+                  RowSpacing="12"
+                  Visibility="{Binding CartHasItems, Converter={StaticResource BoolToVisibility}}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="{utu:Responsive Narrow=Auto, Wide=360}" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
 
-                <!-- Cart Items List -->
-                <ScrollViewer Grid.Row="0"
-                              VerticalScrollBarVisibility="Hidden"
-                              Padding="0,0,0,8">
-                    <StackPanel Spacing="0" Padding="16,12,16,0">
+                        <!-- Cart Items List. Bound to the shared cart list-state via ElementName=Root;
+                             item +/- and remove commands live on the page VM, reached the same way
+                             (the item template's own DataContext is the CartItem, not the page VM). -->
+                        <ScrollViewer Grid.Row="0"
+                                      Grid.Column="0"
+                                      Grid.ColumnSpan="{utu:Responsive Narrow=2, Wide=1}"
+                                      VerticalScrollBarVisibility="Hidden">
+                            <ItemsControl ItemsSource="{Binding DataContext.CartItems, ElementName=Root}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <StackPanel Spacing="10" />
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border Background="{ThemeResource SurfaceBrush}"
+                                                CornerRadius="16"
+                                                Padding="12"
+                                                BorderBrush="{ThemeResource BrewCardBorderBrush}"
+                                                BorderThickness="1">
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="72" />
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="Auto" />
+                                                </Grid.ColumnDefinitions>
 
-                        <ItemsControl ItemsSource="{Binding CartItems}">
-                            <ItemsControl.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <StackPanel Spacing="10" />
-                                </ItemsPanelTemplate>
-                            </ItemsControl.ItemsPanel>
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate>
-                                    <Border Background="White"
-                                            CornerRadius="16"
-                                            Padding="12"
-                                            BorderBrush="#15000000"
-                                            BorderThickness="1">
-                                        <Grid>
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="72" />
-                                                <ColumnDefinition Width="*" />
-                                                <ColumnDefinition Width="Auto" />
-                                            </Grid.ColumnDefinitions>
-
-                                            <!-- Product Image -->
-                                            <Border Grid.Column="0"
-                                                    CornerRadius="10"
-                                                    Width="72"
-                                                    Height="72">
-                                                <Border.Background>
-                                                    <ImageBrush ImageSource="{Binding ImageUrl}"
-                                                                Stretch="UniformToFill" />
-                                                </Border.Background>
-                                            </Border>
-
-                                            <!-- Product Info -->
-                                            <StackPanel Grid.Column="1"
-                                                        Padding="12,4,8,4"
-                                                        Spacing="4"
-                                                        VerticalAlignment="Center">
-                                                <TextBlock Text="{Binding Name}"
-                                                           FontSize="15"
-                                                           FontWeight="SemiBold"
-                                                           Foreground="#FF2C1A0E"
-                                                           TextTrimming="CharacterEllipsis" />
-                                                <TextBlock FontSize="13"
-                                                           Foreground="#FF8C5A28"
-                                                           FontWeight="SemiBold">
-                                                    <Run Text="$" />
-                                                    <Run Text="{Binding PriceFormatted}" />
-                                                </TextBlock>
-                                                <TextBlock FontSize="12"
-                                                           Foreground="#FF8C7060">
-                                                    <Run Text="Line total: $" />
-                                                    <Run Text="{Binding LineTotalFormatted}" />
-                                                </TextBlock>
-                                            </StackPanel>
-
-                                            <!-- Quantity Controls -->
-                                            <StackPanel Grid.Column="2"
-                                                        VerticalAlignment="Center"
-                                                        Spacing="6"
-                                                        HorizontalAlignment="Center">
-                                                <Button Content="+"
-                                                        AutomationProperties.Name="Increase quantity"
-                                                        Width="34"
-                                                        Height="34"
-                                                        Background="#FF4A2810"
-                                                        Foreground="White"
+                                                <!-- Product Image -->
+                                                <Border Grid.Column="0"
                                                         CornerRadius="10"
-                                                        FontSize="18"
-                                                        FontWeight="Bold"
-                                                        Padding="0"
-                                                        HorizontalAlignment="Center"
-                                                        Command="{Binding DataContext.IncrementCommand, RelativeSource={RelativeSource Mode=Self}}"
-                                                        CommandParameter="{Binding}" />
-                                                <TextBlock Text="{Binding Quantity}"
-                                                           FontSize="16"
-                                                           FontWeight="Bold"
-                                                           Foreground="#FF2C1A0E"
-                                                           HorizontalAlignment="Center" />
-                                                <Button Content="-"
-                                                        AutomationProperties.Name="Decrease quantity"
-                                                        Width="34"
-                                                        Height="34"
-                                                        Background="#FFF5EFE6"
-                                                        Foreground="#FF4A2810"
-                                                        CornerRadius="10"
-                                                        FontSize="18"
-                                                        FontWeight="Bold"
-                                                        Padding="0"
-                                                        HorizontalAlignment="Center"
-                                                        Command="{Binding DataContext.DecrementCommand, RelativeSource={RelativeSource Mode=Self}}"
-                                                        CommandParameter="{Binding}" />
-                                            </StackPanel>
-                                        </Grid>
-                                    </Border>
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                        </ItemsControl>
+                                                        Width="72"
+                                                        Height="72">
+                                                    <Border.Background>
+                                                        <ImageBrush ImageSource="{Binding ImageUrl}"
+                                                                    Stretch="UniformToFill" />
+                                                    </Border.Background>
+                                                </Border>
 
-                    </StackPanel>
-                </ScrollViewer>
+                                                <!-- Product Info -->
+                                                <StackPanel Grid.Column="1"
+                                                            Padding="12,4,8,4"
+                                                            Spacing="4"
+                                                            VerticalAlignment="Center">
+                                                    <TextBlock Text="{Binding Name}"
+                                                               FontSize="15"
+                                                               FontWeight="SemiBold"
+                                                               Foreground="{ThemeResource OnSurfaceBrush}"
+                                                               TextTrimming="CharacterEllipsis" />
+                                                    <TextBlock FontSize="13"
+                                                               Foreground="{ThemeResource SecondaryBrush}"
+                                                               FontWeight="SemiBold">
+                                                        <Run Text="$" />
+                                                        <Run Text="{Binding PriceFormatted}" />
+                                                    </TextBlock>
+                                                    <TextBlock FontSize="12"
+                                                               Foreground="{ThemeResource OnSurfaceVariantBrush}">
+                                                        <Run Text="Line total: $" />
+                                                        <Run Text="{Binding LineTotalFormatted}" />
+                                                    </TextBlock>
+                                                </StackPanel>
 
-                <!-- Order Summary + Place Order -->
-                <Border Grid.Row="1"
-                        Background="White"
-                        CornerRadius="20,20,0,0"
-                        Padding="20,20,20,24"
-                        BorderBrush="#15000000"
-                        BorderThickness="0,1,0,0">
-                    <StackPanel Spacing="0">
+                                                <!-- Quantity stepper: BrewButtonStyle at 28px (MinWidth/MinHeight zeroed so the theme minimum
+                                                     can't inflate it); crisp rounded fill + foreground state layer for hover/pressed. The +/-
+                                                     glyphs are centred Rectangles — explicit size + Center alignment = pixel-perfect, with no
+                                                     text-baseline or PathIcon bounds offset. -->
+                                                <StackPanel Grid.Column="2" VerticalAlignment="Center" Spacing="6" HorizontalAlignment="Center">
+                                                    <Button Style="{StaticResource BrewButtonStyle}"
+                                                            AutomationProperties.Name="Increase quantity"
+                                                            Width="28" Height="28" MinWidth="0" MinHeight="0" Padding="0" CornerRadius="6"
+                                                            Command="{Binding DataContext.Increment, ElementName=Root}"
+                                                            CommandParameter="{Binding}">
+                                                        <Grid>
+                                                            <Rectangle Width="12" Height="2" RadiusX="1" RadiusY="1" Fill="{ThemeResource OnPrimaryBrush}"
+                                                                       HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                                            <Rectangle Width="2" Height="12" RadiusX="1" RadiusY="1" Fill="{ThemeResource OnPrimaryBrush}"
+                                                                       HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                                        </Grid>
+                                                    </Button>
+                                                    <TextBlock Text="{Binding Quantity}" FontSize="16" FontWeight="Bold"
+                                                               Foreground="{ThemeResource OnSurfaceBrush}" HorizontalAlignment="Center" />
+                                                    <Button Style="{StaticResource BrewButtonStyle}"
+                                                            AutomationProperties.Name="Decrease quantity"
+                                                            Background="{ThemeResource SurfaceVariantBrush}"
+                                                            Foreground="{ThemeResource OnSurfaceVariantBrush}"
+                                                            Width="28" Height="28" MinWidth="0" MinHeight="0" Padding="0" CornerRadius="6"
+                                                            Command="{Binding DataContext.Decrement, ElementName=Root}"
+                                                            CommandParameter="{Binding}">
+                                                        <Rectangle Width="12" Height="2" RadiusX="1" RadiusY="1" Fill="{ThemeResource OnSurfaceVariantBrush}"
+                                                                   HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                                    </Button>
+                                                </StackPanel>
+                                            </Grid>
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </ScrollViewer>
 
-                        <!-- Order Confirmed Banner -->
-                        <Border Visibility="{Binding OrderPlacedVisibility}"
-                                Background="#FFE8F5E9"
-                                CornerRadius="12"
-                                Padding="16,12"
-                                Margin="0,0,0,14">
-                            <StackPanel Orientation="Horizontal" Spacing="10">
-                                <TextBlock Text="✓"
+                        <!-- Order Summary + Place Order: docked below on phone, sticky right column on wide -->
+                        <Border Grid.Row="{utu:Responsive Narrow=1, Wide=0}"
+                                Grid.Column="{utu:Responsive Narrow=0, Wide=1}"
+                                Grid.ColumnSpan="{utu:Responsive Narrow=2, Wide=1}"
+                                VerticalAlignment="{utu:Responsive Narrow=Stretch, Wide=Top}"
+                                Background="{ThemeResource SurfaceBrush}"
+                                CornerRadius="16"
+                                Padding="20"
+                                BorderBrush="{ThemeResource BrewCardBorderBrush}"
+                                BorderThickness="1">
+                            <StackPanel Spacing="0">
+
+                                <!-- Summary Title -->
+                                <TextBlock Text="Order Summary"
                                            FontSize="18"
                                            FontWeight="Bold"
-                                           Foreground="#FF2E7D32"
-                                           VerticalAlignment="Center" />
-                                <TextBlock Text="{Binding OrderPlacedMessage}"
-                                           FontSize="14"
-                                           FontWeight="SemiBold"
-                                           Foreground="#FF2E7D32"
-                                           VerticalAlignment="Center"
-                                           TextWrapping="Wrap" />
+                                           Foreground="{ThemeResource OnSurfaceBrush}"
+                                           Margin="0,0,0,14" />
+
+                                <!-- Subtotal Row -->
+                                <Grid Margin="0,0,0,8">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Text="Subtotal"
+                                               FontSize="14"
+                                               Foreground="{ThemeResource OnSurfaceVariantBrush}"
+                                               Grid.Column="0" />
+                                    <TextBlock Grid.Column="1"
+                                               FontSize="14"
+                                               Foreground="{ThemeResource OnSurfaceBrush}"
+                                               FontWeight="SemiBold">
+                                        <Run Text="$" />
+                                        <Run Text="{Binding Summary.SubtotalFormatted}" />
+                                    </TextBlock>
+                                </Grid>
+
+                                <!-- Tax Row -->
+                                <Grid Margin="0,0,0,12">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Text="Tax (8%)"
+                                               FontSize="14"
+                                               Foreground="{ThemeResource OnSurfaceVariantBrush}"
+                                               Grid.Column="0" />
+                                    <TextBlock Grid.Column="1"
+                                               FontSize="14"
+                                               Foreground="{ThemeResource OnSurfaceBrush}"
+                                               FontWeight="SemiBold">
+                                        <Run Text="$" />
+                                        <Run Text="{Binding Summary.TaxFormatted}" />
+                                    </TextBlock>
+                                </Grid>
+
+                                <!-- Divider -->
+                                <Border Height="1"
+                                        Background="{ThemeResource OutlineVariantBrush}"
+                                        Margin="0,0,0,12" />
+
+                                <!-- Total Row -->
+                                <Grid Margin="0,0,0,18">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Text="Total"
+                                               FontSize="18"
+                                               FontWeight="Bold"
+                                               Foreground="{ThemeResource OnSurfaceBrush}"
+                                               Grid.Column="0" />
+                                    <TextBlock Grid.Column="1"
+                                               FontSize="20"
+                                               FontWeight="Bold"
+                                               Foreground="{ThemeResource SecondaryBrush}">
+                                        <Run Text="$" />
+                                        <Run Text="{Binding Summary.TotalFormatted}" />
+                                    </TextBlock>
+                                </Grid>
+
+                                <!-- Place Order: runs the VM command (reached via Root) and the
+                                     code-behind toast handler (transient confirmation banner). -->
+                                <Button Style="{StaticResource BrewButtonStyle}"
+                                        Content="Place Order"
+                                        AutomationProperties.Name="Place order"
+                                        HorizontalAlignment="Stretch"
+                                        CornerRadius="12"
+                                        Padding="0,16"
+                                        FontSize="16"
+                                        FontWeight="Bold"
+                                        Click="OnPlaceOrder"
+                                        Command="{Binding DataContext.PlaceOrder, ElementName=Root}" />
+
                             </StackPanel>
                         </Border>
 
-                        <!-- Summary Title -->
-                        <TextBlock Text="Order Summary"
-                                   FontSize="18"
-                                   FontWeight="Bold"
-                                   Foreground="#FF2C1A0E"
-                                   Margin="0,0,0,14" />
-
-                        <!-- Subtotal Row -->
-                        <Grid Margin="0,0,0,8">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition />
-                                <ColumnDefinition Width="Auto" />
-                            </Grid.ColumnDefinitions>
-                            <TextBlock Text="Subtotal"
-                                       FontSize="14"
-                                       Foreground="#FF8C7060"
-                                       Grid.Column="0" />
-                            <TextBlock Grid.Column="1"
-                                       FontSize="14"
-                                       Foreground="#FF2C1A0E"
-                                       FontWeight="SemiBold">
-                                <Run Text="$" />
-                                <Run Text="{Binding SubtotalFormatted}" />
-                            </TextBlock>
-                        </Grid>
-
-                        <!-- Tax Row -->
-                        <Grid Margin="0,0,0,12">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition />
-                                <ColumnDefinition Width="Auto" />
-                            </Grid.ColumnDefinitions>
-                            <TextBlock Text="Tax (8%)"
-                                       FontSize="14"
-                                       Foreground="#FF8C7060"
-                                       Grid.Column="0" />
-                            <TextBlock Grid.Column="1"
-                                       FontSize="14"
-                                       Foreground="#FF2C1A0E"
-                                       FontWeight="SemiBold">
-                                <Run Text="$" />
-                                <Run Text="{Binding TaxFormatted}" />
-                            </TextBlock>
-                        </Grid>
-
-                        <!-- Divider -->
-                        <Border Height="1"
-                                Background="#FFE8DDD0"
-                                Margin="0,0,0,12" />
-
-                        <!-- Total Row -->
-                        <Grid Margin="0,0,0,18">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition />
-                                <ColumnDefinition Width="Auto" />
-                            </Grid.ColumnDefinitions>
-                            <TextBlock Text="Total"
-                                       FontSize="18"
-                                       FontWeight="Bold"
-                                       Foreground="#FF2C1A0E"
-                                       Grid.Column="0" />
-                            <TextBlock Grid.Column="1"
-                                       FontSize="20"
-                                       FontWeight="Bold"
-                                       Foreground="#FF4A2810">
-                                <Run Text="$" />
-                                <Run Text="{Binding TotalFormatted}" />
-                            </TextBlock>
-                        </Grid>
-
-                        <!-- Place Order Button -->
-                        <Button Content="Place Order"
-                                AutomationProperties.Name="Place order"
-                                HorizontalAlignment="Stretch"
-                                Background="#FF4A2810"
-                                Foreground="White"
-                                CornerRadius="12"
-                                Padding="0,16"
-                                FontSize="16"
-                                FontWeight="Bold"
-                                Command="{Binding PlaceOrderCommand}" />
-
-                    </StackPanel>
-                </Border>
-
             </Grid>
+
+            <!-- Empty-cart hero: shown when the cart is empty (CartHasItems inverted). -->
+            <ScrollViewer Grid.Row="1"
+                          VerticalScrollBarVisibility="Hidden"
+                          Visibility="{Binding CartHasItems, Converter={StaticResource BoolToVisibility}, ConverterParameter=Invert}">
+                            <StackPanel HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        Spacing="16"
+                                        Padding="40,60,40,40">
+                                <Viewbox Width="56" Height="56"
+                                         HorizontalAlignment="Center"
+                                         AutomationProperties.AccessibilityView="Raw">
+                                    <PathIcon Data="F1 M5.5 2.75C5.5 2.33579 5.16421 2 4.75 2C4.33579 2 4 2.33579 4 2.75C4 4.02066 4.92806 4.6672 5.50571 5.06963L5.5699 5.11442C6.24985 5.59039 6.5 5.81889 6.5 6.25C6.5 6.66421 6.83579 7 7.25 7C7.66421 7 8 6.66421 8 6.25C8 4.97934 7.07194 4.3328 6.49429 3.93037L6.4301 3.88558C5.75015 3.40961 5.5 3.18111 5.5 2.75ZM3 9.82143C3 8.81548 3.81548 8 4.82143 8H17.1786C18.1845 8 19 8.81548 19 9.82143V10.5H19.75C21.5449 10.5 23 11.9551 23 13.75C23 15.5449 21.5449 17 19.75 17H18.4185C17.2317 19.9318 14.3574 22 11 22C6.58172 22 3 18.4183 3 14V9.82143ZM17.5 9.82143C17.5 9.64391 17.3561 9.5 17.1786 9.5H4.82143C4.64391 9.5 4.5 9.64391 4.5 9.82143V14C4.5 17.5899 7.41015 20.5 11 20.5C14.5899 20.5 17.5 17.5899 17.5 14V9.82143ZM19.75 12H19V14C19 14.5127 18.9518 15.0141 18.8596 15.5H19.75C20.7165 15.5 21.5 14.7165 21.5 13.75C21.5 12.7835 20.7165 12 19.75 12ZM8.75 2C9.16421 2 9.5 2.33579 9.5 2.75C9.5 3.18111 9.75015 3.40961 10.4301 3.88558L10.4943 3.93037C11.0719 4.3328 12 4.97934 12 6.25C12 6.66421 11.6642 7 11.25 7C10.8358 7 10.5 6.66421 10.5 6.25C10.5 5.81889 10.2499 5.59039 9.5699 5.11442L9.50571 5.06963C8.92806 4.6672 8 4.02066 8 2.75C8 2.33579 8.33579 2 8.75 2ZM13.5 2.75C13.5 2.33579 13.1642 2 12.75 2C12.3358 2 12 2.33579 12 2.75C12 4.02066 12.9281 4.6672 13.5057 5.06963L13.5699 5.11442C14.2499 5.59039 14.5 5.81889 14.5 6.25C14.5 6.66421 14.8358 7 15.25 7C15.6642 7 16 6.66421 16 6.25C16 4.97934 15.0719 4.3328 14.4943 3.93037L14.4301 3.88558C13.7501 3.40961 13.5 3.18111 13.5 2.75Z"
+                                              Foreground="{ThemeResource SecondaryBrush}" />
+                                </Viewbox>
+                                <TextBlock Text="Your cart is empty"
+                                           FontSize="22"
+                                           FontWeight="Bold"
+                                           Foreground="{ThemeResource OnBackgroundBrush}"
+                                           HorizontalAlignment="Center" />
+                                <TextBlock Text="Looks like you haven't added anything yet. Browse our menu and pick your favourite brew!"
+                                           FontSize="14"
+                                           Foreground="{ThemeResource OnSurfaceVariantBrush}"
+                                           HorizontalAlignment="Center"
+                                           TextAlignment="Center"
+                                           TextWrapping="Wrap" />
+                                <Border Background="{ThemeResource SurfaceVariantBrush}"
+                                        CornerRadius="16"
+                                        Padding="20,16"
+                                        Margin="0,8,0,0">
+                                    <StackPanel Spacing="10">
+                                        <TextBlock Text="Popular choices:"
+                                                   FontSize="13"
+                                                   FontWeight="SemiBold"
+                                                   Foreground="{ThemeResource SecondaryBrush}"
+                                                   HorizontalAlignment="Center" />
+                                        <!-- Popular-choice pills: one ItemsControl + shared template; each jumps to the Menu -->
+                                        <ItemsControl ItemsSource="{Binding PopularChoices}" HorizontalAlignment="Center">
+                                            <ItemsControl.ItemsPanel>
+                                                <ItemsPanelTemplate>
+                                                    <StackPanel Orientation="Horizontal" Spacing="8" />
+                                                </ItemsPanelTemplate>
+                                            </ItemsControl.ItemsPanel>
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate>
+                                                <Button Style="{StaticResource FlatButtonStyle}"
+                                                        CornerRadius="20"
+                                                        AutomationProperties.Name="{Binding}"
+                                                        Command="{Binding DataContext.GoToMenu, ElementName=Root}">
+                                                    <Border Background="{ThemeResource SurfaceBrush}" CornerRadius="20" Padding="12,6">
+                                                        <TextBlock Text="{Binding}" FontSize="13" Foreground="{ThemeResource OnSurfaceBrush}" />
+                                                    </Border>
+                                                </Button>
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
+                                    </StackPanel>
+                                </Border>
+                                <Button Style="{StaticResource BrewButtonStyle}"
+                                        Content="Browse Menu"
+                                        AutomationProperties.Name="Browse menu"
+                                        CornerRadius="12"
+                                        Padding="32,14"
+                                        FontSize="15"
+                                        HorizontalAlignment="Center"
+                                        Margin="0,8,0,0"
+                                        Command="{Binding DataContext.GoToMenu, ElementName=Root}" />
+                            </StackPanel>
+            </ScrollViewer>
+
+            <!-- Order Confirmed banner: page-level overlay so it survives the cart emptying on
+                 Place Order. Shown/auto-dismissed (4 s) by the page code-behind — pure view
+                 behaviour, driven by x:Name so it needs no model state. -->
+            <Border x:Name="OrderConfirmedBanner"
+                    Grid.Row="1"
+                    VerticalAlignment="Top"
+                    Margin="16,12,16,0"
+                    Visibility="Collapsed"
+                    Background="{ThemeResource SurfaceVariantBrush}"
+                    CornerRadius="12"
+                    Padding="16,12">
+                <StackPanel Orientation="Horizontal" Spacing="10">
+                    <Viewbox Width="18" Height="18" VerticalAlignment="Center">
+                        <PathIcon Data="F1 M4.53033 12.9697C4.23744 12.6768 3.76256 12.6768 3.46967 12.9697C3.17678 13.2626 3.17678 13.7374 3.46967 14.0303L7.96967 18.5303C8.26256 18.8232 8.73744 18.8232 9.03033 18.5303L20.0303 7.53033C20.3232 7.23744 20.3232 6.76256 20.0303 6.46967C19.7374 6.17678 19.2626 6.17678 18.9697 6.46967L8.5 16.9393L4.53033 12.9697Z"
+                                  Foreground="{ThemeResource BrewStatusReadyBrush}" />
+                    </Viewbox>
+                    <TextBlock Text="Your order has been placed!"
+                               FontSize="14"
+                               FontWeight="SemiBold"
+                               Foreground="{ThemeResource OnSurfaceBrush}"
+                               VerticalAlignment="Center"
+                               TextWrapping="Wrap" />
+                </StackPanel>
+            </Border>
 
         </Grid>
     </utu:SafeArea>

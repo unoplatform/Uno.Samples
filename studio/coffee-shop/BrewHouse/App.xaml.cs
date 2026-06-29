@@ -39,24 +39,6 @@ public partial class App : Application
 
                         // Default filters for core Uno Platform namespaces
                         .CoreLogLevel(LogLevel.Warning);
-
-                    // Uno Platform namespace filter groups
-                    // Uncomment individual methods to see more detailed logging
-                    //// Generic Xaml events
-                    //logBuilder.XamlLogLevel(LogLevel.Debug);
-                    //// Layout specific messages
-                    //logBuilder.XamlLayoutLogLevel(LogLevel.Debug);
-                    //// Storage messages
-                    //logBuilder.StorageLogLevel(LogLevel.Debug);
-                    //// Binding related messages
-                    //logBuilder.XamlBindingLogLevel(LogLevel.Debug);
-                    //// Binder memory references tracking
-                    //logBuilder.BinderMemoryReferenceLogLevel(LogLevel.Debug);
-                    //// DevServer and HotReload related
-                    //logBuilder.HotReloadCoreLogLevel(LogLevel.Information);
-                    //// Debug JS interop
-                    //logBuilder.WebAssemblyLogLevel(LogLevel.Debug);
-
                 }, enableUnoLogging: true)
                 .UseConfiguration(configure: configBuilder =>
                     configBuilder
@@ -65,39 +47,42 @@ public partial class App : Application
                 )
                 // Enable localization (see appsettings.json for supported languages)
                 .UseLocalization()
-                .UseHttp((context, services) => {
-#if DEBUG
-                // DelegatingHandler will be automatically injected
-                services.AddTransient<DelegatingHandler, DebugHttpHandler>();
-#endif
-
-})
                 .ConfigureServices((context, services) =>
                 {
-                    // TODO: Register your services
-                    //services.AddSingleton<IMyService, MyService>();
+                    // One shared cart/orders state for the whole app: a DI singleton owning the
+                    // cart + order IListStates, injected into every page-Model so a mutation made on
+                    // one page propagates to every feed derived from it.
+                    services.AddSingleton<ICartService, CartService>();
                 })
                 .UseNavigation(ReactiveViewModelMappings.ViewModelMappings, RegisterRoutes)
             );
         MainWindow = builder.Window;
 
-        #if DEBUG
+#if DEBUG
         MainWindow.UseStudio();
 #endif
-                MainWindow.SetWindowIcon();
+        MainWindow.SetWindowIcon();
 
         Host = await builder.NavigateAsync<Shell>();
+
+        // On the macOS desktop (Skia) head, brand the Dock during an unbundled dev run; the partial
+        // method is implemented only in Platforms/Desktop and is elided (a no-op) on every other head.
+        TrySetDesktopDockIcon();
     }
+
+    // Implemented in Platforms/Desktop/App.Desktop.cs; elided on the iOS / Android / WebAssembly heads.
+    partial void TrySetDesktopDockIcon();
 
     private static void RegisterRoutes(IViewRegistry views, IRouteRegistry routes)
     {
         views.Register(
             new ViewMap(ViewModel: typeof(ShellModel)),
-            new ViewMap<MainPage>(),
-            new ViewMap<HomePage>(),
-            new ViewMap<MenuPage>(),
-            new ViewMap<CartPage>(),
-            new ViewMap<OrdersPage>()
+            new ViewMap<MainPage, MainModel>(),
+            new ViewMap<HomePage, HomeModel>(),
+            new ViewMap<MenuPage, MenuModel>(),
+            new ViewMap<CartPage, CartModel>(),
+            new ViewMap<OrdersPage, OrdersModel>(),
+            new DataViewMap<ProductDetailPage, ProductDetailModel, ProductItem>()
         );
 
         routes.Register(
@@ -114,6 +99,9 @@ public partial class App : Application
                             new RouteMap("Orders", View: views.FindByView<OrdersPage>()),
                         ]
                     ),
+                    // Sibling of Main (not a tab): shown full-screen in the shell's content area, so
+                    // the product detail isn't overlaid by the TabBar / nav pane. Back returns to Main.
+                    new RouteMap("ProductDetail", View: views.FindByView<ProductDetailPage>()),
                 ]
             )
         );
