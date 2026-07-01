@@ -50,6 +50,12 @@ Dive into the essentials of task management with the ToDo App, a meticulously cr
 
 ### Other Samples
 
+### Element-Level Theming
+
+Any `FrameworkElement` can declare its own `RequestedTheme` (Light, Dark, or Default) and all theme resources resolve locally within that subtree — new on the Skia targets in Uno Platform 6.6. Shows Light/Dark/Default islands side by side, live switching, and nested theme islands.
+
+[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/ElementLevelTheme)
+
 ### Advanced XBind
 
 The {x:Bind} markup extension (new for Windows 10) is an alternative to {Binding}. {x:Bind} runs in less time and less memory than {Binding} and supports better debugging.
