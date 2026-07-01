@@ -1,0 +1,189 @@
+<Page x:Class="TextFeaturesShowcase.MainPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+      mc:Ignorable="d">
+
+    <ScrollViewer Padding="24,24,24,48"
+                  HorizontalScrollMode="Disabled">
+        <StackPanel MaxWidth="760"
+                    HorizontalAlignment="Stretch"
+                    Spacing="24">
+
+            <!-- Header -->
+            <StackPanel Spacing="6">
+                <TextBlock Style="{ThemeResource TitleLargeTextBlockStyle}"
+                           Text="Text Features Showcase" />
+                <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                           Style="{ThemeResource BodyTextBlockStyle}"
+                           Text="A tour of the Uno Platform 6.6 text wave: spell-check, text highlighters, trimming, sophisticated font fallback, and whitespace rendering — all on Skia."
+                           TextWrapping="Wrap" />
+            </StackPanel>
+
+            <!-- 1. Spell checking -->
+            <StackPanel Spacing="10">
+                <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}"
+                           Text="1 · Spell checking" />
+                <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                           Style="{ThemeResource CaptionTextBlockStyle}"
+                           Text="Set IsSpellCheckEnabled on a TextBox and misspelled words get red squiggles (requires the SpellChecking UnoFeature). Try editing the text."
+                           TextWrapping="Wrap" />
+                <TextBox x:Name="SpellCheckBox"
+                         MinHeight="96"
+                         AcceptsReturn="True"
+                         IsSpellCheckEnabled="True"
+                         Text="The quik brown fox jmups over the lazzy dog while writting speling mistaykes."
+                         TextWrapping="Wrap" />
+            </StackPanel>
+
+            <!-- 2. Text highlighters -->
+            <StackPanel Spacing="10">
+                <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}"
+                           Text="2 · TextHighlighters" />
+                <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                           Style="{ThemeResource CaptionTextBlockStyle}"
+                           Text="TextBlock.TextHighlighters paints background/foreground over character ranges — perfect for search highlighting. Type a word to highlight every match below."
+                           TextWrapping="Wrap" />
+                <TextBox x:Name="SearchBox"
+                         PlaceholderText="Search term (e.g. Platform)"
+                         Text="text"
+                         TextChanged="OnSearchChanged" />
+                <Border Padding="14"
+                        Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                        BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                        BorderThickness="1"
+                        CornerRadius="8">
+                    <TextBlock x:Name="HighlightTarget"
+                               FontSize="16"
+                               LineHeight="24"
+                               Text="Uno Platform brings the WinUI text stack to every target. This text block demonstrates live search highlighting: matching text is painted with a colored background so it stands out at a glance."
+                               TextWrapping="Wrap" />
+                </Border>
+            </StackPanel>
+
+            <!-- 3. Text trimming -->
+            <StackPanel Spacing="10">
+                <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}"
+                           Text="3 · TextTrimming" />
+                <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                           Style="{ThemeResource CaptionTextBlockStyle}"
+                           Text="Same string, same fixed width — three trimming modes side by side."
+                           TextWrapping="Wrap" />
+                <Grid ColumnSpacing="14"
+                      RowSpacing="4">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="0"
+                               Grid.Column="0"
+                               Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                               Style="{ThemeResource CaptionTextBlockStyle}"
+                               Text="CharacterEllipsis" />
+                    <TextBlock Grid.Row="0"
+                               Grid.Column="1"
+                               Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                               Style="{ThemeResource CaptionTextBlockStyle}"
+                               Text="WordEllipsis" />
+                    <TextBlock Grid.Row="0"
+                               Grid.Column="2"
+                               Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                               Style="{ThemeResource CaptionTextBlockStyle}"
+                               Text="None (clipped)" />
+
+                    <Border Grid.Row="1"
+                            Grid.Column="0"
+                            Padding="10"
+                            Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                            BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                            BorderThickness="1"
+                            CornerRadius="8">
+                        <TextBlock FontSize="14"
+                                   Text="Sophisticated font fallback keeps text legible everywhere."
+                                   TextTrimming="CharacterEllipsis"
+                                   TextWrapping="NoWrap" />
+                    </Border>
+                    <Border Grid.Row="1"
+                            Grid.Column="1"
+                            Padding="10"
+                            Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                            BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                            BorderThickness="1"
+                            CornerRadius="8">
+                        <TextBlock FontSize="14"
+                                   Text="Sophisticated font fallback keeps text legible everywhere."
+                                   TextTrimming="WordEllipsis"
+                                   TextWrapping="NoWrap" />
+                    </Border>
+                    <Border Grid.Row="1"
+                            Grid.Column="2"
+                            Padding="10"
+                            Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                            BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                            BorderThickness="1"
+                            CornerRadius="8">
+                        <TextBlock FontSize="14"
+                                   Text="Sophisticated font fallback keeps text legible everywhere."
+                                   TextTrimming="None"
+                                   TextWrapping="NoWrap" />
+                    </Border>
+                </Grid>
+            </StackPanel>
+
+            <!-- 4. Font fallback -->
+            <StackPanel Spacing="10">
+                <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}"
+                           Text="4 · Sophisticated font fallback" />
+                <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                           Style="{ThemeResource CaptionTextBlockStyle}"
+                           Text="One TextBlock, one font — Latin, emoji, and CJK all render with real glyphs. No tofu (□) boxes."
+                           TextWrapping="Wrap" />
+                <Border Padding="14"
+                        Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                        BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                        BorderThickness="1"
+                        CornerRadius="8">
+                    <TextBlock FontSize="22"
+                               LineHeight="34"
+                               Text="Hello, world! 👋 こんにちは 你好 안녕하세요 — Uno Platform 🚀 ❤️ 😀 日本語 中文 한국어"
+                               TextWrapping="Wrap" />
+                </Border>
+            </StackPanel>
+
+            <!-- 5. Render whitespace -->
+            <StackPanel Spacing="10">
+                <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}"
+                           Text="5 · RenderWhiteSpace" />
+                <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                           Style="{ThemeResource CaptionTextBlockStyle}"
+                           Text="FeatureConfiguration.TextBlock.RenderWhiteSpace controls whether whitespace glyphs are drawn. Toggle it and re-measure the padded text below (change takes effect on the next TextBlock render)."
+                           TextWrapping="Wrap" />
+                <ToggleSwitch x:Name="WhitespaceToggle"
+                              Header="Render whitespace glyphs"
+                              OffContent="Off"
+                              OnContent="On"
+                              Toggled="OnWhitespaceToggled" />
+                <Border Padding="14"
+                        Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                        BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                        BorderThickness="1"
+                        CornerRadius="8">
+                    <TextBlock x:Name="WhitespaceText"
+                               FontFamily="Consolas, Courier New, monospace"
+                               FontSize="16"
+                               Text="Columns&#x09;aligned&#x09;with&#x09;tabs   and   spaces."
+                               TextWrapping="Wrap" />
+                </Border>
+            </StackPanel>
+
+        </StackPanel>
+    </ScrollViewer>
+</Page>
