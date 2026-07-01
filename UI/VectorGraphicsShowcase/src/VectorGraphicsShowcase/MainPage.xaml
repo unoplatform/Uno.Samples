@@ -5,262 +5,138 @@
       Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
   <Page.Resources>
-    <Style x:Key="SectionHeaderStyle"
-           TargetType="TextBlock">
-      <Setter Property="FontSize" Value="20" />
-      <Setter Property="FontWeight" Value="SemiBold" />
-      <Setter Property="Margin" Value="0,24,0,4" />
-    </Style>
-    <Style x:Key="SectionCaptionStyle"
-           TargetType="TextBlock">
-      <Setter Property="Foreground" Value="{ThemeResource TextFillColorSecondaryBrush}" />
-      <Setter Property="TextWrapping" Value="Wrap" />
-      <Setter Property="Margin" Value="0,0,0,8" />
-    </Style>
-    <Style x:Key="ItemLabelStyle"
-           TargetType="TextBlock">
-      <Setter Property="Width" Value="150" />
-      <Setter Property="VerticalAlignment" Value="Center" />
-      <Setter Property="Foreground" Value="{ThemeResource TextFillColorSecondaryBrush}" />
-    </Style>
-    <Style x:Key="DemoCardStyle"
-           TargetType="Border">
+    <SolidColorBrush x:Key="Ink" Color="#3B82F6" />
+    <SolidColorBrush x:Key="Ink2" Color="#EC4899" />
+    <Style x:Key="Card" TargetType="Border">
+      <Setter Property="CornerRadius" Value="12" />
+      <Setter Property="Padding" Value="20" />
       <Setter Property="Background" Value="{ThemeResource CardBackgroundFillColorDefaultBrush}" />
       <Setter Property="BorderBrush" Value="{ThemeResource CardStrokeColorDefaultBrush}" />
       <Setter Property="BorderThickness" Value="1" />
-      <Setter Property="CornerRadius" Value="8" />
-      <Setter Property="Padding" Value="16" />
+    </Style>
+    <Style x:Key="Cap" TargetType="TextBlock">
+      <Setter Property="Width" Value="130" />
+      <Setter Property="VerticalAlignment" Value="Center" />
+      <Setter Property="Foreground" Value="{ThemeResource TextFillColorSecondaryBrush}" />
     </Style>
   </Page.Resources>
 
-  <ScrollViewer IsTabStop="True">
-    <StackPanel MaxWidth="720"
-                Margin="24"
-                HorizontalAlignment="Stretch"
-                Spacing="8">
+  <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+    <StackPanel Padding="32,24,32,48" Spacing="24" MaxWidth="900" HorizontalAlignment="Center">
 
-      <TextBlock FontSize="28"
-                 FontWeight="Bold"
-                 Text="Vector Graphics Showcase" />
-      <TextBlock Style="{StaticResource SectionCaptionStyle}"
-                 Text="Uno Platform 6.6 vector rendering on Skia: stroke caps and joins, dashing, animatable geometry transforms, and per-element alpha masks via the Composition API." />
+      <StackPanel Spacing="6">
+        <TextBlock Text="Vector Graphics Showcase" FontSize="34" FontWeight="SemiBold" />
+        <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}" TextWrapping="Wrap"
+                   Text="Uno Platform 6.6 brings richer stroke styling to the Skia renderer — line caps, dash patterns and line joins — plus animatable geometry transforms." />
+      </StackPanel>
 
-      <!--  Stroke caps and joins  -->
-      <TextBlock Style="{StaticResource SectionHeaderStyle}"
-                 Text="Stroke caps &amp; joins" />
-      <TextBlock Style="{StaticResource SectionCaptionStyle}"
-                 Text="StrokeStartLineCap, StrokeEndLineCap and StrokeLineJoin control how line ends and corners are drawn." />
-      <Border Style="{StaticResource DemoCardStyle}">
-        <StackPanel Spacing="14">
-          <StackPanel Orientation="Horizontal"
-                      Spacing="12">
-            <TextBlock Style="{StaticResource ItemLabelStyle}"
-                       Text="Flat caps" />
-            <Line Stroke="{ThemeResource SystemAccentColorBrush}"
-                  StrokeEndLineCap="Flat"
-                  StrokeStartLineCap="Flat"
-                  StrokeThickness="14"
-                  X1="0"
-                  X2="220"
-                  Y1="10"
-                  Y2="10" />
+      <!-- Stroke caps -->
+      <Border Style="{StaticResource Card}">
+        <StackPanel Spacing="16">
+          <TextBlock Text="Stroke line caps" FontSize="20" FontWeight="SemiBold" />
+          <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                     Text="StrokeStartLineCap / StrokeEndLineCap — how the ends of a thick stroke are drawn." />
+          <StackPanel Orientation="Horizontal" Spacing="12">
+            <TextBlock Text="Flat" Style="{StaticResource Cap}" />
+            <Canvas Width="360" Height="26">
+              <Line Stroke="{StaticResource Ink}" StrokeThickness="18" StrokeStartLineCap="Flat" StrokeEndLineCap="Flat" X1="10" Y1="13" X2="350" Y2="13" />
+            </Canvas>
           </StackPanel>
-          <StackPanel Orientation="Horizontal"
-                      Spacing="12">
-            <TextBlock Style="{StaticResource ItemLabelStyle}"
-                       Text="Round caps" />
-            <Line Stroke="{ThemeResource SystemAccentColorBrush}"
-                  StrokeEndLineCap="Round"
-                  StrokeStartLineCap="Round"
-                  StrokeThickness="14"
-                  X1="0"
-                  X2="220"
-                  Y1="10"
-                  Y2="10" />
+          <StackPanel Orientation="Horizontal" Spacing="12">
+            <TextBlock Text="Round" Style="{StaticResource Cap}" />
+            <Canvas Width="360" Height="26">
+              <Line Stroke="{StaticResource Ink}" StrokeThickness="18" StrokeStartLineCap="Round" StrokeEndLineCap="Round" X1="10" Y1="13" X2="350" Y2="13" />
+            </Canvas>
           </StackPanel>
-          <StackPanel Orientation="Horizontal"
-                      Spacing="12">
-            <TextBlock Style="{StaticResource ItemLabelStyle}"
-                       Text="Square caps" />
-            <Line Stroke="{ThemeResource SystemAccentColorBrush}"
-                  StrokeEndLineCap="Square"
-                  StrokeStartLineCap="Square"
-                  StrokeThickness="14"
-                  X1="0"
-                  X2="220"
-                  Y1="10"
-                  Y2="10" />
+          <StackPanel Orientation="Horizontal" Spacing="12">
+            <TextBlock Text="Square" Style="{StaticResource Cap}" />
+            <Canvas Width="360" Height="26">
+              <Line Stroke="{StaticResource Ink}" StrokeThickness="18" StrokeStartLineCap="Square" StrokeEndLineCap="Square" X1="10" Y1="13" X2="350" Y2="13" />
+            </Canvas>
           </StackPanel>
-          <StackPanel Orientation="Horizontal"
-                      Spacing="12">
-            <TextBlock Style="{StaticResource ItemLabelStyle}"
-                       Text="Triangle caps" />
-            <Line Stroke="{ThemeResource SystemAccentColorBrush}"
-                  StrokeEndLineCap="Triangle"
-                  StrokeStartLineCap="Triangle"
-                  StrokeThickness="14"
-                  X1="0"
-                  X2="220"
-                  Y1="10"
-                  Y2="10" />
-          </StackPanel>
-          <StackPanel Orientation="Horizontal"
-                      Spacing="12">
-            <TextBlock Style="{StaticResource ItemLabelStyle}"
-                       Text="Miter join" />
-            <Polyline Points="0,50 40,10 80,50"
-                      Stroke="{ThemeResource SystemAccentColorBrush}"
-                      StrokeLineJoin="Miter"
-                      StrokeThickness="12" />
-            <Polyline Points="0,50 40,10 80,50"
-                      Stroke="{ThemeResource SystemAccentColorBrush}"
-                      StrokeLineJoin="Bevel"
-                      StrokeThickness="12" />
-            <Polyline Points="0,50 40,10 80,50"
-                      Stroke="{ThemeResource SystemAccentColorBrush}"
-                      StrokeLineJoin="Round"
-                      StrokeThickness="12" />
-            <TextBlock VerticalAlignment="Center"
-                       Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                       Text="Miter / Bevel / Round" />
+          <StackPanel Orientation="Horizontal" Spacing="12">
+            <TextBlock Text="Triangle" Style="{StaticResource Cap}" />
+            <Canvas Width="360" Height="26">
+              <Line Stroke="{StaticResource Ink}" StrokeThickness="18" StrokeStartLineCap="Triangle" StrokeEndLineCap="Triangle" X1="10" Y1="13" X2="350" Y2="13" />
+            </Canvas>
           </StackPanel>
         </StackPanel>
       </Border>
 
-      <!--  Dashing  -->
-      <TextBlock Style="{StaticResource SectionHeaderStyle}"
-                 Text="Dashed strokes" />
-      <TextBlock Style="{StaticResource SectionCaptionStyle}"
-                 Text="StrokeDashArray defines the dash pattern; StrokeDashCap shapes each dash and StrokeDashOffset shifts the pattern." />
-      <Border Style="{StaticResource DemoCardStyle}">
-        <StackPanel Spacing="14">
-          <StackPanel Orientation="Horizontal"
-                      Spacing="12">
-            <TextBlock Style="{StaticResource ItemLabelStyle}"
-                       Text="Flat dash cap" />
-            <Line Stroke="{ThemeResource SystemAccentColorBrush}"
-                  StrokeDashArray="3 2"
-                  StrokeDashCap="Flat"
-                  StrokeThickness="12"
-                  X1="0"
-                  X2="260"
-                  Y1="8"
-                  Y2="8" />
+      <!-- Dashes -->
+      <Border Style="{StaticResource Card}">
+        <StackPanel Spacing="16">
+          <TextBlock Text="Dashed strokes" FontSize="20" FontWeight="SemiBold" />
+          <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                     Text="StrokeDashArray sets the dash pattern; StrokeDashCap shapes each dash." />
+          <StackPanel Orientation="Horizontal" Spacing="12">
+            <TextBlock Text="Flat dash" Style="{StaticResource Cap}" />
+            <Canvas Width="360" Height="20">
+              <Line Stroke="{StaticResource Ink}" StrokeThickness="8" StrokeDashArray="4 2" StrokeDashCap="Flat" X1="10" Y1="10" X2="350" Y2="10" />
+            </Canvas>
           </StackPanel>
-          <StackPanel Orientation="Horizontal"
-                      Spacing="12">
-            <TextBlock Style="{StaticResource ItemLabelStyle}"
-                       Text="Round dash cap" />
-            <Line Stroke="{ThemeResource SystemAccentColorBrush}"
-                  StrokeDashArray="3 2"
-                  StrokeDashCap="Round"
-                  StrokeThickness="12"
-                  X1="0"
-                  X2="260"
-                  Y1="8"
-                  Y2="8" />
+          <StackPanel Orientation="Horizontal" Spacing="12">
+            <TextBlock Text="Round dash" Style="{StaticResource Cap}" />
+            <Canvas Width="360" Height="20">
+              <Line Stroke="{StaticResource Ink}" StrokeThickness="8" StrokeDashArray="1 2" StrokeDashCap="Round" X1="10" Y1="10" X2="350" Y2="10" />
+            </Canvas>
           </StackPanel>
-          <StackPanel Orientation="Horizontal"
-                      Spacing="12">
-            <TextBlock Style="{StaticResource ItemLabelStyle}"
-                       Text="Triangle dash cap" />
-            <Line Stroke="{ThemeResource SystemAccentColorBrush}"
-                  StrokeDashArray="3 2"
-                  StrokeDashCap="Triangle"
-                  StrokeThickness="12"
-                  X1="0"
-                  X2="260"
-                  Y1="8"
-                  Y2="8" />
-          </StackPanel>
-          <StackPanel Orientation="Horizontal"
-                      Spacing="12">
-            <TextBlock Style="{StaticResource ItemLabelStyle}"
-                       Text="Dashed outline" />
-            <Ellipse Width="70"
-                     Height="70"
-                     Stroke="{ThemeResource SystemAccentColorBrush}"
-                     StrokeDashArray="2 1"
-                     StrokeDashCap="Round"
-                     StrokeThickness="6" />
-            <Rectangle Width="70"
-                       Height="70"
-                       RadiusX="10"
-                       RadiusY="10"
-                       Stroke="{ThemeResource SystemAccentColorBrush}"
-                       StrokeDashArray="4 2"
-                       StrokeLineJoin="Round"
-                       StrokeThickness="6" />
+          <StackPanel Orientation="Horizontal" Spacing="12">
+            <TextBlock Text="Dashed box" Style="{StaticResource Cap}" />
+            <Canvas Width="360" Height="80">
+              <Rectangle Stroke="{StaticResource Ink2}" StrokeThickness="3" StrokeDashArray="6 3" Width="340" Height="64" Canvas.Left="10" Canvas.Top="8" RadiusX="8" RadiusY="8" />
+            </Canvas>
           </StackPanel>
         </StackPanel>
       </Border>
 
-      <!--  Animatable geometry transform  -->
-      <TextBlock Style="{StaticResource SectionHeaderStyle}"
-                 Text="Animatable geometry transform" />
-      <TextBlock Style="{StaticResource SectionCaptionStyle}"
-                 Text="A Geometry.Transform is honored on Skia and is animatable. Here a Storyboard rotates the RectangleGeometry's CompositeTransform independently of the Path's own RenderTransform." />
-      <Border Style="{StaticResource DemoCardStyle}">
-        <StackPanel HorizontalAlignment="Center"
-                    Spacing="12">
-          <Grid Width="200"
-                Height="200">
-            <Path Fill="{ThemeResource SystemAccentColorBrush}"
-                  Opacity="0.85">
+      <!-- Line joins -->
+      <Border Style="{StaticResource Card}">
+        <StackPanel Spacing="16">
+          <TextBlock Text="Line joins" FontSize="20" FontWeight="SemiBold" />
+          <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                     Text="StrokeLineJoin — how corners between stroke segments are drawn." />
+          <StackPanel Orientation="Horizontal" Spacing="40" HorizontalAlignment="Left">
+            <StackPanel Spacing="8">
+              <Canvas Width="120" Height="90">
+                <Polyline Stroke="{StaticResource Ink}" StrokeThickness="16" StrokeLineJoin="Miter" Points="10,80 60,15 110,80" />
+              </Canvas>
+              <TextBlock Text="Miter" HorizontalAlignment="Center" Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
+            </StackPanel>
+            <StackPanel Spacing="8">
+              <Canvas Width="120" Height="90">
+                <Polyline Stroke="{StaticResource Ink}" StrokeThickness="16" StrokeLineJoin="Bevel" Points="10,80 60,15 110,80" />
+              </Canvas>
+              <TextBlock Text="Bevel" HorizontalAlignment="Center" Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
+            </StackPanel>
+            <StackPanel Spacing="8">
+              <Canvas Width="120" Height="90">
+                <Polyline Stroke="{StaticResource Ink}" StrokeThickness="16" StrokeLineJoin="Round" Points="10,80 60,15 110,80" />
+              </Canvas>
+              <TextBlock Text="Round" HorizontalAlignment="Center" Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
+            </StackPanel>
+          </StackPanel>
+        </StackPanel>
+      </Border>
+
+      <!-- Geometry.Transform -->
+      <Border Style="{StaticResource Card}">
+        <StackPanel Spacing="16">
+          <TextBlock Text="Animated Geometry.Transform" FontSize="20" FontWeight="SemiBold" />
+          <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                     Text="A Transform applied directly to a Geometry is now honored on Skia — here a RectangleGeometry spins about its center." />
+          <Canvas Width="200" Height="200" HorizontalAlignment="Left">
+            <Path Fill="{StaticResource Ink2}">
               <Path.Data>
-                <RectangleGeometry Rect="60,60 80,80">
+                <RectangleGeometry Rect="60,60,80,80">
                   <RectangleGeometry.Transform>
-                    <CompositeTransform x:Name="GeometrySpin"
-                                        CenterX="100"
-                                        CenterY="100" />
+                    <RotateTransform x:Name="SpinTransform" CenterX="100" CenterY="100" />
                   </RectangleGeometry.Transform>
                 </RectangleGeometry>
               </Path.Data>
             </Path>
-          </Grid>
-          <ToggleButton x:Name="AnimateToggle"
-                        HorizontalAlignment="Center"
-                        Checked="OnAnimateToggled"
-                        Content="Animate geometry"
-                        IsChecked="True"
-                        Unchecked="OnAnimateToggled" />
-        </StackPanel>
-      </Border>
-
-      <!--  Alpha mask  -->
-      <TextBlock Style="{StaticResource SectionHeaderStyle}"
-                 Text="Alpha mask (Composition)" />
-      <TextBlock Style="{StaticResource SectionCaptionStyle}"
-                 Text="GetAlphaMask() returns a CompositionBrush from a Shape or TextBlock. Combined with a CompositionMaskBrush it paints an arbitrary source (a gradient here) through the element's alpha channel." />
-      <Border Style="{StaticResource DemoCardStyle}">
-        <StackPanel Orientation="Horizontal"
-                    Spacing="32">
-          <StackPanel Spacing="8">
-            <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                       Text="Source shape" />
-            <Ellipse x:Name="MaskSourceEllipse"
-                     Width="140"
-                     Height="140"
-                     Fill="Gray" />
-          </StackPanel>
-          <StackPanel Spacing="8">
-            <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                       Text="Gradient through mask" />
-            <Canvas x:Name="MaskResultCanvas"
-                    Width="140"
-                    Height="140" />
-          </StackPanel>
-          <StackPanel Spacing="8">
-            <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                       Text="Text mask" />
-            <TextBlock x:Name="MaskSourceText"
-                       FontSize="48"
-                       FontWeight="Bold"
-                       Text="UNO" />
-            <Canvas x:Name="MaskTextResultCanvas"
-                    Width="180"
-                    Height="60" />
-          </StackPanel>
+          </Canvas>
+          <ToggleButton x:Name="SpinToggle" Content="Animate" IsChecked="True" Checked="OnSpinToggled" Unchecked="OnSpinToggled" HorizontalAlignment="Left" />
         </StackPanel>
       </Border>
 
