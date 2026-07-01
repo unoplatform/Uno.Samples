@@ -18,7 +18,7 @@
                            Text="Text Features Showcase" />
                 <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                            Style="{ThemeResource BodyTextBlockStyle}"
-                           Text="A tour of the Uno Platform 6.6 text wave: spell-check, text highlighters, trimming, sophisticated font fallback, and whitespace rendering — all on Skia."
+                           Text="A tour of the Uno Platform 6.6 text wave: spell-check, text highlighters, trimming, and sophisticated font fallback — all on Skia."
                            TextWrapping="Wrap" />
             </StackPanel>
 
@@ -154,32 +154,6 @@
                     <TextBlock FontSize="22"
                                LineHeight="34"
                                Text="Hello, world! 👋 こんにちは 你好 안녕하세요 — Uno Platform 🚀 ❤️ 😀 日本語 中文 한국어"
-                               TextWrapping="Wrap" />
-                </Border>
-            </StackPanel>
-
-            <!-- 5. Render whitespace -->
-            <StackPanel Spacing="10">
-                <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}"
-                           Text="5 · RenderWhiteSpace" />
-                <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                           Style="{ThemeResource CaptionTextBlockStyle}"
-                           Text="FeatureConfiguration.TextBlock.RenderWhiteSpace controls whether whitespace glyphs are drawn. Toggle it and re-measure the padded text below (change takes effect on the next TextBlock render)."
-                           TextWrapping="Wrap" />
-                <ToggleSwitch x:Name="WhitespaceToggle"
-                              Header="Render whitespace glyphs"
-                              OffContent="Off"
-                              OnContent="On"
-                              Toggled="OnWhitespaceToggled" />
-                <Border Padding="14"
-                        Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
-                        BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-                        BorderThickness="1"
-                        CornerRadius="8">
-                    <TextBlock x:Name="WhitespaceText"
-                               FontFamily="Consolas, Courier New, monospace"
-                               FontSize="16"
-                               Text="Columns&#x09;aligned&#x09;with&#x09;tabs   and   spaces."
                                TextWrapping="Wrap" />
                 </Border>
             </StackPanel>

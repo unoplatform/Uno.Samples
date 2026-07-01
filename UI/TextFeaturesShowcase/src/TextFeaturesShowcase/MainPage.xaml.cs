@@ -16,8 +16,7 @@ public sealed partial class MainPage : Page
 
 	private void OnLoaded(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
 	{
-		// Seed the initial highlight and reflect the current RenderWhiteSpace flag.
-		WhitespaceToggle.IsOn = Uno.UI.FeatureConfiguration.TextBlock.RenderWhiteSpace;
+		// Seed the initial highlight.
 		ApplyHighlight(SearchBox.Text);
 	}
 
@@ -55,15 +54,5 @@ public sealed partial class MainPage : Page
 		{
 			HighlightTarget.TextHighlighters.Add(highlighter);
 		}
-	}
-
-	private void OnWhitespaceToggled(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
-	{
-		Uno.UI.FeatureConfiguration.TextBlock.RenderWhiteSpace = WhitespaceToggle.IsOn;
-
-		// Force the sample TextBlock to re-render so the flag takes visible effect.
-		var current = WhitespaceText.Text;
-		WhitespaceText.Text = string.Empty;
-		WhitespaceText.Text = current;
 	}
 }
