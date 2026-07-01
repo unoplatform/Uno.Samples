@@ -50,6 +50,12 @@ Dive into the essentials of task management with the ToDo App, a meticulously cr
 
 ### Other Samples
 
+### 3D Projection Gallery
+
+Rotate any element in 3D space — with real perspective — using `PlaneProjection` and `Matrix3DProjection`, which now render on the Skia targets as of Uno Platform 6.6. Includes an interactive card driven by rotation sliders and a set of depth presets.
+
+[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/ProjectionGallery)
+
 ### Advanced XBind
 
 The {x:Bind} markup extension (new for Windows 10) is an alternative to {Binding}. {x:Bind} runs in less time and less memory than {Binding} and supports better debugging.

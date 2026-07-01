@@ -1,0 +1,176 @@
+<Page x:Class="ProjectionGallery.MainPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:local="using:ProjectionGallery"
+      Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+  <Page.Resources>
+    <LinearGradientBrush x:Key="CardBrush" StartPoint="0,0" EndPoint="1,1">
+      <GradientStop Offset="0" Color="#7C4DFF" />
+      <GradientStop Offset="1" Color="#00B0FF" />
+    </LinearGradientBrush>
+  </Page.Resources>
+
+  <ScrollViewer IsTabStop="True"
+                HorizontalScrollBarVisibility="Disabled"
+                VerticalScrollBarVisibility="Auto">
+    <StackPanel Padding="32,24,32,48"
+                Spacing="28"
+                MaxWidth="1100"
+                HorizontalAlignment="Center">
+
+      <!-- Header -->
+      <StackPanel Spacing="6">
+        <TextBlock Text="3D Projection Gallery"
+                   FontSize="34"
+                   FontWeight="SemiBold" />
+        <TextBlock TextWrapping="Wrap"
+                   Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                   Text="PlaneProjection and Matrix3DProjection now render on the Skia targets. Rotate any element in 3D space — directly from XAML — with real perspective. New in Uno Platform 6.6." />
+      </StackPanel>
+
+      <!-- Interactive hero -->
+      <Border CornerRadius="16"
+              Padding="28"
+              Background="{ThemeResource LayerFillColorDefaultBrush}"
+              BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+              BorderThickness="1">
+        <Grid ColumnSpacing="40">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="320" />
+          </Grid.ColumnDefinitions>
+
+          <!-- The interactive 3D card -->
+          <Grid Grid.Column="0"
+                MinHeight="380"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center">
+            <Border x:Name="HeroCard"
+                    Width="240"
+                    Height="320"
+                    CornerRadius="20"
+                    Background="{StaticResource CardBrush}"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center">
+              <Border.Projection>
+                <PlaneProjection x:Name="HeroProjection"
+                                 RotationX="{Binding Value, ElementName=RotX}"
+                                 RotationY="{Binding Value, ElementName=RotY}"
+                                 RotationZ="{Binding Value, ElementName=RotZ}" />
+              </Border.Projection>
+              <StackPanel VerticalAlignment="Center"
+                          HorizontalAlignment="Center"
+                          Spacing="10"
+                          Padding="20">
+                <TextBlock Text="Uno 6.6"
+                           Foreground="White"
+                           FontSize="30"
+                           FontWeight="Bold"
+                           HorizontalAlignment="Center" />
+                <TextBlock Text="PlaneProjection"
+                           Foreground="White"
+                           Opacity="0.9"
+                           FontSize="16"
+                           HorizontalAlignment="Center" />
+                <Border Height="1"
+                        Background="White"
+                        Opacity="0.4"
+                        Margin="0,6" />
+                <TextBlock Text="Rotated in real 3D space on Skia"
+                           Foreground="White"
+                           Opacity="0.85"
+                           FontSize="13"
+                           TextAlignment="Center"
+                           TextWrapping="Wrap" />
+              </StackPanel>
+            </Border>
+          </Grid>
+
+          <!-- Controls -->
+          <StackPanel Grid.Column="1"
+                      VerticalAlignment="Center"
+                      Spacing="18">
+            <TextBlock Text="Rotate the card"
+                       FontSize="18"
+                       FontWeight="SemiBold" />
+
+            <StackPanel Spacing="2">
+              <TextBlock Text="Rotation X" Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
+              <Slider x:Name="RotX" Minimum="-80" Maximum="80" Value="18" />
+            </StackPanel>
+            <StackPanel Spacing="2">
+              <TextBlock Text="Rotation Y" Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
+              <Slider x:Name="RotY" Minimum="-80" Maximum="80" Value="-32" />
+            </StackPanel>
+            <StackPanel Spacing="2">
+              <TextBlock Text="Rotation Z" Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
+              <Slider x:Name="RotZ" Minimum="-80" Maximum="80" Value="0" />
+            </StackPanel>
+
+            <Button Content="Reset"
+                    HorizontalAlignment="Stretch"
+                    Click="OnReset" />
+          </StackPanel>
+        </Grid>
+      </Border>
+
+      <!-- Preset gallery -->
+      <StackPanel Spacing="12">
+        <TextBlock Text="Depth presets"
+                   FontSize="20"
+                   FontWeight="SemiBold" />
+        <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                   Text="The same card at fixed rotation angles — notice how perspective shrinks the far edge." />
+
+        <StackPanel Orientation="Horizontal"
+                    Spacing="28"
+                    HorizontalAlignment="Center"
+                    Margin="0,12,0,0">
+
+          <StackPanel Spacing="10">
+            <Border Width="130" Height="180" CornerRadius="14" Background="{StaticResource CardBrush}">
+              <Border.Projection>
+                <PlaneProjection RotationY="45" />
+              </Border.Projection>
+            </Border>
+            <TextBlock Text="Rotation Y 45°" HorizontalAlignment="Center"
+                       Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
+          </StackPanel>
+
+          <StackPanel Spacing="10">
+            <Border Width="130" Height="180" CornerRadius="14" Background="{StaticResource CardBrush}">
+              <Border.Projection>
+                <PlaneProjection RotationY="-45" />
+              </Border.Projection>
+            </Border>
+            <TextBlock Text="Rotation Y -45°" HorizontalAlignment="Center"
+                       Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
+          </StackPanel>
+
+          <StackPanel Spacing="10">
+            <Border Width="130" Height="180" CornerRadius="14" Background="{StaticResource CardBrush}">
+              <Border.Projection>
+                <PlaneProjection RotationX="45" />
+              </Border.Projection>
+            </Border>
+            <TextBlock Text="Rotation X 45°" HorizontalAlignment="Center"
+                       Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
+          </StackPanel>
+
+          <StackPanel Spacing="10">
+            <Border Width="130" Height="180" CornerRadius="14" Background="{StaticResource CardBrush}">
+              <Border.Projection>
+                <PlaneProjection RotationX="30" RotationY="30" />
+              </Border.Projection>
+            </Border>
+            <TextBlock Text="X 30° · Y 30°" HorizontalAlignment="Center"
+                       Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
+          </StackPanel>
+
+        </StackPanel>
+      </StackPanel>
+
+    </StackPanel>
+  </ScrollViewer>
+</Page>
