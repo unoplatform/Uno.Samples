@@ -50,6 +50,12 @@ Dive into the essentials of task management with the ToDo App, a meticulously cr
 
 ### Other Samples
 
+### Scroll Anchoring
+
+Demonstrates `ScrollViewer` scroll anchoring: inserting or removing items above the anchored item keeps the anchor's on-screen position stable, using `RegisterAnchorCandidate`, `CurrentAnchor`, and `VerticalAnchorRatio`.
+
+[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/ScrollAnchoring)
+
 ### Advanced XBind
 
 The {x:Bind} markup extension (new for Windows 10) is an alternative to {Binding}. {x:Bind} runs in less time and less memory than {Binding} and supports better debugging.
