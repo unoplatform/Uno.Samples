@@ -50,6 +50,10 @@ Dive into the essentials of task management with the ToDo App, a meticulously cr
 
 ### Other Samples
 
+### Text Features Showcase
+
+A single page touring the Uno Platform 6.6 text wave: TextBox spell-checking, TextBlock TextHighlighters, TextTrimming modes, sophisticated font fallback (Latin + emoji + CJK), and the RenderWhiteSpace toggle. [Browse source](UI/TextFeaturesShowcase)
+
 ### Advanced XBind
 
 The {x:Bind} markup extension (new for Windows 10) is an alternative to {Binding}. {x:Bind} runs in less time and less memory than {Binding} and supports better debugging.
