@@ -50,6 +50,12 @@ Dive into the essentials of task management with the ToDo App, a meticulously cr
 
 ### Other Samples
 
+### Vector Graphics Showcase
+
+Demonstrates Uno Platform 6.6 vector rendering on Skia: stroke caps and joins, dashed strokes, animatable `Geometry.Transform`, and per-element alpha masks via the Composition API.
+
+[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/VectorGraphicsShowcase)
+
 ### Advanced XBind
 
 The {x:Bind} markup extension (new for Windows 10) is an alternative to {Binding}. {x:Bind} runs in less time and less memory than {Binding} and supports better debugging.
