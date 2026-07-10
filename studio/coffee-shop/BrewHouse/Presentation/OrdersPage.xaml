@@ -2,14 +2,10 @@
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:utu="using:Uno.Toolkit.UI"
-      xmlns:mock="using:BrewHouse.Presentation.MockData"
-      Background="#FFFDF6EE">
+      Background="{ThemeResource BackgroundBrush}">
 
     <utu:SafeArea Insets="VisibleBounds">
-        <Grid>
-            <Grid.DataContext>
-                <mock:OrdersPageData />
-            </Grid.DataContext>
+        <Grid x:Name="Root" MaxWidth="1100" HorizontalAlignment="Stretch">
 
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
@@ -18,38 +14,43 @@
 
             <!-- Header -->
             <Border Grid.Row="0"
-                    Background="#FFFDF6EE"
+                    Background="{ThemeResource BackgroundBrush}"
                     Padding="20,20,20,12">
                 <StackPanel Spacing="4">
                     <TextBlock Text="My Orders"
                                FontSize="28"
                                FontWeight="Bold"
-                               Foreground="#FF2C1A0E" />
+                               Foreground="{ThemeResource OnBackgroundBrush}" />
                     <TextBlock Text="Track your current and past orders"
                                FontSize="14"
-                               Foreground="#FF8C7060" />
+                               Foreground="{ThemeResource OnSurfaceVariantBrush}" />
                 </StackPanel>
             </Border>
 
-            <!-- Orders List -->
+            <!-- Orders list: binds the ItemsSource directly to the shared order book (an IListState
+                 at runtime, a plain list in the mock — both are valid items sources). Shown when
+                 there are orders; the empty-state card below covers the no-orders case. -->
             <ScrollViewer Grid.Row="1"
                           VerticalScrollBarVisibility="Hidden"
                           Padding="20,0,20,16">
                 <StackPanel Spacing="12">
 
-                    <ItemsControl ItemsSource="{Binding Orders}">
-                        <ItemsControl.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <StackPanel Spacing="12" />
-                            </ItemsPanelTemplate>
-                        </ItemsControl.ItemsPanel>
-                        <ItemsControl.ItemTemplate>
+                    <!-- Orders: 1 column on phones, reflows to 2 on wide screens (no breakpoints) -->
+                    <ItemsRepeater ItemsSource="{Binding Orders}">
+                        <ItemsRepeater.Layout>
+                            <UniformGridLayout MinItemWidth="360"
+                                               MinColumnSpacing="12"
+                                               MinRowSpacing="12"
+                                               ItemsStretch="Fill" />
+                        </ItemsRepeater.Layout>
+                        <ItemsRepeater.ItemTemplate>
                             <DataTemplate>
-                                <Border Background="White"
+                                <Border Background="{ThemeResource SurfaceBrush}"
                                         CornerRadius="16"
                                         Padding="16"
-                                        BorderBrush="#15000000"
-                                        BorderThickness="1">
+                                        BorderBrush="{ThemeResource BrewCardBorderBrush}"
+                                        BorderThickness="1"
+                                        HorizontalAlignment="Stretch">
                                     <StackPanel Spacing="12">
 
                                         <!-- Order Header Row -->
@@ -63,28 +64,56 @@
                                                 <TextBlock Text="{Binding Id}"
                                                            FontSize="15"
                                                            FontWeight="Bold"
-                                                           Foreground="#FF2C1A0E" />
+                                                           Foreground="{ThemeResource OnSurfaceBrush}" />
                                                 <TextBlock Text="{Binding PlacedAt}"
                                                            FontSize="12"
-                                                           Foreground="#FF8C7060" />
+                                                           Foreground="{ThemeResource OnSurfaceVariantBrush}" />
                                             </StackPanel>
 
-                                            <!-- Status Badge -->
+                                            <!-- Status badge: three visibility-toggled coloured pills, one per status — the
+                                                 pill background itself carries the status colour (not just a dot); the choice
+                                                 stays in XAML and re-themes via {ThemeResource}. -->
                                             <Border Grid.Column="1"
-                                                    Background="{Binding StatusBackground}"
-                                                    CornerRadius="20"
-                                                    Padding="12,6"
-                                                    VerticalAlignment="Center">
+                                                    Background="{ThemeResource BrewStatusReadyContainerBrush}"
+                                                    CornerRadius="6"
+                                                    Padding="10,5"
+                                                    VerticalAlignment="Center"
+                                                    Visibility="{Binding IsReady, Converter={StaticResource BoolToVisibility}}">
                                                 <TextBlock Text="{Binding Status}"
                                                            FontSize="11"
                                                            FontWeight="SemiBold"
-                                                           Foreground="{Binding StatusColor}" />
+                                                           Foreground="{ThemeResource BrewStatusReadyOnContainerBrush}"
+                                                           VerticalAlignment="Center" />
+                                            </Border>
+                                            <Border Grid.Column="1"
+                                                    Background="{ThemeResource BrewStatusPreparingContainerBrush}"
+                                                    CornerRadius="6"
+                                                    Padding="10,5"
+                                                    VerticalAlignment="Center"
+                                                    Visibility="{Binding IsPreparing, Converter={StaticResource BoolToVisibility}}">
+                                                <TextBlock Text="{Binding Status}"
+                                                           FontSize="11"
+                                                           FontWeight="SemiBold"
+                                                           Foreground="{ThemeResource BrewStatusPreparingOnContainerBrush}"
+                                                           VerticalAlignment="Center" />
+                                            </Border>
+                                            <Border Grid.Column="1"
+                                                    Background="{ThemeResource BrewStatusCompletedContainerBrush}"
+                                                    CornerRadius="6"
+                                                    Padding="10,5"
+                                                    VerticalAlignment="Center"
+                                                    Visibility="{Binding IsCompleted, Converter={StaticResource BoolToVisibility}}">
+                                                <TextBlock Text="{Binding Status}"
+                                                           FontSize="11"
+                                                           FontWeight="SemiBold"
+                                                           Foreground="{ThemeResource BrewStatusCompletedOnContainerBrush}"
+                                                           VerticalAlignment="Center" />
                                             </Border>
                                         </Grid>
 
                                         <!-- Divider -->
                                         <Border Height="1"
-                                                Background="#FFE8DDD0"
+                                                Background="{ThemeResource OutlineVariantBrush}"
                                                 HorizontalAlignment="Stretch" />
 
                                         <!-- Items Summary -->
@@ -92,11 +121,11 @@
                                             <TextBlock Text="Items"
                                                        FontSize="11"
                                                        FontWeight="SemiBold"
-                                                       Foreground="#FF8C7060"
+                                                       Foreground="{ThemeResource OnSurfaceVariantBrush}"
                                                        CharacterSpacing="50" />
                                             <TextBlock Text="{Binding ItemSummary}"
                                                        FontSize="13"
-                                                       Foreground="#FF4A2810"
+                                                       Foreground="{ThemeResource OnSurfaceBrush}"
                                                        TextWrapping="Wrap" />
                                         </StackPanel>
 
@@ -110,13 +139,13 @@
                                             <TextBlock Grid.Column="0"
                                                        Text="Order Total"
                                                        FontSize="13"
-                                                       Foreground="#FF8C7060"
+                                                       Foreground="{ThemeResource OnSurfaceVariantBrush}"
                                                        VerticalAlignment="Center" />
 
                                             <TextBlock Grid.Column="1"
                                                        FontSize="17"
                                                        FontWeight="Bold"
-                                                       Foreground="#FF4A2810">
+                                                       Foreground="{ThemeResource SecondaryBrush}">
                                                 <Run Text="$" />
                                                 <Run Text="{Binding TotalFormatted}" />
                                             </TextBlock>
@@ -125,38 +154,43 @@
                                     </StackPanel>
                                 </Border>
                             </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-
-                    <!-- Empty State -->
-                    <Border Background="White"
-                            CornerRadius="16"
-                            Padding="32,40"
-                            Visibility="{Binding EmptyStateVisibility}"
-                            BorderBrush="#15000000"
-                            BorderThickness="1">
-                        <StackPanel HorizontalAlignment="Center"
-                                    Spacing="12">
-                            <TextBlock Text="&#x1F4CB;"
-                                       FontSize="52"
-                                       HorizontalAlignment="Center" />
-                            <TextBlock Text="No orders yet"
-                                       FontSize="20"
-                                       FontWeight="Bold"
-                                       Foreground="#FF2C1A0E"
-                                       HorizontalAlignment="Center" />
-                            <TextBlock Text="Your order history will appear here once you place your first order."
-                                       FontSize="13"
-                                       Foreground="#FF8C7060"
-                                       HorizontalAlignment="Center"
-                                       TextAlignment="Center"
-                                       TextWrapping="Wrap"
-                                       MaxWidth="240" />
-                        </StackPanel>
-                    </Border>
+                        </ItemsRepeater.ItemTemplate>
+                    </ItemsRepeater>
 
                 </StackPanel>
             </ScrollViewer>
+
+            <!-- No orders yet: shown when the order book is empty (HasNoOrders bool via
+                 BoolToVisibility). -->
+            <Border Grid.Row="1"
+                    Background="{ThemeResource SurfaceBrush}"
+                    CornerRadius="16"
+                    Padding="32,40"
+                    Margin="20,0,20,16"
+                    VerticalAlignment="Top"
+                    BorderBrush="{ThemeResource BrewCardBorderBrush}"
+                    BorderThickness="1"
+                    Visibility="{Binding HasNoOrders, Converter={StaticResource BoolToVisibility}}">
+                <StackPanel HorizontalAlignment="Center"
+                            Spacing="12">
+                    <Viewbox Width="44" Height="44" HorizontalAlignment="Center">
+                        <PathIcon Data="F1 M3 5.25C3 4.00736 4.00736 3 5.25 3H14.75C15.9926 3 17 4.00736 17 5.25V14H21V17.75C21 19.5449 19.5449 21 17.75 21H6.25C4.45507 21 3 19.5449 3 17.75V5.25ZM17 19.5H17.75C18.7165 19.5 19.5 18.7165 19.5 17.75V15.5H17V19.5ZM5.25 4.5C4.83579 4.5 4.5 4.83579 4.5 5.25V17.75C4.5 18.7165 5.2835 19.5 6.25 19.5H15.5V5.25C15.5 4.83579 15.1642 4.5 14.75 4.5H5.25ZM7.25 7C6.83579 7 6.5 7.33579 6.5 7.75C6.5 8.16421 6.83579 8.5 7.25 8.5H12.75C13.1642 8.5 13.5 8.16421 13.5 7.75C13.5 7.33579 13.1642 7 12.75 7H7.25ZM6.5 11.75C6.5 11.3358 6.83579 11 7.25 11H12.75C13.1642 11 13.5 11.3358 13.5 11.75C13.5 12.1642 13.1642 12.5 12.75 12.5H7.25C6.83579 12.5 6.5 12.1642 6.5 11.75ZM7.25 15C6.83579 15 6.5 15.3358 6.5 15.75C6.5 16.1642 6.83579 16.5 7.25 16.5H10.25C10.6642 16.5 11 16.1642 11 15.75C11 15.3358 10.6642 15 10.25 15H7.25Z"
+                                  Foreground="{ThemeResource SecondaryBrush}" />
+                    </Viewbox>
+                    <TextBlock Text="No orders yet"
+                               FontSize="20"
+                               FontWeight="Bold"
+                               Foreground="{ThemeResource OnSurfaceBrush}"
+                               HorizontalAlignment="Center" />
+                    <TextBlock Text="Your order history will appear here once you place your first order."
+                               FontSize="13"
+                               Foreground="{ThemeResource OnSurfaceVariantBrush}"
+                               HorizontalAlignment="Center"
+                               TextAlignment="Center"
+                               TextWrapping="Wrap"
+                               MaxWidth="240" />
+                </StackPanel>
+            </Border>
 
         </Grid>
     </utu:SafeArea>
