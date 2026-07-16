@@ -86,36 +86,43 @@ public partial class App : Application
 #endif
                 MainWindow.SetWindowIcon();
 
-        Host = await MainWindow.InitializeNavigationAsync(
-            () => Task.FromResult(builder.Build()),
-            initialRoute: "Main"
-        );
+        Host = await builder.NavigateAsync<Shell>();
     }
 
-    	private static void RegisterRoutes(IViewRegistry views, IRouteRegistry routes)
-	{
-		views.Register(
-			new ViewMap<MainPage, MainModel>(),
-			new ViewMap<HomePage, HomeModel>(),
-			new ViewMap<PlanPage, PlanModel>(),
-			new ViewMap<ProgressPage, ProgressModel>(),
-			new ViewMap<ProfilePage, ProfileModel>(),
-			new ViewMap<WorkoutSessionPage, WorkoutSessionModel>()
-		);
+    private static void RegisterRoutes(IViewRegistry views, IRouteRegistry routes)
+    {
+        views.Register(
+            new ViewMap(ViewModel: typeof(ShellModel)),
+            new ViewMap<MainPage, MainModel>(),
+            new ViewMap<HomePage, HomeModel>(),
+            new ViewMap<PlanPage, PlanModel>(),
+            new ViewMap<ProgressPage, ProgressModel>(),
+            new ViewMap<ProfilePage, ProfileModel>(),
+            // The guided session is reached by tapping a workout; the tapped WorkoutEntry is
+            // passed as the model's data (DataViewMap), like BrewHouse's ProductDetail.
+            new DataViewMap<WorkoutSessionPage, WorkoutSessionModel, WorkoutEntry>()
+        );
 
-		routes.Register(
-			new RouteMap("Main", View: views.FindByViewModel<MainModel>(),
-				IsDefault: true,
-				Nested:
-				[
-					new RouteMap("Home", View: views.FindByView<HomePage>(), IsDefault: true),
-					new RouteMap("Plan", View: views.FindByView<PlanPage>()),
-					new RouteMap("Progress", View: views.FindByView<ProgressPage>()),
-					new RouteMap("Profile", View: views.FindByView<ProfilePage>()),
-					new RouteMap("WorkoutSession", View: views.FindByView<WorkoutSessionPage>())
-				]
-			)
-		);
-	}
+        routes.Register(
+            new RouteMap("", View: views.FindByViewModel<ShellModel>(),
+                Nested:
+                [
+                    new RouteMap("Main", View: views.FindByView<MainPage>(),
+                        IsDefault: true,
+                        Nested:
+                        [
+                            new RouteMap("Home", View: views.FindByView<HomePage>(), IsDefault: true),
+                            new RouteMap("Plan", View: views.FindByView<PlanPage>()),
+                            new RouteMap("Progress", View: views.FindByView<ProgressPage>()),
+                            new RouteMap("Profile", View: views.FindByView<ProfilePage>()),
+                        ]
+                    ),
+                    // Sibling of Main (not a tab): shown full-screen in the shell's content area, so
+                    // the session isn't overlaid by the TabBar / nav pane. Back returns to Main.
+                    new RouteMap("WorkoutSession", View: views.FindByView<WorkoutSessionPage>()),
+                ]
+            )
+        );
+    }
 
 }

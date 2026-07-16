@@ -6,10 +6,10 @@ public sealed partial class WorkoutSessionPage : Page
     {
         this.InitializeComponent();
 
-        // Set the DataContext so Hot Design Previews — which construct the page directly,
-        // without running Navigation — render with the model's data. At runtime
-        // Uno.Extensions.Navigation resolves the model from the ViewMap<TPage, TModel>
-        // and assigns its own instance; replacing this one is expected and harmless.
-        this.DataContext = new WorkoutSessionModel();
+        // Hot Design fallback (the preview bypasses Navigation, so no workout is injected). At
+        // runtime the DataViewMap injects the tapped WorkoutEntry and overrides this. Set on the
+        // *page* DataContext so Navigation can override it.
+        this.DataContext = new WorkoutSessionModel(
+            new WorkoutEntry("w-001", "Morning Energizer", "Full Body", new DateOnly(2026, 6, 1), 20, false, "Beginner"));
     }
 }

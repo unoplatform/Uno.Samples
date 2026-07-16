@@ -4,48 +4,109 @@
       xmlns:uen="using:Uno.Extensions.Navigation.UI"
       xmlns:utu="using:Uno.Toolkit.UI"
       Background="{ThemeResource BackgroundBrush}">
-    <Grid>
-        <Grid uen:Region.Attached="True">
-            <Grid.RowDefinitions>
-                <RowDefinition />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
 
-            <!-- Content area: visibility-based region switching -->
-            <Grid Grid.Row="0"
-                  uen:Region.Attached="True"
-                  uen:Region.Navigator="Visibility">
-            </Grid>
+    <!--
+      Navigation shell. Owns the chrome once for the whole app: a NavigationView pane on wide
+      layouts (desktop / web) and a bottom TabBar on narrow ones (phone). Responsive switching is
+      driven by the Toolkit {utu:Responsive} extension on each property (not AdaptiveTrigger /
+      VisualState) so it applies reliably to this navigation-injected page. The content region is
+      left empty — Uno.Extensions Navigation injects the active route (Home / Plan / Progress / Profile).
+    -->
+    <Grid x:Name="RootShellGrid" uen:Region.Attached="True">
 
-            <!-- Bottom TabBar -->
-            <utu:TabBar Grid.Row="1"
+        <!-- NavigationView: sidebar pane on Wide; collapsed (TabBar takes over) on Narrow -->
+        <NavigationView x:Name="NavView"
                         uen:Region.Attached="True"
-                        Style="{StaticResource BottomTabBarStyle}">
-                <utu:TabBarItem uen:Region.Name="Home"
-                                Content="Home">
-                    <utu:TabBarItem.Icon>
-                        <FontIcon Glyph="&#xE80F;" />
-                    </utu:TabBarItem.Icon>
-                </utu:TabBarItem>
-                <utu:TabBarItem uen:Region.Name="Plan"
-                                Content="Plan">
-                    <utu:TabBarItem.Icon>
-                        <FontIcon Glyph="&#xE77B;" />
-                    </utu:TabBarItem.Icon>
-                </utu:TabBarItem>
-                <utu:TabBarItem uen:Region.Name="Progress"
-                                Content="Progress">
-                    <utu:TabBarItem.Icon>
-                        <FontIcon Glyph="&#xE70F;" />
-                    </utu:TabBarItem.Icon>
-                </utu:TabBarItem>
-                <utu:TabBarItem uen:Region.Name="Profile"
-                                Content="Profile">
-                    <utu:TabBarItem.Icon>
-                        <FontIcon Glyph="&#xE713;" />
-                    </utu:TabBarItem.Icon>
-                </utu:TabBarItem>
-            </utu:TabBar>
-        </Grid>
+                        IsSettingsVisible="False"
+                        IsBackButtonVisible="Collapsed"
+                        PaneDisplayMode="{utu:Responsive Narrow=LeftMinimal, Wide=Auto}"
+                        IsPaneToggleButtonVisible="{utu:Responsive Narrow=False, Wide=True}"
+                        IsPaneOpen="{utu:Responsive Narrow=False, Wide=True}">
+            <!-- Light/dark toggle in the pane footer (desktop/web); phone follows the OS theme -->
+            <NavigationView.PaneFooter>
+                <Button Style="{StaticResource FlatButtonStyle}"
+                        CornerRadius="10"
+                        HorizontalAlignment="Stretch"
+                        HorizontalContentAlignment="Left"
+                        Padding="14,12"
+                        Margin="4,4,4,8"
+                        AutomationProperties.Name="Toggle light or dark theme"
+                        Click="OnToggleTheme">
+                    <StackPanel Orientation="Horizontal" Spacing="14" VerticalAlignment="Center">
+                        <Viewbox Width="16" Height="16" VerticalAlignment="Center">
+                            <PathIcon Data="F1 M20.0258 17.0014C17.2639 21.7851 11.1471 23.4241 6.3634 20.6622C5.06068 19.9101 3.964 18.8926 3.12872 17.6797C2.84945 17.2741 3.0301 16.7141 3.49369 16.5482C7.26112 15.1997 9.27892 13.6372 10.4498 11.4021C11.6825 9.04908 12.001 6.47162 11.1387 2.93862C11.0195 2.45008 11.4053 1.98492 11.9075 2.01186C13.4645 2.09539 14.9856 2.54263 16.3649 3.33903C21.1486 6.10088 22.7876 12.2177 20.0258 17.0014ZM11.7785 12.0981C10.5272 14.4867 8.46706 16.1972 4.96104 17.597C5.5693 18.2929 6.29275 18.8894 7.1134 19.3632C11.1796 21.7108 16.3791 20.3176 18.7267 16.2514C21.0744 12.1852 19.6812 6.98571 15.6149 4.63807C14.7379 4.1317 13.7951 3.79168 12.8228 3.62253C13.4699 7.00652 13.0525 9.66622 11.7785 12.0981Z" />
+                        </Viewbox>
+                        <TextBlock Text="Theme" VerticalAlignment="Center" />
+                    </StackPanel>
+                </Button>
+            </NavigationView.PaneFooter>
+            <NavigationView.MenuItems>
+                <NavigationViewItem uen:Region.Name="Home" Content="Home">
+                    <NavigationViewItem.Icon>
+                        <PathIcon Data="F1 M10.5495 2.53189C11.3874 1.82531 12.6126 1.82531 13.4505 2.5319L20.2005 8.224C20.7074 8.65152 21 9.2809 21 9.94406L21 19.2539C21 20.2204 20.2165 21.0039 19.25 21.0039H15.75C14.7835 21.0039 14 20.2204 14 19.2539L14 14.2468C14 14.1088 13.8881 13.9968 13.75 13.9968H10.25C10.1119 13.9968 9.99999 14.1088 9.99999 14.2468L9.99999 19.2539C9.99999 20.2204 9.2165 21.0039 8.25 21.0039H4.75C3.7835 21.0039 3 20.2204 3 19.2539V9.94406C3 9.2809 3.29255 8.65152 3.79952 8.224L10.5495 2.53189ZM12.4835 3.6786C12.2042 3.44307 11.7958 3.44307 11.5165 3.6786L4.76651 9.37071C4.59752 9.51321 4.5 9.72301 4.5 9.94406L4.5 19.2539C4.5 19.392 4.61193 19.5039 4.75 19.5039H8.25C8.38807 19.5039 8.49999 19.392 8.49999 19.2539L8.49999 14.2468C8.49999 13.2803 9.2835 12.4968 10.25 12.4968H13.75C14.7165 12.4968 15.5 13.2803 15.5 14.2468L15.5 19.2539C15.5 19.392 15.6119 19.5039 15.75 19.5039H19.25C19.3881 19.5039 19.5 19.392 19.5 19.2539L19.5 9.94406C19.5 9.72301 19.4025 9.51321 19.2335 9.37071L12.4835 3.6786Z" />
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+                <NavigationViewItem uen:Region.Name="Plan" Content="Plan">
+                    <NavigationViewItem.Icon>
+                        <PathIcon Data="F1 M17.75 3C19.5449 3 21 4.45507 21 6.25V17.75C21 19.5449 19.5449 21 17.75 21H6.25C4.45507 21 3 19.5449 3 17.75V6.25C3 4.45507 4.45507 3 6.25 3H17.75ZM19.5 8.5H4.5V17.75C4.5 18.7165 5.2835 19.5 6.25 19.5H17.75C18.7165 19.5 19.5 18.7165 19.5 17.75V8.5ZM7.75 14.5C8.44036 14.5 9 15.0596 9 15.75C9 16.4404 8.44036 17 7.75 17C7.05964 17 6.5 16.4404 6.5 15.75C6.5 15.0596 7.05964 14.5 7.75 14.5ZM12 14.5C12.6904 14.5 13.25 15.0596 13.25 15.75C13.25 16.4404 12.6904 17 12 17C11.3096 17 10.75 16.4404 10.75 15.75C10.75 15.0596 11.3096 14.5 12 14.5ZM7.75 10.5C8.44036 10.5 9 11.0596 9 11.75C9 12.4404 8.44036 13 7.75 13C7.05964 13 6.5 12.4404 6.5 11.75C6.5 11.0596 7.05964 10.5 7.75 10.5ZM12 10.5C12.6904 10.5 13.25 11.0596 13.25 11.75C13.25 12.4404 12.6904 13 12 13C11.3096 13 10.75 12.4404 10.75 11.75C10.75 11.0596 11.3096 10.5 12 10.5ZM16.25 10.5C16.9404 10.5 17.5 11.0596 17.5 11.75C17.5 12.4404 16.9404 13 16.25 13C15.5596 13 15 12.4404 15 11.75C15 11.0596 15.5596 10.5 16.25 10.5ZM17.75 4.5H6.25C5.2835 4.5 4.5 5.2835 4.5 6.25V7H19.5V6.25C19.5 5.2835 18.7165 4.5 17.75 4.5Z" />
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+                <NavigationViewItem uen:Region.Name="Progress" Content="Progress">
+                    <NavigationViewItem.Icon>
+                        <PathIcon Data="F1 M13.25 3C14.4926 3 15.5 4.00736 15.5 5.25V7H18.75C19.9926 7 21 8.00736 21 9.25V20.25C21 20.6642 20.6642 21 20.25 21H3.75C3.33579 21 3 20.6642 3 20.25V12.25C3 11.0074 4.00736 10 5.25 10H8.5V5.25C8.5 4.00736 9.50736 3 10.75 3H13.25ZM5.25 11.5C4.83579 11.5 4.5 11.8358 4.5 12.25V19.5H8.5V11.5H5.25ZM10.75 4.5C10.3358 4.5 10 4.83579 10 5.25V19.5H14V5.25C14 4.83579 13.6642 4.5 13.25 4.5H10.75ZM15.5 19.5H19.5V9.25C19.5 8.83579 19.1642 8.5 18.75 8.5H15.5V19.5Z" />
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+                <NavigationViewItem uen:Region.Name="Profile" Content="Profile">
+                    <NavigationViewItem.Icon>
+                        <PathIcon Data="F1 M17.7545 14.0002C18.9966 14.0002 20.0034 15.007 20.0034 16.2491V16.8245C20.0034 17.7188 19.6838 18.5836 19.1023 19.263C17.5329 21.0965 15.1457 22.0013 12.0004 22.0013C8.8545 22.0013 6.46849 21.0962 4.90219 19.2619C4.32242 18.583 4.00391 17.7195 4.00391 16.8267V16.2491C4.00391 15.007 5.01076 14.0002 6.25278 14.0002H17.7545ZM17.7545 15.5002H6.25278C5.83919 15.5002 5.50391 15.8355 5.50391 16.2491V16.8267C5.50391 17.3624 5.69502 17.8805 6.04287 18.2878C7.29618 19.7555 9.26206 20.5013 12.0004 20.5013C14.7387 20.5013 16.7063 19.7555 17.9627 18.2876C18.3117 17.8799 18.5034 17.361 18.5034 16.8245V16.2491C18.5034 15.8355 18.1681 15.5002 17.7545 15.5002ZM12.0004 2.00488C14.7618 2.00488 17.0004 4.24346 17.0004 7.00488C17.0004 9.76631 14.7618 12.0049 12.0004 12.0049C9.23894 12.0049 7.00036 9.76631 7.00036 7.00488C7.00036 4.24346 9.23894 2.00488 12.0004 2.00488ZM12.0004 3.50488C10.0674 3.50488 8.50036 5.07189 8.50036 7.00488C8.50036 8.93788 10.0674 10.5049 12.0004 10.5049C13.9334 10.5049 15.5004 8.93788 15.5004 7.00488C15.5004 5.07189 13.9334 3.50488 12.0004 3.50488Z" />
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+            </NavigationView.MenuItems>
+
+            <NavigationView.Content>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <!-- Shared content area — navigation framework injects the active page here -->
+                    <Grid Grid.Row="0"
+                          uen:Region.Attached="True"
+                          uen:Region.Navigator="Visibility" />
+
+                    <!-- Bottom TabBar: shown on Narrow, hidden once the pane appears on Wide.
+                         SafeArea.Insets="Bottom" keeps it clear of the home indicator / gesture pill
+                         (the Simple theme's BottomTabBarStyle adds no bottom inset of its own). -->
+                    <utu:TabBar x:Name="BottomTabs"
+                                Grid.Row="1"
+                                uen:Region.Attached="True"
+                                utu:SafeArea.Insets="Bottom"
+                                Style="{StaticResource BottomTabBarStyle}"
+                                Visibility="{utu:Responsive Narrow=Visible, Wide=Collapsed}">
+                        <utu:TabBarItem uen:Region.Name="Home" Content="Home">
+                            <utu:TabBarItem.Icon>
+                                <PathIcon Data="F1 M10.5495 2.53189C11.3874 1.82531 12.6126 1.82531 13.4505 2.5319L20.2005 8.224C20.7074 8.65152 21 9.2809 21 9.94406L21 19.2539C21 20.2204 20.2165 21.0039 19.25 21.0039H15.75C14.7835 21.0039 14 20.2204 14 19.2539L14 14.2468C14 14.1088 13.8881 13.9968 13.75 13.9968H10.25C10.1119 13.9968 9.99999 14.1088 9.99999 14.2468L9.99999 19.2539C9.99999 20.2204 9.2165 21.0039 8.25 21.0039H4.75C3.7835 21.0039 3 20.2204 3 19.2539V9.94406C3 9.2809 3.29255 8.65152 3.79952 8.224L10.5495 2.53189ZM12.4835 3.6786C12.2042 3.44307 11.7958 3.44307 11.5165 3.6786L4.76651 9.37071C4.59752 9.51321 4.5 9.72301 4.5 9.94406L4.5 19.2539C4.5 19.392 4.61193 19.5039 4.75 19.5039H8.25C8.38807 19.5039 8.49999 19.392 8.49999 19.2539L8.49999 14.2468C8.49999 13.2803 9.2835 12.4968 10.25 12.4968H13.75C14.7165 12.4968 15.5 13.2803 15.5 14.2468L15.5 19.2539C15.5 19.392 15.6119 19.5039 15.75 19.5039H19.25C19.3881 19.5039 19.5 19.392 19.5 19.2539L19.5 9.94406C19.5 9.72301 19.4025 9.51321 19.2335 9.37071L12.4835 3.6786Z" />
+                            </utu:TabBarItem.Icon>
+                        </utu:TabBarItem>
+                        <utu:TabBarItem uen:Region.Name="Plan" Content="Plan">
+                            <utu:TabBarItem.Icon>
+                                <PathIcon Data="F1 M17.75 3C19.5449 3 21 4.45507 21 6.25V17.75C21 19.5449 19.5449 21 17.75 21H6.25C4.45507 21 3 19.5449 3 17.75V6.25C3 4.45507 4.45507 3 6.25 3H17.75ZM19.5 8.5H4.5V17.75C4.5 18.7165 5.2835 19.5 6.25 19.5H17.75C18.7165 19.5 19.5 18.7165 19.5 17.75V8.5ZM7.75 14.5C8.44036 14.5 9 15.0596 9 15.75C9 16.4404 8.44036 17 7.75 17C7.05964 17 6.5 16.4404 6.5 15.75C6.5 15.0596 7.05964 14.5 7.75 14.5ZM12 14.5C12.6904 14.5 13.25 15.0596 13.25 15.75C13.25 16.4404 12.6904 17 12 17C11.3096 17 10.75 16.4404 10.75 15.75C10.75 15.0596 11.3096 14.5 12 14.5ZM7.75 10.5C8.44036 10.5 9 11.0596 9 11.75C9 12.4404 8.44036 13 7.75 13C7.05964 13 6.5 12.4404 6.5 11.75C6.5 11.0596 7.05964 10.5 7.75 10.5ZM12 10.5C12.6904 10.5 13.25 11.0596 13.25 11.75C13.25 12.4404 12.6904 13 12 13C11.3096 13 10.75 12.4404 10.75 11.75C10.75 11.0596 11.3096 10.5 12 10.5ZM16.25 10.5C16.9404 10.5 17.5 11.0596 17.5 11.75C17.5 12.4404 16.9404 13 16.25 13C15.5596 13 15 12.4404 15 11.75C15 11.0596 15.5596 10.5 16.25 10.5ZM17.75 4.5H6.25C5.2835 4.5 4.5 5.2835 4.5 6.25V7H19.5V6.25C19.5 5.2835 18.7165 4.5 17.75 4.5Z" />
+                            </utu:TabBarItem.Icon>
+                        </utu:TabBarItem>
+                        <utu:TabBarItem uen:Region.Name="Progress" Content="Progress">
+                            <utu:TabBarItem.Icon>
+                                <PathIcon Data="F1 M13.25 3C14.4926 3 15.5 4.00736 15.5 5.25V7H18.75C19.9926 7 21 8.00736 21 9.25V20.25C21 20.6642 20.6642 21 20.25 21H3.75C3.33579 21 3 20.6642 3 20.25V12.25C3 11.0074 4.00736 10 5.25 10H8.5V5.25C8.5 4.00736 9.50736 3 10.75 3H13.25ZM5.25 11.5C4.83579 11.5 4.5 11.8358 4.5 12.25V19.5H8.5V11.5H5.25ZM10.75 4.5C10.3358 4.5 10 4.83579 10 5.25V19.5H14V5.25C14 4.83579 13.6642 4.5 13.25 4.5H10.75ZM15.5 19.5H19.5V9.25C19.5 8.83579 19.1642 8.5 18.75 8.5H15.5V19.5Z" />
+                            </utu:TabBarItem.Icon>
+                        </utu:TabBarItem>
+                        <utu:TabBarItem uen:Region.Name="Profile" Content="Profile">
+                            <utu:TabBarItem.Icon>
+                                <PathIcon Data="F1 M17.7545 14.0002C18.9966 14.0002 20.0034 15.007 20.0034 16.2491V16.8245C20.0034 17.7188 19.6838 18.5836 19.1023 19.263C17.5329 21.0965 15.1457 22.0013 12.0004 22.0013C8.8545 22.0013 6.46849 21.0962 4.90219 19.2619C4.32242 18.583 4.00391 17.7195 4.00391 16.8267V16.2491C4.00391 15.007 5.01076 14.0002 6.25278 14.0002H17.7545ZM17.7545 15.5002H6.25278C5.83919 15.5002 5.50391 15.8355 5.50391 16.2491V16.8267C5.50391 17.3624 5.69502 17.8805 6.04287 18.2878C7.29618 19.7555 9.26206 20.5013 12.0004 20.5013C14.7387 20.5013 16.7063 19.7555 17.9627 18.2876C18.3117 17.8799 18.5034 17.361 18.5034 16.8245V16.2491C18.5034 15.8355 18.1681 15.5002 17.7545 15.5002ZM12.0004 2.00488C14.7618 2.00488 17.0004 4.24346 17.0004 7.00488C17.0004 9.76631 14.7618 12.0049 12.0004 12.0049C9.23894 12.0049 7.00036 9.76631 7.00036 7.00488C7.00036 4.24346 9.23894 2.00488 12.0004 2.00488ZM12.0004 3.50488C10.0674 3.50488 8.50036 5.07189 8.50036 7.00488C8.50036 8.93788 10.0674 10.5049 12.0004 10.5049C13.9334 10.5049 15.5004 8.93788 15.5004 7.00488C15.5004 5.07189 13.9334 3.50488 12.0004 3.50488Z" />
+                            </utu:TabBarItem.Icon>
+                        </utu:TabBarItem>
+                    </utu:TabBar>
+                </Grid>
+            </NavigationView.Content>
+        </NavigationView>
     </Grid>
 </Page>

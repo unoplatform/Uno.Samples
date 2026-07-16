@@ -1,17 +1,96 @@
 <Application x:Class="FitBeginnerApp.App"
        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-       xmlns:utus="using:Uno.Toolkit.UI.Simple">
+       xmlns:utu="using:Uno.Toolkit.UI"
+       xmlns:utus="using:Uno.Toolkit.UI.Simple"
+       xmlns:presentation="using:FitBeginnerApp.Presentation">
 
   <Application.Resources>
     <ResourceDictionary>
       <ResourceDictionary.MergedDictionaries>
         <!-- Load WinUI resources -->
         <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
-        <utus:SimpleToolkitTheme xmlns:utus="using:Uno.Toolkit.UI.Simple" ColorOverrideSource="ms-appx:///ThemeColors.xaml"><utus:SimpleToolkitTheme.FontOverrideDictionary><ResourceDictionary><FontFamily x:Key="SimpleFontFamily">Nunito</FontFamily><FontWeight x:Key="DisplayLargeFontWeight">700</FontWeight><FontWeight x:Key="HeadlineMediumFontWeight">700</FontWeight><FontWeight x:Key="TitleLargeFontWeight">600</FontWeight><FontWeight x:Key="LabelLargeFontWeight">700</FontWeight><x:Double x:Key="BodyLargeFontSize">16</x:Double></ResourceDictionary></utus:SimpleToolkitTheme.FontOverrideDictionary></utus:SimpleToolkitTheme>
-      </ResourceDictionary.MergedDictionaries><CornerRadius x:Key="ControlCornerRadiusSmall">12</CornerRadius><CornerRadius x:Key="ControlCornerRadius">20</CornerRadius><CornerRadius x:Key="OverlayCornerRadius">32</CornerRadius><SolidColorBrush x:Key="App.PageBackground.Background" Color="{ThemeResource BackgroundBrush}" /><SolidColorBrush x:Key="App.PageBackground.Foreground" Color="{ThemeResource OnBackgroundBrush}" /><SolidColorBrush x:Key="App.CardBackground.Background" Color="{ThemeResource SurfaceBrush}" /><SolidColorBrush x:Key="App.CardBackground.Foreground" Color="{ThemeResource OnSurfaceBrush}" /><SolidColorBrush x:Key="App.NestedSurface.Background" Color="{ThemeResource SurfaceVariantBrush}" /><SolidColorBrush x:Key="App.NestedSurface.Foreground" Color="{ThemeResource OnSurfaceVariantBrush}" /><SolidColorBrush x:Key="App.TabBar.Background" Color="{ThemeResource SurfaceBrush}" /><SolidColorBrush x:Key="App.TabBar.Foreground" Color="{ThemeResource OnSurfaceBrush}" /><SolidColorBrush x:Key="App.TabBar.SelectionIndicator" Color="{ThemeResource PrimaryBrush}" /><SolidColorBrush x:Key="App.NavigationView.SidebarBackground" Color="{ThemeResource PrimaryContainerBrush}" /><SolidColorBrush x:Key="App.NavigationView.SidebarForeground" Color="{ThemeResource OnPrimaryContainerBrush}" /><SolidColorBrush x:Key="App.Accent.Indicator" Color="{ThemeResource SecondaryBrush}" /><SolidColorBrush x:Key="App.Badge.Positive" Color="{ThemeResource PrimaryBrush}" /><SolidColorBrush x:Key="App.Badge.Positive.Foreground" Color="{ThemeResource OnPrimaryBrush}" /><SolidColorBrush x:Key="App.Badge.Negative" Color="{ThemeResource ErrorBrush}" /><SolidColorBrush x:Key="App.Badge.Negative.Foreground" Color="{ThemeResource OnErrorBrush}" /><SolidColorBrush x:Key="App.Badge.Neutral" Color="{ThemeResource TertiaryContainerBrush}" /><SolidColorBrush x:Key="App.Badge.Neutral.Foreground" Color="{ThemeResource OnTertiaryContainerBrush}" /><SolidColorBrush x:Key="App.Text.High" Color="{ThemeResource OnSurfaceBrush}" /><SolidColorBrush x:Key="App.Text.Medium" Color="{ThemeResource OnSurfaceVariantBrush}" /><SolidColorBrush x:Key="App.Text.Low" Color="{ThemeResource OutlineBrush}" /><SolidColorBrush x:Key="App.Text.Disabled" Color="{ThemeResource OutlineVariantBrush}" />
+        <!-- Fresh-green FitStart palette (light + dark) layered onto the Simple theme -->
+        <utus:SimpleToolkitTheme ColorOverrideSource="ms-appx:///ThemeColors.xaml">
+          <utus:SimpleToolkitTheme.FontOverrideDictionary>
+            <ResourceDictionary>
+              <!-- Bolder display/heading weights give the app a friendly, motivating tone.
+                   No custom font family is bundled, so the Simple theme's default face is used. -->
+              <FontWeight x:Key="DisplayLargeFontWeight">700</FontWeight>
+              <FontWeight x:Key="HeadlineMediumFontWeight">700</FontWeight>
+              <FontWeight x:Key="TitleLargeFontWeight">600</FontWeight>
+              <FontWeight x:Key="LabelLargeFontWeight">700</FontWeight>
+              <x:Double x:Key="BodyLargeFontSize">16</x:Double>
+            </ResourceDictionary>
+          </utus:SimpleToolkitTheme.FontOverrideDictionary>
+        </utus:SimpleToolkitTheme>
+      </ResourceDictionary.MergedDictionaries>
 
-      <!-- Add resources here -->
+      <!-- Content-free value transform so view-models expose plain bool state and XAML decides
+           visibility. Pass Invert as the parameter to flip. -->
+      <presentation:BoolToVisibilityConverter x:Key="BoolToVisibility" />
+
+      <!-- Rounder controls to match the card language -->
+      <CornerRadius x:Key="ControlCornerRadiusSmall">12</CornerRadius>
+      <CornerRadius x:Key="ControlCornerRadius">20</CornerRadius>
+      <CornerRadius x:Key="OverlayCornerRadius">32</CornerRadius>
+
+      <!-- Window-width breakpoint shared by the shell + page layouts: phone below 900px
+           (bottom TabBar), desktop/web at or above (NavigationView pane). -->
+      <utu:ResponsiveLayout x:Key="DefaultResponsiveLayout"
+                            Narrow="0"
+                            Wide="900" />
+
+      <!-- Chrome-less, keyboard-focusable button: makes a card / row / chip a real, accessible
+           control (focus + Invoke automation peer) while the inner content defines the look. A
+           foreground-neutral state layer (rounded to the button's CornerRadius) gives hover/pressed
+           feedback; set CornerRadius on the button to match the content's rounding. -->
+      <Style x:Key="FlatButtonStyle" TargetType="Button">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="UseSystemFocusVisuals" Value="True" />
+        <Setter Property="Template">
+          <Setter.Value>
+            <ControlTemplate TargetType="Button">
+              <Grid Background="Transparent">
+                <VisualStateManager.VisualStateGroups>
+                  <VisualStateGroup x:Name="CommonStates">
+                    <VisualState x:Name="Normal" />
+                    <VisualState x:Name="PointerOver">
+                      <VisualState.Setters>
+                        <Setter Target="FlatStateLayer.Opacity" Value="0.06" />
+                      </VisualState.Setters>
+                    </VisualState>
+                    <VisualState x:Name="Pressed">
+                      <VisualState.Setters>
+                        <Setter Target="FlatStateLayer.Opacity" Value="0.12" />
+                      </VisualState.Setters>
+                    </VisualState>
+                    <VisualState x:Name="Disabled">
+                      <VisualState.Setters>
+                        <Setter Target="FlatContent.Opacity" Value="0.4" />
+                      </VisualState.Setters>
+                    </VisualState>
+                  </VisualStateGroup>
+                </VisualStateManager.VisualStateGroups>
+                <ContentPresenter x:Name="FlatContent"
+                                  Content="{TemplateBinding Content}"
+                                  ContentTemplate="{TemplateBinding ContentTemplate}"
+                                  HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                  VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                  Padding="{TemplateBinding Padding}"
+                                  Background="Transparent" />
+                <Border x:Name="FlatStateLayer"
+                        CornerRadius="{TemplateBinding CornerRadius}"
+                        Background="{ThemeResource OnSurfaceBrush}"
+                        Opacity="0"
+                        IsHitTestVisible="False" />
+              </Grid>
+            </ControlTemplate>
+          </Setter.Value>
+        </Setter>
+      </Style>
 
     </ResourceDictionary>
   </Application.Resources>

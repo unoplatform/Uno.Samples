@@ -1,10 +1,14 @@
-
-<Page x:Class="FitBeginnerApp.Presentation.ProfilePage" Background="{ThemeResource BackgroundBrush}" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:utu="using:Uno.Toolkit.UI">
+<Page x:Class="FitBeginnerApp.Presentation.ProfilePage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:utu="using:Uno.Toolkit.UI"
+      Background="{ThemeResource BackgroundBrush}">
 
     <Grid utu:SafeArea.Insets="VisibleBounds">
         <ScrollViewer VerticalScrollBarVisibility="Auto">
-            <StackPanel Spacing="0" Padding="0,0,0,24">
+            <StackPanel Spacing="0" Padding="0,0,0,24" MaxWidth="720" HorizontalAlignment="Stretch">
 
+                <!-- Profile Hero Header -->
                 <Grid Background="{ThemeResource PrimaryContainerBrush}" Padding="16,28,16,24">
                     <StackPanel Spacing="12" HorizontalAlignment="Center">
                         <Border Width="80" Height="80" CornerRadius="40" Background="{ThemeResource PrimaryBrush}" HorizontalAlignment="Center">
@@ -24,8 +28,10 @@
                         </StackPanel>
                     </StackPanel>
                 </Grid>
+
                 <StackPanel Padding="16,20,16,0" Spacing="0">
 
+                    <!-- Quick Stats Row -->
                     <TextBlock Text="My Stats" Style="{StaticResource TitleLarge}" Foreground="{ThemeResource OnBackgroundBrush}" Margin="0,0,0,10" />
                     <Grid Margin="0,0,0,24">
                         <Grid.ColumnDefinitions>
@@ -55,8 +61,8 @@
                         </utu:CardContentControl>
                     </Grid>
 
+                    <!-- Preferences -->
                     <TextBlock Text="My Preferences" Style="{StaticResource TitleLarge}" Foreground="{ThemeResource OnBackgroundBrush}" Margin="0,0,0,10" />
-
                     <utu:CardContentControl Style="{StaticResource ElevatedCardContentControlStyle}" HorizontalAlignment="Stretch" IsClickable="False" Margin="0,0,0,24">
                         <StackPanel Padding="16,12" Spacing="12">
                             <Grid>
@@ -90,8 +96,9 @@
                             </Grid>
                         </StackPanel>
                     </utu:CardContentControl>
-                    <TextBlock Text="My Goals" Style="{StaticResource TitleLarge}" Foreground="{ThemeResource OnBackgroundBrush}" Margin="0,0,0,10" />
 
+                    <!-- Goals -->
+                    <TextBlock Text="My Goals" Style="{StaticResource TitleLarge}" Foreground="{ThemeResource OnBackgroundBrush}" Margin="0,0,0,10" />
                     <ItemsRepeater ItemsSource="{Binding Goals}" Margin="0,0,0,24">
                         <ItemsRepeater.ItemTemplate>
                             <DataTemplate>
@@ -101,17 +108,27 @@
                                             <ColumnDefinition Width="Auto" />
                                             <ColumnDefinition Width="12" />
                                             <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
                                         </Grid.ColumnDefinitions>
                                         <Border Grid.Column="0" Width="36" Height="36" CornerRadius="10" Background="{ThemeResource SecondaryContainerBrush}">
-                                            <FontIcon Glyph="{Binding IconGlyph}" FontSize="16" Foreground="{ThemeResource OnSecondaryContainerBrush}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                            <Viewbox Width="18" Height="18" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                <PathIcon Data="F1 M11.9982 14.0002C13.1027 14.0002 13.9982 13.1047 13.9982 12.0002C13.9982 10.8956 13.1027 10.0002 11.9982 10.0002C10.8936 10.0002 9.99817 10.8956 9.99817 12.0002C9.99817 13.1047 10.8936 14.0002 11.9982 14.0002ZM5.99817 12.0002C5.99817 8.68644 8.68446 6.00015 11.9982 6.00015C15.3119 6.00015 17.9982 8.68644 17.9982 12.0002C17.9982 15.3139 15.3119 18.0002 11.9982 18.0002C8.68446 18.0002 5.99817 15.3139 5.99817 12.0002ZM11.9982 7.50015C9.51289 7.50015 7.49817 9.51487 7.49817 12.0002C7.49817 14.4854 9.51289 16.5002 11.9982 16.5002C14.4834 16.5002 16.4982 14.4854 16.4982 12.0002C16.4982 9.51487 14.4834 7.50015 11.9982 7.50015ZM1.99609 12.0001C1.99609 6.47614 6.47419 1.99805 11.9982 1.99805C17.5222 1.99805 22.0003 6.47614 22.0003 12.0001C22.0003 17.5242 17.5222 22.0022 11.9982 22.0022C6.47419 22.0022 1.99609 17.5242 1.99609 12.0001ZM11.9982 3.49805C7.30261 3.49805 3.49609 7.30457 3.49609 12.0001C3.49609 16.6957 7.30261 20.5022 11.9982 20.5022C16.6938 20.5022 20.5003 16.6957 20.5003 12.0001C20.5003 7.30457 16.6938 3.49805 11.9982 3.49805Z"
+                                                          Foreground="{ThemeResource OnSecondaryContainerBrush}" />
+                                            </Viewbox>
                                         </Border>
                                         <TextBlock Grid.Column="2" Text="{Binding Label}" Style="{StaticResource BodyMedium}" Foreground="{ThemeResource OnSurfaceBrush}" VerticalAlignment="Center" />
+                                        <!-- "Active" pill on the currently-selected goal (bool + BoolToVisibility) -->
+                                        <Border Grid.Column="3" Background="{ThemeResource PrimaryBrush}" CornerRadius="8" Padding="10,4" VerticalAlignment="Center"
+                                                Visibility="{Binding IsSelected, Converter={StaticResource BoolToVisibility}}">
+                                            <TextBlock Text="Active" Style="{StaticResource LabelSmall}" Foreground="{ThemeResource OnPrimaryBrush}" VerticalAlignment="Center" HorizontalTextAlignment="Center" />
+                                        </Border>
                                     </Grid>
                                 </utu:CardContentControl>
                             </DataTemplate>
                         </ItemsRepeater.ItemTemplate>
                     </ItemsRepeater>
 
+                    <!-- Settings -->
                     <TextBlock Text="Settings" Style="{StaticResource TitleLarge}" Foreground="{ThemeResource OnBackgroundBrush}" Margin="0,0,0,10" />
                     <utu:CardContentControl Style="{StaticResource ElevatedCardContentControlStyle}" HorizontalAlignment="Stretch" IsClickable="False">
                         <ItemsRepeater ItemsSource="{Binding Settings}">
@@ -119,26 +136,23 @@
                                 <DataTemplate>
                                     <Grid Padding="16,14">
                                         <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="Auto" />
-                                            <ColumnDefinition Width="12" />
                                             <ColumnDefinition Width="*" />
                                             <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="Auto" />
                                         </Grid.ColumnDefinitions>
-                                        <FontIcon Grid.Column="0" Glyph="{Binding IconGlyph}" FontSize="18" Foreground="{ThemeResource PrimaryBrush}" />
-                                        <TextBlock Grid.Column="2" Text="{Binding Label}" Style="{StaticResource BodyMedium}" Foreground="{ThemeResource OnSurfaceBrush}" VerticalAlignment="Center" />
-                                        <TextBlock Grid.Column="3" Text="{Binding Value}" Style="{StaticResource LabelMedium}" Foreground="{ThemeResource OnSurfaceVariantBrush}" VerticalAlignment="Center" />
+                                        <TextBlock Grid.Column="0" Text="{Binding Label}" Style="{StaticResource BodyMedium}" Foreground="{ThemeResource OnSurfaceBrush}" VerticalAlignment="Center" />
+                                        <TextBlock Grid.Column="1" Text="{Binding Value}" Style="{StaticResource LabelMedium}" Foreground="{ThemeResource OnSurfaceVariantBrush}" VerticalAlignment="Center" Margin="0,0,8,0" />
+                                        <Viewbox Grid.Column="2" Width="16" Height="16" VerticalAlignment="Center">
+                                            <PathIcon Data="F1 M8.46967 4.21967C8.17678 4.51256 8.17678 4.98744 8.46967 5.28033L15.1893 12L8.46967 18.7197C8.17678 19.0126 8.17678 19.4874 8.46967 19.7803C8.76256 20.0732 9.23744 20.0732 9.53033 19.7803L16.7803 12.5303C17.0732 12.2374 17.0732 11.7626 16.7803 11.4697L9.53033 4.21967C9.23744 3.92678 8.76256 3.92678 8.46967 4.21967Z"
+                                                      Foreground="{ThemeResource OutlineBrush}" />
+                                        </Viewbox>
                                     </Grid>
                                 </DataTemplate>
                             </ItemsRepeater.ItemTemplate>
                         </ItemsRepeater>
                     </utu:CardContentControl>
-                    <!-- Quick Stats Row -->
-                    <!-- Preferences -->
-                    <!-- Goals -->
-                    <!-- Settings -->
 
                 </StackPanel>
-                <!-- Profile Hero Header -->
             </StackPanel>
         </ScrollViewer>
     </Grid>

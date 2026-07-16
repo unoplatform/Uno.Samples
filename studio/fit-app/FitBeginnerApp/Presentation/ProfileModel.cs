@@ -20,21 +20,21 @@ public partial record ProfileModel
 
     public IReadOnlyList<SettingRow> Settings { get; } = new[]
     {
-        new SettingRow("Workout Reminders", "Daily at 7:00 AM", "\uEA8F"),
-        new SettingRow("Rest Day Alerts", "Notify me on over-training", "\uE946"),
-        new SettingRow("Weekly Summary", "Every Sunday evening", "\uE787"),
-        new SettingRow("Language", "English", "\uE713"),
-        new SettingRow("Help & FAQ", "Tips for beginners", "\uE897"),
+        new SettingRow("Workout Reminders", "Daily at 7:00 AM"),
+        new SettingRow("Rest Day Alerts", "Notify me on over-training"),
+        new SettingRow("Weekly Summary", "Every Sunday evening"),
+        new SettingRow("Language", "English"),
+        new SettingRow("Help & FAQ", "Tips for beginners"),
     };
 
     public IReadOnlyList<FitnessGoalItem> Goals { get; } = new[]
     {
-        new FitnessGoalItem("Build a healthy habit", true, "\uEB51"),
-        new FitnessGoalItem("Lose weight gradually", false, "\uE945"),
-        new FitnessGoalItem("Improve flexibility", false, "\uE9D9"),
-        new FitnessGoalItem("Increase stamina", false, "\uE76E"),
+        new FitnessGoalItem("Build a healthy habit", true),
+        new FitnessGoalItem("Lose weight gradually", false),
+        new FitnessGoalItem("Improve flexibility", false),
+        new FitnessGoalItem("Increase stamina", false),
     };
 }
 
-public partial record SettingRow(string Label, string Value, string IconGlyph);
-public partial record FitnessGoalItem(string Label, bool IsSelected, string IconGlyph);
+public partial record SettingRow(string Label, string Value);
+public partial record FitnessGoalItem(string Label, bool IsSelected);

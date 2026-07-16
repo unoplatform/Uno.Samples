@@ -38,4 +38,19 @@
     </UnoFeatures>
   </PropertyGroup>
 
+  <!--
+    App icon + splash screen via Uno.Resizetizer (all platforms). Required on Android:
+    the generated manifest references @mipmap/icon, and Resources/values/Styles.xml
+    references @drawable/uno_splash_image / @color/uno_splash_color — the resizetizer
+    only emits these resources when an icon and splash screen are declared here.
+    The auto-detected background Assets/Icons/icon.svg (a solid #151515 tile) is merged
+    with the transparent foreground below over UnoIconBackgroundColor.
+  -->
+  <PropertyGroup>
+    <UnoIconForegroundFile>Assets/Icons/icon_foreground.svg</UnoIconForegroundFile>
+    <UnoIconBackgroundColor>#151515</UnoIconBackgroundColor>
+    <UnoSplashScreenFile>Assets/Splash/splash_screen.svg</UnoSplashScreenFile>
+    <UnoSplashScreenColor>#151515</UnoSplashScreenColor>
+  </PropertyGroup>
+
 </Project>

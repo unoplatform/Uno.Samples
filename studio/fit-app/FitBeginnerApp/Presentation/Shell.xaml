@@ -1,0 +1,68 @@
+<UserControl x:Class="FitBeginnerApp.Presentation.Shell"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:local="using:FitBeginnerApp.Presentation"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:utu="using:Uno.Toolkit.UI"
+      mc:Ignorable="d"
+      d:DesignHeight="300"
+      d:DesignWidth="400">
+  <Border Background="{ThemeResource BackgroundBrush}">
+    <!--
+      The shell's content host is an ExtendedSplashScreen: it keeps the native (Resizetizer)
+      splash on screen, overlaid with the loading content below, until the app reports ready
+      (see Shell.xaml.cs). Navigation injects the active page (Main) as its Content and the splash
+      reveals it once loading completes. Navigation regions live on MainPage, never on the splash.
+    -->
+    <utu:ExtendedSplashScreen x:Name="ShellContent"
+                              HorizontalAlignment="Stretch"
+                              VerticalAlignment="Stretch"
+                              HorizontalContentAlignment="Stretch"
+                              VerticalContentAlignment="Stretch">
+      <utu:ExtendedSplashScreen.LoadingContent>
+        <!-- Mirrors the native splash: the FitStart mark on #151515, drawn with native shapes
+             (an Ellipse + a Path with a LinearGradientBrush — never an SVG <Image>, which can
+             render as a black tile), plus a loading ring below. -->
+        <Grid Background="#151515">
+          <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+          </Grid.RowDefinitions>
+          <Viewbox Grid.Row="1"
+                   Width="128"
+                   Height="128"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center">
+            <Canvas Width="240" Height="240">
+              <!-- White activity dot -->
+              <Ellipse Canvas.Left="132.75"
+                       Canvas.Top="34"
+                       Width="46"
+                       Height="46"
+                       Fill="White" />
+              <!-- Green motion path; F1 = nonzero fill rule -->
+              <Path Data="F1 M188.393 70.5956C193.149 65.9803 200.746 66.0937 205.361 70.8495C209.977 75.6056 209.863 83.2028 205.106 87.8183L181.64 110.592C169.947 121.939 152.455 123.797 138.861 116.108L131.054 123.916C133.719 125.389 136.225 127.254 138.485 129.515C151.456 142.485 151.456 163.515 138.485 176.485L116.485 198.485C111.799 203.172 104.201 203.172 99.5147 198.485C94.8286 193.799 94.8284 186.201 99.5147 181.515L121.515 159.515C125.113 155.917 125.113 150.083 121.515 146.485C117.917 142.888 112.083 142.887 108.485 146.485L52.4854 202.485C47.7991 207.172 40.2009 207.172 35.5147 202.485C30.8284 197.799 30.8284 190.201 35.5147 185.515L115.523 105.505C118.347 102.661 118.256 98.0416 115.316 95.3124C112.521 92.7169 108.173 92.7968 105.476 95.4941L85.4854 115.485C80.7991 120.172 73.201 120.172 68.5147 115.485C63.8285 110.799 63.8284 103.201 68.5147 98.5146L88.5059 78.5243C100.083 66.9475 118.593 66.3677 130.864 77.0253C131.168 77.2623 131.464 77.5156 131.75 77.7861L148.318 93.4716C152.988 97.8918 160.312 97.8466 164.926 93.3691L188.393 70.5956Z">
+                <Path.Fill>
+                  <LinearGradientBrush StartPoint="0.66,0.8" EndPoint="0.38,0.26">
+                    <GradientStop Offset="0" Color="#99FF85" />
+                    <GradientStop Offset="1" Color="#A3FFB6" />
+                  </LinearGradientBrush>
+                </Path.Fill>
+              </Path>
+            </Canvas>
+          </Viewbox>
+          <ProgressRing Grid.Row="2"
+                        IsActive="True"
+                        Width="48"
+                        Height="48"
+                        Margin="0,40,0,0"
+                        VerticalAlignment="Top"
+                        HorizontalAlignment="Center"
+                        Foreground="#99FF85" />
+        </Grid>
+      </utu:ExtendedSplashScreen.LoadingContent>
+    </utu:ExtendedSplashScreen>
+  </Border>
+</UserControl>

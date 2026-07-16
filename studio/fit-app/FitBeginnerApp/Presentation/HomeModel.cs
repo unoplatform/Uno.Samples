@@ -21,13 +21,15 @@ public partial record HomeModel
         new DateOnly(2026, 6, 1),
         20,
         false,
-        "Beginner",
-        "\uE945");
+        "Beginner");
 
     public int WeeklyCompletedDays { get; } = 2;
     public int WeeklyGoalDays { get; } = 3;
     public int TotalMinutesThisWeek { get; } = 40;
     public int CaloriesBurnedThisWeek { get; } = 320;
+
+    // "completed / goal" days this week, formatted for the weekly-stats tile.
+    public string WeeklyDaysText => $"{WeeklyCompletedDays}/{WeeklyGoalDays}";
 
     public IReadOnlyList<WorkoutResult> RecentResults { get; } = new[]
     {
@@ -38,10 +40,10 @@ public partial record HomeModel
 
     public IReadOnlyList<QuickTip> Tips { get; } = new[]
     {
-        new QuickTip("Stay Hydrated", "Drink water before, during, and after exercise.", "\uE946"),
-        new QuickTip("Warm Up First", "Spend 5 min stretching to prevent injury.", "\uE945"),
-        new QuickTip("Rest Days Matter", "Muscles grow during rest — don't skip them.", "\uEB51"),
+        new QuickTip("Stay Hydrated", "Drink water before, during, and after exercise."),
+        new QuickTip("Warm Up First", "Spend 5 min stretching to prevent injury."),
+        new QuickTip("Rest Days Matter", "Muscles grow during rest — don't skip them."),
     };
 }
 
-public partial record QuickTip(string Title, string Body, string IconGlyph);
+public partial record QuickTip(string Title, string Body);
