@@ -44,6 +44,19 @@
       <FontFamily x:Key="MontserratSemiBold">ms-appx:///Assets/Fonts/Montserrat-SemiBold.ttf#Montserrat SemiBold</FontFamily>
       <FontFamily x:Key="MontserratBold">ms-appx:///Assets/Fonts/Montserrat-Bold.ttf#Montserrat</FontFamily>
 
+      <!-- Type scale: a deliberate ramp so sizes are composed, not eyeballed. Every text element
+           references one of these instead of a raw literal, so hierarchy stays consistent app-wide. -->
+      <x:Double x:Key="FontSizeRing">40</x:Double>
+      <x:Double x:Key="FontSizeH1">30</x:Double>
+      <x:Double x:Key="FontSizeStat">28</x:Double>
+      <x:Double x:Key="FontSizeStatSmall">22</x:Double>
+      <x:Double x:Key="FontSizeTitle">18</x:Double>
+      <x:Double x:Key="FontSizeSubtitle">15</x:Double>
+      <x:Double x:Key="FontSizeBody">14</x:Double>
+      <x:Double x:Key="FontSizeCaption">13</x:Double>
+      <x:Double x:Key="FontSizeSection">12</x:Double>
+      <x:Double x:Key="FontSizeLabel">10</x:Double>
+
       <!-- Card surface: a subtle raised surface defined by a hairline ring (semi-transparent
            OutlineVariant) rather than a heavy drop shadow — the de-genericised "flat + hairline"
            look. Adapts to light/dark via theme brushes. -->
@@ -58,7 +71,7 @@
            instrument label instead of a generic Material title. -->
       <Style x:Key="SectionLabelStyle" TargetType="TextBlock">
         <Setter Property="FontFamily" Value="{StaticResource MontserratSemiBold}" />
-        <Setter Property="FontSize" Value="12" />
+        <Setter Property="FontSize" Value="{StaticResource FontSizeSection}" />
         <Setter Property="CharacterSpacing" Value="120" />
         <Setter Property="Foreground" Value="{ThemeResource OnSurfaceVariantBrush}" />
         <Setter Property="Margin" Value="2,0,0,12" />

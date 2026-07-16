@@ -13,11 +13,11 @@
                 <StackPanel x:Name="HeaderSection" Spacing="6" Margin="0,0,0,22">
                     <TextBlock Text="My Training Plan"
                                FontFamily="{StaticResource MontserratBold}"
-                               FontSize="30"
+                               FontSize="{StaticResource FontSizeH1}"
                                Foreground="{ThemeResource OnBackgroundBrush}" />
                     <TextBlock Text="{Binding WeekLabel}"
                                FontFamily="{StaticResource MontserratMedium}"
-                               FontSize="14"
+                               FontSize="{StaticResource FontSizeBody}"
                                Foreground="{ThemeResource OnSurfaceVariantBrush}" />
                 </StackPanel>
 
@@ -32,12 +32,12 @@
                         <StackPanel Grid.Column="0" HorizontalAlignment="Center" Spacing="3" MinWidth="120">
                             <TextBlock Text="{Binding ScheduledCount}"
                                        FontFamily="{StaticResource MontserratBold}"
-                                       FontSize="34"
+                                       FontSize="{StaticResource FontSizeStat}"
                                        Foreground="{ThemeResource PrimaryBrush}"
                                        HorizontalAlignment="Center" />
                             <TextBlock Text="SCHEDULED"
                                        FontFamily="{StaticResource MontserratSemiBold}"
-                                       FontSize="10"
+                                       FontSize="{StaticResource FontSizeLabel}"
                                        CharacterSpacing="140"
                                        Foreground="{ThemeResource OnSurfaceVariantBrush}"
                                        HorizontalAlignment="Center" />
@@ -46,12 +46,12 @@
                         <StackPanel Grid.Column="2" HorizontalAlignment="Center" Spacing="3" MinWidth="120">
                             <TextBlock Text="{Binding CompletedCount}"
                                        FontFamily="{StaticResource MontserratBold}"
-                                       FontSize="34"
+                                       FontSize="{StaticResource FontSizeStat}"
                                        Foreground="{ThemeResource SecondaryBrush}"
                                        HorizontalAlignment="Center" />
                             <TextBlock Text="COMPLETED"
                                        FontFamily="{StaticResource MontserratSemiBold}"
-                                       FontSize="10"
+                                       FontSize="{StaticResource FontSizeLabel}"
                                        CharacterSpacing="140"
                                        Foreground="{ThemeResource OnSurfaceVariantBrush}"
                                        HorizontalAlignment="Center" />
@@ -92,19 +92,22 @@
                                         <StackPanel Grid.Column="2" Spacing="3" VerticalAlignment="Center">
                                             <TextBlock Text="{Binding Title}"
                                                        FontFamily="{StaticResource MontserratSemiBold}"
-                                                       FontSize="15"
+                                                       FontSize="{StaticResource FontSizeSubtitle}"
+                                                       TextTrimming="CharacterEllipsis"
+                                                       MaxLines="1"
                                                        Foreground="{ThemeResource OnSurfaceBrush}" />
                                             <StackPanel Orientation="Horizontal" Spacing="7">
-                                                <TextBlock Text="{Binding Type}" FontFamily="{StaticResource MontserratMedium}" FontSize="12" Foreground="{ThemeResource OnSurfaceVariantBrush}" />
-                                                <TextBlock Text="&#x2022;" FontSize="12" Foreground="{ThemeResource OutlineVariantBrush}" />
-                                                <TextBlock Text="{Binding DurationMinutes}" FontFamily="{StaticResource MontserratMedium}" FontSize="12" Foreground="{ThemeResource OnSurfaceVariantBrush}" />
-                                                <TextBlock Text="min" FontFamily="{StaticResource MontserratMedium}" FontSize="12" Foreground="{ThemeResource OnSurfaceVariantBrush}" />
+                                                <TextBlock Text="{Binding Type}" FontFamily="{StaticResource MontserratMedium}" FontSize="{StaticResource FontSizeCaption}" Foreground="{ThemeResource OnSurfaceVariantBrush}" />
+                                                <TextBlock Text="&#x2022;" FontSize="{StaticResource FontSizeCaption}" Foreground="{ThemeResource OutlineVariantBrush}" />
+                                                <TextBlock Text="{Binding DurationMinutes}" FontFamily="{StaticResource MontserratMedium}" FontSize="{StaticResource FontSizeCaption}" Foreground="{ThemeResource OnSurfaceVariantBrush}" />
+                                                <TextBlock Text="min" FontFamily="{StaticResource MontserratMedium}" FontSize="{StaticResource FontSizeCaption}" Foreground="{ThemeResource OnSurfaceVariantBrush}" />
                                             </StackPanel>
                                         </StackPanel>
                                         <Border Grid.Column="3" Background="{ThemeResource TertiaryContainerBrush}" CornerRadius="8" Padding="10,5" VerticalAlignment="Center">
                                             <TextBlock Text="{Binding Difficulty}"
                                                        FontFamily="{StaticResource MontserratSemiBold}"
-                                                       FontSize="11"
+                                                       FontSize="{StaticResource FontSizeLabel}"
+                                                       CharacterSpacing="140"
                                                        Foreground="{ThemeResource OnTertiaryContainerBrush}" />
                                         </Border>
                                     </Grid>
@@ -132,32 +135,32 @@
                                     <StackPanel Grid.Row="0" Orientation="Horizontal" Spacing="8">
                                         <TextBlock Text="{Binding Name}"
                                                    FontFamily="{StaticResource MontserratSemiBold}"
-                                                   FontSize="16"
+                                                   FontSize="{StaticResource FontSizeTitle}"
                                                    Foreground="{ThemeResource OnSurfaceBrush}"
                                                    VerticalAlignment="Center" />
                                         <Border Background="{ThemeResource SecondaryContainerBrush}" CornerRadius="8" Padding="9,4" VerticalAlignment="Center">
                                             <TextBlock Text="{Binding Focus}"
                                                        FontFamily="{StaticResource MontserratSemiBold}"
-                                                       FontSize="10"
-                                                       CharacterSpacing="60"
+                                                       FontSize="{StaticResource FontSizeLabel}"
+                                                       CharacterSpacing="140"
                                                        Foreground="{ThemeResource OnSecondaryContainerBrush}" />
                                         </Border>
                                     </StackPanel>
                                     <TextBlock Grid.Row="1"
                                                Text="{Binding Description}"
                                                FontFamily="{StaticResource MontserratRegular}"
-                                               FontSize="13"
+                                               FontSize="{StaticResource FontSizeCaption}"
                                                Foreground="{ThemeResource OnSurfaceVariantBrush}"
                                                TextWrapping="Wrap"
                                                Margin="0,7,0,10" />
                                     <StackPanel Grid.Row="2" Orientation="Horizontal" Spacing="24">
                                         <StackPanel Spacing="1">
-                                            <TextBlock Text="{Binding DaysPerWeek}" FontFamily="{StaticResource MontserratBold}" FontSize="18" Foreground="{ThemeResource PrimaryBrush}" />
-                                            <TextBlock Text="DAYS/WEEK" FontFamily="{StaticResource MontserratSemiBold}" FontSize="9" CharacterSpacing="120" Foreground="{ThemeResource OnSurfaceVariantBrush}" />
+                                            <TextBlock Text="{Binding DaysPerWeek}" FontFamily="{StaticResource MontserratBold}" FontSize="{StaticResource FontSizeTitle}" Foreground="{ThemeResource PrimaryBrush}" />
+                                            <TextBlock Text="DAYS/WEEK" FontFamily="{StaticResource MontserratSemiBold}" FontSize="{StaticResource FontSizeLabel}" CharacterSpacing="140" Foreground="{ThemeResource OnSurfaceVariantBrush}" />
                                         </StackPanel>
                                         <StackPanel Spacing="1">
-                                            <TextBlock Text="{Binding MinutesPerSession}" FontFamily="{StaticResource MontserratBold}" FontSize="18" Foreground="{ThemeResource PrimaryBrush}" />
-                                            <TextBlock Text="MIN/SESSION" FontFamily="{StaticResource MontserratSemiBold}" FontSize="9" CharacterSpacing="120" Foreground="{ThemeResource OnSurfaceVariantBrush}" />
+                                            <TextBlock Text="{Binding MinutesPerSession}" FontFamily="{StaticResource MontserratBold}" FontSize="{StaticResource FontSizeTitle}" Foreground="{ThemeResource PrimaryBrush}" />
+                                            <TextBlock Text="MIN/SESSION" FontFamily="{StaticResource MontserratSemiBold}" FontSize="{StaticResource FontSizeLabel}" CharacterSpacing="140" Foreground="{ThemeResource OnSurfaceVariantBrush}" />
                                         </StackPanel>
                                     </StackPanel>
                                 </Grid>
