@@ -55,3 +55,39 @@ public partial class WorkoutIconConverter : IValueConverter
     public object ConvertBack(object value, Type targetType, object parameter, string language)
         => throw new NotSupportedException();
 }
+
+/// <summary>
+/// Maps a workout "feeling" (Great / Good / Tough / Easy) to a distinct semantic theme brush, so the
+/// result pills read at a glance instead of all sharing one colour: Great = Primary (green),
+/// Good = Tertiary (blue), Tough = Secondary (orange), Easy / unknown = the muted SurfaceVariant.
+/// Pass <c>On</c> as the parameter for the matching on-container (text) brush. Brushes are resolved
+/// from the active theme's resources at bind time (the app follows the OS theme; pills re-resolve on
+/// navigation).
+/// </summary>
+public partial class FeelingBrushConverter : IValueConverter
+{
+    public object Convert(object value, Type targetType, object parameter, string language)
+    {
+        var feeling = (value as string ?? string.Empty).Trim().ToLowerInvariant();
+        var role = feeling switch
+        {
+            "great" => "Primary",
+            "good" => "Tertiary",
+            "tough" => "Secondary",
+            _ => "SurfaceVariant",
+        };
+
+        var wantsForeground = string.Equals(parameter as string, "On", StringComparison.OrdinalIgnoreCase);
+        var key = role == "SurfaceVariant"
+            ? (wantsForeground ? "OnSurfaceVariantBrush" : "SurfaceVariantBrush")
+            : (wantsForeground ? $"On{role}ContainerBrush" : $"{role}ContainerBrush");
+
+        var resources = Application.Current.Resources;
+        return resources.TryGetValue(key, out var brush)
+            ? brush
+            : resources[wantsForeground ? "OnSurfaceVariantBrush" : "SurfaceVariantBrush"];
+    }
+
+    public object ConvertBack(object value, Type targetType, object parameter, string language)
+        => throw new NotSupportedException();
+}

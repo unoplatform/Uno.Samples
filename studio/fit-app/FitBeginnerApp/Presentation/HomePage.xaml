@@ -168,12 +168,12 @@
                                             <TextBlock Text="kcal" FontFamily="{StaticResource MontserratMedium}" FontSize="{StaticResource FontSizeCaption}" Foreground="{ThemeResource OnSurfaceVariantBrush}" />
                                         </StackPanel>
                                     </StackPanel>
-                                    <Border Grid.Column="1" Background="{ThemeResource PrimaryContainerBrush}" CornerRadius="8" Padding="10,5" VerticalAlignment="Center">
+                                    <Border Grid.Column="1" Background="{Binding Feeling, Converter={StaticResource FeelingBrush}}" CornerRadius="8" Padding="10,5" VerticalAlignment="Center">
                                         <TextBlock Text="{Binding Feeling}"
                                                    FontFamily="{StaticResource MontserratSemiBold}"
                                                    FontSize="{StaticResource FontSizeLabel}"
                                                    CharacterSpacing="140"
-                                                   Foreground="{ThemeResource OnPrimaryContainerBrush}" />
+                                                   Foreground="{Binding Feeling, Converter={StaticResource FeelingBrush}, ConverterParameter=On}" />
                                     </Border>
                                 </Grid>
                             </Border>
