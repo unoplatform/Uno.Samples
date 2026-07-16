@@ -8,22 +8,47 @@
         <ScrollViewer VerticalScrollBarVisibility="Auto">
             <StackPanel Spacing="0" Padding="0,0,0,24" MaxWidth="1100" HorizontalAlignment="Stretch">
 
-                <!-- Profile Hero Header -->
-                <Grid Background="{ThemeResource PrimaryContainerBrush}" Padding="16,28,16,24">
+                <!-- Profile hero header -->
+                <Grid x:Name="HeroSection" Background="{ThemeResource PrimaryContainerBrush}" Padding="16,28,16,24">
                     <StackPanel Spacing="12" HorizontalAlignment="Center">
                         <Border Width="80" Height="80" CornerRadius="40" Background="{ThemeResource PrimaryBrush}" HorizontalAlignment="Center">
-                            <TextBlock Text="{Binding AvatarInitials}" Style="{StaticResource HeadlineMedium}" Foreground="{ThemeResource OnPrimaryBrush}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            <TextBlock Text="{Binding AvatarInitials}"
+                                       FontFamily="{StaticResource MontserratBold}"
+                                       FontSize="28"
+                                       Foreground="{ThemeResource OnPrimaryBrush}"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center" />
                         </Border>
                         <StackPanel Spacing="4" HorizontalAlignment="Center">
-                            <TextBlock Text="{Binding Profile.DisplayName}" Style="{StaticResource TitleLarge}" Foreground="{ThemeResource OnPrimaryContainerBrush}" HorizontalAlignment="Center" />
-                            <TextBlock Text="{Binding JoinedDate}" Style="{StaticResource BodySmall}" Foreground="{ThemeResource OnPrimaryContainerBrush}" HorizontalAlignment="Center" />
+                            <TextBlock Text="{Binding Profile.DisplayName}"
+                                       FontFamily="{StaticResource MontserratBold}"
+                                       FontSize="22"
+                                       Foreground="{ThemeResource OnPrimaryContainerBrush}"
+                                       HorizontalAlignment="Center" />
+                            <TextBlock Text="{Binding JoinedDate}"
+                                       FontFamily="{StaticResource MontserratMedium}"
+                                       FontSize="13"
+                                       Foreground="{ThemeResource OnPrimaryContainerBrush}"
+                                       HorizontalAlignment="Center" />
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" Spacing="12" HorizontalAlignment="Center">
                             <Border Background="{ThemeResource PrimaryBrush}" CornerRadius="8" Padding="12,6">
-                                <TextBlock Text="{Binding Profile.FitnessLevel}" Style="{StaticResource LabelMedium}" Foreground="{ThemeResource OnPrimaryBrush}" HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalTextAlignment="Center" />
+                                <TextBlock Text="{Binding Profile.FitnessLevel}"
+                                           FontFamily="{StaticResource MontserratSemiBold}"
+                                           FontSize="12"
+                                           Foreground="{ThemeResource OnPrimaryBrush}"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           HorizontalTextAlignment="Center" />
                             </Border>
                             <Border Background="{ThemeResource SecondaryContainerBrush}" CornerRadius="8" Padding="12,6">
-                                <TextBlock Text="{Binding Profile.Goal}" Style="{StaticResource LabelMedium}" Foreground="{ThemeResource OnSecondaryContainerBrush}" HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalTextAlignment="Center" />
+                                <TextBlock Text="{Binding Profile.Goal}"
+                                           FontFamily="{StaticResource MontserratSemiBold}"
+                                           FontSize="12"
+                                           Foreground="{ThemeResource OnSecondaryContainerBrush}"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           HorizontalTextAlignment="Center" />
                             </Border>
                         </StackPanel>
                     </StackPanel>
@@ -31,47 +56,80 @@
 
                 <StackPanel Padding="16,20,16,0" Spacing="0">
 
-                    <!-- Quick Stats Row -->
-                    <TextBlock Text="My Stats" Style="{StaticResource TitleLarge}" Foreground="{ThemeResource OnBackgroundBrush}" Margin="0,0,0,10" />
-                    <Grid Margin="0,0,0,24">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="8" />
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="8" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-                        <utu:CardContentControl Grid.Column="0" Style="{StaticResource FilledCardContentControlStyle}" HorizontalAlignment="Stretch" IsClickable="False">
-                            <StackPanel Padding="12" Spacing="4" HorizontalAlignment="Center">
-                                <TextBlock Text="{Binding Profile.TotalWorkouts}" Style="{StaticResource HeadlineMedium}" Foreground="{ThemeResource PrimaryBrush}" HorizontalAlignment="Center" />
-                                <TextBlock Text="workouts" Style="{StaticResource LabelSmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" HorizontalAlignment="Center" />
+                    <!-- My stats — three de-carded stat readouts -->
+                    <TextBlock Text="MY STATS" Style="{StaticResource SectionLabelStyle}" />
+                    <Border x:Name="StatsSection" Style="{StaticResource CardBorderStyle}" Margin="0,0,0,26">
+                        <Grid Padding="20,20" HorizontalAlignment="Center">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Grid.Column="0" HorizontalAlignment="Center" Spacing="3" MinWidth="96">
+                                <TextBlock Text="{Binding Profile.TotalWorkouts}"
+                                           FontFamily="{StaticResource MontserratBold}"
+                                           FontSize="30"
+                                           Foreground="{ThemeResource PrimaryBrush}"
+                                           HorizontalAlignment="Center" />
+                                <TextBlock Text="WORKOUTS"
+                                           FontFamily="{StaticResource MontserratSemiBold}"
+                                           FontSize="10"
+                                           CharacterSpacing="140"
+                                           Foreground="{ThemeResource OnSurfaceVariantBrush}"
+                                           HorizontalAlignment="Center" />
                             </StackPanel>
-                        </utu:CardContentControl>
-                        <utu:CardContentControl Grid.Column="2" Style="{StaticResource FilledCardContentControlStyle}" HorizontalAlignment="Stretch" IsClickable="False">
-                            <StackPanel Padding="12" Spacing="4" HorizontalAlignment="Center">
-                                <TextBlock Text="{Binding Profile.CurrentStreakDays}" Style="{StaticResource HeadlineMedium}" Foreground="{ThemeResource SecondaryBrush}" HorizontalAlignment="Center" />
-                                <TextBlock Text="day streak" Style="{StaticResource LabelSmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" HorizontalAlignment="Center" />
+                            <Border Grid.Column="1" Width="1" Margin="14,4" Background="{ThemeResource OutlineVariantBrush}" />
+                            <StackPanel Grid.Column="2" HorizontalAlignment="Center" Spacing="3" MinWidth="96">
+                                <TextBlock Text="{Binding Profile.CurrentStreakDays}"
+                                           FontFamily="{StaticResource MontserratBold}"
+                                           FontSize="30"
+                                           Foreground="{ThemeResource SecondaryBrush}"
+                                           HorizontalAlignment="Center" />
+                                <TextBlock Text="DAY STREAK"
+                                           FontFamily="{StaticResource MontserratSemiBold}"
+                                           FontSize="10"
+                                           CharacterSpacing="140"
+                                           Foreground="{ThemeResource OnSurfaceVariantBrush}"
+                                           HorizontalAlignment="Center" />
                             </StackPanel>
-                        </utu:CardContentControl>
-                        <utu:CardContentControl Grid.Column="4" Style="{StaticResource FilledCardContentControlStyle}" HorizontalAlignment="Stretch" IsClickable="False">
-                            <StackPanel Padding="12" Spacing="4" HorizontalAlignment="Center">
-                                <TextBlock Text="{Binding Profile.WeeklyGoalDays}" Style="{StaticResource HeadlineMedium}" Foreground="{ThemeResource TertiaryBrush}" HorizontalAlignment="Center" />
-                                <TextBlock Text="goal/week" Style="{StaticResource LabelSmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" HorizontalAlignment="Center" />
+                            <Border Grid.Column="3" Width="1" Margin="14,4" Background="{ThemeResource OutlineVariantBrush}" />
+                            <StackPanel Grid.Column="4" HorizontalAlignment="Center" Spacing="3" MinWidth="96">
+                                <TextBlock Text="{Binding Profile.WeeklyGoalDays}"
+                                           FontFamily="{StaticResource MontserratBold}"
+                                           FontSize="30"
+                                           Foreground="{ThemeResource TertiaryBrush}"
+                                           HorizontalAlignment="Center" />
+                                <TextBlock Text="GOAL/WEEK"
+                                           FontFamily="{StaticResource MontserratSemiBold}"
+                                           FontSize="10"
+                                           CharacterSpacing="140"
+                                           Foreground="{ThemeResource OnSurfaceVariantBrush}"
+                                           HorizontalAlignment="Center" />
                             </StackPanel>
-                        </utu:CardContentControl>
-                    </Grid>
+                        </Grid>
+                    </Border>
 
-                    <!-- Preferences -->
-                    <TextBlock Text="My Preferences" Style="{StaticResource TitleLarge}" Foreground="{ThemeResource OnBackgroundBrush}" Margin="0,0,0,10" />
-                    <utu:CardContentControl Style="{StaticResource ElevatedCardContentControlStyle}" HorizontalAlignment="Stretch" IsClickable="False" Margin="0,0,0,24">
-                        <StackPanel Padding="16,12" Spacing="12">
+                    <!-- My preferences -->
+                    <TextBlock Text="MY PREFERENCES" Style="{StaticResource SectionLabelStyle}" />
+                    <Border x:Name="PreferencesSection" Style="{StaticResource CardBorderStyle}" Margin="0,0,0,26">
+                        <StackPanel Padding="16,14" Spacing="12">
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*" />
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
-                                <TextBlock Grid.Column="0" Text="Preferred time" Style="{StaticResource BodyMedium}" Foreground="{ThemeResource OnSurfaceBrush}" />
-                                <TextBlock Grid.Column="1" Text="{Binding PreferredTime}" Style="{StaticResource LabelLarge}" Foreground="{ThemeResource PrimaryBrush}" />
+                                <TextBlock Grid.Column="0" Text="Preferred time"
+                                           FontFamily="{StaticResource MontserratMedium}"
+                                           FontSize="13"
+                                           Foreground="{ThemeResource OnSurfaceBrush}"
+                                           VerticalAlignment="Center" />
+                                <TextBlock Grid.Column="1" Text="{Binding PreferredTime}"
+                                           FontFamily="{StaticResource MontserratSemiBold}"
+                                           FontSize="14"
+                                           Foreground="{ThemeResource PrimaryBrush}"
+                                           VerticalAlignment="Center" />
                             </Grid>
                             <Border Height="1" Background="{ThemeResource OutlineVariantBrush}" />
                             <Grid>
@@ -79,8 +137,16 @@
                                     <ColumnDefinition Width="*" />
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
-                                <TextBlock Grid.Column="0" Text="Equipment" Style="{StaticResource BodyMedium}" Foreground="{ThemeResource OnSurfaceBrush}" />
-                                <TextBlock Grid.Column="1" Text="{Binding EquipmentAvailable}" Style="{StaticResource LabelLarge}" Foreground="{ThemeResource PrimaryBrush}" />
+                                <TextBlock Grid.Column="0" Text="Equipment"
+                                           FontFamily="{StaticResource MontserratMedium}"
+                                           FontSize="13"
+                                           Foreground="{ThemeResource OnSurfaceBrush}"
+                                           VerticalAlignment="Center" />
+                                <TextBlock Grid.Column="1" Text="{Binding EquipmentAvailable}"
+                                           FontFamily="{StaticResource MontserratSemiBold}"
+                                           FontSize="14"
+                                           Foreground="{ThemeResource PrimaryBrush}"
+                                           VerticalAlignment="Center" />
                             </Grid>
                             <Border Height="1" Background="{ThemeResource OutlineVariantBrush}" />
                             <Grid>
@@ -88,21 +154,34 @@
                                     <ColumnDefinition Width="*" />
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
-                                <TextBlock Grid.Column="0" Text="Session length" Style="{StaticResource BodyMedium}" Foreground="{ThemeResource OnSurfaceBrush}" />
-                                <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="4">
-                                    <TextBlock Text="{Binding SessionLengthMinutes}" Style="{StaticResource LabelLarge}" Foreground="{ThemeResource PrimaryBrush}" />
-                                    <TextBlock Text="min" Style="{StaticResource LabelLarge}" Foreground="{ThemeResource PrimaryBrush}" />
+                                <TextBlock Grid.Column="0" Text="Session length"
+                                           FontFamily="{StaticResource MontserratMedium}"
+                                           FontSize="13"
+                                           Foreground="{ThemeResource OnSurfaceBrush}"
+                                           VerticalAlignment="Center" />
+                                <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="4" VerticalAlignment="Center">
+                                    <TextBlock Text="{Binding SessionLengthMinutes}"
+                                               FontFamily="{StaticResource MontserratSemiBold}"
+                                               FontSize="14"
+                                               Foreground="{ThemeResource PrimaryBrush}" />
+                                    <TextBlock Text="min"
+                                               FontFamily="{StaticResource MontserratSemiBold}"
+                                               FontSize="14"
+                                               Foreground="{ThemeResource PrimaryBrush}" />
                                 </StackPanel>
                             </Grid>
                         </StackPanel>
-                    </utu:CardContentControl>
+                    </Border>
 
-                    <!-- Goals -->
-                    <TextBlock Text="My Goals" Style="{StaticResource TitleLarge}" Foreground="{ThemeResource OnBackgroundBrush}" Margin="0,0,0,10" />
-                    <ItemsRepeater ItemsSource="{Binding Goals}" Margin="0,0,0,24">
+                    <!-- My goals -->
+                    <TextBlock Text="MY GOALS" Style="{StaticResource SectionLabelStyle}" />
+                    <ItemsRepeater x:Name="GoalsSection" ItemsSource="{Binding Goals}" Margin="0,0,0,26">
+                        <ItemsRepeater.Layout>
+                            <StackLayout Spacing="8" />
+                        </ItemsRepeater.Layout>
                         <ItemsRepeater.ItemTemplate>
                             <DataTemplate>
-                                <utu:CardContentControl Style="{StaticResource OutlinedCardContentControlStyle}" HorizontalAlignment="Stretch" IsClickable="False" Margin="0,0,0,8">
+                                <Border Style="{StaticResource CardBorderStyle}" CornerRadius="14">
                                     <Grid Padding="16,12">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="Auto" />
@@ -116,21 +195,30 @@
                                                           Foreground="{ThemeResource OnSecondaryContainerBrush}" />
                                             </Viewbox>
                                         </Border>
-                                        <TextBlock Grid.Column="2" Text="{Binding Label}" Style="{StaticResource BodyMedium}" Foreground="{ThemeResource OnSurfaceBrush}" VerticalAlignment="Center" />
+                                        <TextBlock Grid.Column="2" Text="{Binding Label}"
+                                                   FontFamily="{StaticResource MontserratSemiBold}"
+                                                   FontSize="15"
+                                                   Foreground="{ThemeResource OnSurfaceBrush}"
+                                                   VerticalAlignment="Center" />
                                         <!-- "Active" pill on the currently-selected goal (bool + BoolToVisibility) -->
                                         <Border Grid.Column="3" Background="{ThemeResource PrimaryBrush}" CornerRadius="8" Padding="10,4" VerticalAlignment="Center"
                                                 Visibility="{Binding IsSelected, Converter={StaticResource BoolToVisibility}}">
-                                            <TextBlock Text="Active" Style="{StaticResource LabelSmall}" Foreground="{ThemeResource OnPrimaryBrush}" VerticalAlignment="Center" HorizontalTextAlignment="Center" />
+                                            <TextBlock Text="Active"
+                                                       FontFamily="{StaticResource MontserratSemiBold}"
+                                                       FontSize="11"
+                                                       Foreground="{ThemeResource OnPrimaryBrush}"
+                                                       VerticalAlignment="Center"
+                                                       HorizontalTextAlignment="Center" />
                                         </Border>
                                     </Grid>
-                                </utu:CardContentControl>
+                                </Border>
                             </DataTemplate>
                         </ItemsRepeater.ItemTemplate>
                     </ItemsRepeater>
 
                     <!-- Settings -->
-                    <TextBlock Text="Settings" Style="{StaticResource TitleLarge}" Foreground="{ThemeResource OnBackgroundBrush}" Margin="0,0,0,10" />
-                    <utu:CardContentControl Style="{StaticResource ElevatedCardContentControlStyle}" HorizontalAlignment="Stretch" IsClickable="False">
+                    <TextBlock Text="SETTINGS" Style="{StaticResource SectionLabelStyle}" />
+                    <Border x:Name="SettingsSection" Style="{StaticResource CardBorderStyle}">
                         <ItemsRepeater ItemsSource="{Binding Settings}">
                             <ItemsRepeater.ItemTemplate>
                                 <DataTemplate>
@@ -140,8 +228,17 @@
                                             <ColumnDefinition Width="Auto" />
                                             <ColumnDefinition Width="Auto" />
                                         </Grid.ColumnDefinitions>
-                                        <TextBlock Grid.Column="0" Text="{Binding Label}" Style="{StaticResource BodyMedium}" Foreground="{ThemeResource OnSurfaceBrush}" VerticalAlignment="Center" />
-                                        <TextBlock Grid.Column="1" Text="{Binding Value}" Style="{StaticResource LabelMedium}" Foreground="{ThemeResource OnSurfaceVariantBrush}" VerticalAlignment="Center" Margin="0,0,8,0" />
+                                        <TextBlock Grid.Column="0" Text="{Binding Label}"
+                                                   FontFamily="{StaticResource MontserratSemiBold}"
+                                                   FontSize="14"
+                                                   Foreground="{ThemeResource OnSurfaceBrush}"
+                                                   VerticalAlignment="Center" />
+                                        <TextBlock Grid.Column="1" Text="{Binding Value}"
+                                                   FontFamily="{StaticResource MontserratMedium}"
+                                                   FontSize="12.5"
+                                                   Foreground="{ThemeResource OnSurfaceVariantBrush}"
+                                                   VerticalAlignment="Center"
+                                                   Margin="0,0,8,0" />
                                         <Viewbox Grid.Column="2" Width="16" Height="16" VerticalAlignment="Center">
                                             <PathIcon Data="F1 M8.46967 4.21967C8.17678 4.51256 8.17678 4.98744 8.46967 5.28033L15.1893 12L8.46967 18.7197C8.17678 19.0126 8.17678 19.4874 8.46967 19.7803C8.76256 20.0732 9.23744 20.0732 9.53033 19.7803L16.7803 12.5303C17.0732 12.2374 17.0732 11.7626 16.7803 11.4697L9.53033 4.21967C9.23744 3.92678 8.76256 3.92678 8.46967 4.21967Z"
                                                       Foreground="{ThemeResource OutlineBrush}" />
@@ -150,7 +247,7 @@
                                 </DataTemplate>
                             </ItemsRepeater.ItemTemplate>
                         </ItemsRepeater>
-                    </utu:CardContentControl>
+                    </Border>
 
                 </StackPanel>
             </StackPanel>

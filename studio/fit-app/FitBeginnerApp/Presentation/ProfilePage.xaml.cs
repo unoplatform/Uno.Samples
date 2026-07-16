@@ -1,3 +1,5 @@
+using Microsoft.UI.Xaml;
+
 namespace FitBeginnerApp.Presentation;
 
 public sealed partial class ProfilePage : Page
@@ -11,5 +13,14 @@ public sealed partial class ProfilePage : Page
         // Uno.Extensions.Navigation resolves the model from the ViewMap<TPage, TModel>
         // and assigns its own instance; replacing this one is expected and harmless.
         this.DataContext = new ProfileModel();
+
+        Loaded += (_, _) =>
+        {
+            Motion.Entrance(HeroSection, 0);
+            Motion.Entrance(StatsSection, 70);
+            Motion.Entrance(PreferencesSection, 140);
+            Motion.Entrance(GoalsSection, 210);
+            Motion.Entrance(SettingsSection, 280);
+        };
     }
 }

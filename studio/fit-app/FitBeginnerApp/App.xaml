@@ -14,8 +14,12 @@
         <utus:SimpleToolkitTheme ColorOverrideSource="ms-appx:///ThemeColors.xaml">
           <utus:SimpleToolkitTheme.FontOverrideDictionary>
             <ResourceDictionary>
-              <!-- Bolder display/heading weights give the app a friendly, motivating tone.
-                   No custom font family is bundled, so the Simple theme's default face is used. -->
+              <!-- Montserrat is the app's type identity: a geometric, athletic sans that reads as
+                   deliberately designed rather than the platform default. Static weight files are
+                   applied per role (MontserratBold/SemiBold/Medium below) so the Skia text stack
+                   picks the real weight instead of synthesising a faux-bold. This base face covers
+                   everything the pages don't override explicitly. -->
+              <FontFamily x:Key="SimpleFontFamily">ms-appx:///Assets/Fonts/Montserrat-Regular.ttf#Montserrat</FontFamily>
               <FontWeight x:Key="DisplayLargeFontWeight">700</FontWeight>
               <FontWeight x:Key="HeadlineMediumFontWeight">700</FontWeight>
               <FontWeight x:Key="TitleLargeFontWeight">600</FontWeight>
@@ -24,11 +28,41 @@
             </ResourceDictionary>
           </utus:SimpleToolkitTheme.FontOverrideDictionary>
         </utus:SimpleToolkitTheme>
+        <!-- House motion/feel tokens (easing, duration, radius, press) — give numbers, not adjectives. -->
+        <ResourceDictionary Source="ms-appx:///MotionTokens.xaml" />
       </ResourceDictionary.MergedDictionaries>
 
       <!-- Content-free value transform so view-models expose plain bool state and XAML decides
            visibility. Pass Invert as the parameter to flip. -->
       <presentation:BoolToVisibilityConverter x:Key="BoolToVisibility" />
+
+      <!-- Montserrat, one resource per static weight file (Skia picks the real weight, never a
+           synthesised faux-bold). Applied per role: Bold for display + big data, SemiBold for
+           section titles / CTAs / uppercase micro-labels, Medium for emphasis, Regular = base. -->
+      <FontFamily x:Key="MontserratRegular">ms-appx:///Assets/Fonts/Montserrat-Regular.ttf#Montserrat</FontFamily>
+      <FontFamily x:Key="MontserratMedium">ms-appx:///Assets/Fonts/Montserrat-Medium.ttf#Montserrat Medium</FontFamily>
+      <FontFamily x:Key="MontserratSemiBold">ms-appx:///Assets/Fonts/Montserrat-SemiBold.ttf#Montserrat SemiBold</FontFamily>
+      <FontFamily x:Key="MontserratBold">ms-appx:///Assets/Fonts/Montserrat-Bold.ttf#Montserrat</FontFamily>
+
+      <!-- Card surface: a subtle raised surface defined by a hairline ring (semi-transparent
+           OutlineVariant) rather than a heavy drop shadow — the de-genericised "flat + hairline"
+           look. Adapts to light/dark via theme brushes. -->
+      <Style x:Key="CardBorderStyle" TargetType="Border">
+        <Setter Property="Background" Value="{ThemeResource SurfaceBrush}" />
+        <Setter Property="BorderBrush" Value="{ThemeResource OutlineVariantBrush}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="CornerRadius" Value="20" />
+      </Style>
+
+      <!-- Section micro-label: uppercase Montserrat SemiBold with wide tracking — reads like an
+           instrument label instead of a generic Material title. -->
+      <Style x:Key="SectionLabelStyle" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource MontserratSemiBold}" />
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="CharacterSpacing" Value="120" />
+        <Setter Property="Foreground" Value="{ThemeResource OnSurfaceVariantBrush}" />
+        <Setter Property="Margin" Value="2,0,0,12" />
+      </Style>
 
       <!-- Rounder controls to match the card language -->
       <CornerRadius x:Key="ControlCornerRadiusSmall">12</CornerRadius>
@@ -53,7 +87,10 @@
         <Setter Property="Template">
           <Setter.Value>
             <ControlTemplate TargetType="Button">
-              <Grid Background="Transparent">
+              <Grid Background="Transparent" RenderTransformOrigin="0.5,0.5">
+                <Grid.RenderTransform>
+                  <ScaleTransform x:Name="FlatScale" />
+                </Grid.RenderTransform>
                 <VisualStateManager.VisualStateGroups>
                   <VisualStateGroup x:Name="CommonStates">
                     <VisualState x:Name="Normal" />
@@ -65,6 +102,8 @@
                     <VisualState x:Name="Pressed">
                       <VisualState.Setters>
                         <Setter Target="FlatStateLayer.Opacity" Value="0.12" />
+                        <Setter Target="FlatScale.ScaleX" Value="0.98" />
+                        <Setter Target="FlatScale.ScaleY" Value="0.98" />
                       </VisualState.Setters>
                     </VisualState>
                     <VisualState x:Name="Disabled">
@@ -86,6 +125,71 @@
                         Background="{ThemeResource OnSurfaceBrush}"
                         Opacity="0"
                         IsHitTestVisible="False" />
+              </Grid>
+            </ControlTemplate>
+          </Setter.Value>
+        </Setter>
+      </Style>
+
+      <!-- Primary call-to-action: filled Primary surface, Montserrat SemiBold, concentric radius,
+           an OnPrimary state layer for hover/press, and the house 0.98 tactile press. Owns the CTA
+           look so it reads as designed rather than a stock filled button. -->
+      <Style x:Key="PrimaryButtonStyle" TargetType="Button">
+        <Setter Property="Background" Value="{ThemeResource PrimaryBrush}" />
+        <Setter Property="Foreground" Value="{ThemeResource OnPrimaryBrush}" />
+        <Setter Property="FontFamily" Value="{StaticResource MontserratSemiBold}" />
+        <Setter Property="FontSize" Value="15" />
+        <Setter Property="Padding" Value="20,13" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="UseSystemFocusVisuals" Value="True" />
+        <Setter Property="Template">
+          <Setter.Value>
+            <ControlTemplate TargetType="Button">
+              <Grid RenderTransformOrigin="0.5,0.5">
+                <Grid.RenderTransform>
+                  <ScaleTransform x:Name="PrimScale" />
+                </Grid.RenderTransform>
+                <VisualStateManager.VisualStateGroups>
+                  <VisualStateGroup x:Name="CommonStates">
+                    <VisualState x:Name="Normal" />
+                    <VisualState x:Name="PointerOver">
+                      <VisualState.Setters>
+                        <Setter Target="PrimOverlay.Opacity" Value="0.08" />
+                      </VisualState.Setters>
+                    </VisualState>
+                    <VisualState x:Name="Pressed">
+                      <VisualState.Setters>
+                        <Setter Target="PrimOverlay.Opacity" Value="0.16" />
+                        <Setter Target="PrimScale.ScaleX" Value="0.98" />
+                        <Setter Target="PrimScale.ScaleY" Value="0.98" />
+                      </VisualState.Setters>
+                    </VisualState>
+                    <VisualState x:Name="Disabled">
+                      <VisualState.Setters>
+                        <Setter Target="PrimRoot.Opacity" Value="0.38" />
+                      </VisualState.Setters>
+                    </VisualState>
+                  </VisualStateGroup>
+                </VisualStateManager.VisualStateGroups>
+                <Border x:Name="PrimRoot" Background="{TemplateBinding Background}" CornerRadius="14">
+                  <Grid>
+                    <ContentPresenter x:Name="PrimContent"
+                                      Content="{TemplateBinding Content}"
+                                      ContentTemplate="{TemplateBinding ContentTemplate}"
+                                      Padding="{TemplateBinding Padding}"
+                                      FontFamily="{TemplateBinding FontFamily}"
+                                      FontSize="{TemplateBinding FontSize}"
+                                      Foreground="{TemplateBinding Foreground}"
+                                      HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                    <Border x:Name="PrimOverlay"
+                            CornerRadius="14"
+                            Background="{ThemeResource OnPrimaryBrush}"
+                            Opacity="0"
+                            IsHitTestVisible="False" />
+                  </Grid>
+                </Border>
               </Grid>
             </ControlTemplate>
           </Setter.Value>
