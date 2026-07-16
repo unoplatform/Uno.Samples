@@ -1,9 +1,11 @@
+using System.Threading.Tasks;
+using Uno.Extensions.Reactive;
+
 namespace FitBeginnerApp.Presentation;
 
 // Bound to a single workout via DataViewMap<WorkoutSessionPage, WorkoutSessionModel, WorkoutEntry>:
 // Navigation passes the tapped WorkoutEntry as the record's parameter, so the header reflects the
 // chosen workout. The exercise list is mock (shared for the demo).
-[Uno.Extensions.Reactive.ReactiveBindable(false)]
 public partial record WorkoutSessionModel(WorkoutEntry Workout)
 {
     public string WorkoutTitle => Workout.Title;
@@ -34,6 +36,12 @@ public partial record WorkoutSessionModel(WorkoutEntry Workout)
         new SessionTip("Breathe out on the effort, in on the recovery."),
         new SessionTip("Stop if you feel sharp pain — discomfort is normal, pain is not."),
     };
+
+    // Whether the guided session has been started. MVUX state; the Begin command flips it and the
+    // page swaps the "Begin workout" CTA for an in-progress confirmation.
+    public IState<bool> IsStarted => State.Value(this, () => false);
+
+    public async ValueTask Begin() => await IsStarted.UpdateAsync(_ => true);
 }
 
 public partial record SessionTip(string Note);

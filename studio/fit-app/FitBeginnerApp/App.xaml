@@ -35,6 +35,9 @@
       <!-- Content-free value transform so view-models expose plain bool state and XAML decides
            visibility. Pass Invert as the parameter to flip. -->
       <presentation:BoolToVisibilityConverter x:Key="BoolToVisibility" />
+      <!-- Maps a workout Type / exercise Category to a distinct PathIcon geometry (dumbbell / flame /
+           target / moon / sparkle) so lists don't repeat one glyph. -->
+      <presentation:WorkoutIconConverter x:Key="WorkoutIcon" />
 
       <!-- Montserrat, one resource per static weight file (Skia picks the real weight, never a
            synthesised faux-bold). Applied per role: Bold for display + big data, SemiBold for
