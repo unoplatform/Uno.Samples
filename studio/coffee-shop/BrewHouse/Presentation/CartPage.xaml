@@ -12,21 +12,12 @@
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
-            <!-- Header -->
-            <Border Grid.Row="0"
-                    Background="{ThemeResource BackgroundBrush}"
-                    Padding="20,16,20,12"
-                    BorderBrush="{ThemeResource BrewCardBorderBrush}"
-                    BorderThickness="0,0,0,1">
-                <StackPanel Spacing="2">
-                    <TextBlock Text="Your Cart"
-                               FontSize="28"
-                               FontWeight="Bold"
-                               Foreground="{ThemeResource OnBackgroundBrush}" />
+            <!-- Header (shared style: consistent position/background/type across every page) -->
+            <Border Grid.Row="0" Style="{StaticResource PageHeaderStyle}">
+                <StackPanel>
+                    <TextBlock Text="Your Cart" Style="{StaticResource PageTitleStyle}" />
                     <!-- "N items" (the feed projects "0 items" on an empty cart); binds directly. -->
-                    <TextBlock Text="{Binding ItemCountText}"
-                               FontSize="14"
-                               Foreground="{ThemeResource OnSurfaceVariantBrush}" />
+                    <TextBlock Text="{Binding ItemCountText}" Style="{StaticResource PageSubtitleStyle}" />
                 </StackPanel>
             </Border>
 
@@ -247,14 +238,18 @@
 
             </Grid>
 
-            <!-- Empty-cart hero: shown when the cart is empty (CartHasItems inverted). -->
-            <ScrollViewer Grid.Row="1"
+            <!-- Empty-cart hero: shown when the cart is empty (CartHasItems inverted). Centred
+                 vertically by giving the inner Grid at least the scroll viewport's height (so it
+                 sits mid-space on desktop, and still scrolls if the window is short). -->
+            <ScrollViewer x:Name="EmptyCartScroller"
+                          Grid.Row="1"
                           VerticalScrollBarVisibility="Hidden"
                           Visibility="{Binding CartHasItems, Converter={StaticResource BoolToVisibility}, ConverterParameter=Invert}">
+                <Grid MinHeight="{Binding ViewportHeight, ElementName=EmptyCartScroller}">
                             <StackPanel HorizontalAlignment="Center"
                                         VerticalAlignment="Center"
                                         Spacing="16"
-                                        Padding="40,60,40,40">
+                                        Padding="40,40,40,40">
                                 <Viewbox Width="56" Height="56"
                                          HorizontalAlignment="Center"
                                          AutomationProperties.AccessibilityView="Raw">
@@ -266,7 +261,7 @@
                                            FontWeight="Bold"
                                            Foreground="{ThemeResource OnBackgroundBrush}"
                                            HorizontalAlignment="Center" />
-                                <TextBlock Text="Looks like you haven't added anything yet. Browse our menu and pick your favourite brew!"
+                                <TextBlock Text="Browse the menu and add your favourite brew to get started."
                                            FontSize="14"
                                            Foreground="{ThemeResource OnSurfaceVariantBrush}"
                                            HorizontalAlignment="Center"
@@ -292,10 +287,10 @@
                                             <ItemsControl.ItemTemplate>
                                                 <DataTemplate>
                                                 <Button Style="{StaticResource FlatButtonStyle}"
-                                                        CornerRadius="20"
+                                                        CornerRadius="12"
                                                         AutomationProperties.Name="{Binding}"
                                                         Command="{Binding DataContext.GoToMenu, ElementName=Root}">
-                                                    <Border Background="{ThemeResource SurfaceBrush}" CornerRadius="20" Padding="12,6">
+                                                    <Border Background="{ThemeResource SurfaceBrush}" CornerRadius="12" Padding="12,6">
                                                         <TextBlock Text="{Binding}" FontSize="13" Foreground="{ThemeResource OnSurfaceBrush}" />
                                                     </Border>
                                                 </Button>
@@ -314,6 +309,7 @@
                                         Margin="0,8,0,0"
                                         Command="{Binding DataContext.GoToMenu, ElementName=Root}" />
                             </StackPanel>
+                </Grid>
             </ScrollViewer>
 
             <!-- Order Confirmed banner: page-level overlay so it survives the cart emptying on

@@ -27,10 +27,6 @@
         </ResourceDictionary>
       </ResourceDictionary.ThemeDictionaries>
 
-      <!-- A dark espresso banner that stays dark in both themes (light text reads on it) -->
-      <SolidColorBrush x:Key="BrewHeaderBrush" Color="#3A2012" />
-      <SolidColorBrush x:Key="BrewOnHeaderBrush" Color="#FBEFE2" />
-
       <!-- Order-status pill containers: bright background + legible on-colour, read on light + dark -->
       <SolidColorBrush x:Key="BrewStatusReadyContainerBrush" Color="#3FB368" />
       <SolidColorBrush x:Key="BrewStatusReadyOnContainerBrush" Color="#0C3A1E" />
@@ -114,7 +110,12 @@
             <ControlTemplate TargetType="Button">
               <Border x:Name="Root"
                       Background="{TemplateBinding Background}"
-                      CornerRadius="{TemplateBinding CornerRadius}">
+                      CornerRadius="{TemplateBinding CornerRadius}"
+                      RenderTransformOrigin="0.5,0.5">
+                <Border.RenderTransform>
+                  <!-- Tactile press: firm 0.98 scale (not a collapse), per the design-polish house value -->
+                  <ScaleTransform x:Name="RootScale" />
+                </Border.RenderTransform>
                 <VisualStateManager.VisualStateGroups>
                   <VisualStateGroup x:Name="CommonStates">
                     <VisualState x:Name="Normal" />
@@ -126,6 +127,8 @@
                     <VisualState x:Name="Pressed">
                       <VisualState.Setters>
                         <Setter Target="StateLayer.Opacity" Value="0.20" />
+                        <Setter Target="RootScale.ScaleX" Value="0.98" />
+                        <Setter Target="RootScale.ScaleY" Value="0.98" />
                       </VisualState.Setters>
                     </VisualState>
                     <VisualState x:Name="Disabled">
@@ -160,6 +163,31 @@
       <CornerRadius x:Key="ControlCornerRadiusSmall">8</CornerRadius>
       <CornerRadius x:Key="ControlCornerRadius">12</CornerRadius>
       <CornerRadius x:Key="OverlayCornerRadius">16</CornerRadius>
+
+      <!-- Spacing scale (design-system tokens) so padding/margins come from one rhythm -->
+      <x:Double x:Key="SpacingXS">4</x:Double>
+      <x:Double x:Key="SpacingSM">8</x:Double>
+      <x:Double x:Key="SpacingMD">12</x:Double>
+      <x:Double x:Key="SpacingLG">16</x:Double>
+      <x:Double x:Key="SpacingXL">24</x:Double>
+
+      <!-- Consistent page header: identical position, background and type on every page so the title
+           doesn't jump when navigating (a plain BackgroundBrush strip; page content scrolls below). -->
+      <Thickness x:Key="PageHeaderPadding">20,20,20,12</Thickness>
+      <Style x:Key="PageHeaderStyle" TargetType="Border">
+        <Setter Property="Background" Value="{ThemeResource BackgroundBrush}" />
+        <Setter Property="Padding" Value="{StaticResource PageHeaderPadding}" />
+      </Style>
+      <Style x:Key="PageTitleStyle" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="28" />
+        <Setter Property="FontWeight" Value="Bold" />
+        <Setter Property="Foreground" Value="{ThemeResource OnBackgroundBrush}" />
+      </Style>
+      <Style x:Key="PageSubtitleStyle" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="Foreground" Value="{ThemeResource OnSurfaceVariantBrush}" />
+        <Setter Property="Margin" Value="0,2,0,0" />
+      </Style>
 
       <!-- Window-width breakpoint shared by the shell + page layouts: phone below 900px
            (bottom TabBar), desktop/web at or above (NavigationView pane) -->
