@@ -39,17 +39,10 @@ public sealed partial class Shell : UserControl, IContentControlProvider
 
         public async void Begin(DispatcherQueue dispatcher, TimeSpan delay)
         {
-            try
-            {
-                await Task.Delay(delay);
-            }
-            catch
-            {
-                // Swallow: the splash must still be dismissed below.
-            }
+            await Task.Delay(delay);
 
-            // Prefer the UI thread; if enqueue fails (dispatcher shutting down), complete inline
-            // so IsExecuting is never left stuck true.
+            // Prefer the UI thread; if enqueue fails (dispatcher shutting down), complete inline so
+            // IsExecuting is never left stuck true — this is what guarantees the splash is dismissed.
             if (!dispatcher.TryEnqueue(Complete))
             {
                 Complete();

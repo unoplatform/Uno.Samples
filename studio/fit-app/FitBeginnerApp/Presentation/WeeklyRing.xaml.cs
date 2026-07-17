@@ -161,12 +161,11 @@ public sealed partial class WeeklyRing : UserControl
             IsLargeArc = sweep > 180,
         });
 
-        var geometry = new PathGeometry();
-        geometry.Figures.Add(figure);
-        // Dispose the geometry from the previous update before it is replaced (UpdateArc runs on
-        // every progress tick during the entrance animation, so a fresh geometry is built each time).
+        // Dispose the geometry from the previous update before replacing it (UpdateArc runs on every
+        // progress tick during the entrance animation, so a fresh geometry is built each time). The new
+        // geometry is owned by ArcPath.Data — assign it directly rather than via a throwaway local.
         (ArcPath.Data as IDisposable)?.Dispose();
-        ArcPath.Data = geometry;
+        ArcPath.Data = new PathGeometry { Figures = { figure } };
     }
 
     private static Point PointOnCircle(double angleDegrees)
