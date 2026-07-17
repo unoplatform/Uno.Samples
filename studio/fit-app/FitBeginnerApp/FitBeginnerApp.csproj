@@ -61,15 +61,4 @@
     <Content Include="Assets/Fonts/Montserrat-Bold.ttf" />
   </ItemGroup>
 
-  <!--
-    macOS Dock icon (Skia desktop head only): a pre-baked rounded "squircle" macOS-grid PNG, copied
-    next to the executable so Platforms/Desktop/App.Desktop.cs can hand its path to
-    NSApplication.applicationIconImage during a dev run. macOS does not mask applicationIconImage, so
-    the rounded grid is baked in; it was rasterized from the app's Resizetizer icon assets. Other
-    platforms/OSes never use it.
-  -->
-  <ItemGroup Condition="'$(TargetFramework)' == 'net10.0-desktop'">
-    <Content Include="Platforms/Desktop/DockIcon.png" Link="DockIcon.png" CopyToOutputDirectory="PreserveNewest" />
-  </ItemGroup>
-
 </Project>

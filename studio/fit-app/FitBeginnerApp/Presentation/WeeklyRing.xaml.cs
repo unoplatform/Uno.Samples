@@ -134,6 +134,8 @@ public sealed partial class WeeklyRing : UserControl
         var fraction = Math.Clamp(Progress, 0, 1);
         if (fraction <= 0)
         {
+            // Release the native geometry backing the old arc before detaching it.
+            (ArcPath.Data as IDisposable)?.Dispose();
             ArcPath.Data = null;
             return;
         }
@@ -161,6 +163,9 @@ public sealed partial class WeeklyRing : UserControl
 
         var geometry = new PathGeometry();
         geometry.Figures.Add(figure);
+        // Dispose the geometry from the previous update before it is replaced (UpdateArc runs on
+        // every progress tick during the entrance animation, so a fresh geometry is built each time).
+        (ArcPath.Data as IDisposable)?.Dispose();
         ArcPath.Data = geometry;
     }
 
