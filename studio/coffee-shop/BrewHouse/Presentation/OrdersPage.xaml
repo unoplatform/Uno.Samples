@@ -12,18 +12,11 @@
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
-            <!-- Header -->
-            <Border Grid.Row="0"
-                    Background="{ThemeResource BackgroundBrush}"
-                    Padding="20,20,20,12">
-                <StackPanel Spacing="4">
-                    <TextBlock Text="My Orders"
-                               FontSize="28"
-                               FontWeight="Bold"
-                               Foreground="{ThemeResource OnBackgroundBrush}" />
-                    <TextBlock Text="Track your current and past orders"
-                               FontSize="14"
-                               Foreground="{ThemeResource OnSurfaceVariantBrush}" />
+            <!-- Header (shared style: consistent position/background/type across every page) -->
+            <Border Grid.Row="0" Style="{StaticResource PageHeaderStyle}">
+                <StackPanel>
+                    <TextBlock Text="My Orders" Style="{StaticResource PageTitleStyle}" />
+                    <TextBlock Text="Track your current and past orders" Style="{StaticResource PageSubtitleStyle}" />
                 </StackPanel>
             </Border>
 

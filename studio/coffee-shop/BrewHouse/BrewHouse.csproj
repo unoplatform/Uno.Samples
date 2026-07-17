@@ -48,13 +48,4 @@
     <UnoSplashScreenColor>#151515</UnoSplashScreenColor>
   </PropertyGroup>
 
-  <!--
-    macOS Dock icon (Skia desktop head only): a pre-baked rounded "squircle" macOS-grid PNG, copied
-    next to the executable so Platforms/Desktop/App.Desktop.cs can hand its path to
-    NSApplication.applicationIconImage during a dev run. Other platforms/OSes never use it.
-  -->
-  <ItemGroup Condition="'$(TargetFramework)' == 'net10.0-desktop'">
-    <Content Include="Platforms/Desktop/DockIcon.png" Link="DockIcon.png" CopyToOutputDirectory="PreserveNewest" />
-  </ItemGroup>
-
 </Project>

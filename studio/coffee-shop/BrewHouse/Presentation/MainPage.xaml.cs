@@ -15,16 +15,4 @@ public sealed partial class MainPage : Page
         // the live model — setting the child's DataContext would pin it to the mock.
         this.DataContext = MainPageMockData.Data;
     }
-
-    // Flip the whole app between light and dark by setting RequestedTheme on the visual-tree root,
-    // which re-resolves every {ThemeResource} (the warm and dark-roast ThemeDictionaries).
-    private void OnToggleTheme(object sender, RoutedEventArgs e)
-    {
-        if (this.XamlRoot?.Content is FrameworkElement root)
-        {
-            root.RequestedTheme = root.ActualTheme == ElementTheme.Dark
-                ? ElementTheme.Light
-                : ElementTheme.Dark;
-        }
-    }
 }

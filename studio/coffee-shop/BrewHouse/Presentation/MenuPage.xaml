@@ -14,29 +14,20 @@
                 <RowDefinition />
             </Grid.RowDefinitions>
 
-            <!-- Header -->
-            <StackPanel Grid.Row="0"
-                        Background="{ThemeResource BrewHeaderBrush}"
-                        Padding="20,20,20,16"
-                        Spacing="12">
-                <StackPanel Spacing="2">
-                    <TextBlock Text="Our Menu"
-                               FontSize="26"
-                               FontWeight="Bold"
-                               Foreground="{ThemeResource BrewOnHeaderBrush}" />
-                    <TextBlock Text="Find your perfect brew"
-                               FontSize="13"
-                               Foreground="{ThemeResource BrewOnHeaderBrush}"
-                               Opacity="0.8" />
+            <!-- Header (shared style: consistent position/background/type across every page) -->
+            <Border Grid.Row="0" Style="{StaticResource PageHeaderStyle}">
+                <StackPanel Spacing="12">
+                    <StackPanel>
+                        <TextBlock Text="Our Menu" Style="{StaticResource PageTitleStyle}" />
+                        <TextBlock Text="Find your perfect brew" Style="{StaticResource PageSubtitleStyle}" />
+                    </StackPanel>
+                    <!-- Live text search; follows the app theme on the themed header background -->
+                    <AutoSuggestBox PlaceholderText="Search the menu"
+                                    Text="{Binding SearchText, Mode=TwoWay}"
+                                    QueryIcon="Find"
+                                    AutomationProperties.Name="Search the menu" />
                 </StackPanel>
-                <!-- Live text search; RequestedTheme=Light keeps it a readable light box on the
-                     fixed-dark header in both app themes -->
-                <AutoSuggestBox PlaceholderText="Search the menu"
-                                RequestedTheme="Light"
-                                Text="{Binding SearchText, Mode=TwoWay}"
-                                QueryIcon="Find"
-                                AutomationProperties.Name="Search the menu" />
-            </StackPanel>
+            </Border>
 
             <!-- Category Chip Filter Bar -->
             <ScrollViewer Grid.Row="1"
@@ -56,14 +47,14 @@
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <Button Style="{StaticResource FlatButtonStyle}"
-                                    CornerRadius="18"
+                                    CornerRadius="12"
                                     AutomationProperties.Name="{Binding Name}"
                                     Command="{utu:ItemsControlBinding Path=DataContext.FilterByCategory}"
                                     CommandParameter="{Binding Id}">
                                 <Grid>
                                     <!-- unselected pill -->
                                     <Border Background="{ThemeResource SurfaceVariantBrush}"
-                                            CornerRadius="18"
+                                            CornerRadius="12"
                                             Padding="16,8">
                                         <TextBlock Text="{Binding Name}"
                                                    FontSize="13"
@@ -72,7 +63,7 @@
                                     </Border>
                                     <!-- selected pill overlays when this category is active -->
                                     <Border Background="{ThemeResource PrimaryBrush}"
-                                            CornerRadius="18"
+                                            CornerRadius="12"
                                             Padding="16,8"
                                             Visibility="{Binding IsSelected, Converter={StaticResource BoolToVisibility}}">
                                         <TextBlock Text="{Binding Name}"
@@ -93,7 +84,7 @@
                           Padding="16,4,16,16">
                 <ItemsRepeater ItemsSource="{Binding FilteredProducts}">
                     <ItemsRepeater.Layout>
-                        <UniformGridLayout MinItemWidth="320"
+                        <UniformGridLayout MinItemWidth="360"
                                            MinColumnSpacing="12"
                                            MinRowSpacing="12"
                                            ItemsStretch="Fill" />
