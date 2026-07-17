@@ -6,8 +6,8 @@ public sealed partial class MainPage : Page
     {
         this.InitializeComponent();
 
-        // For Hot Design Previews (which bypass Navigation). At runtime the template's
-        // ViewMap<MainPage, MainModel> wires the DataContext; replacing this is expected.
+        // Hot Design fallback (the preview bypasses Navigation). Set on the *page* DataContext so
+        // Navigation can override it with the injected MainModel at runtime.
         this.DataContext = new MainModel();
     }
 }

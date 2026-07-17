@@ -9,7 +9,6 @@ public partial record ExerciseItem(
     int Sets,
     int Reps,
     string Difficulty,
-    string IconGlyph,
     string Description);
 
 /// <summary>A scheduled workout plan session (used on Plan and Progress pages).</summary>
@@ -20,8 +19,7 @@ public partial record WorkoutEntry(
     DateOnly ScheduledDate,
     int DurationMinutes,
     bool IsCompleted,
-    string Difficulty,
-    string IconGlyph);
+    string Difficulty);
 
 /// <summary>A completed workout result for progress tracking.</summary>
 public partial record WorkoutResult(

@@ -1,3 +1,5 @@
+using Microsoft.UI.Xaml;
+
 namespace FitBeginnerApp.Presentation;
 
 public sealed partial class HomePage : Page
@@ -5,12 +7,19 @@ public sealed partial class HomePage : Page
     public HomePage()
     {
         this.InitializeComponent();
+
+        // Hot Design fallback (the preview bypasses Navigation). Set on the *page* DataContext so
+        // Navigation can override it with the injected HomeModel at runtime.
         this.DataContext = new HomeModel();
 
-        // Set the DataContext so Hot Design Previews — which construct the page directly,
-        // without running Navigation — render with the model's data. At runtime
-        // Uno.Extensions.Navigation resolves the model from the ViewMap<TPage, TModel>
-        // and assigns its own instance; replacing this one is expected and harmless.
-        this.DataContext = new HomeModel();
+        // One orchestrated load: sections fade + rise in sequence (skipped under reduced motion).
+        Loaded += (_, _) =>
+        {
+            Motion.Entrance(HeroSection, 0);
+            Motion.Entrance(WeekSection, 70);
+            Motion.Entrance(TodaySection, 140);
+            Motion.Entrance(ResultsSection, 210);
+            Motion.Entrance(TipsSection, 280);
+        };
     }
 }

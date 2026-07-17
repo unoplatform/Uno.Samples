@@ -1,198 +1,171 @@
 <Page x:Class="FitBeginnerApp.Presentation.PlanPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:uen="using:Uno.Extensions.Navigation.UI"
       xmlns:utu="using:Uno.Toolkit.UI"
       Background="{ThemeResource BackgroundBrush}">
 
     <Grid utu:SafeArea.Insets="VisibleBounds">
         <ScrollViewer VerticalScrollBarVisibility="Auto">
-            <StackPanel Spacing="0"
-                        Padding="16,20,16,24">
+            <StackPanel Spacing="0" Padding="20,24,20,28" MaxWidth="1100" HorizontalAlignment="Stretch">
 
                 <!-- Header -->
-                <StackPanel Spacing="4"
-                            Margin="0,0,0,20">
+                <StackPanel x:Name="HeaderSection" Spacing="6" Margin="0,0,0,22">
                     <TextBlock Text="My Training Plan"
-                               Style="{StaticResource HeadlineMedium}"
+                               FontFamily="{StaticResource MontserratBold}"
+                               FontSize="{StaticResource FontSizeH1}"
                                Foreground="{ThemeResource OnBackgroundBrush}" />
                     <TextBlock Text="{Binding WeekLabel}"
-                               Style="{StaticResource BodyMedium}"
+                               FontFamily="{StaticResource MontserratMedium}"
+                               FontSize="{StaticResource FontSizeBody}"
                                Foreground="{ThemeResource OnSurfaceVariantBrush}" />
                 </StackPanel>
 
-                <!-- Progress Summary Card -->
-                <utu:CardContentControl Style="{StaticResource FilledCardContentControlStyle}"
-                                        HorizontalAlignment="Stretch"
-                                        IsClickable="False"
-                                        Margin="0,0,0,24">
-                    <Grid Padding="20,16">
+                <!-- Week progress: two de-carded stat readouts -->
+                <Border x:Name="SummarySection" Style="{StaticResource CardBorderStyle}" Margin="0,0,0,26">
+                    <Grid Padding="20,20" HorizontalAlignment="Center">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
-                        <StackPanel Grid.Column="0"
-                                    Spacing="4"
-                                    HorizontalAlignment="Center">
+                        <StackPanel Grid.Column="0" HorizontalAlignment="Center" Spacing="3" MinWidth="120">
                             <TextBlock Text="{Binding ScheduledCount}"
-                                       Style="{StaticResource DisplaySmall}"
+                                       FontFamily="{StaticResource MontserratBold}"
+                                       FontSize="{StaticResource FontSizeStat}"
                                        Foreground="{ThemeResource PrimaryBrush}"
                                        HorizontalAlignment="Center" />
-                            <TextBlock Text="scheduled"
-                                       Style="{StaticResource LabelMedium}"
+                            <TextBlock Text="SCHEDULED"
+                                       FontFamily="{StaticResource MontserratSemiBold}"
+                                       FontSize="{StaticResource FontSizeLabel}"
+                                       CharacterSpacing="140"
                                        Foreground="{ThemeResource OnSurfaceVariantBrush}"
                                        HorizontalAlignment="Center" />
                         </StackPanel>
-                        <StackPanel Grid.Column="1"
-                                    Spacing="4"
-                                    HorizontalAlignment="Center">
+                        <Border Grid.Column="1" Width="1" Margin="16,4" Background="{ThemeResource OutlineVariantBrush}" />
+                        <StackPanel Grid.Column="2" HorizontalAlignment="Center" Spacing="3" MinWidth="120">
                             <TextBlock Text="{Binding CompletedCount}"
-                                       Style="{StaticResource DisplaySmall}"
+                                       FontFamily="{StaticResource MontserratBold}"
+                                       FontSize="{StaticResource FontSizeStat}"
                                        Foreground="{ThemeResource SecondaryBrush}"
                                        HorizontalAlignment="Center" />
-                            <TextBlock Text="completed"
-                                       Style="{StaticResource LabelMedium}"
+                            <TextBlock Text="COMPLETED"
+                                       FontFamily="{StaticResource MontserratSemiBold}"
+                                       FontSize="{StaticResource FontSizeLabel}"
+                                       CharacterSpacing="140"
                                        Foreground="{ThemeResource OnSurfaceVariantBrush}"
                                        HorizontalAlignment="Center" />
                         </StackPanel>
                     </Grid>
-                </utu:CardContentControl>
+                </Border>
 
-                <!-- This Week's Schedule -->
-                <TextBlock Text="This Week"
-                           Style="{StaticResource TitleLarge}"
-                           Foreground="{ThemeResource OnBackgroundBrush}"
-                           Margin="0,0,0,10" />
-
-                <ItemsRepeater ItemsSource="{Binding WeeklyPlan}"
-                               Margin="0,0,0,24">
+                <!-- This week's schedule — each row opens the guided session -->
+                <TextBlock Text="THIS WEEK" Style="{StaticResource SectionLabelStyle}" />
+                <ItemsRepeater x:Name="WeekListSection" ItemsSource="{Binding WeeklyPlan}" Margin="0,0,0,26">
+                    <ItemsRepeater.Layout>
+                        <StackLayout Spacing="8" />
+                    </ItemsRepeater.Layout>
                     <ItemsRepeater.ItemTemplate>
                         <DataTemplate>
-                            <utu:CardContentControl Style="{StaticResource ElevatedCardContentControlStyle}"
-                                                    HorizontalAlignment="Stretch"
-                                                    IsClickable="True"
-                                                    AutomationProperties.Name="View workout details"
-                                                    Margin="0,0,0,8">
-                                <Grid Padding="16,12">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto" />
-                                        <ColumnDefinition Width="12" />
-                                        <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="Auto" />
-                                    </Grid.ColumnDefinitions>
-                                    <Border Grid.Column="0"
-                                            Width="44" Height="44"
-                                            CornerRadius="12"
-                                            Background="{ThemeResource PrimaryContainerBrush}">
-                                        <FontIcon Glyph="{Binding IconGlyph}"
-                                                  FontSize="20"
-                                                  Foreground="{ThemeResource OnPrimaryContainerBrush}"
-                                                  HorizontalAlignment="Center"
-                                                  VerticalAlignment="Center" />
-                                    </Border>
-                                    <StackPanel Grid.Column="2"
-                                                Spacing="2"
-                                                VerticalAlignment="Center">
-                                        <TextBlock Text="{Binding Title}"
-                                                   Style="{StaticResource TitleSmall}"
-                                                   Foreground="{ThemeResource OnSurfaceBrush}" />
-                                        <StackPanel Orientation="Horizontal"
-                                                    Spacing="6">
-                                            <TextBlock Text="{Binding Type}"
-                                                       Style="{StaticResource BodySmall}"
-                                                       Foreground="{ThemeResource OnSurfaceVariantBrush}" />
-                                            <TextBlock Text="&#x2022;"
-                                                       Style="{StaticResource BodySmall}"
-                                                       Foreground="{ThemeResource OutlineVariantBrush}" />
-                                            <TextBlock Text="{Binding DurationMinutes}"
-                                                       Style="{StaticResource BodySmall}"
-                                                       Foreground="{ThemeResource OnSurfaceVariantBrush}" />
-                                            <TextBlock Text="min"
-                                                       Style="{StaticResource BodySmall}"
-                                                       Foreground="{ThemeResource OnSurfaceVariantBrush}" />
+                            <!-- A real Button (focus + Invoke + 0.98 press) wrapping the hairline card. -->
+                            <Button Style="{StaticResource FlatButtonStyle}"
+                                    CornerRadius="14"
+                                    HorizontalAlignment="Stretch"
+                                    HorizontalContentAlignment="Stretch"
+                                    AutomationProperties.Name="Open workout session"
+                                    uen:Navigation.Request="WorkoutSession"
+                                    uen:Navigation.Data="{Binding}">
+                                <Border Style="{StaticResource CardBorderStyle}" CornerRadius="14">
+                                    <Grid Padding="16,13">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="14" />
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <Border Grid.Column="0" Width="44" Height="44" CornerRadius="12" Background="{ThemeResource PrimaryContainerBrush}">
+                                            <Viewbox Width="22" Height="22" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                <Path Data="{Binding Type, Converter={StaticResource WorkoutIcon}}"
+                                                      Fill="{ThemeResource OnPrimaryContainerBrush}"
+                                                      Stretch="Uniform" />
+                                            </Viewbox>
+                                        </Border>
+                                        <StackPanel Grid.Column="2" Spacing="3" VerticalAlignment="Center">
+                                            <TextBlock Text="{Binding Title}"
+                                                       FontFamily="{StaticResource MontserratSemiBold}"
+                                                       FontSize="{StaticResource FontSizeSubtitle}"
+                                                       TextTrimming="CharacterEllipsis"
+                                                       MaxLines="1"
+                                                       Foreground="{ThemeResource OnSurfaceBrush}" />
+                                            <StackPanel Orientation="Horizontal" Spacing="7">
+                                                <TextBlock Text="{Binding Type}" FontFamily="{StaticResource MontserratMedium}" FontSize="{StaticResource FontSizeCaption}" Foreground="{ThemeResource OnSurfaceVariantBrush}" />
+                                                <TextBlock Text="&#x2022;" FontSize="{StaticResource FontSizeCaption}" Foreground="{ThemeResource OutlineVariantBrush}" />
+                                                <TextBlock Text="{Binding DurationMinutes}" FontFamily="{StaticResource MontserratMedium}" FontSize="{StaticResource FontSizeCaption}" Foreground="{ThemeResource OnSurfaceVariantBrush}" />
+                                                <TextBlock Text="min" FontFamily="{StaticResource MontserratMedium}" FontSize="{StaticResource FontSizeCaption}" Foreground="{ThemeResource OnSurfaceVariantBrush}" />
+                                            </StackPanel>
                                         </StackPanel>
-                                    </StackPanel>
-                                    <Border Grid.Column="3"
-                                            Background="{ThemeResource TertiaryContainerBrush}"
-                                            CornerRadius="8"
-                                            Padding="8,4">
-                                        <TextBlock Text="{Binding Difficulty}"
-                                                   Style="{StaticResource LabelSmall}"
-                                                   Foreground="{ThemeResource OnTertiaryContainerBrush}"
-                                                   HorizontalAlignment="Center"
-                                                   VerticalAlignment="Center"
-                                                   HorizontalTextAlignment="Center" />
-                                    </Border>
-                                </Grid>
-                            </utu:CardContentControl>
+                                        <Border Grid.Column="3" Background="{ThemeResource TertiaryContainerBrush}" CornerRadius="8" Padding="10,5" VerticalAlignment="Center">
+                                            <TextBlock Text="{Binding Difficulty}"
+                                                       FontFamily="{StaticResource MontserratSemiBold}"
+                                                       FontSize="{StaticResource FontSizeLabel}"
+                                                       CharacterSpacing="140"
+                                                       Foreground="{ThemeResource OnTertiaryContainerBrush}" />
+                                        </Border>
+                                    </Grid>
+                                </Border>
+                            </Button>
                         </DataTemplate>
                     </ItemsRepeater.ItemTemplate>
                 </ItemsRepeater>
 
-                <!-- Suggested Plans -->
-                <TextBlock Text="Suggested Plans"
-                           Style="{StaticResource TitleLarge}"
-                           Foreground="{ThemeResource OnBackgroundBrush}"
-                           Margin="0,0,0,10" />
-
-                <ItemsRepeater ItemsSource="{Binding SuggestedPlans}">
+                <!-- Suggested plans -->
+                <TextBlock Text="SUGGESTED PLANS" Style="{StaticResource SectionLabelStyle}" />
+                <ItemsRepeater x:Name="SuggestedSection" ItemsSource="{Binding SuggestedPlans}">
+                    <ItemsRepeater.Layout>
+                        <StackLayout Spacing="10" />
+                    </ItemsRepeater.Layout>
                     <ItemsRepeater.ItemTemplate>
                         <DataTemplate>
-                            <utu:CardContentControl Style="{StaticResource OutlinedCardContentControlStyle}"
-                                                    HorizontalAlignment="Stretch"
-                                                    IsClickable="True"
-                                                    AutomationProperties.Name="Select this plan"
-                                                    Margin="0,0,0,10">
-                                <Grid Padding="16,14">
+                            <Border Style="{StaticResource CardBorderStyle}">
+                                <Grid Padding="18,16">
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="Auto" />
                                         <RowDefinition Height="Auto" />
                                         <RowDefinition Height="Auto" />
                                     </Grid.RowDefinitions>
-                                    <StackPanel Grid.Row="0"
-                                                Orientation="Horizontal"
-                                                Spacing="8">
+                                    <StackPanel Grid.Row="0" Orientation="Horizontal" Spacing="8">
                                         <TextBlock Text="{Binding Name}"
-                                                   Style="{StaticResource TitleMedium}"
-                                                   Foreground="{ThemeResource OnSurfaceBrush}" />
-                                        <Border Background="{ThemeResource SecondaryContainerBrush}"
-                                                CornerRadius="8"
-                                                Padding="8,4">
+                                                   FontFamily="{StaticResource MontserratSemiBold}"
+                                                   FontSize="{StaticResource FontSizeTitle}"
+                                                   Foreground="{ThemeResource OnSurfaceBrush}"
+                                                   VerticalAlignment="Center" />
+                                        <Border Background="{ThemeResource SecondaryContainerBrush}" CornerRadius="8" Padding="9,4" VerticalAlignment="Center">
                                             <TextBlock Text="{Binding Focus}"
-                                                       Style="{StaticResource LabelSmall}"
-                                                       Foreground="{ThemeResource OnSecondaryContainerBrush}"
-                                                       HorizontalAlignment="Center"
-                                                       VerticalAlignment="Center"
-                                                       HorizontalTextAlignment="Center" />
+                                                       FontFamily="{StaticResource MontserratSemiBold}"
+                                                       FontSize="{StaticResource FontSizeLabel}"
+                                                       CharacterSpacing="140"
+                                                       Foreground="{ThemeResource OnSecondaryContainerBrush}" />
                                         </Border>
                                     </StackPanel>
                                     <TextBlock Grid.Row="1"
                                                Text="{Binding Description}"
-                                               Style="{StaticResource BodySmall}"
+                                               FontFamily="{StaticResource MontserratRegular}"
+                                               FontSize="{StaticResource FontSizeCaption}"
                                                Foreground="{ThemeResource OnSurfaceVariantBrush}"
                                                TextWrapping="Wrap"
-                                               Margin="0,6,0,8" />
-                                    <StackPanel Grid.Row="2"
-                                                Orientation="Horizontal"
-                                                Spacing="16">
-                                        <StackPanel Spacing="2">
-                                            <TextBlock Text="{Binding DaysPerWeek}"
-                                                       Style="{StaticResource TitleSmall}"
-                                                       Foreground="{ThemeResource PrimaryBrush}" />
-                                            <TextBlock Text="days/week"
-                                                       Style="{StaticResource LabelSmall}"
-                                                       Foreground="{ThemeResource OnSurfaceVariantBrush}" />
+                                               Margin="0,7,0,10" />
+                                    <StackPanel Grid.Row="2" Orientation="Horizontal" Spacing="24">
+                                        <StackPanel Spacing="1">
+                                            <TextBlock Text="{Binding DaysPerWeek}" FontFamily="{StaticResource MontserratBold}" FontSize="{StaticResource FontSizeTitle}" Foreground="{ThemeResource PrimaryBrush}" />
+                                            <TextBlock Text="DAYS/WEEK" FontFamily="{StaticResource MontserratSemiBold}" FontSize="{StaticResource FontSizeLabel}" CharacterSpacing="140" Foreground="{ThemeResource OnSurfaceVariantBrush}" />
                                         </StackPanel>
-                                        <StackPanel Spacing="2">
-                                            <TextBlock Text="{Binding MinutesPerSession}"
-                                                       Style="{StaticResource TitleSmall}"
-                                                       Foreground="{ThemeResource PrimaryBrush}" />
-                                            <TextBlock Text="min/session"
-                                                       Style="{StaticResource LabelSmall}"
-                                                       Foreground="{ThemeResource OnSurfaceVariantBrush}" />
+                                        <StackPanel Spacing="1">
+                                            <TextBlock Text="{Binding MinutesPerSession}" FontFamily="{StaticResource MontserratBold}" FontSize="{StaticResource FontSizeTitle}" Foreground="{ThemeResource PrimaryBrush}" />
+                                            <TextBlock Text="MIN/SESSION" FontFamily="{StaticResource MontserratSemiBold}" FontSize="{StaticResource FontSizeLabel}" CharacterSpacing="140" Foreground="{ThemeResource OnSurfaceVariantBrush}" />
                                         </StackPanel>
                                     </StackPanel>
                                 </Grid>
-                            </utu:CardContentControl>
+                            </Border>
                         </DataTemplate>
                     </ItemsRepeater.ItemTemplate>
                 </ItemsRepeater>

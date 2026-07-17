@@ -23,17 +23,16 @@ public partial record ProgressModel
 
     public IReadOnlyList<MilestoneBadge> Milestones { get; } = new[]
     {
-        new MilestoneBadge("First Workout!", "You completed your very first session.", "\uE945", true),
-        new MilestoneBadge("3-Day Streak", "Worked out 3 days in a row.", "\uEB51", true),
-        new MilestoneBadge("5 Workouts Done", "You have completed 5 workouts.", "\uE787", true),
-        new MilestoneBadge("7-Day Streak", "Worked out every day for a week.", "\uE9D9", false),
-        new MilestoneBadge("10 Workouts", "Reached 10 total sessions.", "\uE946", false),
-        new MilestoneBadge("100 Minutes Active", "Clocked 100 minutes of exercise.", "\uE76E", false),
+        new MilestoneBadge("First Workout!", "You completed your very first session.", true),
+        new MilestoneBadge("3-Day Streak", "Worked out 3 days in a row.", true),
+        new MilestoneBadge("5 Workouts Done", "You have completed 5 workouts.", true),
+        new MilestoneBadge("7-Day Streak", "Worked out every day for a week.", false),
+        new MilestoneBadge("10 Workouts", "Reached 10 total sessions.", false),
+        new MilestoneBadge("100 Minutes Active", "Clocked 100 minutes of exercise.", false),
     };
 }
 
 public partial record MilestoneBadge(
     string Title,
     string Description,
-    string IconGlyph,
     bool IsUnlocked);

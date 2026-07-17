@@ -1,124 +1,223 @@
-
-<Page x:Class="FitBeginnerApp.Presentation.HomePage" Background="{ThemeResource BackgroundBrush}" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:utu="using:Uno.Toolkit.UI">
+<Page x:Class="FitBeginnerApp.Presentation.HomePage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:local="using:FitBeginnerApp.Presentation"
+      xmlns:uen="using:Uno.Extensions.Navigation.UI"
+      xmlns:utu="using:Uno.Toolkit.UI"
+      Background="{ThemeResource BackgroundBrush}">
 
     <Grid utu:SafeArea.Insets="VisibleBounds">
         <ScrollViewer VerticalScrollBarVisibility="Auto">
-            <StackPanel Spacing="0" Padding="16,20,16,24">
+            <!-- Capped, left-anchored reading column; fills the screen below the cap on phones. -->
+            <StackPanel Spacing="0" Padding="20,24,20,28" MaxWidth="1100" HorizontalAlignment="Stretch">
 
-                <StackPanel Spacing="2" Margin="0,0,0,20">
-                    <TextBlock Text="{Binding GreetingMessage}" Style="{StaticResource HeadlineMedium}" Foreground="{ThemeResource OnBackgroundBrush}" />
-                    <StackPanel Orientation="Horizontal" Spacing="6">
-                        <FontIcon Glyph="&#xE945;" FontSize="16" Foreground="{ThemeResource SecondaryBrush}" />
-                        <TextBlock Text="{Binding MotivationMessage}" Style="{StaticResource BodyMedium}" Foreground="{ThemeResource SecondaryBrush}" />
+                <!-- 1. Greeting hero -->
+                <StackPanel x:Name="HeroSection" Spacing="8" Margin="0,0,0,24">
+                    <TextBlock Text="{Binding GreetingMessage}"
+                               FontFamily="{StaticResource MontserratBold}"
+                               FontSize="{StaticResource FontSizeH1}"
+                               LineHeight="38"
+                               Foreground="{ThemeResource OnBackgroundBrush}"
+                               TextWrapping="Wrap" />
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <Viewbox Width="18" Height="18" VerticalAlignment="Center">
+                            <Path Data="F1 M8.66535 15.7345C8.90969 15.9075 9.20192 15.9999 9.50129 15.9989V15.9949C9.78358 15.9955 10.0598 15.9132 10.2957 15.7582C10.5316 15.6031 10.7168 15.3822 10.8283 15.1229L11.4413 13.2589C11.5829 12.8366 11.8207 12.4531 12.1361 12.1386C12.4514 11.8241 12.8356 11.5873 13.2583 11.4469L15.0363 10.8689C15.3227 10.7683 15.5701 10.5799 15.7432 10.3305C15.9164 10.0812 16.0065 9.7836 16.0007 9.48009C15.9949 9.17659 15.8936 8.88262 15.7111 8.64003C15.5286 8.39744 15.2743 8.21858 14.9843 8.12889L13.2293 7.55889C12.8048 7.41763 12.419 7.1793 12.1027 6.86283C11.7864 6.54637 11.5483 6.1605 11.4073 5.73589L10.8293 3.95889C10.7285 3.67586 10.542 3.43127 10.2958 3.25908C10.0496 3.0869 9.7559 2.99567 9.45547 2.99809C9.15504 3.00051 8.86282 3.09645 8.61942 3.27258C8.37602 3.44871 8.19353 3.69628 8.09729 3.98089L7.51429 5.77289C7.37371 6.18515 7.14135 6.56012 6.83474 6.8695C6.52813 7.17888 6.15528 7.4146 5.74429 7.55889L3.96729 8.12989C3.75592 8.20382 3.56463 8.32589 3.40855 8.48647C3.25247 8.64704 3.13587 8.84172 3.06798 9.05511C3.00008 9.2685 2.98274 9.49475 3.01733 9.716C3.05193 9.93724 3.1375 10.1474 3.26729 10.3299C3.44418 10.5789 3.69508 10.7657 3.98429 10.8639L5.73829 11.4329C6.16392 11.5753 6.55049 11.815 6.86729 12.1329C6.95236 12.2173 7.03186 12.3072 7.10529 12.4019C7.30447 12.6597 7.45833 12.9495 7.56029 13.2589L8.13829 15.0339C8.23676 15.3166 8.42102 15.5615 8.66535 15.7345ZM8.29129 11.4849C8.17979 11.3392 8.05851 11.2012 7.92829 11.0719H7.93129C7.44841 10.5886 6.85948 10.2247 6.21129 10.0089L4.61129 9.50089L6.22229 8.97689C6.85983 8.75615 7.43806 8.39176 7.91229 7.91189C8.38447 7.42897 8.74047 6.84487 8.95329 6.20389L9.46829 4.62189L9.98429 6.20889C10.1997 6.85585 10.5633 7.44351 11.0462 7.92497C11.529 8.40643 12.1177 8.76837 12.7653 8.98189L14.3843 9.50389L12.7953 10.0189C12.1489 10.2338 11.5616 10.5965 11.08 11.0782C10.5984 11.56 10.2359 12.1474 10.0213 12.7939L9.50629 14.3759L8.99129 12.7909C8.83406 12.3189 8.59732 11.8772 8.29129 11.4849ZM16.332 20.7819C16.1415 20.6461 15.9981 20.4541 15.922 20.2329L15.594 19.2259C15.5302 19.0344 15.4231 18.8602 15.281 18.7169C15.1385 18.574 14.9645 18.4664 14.773 18.4029L13.782 18.0799C13.5516 18.0026 13.3516 17.8541 13.211 17.6559C13.0737 17.4636 13.0002 17.2331 13.001 16.9969C13.0013 16.7591 13.0757 16.5274 13.214 16.3339C13.3512 16.1394 13.5466 15.9934 13.772 15.9169L14.778 15.5909C14.965 15.5245 15.1343 15.4162 15.273 15.2742C15.4117 15.1322 15.516 14.9604 15.578 14.7719L15.902 13.7799C15.9782 13.5557 16.1222 13.3606 16.3141 13.2218C16.5059 13.0829 16.7362 13.0071 16.973 13.0048C17.2099 13.0025 17.4416 13.0738 17.6361 13.2089C17.8306 13.344 17.9784 13.5362 18.059 13.7589L18.388 14.7729C18.4524 14.963 18.5599 15.1356 18.7022 15.2771C18.8445 15.4187 19.0176 15.5254 19.208 15.5889L20.2 15.9119C20.4287 15.9834 20.629 16.1251 20.7727 16.3169C20.9163 16.5086 20.9959 16.7408 21.0002 16.9803C21.0045 17.2199 20.9333 17.4547 20.7967 17.6516C20.6601 17.8484 20.4649 17.9972 20.239 18.0769L19.225 18.4059C19.0349 18.4707 18.8622 18.5781 18.72 18.7199C18.5777 18.8627 18.4705 19.0366 18.407 19.2279L18.085 20.2169C18.0075 20.4472 17.8586 20.6469 17.66 20.7869C17.468 20.9249 17.2375 20.9991 17.001 20.9989C16.7607 20.9989 16.5265 20.9229 16.332 20.7819ZM15.3014 16.999C15.6943 17.1386 16.051 17.3646 16.3452 17.6602C16.6394 17.956 16.8635 18.314 17.001 18.7079C17.1399 18.3158 17.3646 17.9597 17.6587 17.6656C17.9528 17.3715 18.3089 17.1468 18.701 17.0079C18.3026 16.8685 17.9406 16.6412 17.642 16.3429C17.3469 16.049 17.1217 15.6926 16.983 15.2999C16.8449 15.6898 16.6223 16.0444 16.3312 16.3383C16.0407 16.6316 15.689 16.8572 15.3014 16.999Z"
+                                  Fill="{ThemeResource SecondaryBrush}"
+                                  Stretch="Uniform" />
+                        </Viewbox>
+                        <TextBlock Text="{Binding MotivationMessage}"
+                                   FontFamily="{StaticResource MontserratMedium}"
+                                   FontSize="{StaticResource FontSizeBody}"
+                                   Foreground="{ThemeResource OnSurfaceVariantBrush}"
+                                   VerticalAlignment="Center" />
                     </StackPanel>
                 </StackPanel>
-                <TextBlock x:Uid="HomePage_TodayLabel" Style="{StaticResource TitleLarge}" Foreground="{ThemeResource OnBackgroundBrush}" Margin="0,0,0,10" />
 
-                <utu:CardContentControl Style="{StaticResource ElevatedCardContentControlStyle}" HorizontalAlignment="Stretch" IsClickable="False" Margin="0,0,0,20">
-                    <Grid Padding="20,16">
+                <!-- 2. This Week — the signature ring + de-carded stat readouts -->
+                <TextBlock Text="THIS WEEK" Style="{StaticResource SectionLabelStyle}" />
+                <Border x:Name="WeekSection" Style="{StaticResource CardBorderStyle}" Margin="0,0,0,26">
+                    <StackPanel Padding="24,26" Spacing="22">
+                        <local:WeeklyRing Completed="{Binding WeeklyCompletedDays}"
+                                          Goal="{Binding WeeklyGoalDays}"
+                                          HorizontalAlignment="Center" />
+                        <Grid HorizontalAlignment="Center">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Grid.Column="0" HorizontalAlignment="Center" Spacing="3" MinWidth="104">
+                                <TextBlock Text="{Binding TotalMinutesThisWeek}"
+                                           FontFamily="{StaticResource MontserratBold}"
+                                           FontSize="{StaticResource FontSizeStat}"
+                                           Foreground="{ThemeResource PrimaryBrush}"
+                                           HorizontalAlignment="Center" />
+                                <TextBlock Text="MINUTES"
+                                           FontFamily="{StaticResource MontserratSemiBold}"
+                                           FontSize="{StaticResource FontSizeLabel}"
+                                           CharacterSpacing="140"
+                                           Foreground="{ThemeResource OnSurfaceVariantBrush}"
+                                           HorizontalAlignment="Center" />
+                            </StackPanel>
+                            <Border Grid.Column="1" Width="1" Margin="20,6"
+                                    Background="{ThemeResource OutlineVariantBrush}" />
+                            <StackPanel Grid.Column="2" HorizontalAlignment="Center" Spacing="3" MinWidth="104">
+                                <TextBlock Text="{Binding CaloriesBurnedThisWeek}"
+                                           FontFamily="{StaticResource MontserratBold}"
+                                           FontSize="{StaticResource FontSizeStat}"
+                                           Foreground="{ThemeResource SecondaryBrush}"
+                                           HorizontalAlignment="Center" />
+                                <TextBlock Text="CALORIES"
+                                           FontFamily="{StaticResource MontserratSemiBold}"
+                                           FontSize="{StaticResource FontSizeLabel}"
+                                           CharacterSpacing="140"
+                                           Foreground="{ThemeResource OnSurfaceVariantBrush}"
+                                           HorizontalAlignment="Center" />
+                            </StackPanel>
+                        </Grid>
+                    </StackPanel>
+                </Border>
+
+                <!-- 3. Today's workout — the primary action -->
+                <TextBlock Text="TODAY'S WORKOUT" Style="{StaticResource SectionLabelStyle}" />
+                <Border x:Name="TodaySection" Style="{StaticResource CardBorderStyle}" Margin="0,0,0,26">
+                    <Grid Padding="20,18">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
-                        <StackPanel Grid.Row="0" Orientation="Horizontal" Spacing="12">
-                            <Border Width="48" Height="48" CornerRadius="12" Background="{ThemeResource PrimaryContainerBrush}">
-                                <FontIcon Glyph="{Binding TodayWorkout.IconGlyph}" FontSize="22" Foreground="{ThemeResource OnPrimaryContainerBrush}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        <StackPanel Grid.Row="0" Orientation="Horizontal" Spacing="14">
+                            <Border Width="52" Height="52" CornerRadius="14" Background="{ThemeResource PrimaryContainerBrush}">
+                                <Viewbox Width="26" Height="26" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                    <Path Data="{Binding TodayWorkout.Type, Converter={StaticResource WorkoutIcon}}"
+                                          Fill="{ThemeResource OnPrimaryContainerBrush}"
+                                          Stretch="Uniform" />
+                                </Viewbox>
                             </Border>
                             <StackPanel Spacing="2" VerticalAlignment="Center">
-                                <TextBlock Text="{Binding TodayWorkout.Title}" Style="{StaticResource TitleMedium}" Foreground="{ThemeResource OnSurfaceBrush}" />
-                                <TextBlock Text="{Binding TodayWorkout.Type}" Style="{StaticResource BodySmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" />
+                                <TextBlock Text="{Binding TodayWorkout.Title}"
+                                           FontFamily="{StaticResource MontserratSemiBold}"
+                                           FontSize="{StaticResource FontSizeTitle}"
+                                           Foreground="{ThemeResource OnSurfaceBrush}" />
+                                <TextBlock Text="{Binding TodayWorkout.Type}"
+                                           FontFamily="{StaticResource MontserratMedium}"
+                                           FontSize="{StaticResource FontSizeCaption}"
+                                           Foreground="{ThemeResource OnSurfaceVariantBrush}" />
                             </StackPanel>
                         </StackPanel>
-                        <StackPanel Grid.Row="1" Orientation="Horizontal" Spacing="16" Margin="0,14">
-                            <StackPanel Spacing="2">
-                                <TextBlock Text="{Binding TodayWorkout.DurationMinutes}" Style="{StaticResource TitleLarge}" Foreground="{ThemeResource PrimaryBrush}" />
-                                <TextBlock Text="minutes" Style="{StaticResource LabelSmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" />
+                        <StackPanel Grid.Row="1" Orientation="Horizontal" Spacing="28" Margin="0,16">
+                            <StackPanel Spacing="1">
+                                <TextBlock Text="{Binding TodayWorkout.DurationMinutes}"
+                                           FontFamily="{StaticResource MontserratBold}"
+                                           FontSize="{StaticResource FontSizeStatSmall}"
+                                           Foreground="{ThemeResource PrimaryBrush}" />
+                                <TextBlock Text="MINUTES"
+                                           FontFamily="{StaticResource MontserratSemiBold}"
+                                           FontSize="{StaticResource FontSizeLabel}"
+                                           CharacterSpacing="140"
+                                           Foreground="{ThemeResource OnSurfaceVariantBrush}" />
                             </StackPanel>
-                            <StackPanel Spacing="2">
-                                <TextBlock Text="{Binding TodayWorkout.Difficulty}" Style="{StaticResource TitleLarge}" Foreground="{ThemeResource TertiaryBrush}" />
-                                <TextBlock Text="level" Style="{StaticResource LabelSmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" />
+                            <StackPanel Spacing="1">
+                                <TextBlock Text="{Binding TodayWorkout.Difficulty}"
+                                           FontFamily="{StaticResource MontserratBold}"
+                                           FontSize="{StaticResource FontSizeStatSmall}"
+                                           Foreground="{ThemeResource TertiaryBrush}" />
+                                <TextBlock Text="LEVEL"
+                                           FontFamily="{StaticResource MontserratSemiBold}"
+                                           FontSize="{StaticResource FontSizeLabel}"
+                                           CharacterSpacing="140"
+                                           Foreground="{ThemeResource OnSurfaceVariantBrush}" />
                             </StackPanel>
                         </StackPanel>
-                        <Button Grid.Row="2" Content="Start Workout" Style="{StaticResource FilledButtonStyle}" HorizontalAlignment="Stretch" AutomationProperties.Name="Start today&apos;s workout" />
+                        <!-- Tapping Start opens the full-screen guided session for today's workout. -->
+                        <Button Grid.Row="2" Content="Start workout"
+                                Style="{StaticResource PrimaryButtonStyle}"
+                                HorizontalAlignment="Stretch"
+                                AutomationProperties.Name="Start today's workout"
+                                uen:Navigation.Request="WorkoutSession" uen:Navigation.Data="{Binding TodayWorkout}" />
                     </Grid>
-                </utu:CardContentControl>
-                <TextBlock x:Uid="HomePage_WeekLabel" Style="{StaticResource TitleLarge}" Foreground="{ThemeResource OnBackgroundBrush}" Margin="0,0,0,10" />
+                </Border>
 
-                <Grid Margin="0,0,0,20">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="8" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-
-                    <utu:CardContentControl Grid.Column="0" Style="{StaticResource FilledCardContentControlStyle}" HorizontalAlignment="Stretch" IsClickable="False">
-                        <StackPanel Padding="16,14" Spacing="4" HorizontalAlignment="Center">
-                            <FontIcon Glyph="&#xE787;" FontSize="22" Foreground="{ThemeResource PrimaryBrush}" HorizontalAlignment="Center" />
-                            <TextBlock Text="{Binding TotalMinutesThisWeek}" Style="{StaticResource HeadlineMedium}" Foreground="{ThemeResource OnSurfaceBrush}" HorizontalTextAlignment="Center" />
-                            <TextBlock Text="minutes active" Style="{StaticResource LabelSmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" HorizontalTextAlignment="Center" />
-                        </StackPanel>
-                    </utu:CardContentControl>
-
-                    <utu:CardContentControl Grid.Column="2" Style="{StaticResource FilledCardContentControlStyle}" HorizontalAlignment="Stretch" IsClickable="False">
-                        <StackPanel Padding="16,14" Spacing="4" HorizontalAlignment="Center">
-                            <FontIcon Glyph="&#xE945;" FontSize="22" Foreground="{ThemeResource SecondaryBrush}" HorizontalAlignment="Center" />
-                            <TextBlock Text="{Binding CaloriesBurnedThisWeek}" Style="{StaticResource HeadlineMedium}" Foreground="{ThemeResource OnSurfaceBrush}" HorizontalTextAlignment="Center" />
-                            <TextBlock Text="calories burned" Style="{StaticResource LabelSmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" HorizontalTextAlignment="Center" />
-                        </StackPanel>
-                    </utu:CardContentControl>
-                </Grid>
-
-                <TextBlock x:Uid="HomePage_RecentLabel" Style="{StaticResource TitleLarge}" Foreground="{ThemeResource OnBackgroundBrush}" Margin="0,0,0,10" />
-                <ItemsRepeater ItemsSource="{Binding RecentResults}" Margin="0,0,0,20">
+                <!-- 4. Recent results -->
+                <TextBlock Text="RECENT RESULTS" Style="{StaticResource SectionLabelStyle}" />
+                <ItemsRepeater x:Name="ResultsSection" ItemsSource="{Binding RecentResults}" Margin="0,0,0,26">
+                    <ItemsRepeater.Layout>
+                        <StackLayout Spacing="8" />
+                    </ItemsRepeater.Layout>
                     <ItemsRepeater.ItemTemplate>
                         <DataTemplate>
-                            <utu:CardContentControl Style="{StaticResource OutlinedCardContentControlStyle}" HorizontalAlignment="Stretch" IsClickable="False" Margin="0,0,0,8">
-                                <Grid Padding="16,12">
+                            <Border Style="{StaticResource CardBorderStyle}" CornerRadius="14">
+                                <Grid Padding="16,13">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*" />
                                         <ColumnDefinition Width="Auto" />
                                     </Grid.ColumnDefinitions>
-                                    <StackPanel Grid.Column="0" Spacing="2">
-                                        <TextBlock Text="{Binding WorkoutTitle}" Style="{StaticResource TitleSmall}" Foreground="{ThemeResource OnSurfaceBrush}" />
+                                    <StackPanel Grid.Column="0" Spacing="3">
+                                        <TextBlock Text="{Binding WorkoutTitle}"
+                                                   FontFamily="{StaticResource MontserratSemiBold}"
+                                                   FontSize="{StaticResource FontSizeSubtitle}"
+                                                   TextTrimming="CharacterEllipsis"
+                                                   MaxLines="1"
+                                                   Foreground="{ThemeResource OnSurfaceBrush}" />
                                         <StackPanel Orientation="Horizontal" Spacing="8">
-                                            <TextBlock Text="{Binding DurationMinutes}" Style="{StaticResource BodySmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" />
-                                            <TextBlock Text="min" Style="{StaticResource BodySmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" />
-                                            <TextBlock Text="&#x2022;" Style="{StaticResource BodySmall}" Foreground="{ThemeResource OutlineVariantBrush}" />
-                                            <TextBlock Text="{Binding CaloriesBurned}" Style="{StaticResource BodySmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" />
-                                            <TextBlock Text="kcal" Style="{StaticResource BodySmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" />
+                                            <TextBlock Text="{Binding DurationMinutes}" FontFamily="{StaticResource MontserratMedium}" FontSize="{StaticResource FontSizeCaption}" Foreground="{ThemeResource OnSurfaceVariantBrush}" />
+                                            <TextBlock Text="min" FontFamily="{StaticResource MontserratMedium}" FontSize="{StaticResource FontSizeCaption}" Foreground="{ThemeResource OnSurfaceVariantBrush}" />
+                                            <TextBlock Text="&#x2022;" FontSize="{StaticResource FontSizeCaption}" Foreground="{ThemeResource OutlineVariantBrush}" />
+                                            <TextBlock Text="{Binding CaloriesBurned}" FontFamily="{StaticResource MontserratMedium}" FontSize="{StaticResource FontSizeCaption}" Foreground="{ThemeResource OnSurfaceVariantBrush}" />
+                                            <TextBlock Text="kcal" FontFamily="{StaticResource MontserratMedium}" FontSize="{StaticResource FontSizeCaption}" Foreground="{ThemeResource OnSurfaceVariantBrush}" />
                                         </StackPanel>
                                     </StackPanel>
-                                    <Border Grid.Column="1" Background="{ThemeResource PrimaryContainerBrush}" CornerRadius="8" Padding="8,4">
-                                        <TextBlock Text="{Binding Feeling}" Style="{StaticResource LabelSmall}" Foreground="{ThemeResource OnPrimaryContainerBrush}" HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalTextAlignment="Center" />
+                                    <Border Grid.Column="1" Background="{Binding Feeling, Converter={StaticResource FeelingBrush}}" CornerRadius="8" Padding="10,5" VerticalAlignment="Center">
+                                        <TextBlock Text="{Binding Feeling}"
+                                                   FontFamily="{StaticResource MontserratSemiBold}"
+                                                   FontSize="{StaticResource FontSizeLabel}"
+                                                   CharacterSpacing="140"
+                                                   Foreground="{Binding Feeling, Converter={StaticResource FeelingBrush}, ConverterParameter=On}" />
                                     </Border>
                                 </Grid>
-                            </utu:CardContentControl>
+                            </Border>
                         </DataTemplate>
                     </ItemsRepeater.ItemTemplate>
                 </ItemsRepeater>
 
-                <TextBlock x:Uid="HomePage_TipsLabel" Style="{StaticResource TitleLarge}" Foreground="{ThemeResource OnBackgroundBrush}" Margin="0,0,0,10" />
-
-                <ItemsRepeater ItemsSource="{Binding Tips}">
+                <!-- 5. Quick tips -->
+                <TextBlock Text="QUICK TIPS" Style="{StaticResource SectionLabelStyle}" />
+                <ItemsRepeater x:Name="TipsSection" ItemsSource="{Binding Tips}">
+                    <ItemsRepeater.Layout>
+                        <StackLayout Spacing="8" />
+                    </ItemsRepeater.Layout>
                     <ItemsRepeater.ItemTemplate>
                         <DataTemplate>
-                            <utu:CardContentControl Style="{StaticResource ElevatedCardContentControlStyle}" HorizontalAlignment="Stretch" IsClickable="False" Margin="0,0,0,8">
-                                <Grid Padding="16,12">
+                            <Border Style="{StaticResource CardBorderStyle}" CornerRadius="14">
+                                <Grid Padding="16,13">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="Auto" />
-                                        <ColumnDefinition Width="12" />
+                                        <ColumnDefinition Width="14" />
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
-                                    <Border Grid.Column="0" Width="40" Height="40" CornerRadius="10" Background="{ThemeResource SecondaryContainerBrush}">
-                                        <FontIcon Glyph="{Binding IconGlyph}" FontSize="18" Foreground="{ThemeResource OnSecondaryContainerBrush}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                    <Border Grid.Column="0" Width="40" Height="40" CornerRadius="11" Background="{ThemeResource SecondaryContainerBrush}">
+                                        <Viewbox Width="20" Height="20" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                            <Path Data="F1 M12 2.00098C16.0041 2.00098 19.25 5.24691 19.25 9.25098C19.25 11.347 18.3493 13.2707 16.5869 14.9929C16.51 15.0681 16.4504 15.1586 16.4118 15.2582L16.3804 15.3605L15.2493 20.2561C15.0266 21.22 14.2035 21.9183 13.2302 21.993L13.057 21.9996H10.9433C9.95374 21.9996 9.08791 21.3545 8.79629 20.4228L8.75088 20.2555L7.62132 15.3607C7.58904 15.2208 7.51728 15.0931 7.41456 14.9928C5.73515 13.3526 4.83778 11.5297 4.75613 9.54923L4.75 9.25098L4.75388 9.01166C4.88014 5.11837 8.07601 2.00098 12 2.00098ZM14.115 18.499H9.884L10.2125 19.9182C10.2831 20.2245 10.5357 20.4504 10.8401 20.4925L10.9433 20.4996H13.057C13.3713 20.4996 13.6481 20.3044 13.7577 20.0174L13.7878 19.9184L14.115 18.499ZM12 3.50098C8.89821 3.50098 6.37006 5.95699 6.25415 9.03042L6.25 9.25098L6.25672 9.52799C6.33286 11.0913 7.05722 12.5471 8.46262 13.9197C8.72675 14.1777 8.92265 14.496 9.03422 14.846L9.08291 15.0235L9.538 16.999H14.461L14.9189 15.0228C15.0019 14.6634 15.1718 14.3309 15.4124 14.0539L15.5386 13.9201C16.9432 12.5475 17.6672 11.0916 17.7433 9.52803L17.75 9.25098L17.7458 9.03042C17.6299 5.95699 15.1018 3.50098 12 3.50098Z"
+                                                  Fill="{ThemeResource OnSecondaryContainerBrush}"
+                                                  Stretch="Uniform" />
+                                        </Viewbox>
                                     </Border>
                                     <StackPanel Grid.Column="2" Spacing="2" VerticalAlignment="Center">
-                                        <TextBlock Text="{Binding Title}" Style="{StaticResource TitleSmall}" Foreground="{ThemeResource OnSurfaceBrush}" />
-                                        <TextBlock Text="{Binding Body}" Style="{StaticResource BodySmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" TextWrapping="Wrap" />
+                                        <TextBlock Text="{Binding Title}"
+                                                   FontFamily="{StaticResource MontserratSemiBold}"
+                                                   FontSize="{StaticResource FontSizeBody}"
+                                                   TextTrimming="CharacterEllipsis"
+                                                   MaxLines="1"
+                                                   Foreground="{ThemeResource OnSurfaceBrush}" />
+                                        <TextBlock Text="{Binding Body}"
+                                                   FontFamily="{StaticResource MontserratRegular}"
+                                                   FontSize="{StaticResource FontSizeCaption}"
+                                                   Foreground="{ThemeResource OnSurfaceVariantBrush}"
+                                                   TextWrapping="Wrap" />
                                     </StackPanel>
                                 </Grid>
-                            </utu:CardContentControl>
+                            </Border>
                         </DataTemplate>
                     </ItemsRepeater.ItemTemplate>
                 </ItemsRepeater>
