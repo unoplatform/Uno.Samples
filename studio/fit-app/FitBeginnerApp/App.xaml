@@ -10,24 +10,9 @@
       <ResourceDictionary.MergedDictionaries>
         <!-- Load WinUI resources -->
         <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
-        <!-- Fresh-green FitStart palette (light + dark) layered onto the Simple theme -->
-        <utus:SimpleToolkitTheme ColorOverrideSource="ms-appx:///ThemeColors.xaml">
-          <utus:SimpleToolkitTheme.FontOverrideDictionary>
-            <ResourceDictionary>
-              <!-- Montserrat is the app's type identity: a geometric, athletic sans that reads as
-                   deliberately designed rather than the platform default. Static weight files are
-                   applied per role (MontserratBold/SemiBold/Medium below) so the Skia text stack
-                   picks the real weight instead of synthesising a faux-bold. This base face covers
-                   everything the pages don't override explicitly. -->
-              <FontFamily x:Key="SimpleFontFamily">ms-appx:///Assets/Fonts/Montserrat-Regular.ttf#Montserrat</FontFamily>
-              <FontWeight x:Key="DisplayLargeFontWeight">700</FontWeight>
-              <FontWeight x:Key="HeadlineMediumFontWeight">700</FontWeight>
-              <FontWeight x:Key="TitleLargeFontWeight">600</FontWeight>
-              <FontWeight x:Key="LabelLargeFontWeight">700</FontWeight>
-              <x:Double x:Key="BodyLargeFontSize">16</x:Double>
-            </ResourceDictionary>
-          </utus:SimpleToolkitTheme.FontOverrideDictionary>
-        </utus:SimpleToolkitTheme>
+        <!-- Fresh-green FitStart palette (light + dark) layered onto the Simple theme. Uses the Simple
+             theme's default font (no bundled custom font). -->
+        <utus:SimpleToolkitTheme ColorOverrideSource="ms-appx:///ThemeColors.xaml" />
         <!-- House motion/feel tokens (easing, duration, radius, press) — give numbers, not adjectives. -->
         <ResourceDictionary Source="ms-appx:///MotionTokens.xaml" />
       </ResourceDictionary.MergedDictionaries>
@@ -38,16 +23,34 @@
       <!-- Maps a workout Type / exercise Category to a distinct PathIcon geometry (dumbbell / flame /
            target / moon / sparkle) so lists don't repeat one glyph. -->
       <presentation:WorkoutIconConverter x:Key="WorkoutIcon" />
-      <!-- Colours a result "feeling" pill by its value (Great/Good/Tough/Easy) so they differentiate. -->
-      <presentation:FeelingBrushConverter x:Key="FeelingBrush" />
-
-      <!-- Montserrat, one resource per static weight file (Skia picks the real weight, never a
-           synthesised faux-bold). Applied per role: Bold for display + big data, SemiBold for
-           section titles / CTAs / uppercase micro-labels, Medium for emphasis, Regular = base. -->
-      <FontFamily x:Key="MontserratRegular">ms-appx:///Assets/Fonts/Montserrat-Regular.ttf#Montserrat</FontFamily>
-      <FontFamily x:Key="MontserratMedium">ms-appx:///Assets/Fonts/Montserrat-Medium.ttf#Montserrat Medium</FontFamily>
-      <FontFamily x:Key="MontserratSemiBold">ms-appx:///Assets/Fonts/Montserrat-SemiBold.ttf#Montserrat SemiBold</FontFamily>
-      <FontFamily x:Key="MontserratBold">ms-appx:///Assets/Fonts/Montserrat-Bold.ttf#Montserrat</FontFamily>
+      <!-- Feeling pills: one {ThemeResource}-based template per value, chosen by a DataTemplateSelector.
+           Colour lives in XAML (theme-reactive, and resolved against the correct app under Studio Live's
+           ALC) rather than a brush-returning converter reading Application.Current.Resources. -->
+      <DataTemplate x:Key="FeelingPillGreatTemplate">
+        <Border Background="{ThemeResource PrimaryContainerBrush}" CornerRadius="8" Padding="10,5" VerticalAlignment="Center">
+          <TextBlock Text="{Binding}" FontSize="{StaticResource FontSizeLabel}" CharacterSpacing="140" Foreground="{ThemeResource OnPrimaryContainerBrush}" VerticalAlignment="Center" HorizontalTextAlignment="Center" />
+        </Border>
+      </DataTemplate>
+      <DataTemplate x:Key="FeelingPillGoodTemplate">
+        <Border Background="{ThemeResource TertiaryContainerBrush}" CornerRadius="8" Padding="10,5" VerticalAlignment="Center">
+          <TextBlock Text="{Binding}" FontSize="{StaticResource FontSizeLabel}" CharacterSpacing="140" Foreground="{ThemeResource OnTertiaryContainerBrush}" VerticalAlignment="Center" HorizontalTextAlignment="Center" />
+        </Border>
+      </DataTemplate>
+      <DataTemplate x:Key="FeelingPillToughTemplate">
+        <Border Background="{ThemeResource SecondaryContainerBrush}" CornerRadius="8" Padding="10,5" VerticalAlignment="Center">
+          <TextBlock Text="{Binding}" FontSize="{StaticResource FontSizeLabel}" CharacterSpacing="140" Foreground="{ThemeResource OnSecondaryContainerBrush}" VerticalAlignment="Center" HorizontalTextAlignment="Center" />
+        </Border>
+      </DataTemplate>
+      <DataTemplate x:Key="FeelingPillEasyTemplate">
+        <Border Background="{ThemeResource SurfaceVariantBrush}" CornerRadius="8" Padding="10,5" VerticalAlignment="Center">
+          <TextBlock Text="{Binding}" FontSize="{StaticResource FontSizeLabel}" CharacterSpacing="140" Foreground="{ThemeResource OnSurfaceVariantBrush}" VerticalAlignment="Center" HorizontalTextAlignment="Center" />
+        </Border>
+      </DataTemplate>
+      <presentation:FeelingPillTemplateSelector x:Key="FeelingPillSelector"
+                                                Great="{StaticResource FeelingPillGreatTemplate}"
+                                                Good="{StaticResource FeelingPillGoodTemplate}"
+                                                Tough="{StaticResource FeelingPillToughTemplate}"
+                                                Easy="{StaticResource FeelingPillEasyTemplate}" />
 
       <!-- Type scale: a deliberate ramp so sizes are composed, not eyeballed. Every text element
            references one of these instead of a raw literal, so hierarchy stays consistent app-wide. -->
@@ -72,10 +75,9 @@
         <Setter Property="CornerRadius" Value="20" />
       </Style>
 
-      <!-- Section micro-label: uppercase Montserrat SemiBold with wide tracking — reads like an
+      <!-- Section micro-label: uppercase, wide tracking — reads like an
            instrument label instead of a generic Material title. -->
       <Style x:Key="SectionLabelStyle" TargetType="TextBlock">
-        <Setter Property="FontFamily" Value="{StaticResource MontserratSemiBold}" />
         <Setter Property="FontSize" Value="{StaticResource FontSizeSection}" />
         <Setter Property="CharacterSpacing" Value="120" />
         <Setter Property="Foreground" Value="{ThemeResource OnSurfaceVariantBrush}" />
@@ -149,13 +151,12 @@
         </Setter>
       </Style>
 
-      <!-- Primary call-to-action: filled Primary surface, Montserrat SemiBold, concentric radius,
+      <!-- Primary call-to-action: filled Primary surface, concentric radius,
            an OnPrimary state layer for hover/press, and the house 0.98 tactile press. Owns the CTA
            look so it reads as designed rather than a stock filled button. -->
       <Style x:Key="PrimaryButtonStyle" TargetType="Button">
         <Setter Property="Background" Value="{ThemeResource PrimaryBrush}" />
         <Setter Property="Foreground" Value="{ThemeResource OnPrimaryBrush}" />
-        <Setter Property="FontFamily" Value="{StaticResource MontserratSemiBold}" />
         <Setter Property="FontSize" Value="15" />
         <Setter Property="Padding" Value="20,13" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />

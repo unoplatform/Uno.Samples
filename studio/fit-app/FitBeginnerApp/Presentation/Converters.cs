@@ -1,4 +1,5 @@
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Markup;
 using Microsoft.UI.Xaml.Media;
@@ -57,37 +58,28 @@ public partial class WorkoutIconConverter : IValueConverter
 }
 
 /// <summary>
-/// Maps a workout "feeling" (Great / Good / Tough / Easy) to a distinct semantic theme brush, so the
-/// result pills read at a glance instead of all sharing one colour: Great = Primary (green),
-/// Good = Tertiary (blue), Tough = Secondary (orange), Easy / unknown = the muted SurfaceVariant.
-/// Pass <c>On</c> as the parameter for the matching on-container (text) brush. Brushes are resolved
-/// from the active theme's resources at bind time (the app follows the OS theme; pills re-resolve on
-/// navigation).
+/// Picks a "feeling" pill <see cref="DataTemplate"/> by value (Great / Good / Tough / Easy), so each
+/// pill uses <c>{ThemeResource}</c> brushes directly in XAML. This replaces a brush-returning converter:
+/// a converter resolves brushes in code, which does not re-resolve on a light/dark theme switch and
+/// (when it reads <c>Application.Current.Resources</c>) resolves against the wrong app when the app is
+/// previewed inside Studio Live's ALC. Templates keyed per value keep the colour theme-reactive.
 /// </summary>
-public partial class FeelingBrushConverter : IValueConverter
+public partial class FeelingPillTemplateSelector : DataTemplateSelector
 {
-    public object Convert(object value, Type targetType, object parameter, string language)
-    {
-        var feeling = (value as string ?? string.Empty).Trim().ToLowerInvariant();
-        var role = feeling switch
+    public DataTemplate? Great { get; set; }
+    public DataTemplate? Good { get; set; }
+    public DataTemplate? Tough { get; set; }
+    public DataTemplate? Easy { get; set; }
+
+    protected override DataTemplate? SelectTemplateCore(object item)
+        => (item as string)?.Trim().ToLowerInvariant() switch
         {
-            "great" => "Primary",
-            "good" => "Tertiary",
-            "tough" => "Secondary",
-            _ => "SurfaceVariant",
+            "great" => Great,
+            "good" => Good,
+            "tough" => Tough,
+            _ => Easy,
         };
 
-        var wantsForeground = string.Equals(parameter as string, "On", StringComparison.OrdinalIgnoreCase);
-        var key = role == "SurfaceVariant"
-            ? (wantsForeground ? "OnSurfaceVariantBrush" : "SurfaceVariantBrush")
-            : (wantsForeground ? $"On{role}ContainerBrush" : $"{role}ContainerBrush");
-
-        var resources = Application.Current.Resources;
-        return resources.TryGetValue(key, out var brush)
-            ? brush
-            : resources[wantsForeground ? "OnSurfaceVariantBrush" : "SurfaceVariantBrush"];
-    }
-
-    public object ConvertBack(object value, Type targetType, object parameter, string language)
-        => throw new NotSupportedException();
+    protected override DataTemplate? SelectTemplateCore(object item, DependencyObject container)
+        => SelectTemplateCore(item);
 }
