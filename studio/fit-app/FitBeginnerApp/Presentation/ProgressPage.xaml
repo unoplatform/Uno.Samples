@@ -11,7 +11,6 @@
                 <!-- Header -->
                 <StackPanel x:Name="HeaderSection" Margin="0,0,0,22">
                     <TextBlock Text="My Progress"
-                               FontFamily="{StaticResource MontserratBold}"
                                FontSize="{StaticResource FontSizeH1}"
                                Foreground="{ThemeResource OnBackgroundBrush}" />
                 </StackPanel>
@@ -34,12 +33,10 @@
                                       Stretch="Uniform" />
                             </Viewbox>
                             <TextBlock Text="{Binding TotalWorkouts}"
-                                       FontFamily="{StaticResource MontserratBold}"
                                        FontSize="{StaticResource FontSizeStat}"
                                        Foreground="{ThemeResource OnSurfaceBrush}"
                                        HorizontalAlignment="Center" />
                             <TextBlock Text="SESSIONS"
-                                       FontFamily="{StaticResource MontserratSemiBold}"
                                        FontSize="{StaticResource FontSizeLabel}"
                                        CharacterSpacing="140"
                                        Foreground="{ThemeResource OnSurfaceVariantBrush}"
@@ -54,12 +51,10 @@
                                       Stretch="Uniform" />
                             </Viewbox>
                             <TextBlock Text="{Binding TotalMinutes}"
-                                       FontFamily="{StaticResource MontserratBold}"
                                        FontSize="{StaticResource FontSizeStat}"
                                        Foreground="{ThemeResource OnSurfaceBrush}"
                                        HorizontalAlignment="Center" />
                             <TextBlock Text="MINUTES"
-                                       FontFamily="{StaticResource MontserratSemiBold}"
                                        FontSize="{StaticResource FontSizeLabel}"
                                        CharacterSpacing="140"
                                        Foreground="{ThemeResource OnSurfaceVariantBrush}"
@@ -74,12 +69,10 @@
                                       Stretch="Uniform" />
                             </Viewbox>
                             <TextBlock Text="{Binding TotalCalories}"
-                                       FontFamily="{StaticResource MontserratBold}"
                                        FontSize="{StaticResource FontSizeStat}"
                                        Foreground="{ThemeResource OnSurfaceBrush}"
                                        HorizontalAlignment="Center" />
                             <TextBlock Text="KCAL"
-                                       FontFamily="{StaticResource MontserratSemiBold}"
                                        FontSize="{StaticResource FontSizeLabel}"
                                        CharacterSpacing="140"
                                        Foreground="{ThemeResource OnSurfaceVariantBrush}"
@@ -104,12 +97,10 @@
                                       Stretch="Uniform" />
                             </Viewbox>
                             <TextBlock Text="{Binding CurrentStreak}"
-                                       FontFamily="{StaticResource MontserratBold}"
                                        FontSize="{StaticResource FontSizeStat}"
                                        Foreground="{ThemeResource PrimaryBrush}"
                                        HorizontalAlignment="Center" />
                             <TextBlock Text="CURRENT STREAK"
-                                       FontFamily="{StaticResource MontserratSemiBold}"
                                        FontSize="{StaticResource FontSizeLabel}"
                                        CharacterSpacing="140"
                                        Foreground="{ThemeResource OnSurfaceVariantBrush}"
@@ -123,12 +114,10 @@
                                       Stretch="Uniform" />
                             </Viewbox>
                             <TextBlock Text="{Binding LongestStreak}"
-                                       FontFamily="{StaticResource MontserratBold}"
                                        FontSize="{StaticResource FontSizeStat}"
                                        Foreground="{ThemeResource SecondaryBrush}"
                                        HorizontalAlignment="Center" />
                             <TextBlock Text="BEST STREAK"
-                                       FontFamily="{StaticResource MontserratSemiBold}"
                                        FontSize="{StaticResource FontSizeLabel}"
                                        CharacterSpacing="140"
                                        Foreground="{ThemeResource OnSurfaceVariantBrush}"
@@ -162,13 +151,11 @@
                                     </Border>
                                     <StackPanel Grid.Column="2" Spacing="2" VerticalAlignment="Center">
                                         <TextBlock Text="{Binding Title}"
-                                                   FontFamily="{StaticResource MontserratSemiBold}"
                                                    FontSize="{StaticResource FontSizeSubtitle}"
                                                    Foreground="{ThemeResource OnSurfaceBrush}"
                                                    TextTrimming="CharacterEllipsis"
                                                    MaxLines="1" />
                                         <TextBlock Text="{Binding Description}"
-                                                   FontFamily="{StaticResource MontserratRegular}"
                                                    FontSize="{StaticResource FontSizeCaption}"
                                                    Foreground="{ThemeResource OnSurfaceVariantBrush}"
                                                    TextWrapping="Wrap" />
@@ -176,7 +163,6 @@
                                     <Border Grid.Column="3" Background="{ThemeResource PrimaryBrush}" CornerRadius="8" Padding="10,5" VerticalAlignment="Center"
                                             Visibility="{Binding IsUnlocked, Converter={StaticResource BoolToVisibility}}">
                                         <TextBlock Text="Done"
-                                                   FontFamily="{StaticResource MontserratSemiBold}"
                                                    FontSize="{StaticResource FontSizeLabel}"
                                                    CharacterSpacing="140"
                                                    Foreground="{ThemeResource OnPrimaryBrush}"
@@ -186,7 +172,6 @@
                                     <Border Grid.Column="3" Background="{ThemeResource SurfaceVariantBrush}" CornerRadius="8" Padding="10,5" VerticalAlignment="Center"
                                             Visibility="{Binding IsUnlocked, Converter={StaticResource BoolToVisibility}, ConverterParameter=Invert}">
                                         <TextBlock Text="Locked"
-                                                   FontFamily="{StaticResource MontserratSemiBold}"
                                                    FontSize="{StaticResource FontSizeLabel}"
                                                    CharacterSpacing="140"
                                                    Foreground="{ThemeResource OnSurfaceVariantBrush}"
@@ -215,28 +200,19 @@
                                     </Grid.ColumnDefinitions>
                                     <StackPanel Grid.Column="0" Spacing="3">
                                         <TextBlock Text="{Binding WorkoutTitle}"
-                                                   FontFamily="{StaticResource MontserratSemiBold}"
                                                    FontSize="{StaticResource FontSizeSubtitle}"
                                                    Foreground="{ThemeResource OnSurfaceBrush}"
                                                    TextTrimming="CharacterEllipsis"
                                                    MaxLines="1" />
                                         <StackPanel Orientation="Horizontal" Spacing="8">
-                                            <TextBlock Text="{Binding DurationMinutes}" FontFamily="{StaticResource MontserratMedium}" FontSize="{StaticResource FontSizeCaption}" Foreground="{ThemeResource OnSurfaceVariantBrush}" />
-                                            <TextBlock Text="min" FontFamily="{StaticResource MontserratMedium}" FontSize="{StaticResource FontSizeCaption}" Foreground="{ThemeResource OnSurfaceVariantBrush}" />
+                                            <TextBlock Text="{Binding DurationMinutes}" FontSize="{StaticResource FontSizeCaption}" Foreground="{ThemeResource OnSurfaceVariantBrush}" />
+                                            <TextBlock Text="min" FontSize="{StaticResource FontSizeCaption}" Foreground="{ThemeResource OnSurfaceVariantBrush}" />
                                             <TextBlock Text="&#x2022;" FontSize="{StaticResource FontSizeCaption}" Foreground="{ThemeResource OutlineVariantBrush}" />
-                                            <TextBlock Text="{Binding CaloriesBurned}" FontFamily="{StaticResource MontserratMedium}" FontSize="{StaticResource FontSizeCaption}" Foreground="{ThemeResource OnSurfaceVariantBrush}" />
-                                            <TextBlock Text="kcal" FontFamily="{StaticResource MontserratMedium}" FontSize="{StaticResource FontSizeCaption}" Foreground="{ThemeResource OnSurfaceVariantBrush}" />
+                                            <TextBlock Text="{Binding CaloriesBurned}" FontSize="{StaticResource FontSizeCaption}" Foreground="{ThemeResource OnSurfaceVariantBrush}" />
+                                            <TextBlock Text="kcal" FontSize="{StaticResource FontSizeCaption}" Foreground="{ThemeResource OnSurfaceVariantBrush}" />
                                         </StackPanel>
                                     </StackPanel>
-                                    <Border Grid.Column="1" Background="{Binding Feeling, Converter={StaticResource FeelingBrush}}" CornerRadius="8" Padding="10,5" VerticalAlignment="Center">
-                                        <TextBlock Text="{Binding Feeling}"
-                                                   FontFamily="{StaticResource MontserratSemiBold}"
-                                                   FontSize="{StaticResource FontSizeLabel}"
-                                                   CharacterSpacing="140"
-                                                   Foreground="{Binding Feeling, Converter={StaticResource FeelingBrush}, ConverterParameter=On}"
-                                                   VerticalAlignment="Center"
-                                                   HorizontalTextAlignment="Center" />
-                                    </Border>
+                                    <ContentPresenter Grid.Column="1" Content="{Binding Feeling}" ContentTemplateSelector="{StaticResource FeelingPillSelector}" VerticalAlignment="Center" />
                                 </Grid>
                             </Border>
                         </DataTemplate>
