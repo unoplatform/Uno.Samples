@@ -64,7 +64,7 @@ public class ViewModel : INotifyPropertyChanged
         _allMessages = new ObservableCollection<Model>();
 
         _connection = new HubConnectionBuilder()
-            .WithUrl("https://localhost:7167/ChatHub")
+            .WithUrl("https://localhost:7167/chatHub")
             //.WithUrl("http://localhost:61877")
             .WithAutomaticReconnect()
             .Build();
