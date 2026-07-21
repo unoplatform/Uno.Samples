@@ -41,8 +41,9 @@
       <!-- 'Ready' status dot (used by the Cart's ready note) -->
       <SolidColorBrush x:Key="BrewStatusReadyBrush" Color="#3FA34D" />
 
-      <!-- Converter (content-free value transform; brush/visibility choices stay in XAML) -->
+      <!-- Converters (content-free value transforms; brush/visibility choices stay in XAML) -->
       <presentation:BoolToVisibilityConverter x:Key="BoolToVisibility" />
+      <presentation:TabSelectionForegroundConverter x:Key="TabSelectionForeground" />
 
       <!-- Chrome-less, keyboard-focusable button: makes a card / chip / pill a real, accessible
            control (focus + Invoke automation peer) while the inner content defines the look. A

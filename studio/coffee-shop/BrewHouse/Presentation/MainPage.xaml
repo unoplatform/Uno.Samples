@@ -103,7 +103,7 @@
                             <DataTemplate>
                                 <Border Background="{ThemeResource PrimaryBrush}"
                                         CornerRadius="16"
-                                        Margin="10,6" />
+                                        Margin="18,8" />
                             </DataTemplate>
                         </utu:TabBar.SelectionIndicatorContentTemplate>
                         <utu:TabBarItem uen:Region.Name="Home" Content="Home">
@@ -125,10 +125,11 @@
                             <StackPanel Orientation="Horizontal"
                                         Spacing="5"
                                         VerticalAlignment="Center">
-                                <!-- Bind to the ancestor TabBarItem's Foreground so this custom label
-                                     tracks the selection colour (Foreground isn't inherited in WinUI/Uno). -->
+                                <!-- Track the selection colour via the item's IsSelected (the item's
+                                     Foreground DP isn't what the Simple theme drives per state, so a
+                                     custom label bound to it stays muted when selected). -->
                                 <TextBlock Text="Cart" VerticalAlignment="Center"
-                                           Foreground="{utu:AncestorBinding AncestorType=utu:TabBarItem, Path=Foreground}" />
+                                           Foreground="{utu:AncestorBinding AncestorType=utu:TabBarItem, Path=IsSelected, Converter={StaticResource TabSelectionForeground}}" />
                                 <Border Background="{ThemeResource PrimaryBrush}"
                                         CornerRadius="9"
                                         MinWidth="18"

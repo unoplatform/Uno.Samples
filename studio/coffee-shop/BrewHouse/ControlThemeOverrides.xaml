@@ -21,12 +21,16 @@
                  OnSurfaceVariant. The pill — not colour alone — carries the selection. -->
             <SolidColorBrush x:Key="TabBarItemForeground" Color="#6B5444" />
             <SolidColorBrush x:Key="TabBarItemForegroundSelected" Color="#FFF6EC" />
+            <!-- The selection pill is drawn BELOW the item, so a solid hover background would paint over
+                 it (leaving a washed-out pill with a low-contrast label). Keep hover transparent. -->
+            <SolidColorBrush x:Key="TabBarItemBackgroundPointerOver" Color="Transparent" />
             <SolidColorBrush x:Key="NavigationViewSelectionIndicatorForeground" Color="#4A2810" />
         </ResourceDictionary>
 
         <ResourceDictionary x:Key="Default">
             <SolidColorBrush x:Key="TabBarItemForeground" Color="#CCBCAD" />
             <SolidColorBrush x:Key="TabBarItemForegroundSelected" Color="#2A1606" />
+            <SolidColorBrush x:Key="TabBarItemBackgroundPointerOver" Color="Transparent" />
             <SolidColorBrush x:Key="NavigationViewSelectionIndicatorForeground" Color="#E6AE6E" />
         </ResourceDictionary>
 

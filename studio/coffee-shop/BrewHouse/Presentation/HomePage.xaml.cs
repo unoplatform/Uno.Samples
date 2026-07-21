@@ -29,10 +29,13 @@ public sealed partial class HomePage : Page
         };
 
         // The built-in flipper buttons deform (full-height strips) and would double up with our custom
-        // buttons, so collapse them once the template is realized. Also re-collapse on pointer-enter,
-        // when the FlipView's VSM would otherwise fade them back in.
-        HeroFlip.Loaded += (_, _) => HideBuiltInFlippers(HeroFlip);
-        HeroFlip.PointerEntered += (_, _) => HideBuiltInFlippers(HeroFlip);
+        // buttons. Collapse them — but DEFER past the current layout/VSM pass (the FlipView's VSM fades
+        // them back in on pointer-over and re-realizes them on resize), or the collapse loses the race
+        // and they reappear on larger form factors. Re-run on load, pointer-enter, and size change.
+        void HideFlippersDeferred() => DispatcherQueue.TryEnqueue(() => HideBuiltInFlippers(HeroFlip));
+        HeroFlip.Loaded += (_, _) => HideFlippersDeferred();
+        HeroFlip.PointerEntered += (_, _) => HideFlippersDeferred();
+        HeroFlip.SizeChanged += (_, _) => HideFlippersDeferred();
     }
 
     private static void HideBuiltInFlippers(DependencyObject root)
