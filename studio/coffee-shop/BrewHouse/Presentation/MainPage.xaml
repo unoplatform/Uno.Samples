@@ -96,20 +96,21 @@
                                 Style="{StaticResource BottomTabBarStyle}"
                                 SelectionIndicatorPlacement="Below"
                                 Visibility="{utu:Responsive Narrow=Visible, Wide=Collapsed}">
-                        <!-- Material-style active-indicator pill behind the selected tab's ICON: a
-                             FIXED 64×30 (never stretches with the tab's cell width, so the spacing is
-                             identical on every form factor), tonal PrimaryContainer fill so one
-                             selected-foreground colour (OnPrimaryContainer) reads on both the pill and
-                             the bar. Rendered below the content; a clear cue in light and dark. -->
+                        <!-- Selected-tab indicator: a fixed 56×4 accent bar along the TOP edge of the
+                             selected tab. A pill behind the icon cannot fit this bar's geometry (the
+                             icon-to-label gap is ~4px, so any pill tall enough to pad the icon collides
+                             with the label on some form factor) — the top bar is fixed-size, never
+                             touches the content, and pairs with the accent foreground for an
+                             unmistakable selection in both themes. -->
                         <utu:TabBar.SelectionIndicatorContentTemplate>
                             <DataTemplate>
-                                <Border Background="{ThemeResource PrimaryContainerBrush}"
-                                        Width="64"
-                                        Height="30"
-                                        CornerRadius="15"
+                                <Border Background="{ThemeResource PrimaryBrush}"
+                                        Width="56"
+                                        Height="4"
+                                        CornerRadius="2"
                                         HorizontalAlignment="Center"
                                         VerticalAlignment="Top"
-                                        Margin="0,5,0,0" />
+                                        Margin="0,3,0,0" />
                             </DataTemplate>
                         </utu:TabBar.SelectionIndicatorContentTemplate>
                         <utu:TabBarItem uen:Region.Name="Home" Content="Home">
@@ -143,7 +144,7 @@
                                                Foreground="{ThemeResource OnSurfaceVariantBrush}" />
                                     <TextBlock Text="Cart"
                                                VerticalAlignment="Center"
-                                               Foreground="{ThemeResource OnPrimaryContainerBrush}"
+                                               Foreground="{ThemeResource PrimaryBrush}"
                                                Visibility="{utu:AncestorBinding AncestorType=utu:TabBarItem, Path=IsSelected, Converter={StaticResource BoolToVisibility}}" />
                                 </Grid>
                                 <Border Background="{ThemeResource PrimaryBrush}"

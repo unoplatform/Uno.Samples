@@ -16,12 +16,11 @@
     <ResourceDictionary.ThemeDictionaries>
 
         <ResourceDictionary x:Key="Light">
-            <!-- The selected tab's icon sits on a tonal PrimaryContainer pill (see the TabBar's
-                 SelectionIndicatorContentTemplate), so the selected foreground is OnPrimaryContainer —
-                 one colour that reads on the pill AND on the bar (where the label sits); unselected is
-                 the muted OnSurfaceVariant. The pill, not colour alone, carries the selection. -->
+            <!-- Selected = the Primary accent (matches the top indicator bar in the TabBar's
+                 SelectionIndicatorContentTemplate); unselected = the muted OnSurfaceVariant. The
+                 indicator bar + accent foreground together carry the selection. -->
             <SolidColorBrush x:Key="TabBarItemForeground" Color="#6B5444" />
-            <SolidColorBrush x:Key="TabBarItemForegroundSelected" Color="#2C1A0E" />
+            <SolidColorBrush x:Key="TabBarItemForegroundSelected" Color="#4A2810" />
             <!-- The selection pill is drawn BELOW the item, so a solid hover background would paint over
                  it (leaving a washed-out pill with a low-contrast label). Keep hover transparent. -->
             <SolidColorBrush x:Key="TabBarItemBackgroundPointerOver" Color="Transparent" />
@@ -30,7 +29,7 @@
 
         <ResourceDictionary x:Key="Default">
             <SolidColorBrush x:Key="TabBarItemForeground" Color="#CCBCAD" />
-            <SolidColorBrush x:Key="TabBarItemForegroundSelected" Color="#F8E8D8" />
+            <SolidColorBrush x:Key="TabBarItemForegroundSelected" Color="#E6AE6E" />
             <SolidColorBrush x:Key="TabBarItemBackgroundPointerOver" Color="Transparent" />
             <SolidColorBrush x:Key="NavigationViewSelectionIndicatorForeground" Color="#E6AE6E" />
         </ResourceDictionary>
