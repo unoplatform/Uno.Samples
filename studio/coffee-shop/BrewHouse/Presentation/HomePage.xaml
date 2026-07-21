@@ -5,15 +5,11 @@
       Background="{ThemeResource BackgroundBrush}">
 
     <Page.Resources>
-        <!-- Hide the FlipView's built-in flipper buttons: they stretch to the full hero height, so
-             their rounded-rect shape "deforms" as the hero height changes across form factors (and the
-             built-in arrow is a FontIcon that can tofu on Skia). We page with the fixed-size custom
-             buttons below instead (and swipe on touch). -->
-        <Style x:Key="FlipViewNextPreviousButtonStyle" TargetType="Button">
-            <Setter Property="Visibility" Value="Collapsed" />
-            <Setter Property="Width" Value="0" />
-            <Setter Property="Height" Value="0" />
-        </Style>
+        <!-- The FlipView's built-in flipper buttons stretch to the full hero height, so their
+             rounded-rect shape "deforms" as the hero height changes across form factors (and the
+             built-in arrow is a FontIcon that can tofu on Skia). They're hidden in code-behind
+             (HideBuiltInFlippers) — overriding FlipViewNextPreviousButtonStyle does NOT take on the
+             Skia head — and paging is handled by the fixed-size custom buttons below (and swipe). -->
 
         <!-- Consistent circular hero nav button: a fixed 40×40 so it never deforms, on a translucent
              scrim that reads over any photo, with a vector (PathIcon) chevron. -->

@@ -27,6 +27,28 @@ public sealed partial class HomePage : Page
                 HeroPips.SelectedPageIndex = HeroFlip.SelectedIndex;
             }
         };
+
+        // The built-in flipper buttons deform (full-height strips) and would double up with our custom
+        // buttons, so collapse them once the template is realized. Also re-collapse on pointer-enter,
+        // when the FlipView's VSM would otherwise fade them back in.
+        HeroFlip.Loaded += (_, _) => HideBuiltInFlippers(HeroFlip);
+        HeroFlip.PointerEntered += (_, _) => HideBuiltInFlippers(HeroFlip);
+    }
+
+    private static void HideBuiltInFlippers(DependencyObject root)
+    {
+        var count = VisualTreeHelper.GetChildrenCount(root);
+        for (var i = 0; i < count; i++)
+        {
+            var child = VisualTreeHelper.GetChild(root, i);
+            if (child is Button { Name: { Length: > 0 } name } button
+                && (name.StartsWith("Previous", StringComparison.Ordinal) || name.StartsWith("Next", StringComparison.Ordinal)))
+            {
+                button.Visibility = Visibility.Collapsed;
+            }
+
+            HideBuiltInFlippers(child);
+        }
     }
 
     // Custom flipper buttons page the carousel, wrapping at the ends. Setting FlipView.SelectedIndex

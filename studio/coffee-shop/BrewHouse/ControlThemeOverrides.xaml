@@ -16,17 +16,17 @@
     <ResourceDictionary.ThemeDictionaries>
 
         <ResourceDictionary x:Key="Light">
-            <!-- Unselected is a light taupe (not the darker OnSurfaceVariant) so the near-black
-                 espresso selected tab clearly stands out — in light, dark-on-light needs a wide
-                 emphasis gap to read as "selected". -->
-            <SolidColorBrush x:Key="TabBarItemForeground" Color="#A6947F" />
-            <SolidColorBrush x:Key="TabBarItemForegroundSelected" Color="#4A2810" />
+            <!-- The selected tab sits on a filled Primary pill (TabBar.SelectionIndicatorContentTemplate),
+                 so its foreground is OnPrimary (legible on the pill); unselected is the muted
+                 OnSurfaceVariant. The pill — not colour alone — carries the selection. -->
+            <SolidColorBrush x:Key="TabBarItemForeground" Color="#6B5444" />
+            <SolidColorBrush x:Key="TabBarItemForegroundSelected" Color="#FFF6EC" />
             <SolidColorBrush x:Key="NavigationViewSelectionIndicatorForeground" Color="#4A2810" />
         </ResourceDictionary>
 
         <ResourceDictionary x:Key="Default">
             <SolidColorBrush x:Key="TabBarItemForeground" Color="#CCBCAD" />
-            <SolidColorBrush x:Key="TabBarItemForegroundSelected" Color="#E6AE6E" />
+            <SolidColorBrush x:Key="TabBarItemForegroundSelected" Color="#2A1606" />
             <SolidColorBrush x:Key="NavigationViewSelectionIndicatorForeground" Color="#E6AE6E" />
         </ResourceDictionary>
 
