@@ -11,50 +11,59 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <!-- Header: title, search, model filter chips -->
+        <!-- Header: title, search, model filter chips. Full-bleed band whose inner content is
+             capped at the same 1100 max-width as the other pages, so the title and filters sit in
+             a centered column instead of stretching edge-to-edge on wide layouts. -->
         <StackPanel Grid.Row="0"
-                    Padding="20,16,20,12"
-                    Spacing="12"
+                    Padding="0,16,0,12"
                     Background="{ThemeResource SurfaceVariantBrush}">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
-                <StackPanel Grid.Column="0" Spacing="2">
-                    <TextBlock
-                               Style="{StaticResource TitleLarge}"
-                               Foreground="{ThemeResource OnSurfaceBrush}"
-                               Text="Sessions" />
-                    <TextBlock Style="{StaticResource BodyMedium}"
-                               Foreground="{ThemeResource OnSurfaceVariantBrush}"
-                               Text="{Binding TotalCountDisplay}" />
-                </StackPanel>
-                <Viewbox Grid.Column="1"
-                         Width="20"
-                         Height="20"
-                         VerticalAlignment="Center"
-                         AutomationProperties.AccessibilityView="Raw">
-                    <PathIcon Data="F1 M16.1017 17.1624C14.717 18.3101 12.9391 19 11 19C6.58172 19 3 15.4183 3 11C3 6.58172 6.58172 3 11 3C15.4183 3 19 6.58172 19 11C19 12.9391 18.3101 14.717 17.1624 16.1018L21.7803 20.7197C22.0732 21.0126 22.0732 21.4874 21.7803 21.7803C21.4874 22.0732 21.0125 22.0732 20.7196 21.7803L16.1017 17.1624ZM17.5 11C17.5 7.41015 14.5899 4.5 11 4.5C7.41015 4.5 4.5 7.41015 4.5 11C4.5 14.5899 7.41015 17.5 11 17.5C14.5899 17.5 17.5 14.5899 17.5 11Z"
-                              Foreground="{ThemeResource OnSurfaceVariantBrush}" />
-                </Viewbox>
-            </Grid>
+            <StackPanel MaxWidth="1100"
+                        HorizontalAlignment="Stretch"
+                        Padding="20,0"
+                        Spacing="12">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0" Spacing="2">
+                        <TextBlock
+                                   Style="{StaticResource TitleLarge}"
+                                   Foreground="{ThemeResource OnSurfaceBrush}"
+                                   Text="Sessions" />
+                        <TextBlock Style="{StaticResource BodyMedium}"
+                                   Foreground="{ThemeResource OnSurfaceVariantBrush}"
+                                   Text="{Binding TotalCountDisplay}" />
+                    </StackPanel>
+                    <Viewbox Grid.Column="1"
+                             Width="20"
+                             Height="20"
+                             VerticalAlignment="Center"
+                             AutomationProperties.AccessibilityView="Raw">
+                        <PathIcon Data="F1 M16.1017 17.1624C14.717 18.3101 12.9391 19 11 19C6.58172 19 3 15.4183 3 11C3 6.58172 6.58172 3 11 3C15.4183 3 19 6.58172 19 11C19 12.9391 18.3101 14.717 17.1624 16.1018L21.7803 20.7197C22.0732 21.0126 22.0732 21.4874 21.7803 21.7803C21.4874 22.0732 21.0125 22.0732 20.7196 21.7803L16.1017 17.1624ZM17.5 11C17.5 7.41015 14.5899 4.5 11 4.5C7.41015 4.5 4.5 7.41015 4.5 11C4.5 14.5899 7.41015 17.5 11 17.5C14.5899 17.5 17.5 14.5899 17.5 11Z"
+                                  Foreground="{ThemeResource OnSurfaceVariantBrush}" />
+                    </Viewbox>
+                </Grid>
 
-            <TextBox x:Name="SearchBox"
-                     PlaceholderText="Search sessions by name…"
-                     HorizontalAlignment="Stretch"
-                     TextChanged="SearchBox_TextChanged" />
+                <TextBox x:Name="SearchBox"
+                         PlaceholderText="Search sessions by name…"
+                         HorizontalAlignment="Stretch"
+                         TextChanged="SearchBox_TextChanged" />
 
-            <utu:ChipGroup x:Name="ModelFilter"
-                           SelectionMode="Single"
-                           ItemsSource="{Binding FilterOptions}"
-                           Style="{StaticResource FilterChipGroupStyle}"
-                           ItemChecked="ModelFilter_ItemChecked" />
+                <utu:ChipGroup x:Name="ModelFilter"
+                               SelectionMode="Single"
+                               ItemsSource="{Binding FilterOptions}"
+                               Style="{StaticResource FilterChipGroupStyle}"
+                               ItemChecked="ModelFilter_ItemChecked" />
+            </StackPanel>
         </StackPanel>
 
-        <!-- Session list -->
+        <!-- Session list: centred column capped at the same 1100 max-width as the header + pages -->
         <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
-            <ItemsRepeater x:Name="SessionList" Margin="16,12,16,24">
+            <ItemsRepeater x:Name="SessionList"
+                           MaxWidth="1100"
+                           HorizontalAlignment="Stretch"
+                           Margin="20,12,20,24">
                 <ItemsRepeater.Layout>
                     <StackLayout Spacing="8" Orientation="Vertical" />
                 </ItemsRepeater.Layout>

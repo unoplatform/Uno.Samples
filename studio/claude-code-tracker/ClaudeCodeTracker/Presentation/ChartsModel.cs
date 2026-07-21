@@ -22,12 +22,20 @@ public partial record ChartsModel
         var labelClr = Resolve("OnSurfaceVariantColor", Rgb(0x51, 0x46, 0x3B));
         var primaryClr = Resolve("PrimaryColor", Rgb(0xB2, 0x3A, 0x0A));
         var secondaryClr = Resolve("SecondaryColor", Rgb(0x0F, 0x76, 0x6E));
-        var tertiaryClr = Resolve("TertiaryColor", Rgb(0xB4, 0x53, 0x09));
-        var outlineClr = Resolve("OutlineColor", Rgb(0x8A, 0x77, 0x66));
         var surfaceClr = Resolve("SurfaceColor", Rgb(0xFF, 0xFF, 0xFF));
 
+        // Categorical chart palette — spread hues (terracotta / teal / gold / violet) so adjacent
+        // donut slices and legend rows stay distinguishable; the semantic Primary and Tertiary
+        // roles alone are too close in hue to tell apart. Fallbacks mirror the Light ThemeColors
+        // values for design-time (before the theme resources load).
+        var cat1Clr = Resolve("Chart1Color", Rgb(0xB2, 0x3A, 0x0A));
+        var cat2Clr = Resolve("Chart2Color", Rgb(0x0F, 0x76, 0x6E));
+        var cat3Clr = Resolve("Chart3Color", Rgb(0xCA, 0x8A, 0x04));
+        var cat4Clr = Resolve("Chart4Color", Rgb(0x7E, 0x4E, 0x9E));
+
         var axisLabel = new SolidColorPaint(Sk(labelClr));
-        SKColor primary = Sk(primaryClr), secondary = Sk(secondaryClr), tertiary = Sk(tertiaryClr), outline = Sk(outlineClr);
+        SKColor primary = Sk(primaryClr), secondary = Sk(secondaryClr);
+        SKColor cat1 = Sk(cat1Clr), cat2 = Sk(cat2Clr), cat3 = Sk(cat3Clr), cat4 = Sk(cat4Clr);
 
         var days = SampleData.DailyUsage;
 
@@ -70,21 +78,21 @@ public partial record ChartsModel
         var tokens = SampleData.Tokens;
         TokenTypeSeries = new ISeries[]
         {
-            Slice("Input", tokens.InputPercent, primary),
-            Slice("Output", tokens.OutputPercent, secondary),
-            Slice("Cache Read", tokens.CacheReadPercent, tertiary),
-            Slice("Cache Write", tokens.CacheWritePercent, outline),
+            Slice("Input", tokens.InputPercent, cat1),
+            Slice("Output", tokens.OutputPercent, cat2),
+            Slice("Cache Read", tokens.CacheReadPercent, cat3),
+            Slice("Cache Write", tokens.CacheWritePercent, cat4),
         };
         TokenTypeLegend = new[]
         {
-            new LegendEntry("Input", Pct(tokens.InputPercent), primaryClr),
-            new LegendEntry("Output", Pct(tokens.OutputPercent), secondaryClr),
-            new LegendEntry("Cache Read", Pct(tokens.CacheReadPercent), tertiaryClr),
-            new LegendEntry("Cache Write", Pct(tokens.CacheWritePercent), outlineClr),
+            new LegendEntry("Input", Pct(tokens.InputPercent), cat1Clr),
+            new LegendEntry("Output", Pct(tokens.OutputPercent), cat2Clr),
+            new LegendEntry("Cache Read", Pct(tokens.CacheReadPercent), cat3Clr),
+            new LegendEntry("Cache Write", Pct(tokens.CacheWritePercent), cat4Clr),
         };
 
-        var paletteSk = new[] { primary, secondary, tertiary };
-        var paletteClr = new[] { primaryClr, secondaryClr, tertiaryClr };
+        var paletteSk = new[] { cat1, cat2, cat3 };
+        var paletteClr = new[] { cat1Clr, cat2Clr, cat3Clr };
         ModelShareSeries = SampleData.ModelBreakdown
             .Select((m, i) => Slice(m.ShortName, m.SharePercent, paletteSk[i % paletteSk.Length]))
             .ToArray();

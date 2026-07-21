@@ -5,8 +5,14 @@
 		Warm "Claude" palette: a terracotta/coral primary (matching the app icon) over warm
 		cream/charcoal neutrals, with a deep-teal secondary and amber tertiary. Cards (Surface)
 		sit clearly above the page (Background) in both themes, and every On-/role pairing meets
-		WCAG AA contrast. The Charts page resolves Primary/Secondary/Tertiary/OnSurfaceVariant
-		from these keys, so charts re-theme automatically.
+		WCAG AA contrast.
+
+		Chart1..Chart4 are a dedicated *categorical* chart palette (terracotta / teal / gold /
+		violet). They are deliberately NOT the Primary/Secondary/Tertiary roles: Primary
+		(terracotta) and Tertiary (amber) are too close in hue to tell apart as adjacent chart
+		categories, so the donuts/legends resolve these four spread-out hues instead. The
+		single-series line (Primary) and bar (Secondary) still use the semantic roles. Everything
+		resolves from these keys at navigation time, so charts re-theme automatically.
 	-->
 	<ResourceDictionary.ThemeDictionaries>
 		<ResourceDictionary x:Key="Light">
@@ -32,6 +38,11 @@
 			<Color x:Key="OnBackgroundColor">#1F1A16</Color>
 			<Color x:Key="OutlineColor">#8A7766</Color>
 			<Color x:Key="OutlineVariantColor">#D8CCBE</Color>
+			<!-- Categorical chart palette (spread hues, legible on the white card surface) -->
+			<Color x:Key="Chart1Color">#B23A0A</Color>
+			<Color x:Key="Chart2Color">#0F766E</Color>
+			<Color x:Key="Chart3Color">#CA8A04</Color>
+			<Color x:Key="Chart4Color">#7E4E9E</Color>
 		</ResourceDictionary>
 		<ResourceDictionary x:Key="Default">
 			<Color x:Key="PrimaryColor">#FB923C</Color>
@@ -56,6 +67,11 @@
 			<Color x:Key="OnBackgroundColor">#ECE1D7</Color>
 			<Color x:Key="OutlineColor">#9C8B7B</Color>
 			<Color x:Key="OutlineVariantColor">#3D352D</Color>
+			<!-- Categorical chart palette (spread hues, legible on the dark card surface) -->
+			<Color x:Key="Chart1Color">#FB923C</Color>
+			<Color x:Key="Chart2Color">#5EEAD4</Color>
+			<Color x:Key="Chart3Color">#FBBF24</Color>
+			<Color x:Key="Chart4Color">#C79AE6</Color>
 		</ResourceDictionary>
 	</ResourceDictionary.ThemeDictionaries>
 </ResourceDictionary>
