@@ -1,4 +1,5 @@
 using BrewHouse.Presentation.MockData;
+using Microsoft.UI.Xaml.Media;
 
 namespace BrewHouse.Presentation;
 
@@ -26,5 +27,45 @@ public sealed partial class HomePage : Page
                 HeroPips.SelectedPageIndex = HeroFlip.SelectedIndex;
             }
         };
+    }
+
+    // Custom flipper buttons page the carousel, wrapping at the ends. Setting FlipView.SelectedIndex
+    // programmatically does NOT navigate on the Skia/WASM head (see lessons.md 49), so we scroll the
+    // FlipView's own horizontal ScrollViewer by one viewport — the same mechanism a swipe uses — which
+    // snaps to the next slide and updates SelectedIndex (so the pager stays in sync via SelectionChanged).
+    private void HeroPrev_Click(object sender, RoutedEventArgs e) => StepHero(-1);
+
+    private void HeroNext_Click(object sender, RoutedEventArgs e) => StepHero(+1);
+
+    private void StepHero(int delta)
+    {
+        var count = HeroFlip.Items.Count;
+        if (count <= 0 || FindDescendant<ScrollViewer>(HeroFlip) is not { } scroll)
+        {
+            return;
+        }
+
+        var target = (HeroFlip.SelectedIndex + delta + count) % count;
+        scroll.ChangeView(target * scroll.ViewportWidth, null, null);
+    }
+
+    private static T? FindDescendant<T>(DependencyObject root) where T : DependencyObject
+    {
+        var count = VisualTreeHelper.GetChildrenCount(root);
+        for (var i = 0; i < count; i++)
+        {
+            var child = VisualTreeHelper.GetChild(root, i);
+            if (child is T match)
+            {
+                return match;
+            }
+
+            if (FindDescendant<T>(child) is { } nested)
+            {
+                return nested;
+            }
+        }
+
+        return default;
     }
 }

@@ -4,6 +4,32 @@
       xmlns:utu="using:Uno.Toolkit.UI"
       Background="{ThemeResource BackgroundBrush}">
 
+    <Page.Resources>
+        <!-- Hide the FlipView's built-in flipper buttons: they stretch to the full hero height, so
+             their rounded-rect shape "deforms" as the hero height changes across form factors (and the
+             built-in arrow is a FontIcon that can tofu on Skia). We page with the fixed-size custom
+             buttons below instead (and swipe on touch). -->
+        <Style x:Key="FlipViewNextPreviousButtonStyle" TargetType="Button">
+            <Setter Property="Visibility" Value="Collapsed" />
+            <Setter Property="Width" Value="0" />
+            <Setter Property="Height" Value="0" />
+        </Style>
+
+        <!-- Consistent circular hero nav button: a fixed 40×40 so it never deforms, on a translucent
+             scrim that reads over any photo, with a vector (PathIcon) chevron. -->
+        <Style x:Key="HeroNavButtonStyle" TargetType="Button" BasedOn="{StaticResource BrewButtonStyle}">
+            <Setter Property="Width" Value="40" />
+            <Setter Property="Height" Value="40" />
+            <Setter Property="MinWidth" Value="0" />
+            <Setter Property="MinHeight" Value="0" />
+            <Setter Property="CornerRadius" Value="20" />
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="Background" Value="#59000000" />
+            <Setter Property="Foreground" Value="#FFFFFF" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
+    </Page.Resources>
+
     <utu:SafeArea Insets="VisibleBounds">
         <!-- Phone-first; caps to a centred, width-filling column on wide desktop/WASM -->
         <Grid x:Name="Root" MaxWidth="1100" HorizontalAlignment="Stretch">
@@ -86,12 +112,40 @@
                              hover flipper arrows, and the FlipView's own arrow-key support.
                              RequestedTheme=Dark gives pips that read on the scrim. -->
                         <PipsPager x:Name="HeroPips"
-                                   NumberOfPages="{Binding HeroBanners.Count}"
+                                   NumberOfPages="{Binding HeroBannerCount}"
                                    IsHitTestVisible="False"
                                    RequestedTheme="Dark"
                                    HorizontalAlignment="Center"
                                    VerticalAlignment="Bottom"
                                    Margin="0,0,0,10" />
+
+                        <!-- Custom, fixed-size paging buttons (Wide/desktop only; touch users swipe).
+                             They drive SelectedIndex in code-behind, which is reliable on Skia and keeps
+                             the pager in sync via SelectionChanged. -->
+                        <Button x:Name="HeroPrev"
+                                Style="{StaticResource HeroNavButtonStyle}"
+                                HorizontalAlignment="Left"
+                                Margin="12,0,0,0"
+                                Visibility="{utu:Responsive Narrow=Collapsed, Wide=Visible}"
+                                Click="HeroPrev_Click"
+                                AutomationProperties.Name="Previous banner">
+                            <Viewbox Width="18" Height="18">
+                                <PathIcon Data="F1 M15.5303 4.21967C15.8232 4.51256 15.8232 4.98744 15.5303 5.28033L8.81066 12L15.5303 18.7197C15.8232 19.0126 15.8232 19.4874 15.5303 19.7803C15.2374 20.0732 14.7626 20.0732 14.4697 19.7803L7.21967 12.5303C6.92678 12.2374 6.92678 11.7626 7.21967 11.4697L14.4697 4.21967C14.7626 3.92678 15.2374 3.92678 15.5303 4.21967Z"
+                                          Foreground="#FFFFFF" />
+                            </Viewbox>
+                        </Button>
+                        <Button x:Name="HeroNext"
+                                Style="{StaticResource HeroNavButtonStyle}"
+                                HorizontalAlignment="Right"
+                                Margin="0,0,12,0"
+                                Visibility="{utu:Responsive Narrow=Collapsed, Wide=Visible}"
+                                Click="HeroNext_Click"
+                                AutomationProperties.Name="Next banner">
+                            <Viewbox Width="18" Height="18">
+                                <PathIcon Data="F1 M8.46967 4.21967C8.76256 3.92678 9.23744 3.92678 9.53033 4.21967L16.7803 11.4697C17.0732 11.7626 17.0732 12.2374 16.7803 12.5303L9.53033 19.7803C9.23744 20.0732 8.76256 20.0732 8.46967 19.7803C8.17678 19.4874 8.17678 19.0126 8.46967 18.7197L15.1893 12L8.46967 5.28033C8.17678 4.98744 8.17678 4.51256 8.46967 4.21967Z"
+                                          Foreground="#FFFFFF" />
+                            </Viewbox>
+                        </Button>
                     </Grid>
 
                     <!-- Today's Specials Section -->

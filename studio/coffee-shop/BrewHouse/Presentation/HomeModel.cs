@@ -10,6 +10,11 @@ public partial record HomeModel(ICartService Cart, INavigator Navigator)
 {
     public IReadOnlyList<HeroBanner> HeroBanners { get; } = CatalogData.HeroBanners;
 
+    // Bind the PipsPager's NumberOfPages to this, NOT to {Binding HeroBanners.Count}: the banners are an
+    // IReadOnlyList backed by an array, and classic {Binding} can't reach an array's explicit-interface
+    // Count, so the pager silently falls back to its default of 5 pips (showing phantom slides).
+    public int HeroBannerCount => HeroBanners.Count;
+
     // Derived from the shared catalogue so Home stays in sync with the Menu.
     public IReadOnlyList<ProductItem> Specials { get; } =
         CatalogData.AllProducts.Where(p => p.IsSpecial).ToList();
