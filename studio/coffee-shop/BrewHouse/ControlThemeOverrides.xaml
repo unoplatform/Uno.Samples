@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <!--
+        Lightweight-styling overrides that make navigation selection unmistakable. Merged AFTER the
+        Simple theme in App.xaml so these keys win; defined in BOTH theme dictionaries so they swap
+        with light/dark. (Only the keys the Simple TabBar / NavigationView templates actually consume
+        are set — an unread key is a silent no-op.)
+
+        The Simple bottom TabBar's default selected vs unselected foregrounds are too close, so the
+        current tab reads ambiguously. We pin the SELECTED tab to the Primary accent (espresso in
+        light, warm tan in dark) and the UNSELECTED tabs to a clearly muted OnSurfaceVariant — colour,
+        not just brightness, marks the selection. The wide NavigationView pane's moving indicator pill
+        is themed to the same accent so it never falls back to the clashing system-accent blue.
+    -->
+    <ResourceDictionary.ThemeDictionaries>
+
+        <ResourceDictionary x:Key="Light">
+            <SolidColorBrush x:Key="TabBarItemForeground" Color="#6B5444" />
+            <SolidColorBrush x:Key="TabBarItemForegroundSelected" Color="#4A2810" />
+            <SolidColorBrush x:Key="NavigationViewSelectionIndicatorForeground" Color="#4A2810" />
+        </ResourceDictionary>
+
+        <ResourceDictionary x:Key="Default">
+            <SolidColorBrush x:Key="TabBarItemForeground" Color="#CCBCAD" />
+            <SolidColorBrush x:Key="TabBarItemForegroundSelected" Color="#E6AE6E" />
+            <SolidColorBrush x:Key="NavigationViewSelectionIndicatorForeground" Color="#E6AE6E" />
+        </ResourceDictionary>
+
+    </ResourceDictionary.ThemeDictionaries>
+</ResourceDictionary>

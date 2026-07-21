@@ -13,6 +13,9 @@
         <!-- Warm BrewHouse palette (light + dark) layered onto the Simple theme -->
         <utus:SimpleToolkitTheme xmlns:utus="using:Uno.Toolkit.UI.Simple"
                                  ColorOverrideSource="ms-appx:///ThemeColors.xaml" />
+        <!-- Merged last so its ThemeDictionaries win over the Simple theme: makes the TabBar /
+             NavigationView selection state unmistakable. -->
+        <ResourceDictionary Source="ms-appx:///ControlThemeOverrides.xaml" />
       </ResourceDictionary.MergedDictionaries>
 
       <!-- App-specific brushes. Only genuinely theme-VARYING chrome lives in ThemeDictionaries;

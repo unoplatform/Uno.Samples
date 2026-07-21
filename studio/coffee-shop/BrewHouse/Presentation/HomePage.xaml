@@ -26,8 +26,10 @@
                 <StackPanel Spacing="0">
 
                     <!-- Hero Carousel: full-bleed on phone (no corner clipping where the image meets
-                         the screen edge), a taller rounded banner on desktop/web where the column is inset -->
-                    <Grid Height="{utu:Responsive Narrow=220, Wide=340}">
+                         the screen edge), a taller rounded banner on desktop/web where it's inset from
+                         the nav rail and window edge (Wide margin) so it reads as a floating banner. -->
+                    <Grid Height="{utu:Responsive Narrow=220, Wide=340}"
+                          Margin="{utu:Responsive Narrow='0', Wide='20,8,20,4'}">
                         <FlipView x:Name="HeroFlip"
                                   ItemsSource="{Binding HeroBanners}"
                                   HorizontalAlignment="Stretch"

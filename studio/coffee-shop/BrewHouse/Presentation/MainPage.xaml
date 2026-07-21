@@ -48,7 +48,11 @@
                     <StackPanel Orientation="Horizontal"
                                 Spacing="8"
                                 VerticalAlignment="Center">
-                        <TextBlock Text="Cart" VerticalAlignment="Center" />
+                        <!-- Foreground is NOT inherited in WinUI/Uno, so this custom label won't pick
+                             up the item's selection-driven colour on its own — bind it to the ancestor
+                             item's Foreground so it dims/highlights exactly like the string-content tabs. -->
+                        <TextBlock Text="Cart" VerticalAlignment="Center"
+                                   Foreground="{utu:AncestorBinding AncestorType=NavigationViewItem, Path=Foreground}" />
                         <Border Background="{ThemeResource PrimaryBrush}"
                                 CornerRadius="9"
                                 MinWidth="18"
@@ -67,7 +71,7 @@
                 </NavigationViewItem>
                 <NavigationViewItem uen:Region.Name="Orders" Content="Orders">
                     <NavigationViewItem.Icon>
-                        <PathIcon Data="F1 M5.74908 3C6.99122 3 7.99817 4.00695 7.99817 5.24908V18.7509C7.99817 19.9931 6.99122 21 5.74908 21C4.50695 21 3.5 19.9931 3.5 18.7509V5.24908C3.5 4.00695 4.50695 3 5.74908 3ZM12.2491 7C13.4912 7 14.4982 8.00695 14.4982 9.24908V18.7509C14.4982 19.9931 13.4912 21 12.2491 21C11.0069 21 10 19.9931 10 18.7509V9.24908C10 8.00695 11.0069 7 12.2491 7ZM18.7491 11C19.9912 11 20.9982 12.0069 20.9982 13.2491V18.7509C20.9982 19.9931 19.9912 21 18.7491 21C17.5069 21 16.5 19.9931 16.5 18.7509V13.2491C16.5 12.0069 17.5069 11 18.7491 11ZM5.74908 4.5C5.33538 4.5 5 4.83538 5 5.24908V18.7509C5 19.1646 5.33538 19.5 5.74908 19.5C6.16279 19.5 6.49817 19.1646 6.49817 18.7509V5.24908C6.49817 4.83538 6.16279 4.5 5.74908 4.5ZM12.2491 8.5C11.8354 8.5 11.5 8.83538 11.5 9.24908V18.7509C11.5 19.1646 11.8354 19.5 12.2491 19.5C12.6628 19.5 12.9982 19.1646 12.9982 18.7509V9.24908C12.9982 8.83538 12.6628 8.5 12.2491 8.5ZM18.7491 12.5C18.3354 12.5 18 12.8354 18 13.2491V18.7509C18 19.1646 18.3354 19.5 18.7491 19.5C19.1628 19.5 19.4982 19.1646 19.4982 18.7509V13.2491C19.4982 12.8354 19.1628 12.5 18.7491 12.5Z" />
+                        <PathIcon Data="F0 M6 2C4.89543 2 4 2.89543 4 4V21.25C4 21.6531 4.24169 22.0169 4.61468 22.1731C4.98766 22.3293 5.41716 22.2477 5.70711 21.9678L7 20.7197L8.29289 21.9678C8.68342 22.3448 9.31658 22.3448 9.70711 21.9678L11 20.7197L12.2929 21.9678C12.6834 22.3448 13.3166 22.3448 13.7071 21.9678L15 20.7197L16.2929 21.9678C16.5828 22.2477 17.0123 22.3293 17.3853 22.1731C17.7583 22.0169 18 21.6531 18 21.25V4C18 2.89543 17.1046 2 16 2H6ZM7.75 6.75H14.25V8.25H7.75V6.75ZM7.75 10.25H14.25V11.75H7.75V10.25Z" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
             </NavigationView.MenuItems>
@@ -110,7 +114,10 @@
                             <StackPanel Orientation="Horizontal"
                                         Spacing="5"
                                         VerticalAlignment="Center">
-                                <TextBlock Text="Cart" VerticalAlignment="Center" />
+                                <!-- Bind to the ancestor TabBarItem's Foreground so this custom label
+                                     tracks the selection colour (Foreground isn't inherited in WinUI/Uno). -->
+                                <TextBlock Text="Cart" VerticalAlignment="Center"
+                                           Foreground="{utu:AncestorBinding AncestorType=utu:TabBarItem, Path=Foreground}" />
                                 <Border Background="{ThemeResource PrimaryBrush}"
                                         CornerRadius="9"
                                         MinWidth="18"
@@ -129,7 +136,7 @@
                         </utu:TabBarItem>
                         <utu:TabBarItem uen:Region.Name="Orders" Content="Orders">
                             <utu:TabBarItem.Icon>
-                                <PathIcon Data="F1 M5.74908 3C6.99122 3 7.99817 4.00695 7.99817 5.24908V18.7509C7.99817 19.9931 6.99122 21 5.74908 21C4.50695 21 3.5 19.9931 3.5 18.7509V5.24908C3.5 4.00695 4.50695 3 5.74908 3ZM12.2491 7C13.4912 7 14.4982 8.00695 14.4982 9.24908V18.7509C14.4982 19.9931 13.4912 21 12.2491 21C11.0069 21 10 19.9931 10 18.7509V9.24908C10 8.00695 11.0069 7 12.2491 7ZM18.7491 11C19.9912 11 20.9982 12.0069 20.9982 13.2491V18.7509C20.9982 19.9931 19.9912 21 18.7491 21C17.5069 21 16.5 19.9931 16.5 18.7509V13.2491C16.5 12.0069 17.5069 11 18.7491 11ZM5.74908 4.5C5.33538 4.5 5 4.83538 5 5.24908V18.7509C5 19.1646 5.33538 19.5 5.74908 19.5C6.16279 19.5 6.49817 19.1646 6.49817 18.7509V5.24908C6.49817 4.83538 6.16279 4.5 5.74908 4.5ZM12.2491 8.5C11.8354 8.5 11.5 8.83538 11.5 9.24908V18.7509C11.5 19.1646 11.8354 19.5 12.2491 19.5C12.6628 19.5 12.9982 19.1646 12.9982 18.7509V9.24908C12.9982 8.83538 12.6628 8.5 12.2491 8.5ZM18.7491 12.5C18.3354 12.5 18 12.8354 18 13.2491V18.7509C18 19.1646 18.3354 19.5 18.7491 19.5C19.1628 19.5 19.4982 19.1646 19.4982 18.7509V13.2491C19.4982 12.8354 19.1628 12.5 18.7491 12.5Z" />
+                                <PathIcon Data="F0 M6 2C4.89543 2 4 2.89543 4 4V21.25C4 21.6531 4.24169 22.0169 4.61468 22.1731C4.98766 22.3293 5.41716 22.2477 5.70711 21.9678L7 20.7197L8.29289 21.9678C8.68342 22.3448 9.31658 22.3448 9.70711 21.9678L11 20.7197L12.2929 21.9678C12.6834 22.3448 13.3166 22.3448 13.7071 21.9678L15 20.7197L16.2929 21.9678C16.5828 22.2477 17.0123 22.3293 17.3853 22.1731C17.7583 22.0169 18 21.6531 18 21.25V4C18 2.89543 17.1046 2 16 2H6ZM7.75 6.75H14.25V8.25H7.75V6.75ZM7.75 10.25H14.25V11.75H7.75V10.25Z" />
                             </utu:TabBarItem.Icon>
                         </utu:TabBarItem>
                     </utu:TabBar>
