@@ -26,14 +26,24 @@
                     </StackPanel>
                 </StackPanel>
 
-                <!-- Cost summary row -->
-                <Grid ColumnSpacing="8">
+                <!-- Cost summary row: 3-across on wide, stacked full-width on narrow (mirrors the
+                     Dashboard KPI grid). All three are cost figures, so they share the Primary
+                     "cost" accent used app-wide for money — a consistent read, not three colours. -->
+                <Grid ColumnSpacing="8" RowSpacing="{utu:Responsive Narrow=8, Wide=0}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
-                    <utu:CardContentControl Grid.Column="0" Style="{StaticResource FilledCardContentControlStyle}" IsClickable="False" HorizontalAlignment="Stretch">
+                    <utu:CardContentControl Grid.Row="0"
+                                            Grid.Column="0"
+                                            Grid.ColumnSpan="{utu:Responsive Narrow=3, Wide=1}"
+                                            Style="{StaticResource FilledCardContentControlStyle}" IsClickable="False" HorizontalAlignment="Stretch">
                         <utu:CardContentControl.ContentTemplate>
                             <DataTemplate>
                                 <StackPanel Padding="12,10" Spacing="4">
@@ -43,22 +53,28 @@
                             </DataTemplate>
                         </utu:CardContentControl.ContentTemplate>
                     </utu:CardContentControl>
-                    <utu:CardContentControl Grid.Column="1" Style="{StaticResource FilledCardContentControlStyle}" IsClickable="False" HorizontalAlignment="Stretch">
+                    <utu:CardContentControl Grid.Row="{utu:Responsive Narrow=1, Wide=0}"
+                                            Grid.Column="{utu:Responsive Narrow=0, Wide=1}"
+                                            Grid.ColumnSpan="{utu:Responsive Narrow=3, Wide=1}"
+                                            Style="{StaticResource FilledCardContentControlStyle}" IsClickable="False" HorizontalAlignment="Stretch">
                         <utu:CardContentControl.ContentTemplate>
                             <DataTemplate>
                                 <StackPanel Padding="12,10" Spacing="4">
                                     <TextBlock Style="{StaticResource LabelSmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" Text="Daily avg" />
-                                    <TextBlock Style="{StaticResource TitleMedium}" Foreground="{ThemeResource OnSurfaceBrush}" Text="{Binding DailyCostAvgDisplay}" />
+                                    <TextBlock Style="{StaticResource TitleMedium}" Foreground="{ThemeResource PrimaryBrush}" Text="{Binding DailyCostAvgDisplay}" />
                                 </StackPanel>
                             </DataTemplate>
                         </utu:CardContentControl.ContentTemplate>
                     </utu:CardContentControl>
-                    <utu:CardContentControl Grid.Column="2" Style="{StaticResource FilledCardContentControlStyle}" IsClickable="False" HorizontalAlignment="Stretch">
+                    <utu:CardContentControl Grid.Row="{utu:Responsive Narrow=2, Wide=0}"
+                                            Grid.Column="{utu:Responsive Narrow=0, Wide=2}"
+                                            Grid.ColumnSpan="{utu:Responsive Narrow=3, Wide=1}"
+                                            Style="{StaticResource FilledCardContentControlStyle}" IsClickable="False" HorizontalAlignment="Stretch">
                         <utu:CardContentControl.ContentTemplate>
                             <DataTemplate>
                                 <StackPanel Padding="12,10" Spacing="4">
                                     <TextBlock Style="{StaticResource LabelSmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" Text="Projected" />
-                                    <TextBlock Style="{StaticResource TitleMedium}" Foreground="{ThemeResource TertiaryBrush}" Text="{Binding ProjectedMonthlyDisplay}" />
+                                    <TextBlock Style="{StaticResource TitleMedium}" Foreground="{ThemeResource PrimaryBrush}" Text="{Binding ProjectedMonthlyDisplay}" />
                                 </StackPanel>
                             </DataTemplate>
                         </utu:CardContentControl.ContentTemplate>
@@ -151,7 +167,9 @@
                                                         <TextBlock Style="{StaticResource LabelMedium}" Foreground="{ThemeResource OnSurfaceBrush}" Text="{Binding LimitType}" />
                                                         <TextBlock Style="{StaticResource LabelSmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" Text="{Binding Description}" />
                                                     </StackPanel>
-                                                    <StackPanel Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center" Spacing="1">
+                                                    <!-- 12px gutter so the right-hand percent/reset never collide with a
+                                                         wrapped left-column description on narrow widths -->
+                                                    <StackPanel Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center" Spacing="1" Margin="12,0,0,0">
                                                         <TextBlock Style="{StaticResource LabelMedium}" HorizontalAlignment="Right" Foreground="{ThemeResource OnSurfaceBrush}">
                                                             <Run Text="{Binding UsedPercent}" /><Run Text="%" />
                                                         </TextBlock>

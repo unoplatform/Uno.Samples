@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <!--
+        Lightweight-styling overrides that pull two framework controls onto the warm palette.
+        Merged AFTER the Simple theme in App.xaml so these keys win. Every brush is defined in
+        BOTH theme dictionaries so it swaps with light/dark. (A key the control template doesn't
+        consume is a silent no-op, so this only sets the ones the *Simple* theme actually reads.)
+
+        1. Chip (Sessions model-filter ChipGroup). The Simple Chip's default pointer-over and
+           checked fills read as off-palette against the cream/charcoal surfaces (a near-white
+           hover was the worst offender). The Simple Chip template exposes only these fills:
+           rest (ChipBackground), pointer-over — reused for pressed — (ChipBackgroundPointerOver),
+           disabled (ChipBackgroundDisabled), checked (ChipBackgroundChecked), and
+           checked-pointer-over — reused for checked-pressed — (ChipBackgroundCheckedPointerOver);
+           plus rest/checked/disabled foregrounds. (It has no per-state border or foreground for
+           hover/press, no Focused state, and no ChipStateOverlay layer — those are Material-only.)
+           We recolor exactly those onto the palette.
+        2. NavigationView selection indicator (wide pane). WinUI's moving indicator pill defaults
+           to the system-accent blue — it clashes with the terracotta selected-row fill and, as it
+           stretches between items during a tab change, reads as a deforming, laggy artifact. The
+           bold selected-row fill is already a clear selection cue, so the redundant pill is made
+           transparent, removing the stretch entirely.
+    -->
+    <ResourceDictionary.ThemeDictionaries>
+
+        <ResourceDictionary x:Key="Light">
+            <!-- Chip: rest / hover(=pressed) / disabled / checked / checked-hover(=checked-pressed) -->
+            <SolidColorBrush x:Key="ChipBackground" Color="Transparent" />
+            <SolidColorBrush x:Key="ChipForeground" Color="#51463B" />
+            <SolidColorBrush x:Key="ChipBackgroundPointerOver" Color="#FBE3D3" />
+            <SolidColorBrush x:Key="ChipBackgroundDisabled" Color="Transparent" />
+            <SolidColorBrush x:Key="ChipForegroundDisabled" Color="#B9AE9F" />
+            <SolidColorBrush x:Key="ChipBackgroundChecked" Color="#B23A0A" />
+            <SolidColorBrush x:Key="ChipForegroundChecked" Color="#FFFFFF" />
+            <SolidColorBrush x:Key="ChipBackgroundCheckedPointerOver" Color="#9A3208" />
+
+            <!-- NavigationView: hide the clashing/deforming indicator pill -->
+            <SolidColorBrush x:Key="NavigationViewSelectionIndicatorForeground" Color="Transparent" />
+        </ResourceDictionary>
+
+        <ResourceDictionary x:Key="Default">
+            <!-- Chip: rest / hover(=pressed) / disabled / checked / checked-hover(=checked-pressed) -->
+            <SolidColorBrush x:Key="ChipBackground" Color="Transparent" />
+            <SolidColorBrush x:Key="ChipForeground" Color="#CFC0B2" />
+            <SolidColorBrush x:Key="ChipBackgroundPointerOver" Color="#7C2D12" />
+            <SolidColorBrush x:Key="ChipBackgroundDisabled" Color="Transparent" />
+            <SolidColorBrush x:Key="ChipForegroundDisabled" Color="#6E655B" />
+            <SolidColorBrush x:Key="ChipBackgroundChecked" Color="#FB923C" />
+            <SolidColorBrush x:Key="ChipForegroundChecked" Color="#4A1503" />
+            <SolidColorBrush x:Key="ChipBackgroundCheckedPointerOver" Color="#FCA658" />
+
+            <!-- NavigationView: hide the clashing/deforming indicator pill -->
+            <SolidColorBrush x:Key="NavigationViewSelectionIndicatorForeground" Color="Transparent" />
+        </ResourceDictionary>
+
+    </ResourceDictionary.ThemeDictionaries>
+</ResourceDictionary>

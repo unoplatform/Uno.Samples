@@ -27,6 +27,10 @@
                         </ResourceDictionary>
                     </utus:SimpleToolkitTheme.FontOverrideDictionary>
                 </utus:SimpleToolkitTheme>
+
+                <!-- Merged last so its ThemeDictionaries win over the Simple theme: pulls the Chip
+                     states and the NavigationView selection indicator onto the warm palette. -->
+                <ResourceDictionary Source="ms-appx:///ControlThemeOverrides.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
             <!-- Slightly rounder corners than the Simple defaults, app-wide -->
