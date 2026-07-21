@@ -28,30 +28,6 @@ public sealed partial class HomePage : Page
             }
         };
 
-        // The built-in flipper buttons deform (full-height strips) and would double up with our custom
-        // buttons. Collapse them — but DEFER past the current layout/VSM pass (the FlipView's VSM fades
-        // them back in on pointer-over and re-realizes them on resize), or the collapse loses the race
-        // and they reappear on larger form factors. Re-run on load, pointer-enter, and size change.
-        void HideFlippersDeferred() => DispatcherQueue.TryEnqueue(() => HideBuiltInFlippers(HeroFlip));
-        HeroFlip.Loaded += (_, _) => HideFlippersDeferred();
-        HeroFlip.PointerEntered += (_, _) => HideFlippersDeferred();
-        HeroFlip.SizeChanged += (_, _) => HideFlippersDeferred();
-    }
-
-    private static void HideBuiltInFlippers(DependencyObject root)
-    {
-        var count = VisualTreeHelper.GetChildrenCount(root);
-        for (var i = 0; i < count; i++)
-        {
-            var child = VisualTreeHelper.GetChild(root, i);
-            if (child is Button { Name: { Length: > 0 } name } button
-                && (name.StartsWith("Previous", StringComparison.Ordinal) || name.StartsWith("Next", StringComparison.Ordinal)))
-            {
-                button.Visibility = Visibility.Collapsed;
-            }
-
-            HideBuiltInFlippers(child);
-        }
     }
 
     // Custom flipper buttons page the carousel, wrapping at the ends. Setting FlipView.SelectedIndex

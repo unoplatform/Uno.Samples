@@ -5,11 +5,46 @@
       Background="{ThemeResource BackgroundBrush}">
 
     <Page.Resources>
-        <!-- The FlipView's built-in flipper buttons stretch to the full hero height, so their
-             rounded-rect shape "deforms" as the hero height changes across form factors (and the
-             built-in arrow is a FontIcon that can tofu on Skia). They're hidden in code-behind
-             (HideBuiltInFlippers) — overriding FlipViewNextPreviousButtonStyle does NOT take on the
-             Skia head — and paging is handled by the fixed-size custom buttons below (and swipe). -->
+        <!-- Minimal FlipView template with NO built-in flipper buttons. The default template's
+             flippers stretch to the full FlipView height (their shape deforms across form factors),
+             and hiding them after the fact is unreliable (style overrides are a no-op on Skia and a
+             code-behind collapse races the control's own visual states). Removing them from the
+             template makes doubling impossible on every head; paging is swipe + the fixed-size custom
+             buttons below. Keeps the template-part name "ScrollingHost" the control requires. -->
+        <Style x:Key="HeroFlipViewStyle" TargetType="FlipView">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="TabNavigation" Value="Once" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="FlipView">
+                        <Grid Background="{TemplateBinding Background}"
+                              BorderBrush="{TemplateBinding BorderBrush}"
+                              BorderThickness="{TemplateBinding BorderThickness}"
+                              CornerRadius="{TemplateBinding CornerRadius}">
+                            <ScrollViewer x:Name="ScrollingHost"
+                                          AutomationProperties.AccessibilityView="Raw"
+                                          BringIntoViewOnFocusChange="{TemplateBinding ScrollViewer.BringIntoViewOnFocusChange}"
+                                          HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
+                                          HorizontalScrollMode="{TemplateBinding ScrollViewer.HorizontalScrollMode}"
+                                          HorizontalSnapPointsType="MandatorySingle"
+                                          IsDeferredScrollingEnabled="False"
+                                          IsHorizontalRailEnabled="False"
+                                          IsTabStop="False"
+                                          IsVerticalRailEnabled="False"
+                                          Padding="{TemplateBinding Padding}"
+                                          TabNavigation="{TemplateBinding TabNavigation}"
+                                          VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}"
+                                          VerticalScrollMode="{TemplateBinding ScrollViewer.VerticalScrollMode}"
+                                          VerticalSnapPointsType="MandatorySingle"
+                                          ZoomMode="Disabled">
+                                <ItemsPresenter />
+                            </ScrollViewer>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
 
         <!-- Consistent circular hero nav button: a fixed 40×40 so it never deforms, on a translucent
              scrim that reads over any photo, with a vector (PathIcon) chevron. -->
@@ -53,6 +88,7 @@
                     <Grid Height="{utu:Responsive Narrow=220, Wide=340}"
                           Margin="{utu:Responsive Narrow='0', Wide='20,8,20,4'}">
                         <FlipView x:Name="HeroFlip"
+                                  Style="{StaticResource HeroFlipViewStyle}"
                                   ItemsSource="{Binding HeroBanners}"
                                   HorizontalAlignment="Stretch"
                                   VerticalAlignment="Stretch"
@@ -115,14 +151,14 @@
                                    VerticalAlignment="Bottom"
                                    Margin="0,0,0,10" />
 
-                        <!-- Custom, fixed-size paging buttons (Wide/desktop only; touch users swipe).
-                             They drive SelectedIndex in code-behind, which is reliable on Skia and keeps
-                             the pager in sync via SelectionChanged. -->
+                        <!-- Custom, fixed-size paging buttons — the ONLY flippers (the FlipView template
+                             above has none), so they render identically on every form factor. They page
+                             by scrolling the FlipView's ScrollingHost in code-behind, which is reliable
+                             on Skia and keeps the pager in sync via SelectionChanged. -->
                         <Button x:Name="HeroPrev"
                                 Style="{StaticResource HeroNavButtonStyle}"
                                 HorizontalAlignment="Left"
                                 Margin="12,0,0,0"
-                                Visibility="{utu:Responsive Narrow=Collapsed, Wide=Visible}"
                                 Click="HeroPrev_Click"
                                 AutomationProperties.Name="Previous banner">
                             <Viewbox Width="18" Height="18">
@@ -134,7 +170,6 @@
                                 Style="{StaticResource HeroNavButtonStyle}"
                                 HorizontalAlignment="Right"
                                 Margin="0,0,12,0"
-                                Visibility="{utu:Responsive Narrow=Collapsed, Wide=Visible}"
                                 Click="HeroNext_Click"
                                 AutomationProperties.Name="Next banner">
                             <Viewbox Width="18" Height="18">
