@@ -89,36 +89,22 @@
                           uen:Region.Navigator="Visibility" />
 
                     <!-- Bottom TabBar: shown on Narrow, hidden once the pane appears on Wide -->
+                    <!-- Bottom TabBar mirroring the claude-code-tracker shell: the Simple theme's
+                         default selection visuals (selected = strong OnSurface foreground, unselected
+                         = OnSurfaceMedium, i.e. OnSurface @ 64% — no indicator shape) with compact
+                         FontSize=11 labels. No custom indicator or foreground overrides. -->
                     <utu:TabBar x:Name="BottomTabs"
                                 Grid.Row="1"
                                 uen:Region.Attached="True"
                                 utu:SafeArea.Insets="Bottom"
                                 Style="{StaticResource BottomTabBarStyle}"
-                                SelectionIndicatorPlacement="Below"
                                 Visibility="{utu:Responsive Narrow=Visible, Wide=Collapsed}">
-                        <!-- Selected-tab indicator: a fixed 56×4 accent bar along the TOP edge of the
-                             selected tab. A pill behind the icon cannot fit this bar's geometry (the
-                             icon-to-label gap is ~4px, so any pill tall enough to pad the icon collides
-                             with the label on some form factor) — the top bar is fixed-size, never
-                             touches the content, and pairs with the accent foreground for an
-                             unmistakable selection in both themes. -->
-                        <utu:TabBar.SelectionIndicatorContentTemplate>
-                            <DataTemplate>
-                                <Border Background="{ThemeResource PrimaryBrush}"
-                                        Width="56"
-                                        Height="4"
-                                        CornerRadius="2"
-                                        HorizontalAlignment="Center"
-                                        VerticalAlignment="Top"
-                                        Margin="0,3,0,0" />
-                            </DataTemplate>
-                        </utu:TabBar.SelectionIndicatorContentTemplate>
-                        <utu:TabBarItem uen:Region.Name="Home" Content="Home">
+                        <utu:TabBarItem uen:Region.Name="Home" Content="Home" FontSize="11">
                             <utu:TabBarItem.Icon>
                                 <PathIcon Data="F1 M10.5495 2.53189C11.3874 1.82531 12.6126 1.82531 13.4505 2.5319L20.2005 8.224C20.7074 8.65152 21 9.2809 21 9.94406L21 19.2539C21 20.2204 20.2165 21.0039 19.25 21.0039H15.75C14.7835 21.0039 14 20.2204 14 19.2539L14 14.2468C14 14.1088 13.8881 13.9968 13.75 13.9968H10.25C10.1119 13.9968 9.99999 14.1088 9.99999 14.2468L9.99999 19.2539C9.99999 20.2204 9.2165 21.0039 8.25 21.0039H4.75C3.7835 21.0039 3 20.2204 3 19.2539V9.94406C3 9.2809 3.29255 8.65152 3.79952 8.224L10.5495 2.53189ZM12.4835 3.6786C12.2042 3.44307 11.7958 3.44307 11.5165 3.6786L4.76651 9.37071C4.59752 9.51321 4.5 9.72301 4.5 9.94406L4.5 19.2539C4.5 19.392 4.61193 19.5039 4.75 19.5039H8.25C8.38807 19.5039 8.49999 19.392 8.49999 19.2539L8.49999 14.2468C8.49999 13.2803 9.2835 12.4968 10.25 12.4968H13.75C14.7165 12.4968 15.5 13.2803 15.5 14.2468L15.5 19.2539C15.5 19.392 15.6119 19.5039 15.75 19.5039H19.25C19.3881 19.5039 19.5 19.392 19.5 19.2539L19.5 9.94406C19.5 9.72301 19.4025 9.51321 19.2335 9.37071L12.4835 3.6786Z" />
                             </utu:TabBarItem.Icon>
                         </utu:TabBarItem>
-                        <utu:TabBarItem uen:Region.Name="Menu" Content="Menu">
+                        <utu:TabBarItem uen:Region.Name="Menu" Content="Menu" FontSize="11">
                             <utu:TabBarItem.Icon>
                                 <PathIcon Data="F1 M2 21V19H20V21H2M20 8V5H18V8H20M20 3A2 2 0 0 1 22 5V8A2 2 0 0 1 20 10H18V13A4 4 0 0 1 14 17H8A4 4 0 0 1 4 13V3H20M16 5H6V13A2 2 0 0 0 8 15H14A2 2 0 0 0 16 13V5Z" />
                             </utu:TabBarItem.Icon>
@@ -127,11 +113,11 @@
                              TabBarItem renders no BadgeValue (that's Material-only), so the badge is a
                              hand-authored Border. A hand-authored label doesn't follow the item's
                              selection foreground (not inherited), so the label is TWO overlaid
-                             TextBlocks: a muted always-visible one (matches the unselected tabs) and a
-                             selected-colour twin toggled by the item's IsSelected — if that binding
-                             ever fails the muted label still shows, and the selection pill behind the
-                             icon carries the selected state regardless. -->
-                        <utu:TabBarItem uen:Region.Name="Cart">
+                             TextBlocks that mirror the Simple defaults the string-content tabs use:
+                             OnSurfaceMedium (OnSurface @ 64% — the theme's TabBarItemForeground) always
+                             visible, and an OnSurface twin toggled by the item's IsSelected — if that
+                             binding ever fails the muted label still shows. -->
+                        <utu:TabBarItem uen:Region.Name="Cart" FontSize="11">
                             <utu:TabBarItem.Icon>
                                 <PathIcon Data="F1 M2.5 4.25C2.5 3.83579 2.83579 3.5 3.25 3.5H3.80826C4.75873 3.5 5.32782 4.13899 5.65325 4.73299C5.87016 5.12894 6.02708 5.58818 6.14982 6.00395C6.18306 6.00134 6.21674 6 6.2508 6H18.7481C19.5783 6 20.1778 6.79442 19.9502 7.5928L18.1224 14.0019C17.7856 15.1832 16.7062 15.9978 15.4779 15.9978H9.52977C8.29128 15.9978 7.2056 15.1699 6.87783 13.9756L6.11734 11.2045L4.85874 6.95578L4.8567 6.94834C4.701 6.38051 4.55487 5.85005 4.33773 5.4537C4.12686 5.0688 3.95877 5 3.80826 5H3.25C2.83579 5 2.5 4.66421 2.5 4.25ZM7.57283 10.8403L8.32434 13.5786C8.47333 14.1215 8.96682 14.4978 9.52977 14.4978H15.4779C16.0362 14.4978 16.5268 14.1275 16.68 13.5906L18.4168 7.5H6.58549L7.55906 10.7868C7.56434 10.8046 7.56892 10.8224 7.57283 10.8403ZM11 19C11 20.1046 10.1046 21 9 21C7.89543 21 7 20.1046 7 19C7 17.8954 7.89543 17 9 17C10.1046 17 11 17.8954 11 19ZM9.5 19C9.5 18.7239 9.27614 18.5 9 18.5C8.72386 18.5 8.5 18.7239 8.5 19C8.5 19.2761 8.72386 19.5 9 19.5C9.27614 19.5 9.5 19.2761 9.5 19ZM18 19C18 20.1046 17.1046 21 16 21C14.8954 21 14 20.1046 14 19C14 17.8954 14.8954 17 16 17C17.1046 17 18 17.8954 18 19ZM16.5 19C16.5 18.7239 16.2761 18.5 16 18.5C15.7239 18.5 15.5 18.7239 15.5 19C15.5 19.2761 15.7239 19.5 16 19.5C16.2761 19.5 16.5 19.2761 16.5 19Z" />
                             </utu:TabBarItem.Icon>
@@ -140,30 +126,34 @@
                                         VerticalAlignment="Center">
                                 <Grid VerticalAlignment="Center">
                                     <TextBlock Text="Cart"
+                                               FontSize="11"
                                                VerticalAlignment="Center"
-                                               Foreground="{ThemeResource OnSurfaceVariantBrush}" />
+                                               Foreground="{ThemeResource OnSurfaceMediumBrush}" />
                                     <TextBlock Text="Cart"
+                                               FontSize="11"
                                                VerticalAlignment="Center"
-                                               Foreground="{ThemeResource PrimaryBrush}"
+                                               Foreground="{ThemeResource OnSurfaceBrush}"
                                                Visibility="{utu:AncestorBinding AncestorType=utu:TabBarItem, Path=IsSelected, Converter={StaticResource BoolToVisibility}}" />
                                 </Grid>
+                                <!-- Badge capped at the 11px label's line height so it never governs the
+                                     row (no cross-tab misalignment, no nudge when it toggles) -->
                                 <Border Background="{ThemeResource PrimaryBrush}"
-                                        CornerRadius="9"
-                                        MinWidth="18"
-                                        Height="18"
-                                        Padding="5,0"
+                                        CornerRadius="7"
+                                        MinWidth="15"
+                                        Height="15"
+                                        Padding="4,0"
                                         VerticalAlignment="Center"
                                         Visibility="{Binding DataContext.CartHasItems, ElementName=RootShellGrid, Converter={StaticResource BoolToVisibility}}">
                                     <TextBlock Text="{Binding DataContext.CartItemCount, ElementName=RootShellGrid}"
                                                Foreground="{ThemeResource OnPrimaryBrush}"
-                                               FontSize="10"
+                                               FontSize="9"
                                                FontWeight="Bold"
                                                HorizontalAlignment="Center"
                                                VerticalAlignment="Center" />
                                 </Border>
                             </StackPanel>
                         </utu:TabBarItem>
-                        <utu:TabBarItem uen:Region.Name="Orders" Content="Orders">
+                        <utu:TabBarItem uen:Region.Name="Orders" Content="Orders" FontSize="11">
                             <utu:TabBarItem.Icon>
                                 <PathIcon Data="F0 M6 2C4.89543 2 4 2.89543 4 4V21.25C4 21.6531 4.24169 22.0169 4.61468 22.1731C4.98766 22.3293 5.41716 22.2477 5.70711 21.9678L7 20.7197L8.29289 21.9678C8.68342 22.3448 9.31658 22.3448 9.70711 21.9678L11 20.7197L12.2929 21.9678C12.6834 22.3448 13.3166 22.3448 13.7071 21.9678L15 20.7197L16.2929 21.9678C16.5828 22.2477 17.0123 22.3293 17.3853 22.1731C17.7583 22.0169 18 21.6531 18 21.25V4C18 2.89543 17.1046 2 16 2H6ZM7.75 6.75H14.25V8.25H7.75V6.75ZM7.75 10.25H14.25V11.75H7.75V10.25Z" />
                             </utu:TabBarItem.Icon>

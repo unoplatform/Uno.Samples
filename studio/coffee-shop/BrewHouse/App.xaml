@@ -13,8 +13,9 @@
         <!-- Warm BrewHouse palette (light + dark) layered onto the Simple theme -->
         <utus:SimpleToolkitTheme xmlns:utus="using:Uno.Toolkit.UI.Simple"
                                  ColorOverrideSource="ms-appx:///ThemeColors.xaml" />
-        <!-- Merged last so its ThemeDictionaries win over the Simple theme: makes the TabBar /
-             NavigationView selection state unmistakable. -->
+        <!-- Merged last so its ThemeDictionaries win over the Simple theme: pins the wide
+             NavigationView pane's selection indicator to the warm palette (the bottom TabBar
+             deliberately uses the Simple defaults — see ControlThemeOverrides.xaml). -->
         <ResourceDictionary Source="ms-appx:///ControlThemeOverrides.xaml" />
       </ResourceDictionary.MergedDictionaries>
 
