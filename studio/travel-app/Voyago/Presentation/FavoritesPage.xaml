@@ -1,6 +1,7 @@
 <Page x:Class="Voyago.Presentation.FavoritesPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:local="using:Voyago.Presentation"
       xmlns:uen="using:Uno.Extensions.Navigation.UI"
       xmlns:utu="using:Uno.Toolkit.UI"
       Background="{ThemeResource BackgroundBrush}">
@@ -29,7 +30,7 @@
         </Grid>
 
         <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
-            <StackPanel Padding="16,20,16,26" Spacing="14" MaxWidth="{StaticResource ContentMaxWidth}" HorizontalAlignment="Stretch">
+            <StackPanel Padding="16,20,16,26" Spacing="14" MaxWidth="{StaticResource ContentMaxWidth}" HorizontalAlignment="Stretch" local:Motion.Stagger="True">
 
                 <TextBlock Text="Your saved destinations" Style="{StaticResource BodyMedium}" Foreground="{ThemeResource OnSurfaceVariantBrush}" />
 
@@ -71,7 +72,7 @@
                                                 <Path Data="{Binding Converter={StaticResource Icon}, ConverterParameter=star_filled}" Fill="{ThemeResource SecondaryBrush}" Stretch="Uniform" />
                                             </Viewbox>
                                             <TextBlock Text="{Binding Rating}" Style="{StaticResource LabelSmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" VerticalAlignment="Center" />
-                                            <TextBlock Text="{Binding PriceFrom}" Style="{StaticResource LabelSmall}" Foreground="{ThemeResource PrimaryBrush}" Margin="8,0,0,0" VerticalAlignment="Center" />
+                                            <TextBlock Text="{Binding PriceFrom}" Style="{StaticResource LabelSmall}" Foreground="{ThemeResource SecondaryBrush}" Margin="8,0,0,0" VerticalAlignment="Center" />
                                         </StackPanel>
                                     </StackPanel>
                                 </Grid>

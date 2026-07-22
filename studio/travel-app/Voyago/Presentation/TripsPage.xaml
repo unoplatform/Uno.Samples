@@ -1,6 +1,7 @@
 <Page x:Class="Voyago.Presentation.TripsPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:local="using:Voyago.Presentation"
       xmlns:utu="using:Uno.Toolkit.UI"
       Background="{ThemeResource BackgroundBrush}">
 
@@ -15,7 +16,7 @@
         </Grid>
 
         <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
-            <StackPanel Spacing="0" Padding="16,20,16,26" MaxWidth="{StaticResource ContentMaxWidth}" HorizontalAlignment="Stretch">
+            <StackPanel Spacing="0" Padding="16,20,16,26" MaxWidth="{StaticResource ContentMaxWidth}" HorizontalAlignment="Stretch" local:Motion.Stagger="True">
 
                 <StackPanel Spacing="12">
                     <StackPanel Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
@@ -51,7 +52,7 @@
                                                 <TextBlock Text="{Binding Country}" Style="{StaticResource BodySmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" VerticalAlignment="Center" />
                                                 <TextBlock Style="{StaticResource BodySmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" VerticalAlignment="Center" Margin="6,0,0,0">
                                                     <Run Text="·" />
-                                                    <Run Text="{Binding DepartureDate}" />
+                                                    <Run Text="{Binding DepartureLabel}" />
                                                 </TextBlock>
                                             </StackPanel>
                                             <ContentControl Content="{Binding Status}"
@@ -95,7 +96,7 @@
                                         <StackPanel Grid.Column="1" Padding="14,10" Spacing="2" VerticalAlignment="Center">
                                             <TextBlock Text="{Binding Destination}" Style="{StaticResource TitleSmall}" Foreground="{ThemeResource OnSurfaceBrush}" />
                                             <TextBlock Text="{Binding Country}" Style="{StaticResource BodySmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" />
-                                            <TextBlock Style="{StaticResource LabelSmall}" Foreground="{ThemeResource OutlineBrush}" Margin="0,2,0,0">
+                                            <TextBlock Style="{StaticResource LabelSmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" Margin="0,2,0,0">
                                                 <Run Text="Ref:" />
                                                 <Run Text="{Binding BookingRef}" />
                                             </TextBlock>

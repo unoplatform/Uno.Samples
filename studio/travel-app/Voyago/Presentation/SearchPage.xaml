@@ -1,6 +1,7 @@
 <Page x:Class="Voyago.Presentation.SearchPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:local="using:Voyago.Presentation"
       xmlns:uen="using:Uno.Extensions.Navigation.UI"
       xmlns:utu="using:Uno.Toolkit.UI"
       Background="{ThemeResource BackgroundBrush}">
@@ -16,7 +17,7 @@
         </Grid>
 
         <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
-            <StackPanel Spacing="0" MaxWidth="{StaticResource ContentMaxWidth}" HorizontalAlignment="Stretch">
+            <StackPanel Spacing="0" MaxWidth="{StaticResource ContentMaxWidth}" HorizontalAlignment="Stretch" local:Motion.Stagger="True">
 
                 <StackPanel Padding="16,20,16,0" Spacing="18">
                     <!-- Search entry (visual affordance for the mock) -->
@@ -100,23 +101,25 @@
                         </ItemsRepeater.Layout>
                         <ItemsRepeater.ItemTemplate>
                             <DataTemplate>
-                                <Grid Height="88">
+                                <Grid Height="96">
                                     <Border CornerRadius="{StaticResource CardCornerRadius}">
                                         <Border.Background>
                                             <ImageBrush ImageSource="{Binding ImageUrl}" Stretch="UniformToFill" />
                                         </Border.Background>
                                     </Border>
+                                    <!-- Bottom-anchored scrim (matches the app's other image overlays) so the
+                                         label + wrapping description stay legible over bright photos. -->
                                     <Border CornerRadius="{StaticResource CardCornerRadius}">
                                         <Border.Background>
-                                            <LinearGradientBrush StartPoint="0,0.5" EndPoint="1,0.5">
-                                                <GradientStop Color="#D9000000" Offset="0" />
-                                                <GradientStop Color="#40000000" Offset="1" />
+                                            <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                                                <GradientStop Color="#26000000" Offset="0" />
+                                                <GradientStop Color="#D9000000" Offset="1" />
                                             </LinearGradientBrush>
                                         </Border.Background>
                                     </Border>
-                                    <StackPanel VerticalAlignment="Center" Padding="18,0" Spacing="2">
+                                    <StackPanel VerticalAlignment="Bottom" Padding="16,0,16,12" Spacing="2">
                                         <TextBlock Text="{Binding Label}" Style="{StaticResource TitleMedium}" Foreground="White" />
-                                        <TextBlock Text="{Binding Description}" Style="{StaticResource BodySmall}" Foreground="#D9FFFFFF" TextWrapping="Wrap" />
+                                        <TextBlock Text="{Binding Description}" Style="{StaticResource BodySmall}" Foreground="#E6FFFFFF" TextWrapping="Wrap" />
                                     </StackPanel>
                                 </Grid>
                             </DataTemplate>

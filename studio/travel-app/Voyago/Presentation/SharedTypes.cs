@@ -1,3 +1,5 @@
+using System.Globalization;
+
 namespace Voyago.Presentation;
 
 // Destination record — used on HomePage (hero cards, recommended trips) and FavoritesPage
@@ -20,7 +22,11 @@ public partial record TripItem(
     DateOnly DepartureDate,
     DateOnly ReturnDate,
     string Status,
-    string BookingRef);
+    string BookingRef)
+{
+    // Pre-formatted for display (a raw DateOnly binds as a culture-dependent machine date).
+    public string DepartureLabel => DepartureDate.ToString("d MMM yyyy", CultureInfo.InvariantCulture);
+}
 
 // ExploreCategory record — used on HomePage and SearchPage
 public partial record ExploreCategory(

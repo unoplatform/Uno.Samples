@@ -97,21 +97,21 @@
                             <TextBlock Text="{Binding PriceFrom}" Style="{StaticResource TitleMedium}" Foreground="{ThemeResource OnBackgroundBrush}" />
                         </StackPanel>
                         <Button Grid.Column="1"
-                                Style="{StaticResource PrimaryButtonStyle}"
+                                Style="{StaticResource BookButtonStyle}"
                                 Content="Book this trip"
                                 Command="{Binding Book}"
                                 AutomationProperties.Name="Book this trip"
                                 VerticalAlignment="Center"
                                 Visibility="{Binding IsBooked, Converter={StaticResource BoolToVisibility}, ConverterParameter=Invert}" />
                         <Border Grid.Column="1"
-                                Background="{ThemeResource PrimaryContainerBrush}"
+                                Background="{ThemeResource SecondaryContainerBrush}"
                                 CornerRadius="{StaticResource ControlCornerRadius}"
                                 Padding="18,12"
                                 VerticalAlignment="Center"
                                 Visibility="{Binding IsBooked, Converter={StaticResource BoolToVisibility}}">
                             <StackPanel Orientation="Horizontal" Spacing="8">
-                                <Viewbox Width="18" Height="18" VerticalAlignment="Center"><Path Data="{Binding Converter={StaticResource Icon}, ConverterParameter=heart_filled}" Fill="{ThemeResource OnPrimaryContainerBrush}" Stretch="Uniform" /></Viewbox>
-                                <TextBlock Text="Booked" Style="{StaticResource LabelMedium}" Foreground="{ThemeResource OnPrimaryContainerBrush}" VerticalAlignment="Center" />
+                                <Viewbox Width="18" Height="18" VerticalAlignment="Center"><Path Data="{Binding Converter={StaticResource Icon}, ConverterParameter=heart_filled}" Fill="{ThemeResource OnSecondaryContainerBrush}" Stretch="Uniform" /></Viewbox>
+                                <TextBlock Text="Booked" Style="{StaticResource LabelMedium}" Foreground="{ThemeResource OnSecondaryContainerBrush}" VerticalAlignment="Center" />
                             </StackPanel>
                         </Border>
                     </Grid>

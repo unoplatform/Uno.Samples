@@ -113,15 +113,9 @@
     <Setter Property="Foreground" Value="{ThemeResource OnSurfaceVariantBrush}" />
   </Style>
 
-  <!-- ===== Spacing scale (lesson: consistent scale, not one-off values) ===== -->
-  <x:Double x:Key="SpaceXs">4</x:Double>
-  <x:Double x:Key="SpaceSm">8</x:Double>
-  <x:Double x:Key="SpaceMd">12</x:Double>
-  <x:Double x:Key="SpaceLg">16</x:Double>
-  <x:Double x:Key="SpaceXl">24</x:Double>
-  <x:Double x:Key="Space2Xl">32</x:Double>
-
-  <!-- Cap the page content column so a phone layout reads as a centred column on desktop -->
+  <!-- Spacing rhythm follows a 4/8/12/16/24/32 scale; page paddings/margins use those values
+       directly (Thickness can't reference a per-side double token). Cap the page content column
+       so a phone layout reads as a centred column on desktop. -->
   <x:Double x:Key="ContentMaxWidth">1080</x:Double>
 
   <!-- ===== Corner radius tokens (override the well-known WinUI/Simple keys; win by last-merge) ===== -->
@@ -213,6 +207,13 @@
   <Style x:Key="TonalButtonStyle" TargetType="Button" BasedOn="{StaticResource PrimaryButtonStyle}">
     <Setter Property="Background" Value="{ThemeResource SurfaceVariantBrush}" />
     <Setter Property="Foreground" Value="{ThemeResource OnSurfaceVariantBrush}" />
+  </Style>
+
+  <!-- Booking CTA: the app's one amber focal action (violet is the brand/identity accent; amber
+       Secondary is the "money / book" accent, matching prices). Same crisp stateful template. -->
+  <Style x:Key="BookButtonStyle" TargetType="Button" BasedOn="{StaticResource PrimaryButtonStyle}">
+    <Setter Property="Background" Value="{ThemeResource SecondaryBrush}" />
+    <Setter Property="Foreground" Value="{ThemeResource OnSecondaryBrush}" />
   </Style>
 
   <!-- Chrome-less icon button (header actions): transparent, rounded state layer, press 0.98 -->

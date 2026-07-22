@@ -32,7 +32,7 @@
             <StackPanel MaxWidth="{StaticResource ContentMaxWidth}" HorizontalAlignment="Stretch" Spacing="0" local:Motion.Stagger="True">
 
                 <!-- Greeting + search entry -->
-                <StackPanel Padding="16,22,16,0" Spacing="14">
+                <StackPanel Padding="16,24,16,0" Spacing="14">
                     <StackPanel Spacing="6">
                         <TextBlock Text="WELCOME BACK" Style="{StaticResource SectionLabel}" />
                         <TextBlock Text="{Binding GreetingText}" Style="{StaticResource HeadlineMedium}" Foreground="{ThemeResource OnBackgroundBrush}" TextWrapping="Wrap" />
@@ -55,7 +55,7 @@
                 </StackPanel>
 
                 <!-- Hero carousel + synced pager -->
-                <StackPanel Padding="16,22,16,0" Spacing="10">
+                <StackPanel Padding="16,24,16,0" Spacing="10">
                     <FlipView x:Name="Hero"
                               ItemsSource="{Binding HeroDestinations}"
                               Height="{utu:Responsive Narrow=300, Wide=380}"
@@ -126,7 +126,7 @@
                 </StackPanel>
 
                 <!-- Recommended -->
-                <StackPanel Padding="0,26,0,0" Spacing="12">
+                <StackPanel Padding="0,24,0,0" Spacing="12">
                     <TextBlock Text="Recommended for you" Style="{StaticResource TitleMedium}" Foreground="{ThemeResource OnBackgroundBrush}" Margin="16,0" />
                     <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled" HorizontalScrollMode="Enabled">
                         <ItemsRepeater ItemsSource="{Binding RecommendedTrips}" Margin="16,0,16,4">
@@ -158,7 +158,7 @@
                                                         <Path Data="{Binding Converter={StaticResource Icon}, ConverterParameter=star_filled}" Fill="{ThemeResource SecondaryBrush}" Stretch="Uniform" />
                                                     </Viewbox>
                                                     <TextBlock Text="{Binding Rating}" Style="{StaticResource LabelSmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" VerticalAlignment="Center" />
-                                                    <TextBlock Text="{Binding PriceFrom}" Style="{StaticResource LabelSmall}" Foreground="{ThemeResource PrimaryBrush}" Margin="8,0,0,0" VerticalAlignment="Center" />
+                                                    <TextBlock Text="{Binding PriceFrom}" Style="{StaticResource LabelSmall}" Foreground="{ThemeResource SecondaryBrush}" Margin="8,0,0,0" VerticalAlignment="Center" />
                                                 </StackPanel>
                                             </StackPanel>
                                         </Grid>
@@ -170,7 +170,7 @@
                 </StackPanel>
 
                 <!-- Explore categories -->
-                <StackPanel Padding="16,26,16,26" Spacing="12">
+                <StackPanel Padding="16,24,16,24" Spacing="12">
                     <TextBlock Text="Explore by style" Style="{StaticResource TitleMedium}" Foreground="{ThemeResource OnBackgroundBrush}" />
                     <ItemsRepeater ItemsSource="{Binding ExploreCategories}" MinWidth="168">
                         <ItemsRepeater.Layout>

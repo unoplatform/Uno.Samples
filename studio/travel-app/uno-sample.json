@@ -2,8 +2,8 @@
   "$schema": "https://schemas.platform.uno/sample/v1",
   "id": "travel-app",
   "displayName": "Voyago",
-  "description": "A polished travel discovery app (Voyago) with mock state, MVUX, and an adaptive shell (sidebar NavigationView on desktop, bottom TabBar on mobile). Home features a greeting, search entry, a hero destination carousel, quick actions, recommended trips, and explore categories. Includes dedicated Search, Trips, Favorites, and Profile pages with a clean, image-rich Material UI.",
-  "platforms": ["desktop", "wasm"],
+  "description": "Voyago is a polished travel-discovery app built with MVUX and Uno.Extensions Navigation. A responsive shell (NavigationView rail on desktop, bottom TabBar on mobile) hosts Home, Search, Trips, Favorites and Profile, plus a full-screen destination detail page reached with navigation-passed data. It demonstrates a branded icon and splash, a bundled type + design-token system, vector PathIcon iconography, a hero carousel, and distinct light/dark theming from one palette.",
+  "platforms": ["ios", "android", "desktop", "wasm"],
   "sourcePath": "Voyago/Voyago.csproj",
   "userConversation": {
     "messages": [
@@ -18,9 +18,9 @@
     ],
     "suggestedPrompts": [
       "Change the color theme",
-      "Add a destination details page with navigation",
-      "Add a booking flow",
-      "Improve the layout and spacing"
+      "Add a real booking flow with dates and travellers",
+      "Add search filtering to the Search page",
+      "Add a map view of destinations"
     ]
   },
   "agentContext": {
@@ -31,7 +31,7 @@
       },
       {
         "role": "assistant",
-        "content": "I've created a complete Uno Platform app at Voyago/Voyago.csproj.\n\n**Key files:**\n- Voyago/App.xaml\n- Voyago/App.xaml.cs\n- Voyago/GlobalUsings.cs\n- Voyago/Voyago.csproj\n- Voyago/ThemeColors.xaml\n- Voyago/Models/AppConfig.cs\n- Voyago/Presentation/MainPage.xaml\n- Voyago/Presentation/MainPage.xaml.cs\n- Voyago/Presentation/MainModel.cs\n- Voyago/Presentation/HomePage.xaml\n- Voyago/Presentation/HomePage.xaml.cs\n- Voyago/Presentation/HomeModel.cs\n- Voyago/Presentation/SearchPage.xaml\n- Voyago/Presentation/SearchPage.xaml.cs\n- Voyago/Presentation/SearchModel.cs\n- Voyago/Presentation/TripsPage.xaml\n- Voyago/Presentation/TripsPage.xaml.cs\n- Voyago/Presentation/TripsModel.cs\n- Voyago/Presentation/FavoritesPage.xaml\n- Voyago/Presentation/FavoritesPage.xaml.cs\n- Voyago/Presentation/FavoritesModel.cs\n- Voyago/Presentation/ProfilePage.xaml\n- Voyago/Presentation/ProfilePage.xaml.cs\n- Voyago/Presentation/ProfileModel.cs\n- Voyago/Presentation/SharedTypes.cs\n- Voyago/Platforms/Desktop/Program.cs\n- Voyago/Platforms/WebAssembly/Program.cs\n\n**Structure:**\n- The app uses MVUX (each page has a matching *Model record) and Uno.Extensions.Navigation with attached Regions for page routing.\n- MainPage is the adaptive shell. A VisualStateManager with AdaptiveTriggers switches between a NarrowState (bottom utu:TabBar) and Normal/Wide states (NavigationView sidebar, MinWindowWidth 700/1000). Both the NavigationView menu items and the TabBar items are wired with uen:Region.Name to Home, Search, Trips, Favorites, Profile.\n- HomePage shows a greeting header, a search entry card, a hero FlipView carousel, quick actions (ItemsRepeater + UniformGridLayout), a horizontal \"Recommended for You\" list, and an explore categories grid. It binds to HomeModel.\n- Shared domain records (Destination, TripItem, ExploreCategory) live in SharedTypes.cs and are reused across pages.\n- Styling uses Material theme resources (ThemeResource brushes, typography styles) and Uno.Toolkit CardContentControl. ThemeColors.xaml defines the palette. All data is mock/seeded in the *Model records.\n\nThe app is built and running. The user may ask me to modify it."
+        "content": "Voyago is a single-project Uno Platform app (Voyago/Voyago.csproj) targeting iOS, Android, WebAssembly and desktop (Skia). It uses MVUX and Uno.Extensions Navigation.\n\n**Architecture (structural, not an exhaustive file list):**\n- **App entry** — App.xaml.cs configures the host with UseToolkitNavigation + UseNavigation(ReactiveViewModelMappings.ViewModelMappings, RegisterRoutes) and navigates to Shell. Routes nest: \"\" (Shell) -> Main (nested Home[default], Search, Trips, Favorites, Profile) + DestinationDetail as a full-screen sibling of Main (not a tab), reached with navigation-passed data via DataViewMap<DestinationDetailPage, DestinationDetailModel, Destination>.\n- **Shell** — Presentation/Shell.xaml hosts a utu:ExtendedSplashScreen (the branded Voyago mark drawn in native XAML shapes) with an ILoadable that always clears IsExecuting; navigation injects Main as its content.\n- **Responsive shell** — Presentation/MainPage.xaml switches a NavigationView rail (wide) and a bottom utu:TabBar (narrow) purely with {utu:Responsive} (no AdaptiveTrigger/VSM); nav icons are inline PathIcon vector geometry; the TabBar carries a bottom SafeArea inset.\n- **Pages/Models** — each page (Home/Search/Trips/Favorites/Profile) has a matching partial-record MVUX *Model with seeded mock data. DestinationDetailModel derives from the injected Destination and exposes an IState<bool> IsBooked + Book() command. Shared records (Destination, TripItem, ExploreCategory) live in Presentation/SharedTypes.cs.\n- **Design system (App.xaml is a thin manifest that only merges dictionaries):** ThemeColors.xaml is the Simple-theme ColorOverrideSource (dusk/violet palette, distinct light/dark); ControlThemeOverrides.xaml holds per-theme lightweight-styling overrides (e.g. the NavigationView selection indicator); Styles.xaml (merged last) holds the type-scale ramp, spacing/radius/motion tokens, the DefaultResponsiveLayout, crisp stateful button styles, the BoolToVisibility + Icon converters, and the value-driven trip-status pill DataTemplateSelector. Bundled fonts (Plus Jakarta Sans + Fraunces, static per weight) live in Assets/Fonts.\n- **Icons** — Presentation/Icons.cs stores Fluent vector path data surfaced through IconConverter, drawn as PathIcon/Path (no symbol font), so icons render in Studio/Hot Design.\n- **Branding** — Assets/Icons + Assets/Splash drive a Uno.Resizetizer app icon and splash across every platform.\n\nAll data is mock/seeded in the *Model records. The user may ask me to modify it."
       }
     ]
   }
