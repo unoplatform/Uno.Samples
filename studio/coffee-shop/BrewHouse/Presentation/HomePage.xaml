@@ -26,9 +26,12 @@
                 <StackPanel Spacing="0">
 
                     <!-- Hero Carousel: full-bleed on phone (no corner clipping where the image meets
-                         the screen edge), a taller rounded banner on desktop/web where the column is inset -->
-                    <Grid Height="{utu:Responsive Narrow=220, Wide=340}">
+                         the screen edge), a taller rounded banner on desktop/web where it's inset from
+                         the nav rail and window edge (Wide margin) so it reads as a floating banner. -->
+                    <Grid Height="{utu:Responsive Narrow=220, Wide=340}"
+                          Margin="{utu:Responsive Narrow='0', Wide='20,8,20,4'}">
                         <FlipView x:Name="HeroFlip"
+                                  Style="{StaticResource HeroFlipViewStyle}"
                                   ItemsSource="{Binding HeroBanners}"
                                   HorizontalAlignment="Stretch"
                                   VerticalAlignment="Stretch"
@@ -81,15 +84,51 @@
                              current page (kept in sync in code-behind) but isn't itself clickable —
                              clicking a pip to move the FlipView is unreliable on Uno, and a display-only
                              pager can never fall out of step with the slide. Paging is via swipe, the
-                             hover flipper arrows, and the FlipView's own arrow-key support.
+                             custom prev/next buttons below, and the FlipView's own arrow-key support.
                              RequestedTheme=Dark gives pips that read on the scrim. -->
                         <PipsPager x:Name="HeroPips"
-                                   NumberOfPages="{Binding HeroBanners.Count}"
+                                   NumberOfPages="{Binding HeroBannerCount}"
                                    IsHitTestVisible="False"
                                    RequestedTheme="Dark"
                                    HorizontalAlignment="Center"
                                    VerticalAlignment="Bottom"
                                    Margin="0,0,0,10" />
+
+                        <!-- Custom, fixed-size paging buttons — the ONLY flippers (the FlipView template
+                             above has none), so they render identically on every form factor. They page
+                             by scrolling the FlipView's ScrollingHost in code-behind, which is reliable
+                             on Skia and keeps the pager in sync via SelectionChanged. -->
+                        <Button x:Name="HeroPrev"
+                                Style="{StaticResource HeroNavButtonStyle}"
+                                HorizontalAlignment="Left"
+                                Margin="12,0,0,0"
+                                Click="HeroPrev_Click"
+                                AutomationProperties.Name="Previous banner">
+                            <!-- Path + Stretch="Uniform" (not PathIcon in a Viewbox): a PathIcon keeps
+                                 the Fluent 24-grid origin, so the asymmetric chevron drifts off-centre
+                                 in the button. A Path uses the geometry's tight bbox and centres it. -->
+                            <Path Data="M15.5303 4.21967C15.8232 4.51256 15.8232 4.98744 15.5303 5.28033L8.81066 12L15.5303 18.7197C15.8232 19.0126 15.8232 19.4874 15.5303 19.7803C15.2374 20.0732 14.7626 20.0732 14.4697 19.7803L7.21967 12.5303C6.92678 12.2374 6.92678 11.7626 7.21967 11.4697L14.4697 4.21967C14.7626 3.92678 15.2374 3.92678 15.5303 4.21967Z"
+                                  Fill="#FFFFFF"
+                                  Stretch="Uniform"
+                                  Width="15"
+                                  Height="15"
+                                  HorizontalAlignment="Center"
+                                  VerticalAlignment="Center" />
+                        </Button>
+                        <Button x:Name="HeroNext"
+                                Style="{StaticResource HeroNavButtonStyle}"
+                                HorizontalAlignment="Right"
+                                Margin="0,0,12,0"
+                                Click="HeroNext_Click"
+                                AutomationProperties.Name="Next banner">
+                            <Path Data="M8.46967 4.21967C8.76256 3.92678 9.23744 3.92678 9.53033 4.21967L16.7803 11.4697C17.0732 11.7626 17.0732 12.2374 16.7803 12.5303L9.53033 19.7803C9.23744 20.0732 8.76256 20.0732 8.46967 19.7803C8.17678 19.4874 8.17678 19.0126 8.46967 18.7197L15.1893 12L8.46967 5.28033C8.17678 4.98744 8.17678 4.51256 8.46967 4.21967Z"
+                                  Fill="#FFFFFF"
+                                  Stretch="Uniform"
+                                  Width="15"
+                                  Height="15"
+                                  HorizontalAlignment="Center"
+                                  VerticalAlignment="Center" />
+                        </Button>
                     </Grid>
 
                     <!-- Today's Specials Section -->

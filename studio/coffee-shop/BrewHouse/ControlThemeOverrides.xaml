@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <!--
+        Lightweight-styling overrides. Merged AFTER the Simple theme in App.xaml so these keys win;
+        defined in BOTH theme dictionaries so they swap with light/dark. (Only keys the templates
+        actually consume are set — an unread key is a silent no-op.)
+
+        NavigationView (wide pane): the moving selection-indicator pill defaults to the system-accent
+        blue, which clashes with the warm palette — pin it to the Primary accent per theme.
+    -->
+    <ResourceDictionary.ThemeDictionaries>
+
+        <!-- The bottom TabBar deliberately has NO overrides here: it mirrors the claude-code-tracker
+             shell, which uses the Simple theme's default selection visuals (selected = strong
+             OnSurface foreground, unselected = OnSurfaceMedium — OnSurface @ 64%) resolved from
+             ThemeColors. -->
+        <ResourceDictionary x:Key="Light">
+            <SolidColorBrush x:Key="NavigationViewSelectionIndicatorForeground" Color="#4A2810" />
+        </ResourceDictionary>
+
+        <ResourceDictionary x:Key="Default">
+            <SolidColorBrush x:Key="NavigationViewSelectionIndicatorForeground" Color="#E6AE6E" />
+        </ResourceDictionary>
+
+    </ResourceDictionary.ThemeDictionaries>
+</ResourceDictionary>
