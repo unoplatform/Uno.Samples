@@ -163,6 +163,61 @@
         </Setter>
       </Style>
 
+      <!-- Home hero carousel: minimal FlipView template with NO built-in flipper buttons. The default
+           template's flippers stretch to the full FlipView height (their shape deforms across form
+           factors), and hiding them after the fact is unreliable (style overrides are a no-op on Skia
+           and a code-behind collapse races the control's own visual states). Removing them from the
+           template makes doubling impossible on every head; paging is swipe + the fixed-size custom
+           hero nav buttons. Keeps the template-part name "ScrollingHost" the control requires. -->
+      <Style x:Key="HeroFlipViewStyle" TargetType="FlipView">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="TabNavigation" Value="Once" />
+        <Setter Property="Template">
+          <Setter.Value>
+            <ControlTemplate TargetType="FlipView">
+              <Grid Background="{TemplateBinding Background}"
+                    BorderBrush="{TemplateBinding BorderBrush}"
+                    BorderThickness="{TemplateBinding BorderThickness}"
+                    CornerRadius="{TemplateBinding CornerRadius}">
+                <ScrollViewer x:Name="ScrollingHost"
+                              AutomationProperties.AccessibilityView="Raw"
+                              BringIntoViewOnFocusChange="{TemplateBinding ScrollViewer.BringIntoViewOnFocusChange}"
+                              HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
+                              HorizontalScrollMode="{TemplateBinding ScrollViewer.HorizontalScrollMode}"
+                              HorizontalSnapPointsType="MandatorySingle"
+                              IsDeferredScrollingEnabled="False"
+                              IsHorizontalRailEnabled="False"
+                              IsTabStop="False"
+                              IsVerticalRailEnabled="False"
+                              Padding="{TemplateBinding Padding}"
+                              TabNavigation="{TemplateBinding TabNavigation}"
+                              VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}"
+                              VerticalScrollMode="{TemplateBinding ScrollViewer.VerticalScrollMode}"
+                              VerticalSnapPointsType="MandatorySingle"
+                              ZoomMode="Disabled">
+                  <ItemsPresenter />
+                </ScrollViewer>
+              </Grid>
+            </ControlTemplate>
+          </Setter.Value>
+        </Setter>
+      </Style>
+
+      <!-- Consistent circular hero nav button: a fixed 40×40 so it never deforms, on a translucent
+           scrim that reads over any photo, with a vector (PathIcon) chevron. -->
+      <Style x:Key="HeroNavButtonStyle" TargetType="Button" BasedOn="{StaticResource BrewButtonStyle}">
+        <Setter Property="Width" Value="40" />
+        <Setter Property="Height" Value="40" />
+        <Setter Property="MinWidth" Value="0" />
+        <Setter Property="MinHeight" Value="0" />
+        <Setter Property="CornerRadius" Value="20" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="Background" Value="#59000000" />
+        <Setter Property="Foreground" Value="#FFFFFF" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+      </Style>
+
       <!-- Rounder controls to match the card language -->
       <CornerRadius x:Key="ControlCornerRadiusSmall">8</CornerRadius>
       <CornerRadius x:Key="ControlCornerRadius">12</CornerRadius>
