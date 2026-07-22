@@ -6,7 +6,7 @@
       xmlns:utu="using:Uno.Toolkit.UI"
       Background="{ThemeResource BackgroundBrush}">
 
-    <Grid utu:SafeArea.Insets="VisibleBounds">
+    <Grid utu:SafeArea.Insets="Top,Left,Right">
         <ScrollViewer VerticalScrollBarVisibility="Auto">
             <!-- Capped, left-anchored reading column; fills the screen below the cap on phones. -->
             <StackPanel Spacing="0" Padding="20,24,20,28" MaxWidth="1100" HorizontalAlignment="Stretch">
@@ -155,7 +155,7 @@
                                             <TextBlock Text="kcal" FontSize="{StaticResource FontSizeCaption}" Foreground="{ThemeResource OnSurfaceVariantBrush}" />
                                         </StackPanel>
                                     </StackPanel>
-                                    <ContentPresenter Grid.Column="1" Content="{Binding Feeling}" ContentTemplateSelector="{StaticResource FeelingPillSelector}" VerticalAlignment="Center" />
+                                    <ContentControl Grid.Column="1" Content="{Binding Feeling}" ContentTemplateSelector="{StaticResource FeelingPillSelector}" IsTabStop="False" VerticalAlignment="Center" />
                                 </Grid>
                             </Border>
                         </DataTemplate>

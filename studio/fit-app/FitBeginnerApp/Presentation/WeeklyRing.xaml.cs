@@ -134,8 +134,6 @@ public sealed partial class WeeklyRing : UserControl
         var fraction = Math.Clamp(Progress, 0, 1);
         if (fraction <= 0)
         {
-            // Release the native geometry backing the old arc before detaching it.
-            (ArcPath.Data as IDisposable)?.Dispose();
             ArcPath.Data = null;
             return;
         }
@@ -161,10 +159,11 @@ public sealed partial class WeeklyRing : UserControl
             IsLargeArc = sweep > 180,
         });
 
-        // Dispose the geometry from the previous update before replacing it (UpdateArc runs on every
-        // progress tick during the entrance animation, so a fresh geometry is built each time). The new
-        // geometry is owned by ArcPath.Data — assign it directly rather than via a throwaway local.
-        (ArcPath.Data as IDisposable)?.Dispose();
+        // Replace the previous arc geometry. UpdateArc runs on every progress tick during the entrance
+        // animation, so a fresh geometry is built each time; the superseded one is reclaimed by GC once
+        // ArcPath.Data is reassigned. Do NOT call Geometry.Dispose() on the old value — on the Uno iOS
+        // head disposing a geometry that is still attached to the visual tree throws
+        // InvalidOperationException and aborts the update, freezing the ring at an early frame.
         ArcPath.Data = new PathGeometry { Figures = { figure } };
     }
 
