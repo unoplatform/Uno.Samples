@@ -128,9 +128,12 @@
                                  label width). Hidden when the cart is empty. -->
                             <Grid VerticalAlignment="Center">
                                 <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+                                    <!-- Muted (unselected) and strong (selected) labels swap by IsSelected
+                                         so only one renders at a time — no double-drawn text when selected. -->
                                     <TextBlock Text="Cart"
                                                FontSize="11"
-                                               Foreground="{ThemeResource OnSurfaceMediumBrush}" />
+                                               Foreground="{ThemeResource OnSurfaceMediumBrush}"
+                                               Visibility="{utu:AncestorBinding AncestorType=utu:TabBarItem, Path=IsSelected, Converter={StaticResource BoolToVisibility}, ConverterParameter=Invert}" />
                                     <TextBlock Text="Cart"
                                                FontSize="11"
                                                Foreground="{ThemeResource OnSurfaceBrush}"

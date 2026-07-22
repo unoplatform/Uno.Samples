@@ -30,10 +30,14 @@ public sealed partial class HomePage : Page
 
     }
 
+    // Cached once found: the FlipView's template ScrollViewer ("ScrollingHost") doesn't change at
+    // runtime, so paging shouldn't re-walk the visual tree on every click.
+    private ScrollViewer? _heroScroll;
+
     // Custom flipper buttons page the carousel, wrapping at the ends. Setting FlipView.SelectedIndex
-    // programmatically does NOT navigate on the Skia/WASM head (see lessons.md 49), so we scroll the
-    // FlipView's own horizontal ScrollViewer by one viewport — the same mechanism a swipe uses — which
-    // snaps to the next slide and updates SelectedIndex (so the pager stays in sync via SelectionChanged).
+    // programmatically does NOT navigate on the Skia/WASM head, so we scroll the FlipView's own
+    // horizontal ScrollViewer by one viewport — the same mechanism a swipe uses — which snaps to the
+    // next slide and updates SelectedIndex (so the pager stays in sync via SelectionChanged).
     private void HeroPrev_Click(object sender, RoutedEventArgs e) => StepHero(-1);
 
     private void HeroNext_Click(object sender, RoutedEventArgs e) => StepHero(+1);
@@ -41,12 +45,22 @@ public sealed partial class HomePage : Page
     private void StepHero(int delta)
     {
         var count = HeroFlip.Items.Count;
-        if (count <= 0 || FindDescendant<ScrollViewer>(HeroFlip) is not { } scroll)
+        if (count <= 0)
         {
             return;
         }
 
-        var target = (HeroFlip.SelectedIndex + delta + count) % count;
+        _heroScroll ??= FindDescendant<ScrollViewer>(HeroFlip);
+        // Guard a zero ViewportWidth (before first layout) so we don't ChangeView to a no-op 0.
+        if (_heroScroll is not { ViewportWidth: > 0 } scroll)
+        {
+            return;
+        }
+
+        // SelectedIndex can be -1 before the FlipView has committed a selection; treat that as 0 so
+        // "previous" wraps to the last slide rather than the second-to-last.
+        var current = Math.Max(0, HeroFlip.SelectedIndex);
+        var target = (current + delta + count) % count;
         scroll.ChangeView(target * scroll.ViewportWidth, null, null);
     }
 

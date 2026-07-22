@@ -8,6 +8,9 @@ public partial record HomePageMockData
     public static HomePageMockData Data { get; } = new();
 
     public IReadOnlyList<HeroBanner> HeroBanners => CatalogData.HeroBanners;
+    // Mirror HomeModel: the PipsPager binds NumberOfPages to this, so the design-time pager shows the
+    // right page count in Hot Design instead of the control's default.
+    public int HeroBannerCount => HeroBanners.Count;
     public IReadOnlyList<ProductItem> Specials =>
         CatalogData.AllProducts.Where(p => p.IsSpecial).ToList();
     public IReadOnlyList<ProductItem> FeaturedProducts =>
