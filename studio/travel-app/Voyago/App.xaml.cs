@@ -86,36 +86,45 @@ public partial class App : Application
 #endif
                 MainWindow.SetWindowIcon();
 
-        Host = await MainWindow.InitializeNavigationAsync(
-            () => Task.FromResult(builder.Build()),
-            initialRoute: "Main"
-        );
+        Host = await builder.NavigateAsync<Shell>();
     }
 
-    	private static void RegisterRoutes(IViewRegistry views, IRouteRegistry routes)
-	{
-		views.Register(
-			new ViewMap<MainPage, MainModel>(),
-			new ViewMap<HomePage, HomeModel>(),
-			new ViewMap<SearchPage, SearchModel>(),
-			new ViewMap<TripsPage, TripsModel>(),
-			new ViewMap<FavoritesPage, FavoritesModel>(),
-			new ViewMap<ProfilePage, ProfileModel>()
-		);
+    private static void RegisterRoutes(IViewRegistry views, IRouteRegistry routes)
+    {
+        views.Register(
+            new ViewMap(ViewModel: typeof(ShellModel)),
+            new ViewMap<MainPage, MainModel>(),
+            new ViewMap<HomePage, HomeModel>(),
+            new ViewMap<SearchPage, SearchModel>(),
+            new ViewMap<TripsPage, TripsModel>(),
+            new ViewMap<FavoritesPage, FavoritesModel>(),
+            new ViewMap<ProfilePage, ProfileModel>(),
+            // The detail page is reached by tapping a destination; the tapped Destination is
+            // passed as the model's data (DataViewMap), so each card opens its own detail.
+            new DataViewMap<DestinationDetailPage, DestinationDetailModel, Destination>()
+        );
 
-		routes.Register(
-			new RouteMap("Main", View: views.FindByViewModel<MainModel>(),
-				IsDefault: true,
-				Nested:
-				[
-					new RouteMap("Home", View: views.FindByView<HomePage>(), IsDefault: true),
-					new RouteMap("Search", View: views.FindByView<SearchPage>()),
-					new RouteMap("Trips", View: views.FindByView<TripsPage>()),
-					new RouteMap("Favorites", View: views.FindByView<FavoritesPage>()),
-					new RouteMap("Profile", View: views.FindByView<ProfilePage>())
-				]
-			)
-		);
-	}
+        routes.Register(
+            new RouteMap("", View: views.FindByViewModel<ShellModel>(),
+                Nested:
+                [
+                    new RouteMap("Main", View: views.FindByView<MainPage>(),
+                        IsDefault: true,
+                        Nested:
+                        [
+                            new RouteMap("Home", View: views.FindByView<HomePage>(), IsDefault: true),
+                            new RouteMap("Search", View: views.FindByView<SearchPage>()),
+                            new RouteMap("Trips", View: views.FindByView<TripsPage>()),
+                            new RouteMap("Favorites", View: views.FindByView<FavoritesPage>()),
+                            new RouteMap("Profile", View: views.FindByView<ProfilePage>())
+                        ]
+                    ),
+                    // Sibling of Main (not a tab): shown full-screen in the shell's content area so
+                    // the detail isn't overlaid by the TabBar / nav pane. Back returns to Main.
+                    new RouteMap("DestinationDetail", View: views.FindByView<DestinationDetailPage>()),
+                ]
+            )
+        );
+    }
 
 }

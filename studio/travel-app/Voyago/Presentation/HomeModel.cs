@@ -21,17 +21,19 @@ public partial record HomeModel
             "From EUR 629", 4.7, 3102),
     };
 
-    public int HeroIndex { get; } = 0;
+    // Bind PipsPager.NumberOfPages to this int (a {Binding Collection.Count} on an array
+    // silently fails and the pager keeps its default 5 pips — lesson 49).
+    public int HeroCount => HeroDestinations.Count;
 
-    // Quick actions
+    // Quick actions (the icon is derived from the label in the view, so no glyph lives here)
     public IReadOnlyList<QuickAction> QuickActions { get; } = new[]
     {
-        new QuickAction("qa-01", "Flights", "\uE709"),
-        new QuickAction("qa-02", "Hotels", "\uE8F1"),
-        new QuickAction("qa-03", "Experiences", "\uE787"),
-        new QuickAction("qa-04", "Cars", "\uE804"),
-        new QuickAction("qa-05", "Trips", "\uE81C"),
-        new QuickAction("qa-06", "Map", "\uE707"),
+        new QuickAction("qa-01", "Flights"),
+        new QuickAction("qa-02", "Hotels"),
+        new QuickAction("qa-03", "Experiences"),
+        new QuickAction("qa-04", "Cars"),
+        new QuickAction("qa-05", "Trips"),
+        new QuickAction("qa-06", "Map"),
     };
 
     // Recommended trips
@@ -70,4 +72,4 @@ public partial record HomeModel
 }
 
 // Page-local record — QuickAction is only used on HomePage
-public partial record QuickAction(string Id, string Label, string Glyph);
+public partial record QuickAction(string Id, string Label);
