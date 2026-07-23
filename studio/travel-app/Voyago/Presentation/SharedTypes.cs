@@ -26,6 +26,10 @@ public partial record TripItem(
 {
     // Pre-formatted for display (a raw DateOnly binds as a culture-dependent machine date).
     public string DepartureLabel => DepartureDate.ToString("d MMM yyyy", CultureInfo.InvariantCulture);
+
+    // The full destination behind this trip, resolved by name from the catalogue, so a trip card can
+    // open the destination's detail page. Every trip name is a catalogue entry.
+    public Destination? Place => Catalog.ByName(Destination);
 }
 
 // ExploreCategory record — used on HomePage and SearchPage. Featured is the representative

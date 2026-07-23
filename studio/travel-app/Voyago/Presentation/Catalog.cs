@@ -45,6 +45,20 @@ internal static class Catalog
         "https://images.pexels.com/photos/2929906/pexels-photo-2929906.jpeg?auto=compress&cs=tinysrgb&w=1200",
         "From EUR 729", 4.9, 987);
 
+    public static readonly Destination Tokyo = new("d-008", "Tokyo", "Japan",
+        "Neon nights and serene shrines",
+        "https://images.pexels.com/photos/29662430/pexels-photo-29662430.jpeg?auto=compress&cs=tinysrgb&w=1200",
+        "From EUR 799", 4.8, 2750);
+
+    // Every destination — used to resolve a trip (which stores only a destination name) back to its
+    // full Destination so a trip card can open the detail page. Declared after the statics above.
+    public static readonly IReadOnlyList<Destination> All = new[]
+    {
+        Dolomites, Maldives, Kyoto, Santorini, Bali, Paris, MachuPicchu, Tokyo,
+    };
+
+    public static Destination? ByName(string name) => All.FirstOrDefault(d => d.Name == name);
+
     // Explore/Browse-by-style tiles. Each carries a representative destination (Featured) so tapping
     // the tile opens a real detail page — Home and Search share this one definition.
     public static readonly IReadOnlyList<ExploreCategory> Categories = new[]
