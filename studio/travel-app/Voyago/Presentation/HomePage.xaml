@@ -163,48 +163,49 @@
                     </ItemsRepeater>
                 </StackPanel>
 
-                <!-- Recommended -->
-                <StackPanel Padding="0,24,0,0" Spacing="12">
-                    <TextBlock Text="Recommended for you" Style="{StaticResource TitleMedium}" Foreground="{ThemeResource OnBackgroundBrush}" Margin="16,0" />
-                    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled" HorizontalScrollMode="Enabled">
-                        <ItemsRepeater ItemsSource="{Binding RecommendedTrips}" Margin="16,0,16,4">
-                            <ItemsRepeater.Layout>
-                                <StackLayout Orientation="Horizontal" Spacing="12" />
-                            </ItemsRepeater.Layout>
-                            <ItemsRepeater.ItemTemplate>
-                                <DataTemplate>
-                                    <utu:CardContentControl Style="{StaticResource ElevatedCardContentControlStyle}"
-                                                            Width="190" IsClickable="True"
-                                                            uen:Navigation.Request="DestinationDetail"
-                                                            uen:Navigation.Data="{Binding}"
-                                                            AutomationProperties.Name="{Binding Name}">
-                                        <Grid>
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition Height="122" />
-                                                <RowDefinition Height="Auto" />
-                                            </Grid.RowDefinitions>
-                                            <Border Grid.Row="0">
-                                                <Border.Background>
-                                                    <ImageBrush ImageSource="{Binding ImageUrl}" Stretch="UniformToFill" />
-                                                </Border.Background>
-                                            </Border>
-                                            <StackPanel Grid.Row="1" Padding="12,10,12,12" Spacing="3">
-                                                <TextBlock Text="{Binding Name}" Style="{StaticResource TitleSmall}" Foreground="{ThemeResource OnSurfaceBrush}" TextTrimming="CharacterEllipsis" MaxLines="1" />
-                                                <TextBlock Text="{Binding Country}" Style="{StaticResource BodySmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" />
-                                                <StackPanel Orientation="Horizontal" Spacing="4" Margin="0,2,0,0" VerticalAlignment="Center">
-                                                    <Viewbox Width="12" Height="12" VerticalAlignment="Center">
-                                                        <Path Data="{Binding Converter={StaticResource Icon}, ConverterParameter=star_filled}" Fill="{ThemeResource SecondaryBrush}" Stretch="Uniform" />
-                                                    </Viewbox>
-                                                    <TextBlock Text="{Binding Rating}" Style="{StaticResource LabelSmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" VerticalAlignment="Center" />
-                                                    <TextBlock Text="{Binding PriceFrom}" Style="{StaticResource LabelSmall}" Foreground="{ThemeResource SecondaryBrush}" Margin="8,0,0,0" VerticalAlignment="Center" />
-                                                </StackPanel>
+                <!-- Recommended — a 2-up grid of destination cards (same aligned UniformGridLayout
+                     pattern as the categories below; a horizontal ScrollViewer offsets its content
+                     left of the title on this stack, so a grid keeps the section edge-aligned). Each
+                     card's image row has a fixed height, so cells never collapse. -->
+                <StackPanel Padding="16,24,16,0" Spacing="12">
+                    <TextBlock Text="Recommended for you" Style="{StaticResource TitleMedium}" Foreground="{ThemeResource OnBackgroundBrush}" />
+                    <ItemsRepeater ItemsSource="{Binding RecommendedTrips}" MinWidth="164">
+                        <ItemsRepeater.Layout>
+                            <UniformGridLayout MinItemWidth="164" MinItemHeight="196" MinColumnSpacing="12" MinRowSpacing="12" ItemsStretch="Fill" Orientation="Horizontal" />
+                        </ItemsRepeater.Layout>
+                        <ItemsRepeater.ItemTemplate>
+                            <DataTemplate>
+                                <utu:CardContentControl Style="{StaticResource ElevatedCardContentControlStyle}"
+                                                        HorizontalAlignment="Stretch" IsClickable="True"
+                                                        uen:Navigation.Request="DestinationDetail"
+                                                        uen:Navigation.Data="{Binding}"
+                                                        AutomationProperties.Name="{Binding Name}">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="118" />
+                                            <RowDefinition Height="Auto" />
+                                        </Grid.RowDefinitions>
+                                        <Border Grid.Row="0">
+                                            <Border.Background>
+                                                <ImageBrush ImageSource="{Binding ImageUrl}" Stretch="UniformToFill" />
+                                            </Border.Background>
+                                        </Border>
+                                        <StackPanel Grid.Row="1" Padding="12,10,12,12" Spacing="3">
+                                            <TextBlock Text="{Binding Name}" Style="{StaticResource TitleSmall}" Foreground="{ThemeResource OnSurfaceBrush}" TextTrimming="CharacterEllipsis" MaxLines="1" />
+                                            <TextBlock Text="{Binding Country}" Style="{StaticResource BodySmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" />
+                                            <StackPanel Orientation="Horizontal" Spacing="4" Margin="0,2,0,0" VerticalAlignment="Center">
+                                                <Viewbox Width="12" Height="12" VerticalAlignment="Center">
+                                                    <Path Data="{Binding Converter={StaticResource Icon}, ConverterParameter=star_filled}" Fill="{ThemeResource SecondaryBrush}" Stretch="Uniform" />
+                                                </Viewbox>
+                                                <TextBlock Text="{Binding Rating}" Style="{StaticResource LabelSmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" VerticalAlignment="Center" />
+                                                <TextBlock Text="{Binding PriceFrom}" Style="{StaticResource LabelSmall}" Foreground="{ThemeResource SecondaryBrush}" Margin="8,0,0,0" VerticalAlignment="Center" />
                                             </StackPanel>
-                                        </Grid>
-                                    </utu:CardContentControl>
-                                </DataTemplate>
-                            </ItemsRepeater.ItemTemplate>
-                        </ItemsRepeater>
-                    </ScrollViewer>
+                                        </StackPanel>
+                                    </Grid>
+                                </utu:CardContentControl>
+                            </DataTemplate>
+                        </ItemsRepeater.ItemTemplate>
+                    </ItemsRepeater>
                 </StackPanel>
 
                 <!-- Explore categories: a 2-up grid of fixed-height image tiles (each tile carries an
