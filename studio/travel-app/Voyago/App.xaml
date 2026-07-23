@@ -13,9 +13,12 @@
         <utus:SimpleToolkitTheme ColorOverrideSource="ms-appx:///ThemeColors.xaml">
           <utus:SimpleToolkitTheme.FontOverrideDictionary>
             <ResourceDictionary>
-              <!-- Brand base face for all control text (Plus Jakarta Sans). Per-role weights
-                   are applied via the Styles.xaml type ramp using static per-weight files. -->
-              <FontFamily x:Key="SimpleFontFamily">ms-appx:///Assets/Fonts/PlusJakartaSans-Regular.ttf#Plus Jakarta Sans</FontFamily>
+              <!-- Base font = Roboto, from Uno's own font package (NOT a bundled custom font — those
+                   don't serve in Studio Live, studio.live#3093). The Simple theme's default resolves
+                   Regular-weight text to a monospace fallback here (the OpenSans package has no
+                   Regular face); Roboto ships Regular/Medium/Bold, so body + weighted text all render
+                   as a proper proportional sans and it loads on every head including Studio Live. -->
+              <FontFamily x:Key="SimpleFontFamily">ms-appx:///Uno.Fonts.Roboto/Fonts/Roboto-Regular.ttf#Roboto</FontFamily>
             </ResourceDictionary>
           </utus:SimpleToolkitTheme.FontOverrideDictionary>
         </utus:SimpleToolkitTheme>

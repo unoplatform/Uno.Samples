@@ -26,87 +26,76 @@
   <local:BoolToVisibilityConverter x:Key="BoolToVisibility" />
   <local:IconConverter x:Key="Icon" />
 
-  <!-- ===== Font families (bundled static per-weight; family name is unique per file, so the
-             weight is selected by FILE, never by FontWeight — no faux-bold on the Skia stack) ===== -->
-  <FontFamily x:Key="BodyFontFamily">ms-appx:///Assets/Fonts/PlusJakartaSans-Regular.ttf#Plus Jakarta Sans</FontFamily>
-  <FontFamily x:Key="MediumFontFamily">ms-appx:///Assets/Fonts/PlusJakartaSans-Medium.ttf#Plus Jakarta Sans Medium</FontFamily>
-  <FontFamily x:Key="SemiBoldFontFamily">ms-appx:///Assets/Fonts/PlusJakartaSans-SemiBold.ttf#Plus Jakarta Sans SemiBold</FontFamily>
-  <FontFamily x:Key="BoldFontFamily">ms-appx:///Assets/Fonts/PlusJakartaSans-Bold.ttf#Plus Jakarta Sans Bold</FontFamily>
-  <FontFamily x:Key="ExtraBoldFontFamily">ms-appx:///Assets/Fonts/PlusJakartaSans-ExtraBold.ttf#Plus Jakarta Sans ExtraBold</FontFamily>
-  <FontFamily x:Key="DisplayFontFamily">ms-appx:///Assets/Fonts/Fraunces-Display.ttf#Fraunces Display</FontFamily>
-  <FontFamily x:Key="DisplaySemiBoldFontFamily">ms-appx:///Assets/Fonts/Fraunces-DisplaySemiBold.ttf#Fraunces Display SemiBold</FontFamily>
-
-  <!-- ===== Type ramp (drives every FontSize by role; a Fraunces serif for display/headline,
-             Plus Jakarta Sans for titles/body/labels). Foreground is left to the call site. ===== -->
+  <!-- ===== Type ramp (drives every FontSize + weight by role, on the Simple theme's default font).
+             Samples do not bundle custom fonts — bundled ms-appx font files don't serve in Studio
+             Live (studio.live#3093), so hierarchy comes from weight/size, not a custom family. The
+             default font has real weight faces, so FontWeight selects true weights (no faux-bold). ===== -->
   <Style x:Key="DisplayLarge" TargetType="TextBlock">
-    <Setter Property="FontFamily" Value="{StaticResource DisplaySemiBoldFontFamily}" />
-    <Setter Property="FontSize" Value="40" />
-    <Setter Property="LineHeight" Value="46" />
+    <Setter Property="FontWeight" Value="Bold" />
+    <Setter Property="FontSize" Value="38" />
+    <Setter Property="LineHeight" Value="44" />
     <Setter Property="LineStackingStrategy" Value="BlockLineHeight" />
   </Style>
   <Style x:Key="DisplayMedium" TargetType="TextBlock">
-    <Setter Property="FontFamily" Value="{StaticResource DisplaySemiBoldFontFamily}" />
-    <Setter Property="FontSize" Value="30" />
-    <Setter Property="LineHeight" Value="36" />
+    <Setter Property="FontWeight" Value="Bold" />
+    <Setter Property="FontSize" Value="29" />
+    <Setter Property="LineHeight" Value="35" />
     <Setter Property="LineStackingStrategy" Value="BlockLineHeight" />
   </Style>
   <Style x:Key="HeadlineMedium" TargetType="TextBlock">
-    <Setter Property="FontFamily" Value="{StaticResource DisplayFontFamily}" />
-    <Setter Property="FontSize" Value="26" />
-    <Setter Property="LineHeight" Value="32" />
+    <Setter Property="FontWeight" Value="SemiBold" />
+    <Setter Property="FontSize" Value="25" />
+    <Setter Property="LineHeight" Value="31" />
     <Setter Property="LineStackingStrategy" Value="BlockLineHeight" />
   </Style>
   <Style x:Key="TitleLarge" TargetType="TextBlock">
-    <Setter Property="FontFamily" Value="{StaticResource BoldFontFamily}" />
+    <Setter Property="FontWeight" Value="Bold" />
     <Setter Property="FontSize" Value="22" />
     <Setter Property="LineHeight" Value="28" />
     <Setter Property="LineStackingStrategy" Value="BlockLineHeight" />
   </Style>
   <Style x:Key="TitleMedium" TargetType="TextBlock">
-    <Setter Property="FontFamily" Value="{StaticResource SemiBoldFontFamily}" />
+    <Setter Property="FontWeight" Value="SemiBold" />
     <Setter Property="FontSize" Value="18" />
     <Setter Property="LineHeight" Value="24" />
     <Setter Property="LineStackingStrategy" Value="BlockLineHeight" />
   </Style>
   <Style x:Key="TitleSmall" TargetType="TextBlock">
-    <Setter Property="FontFamily" Value="{StaticResource SemiBoldFontFamily}" />
+    <Setter Property="FontWeight" Value="SemiBold" />
     <Setter Property="FontSize" Value="15" />
     <Setter Property="LineHeight" Value="20" />
     <Setter Property="LineStackingStrategy" Value="BlockLineHeight" />
   </Style>
   <Style x:Key="BodyLarge" TargetType="TextBlock">
-    <Setter Property="FontFamily" Value="{StaticResource BodyFontFamily}" />
     <Setter Property="FontSize" Value="15" />
     <Setter Property="LineHeight" Value="22" />
     <Setter Property="LineStackingStrategy" Value="BlockLineHeight" />
   </Style>
   <Style x:Key="BodyMedium" TargetType="TextBlock">
-    <Setter Property="FontFamily" Value="{StaticResource BodyFontFamily}" />
     <Setter Property="FontSize" Value="14" />
     <Setter Property="LineHeight" Value="21" />
     <Setter Property="LineStackingStrategy" Value="BlockLineHeight" />
   </Style>
   <Style x:Key="BodySmall" TargetType="TextBlock">
-    <Setter Property="FontFamily" Value="{StaticResource BodyFontFamily}" />
     <Setter Property="FontSize" Value="12.5" />
     <Setter Property="LineHeight" Value="18" />
     <Setter Property="LineStackingStrategy" Value="BlockLineHeight" />
   </Style>
   <Style x:Key="LabelMedium" TargetType="TextBlock">
-    <Setter Property="FontFamily" Value="{StaticResource SemiBoldFontFamily}" />
+    <Setter Property="FontWeight" Value="SemiBold" />
     <Setter Property="FontSize" Value="13" />
     <Setter Property="LineHeight" Value="16" />
     <Setter Property="LineStackingStrategy" Value="BlockLineHeight" />
   </Style>
   <Style x:Key="LabelSmall" TargetType="TextBlock">
-    <Setter Property="FontFamily" Value="{StaticResource SemiBoldFontFamily}" />
+    <Setter Property="FontWeight" Value="SemiBold" />
     <Setter Property="FontSize" Value="11.5" />
     <Setter Property="LineHeight" Value="15" />
     <Setter Property="LineStackingStrategy" Value="BlockLineHeight" />
   </Style>
   <!-- Uppercase micro-label for section eyebrows -->
   <Style x:Key="SectionLabel" TargetType="TextBlock">
-    <Setter Property="FontFamily" Value="{StaticResource SemiBoldFontFamily}" />
+    <Setter Property="FontWeight" Value="SemiBold" />
     <Setter Property="FontSize" Value="11.5" />
     <Setter Property="LineHeight" Value="15" />
     <Setter Property="CharacterSpacing" Value="90" />
@@ -144,7 +133,7 @@
   <Style x:Key="PrimaryButtonStyle" TargetType="Button">
     <Setter Property="Background" Value="{ThemeResource PrimaryBrush}" />
     <Setter Property="Foreground" Value="{ThemeResource OnPrimaryBrush}" />
-    <Setter Property="FontFamily" Value="{StaticResource SemiBoldFontFamily}" />
+    <Setter Property="FontWeight" Value="SemiBold" />
     <Setter Property="FontSize" Value="15" />
     <Setter Property="CornerRadius" Value="{StaticResource ControlCornerRadius}" />
     <Setter Property="Padding" Value="22,13" />

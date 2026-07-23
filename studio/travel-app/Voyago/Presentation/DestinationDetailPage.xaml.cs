@@ -11,7 +11,7 @@ public sealed partial class DestinationDetailPage : Page
         // model onto this page and overrides this, so each card opens its own detail.
         this.DataContext = new DestinationDetailModel(new Destination(
             "d-004", "Santorini", "Greece", "Cliffs, caldera views, and unforgettable sunsets",
-            "ms-appx:///Assets/Photos/santorini.jpg",
+            "https://images.pexels.com/photos/1010657/pexels-photo-1010657.jpeg?auto=compress&cs=tinysrgb&w=1200",
             "From EUR 399", 4.8, 1562));
     }
 }
