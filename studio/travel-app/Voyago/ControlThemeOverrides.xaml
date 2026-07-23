@@ -4,12 +4,13 @@
   <!-- Lightweight-styling overrides for built-in controls, per theme (lessons 6b / 51). -->
   <ResourceDictionary.ThemeDictionaries>
     <ResourceDictionary x:Key="Light">
-      <!-- The default NavigationView indicator is system-accent blue and stretches as it
-           travels between items; recolour it to the brand violet so it harmonises (lesson 51). -->
-      <SolidColorBrush x:Key="NavigationViewSelectionIndicatorForeground" Color="#6541C6" />
+      <!-- The default NavigationView indicator is a system-accent blue bar that stretches as it
+           travels between items. The selected row already carries a strong violet fill as the cue,
+           so remove the indicator entirely (Transparent) rather than tint it (lesson 51). -->
+      <SolidColorBrush x:Key="NavigationViewSelectionIndicatorForeground" Color="Transparent" />
     </ResourceDictionary>
     <ResourceDictionary x:Key="Default">
-      <SolidColorBrush x:Key="NavigationViewSelectionIndicatorForeground" Color="#C9B0FF" />
+      <SolidColorBrush x:Key="NavigationViewSelectionIndicatorForeground" Color="Transparent" />
     </ResourceDictionary>
   </ResourceDictionary.ThemeDictionaries>
 
