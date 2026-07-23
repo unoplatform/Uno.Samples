@@ -31,7 +31,7 @@
         </Grid>
 
         <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
-            <StackPanel MaxWidth="{StaticResource ContentMaxWidth}" HorizontalAlignment="Stretch" Spacing="0" local:Motion.Stagger="True">
+            <StackPanel MaxWidth="{StaticResource ContentMaxWidthWide}" HorizontalAlignment="Stretch" Spacing="0" local:Motion.Stagger="True">
 
                 <!-- Greeting + search entry -->
                 <StackPanel Padding="16,24,16,0" Spacing="14">
@@ -173,7 +173,7 @@
                     <TextBlock Text="Recommended for you" Style="{StaticResource TitleMedium}" Foreground="{ThemeResource OnBackgroundBrush}" />
                     <ItemsRepeater ItemsSource="{Binding RecommendedTrips}" MinWidth="164">
                         <ItemsRepeater.Layout>
-                            <UniformGridLayout MinItemWidth="164" MinItemHeight="196" MinColumnSpacing="12" MinRowSpacing="12" ItemsStretch="Fill" Orientation="Horizontal" />
+                            <UniformGridLayout MinItemWidth="{utu:Responsive Narrow=164, Wide=240}" MinItemHeight="196" MinColumnSpacing="12" MinRowSpacing="12" ItemsStretch="Fill" Orientation="Horizontal" />
                         </ItemsRepeater.Layout>
                         <ItemsRepeater.ItemTemplate>
                             <DataTemplate>
@@ -217,7 +217,7 @@
                     <TextBlock Text="Explore by style" Style="{StaticResource TitleMedium}" Foreground="{ThemeResource OnBackgroundBrush}" />
                     <ItemsRepeater ItemsSource="{Binding ExploreCategories}" MinWidth="150">
                         <ItemsRepeater.Layout>
-                            <UniformGridLayout MinItemWidth="150" MinItemHeight="132" MinColumnSpacing="12" MinRowSpacing="12" ItemsStretch="Fill" Orientation="Horizontal" />
+                            <UniformGridLayout MinItemWidth="{utu:Responsive Narrow=150, Wide=300}" MinItemHeight="132" MinColumnSpacing="12" MinRowSpacing="12" ItemsStretch="Fill" Orientation="Horizontal" />
                         </ItemsRepeater.Layout>
                         <ItemsRepeater.ItemTemplate>
                             <DataTemplate>

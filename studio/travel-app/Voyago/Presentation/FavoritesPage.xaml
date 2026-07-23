@@ -14,29 +14,32 @@
 
         <!-- Header with saved-count badge -->
         <Grid Grid.Row="0" Background="{ThemeResource SurfaceBrush}" Padding="20,14" utu:SafeArea.Insets="Top">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
-            <TextBlock Grid.Column="0" Text="Favorites" Style="{StaticResource TitleLarge}" Foreground="{ThemeResource OnSurfaceBrush}" VerticalAlignment="Center" />
-            <Border Grid.Column="1" Background="{ThemeResource PrimaryContainerBrush}" CornerRadius="{StaticResource PillCornerRadius}" Padding="10,4" VerticalAlignment="Center">
-                <StackPanel Orientation="Horizontal" Spacing="5" VerticalAlignment="Center">
-                    <Viewbox Width="12" Height="12" VerticalAlignment="Center">
-                        <Path Data="{Binding Converter={StaticResource Icon}, ConverterParameter=heart_filled}" Fill="{ThemeResource OnPrimaryContainerBrush}" Stretch="Uniform" />
-                    </Viewbox>
-                    <TextBlock Text="{Binding TotalFavorites}" Style="{StaticResource LabelMedium}" Foreground="{ThemeResource OnPrimaryContainerBrush}" VerticalAlignment="Center" />
-                </StackPanel>
-            </Border>
+            <!-- Cap + stretch so the title and badge sit within the same column as the body below -->
+            <Grid MaxWidth="{StaticResource ContentMaxWidthWide}" HorizontalAlignment="Stretch">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" Text="Favorites" Style="{StaticResource TitleLarge}" Foreground="{ThemeResource OnSurfaceBrush}" VerticalAlignment="Center" />
+                <Border Grid.Column="1" Background="{ThemeResource PrimaryContainerBrush}" CornerRadius="{StaticResource PillCornerRadius}" Padding="10,4" VerticalAlignment="Center">
+                    <StackPanel Orientation="Horizontal" Spacing="5" VerticalAlignment="Center">
+                        <Viewbox Width="12" Height="12" VerticalAlignment="Center">
+                            <Path Data="{Binding Converter={StaticResource Icon}, ConverterParameter=heart_filled}" Fill="{ThemeResource OnPrimaryContainerBrush}" Stretch="Uniform" />
+                        </Viewbox>
+                        <TextBlock Text="{Binding TotalFavorites}" Style="{StaticResource LabelMedium}" Foreground="{ThemeResource OnPrimaryContainerBrush}" VerticalAlignment="Center" />
+                    </StackPanel>
+                </Border>
+            </Grid>
         </Grid>
 
         <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
-            <StackPanel Padding="16,20,16,26" Spacing="14" MaxWidth="{StaticResource ContentMaxWidth}" HorizontalAlignment="Stretch" local:Motion.Stagger="True">
+            <StackPanel Padding="16,20,16,26" Spacing="14" MaxWidth="{StaticResource ContentMaxWidthWide}" HorizontalAlignment="Stretch" local:Motion.Stagger="True">
 
                 <TextBlock Text="Your saved destinations" Style="{StaticResource BodyMedium}" Foreground="{ThemeResource OnSurfaceVariantBrush}" />
 
                 <ItemsRepeater ItemsSource="{Binding SavedDestinations}" MinWidth="164">
                     <ItemsRepeater.Layout>
-                        <UniformGridLayout MinItemWidth="164" MinItemHeight="228" MinColumnSpacing="12" MinRowSpacing="12" ItemsStretch="Fill" Orientation="Horizontal" />
+                        <UniformGridLayout MinItemWidth="{utu:Responsive Narrow=164, Wide=240}" MinItemHeight="228" MinColumnSpacing="12" MinRowSpacing="12" ItemsStretch="Fill" Orientation="Horizontal" />
                     </ItemsRepeater.Layout>
                     <ItemsRepeater.ItemTemplate>
                         <DataTemplate>
