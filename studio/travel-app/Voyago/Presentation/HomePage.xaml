@@ -207,17 +207,22 @@
                     </ScrollViewer>
                 </StackPanel>
 
-                <!-- Explore categories -->
+                <!-- Explore categories: a 2-up grid of fixed-height image tiles (each tile carries an
+                     explicit Height so it never collapses — an ImageBrush background contributes no
+                     measured height on its own, unlike the fixed image rows on the cards above). -->
                 <StackPanel Padding="16,24,16,24" Spacing="12">
                     <TextBlock Text="Explore by style" Style="{StaticResource TitleMedium}" Foreground="{ThemeResource OnBackgroundBrush}" />
-                    <ItemsRepeater ItemsSource="{Binding ExploreCategories}" MinWidth="168">
+                    <ItemsRepeater ItemsSource="{Binding ExploreCategories}" MinWidth="150">
                         <ItemsRepeater.Layout>
-                            <UniformGridLayout MinItemWidth="168" MinItemHeight="116" MinColumnSpacing="12" MinRowSpacing="12" ItemsStretch="Fill" Orientation="Horizontal" />
+                            <UniformGridLayout MinItemWidth="150" MinItemHeight="132" MinColumnSpacing="12" MinRowSpacing="12" ItemsStretch="Fill" Orientation="Horizontal" />
                         </ItemsRepeater.Layout>
                         <ItemsRepeater.ItemTemplate>
                             <DataTemplate>
                                 <utu:CardContentControl Style="{StaticResource ElevatedCardContentControlStyle}"
-                                                        HorizontalAlignment="Stretch" IsClickable="True"
+                                                        Height="132"
+                                                        HorizontalAlignment="Stretch"
+                                                        VerticalAlignment="Stretch"
+                                                        IsClickable="True"
                                                         uen:Navigation.Request="Search"
                                                         AutomationProperties.Name="{Binding Label}">
                                     <Grid>
@@ -228,9 +233,9 @@
                                         </Border>
                                         <Rectangle>
                                             <Rectangle.Fill>
-                                                <LinearGradientBrush StartPoint="0.5,0.15" EndPoint="0.5,1">
-                                                    <GradientStop Color="#26000000" Offset="0" />
-                                                    <GradientStop Color="#BF000000" Offset="1" />
+                                                <LinearGradientBrush StartPoint="0.5,0.1" EndPoint="0.5,1">
+                                                    <GradientStop Color="#1A000000" Offset="0" />
+                                                    <GradientStop Color="#CC000000" Offset="1" />
                                                 </LinearGradientBrush>
                                             </Rectangle.Fill>
                                         </Rectangle>
