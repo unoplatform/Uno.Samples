@@ -47,6 +47,10 @@
     <!-- Bundled brand type (SIL OFL): Plus Jakarta Sans (UI/body) + Fraunces (serif display).
          The SDK does not auto-glob .ttf, so each weight is included explicitly as Content. -->
     <Content Include="Assets/Fonts/*.ttf" />
+    <!-- Bundled destination/category photos (freely-licensed, Wikimedia Commons), referenced via
+         ms-appx:///Assets/Photos/*.jpg. Local assets load reliably on every head (unlike some remote
+         hosts that require a User-Agent on the Skia renderer) and always match their labels. -->
+    <Content Include="Assets/Photos/*.jpg" />
   </ItemGroup>
 
 </Project>
