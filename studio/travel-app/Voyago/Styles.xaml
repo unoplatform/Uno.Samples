@@ -320,6 +320,57 @@
     </Setter>
   </Style>
 
+  <!-- ===== Hero carousel (matches the coffee-shop pattern) =====
+       Retemplate the FlipView to ONLY a ScrollViewer (part name "ScrollingHost") + ItemsPresenter,
+       with NO built-in flipper buttons: the default flippers stretch to full height and deform
+       across form factors, and hiding them after the fact is unreliable on Skia (lesson 49). Paging
+       is swipe + the fixed-size custom hero buttons below, which scroll ScrollingHost by one viewport. -->
+  <Style x:Key="HeroFlipViewStyle" TargetType="FlipView">
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="BorderThickness" Value="0" />
+    <Setter Property="TabNavigation" Value="Once" />
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="FlipView">
+          <Grid Background="{TemplateBinding Background}"
+                BorderBrush="{TemplateBinding BorderBrush}"
+                BorderThickness="{TemplateBinding BorderThickness}"
+                CornerRadius="{TemplateBinding CornerRadius}">
+            <ScrollViewer x:Name="ScrollingHost"
+                          AutomationProperties.AccessibilityView="Raw"
+                          BringIntoViewOnFocusChange="{TemplateBinding ScrollViewer.BringIntoViewOnFocusChange}"
+                          HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
+                          HorizontalScrollMode="{TemplateBinding ScrollViewer.HorizontalScrollMode}"
+                          HorizontalSnapPointsType="MandatorySingle"
+                          IsDeferredScrollingEnabled="False"
+                          IsHorizontalRailEnabled="False"
+                          IsTabStop="False"
+                          IsVerticalRailEnabled="False"
+                          Padding="{TemplateBinding Padding}"
+                          TabNavigation="{TemplateBinding TabNavigation}"
+                          VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}"
+                          VerticalScrollMode="{TemplateBinding ScrollViewer.VerticalScrollMode}"
+                          VerticalSnapPointsType="MandatorySingle"
+                          ZoomMode="Disabled">
+              <ItemsPresenter />
+            </ScrollViewer>
+          </Grid>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
+
+  <!-- Circular hero nav button: fixed 40×40 so it never deforms, on a translucent scrim that reads
+       over any photo, with a vector chevron Path supplied as content. Reuses the crisp state layer. -->
+  <Style x:Key="HeroNavButtonStyle" TargetType="Button" BasedOn="{StaticResource IconButtonStyle}">
+    <Setter Property="Width" Value="40" />
+    <Setter Property="Height" Value="40" />
+    <Setter Property="CornerRadius" Value="20" />
+    <Setter Property="Background" Value="#59000000" />
+    <Setter Property="Foreground" Value="#FFFFFF" />
+    <Setter Property="VerticalAlignment" Value="Center" />
+  </Style>
+
   <!-- ===== Trip-status pills: value → semantic role, colour resolved in XAML via {ThemeResource}
              (ALC-safe under Studio Live / Hot Design; lessons 48/58). Rendered through a
              ContentControl so {Binding} inside the template is the status string. ===== -->

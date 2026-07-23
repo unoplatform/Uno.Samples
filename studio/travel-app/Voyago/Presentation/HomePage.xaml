@@ -54,51 +54,89 @@
                     </utu:CardContentControl>
                 </StackPanel>
 
-                <!-- Hero carousel + synced pager -->
-                <StackPanel Padding="16,24,16,0" Spacing="10">
+                <!-- Hero carousel (coffee-shop pattern): retemplated FlipView with NO built-in
+                     flippers, custom fixed-size prev/next buttons that scroll the ScrollingHost, and
+                     a display-only pager. Full-bleed on phones; an inset rounded banner on desktop. -->
+                <Grid Height="{utu:Responsive Narrow=320, Wide=400}"
+                      Margin="{utu:Responsive Narrow='0,24,0,0', Wide='16,24,16,0'}">
                     <FlipView x:Name="Hero"
+                              Style="{StaticResource HeroFlipViewStyle}"
                               ItemsSource="{Binding HeroDestinations}"
-                              Height="{utu:Responsive Narrow=300, Wide=380}"
-                              Background="Transparent"
-                              SelectionChanged="OnHeroSelectionChanged">
+                              HorizontalAlignment="Stretch"
+                              VerticalAlignment="Stretch"
+                              CornerRadius="{utu:Responsive Narrow=0, Wide=18}"
+                              SelectionChanged="OnHeroSelectionChanged"
+                              AutomationProperties.Name="Featured destinations carousel">
                         <FlipView.ItemTemplate>
                             <DataTemplate>
-                                <utu:CardContentControl Style="{StaticResource ElevatedCardContentControlStyle}"
-                                                        HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                                                        IsClickable="True"
-                                                        uen:Navigation.Request="DestinationDetail"
-                                                        uen:Navigation.Data="{Binding}"
-                                                        AutomationProperties.Name="{Binding Name}">
-                                    <Grid>
-                                        <Border>
-                                            <Border.Background>
-                                                <ImageBrush ImageSource="{Binding ImageUrl}" Stretch="UniformToFill" />
-                                            </Border.Background>
-                                        </Border>
-                                        <Rectangle>
-                                            <Rectangle.Fill>
-                                                <LinearGradientBrush StartPoint="0.5,0.35" EndPoint="0.5,1">
-                                                    <GradientStop Color="#00000000" Offset="0" />
-                                                    <GradientStop Color="#B3000000" Offset="1" />
-                                                </LinearGradientBrush>
-                                            </Rectangle.Fill>
-                                        </Rectangle>
-                                        <StackPanel VerticalAlignment="Bottom" Padding="22,0,22,22" Spacing="4">
-                                            <TextBlock Text="{Binding Name}" Style="{StaticResource DisplayMedium}" Foreground="White" />
-                                            <TextBlock Text="{Binding Tagline}" Style="{StaticResource BodyMedium}" Foreground="#E6FFFFFF" TextWrapping="Wrap" />
-                                            <TextBlock Text="{Binding PriceFrom}" Style="{StaticResource LabelMedium}" Foreground="White" Margin="0,4,0,0" />
-                                        </StackPanel>
-                                    </Grid>
-                                </utu:CardContentControl>
+                                <Grid>
+                                    <Border>
+                                        <Border.Background>
+                                            <ImageBrush ImageSource="{Binding ImageUrl}" Stretch="UniformToFill" />
+                                        </Border.Background>
+                                    </Border>
+                                    <!-- 3-stop scrim keeps the white caption legible over any photo -->
+                                    <Rectangle>
+                                        <Rectangle.Fill>
+                                            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                                <GradientStop Color="#00000000" Offset="0" />
+                                                <GradientStop Color="#40000000" Offset="0.45" />
+                                                <GradientStop Color="#E6000000" Offset="1" />
+                                            </LinearGradientBrush>
+                                        </Rectangle.Fill>
+                                    </Rectangle>
+                                    <StackPanel VerticalAlignment="Bottom" Padding="24,0,24,30" Spacing="6">
+                                        <TextBlock Text="{Binding Name}" Style="{StaticResource DisplayMedium}" Foreground="White" />
+                                        <TextBlock Text="{Binding Tagline}" Style="{StaticResource BodyMedium}" Foreground="#E6FFFFFF" TextWrapping="Wrap" />
+                                        <Button Style="{StaticResource PrimaryButtonStyle}"
+                                                Content="Explore"
+                                                Padding="20,10"
+                                                FontSize="14"
+                                                HorizontalAlignment="Left"
+                                                Margin="0,8,0,0"
+                                                uen:Navigation.Request="DestinationDetail"
+                                                uen:Navigation.Data="{Binding}"
+                                                AutomationProperties.Name="{Binding Name}" />
+                                    </StackPanel>
+                                </Grid>
                             </DataTemplate>
                         </FlipView.ItemTemplate>
                     </FlipView>
-                    <!-- Display-only position indicator: never clickable, so it can't fall out of sync (lesson 49) -->
+
+                    <!-- Display-only position indicator: never clickable, so it can't fall out of sync
+                         (lesson 49). RequestedTheme=Dark gives pips that read on the scrim. -->
                     <PipsPager x:Name="HeroPager"
                                NumberOfPages="{Binding HeroCount}"
                                IsHitTestVisible="False"
-                               HorizontalAlignment="Center" />
-                </StackPanel>
+                               RequestedTheme="Dark"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Bottom"
+                               Margin="0,0,0,10" />
+
+                    <!-- Custom, fixed-size flippers — the ONLY paging buttons (the template has none),
+                         so they render identically on every form factor. They page by scrolling the
+                         FlipView's ScrollingHost (reliable on Skia; keeps the pager in sync). -->
+                    <Button x:Name="HeroPrev"
+                            Style="{StaticResource HeroNavButtonStyle}"
+                            HorizontalAlignment="Left"
+                            Margin="12,0,0,0"
+                            Click="HeroPrev_Click"
+                            AutomationProperties.Name="Previous destination">
+                        <Path Data="M15.5303 4.21967C15.8232 4.51256 15.8232 4.98744 15.5303 5.28033L8.81066 12L15.5303 18.7197C15.8232 19.0126 15.8232 19.4874 15.5303 19.7803C15.2374 20.0732 14.7626 20.0732 14.4697 19.7803L7.21967 12.5303C6.92678 12.2374 6.92678 11.7626 7.21967 11.4697L14.4697 4.21967C14.7626 3.92678 15.2374 3.92678 15.5303 4.21967Z"
+                              Fill="#FFFFFF" Stretch="Uniform" Width="15" Height="15"
+                              HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    </Button>
+                    <Button x:Name="HeroNext"
+                            Style="{StaticResource HeroNavButtonStyle}"
+                            HorizontalAlignment="Right"
+                            Margin="0,0,12,0"
+                            Click="HeroNext_Click"
+                            AutomationProperties.Name="Next destination">
+                        <Path Data="M8.46967 4.21967C8.76256 3.92678 9.23744 3.92678 9.53033 4.21967L16.7803 11.4697C17.0732 11.7626 17.0732 12.2374 16.7803 12.5303L9.53033 19.7803C9.23744 20.0732 8.76256 20.0732 8.46967 19.7803C8.17678 19.4874 8.17678 19.0126 8.46967 18.7197L15.1893 12L8.46967 5.28033C8.17678 4.98744 8.17678 4.51256 8.46967 4.21967Z"
+                              Fill="#FFFFFF" Stretch="Uniform" Width="15" Height="15"
+                              HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    </Button>
+                </Grid>
 
                 <!-- Quick actions -->
                 <StackPanel Padding="16,24,16,0" Spacing="12">
