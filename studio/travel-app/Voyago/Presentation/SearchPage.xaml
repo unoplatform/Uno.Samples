@@ -136,9 +136,11 @@
                     </StackPanel>
                     <StackPanel Padding="16,24,16,26" Spacing="12">
                         <TextBlock Text="Browse by style" Style="{StaticResource TitleMedium}" Foreground="{ThemeResource OnBackgroundBrush}" />
+                        <!-- One column on phones, two once there's room (tablet landscape+), so the
+                             banners don't stretch to a thin full-width strip. -->
                         <ItemsRepeater ItemsSource="{Binding ExploreCategories}" ItemTemplate="{StaticResource SearchStyleTile}">
                             <ItemsRepeater.Layout>
-                                <StackLayout Orientation="Vertical" Spacing="12" />
+                                <UniformGridLayout MinItemWidth="320" MinColumnSpacing="12" MinRowSpacing="12" ItemsStretch="Fill" Orientation="Horizontal" />
                             </ItemsRepeater.Layout>
                         </ItemsRepeater>
                     </StackPanel>
