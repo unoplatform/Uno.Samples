@@ -5,85 +5,42 @@
       xmlns:utu="using:Uno.Toolkit.UI"
       Background="{ThemeResource BackgroundBrush}">
 
-    <Page.Resources>
-        <ResourceDictionary />
-    </Page.Resources>
-
-    <!-- Root container for region + VSM -->
+    <!-- Adaptive shell: a NavigationView side rail on wide screens, a bottom TabBar on narrow.
+         Both are driven by {utu:Responsive} (never AdaptiveTrigger/VSM) so the breakpoint is
+         consistent app-wide and the TabBar reliably appears on phones (lessons 1/21). -->
     <Grid x:Name="RootShellGrid" uen:Region.Attached="True">
 
-        <VisualStateManager.VisualStateGroups>
-            <VisualStateGroup x:Name="AdaptiveStates">
-                <!-- Narrow (default — no StateTrigger): bottom TabBar, NavigationView pane hidden -->
-                <VisualState x:Name="NarrowState">
-                    <VisualState.Setters>
-                        <Setter Target="BottomTabs.Visibility" Value="Visible" />
-                        <Setter Target="NavView.IsPaneToggleButtonVisible" Value="False" />
-                        <Setter Target="NavView.PaneDisplayMode" Value="LeftMinimal" />
-                        <Setter Target="NavView.IsPaneOpen" Value="False" />
-                    </VisualState.Setters>
-                </VisualState>
-                <!-- Normal (>=700px): sidebar NavigationView, no TabBar -->
-                <VisualState x:Name="NormalState">
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="700" />
-                    </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                        <Setter Target="BottomTabs.Visibility" Value="Collapsed" />
-                        <Setter Target="NavView.IsPaneToggleButtonVisible" Value="True" />
-                        <Setter Target="NavView.IsPaneVisible" Value="True" />
-                        <Setter Target="NavView.PaneDisplayMode" Value="Auto" />
-                    </VisualState.Setters>
-                </VisualState>
-                <!-- Wide (>=1000px): NavigationView expanded -->
-                <VisualState x:Name="WideState">
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="1000" />
-                    </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                        <Setter Target="BottomTabs.Visibility" Value="Collapsed" />
-                        <Setter Target="NavView.IsPaneToggleButtonVisible" Value="True" />
-                        <Setter Target="NavView.IsPaneVisible" Value="True" />
-                        <Setter Target="NavView.PaneDisplayMode" Value="Auto" />
-                    </VisualState.Setters>
-                </VisualState>
-            </VisualStateGroup>
-        </VisualStateManager.VisualStateGroups>
-
-        <!-- NavigationView: sidebar on Normal/Wide, hidden pane on Narrow -->
         <NavigationView x:Name="NavView"
                         uen:Region.Attached="True"
                         IsSettingsVisible="False"
-                        IsBackButtonVisible="Collapsed">
+                        IsBackButtonVisible="Collapsed"
+                        PaneDisplayMode="{utu:Responsive Narrow=LeftMinimal, Wide=Left}"
+                        IsPaneToggleButtonVisible="{utu:Responsive Narrow=False, Wide=True}"
+                        IsPaneOpen="{utu:Responsive Narrow=False, Wide=True}">
             <NavigationView.MenuItems>
-                <NavigationViewItem uen:Region.Name="Home"
-                                    Content="Home">
+                <NavigationViewItem uen:Region.Name="Home" Content="Home">
                     <NavigationViewItem.Icon>
-                        <FontIcon Glyph="&#xE80F;" />
+                        <PathIcon Data="{Binding Converter={StaticResource Icon}, ConverterParameter=home}" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
-                <NavigationViewItem uen:Region.Name="Search"
-                                    Content="Search">
+                <NavigationViewItem uen:Region.Name="Search" Content="Search">
                     <NavigationViewItem.Icon>
-                        <FontIcon Glyph="&#xE721;" />
+                        <PathIcon Data="{Binding Converter={StaticResource Icon}, ConverterParameter=search}" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
-                <NavigationViewItem uen:Region.Name="Trips"
-                                    Content="Trips">
+                <NavigationViewItem uen:Region.Name="Trips" Content="Trips">
                     <NavigationViewItem.Icon>
-                        <FontIcon Glyph="&#xE81C;" />
+                        <PathIcon Data="{Binding Converter={StaticResource Icon}, ConverterParameter=luggage}" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
-                <NavigationViewItem uen:Region.Name="Favorites"
-                                    Content="Favorites">
+                <NavigationViewItem uen:Region.Name="Favorites" Content="Favorites">
                     <NavigationViewItem.Icon>
-                        <FontIcon Glyph="&#xE734;" />
+                        <PathIcon Data="{Binding Converter={StaticResource Icon}, ConverterParameter=heart}" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
-                <NavigationViewItem uen:Region.Name="Profile"
-                                    Content="Profile">
+                <NavigationViewItem uen:Region.Name="Profile" Content="Profile">
                     <NavigationViewItem.Icon>
-                        <FontIcon Glyph="&#xE77B;" />
+                        <PathIcon Data="{Binding Converter={StaticResource Icon}, ConverterParameter=person}" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
             </NavigationView.MenuItems>
@@ -91,49 +48,46 @@
             <NavigationView.Content>
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition />
+                        <RowDefinition Height="*" />
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
 
-                    <!-- Shared content area — left blank; navigation framework injects views -->
+                    <!-- Shared content area — left blank; the navigation framework injects views -->
                     <Grid Grid.Row="0"
                           uen:Region.Attached="True"
                           uen:Region.Navigator="Visibility" />
 
-                    <!-- Bottom TabBar: visible on Narrow only -->
+                    <!-- Bottom TabBar: visible on narrow only. SafeArea bottom inset keeps it clear
+                         of the home indicator (the Simple BottomTabBarStyle adds none — lesson 33). -->
                     <utu:TabBar x:Name="BottomTabs"
                                 Grid.Row="1"
                                 uen:Region.Attached="True"
                                 Style="{StaticResource BottomTabBarStyle}"
-                                Visibility="Collapsed">
-                        <utu:TabBarItem uen:Region.Name="Home"
-                                        Content="Home">
+                                utu:SafeArea.Insets="Bottom"
+                                Visibility="{utu:Responsive Narrow=Visible, Wide=Collapsed}">
+                        <utu:TabBarItem uen:Region.Name="Home" Content="Home" FontSize="11">
                             <utu:TabBarItem.Icon>
-                                <FontIcon Glyph="&#xE80F;" />
+                                <PathIcon Data="{Binding Converter={StaticResource Icon}, ConverterParameter=home}" />
                             </utu:TabBarItem.Icon>
                         </utu:TabBarItem>
-                        <utu:TabBarItem uen:Region.Name="Search"
-                                        Content="Search">
+                        <utu:TabBarItem uen:Region.Name="Search" Content="Search" FontSize="11">
                             <utu:TabBarItem.Icon>
-                                <FontIcon Glyph="&#xE721;" />
+                                <PathIcon Data="{Binding Converter={StaticResource Icon}, ConverterParameter=search}" />
                             </utu:TabBarItem.Icon>
                         </utu:TabBarItem>
-                        <utu:TabBarItem uen:Region.Name="Trips"
-                                        Content="Trips">
+                        <utu:TabBarItem uen:Region.Name="Trips" Content="Trips" FontSize="11">
                             <utu:TabBarItem.Icon>
-                                <FontIcon Glyph="&#xE81C;" />
+                                <PathIcon Data="{Binding Converter={StaticResource Icon}, ConverterParameter=luggage}" />
                             </utu:TabBarItem.Icon>
                         </utu:TabBarItem>
-                        <utu:TabBarItem uen:Region.Name="Favorites"
-                                        Content="Favorites">
+                        <utu:TabBarItem uen:Region.Name="Favorites" Content="Favorites" FontSize="11">
                             <utu:TabBarItem.Icon>
-                                <FontIcon Glyph="&#xE734;" />
+                                <PathIcon Data="{Binding Converter={StaticResource Icon}, ConverterParameter=heart}" />
                             </utu:TabBarItem.Icon>
                         </utu:TabBarItem>
-                        <utu:TabBarItem uen:Region.Name="Profile"
-                                        Content="Profile">
+                        <utu:TabBarItem uen:Region.Name="Profile" Content="Profile" FontSize="11">
                             <utu:TabBarItem.Icon>
-                                <FontIcon Glyph="&#xE77B;" />
+                                <PathIcon Data="{Binding Converter={StaticResource Icon}, ConverterParameter=person}" />
                             </utu:TabBarItem.Icon>
                         </utu:TabBarItem>
                     </utu:TabBar>

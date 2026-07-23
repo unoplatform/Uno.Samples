@@ -1,0 +1,395 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="using:Voyago.Presentation"
+                    xmlns:utu="using:Uno.Toolkit.UI">
+
+  <!-- =========================================================================
+       Voyago design system. Merged LAST in App.xaml so its well-known token
+       overrides (ControlCornerRadius*, OverlayCornerRadius) win over the theme
+       defaults (lesson 56). App.xaml defines no keys of its own.
+       ========================================================================= -->
+
+  <!-- Theme-varying brushes owned by the app (not part of the Simple palette) -->
+  <ResourceDictionary.ThemeDictionaries>
+    <ResourceDictionary x:Key="Light">
+      <!-- Hairline ring that stands in for a card border; light in light theme -->
+      <SolidColorBrush x:Key="CardBorderBrush" Color="#14000000" />
+      <SolidColorBrush x:Key="HairlineBrush" Color="#12000000" />
+    </ResourceDictionary>
+    <ResourceDictionary x:Key="Default">
+      <SolidColorBrush x:Key="CardBorderBrush" Color="#26FFFFFF" />
+      <SolidColorBrush x:Key="HairlineBrush" Color="#1FFFFFFF" />
+    </ResourceDictionary>
+  </ResourceDictionary.ThemeDictionaries>
+
+  <!-- ===== Converters ===== -->
+  <local:BoolToVisibilityConverter x:Key="BoolToVisibility" />
+  <local:IconConverter x:Key="Icon" />
+
+  <!-- ===== Type ramp (drives every FontSize + weight by role, on the Simple theme's default font).
+             Samples do not bundle custom fonts — bundled ms-appx font files don't serve in Studio
+             Live (studio.live#3093), so hierarchy comes from weight/size, not a custom family. The
+             default font has real weight faces, so FontWeight selects true weights (no faux-bold). ===== -->
+  <Style x:Key="DisplayLarge" TargetType="TextBlock">
+    <Setter Property="FontWeight" Value="Bold" />
+    <Setter Property="FontSize" Value="38" />
+    <Setter Property="LineHeight" Value="44" />
+    <Setter Property="LineStackingStrategy" Value="BlockLineHeight" />
+  </Style>
+  <Style x:Key="DisplayMedium" TargetType="TextBlock">
+    <Setter Property="FontWeight" Value="Bold" />
+    <Setter Property="FontSize" Value="29" />
+    <Setter Property="LineHeight" Value="35" />
+    <Setter Property="LineStackingStrategy" Value="BlockLineHeight" />
+  </Style>
+  <Style x:Key="HeadlineMedium" TargetType="TextBlock">
+    <Setter Property="FontWeight" Value="SemiBold" />
+    <Setter Property="FontSize" Value="25" />
+    <Setter Property="LineHeight" Value="31" />
+    <Setter Property="LineStackingStrategy" Value="BlockLineHeight" />
+  </Style>
+  <Style x:Key="TitleLarge" TargetType="TextBlock">
+    <Setter Property="FontWeight" Value="Bold" />
+    <Setter Property="FontSize" Value="22" />
+    <Setter Property="LineHeight" Value="28" />
+    <Setter Property="LineStackingStrategy" Value="BlockLineHeight" />
+  </Style>
+  <Style x:Key="TitleMedium" TargetType="TextBlock">
+    <Setter Property="FontWeight" Value="SemiBold" />
+    <Setter Property="FontSize" Value="18" />
+    <Setter Property="LineHeight" Value="24" />
+    <Setter Property="LineStackingStrategy" Value="BlockLineHeight" />
+  </Style>
+  <Style x:Key="TitleSmall" TargetType="TextBlock">
+    <Setter Property="FontWeight" Value="SemiBold" />
+    <Setter Property="FontSize" Value="15" />
+    <Setter Property="LineHeight" Value="20" />
+    <Setter Property="LineStackingStrategy" Value="BlockLineHeight" />
+  </Style>
+  <Style x:Key="BodyLarge" TargetType="TextBlock">
+    <Setter Property="FontSize" Value="15" />
+    <Setter Property="LineHeight" Value="22" />
+    <Setter Property="LineStackingStrategy" Value="BlockLineHeight" />
+  </Style>
+  <Style x:Key="BodyMedium" TargetType="TextBlock">
+    <Setter Property="FontSize" Value="14" />
+    <Setter Property="LineHeight" Value="21" />
+    <Setter Property="LineStackingStrategy" Value="BlockLineHeight" />
+  </Style>
+  <Style x:Key="BodySmall" TargetType="TextBlock">
+    <Setter Property="FontSize" Value="12.5" />
+    <Setter Property="LineHeight" Value="18" />
+    <Setter Property="LineStackingStrategy" Value="BlockLineHeight" />
+  </Style>
+  <Style x:Key="LabelMedium" TargetType="TextBlock">
+    <Setter Property="FontWeight" Value="SemiBold" />
+    <Setter Property="FontSize" Value="13" />
+    <Setter Property="LineHeight" Value="16" />
+    <Setter Property="LineStackingStrategy" Value="BlockLineHeight" />
+  </Style>
+  <Style x:Key="LabelSmall" TargetType="TextBlock">
+    <Setter Property="FontWeight" Value="SemiBold" />
+    <Setter Property="FontSize" Value="11.5" />
+    <Setter Property="LineHeight" Value="15" />
+    <Setter Property="LineStackingStrategy" Value="BlockLineHeight" />
+  </Style>
+  <!-- Uppercase micro-label for section eyebrows -->
+  <Style x:Key="SectionLabel" TargetType="TextBlock">
+    <Setter Property="FontWeight" Value="SemiBold" />
+    <Setter Property="FontSize" Value="11.5" />
+    <Setter Property="LineHeight" Value="15" />
+    <Setter Property="CharacterSpacing" Value="90" />
+    <Setter Property="Foreground" Value="{ThemeResource OnSurfaceVariantBrush}" />
+  </Style>
+
+  <!-- Spacing rhythm follows a 4/8/12/16/24/32 scale; page paddings/margins use those values
+       directly (Thickness can't reference a per-side double token). Cap the page content column
+       so a phone layout reads as a centred column on desktop. -->
+  <x:Double x:Key="ContentMaxWidth">1080</x:Double>
+
+  <!-- Grid/browse pages (Search/Home/Favorites) fill more of a wide display than a reading column
+       would (use the width on large screens); list/reading pages keep the narrower ContentMaxWidth. -->
+  <x:Double x:Key="ContentMaxWidthWide">1560</x:Double>
+
+  <!-- "Desktop" breakpoint set for width-gated presentation: a destination opens as a full-screen page
+       up to 1400 (phones and every tablet — a 12.9" iPad landscape is 1366) and as a modal above it.
+       Referenced via {utu:Responsive Layout=...} so it doesn't disturb the default breakpoints. -->
+  <utu:ResponsiveLayout x:Key="DesktopModalBreakpoint" Narrowest="150" Narrow="300" Normal="600" Wide="800" Widest="1400" />
+
+  <!-- ===== Corner radius tokens (override the well-known WinUI/Simple keys; win by last-merge) ===== -->
+  <CornerRadius x:Key="ControlCornerRadiusSmall">8</CornerRadius>
+  <CornerRadius x:Key="ControlCornerRadius">14</CornerRadius>
+  <CornerRadius x:Key="OverlayCornerRadius">24</CornerRadius>
+  <CornerRadius x:Key="CardCornerRadius">18</CornerRadius>
+  <CornerRadius x:Key="PillCornerRadius">10</CornerRadius>
+
+  <!-- ===== Motion tokens (xaml-design-polish house values) ===== -->
+  <KeySpline x:Key="EaseSmooth" ControlPoint1="0.22,1" ControlPoint2="0.36,1" />
+  <KeySpline x:Key="EaseOut" ControlPoint1="0.17,1" ControlPoint2="0.32,1" />
+  <KeySpline x:Key="EaseInOut" ControlPoint1="0.66,0" ControlPoint2="0.34,1" />
+  <x:Double x:Key="DurationFastMs">150</x:Double>
+  <x:Double x:Key="DurationNormalMs">200</x:Double>
+  <x:Double x:Key="DurationSlowMs">280</x:Double>
+  <x:Double x:Key="EntranceRiseOffset">14</x:Double>
+  <x:Double x:Key="PressScale">0.98</x:Double>
+
+  <!-- ===== Responsive breakpoint used app-wide (lesson 1) ===== -->
+  <utu:ResponsiveLayout x:Key="DefaultResponsiveLayout" Narrow="0" Wide="900" />
+
+  <!-- ===== Primary CTA button: one crisp rounded fill + a state-layer overlay, press to 0.98
+             (lesson 42; instant press Setter because VisualTransition.GeneratedDuration is a
+             no-op on Uno, lesson 46). Re-skins via Background/Foreground TemplateBinding. ===== -->
+  <Style x:Key="PrimaryButtonStyle" TargetType="Button">
+    <Setter Property="Background" Value="{ThemeResource PrimaryBrush}" />
+    <Setter Property="Foreground" Value="{ThemeResource OnPrimaryBrush}" />
+    <Setter Property="FontWeight" Value="SemiBold" />
+    <Setter Property="FontSize" Value="15" />
+    <Setter Property="CornerRadius" Value="{StaticResource ControlCornerRadius}" />
+    <Setter Property="Padding" Value="22,13" />
+    <Setter Property="HorizontalContentAlignment" Value="Center" />
+    <Setter Property="VerticalContentAlignment" Value="Center" />
+    <Setter Property="UseSystemFocusVisuals" Value="True" />
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="Button">
+          <Grid x:Name="Root"
+                Background="{TemplateBinding Background}"
+                CornerRadius="{TemplateBinding CornerRadius}"
+                RenderTransformOrigin="0.5,0.5">
+            <Grid.RenderTransform>
+              <ScaleTransform x:Name="RootScale" ScaleX="1" ScaleY="1" />
+            </Grid.RenderTransform>
+            <!-- State-layer overlay: the on-colour at low opacity darkens/lightens any fill -->
+            <Border x:Name="StateLayer"
+                    CornerRadius="{TemplateBinding CornerRadius}"
+                    Background="{TemplateBinding Foreground}"
+                    Opacity="0"
+                    IsHitTestVisible="False" />
+            <ContentPresenter x:Name="ContentPresenter"
+                              Padding="{TemplateBinding Padding}"
+                              Content="{TemplateBinding Content}"
+                              ContentTemplate="{TemplateBinding ContentTemplate}"
+                              Foreground="{TemplateBinding Foreground}"
+                              HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                              VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                              AutomationProperties.AccessibilityView="Raw" />
+            <VisualStateManager.VisualStateGroups>
+              <VisualStateGroup x:Name="CommonStates">
+                <VisualState x:Name="Normal" />
+                <VisualState x:Name="PointerOver">
+                  <VisualState.Setters>
+                    <Setter Target="StateLayer.Opacity" Value="0.08" />
+                  </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Pressed">
+                  <VisualState.Setters>
+                    <Setter Target="StateLayer.Opacity" Value="0.16" />
+                    <Setter Target="RootScale.ScaleX" Value="0.98" />
+                    <Setter Target="RootScale.ScaleY" Value="0.98" />
+                  </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Disabled">
+                  <VisualState.Setters>
+                    <Setter Target="Root.Opacity" Value="0.4" />
+                  </VisualState.Setters>
+                </VisualState>
+              </VisualStateGroup>
+            </VisualStateManager.VisualStateGroups>
+          </Grid>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
+
+  <!-- Secondary (tonal) variant of the same template -->
+  <Style x:Key="TonalButtonStyle" TargetType="Button" BasedOn="{StaticResource PrimaryButtonStyle}">
+    <Setter Property="Background" Value="{ThemeResource SurfaceVariantBrush}" />
+    <Setter Property="Foreground" Value="{ThemeResource OnSurfaceVariantBrush}" />
+  </Style>
+
+  <!-- Booking CTA: the app's one amber focal action (violet is the brand/identity accent; amber
+       Secondary is the "money / book" accent, matching prices). Same crisp stateful template. -->
+  <Style x:Key="BookButtonStyle" TargetType="Button" BasedOn="{StaticResource PrimaryButtonStyle}">
+    <Setter Property="Background" Value="{ThemeResource SecondaryBrush}" />
+    <Setter Property="Foreground" Value="{ThemeResource OnSecondaryBrush}" />
+  </Style>
+
+  <!-- Chrome-less icon button (header actions): transparent, rounded state layer, press 0.98 -->
+  <Style x:Key="IconButtonStyle" TargetType="Button">
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="Foreground" Value="{ThemeResource OnSurfaceVariantBrush}" />
+    <Setter Property="Width" Value="40" />
+    <Setter Property="Height" Value="40" />
+    <Setter Property="CornerRadius" Value="20" />
+    <Setter Property="UseSystemFocusVisuals" Value="True" />
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="Button">
+          <Grid x:Name="Root" Background="{TemplateBinding Background}"
+                CornerRadius="{TemplateBinding CornerRadius}"
+                RenderTransformOrigin="0.5,0.5">
+            <Grid.RenderTransform>
+              <ScaleTransform x:Name="RootScale" ScaleX="1" ScaleY="1" />
+            </Grid.RenderTransform>
+            <Border x:Name="StateLayer" CornerRadius="{TemplateBinding CornerRadius}"
+                    Background="{TemplateBinding Foreground}" Opacity="0" IsHitTestVisible="False" />
+            <ContentPresenter HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                              Content="{TemplateBinding Content}"
+                              Foreground="{TemplateBinding Foreground}" />
+            <VisualStateManager.VisualStateGroups>
+              <VisualStateGroup x:Name="CommonStates">
+                <VisualState x:Name="Normal" />
+                <VisualState x:Name="PointerOver">
+                  <VisualState.Setters>
+                    <Setter Target="StateLayer.Opacity" Value="0.08" />
+                  </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Pressed">
+                  <VisualState.Setters>
+                    <Setter Target="StateLayer.Opacity" Value="0.16" />
+                    <Setter Target="RootScale.ScaleX" Value="0.98" />
+                    <Setter Target="RootScale.ScaleY" Value="0.98" />
+                  </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Disabled">
+                  <VisualState.Setters>
+                    <Setter Target="Root.Opacity" Value="0.4" />
+                  </VisualState.Setters>
+                </VisualState>
+              </VisualStateGroup>
+            </VisualStateManager.VisualStateGroups>
+          </Grid>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
+
+  <!-- Chrome-less card/tile button: keeps full button semantics (focus + Invoke peer, lesson 34)
+       while the inner content defines the look; adds a press 0.98 and a subtle hover state layer. -->
+  <Style x:Key="CardButtonStyle" TargetType="Button">
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="Padding" Value="0" />
+    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+    <Setter Property="VerticalContentAlignment" Value="Stretch" />
+    <Setter Property="HorizontalAlignment" Value="Stretch" />
+    <Setter Property="CornerRadius" Value="{StaticResource CardCornerRadius}" />
+    <Setter Property="UseSystemFocusVisuals" Value="True" />
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="Button">
+          <Grid x:Name="Root" Background="{TemplateBinding Background}"
+                CornerRadius="{TemplateBinding CornerRadius}"
+                RenderTransformOrigin="0.5,0.5">
+            <Grid.RenderTransform>
+              <ScaleTransform x:Name="RootScale" ScaleX="1" ScaleY="1" />
+            </Grid.RenderTransform>
+            <ContentPresenter Padding="{TemplateBinding Padding}"
+                              Content="{TemplateBinding Content}"
+                              ContentTemplate="{TemplateBinding ContentTemplate}"
+                              HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                              VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
+            <Border x:Name="StateLayer" CornerRadius="{TemplateBinding CornerRadius}"
+                    Background="{ThemeResource OnSurfaceBrush}" Opacity="0" IsHitTestVisible="False" />
+            <VisualStateManager.VisualStateGroups>
+              <VisualStateGroup x:Name="CommonStates">
+                <VisualState x:Name="Normal" />
+                <VisualState x:Name="PointerOver">
+                  <VisualState.Setters>
+                    <Setter Target="StateLayer.Opacity" Value="0.05" />
+                  </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Pressed">
+                  <VisualState.Setters>
+                    <Setter Target="StateLayer.Opacity" Value="0.09" />
+                    <Setter Target="RootScale.ScaleX" Value="0.98" />
+                    <Setter Target="RootScale.ScaleY" Value="0.98" />
+                  </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Disabled">
+                  <VisualState.Setters>
+                    <Setter Target="Root.Opacity" Value="0.5" />
+                  </VisualState.Setters>
+                </VisualState>
+              </VisualStateGroup>
+            </VisualStateManager.VisualStateGroups>
+          </Grid>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
+
+  <!-- ===== Hero carousel (matches the coffee-shop pattern) =====
+       Retemplate the FlipView to ONLY a ScrollViewer (part name "ScrollingHost") + ItemsPresenter,
+       with NO built-in flipper buttons: the default flippers stretch to full height and deform
+       across form factors, and hiding them after the fact is unreliable on Skia (lesson 49). Paging
+       is swipe + the fixed-size custom hero buttons below, which scroll ScrollingHost by one viewport. -->
+  <Style x:Key="HeroFlipViewStyle" TargetType="FlipView">
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="BorderThickness" Value="0" />
+    <Setter Property="TabNavigation" Value="Once" />
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="FlipView">
+          <Grid Background="{TemplateBinding Background}"
+                BorderBrush="{TemplateBinding BorderBrush}"
+                BorderThickness="{TemplateBinding BorderThickness}"
+                CornerRadius="{TemplateBinding CornerRadius}">
+            <ScrollViewer x:Name="ScrollingHost"
+                          AutomationProperties.AccessibilityView="Raw"
+                          BringIntoViewOnFocusChange="{TemplateBinding ScrollViewer.BringIntoViewOnFocusChange}"
+                          HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
+                          HorizontalScrollMode="{TemplateBinding ScrollViewer.HorizontalScrollMode}"
+                          HorizontalSnapPointsType="MandatorySingle"
+                          IsDeferredScrollingEnabled="False"
+                          IsHorizontalRailEnabled="False"
+                          IsTabStop="False"
+                          IsVerticalRailEnabled="False"
+                          Padding="{TemplateBinding Padding}"
+                          TabNavigation="{TemplateBinding TabNavigation}"
+                          VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}"
+                          VerticalScrollMode="{TemplateBinding ScrollViewer.VerticalScrollMode}"
+                          VerticalSnapPointsType="MandatorySingle"
+                          ZoomMode="Disabled">
+              <ItemsPresenter />
+            </ScrollViewer>
+          </Grid>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
+
+  <!-- Circular hero nav button: fixed 40×40 so it never deforms, on a translucent scrim that reads
+       over any photo, with a vector chevron Path supplied as content. Reuses the crisp state layer. -->
+  <Style x:Key="HeroNavButtonStyle" TargetType="Button" BasedOn="{StaticResource IconButtonStyle}">
+    <Setter Property="Width" Value="40" />
+    <Setter Property="Height" Value="40" />
+    <Setter Property="CornerRadius" Value="20" />
+    <Setter Property="Background" Value="#59000000" />
+    <Setter Property="Foreground" Value="#FFFFFF" />
+    <Setter Property="VerticalAlignment" Value="Center" />
+  </Style>
+
+  <!-- ===== Trip-status pills: value → semantic role, colour resolved in XAML via {ThemeResource}
+             (ALC-safe under Studio Live / Hot Design; lessons 48/58). Rendered through a
+             ContentControl so {Binding} inside the template is the status string. ===== -->
+  <DataTemplate x:Key="TripStatusConfirmedTemplate">
+    <Border Background="{ThemeResource PrimaryContainerBrush}" CornerRadius="{StaticResource PillCornerRadius}" Padding="10,4">
+      <TextBlock Text="{Binding}" Style="{StaticResource LabelSmall}" Foreground="{ThemeResource OnPrimaryContainerBrush}" />
+    </Border>
+  </DataTemplate>
+  <DataTemplate x:Key="TripStatusPendingTemplate">
+    <Border Background="{ThemeResource SecondaryContainerBrush}" CornerRadius="{StaticResource PillCornerRadius}" Padding="10,4">
+      <TextBlock Text="{Binding}" Style="{StaticResource LabelSmall}" Foreground="{ThemeResource OnSecondaryContainerBrush}" />
+    </Border>
+  </DataTemplate>
+  <DataTemplate x:Key="TripStatusCompletedTemplate">
+    <Border Background="{ThemeResource SurfaceVariantBrush}" CornerRadius="{StaticResource PillCornerRadius}" Padding="10,4">
+      <TextBlock Text="{Binding}" Style="{StaticResource LabelSmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" />
+    </Border>
+  </DataTemplate>
+  <local:TripStatusTemplateSelector x:Key="TripStatusSelector"
+                                    Confirmed="{StaticResource TripStatusConfirmedTemplate}"
+                                    Pending="{StaticResource TripStatusPendingTemplate}"
+                                    Completed="{StaticResource TripStatusCompletedTemplate}" />
+
+</ResourceDictionary>

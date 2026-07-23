@@ -1,3 +1,5 @@
+using System.Globalization;
+
 namespace Voyago.Presentation;
 
 // Destination record — used on HomePage (hero cards, recommended trips) and FavoritesPage
@@ -20,11 +22,21 @@ public partial record TripItem(
     DateOnly DepartureDate,
     DateOnly ReturnDate,
     string Status,
-    string BookingRef);
+    string BookingRef)
+{
+    // Pre-formatted for display (a raw DateOnly binds as a culture-dependent machine date).
+    public string DepartureLabel => DepartureDate.ToString("d MMM yyyy", CultureInfo.InvariantCulture);
 
-// ExploreCategory record — used on HomePage and SearchPage
+    // The full destination behind this trip, resolved by name from the catalogue, so a trip card can
+    // open the destination's detail page. Every trip name is a catalogue entry.
+    public Destination? Place => Catalog.ByName(Destination);
+}
+
+// ExploreCategory record — used on HomePage and SearchPage. Featured is the representative
+// destination the tile opens when tapped (see Catalog.Categories).
 public partial record ExploreCategory(
     string Id,
     string Label,
     string ImageUrl,
-    string Description);
+    string Description,
+    Destination Featured);

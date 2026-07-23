@@ -1,5 +1,9 @@
-
-<Page x:Class="Voyago.Presentation.ProfilePage" Background="{ThemeResource BackgroundBrush}" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:utu="using:Uno.Toolkit.UI">
+<Page x:Class="Voyago.Presentation.ProfilePage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:local="using:Voyago.Presentation"
+      xmlns:utu="using:Uno.Toolkit.UI"
+      Background="{ThemeResource BackgroundBrush}">
 
     <Grid>
         <Grid.RowDefinitions>
@@ -7,140 +11,132 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <Grid Grid.Row="0" Background="{ThemeResource SurfaceBrush}" Padding="16,12">
-            <TextBlock Text="Profile" Style="{StaticResource TitleLarge}" Foreground="{ThemeResource OnSurfaceBrush}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+        <Grid Grid.Row="0" Background="{ThemeResource SurfaceBrush}" Padding="20,14" utu:SafeArea.Insets="Top">
+            <TextBlock Text="Profile" Style="{StaticResource TitleLarge}" Foreground="{ThemeResource OnSurfaceBrush}" />
         </Grid>
+
         <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
-            <StackPanel Spacing="0" Padding="0,0,0,24" MaxWidth="900" HorizontalAlignment="Center">
+            <StackPanel Spacing="0" Padding="16,20,16,28" MaxWidth="{StaticResource ContentMaxWidth}" HorizontalAlignment="Stretch" local:Motion.Stagger="True">
 
-                <utu:CardContentControl Style="{StaticResource FilledCardContentControlStyle}" Margin="16,20,16,0" HorizontalAlignment="Stretch" IsClickable="False">
-                    <StackPanel Padding="20" Spacing="12" HorizontalAlignment="Center">
-
-                        <Border Width="72" Height="72" CornerRadius="36" Background="{ThemeResource PrimaryBrush}" HorizontalAlignment="Center">
-                            <TextBlock Text="{Binding UserInitials}" Style="{StaticResource HeadlineMedium}" Foreground="{ThemeResource OnPrimaryBrush}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                <!-- Profile hero card -->
+                <Border Background="{ThemeResource SurfaceBrush}" BorderBrush="{ThemeResource CardBorderBrush}" BorderThickness="1" CornerRadius="{StaticResource CardCornerRadius}" Padding="20,22">
+                    <StackPanel Spacing="12" HorizontalAlignment="Center">
+                        <Border Width="76" Height="76" CornerRadius="38" Background="{ThemeResource PrimaryBrush}" HorizontalAlignment="Center">
+                            <TextBlock Text="{Binding UserInitials}" Style="{StaticResource TitleLarge}" FontSize="28" Foreground="{ThemeResource OnPrimaryBrush}" HorizontalAlignment="Center" VerticalAlignment="Center" />
                         </Border>
-                        <StackPanel Spacing="4" HorizontalAlignment="Center">
-                            <TextBlock Text="{Binding FullName}" Style="{StaticResource TitleLarge}" Foreground="{ThemeResource OnSurfaceBrush}" HorizontalAlignment="Center" />
+                        <StackPanel Spacing="3" HorizontalAlignment="Center">
+                            <TextBlock Text="{Binding FullName}" Style="{StaticResource HeadlineMedium}" FontSize="22" Foreground="{ThemeResource OnSurfaceBrush}" HorizontalAlignment="Center" />
                             <TextBlock Text="{Binding Email}" Style="{StaticResource BodyMedium}" Foreground="{ThemeResource OnSurfaceVariantBrush}" HorizontalAlignment="Center" />
                         </StackPanel>
-
-                        <Border Background="{ThemeResource SecondaryContainerBrush}" CornerRadius="16" Padding="16,6" HorizontalAlignment="Center">
-                            <StackPanel Orientation="Horizontal" Spacing="6">
-                                <FontIcon Glyph="" FontSize="13" Foreground="{ThemeResource OnSecondaryContainerBrush}" />
-                                <TextBlock Text="{Binding MemberTier}" Style="{StaticResource LabelMedium}" Foreground="{ThemeResource OnSecondaryContainerBrush}" />
+                        <Border Background="{ThemeResource SecondaryContainerBrush}" CornerRadius="{StaticResource PillCornerRadius}" Padding="14,6" HorizontalAlignment="Center">
+                            <StackPanel Orientation="Horizontal" Spacing="6" VerticalAlignment="Center">
+                                <Viewbox Width="13" Height="13" VerticalAlignment="Center">
+                                    <Path Data="{Binding Converter={StaticResource Icon}, ConverterParameter=star_filled}" Fill="{ThemeResource OnSecondaryContainerBrush}" Stretch="Uniform" />
+                                </Viewbox>
+                                <TextBlock Text="{Binding MemberTier}" Style="{StaticResource LabelMedium}" Foreground="{ThemeResource OnSecondaryContainerBrush}" VerticalAlignment="Center" />
                             </StackPanel>
                         </Border>
-
                         <TextBlock Text="{Binding MemberSince}" Style="{StaticResource BodySmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" HorizontalAlignment="Center" />
-                        <!-- Avatar circle -->
-                        <!-- Member tier badge -->
                     </StackPanel>
-                </utu:CardContentControl>
-                <Grid Margin="16,16,16,0">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
+                </Border>
 
-                    <utu:CardContentControl Grid.Column="0" Style="{StaticResource ElevatedCardContentControlStyle}" HorizontalAlignment="Stretch" Margin="0,0,4,0" IsClickable="False">
-                        <StackPanel Padding="8,12" Spacing="4" HorizontalAlignment="Center">
+                <!-- Travel stats (de-carded readouts in one bordered surface) -->
+                <Border Background="{ThemeResource SurfaceBrush}" BorderBrush="{ThemeResource CardBorderBrush}" BorderThickness="1" CornerRadius="{StaticResource CardCornerRadius}" Padding="8,16" Margin="0,14,0,0">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0" Spacing="3" HorizontalAlignment="Center">
                             <TextBlock Text="{Binding TripsCompleted}" Style="{StaticResource TitleLarge}" Foreground="{ThemeResource PrimaryBrush}" HorizontalAlignment="Center" />
                             <TextBlock Text="Trips" Style="{StaticResource LabelSmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" HorizontalAlignment="Center" />
                         </StackPanel>
-                    </utu:CardContentControl>
-
-                    <utu:CardContentControl Grid.Column="1" Style="{StaticResource ElevatedCardContentControlStyle}" HorizontalAlignment="Stretch" Margin="4,0" IsClickable="False">
-                        <StackPanel Padding="8,12" Spacing="4" HorizontalAlignment="Center">
+                        <StackPanel Grid.Column="1" Spacing="3" HorizontalAlignment="Center">
                             <TextBlock Text="{Binding CountriesVisited}" Style="{StaticResource TitleLarge}" Foreground="{ThemeResource PrimaryBrush}" HorizontalAlignment="Center" />
                             <TextBlock Text="Countries" Style="{StaticResource LabelSmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" HorizontalAlignment="Center" />
                         </StackPanel>
-                    </utu:CardContentControl>
-
-                    <utu:CardContentControl Grid.Column="2" Style="{StaticResource ElevatedCardContentControlStyle}" HorizontalAlignment="Stretch" Margin="4,0" IsClickable="False">
-                        <StackPanel Padding="8,12" Spacing="4" HorizontalAlignment="Center">
+                        <StackPanel Grid.Column="2" Spacing="3" HorizontalAlignment="Center">
                             <TextBlock Text="{Binding SavedDestinations}" Style="{StaticResource TitleLarge}" Foreground="{ThemeResource PrimaryBrush}" HorizontalAlignment="Center" />
                             <TextBlock Text="Saved" Style="{StaticResource LabelSmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" HorizontalAlignment="Center" />
                         </StackPanel>
-                    </utu:CardContentControl>
-
-                    <utu:CardContentControl Grid.Column="3" Style="{StaticResource ElevatedCardContentControlStyle}" HorizontalAlignment="Stretch" Margin="4,0,0,0" IsClickable="False">
-                        <StackPanel Padding="8,12" Spacing="4" HorizontalAlignment="Center">
+                        <StackPanel Grid.Column="3" Spacing="3" HorizontalAlignment="Center">
                             <TextBlock Text="{Binding ReviewsWritten}" Style="{StaticResource TitleLarge}" Foreground="{ThemeResource PrimaryBrush}" HorizontalAlignment="Center" />
                             <TextBlock Text="Reviews" Style="{StaticResource LabelSmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" HorizontalAlignment="Center" />
                         </StackPanel>
-                    </utu:CardContentControl>
-                </Grid>
+                    </Grid>
+                </Border>
 
-                <StackPanel Margin="16,24,16,0" Spacing="4">
-                    <TextBlock Text="Account" Style="{StaticResource TitleSmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" Margin="4,0,0,8" />
-                    <utu:CardContentControl Style="{StaticResource OutlinedCardContentControlStyle}" HorizontalAlignment="Stretch" IsClickable="False">
-                        <ItemsRepeater ItemsSource="{Binding AccountSettings}">
-                            <ItemsRepeater.Layout>
-                                <StackLayout Orientation="Vertical" Spacing="0" />
-                            </ItemsRepeater.Layout>
-                            <ItemsRepeater.ItemTemplate>
-                                <DataTemplate>
-                                    <Grid Padding="16,14" MinHeight="56">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="Auto" />
-                                            <ColumnDefinition Width="*" />
-                                            <ColumnDefinition Width="Auto" />
-                                        </Grid.ColumnDefinitions>
-                                        <Border Grid.Column="0" Width="36" Height="36" CornerRadius="10" Background="{ThemeResource PrimaryContainerBrush}" Margin="0,0,12,0">
-                                            <FontIcon Glyph="{Binding Glyph}" FontSize="16" Foreground="{ThemeResource OnPrimaryContainerBrush}" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                                        </Border>
-                                        <StackPanel Grid.Column="1" VerticalAlignment="Center" Spacing="1">
-                                            <TextBlock Text="{Binding Label}" Style="{StaticResource BodyLarge}" Foreground="{ThemeResource OnSurfaceBrush}" />
-                                            <TextBlock Text="{Binding Subtitle}" Style="{StaticResource BodySmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" />
-                                        </StackPanel>
-                                        <FontIcon Grid.Column="2" Glyph="" FontSize="12" Foreground="{ThemeResource OnSurfaceVariantBrush}" VerticalAlignment="Center" />
-                                    </Grid>
-                                </DataTemplate>
-                            </ItemsRepeater.ItemTemplate>
-                        </ItemsRepeater>
-                    </utu:CardContentControl>
-                </StackPanel>
-                <StackPanel Margin="16,20,16,0" Spacing="4">
-                    <TextBlock Text="Preferences" Style="{StaticResource TitleSmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" Margin="4,0,0,8" />
-                    <utu:CardContentControl Style="{StaticResource OutlinedCardContentControlStyle}" HorizontalAlignment="Stretch" IsClickable="False">
-                        <ItemsRepeater ItemsSource="{Binding AppSettings}">
-                            <ItemsRepeater.Layout>
-                                <StackLayout Orientation="Vertical" Spacing="0" />
-                            </ItemsRepeater.Layout>
-                            <ItemsRepeater.ItemTemplate>
-                                <DataTemplate>
-                                    <Grid Padding="16,14" MinHeight="56">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="Auto" />
-                                            <ColumnDefinition Width="*" />
-                                            <ColumnDefinition Width="Auto" />
-                                        </Grid.ColumnDefinitions>
-                                        <Border Grid.Column="0" Width="36" Height="36" CornerRadius="10" Background="{ThemeResource SurfaceVariantBrush}" Margin="0,0,12,0">
-                                            <FontIcon Glyph="{Binding Glyph}" FontSize="16" Foreground="{ThemeResource OnSurfaceVariantBrush}" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                                        </Border>
-                                        <StackPanel Grid.Column="1" VerticalAlignment="Center" Spacing="1">
-                                            <TextBlock Text="{Binding Label}" Style="{StaticResource BodyLarge}" Foreground="{ThemeResource OnSurfaceBrush}" />
-                                            <TextBlock Text="{Binding Subtitle}" Style="{StaticResource BodySmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" />
-                                        </StackPanel>
-                                        <FontIcon Grid.Column="2" Glyph="" FontSize="12" Foreground="{ThemeResource OnSurfaceVariantBrush}" VerticalAlignment="Center" />
-                                    </Grid>
-                                </DataTemplate>
-                            </ItemsRepeater.ItemTemplate>
-                        </ItemsRepeater>
-                    </utu:CardContentControl>
-                </StackPanel>
+                <!-- Account -->
+                <TextBlock Text="ACCOUNT" Style="{StaticResource SectionLabel}" Margin="4,24,0,8" />
+                <Border Background="{ThemeResource SurfaceBrush}" BorderBrush="{ThemeResource CardBorderBrush}" BorderThickness="1" CornerRadius="{StaticResource CardCornerRadius}">
+                    <ItemsRepeater ItemsSource="{Binding AccountSettings}">
+                        <ItemsRepeater.Layout>
+                            <StackLayout Orientation="Vertical" Spacing="0" />
+                        </ItemsRepeater.Layout>
+                        <ItemsRepeater.ItemTemplate>
+                            <DataTemplate>
+                                <Grid Padding="14,13" MinHeight="58">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <Border Grid.Column="0" Width="38" Height="38" CornerRadius="11" Background="{ThemeResource PrimaryContainerBrush}" Margin="0,0,12,0">
+                                        <Viewbox Width="18" Height="18" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                            <Path Data="{Binding Label, Converter={StaticResource Icon}}" Fill="{ThemeResource OnPrimaryContainerBrush}" Stretch="Uniform" />
+                                        </Viewbox>
+                                    </Border>
+                                    <StackPanel Grid.Column="1" VerticalAlignment="Center" Spacing="1">
+                                        <TextBlock Text="{Binding Label}" Style="{StaticResource BodyLarge}" Foreground="{ThemeResource OnSurfaceBrush}" />
+                                        <TextBlock Text="{Binding Subtitle}" Style="{StaticResource BodySmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" />
+                                    </StackPanel>
+                                    <Viewbox Grid.Column="2" Width="16" Height="16" VerticalAlignment="Center">
+                                        <Path Data="{Binding Converter={StaticResource Icon}, ConverterParameter=chevron_right}" Fill="{ThemeResource OutlineBrush}" Stretch="Uniform" />
+                                    </Viewbox>
+                                </Grid>
+                            </DataTemplate>
+                        </ItemsRepeater.ItemTemplate>
+                    </ItemsRepeater>
+                </Border>
 
-                <Button Style="{StaticResource OutlinedButtonStyle}" Content="Sign Out" HorizontalAlignment="Stretch" Margin="16,24,16,0" AutomationProperties.Name="Sign out of account" />
-                <!-- Profile hero card -->
-                <!-- Travel stats row -->
-                <!-- Account Settings -->
-                <!-- App Settings -->
-                <!-- Sign out -->
+                <!-- Preferences -->
+                <TextBlock Text="PREFERENCES" Style="{StaticResource SectionLabel}" Margin="4,20,0,8" />
+                <Border Background="{ThemeResource SurfaceBrush}" BorderBrush="{ThemeResource CardBorderBrush}" BorderThickness="1" CornerRadius="{StaticResource CardCornerRadius}">
+                    <ItemsRepeater ItemsSource="{Binding AppSettings}">
+                        <ItemsRepeater.Layout>
+                            <StackLayout Orientation="Vertical" Spacing="0" />
+                        </ItemsRepeater.Layout>
+                        <ItemsRepeater.ItemTemplate>
+                            <DataTemplate>
+                                <Grid Padding="14,13" MinHeight="58">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <Border Grid.Column="0" Width="38" Height="38" CornerRadius="11" Background="{ThemeResource SurfaceVariantBrush}" Margin="0,0,12,0">
+                                        <Viewbox Width="18" Height="18" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                            <Path Data="{Binding Label, Converter={StaticResource Icon}}" Fill="{ThemeResource OnSurfaceVariantBrush}" Stretch="Uniform" />
+                                        </Viewbox>
+                                    </Border>
+                                    <StackPanel Grid.Column="1" VerticalAlignment="Center" Spacing="1">
+                                        <TextBlock Text="{Binding Label}" Style="{StaticResource BodyLarge}" Foreground="{ThemeResource OnSurfaceBrush}" />
+                                        <TextBlock Text="{Binding Subtitle}" Style="{StaticResource BodySmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" />
+                                    </StackPanel>
+                                    <Viewbox Grid.Column="2" Width="16" Height="16" VerticalAlignment="Center">
+                                        <Path Data="{Binding Converter={StaticResource Icon}, ConverterParameter=chevron_right}" Fill="{ThemeResource OutlineBrush}" Stretch="Uniform" />
+                                    </Viewbox>
+                                </Grid>
+                            </DataTemplate>
+                        </ItemsRepeater.ItemTemplate>
+                    </ItemsRepeater>
+                </Border>
+
+                <Button Style="{StaticResource TonalButtonStyle}" Content="Sign out" HorizontalAlignment="Stretch" Margin="0,24,0,0" AutomationProperties.Name="Sign out of account" />
 
             </StackPanel>
         </ScrollViewer>
-        <!-- Header -->
     </Grid>
 </Page>
