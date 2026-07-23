@@ -126,7 +126,9 @@
                     Foreground="White"
                     uen:Navigation.Request="-"
                     AutomationProperties.Name="Back">
-                <PathIcon Data="{Binding Converter={StaticResource Icon}, ConverterParameter=arrow_left}" />
+                <Viewbox Width="18" Height="18">
+                    <Path Data="{Binding Converter={StaticResource Icon}, ConverterParameter=arrow_left}" Fill="White" Stretch="Uniform" />
+                </Viewbox>
             </Button>
         </Grid>
     </Grid>

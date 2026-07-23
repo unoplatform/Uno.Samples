@@ -24,7 +24,9 @@
             </Border>
             <TextBlock Grid.Column="1" Text="Voyago" FontWeight="Bold" FontSize="22" Foreground="{ThemeResource PrimaryBrush}" HorizontalAlignment="Center" VerticalAlignment="Center" CharacterSpacing="20" />
             <Button Grid.Column="2" Style="{StaticResource IconButtonStyle}" AutomationProperties.Name="Notifications">
-                <PathIcon Data="{Binding Converter={StaticResource Icon}, ConverterParameter=alert}" />
+                <Viewbox Width="20" Height="20">
+                    <Path Data="{Binding Converter={StaticResource Icon}, ConverterParameter=alert}" Fill="{ThemeResource OnSurfaceVariantBrush}" Stretch="Uniform" />
+                </Viewbox>
             </Button>
         </Grid>
 
