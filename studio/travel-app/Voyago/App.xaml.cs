@@ -101,9 +101,10 @@ public partial class App : Application
             new ViewMap<FavoritesPage, FavoritesModel>(),
             new ViewMap<ProfilePage, ProfileModel>(),
             // The detail is reached by tapping a destination; the tapped Destination is passed as the
-            // model's data (DataViewMap), so each card opens its own. It's a ContentDialog shown with
-            // the "!" (dialog) qualifier — a true modal overlaying the dimmed shell on desktop, and
-            // full-window on phones.
+            // model's data (DataViewMap), so each card opens its own. Two presentations share one model:
+            // a full-screen Page on phones/tablets, and a ContentDialog modal on desktop (the cards pick
+            // between them by width — see their Navigation.Request).
+            new DataViewMap<DestinationDetailPage, DestinationDetailModel, Destination>(),
             new DataViewMap<DestinationDetailDialog, DestinationDetailModel, Destination>()
         );
 
@@ -122,9 +123,11 @@ public partial class App : Application
                             new RouteMap("Profile", View: views.FindByView<ProfilePage>())
                         ]
                     ),
-                    // Reached with the "!" dialog qualifier (see the cards' Navigation.Request), so it
-                    // presents as a modal ContentDialog over the shell rather than replacing it.
-                    new RouteMap("DestinationDetail", View: views.FindByView<DestinationDetailDialog>()),
+                    // Phones/tablets: full-screen page (sibling of Main; back returns to Main).
+                    new RouteMap("DestinationDetail", View: views.FindByView<DestinationDetailPage>()),
+                    // Desktop: same model, shown with the "!" dialog qualifier so it presents as a
+                    // modal ContentDialog over the shell rather than replacing it.
+                    new RouteMap("DestinationDetailModal", View: views.FindByView<DestinationDetailDialog>()),
                 ]
             )
         );

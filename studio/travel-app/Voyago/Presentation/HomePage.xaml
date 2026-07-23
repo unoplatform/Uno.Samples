@@ -96,7 +96,7 @@
                                                 FontSize="14"
                                                 HorizontalAlignment="Left"
                                                 Margin="0,8,0,0"
-                                                uen:Navigation.Request="!DestinationDetail"
+                                                uen:Navigation.Request="{utu:Responsive Layout={StaticResource DesktopModalBreakpoint}, Narrow=DestinationDetail, Wide=DestinationDetail, Widest='!DestinationDetailModal'}"
                                                 uen:Navigation.Data="{Binding}"
                                                 AutomationProperties.Name="{Binding Name}" />
                                     </StackPanel>
@@ -179,7 +179,7 @@
                             <DataTemplate>
                                 <utu:CardContentControl Style="{StaticResource ElevatedCardContentControlStyle}"
                                                         HorizontalAlignment="Stretch" IsClickable="True"
-                                                        uen:Navigation.Request="!DestinationDetail"
+                                                        uen:Navigation.Request="{utu:Responsive Layout={StaticResource DesktopModalBreakpoint}, Narrow=DestinationDetail, Wide=DestinationDetail, Widest='!DestinationDetailModal'}"
                                                         uen:Navigation.Data="{Binding}"
                                                         AutomationProperties.Name="{Binding Name}">
                                     <Grid>
@@ -226,7 +226,7 @@
                                                         HorizontalAlignment="Stretch"
                                                         VerticalAlignment="Stretch"
                                                         IsClickable="True"
-                                                        uen:Navigation.Request="!DestinationDetail"
+                                                        uen:Navigation.Request="{utu:Responsive Layout={StaticResource DesktopModalBreakpoint}, Narrow=DestinationDetail, Wide=DestinationDetail, Widest='!DestinationDetailModal'}"
                                                         uen:Navigation.Data="{Binding Featured}"
                                                         AutomationProperties.Name="{Binding Label}">
                                     <Grid>

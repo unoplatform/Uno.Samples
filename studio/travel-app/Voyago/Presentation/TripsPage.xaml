@@ -38,7 +38,7 @@
                             <DataTemplate>
                                 <utu:CardContentControl Style="{StaticResource ElevatedCardContentControlStyle}"
                                                         HorizontalAlignment="Stretch" IsClickable="True"
-                                                        uen:Navigation.Request="!DestinationDetail"
+                                                        uen:Navigation.Request="{utu:Responsive Layout={StaticResource DesktopModalBreakpoint}, Narrow=DestinationDetail, Wide=DestinationDetail, Widest='!DestinationDetailModal'}"
                                                         uen:Navigation.Data="{Binding Place}"
                                                         AutomationProperties.Name="{Binding Destination}">
                                     <Grid Height="108">
@@ -92,7 +92,7 @@
                             <DataTemplate>
                                 <utu:CardContentControl Style="{StaticResource FilledCardContentControlStyle}"
                                                         HorizontalAlignment="Stretch" IsClickable="True"
-                                                        uen:Navigation.Request="!DestinationDetail"
+                                                        uen:Navigation.Request="{utu:Responsive Layout={StaticResource DesktopModalBreakpoint}, Narrow=DestinationDetail, Wide=DestinationDetail, Widest='!DestinationDetailModal'}"
                                                         uen:Navigation.Data="{Binding Place}"
                                                         AutomationProperties.Name="{Binding Destination}">
                                     <Grid Height="86">

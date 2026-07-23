@@ -111,6 +111,11 @@
        would (use the width on large screens); list/reading pages keep the narrower ContentMaxWidth. -->
   <x:Double x:Key="ContentMaxWidthWide">1560</x:Double>
 
+  <!-- "Desktop" breakpoint set for width-gated presentation: a destination opens as a full-screen page
+       up to 1400 (phones and every tablet — a 12.9" iPad landscape is 1366) and as a modal above it.
+       Referenced via {utu:Responsive Layout=...} so it doesn't disturb the default breakpoints. -->
+  <utu:ResponsiveLayout x:Key="DesktopModalBreakpoint" Narrowest="150" Narrow="300" Normal="600" Wide="800" Widest="1400" />
+
   <!-- ===== Corner radius tokens (override the well-known WinUI/Simple keys; win by last-merge) ===== -->
   <CornerRadius x:Key="ControlCornerRadiusSmall">8</CornerRadius>
   <CornerRadius x:Key="ControlCornerRadius">14</CornerRadius>
