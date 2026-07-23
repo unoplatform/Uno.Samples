@@ -101,27 +101,35 @@
                         </ItemsRepeater.Layout>
                         <ItemsRepeater.ItemTemplate>
                             <DataTemplate>
-                                <Grid Height="96">
-                                    <Border CornerRadius="{StaticResource CardCornerRadius}">
-                                        <Border.Background>
-                                            <ImageBrush ImageSource="{Binding ImageUrl}" Stretch="UniformToFill" />
-                                        </Border.Background>
-                                    </Border>
-                                    <!-- Bottom-anchored scrim (matches the app's other image overlays) so the
-                                         label + wrapping description stay legible over bright photos. -->
-                                    <Border CornerRadius="{StaticResource CardCornerRadius}">
-                                        <Border.Background>
-                                            <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
-                                                <GradientStop Color="#26000000" Offset="0" />
-                                                <GradientStop Color="#D9000000" Offset="1" />
-                                            </LinearGradientBrush>
-                                        </Border.Background>
-                                    </Border>
-                                    <StackPanel VerticalAlignment="Bottom" Padding="16,0,16,12" Spacing="2">
-                                        <TextBlock Text="{Binding Label}" Style="{StaticResource TitleMedium}" Foreground="White" />
-                                        <TextBlock Text="{Binding Description}" Style="{StaticResource BodySmall}" Foreground="#E6FFFFFF" TextWrapping="Wrap" />
-                                    </StackPanel>
-                                </Grid>
+                                <utu:CardContentControl Style="{StaticResource ElevatedCardContentControlStyle}"
+                                                        Height="96"
+                                                        HorizontalAlignment="Stretch"
+                                                        IsClickable="True"
+                                                        uen:Navigation.Request="DestinationDetail"
+                                                        uen:Navigation.Data="{Binding Featured}"
+                                                        AutomationProperties.Name="{Binding Label}">
+                                    <Grid>
+                                        <Border>
+                                            <Border.Background>
+                                                <ImageBrush ImageSource="{Binding ImageUrl}" Stretch="UniformToFill" />
+                                            </Border.Background>
+                                        </Border>
+                                        <!-- Bottom-anchored scrim (matches the app's other image overlays) so the
+                                             label + wrapping description stay legible over bright photos. -->
+                                        <Rectangle>
+                                            <Rectangle.Fill>
+                                                <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                                                    <GradientStop Color="#26000000" Offset="0" />
+                                                    <GradientStop Color="#D9000000" Offset="1" />
+                                                </LinearGradientBrush>
+                                            </Rectangle.Fill>
+                                        </Rectangle>
+                                        <StackPanel VerticalAlignment="Bottom" Padding="16,0,16,12" Spacing="2">
+                                            <TextBlock Text="{Binding Label}" Style="{StaticResource TitleMedium}" Foreground="White" />
+                                            <TextBlock Text="{Binding Description}" Style="{StaticResource BodySmall}" Foreground="#E6FFFFFF" TextWrapping="Wrap" />
+                                        </StackPanel>
+                                    </Grid>
+                                </utu:CardContentControl>
                             </DataTemplate>
                         </ItemsRepeater.ItemTemplate>
                     </ItemsRepeater>

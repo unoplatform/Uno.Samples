@@ -28,9 +28,11 @@ public partial record TripItem(
     public string DepartureLabel => DepartureDate.ToString("d MMM yyyy", CultureInfo.InvariantCulture);
 }
 
-// ExploreCategory record — used on HomePage and SearchPage
+// ExploreCategory record — used on HomePage and SearchPage. Featured is the representative
+// destination the tile opens when tapped (see Catalog.Categories).
 public partial record ExploreCategory(
     string Id,
     string Label,
     string ImageUrl,
-    string Description);
+    string Description,
+    Destination Featured);

@@ -74,8 +74,9 @@ public partial class App : Application
 })
                 .ConfigureServices((context, services) =>
                 {
-                    // TODO: Register your services
-                    //services.AddSingleton<IMyService, MyService>();
+                    // One shared trip book for the whole app: DestinationDetailModel books into it
+                    // and TripsModel lists it — shared mutable state as a singleton IListState.
+                    services.AddSingleton<Presentation.Services.ITripsService, Presentation.Services.TripsService>();
                 })
                 .UseNavigation(ReactiveViewModelMappings.ViewModelMappings, RegisterRoutes)
             );
