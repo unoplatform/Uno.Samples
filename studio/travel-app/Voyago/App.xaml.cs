@@ -100,9 +100,11 @@ public partial class App : Application
             new ViewMap<TripsPage, TripsModel>(),
             new ViewMap<FavoritesPage, FavoritesModel>(),
             new ViewMap<ProfilePage, ProfileModel>(),
-            // The detail page is reached by tapping a destination; the tapped Destination is
-            // passed as the model's data (DataViewMap), so each card opens its own detail.
-            new DataViewMap<DestinationDetailPage, DestinationDetailModel, Destination>()
+            // The detail is reached by tapping a destination; the tapped Destination is passed as the
+            // model's data (DataViewMap), so each card opens its own. It's a ContentDialog shown with
+            // the "!" (dialog) qualifier — a true modal overlaying the dimmed shell on desktop, and
+            // full-window on phones.
+            new DataViewMap<DestinationDetailDialog, DestinationDetailModel, Destination>()
         );
 
         routes.Register(
@@ -120,9 +122,9 @@ public partial class App : Application
                             new RouteMap("Profile", View: views.FindByView<ProfilePage>())
                         ]
                     ),
-                    // Sibling of Main (not a tab): shown full-screen in the shell's content area so
-                    // the detail isn't overlaid by the TabBar / nav pane. Back returns to Main.
-                    new RouteMap("DestinationDetail", View: views.FindByView<DestinationDetailPage>()),
+                    // Reached with the "!" dialog qualifier (see the cards' Navigation.Request), so it
+                    // presents as a modal ContentDialog over the shell rather than replacing it.
+                    new RouteMap("DestinationDetail", View: views.FindByView<DestinationDetailDialog>()),
                 ]
             )
         );
