@@ -46,7 +46,7 @@
 
         <DataTemplate x:Key="SearchStyleTile">
             <utu:CardContentControl Style="{StaticResource ElevatedCardContentControlStyle}"
-                                    Height="{utu:Responsive Narrow=96, Wide=150}"
+                                    Height="{utu:Responsive Narrow=96, Wide=150, Widest=150}"
                                     HorizontalAlignment="Stretch"
                                     IsClickable="True"
                                     uen:Navigation.Request="{utu:Responsive Layout={StaticResource DesktopModalBreakpoint}, Narrow=DestinationDetail, Wide=DestinationDetail, Widest='!DestinationDetailModal'}"
@@ -160,11 +160,13 @@
                             </ItemsRepeater.Layout>
                         </ItemsRepeater>
                     </StackPanel>
-                    <StackPanel Grid.Column="1" Spacing="12">
+                    <StackPanel Grid.Column="1" Spacing="12" VerticalAlignment="Top">
                         <TextBlock Text="Browse by style" Style="{StaticResource TitleMedium}" Foreground="{ThemeResource OnBackgroundBrush}" />
+                        <!-- One column of fixed-height banners. UniformGridLayout + ItemsStretch=Fill
+                             reliably sizes the tiles (a StackLayout here left them collapsed with gaps). -->
                         <ItemsRepeater ItemsSource="{Binding ExploreCategories}" ItemTemplate="{StaticResource SearchStyleTile}">
                             <ItemsRepeater.Layout>
-                                <StackLayout Orientation="Vertical" Spacing="12" />
+                                <UniformGridLayout MinItemWidth="300" MinItemHeight="132" MaximumRowsOrColumns="1" MinColumnSpacing="12" MinRowSpacing="12" ItemsStretch="Fill" Orientation="Horizontal" />
                             </ItemsRepeater.Layout>
                         </ItemsRepeater>
                     </StackPanel>
