@@ -50,6 +50,12 @@ Dive into the essentials of task management with the ToDo App, a meticulously cr
 
 ### Other Samples
 
+### MenuFlyout Showcase
+
+Demonstrates the Uno Platform 6.6 menu improvements — a `MenuBar` and button `MenuFlyout` with nested submenus, `SplitMenuFlyoutItem`, `ToggleMenuFlyoutItem`, and keyboard-accelerator hints — plus an element whose `ContextFlyout` opens through the new `ContextRequested` / `ContextCanceled` routed events, with a live event log.
+
+[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/MenuFlyoutShowcase)
+
 ### Advanced XBind
 
 The {x:Bind} markup extension (new for Windows 10) is an alternative to {Binding}. {x:Bind} runs in less time and less memory than {Binding} and supports better debugging.
