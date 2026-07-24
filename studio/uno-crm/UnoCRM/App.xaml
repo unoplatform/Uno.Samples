@@ -1,19 +1,30 @@
 <Application x:Class="UnoCRM.App"
        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+       xmlns:utus="using:Uno.Toolkit.UI.Simple">
 
   <!--
-    App.xaml is a thin manifest: it only merges the dedicated dictionaries. The
-    theme-aware palette (colors, brushes, and the ComboBox lightweight-styling keys derived from it)
-    lives in ThemeColors.xaml; the styling vocabulary (converters, tokens, the responsive
-    breakpoint, and every named Style) lives in Styles.xaml, merged LAST so its keys win.
+    App.xaml is a thin manifest: it only merges the dedicated dictionaries. The app runs on the Uno
+    Simple theme (SimpleToolkitTheme), whose ColorOverrideSource maps the CRM brand palette onto the
+    semantic role colors in SemanticColors.xaml so the built-in controls pick up the identity. The
+    app's own styled surfaces use the Dashboard* palette in ThemeColors.xaml; the styling vocabulary
+    lives in Styles.xaml, merged LAST so its keys win. Body text is the framework Roboto (portable on
+    every platform; the Simple default renders Regular weight as monospace).
   -->
   <Application.Resources>
     <ResourceDictionary>
       <ResourceDictionary.MergedDictionaries>
         <!-- Load WinUI resources -->
         <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
-        <!-- Theme-aware CRM palette (light + dark) -->
+        <!-- Uno Simple theme, with the CRM brand palette mapped to semantic roles + Roboto text -->
+        <utus:SimpleToolkitTheme ColorOverrideSource="ms-appx:///SemanticColors.xaml">
+          <utus:SimpleToolkitTheme.FontOverrideDictionary>
+            <ResourceDictionary>
+              <FontFamily x:Key="SimpleFontFamily">ms-appx:///Uno.Fonts.Roboto/Fonts/Roboto-Regular.ttf#Roboto</FontFamily>
+            </ResourceDictionary>
+          </utus:SimpleToolkitTheme.FontOverrideDictionary>
+        </utus:SimpleToolkitTheme>
+        <!-- Theme-aware CRM palette (Dashboard* brushes, chart palette, ComboBox lightweight keys) -->
         <ResourceDictionary Source="ms-appx:///ThemeColors.xaml" />
         <!-- App styling vocabulary -->
         <ResourceDictionary Source="ms-appx:///Styles.xaml" />
