@@ -34,7 +34,8 @@
                               hugging the active tab. Fixed size + centred (an indicator sized by
                               margins alone stretches with the cell width and balloons on wider
                               layouts), it glides between tabs over 200 ms (TransitionMode=Slide).
-      • Accent selection    - HIG: the selected tab tints with the app accent (Primary). Applied
+      • Accent + filled     - HIG: the selected tab tints with the app accent (Primary) and swaps to
+                              the FILLED icon variant (supplied per item via TabBarItem.Tag); applied
                               per-state to both icon and label (Foreground is not inherited).
 
     THEME-AWARE: light/dark values live in the ThemeDictionaries below. The bar surface / puck /
@@ -50,8 +51,9 @@
 
     <!-- ─── Light ─── -->
     <ResourceDictionary x:Key="Light">
-      <!-- Surface: ~95% opaque very light cool-neutral; puck is pure white so it reads as raised. -->
-      <Color x:Key="FloatingTabBarBackgroundColor">#F2F5F6F7</Color>
+      <!-- Surface: ~92% translucent light cool-neutral (glassier — content peeks through more);
+           selected capsule is white with a soft lift, not a hard chip. -->
+      <Color x:Key="FloatingTabBarBackgroundColor">#EBF4F5F6</Color>
       <Color x:Key="FloatingTabBarPuckColor">#FFFFFFFF</Color>
       <Color x:Key="FloatingTabBarBorderColor">#14000000</Color>
       <Color x:Key="FloatingTabBarPuckBorderColor">#0F000000</Color>
@@ -64,7 +66,8 @@
       <!-- Soft shadow: two rounded layers (wide+faint, tight+darker); overlap fakes a falloff. -->
       <SolidColorBrush x:Key="FloatingTabBarShadowAmbientBrush" Color="#0D000000" />
       <SolidColorBrush x:Key="FloatingTabBarShadowKeyBrush" Color="#17000000" />
-      <SolidColorBrush x:Key="FloatingTabBarPuckShadowBrush" Color="#1A000000" />
+      <!-- Selected capsule: a whisper of lift, not a Material chip shadow. -->
+      <SolidColorBrush x:Key="FloatingTabBarPuckShadowBrush" Color="#12000000" />
 
       <!-- Icon colours inherit the host palette via the Simple semantic role brushes. -->
       <StaticResource x:Key="FloatingTabBarItemForegroundBrush" ResourceKey="OnSurfaceMediumBrush" />
@@ -74,8 +77,9 @@
 
     <!-- ─── Dark (Default) ─── -->
     <ResourceDictionary x:Key="Default">
-      <!-- Surface sits a step above the near-black page; puck is a lighter raised surface. -->
-      <Color x:Key="FloatingTabBarBackgroundColor">#F2222A2C</Color>
+      <!-- Surface: ~92% translucent, a step above the near-black page; selected capsule is a
+           lighter raised glass. -->
+      <Color x:Key="FloatingTabBarBackgroundColor">#EB242C2E</Color>
       <Color x:Key="FloatingTabBarPuckColor">#FF323C3F</Color>
       <Color x:Key="FloatingTabBarBorderColor">#1FFFFFFF</Color>
       <Color x:Key="FloatingTabBarPuckBorderColor">#14FFFFFF</Color>
@@ -87,7 +91,8 @@
 
       <SolidColorBrush x:Key="FloatingTabBarShadowAmbientBrush" Color="#40000000" />
       <SolidColorBrush x:Key="FloatingTabBarShadowKeyBrush" Color="#59000000" />
-      <SolidColorBrush x:Key="FloatingTabBarPuckShadowBrush" Color="#4D000000" />
+      <!-- Selected capsule: a whisper of lift, not a Material chip shadow. -->
+      <SolidColorBrush x:Key="FloatingTabBarPuckShadowBrush" Color="#33000000" />
 
       <StaticResource x:Key="FloatingTabBarItemForegroundBrush" ResourceKey="OnSurfaceMediumBrush" />
       <!-- HIG: the selected tab tints with the app accent. -->
@@ -100,7 +105,7 @@
   <x:Double x:Key="FloatingTabBarHeight">58</x:Double>
   <x:Double x:Key="FloatingTabBarItemWidth">82</x:Double>
   <x:Double x:Key="FloatingTabBarIconSize">24</x:Double>
-  <x:Double x:Key="FloatingTabBarLabelFontSize">11</x:Double>
+  <x:Double x:Key="FloatingTabBarLabelFontSize">10</x:Double>
   <x:Double x:Key="FloatingTabBarPressScale">0.98</x:Double>
   <!-- Selection lozenge: the Liquid-Glass capsule that hugs the selected tab. Fixed size + centred
        (never sized by margins, which would balloon with the cell width). -->
@@ -150,9 +155,18 @@
                        Width="{StaticResource FloatingTabBarIconSize}"
                        Height="{StaticResource FloatingTabBarIconSize}"
                        HorizontalAlignment="Center">
-                <ContentPresenter x:Name="Icon"
-                                  Content="{TemplateBinding Icon}"
-                                  Foreground="{TemplateBinding Foreground}" />
+                <!-- Outline icon (inactive) + filled icon (selected) overlaid, toggled by the
+                     Selected states. The filled variant is supplied per item via Tag — HIG prefers
+                     filled symbols, and iOS shows the selected tab's glyph filled. -->
+                <Grid>
+                  <ContentPresenter x:Name="Icon"
+                                    Content="{TemplateBinding Icon}"
+                                    Foreground="{TemplateBinding Foreground}" />
+                  <ContentPresenter x:Name="IconSelected"
+                                    Content="{TemplateBinding Tag}"
+                                    Foreground="{TemplateBinding Foreground}"
+                                    Visibility="Collapsed" />
+                </Grid>
               </Viewbox>
 
               <!-- Tab label (HIG): a short word beneath the icon; tints with selection. -->
@@ -180,19 +194,25 @@
                 </VisualState>
                 <VisualState x:Name="Selected">
                   <VisualState.Setters>
-                    <Setter Target="Icon.Foreground" Value="{ThemeResource FloatingTabBarItemForegroundSelectedBrush}" />
+                    <Setter Target="Icon.Visibility" Value="Collapsed" />
+                    <Setter Target="IconSelected.Visibility" Value="Visible" />
+                    <Setter Target="IconSelected.Foreground" Value="{ThemeResource FloatingTabBarItemForegroundSelectedBrush}" />
                     <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource FloatingTabBarItemForegroundSelectedBrush}" />
                   </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="PointerOverSelected">
                   <VisualState.Setters>
-                    <Setter Target="Icon.Foreground" Value="{ThemeResource FloatingTabBarItemForegroundSelectedBrush}" />
+                    <Setter Target="Icon.Visibility" Value="Collapsed" />
+                    <Setter Target="IconSelected.Visibility" Value="Visible" />
+                    <Setter Target="IconSelected.Foreground" Value="{ThemeResource FloatingTabBarItemForegroundSelectedBrush}" />
                     <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource FloatingTabBarItemForegroundSelectedBrush}" />
                   </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="PressedSelected">
                   <VisualState.Setters>
-                    <Setter Target="Icon.Foreground" Value="{ThemeResource FloatingTabBarItemForegroundSelectedBrush}" />
+                    <Setter Target="Icon.Visibility" Value="Collapsed" />
+                    <Setter Target="IconSelected.Visibility" Value="Visible" />
+                    <Setter Target="IconSelected.Foreground" Value="{ThemeResource FloatingTabBarItemForegroundSelectedBrush}" />
                     <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource FloatingTabBarItemForegroundSelectedBrush}" />
                     <Setter Target="PressScaleTransform.ScaleX" Value="{StaticResource FloatingTabBarPressScale}" />
                     <Setter Target="PressScaleTransform.ScaleY" Value="{StaticResource FloatingTabBarPressScale}" />
