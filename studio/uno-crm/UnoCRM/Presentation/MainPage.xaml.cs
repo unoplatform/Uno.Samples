@@ -1,4 +1,4 @@
-namespace UnoCRM;
+namespace UnoCRM.Presentation;
 
 /// <summary>
 /// The navigation shell: hosts the NavigationView (wide) / TabBar (narrow) chrome and the

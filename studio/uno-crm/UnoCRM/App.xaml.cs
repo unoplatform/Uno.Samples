@@ -33,7 +33,7 @@ public partial class App : Application
                 // Switch to Development environment when running in DEBUG
                 .UseEnvironment(Environments.Development)
 #endif
-                .UseNavigation(RegisterRoutes)
+                .UseNavigation(ReactiveViewModelMappings.ViewModelMappings, RegisterRoutes)
             );
         MainWindow = builder.Window;
 
@@ -50,17 +50,19 @@ public partial class App : Application
     private static void RegisterRoutes(IViewRegistry views, IRouteRegistry routes)
     {
         views.Register(
-            new ViewMap(ViewModel: typeof(ShellViewModel)),
-            new ViewMap<MainPage>(),
-            new ViewMap<DashboardPage>(),
-            new ViewMap<PipelinePage>(),
-            new ViewMap<LeadsPage>(),
-            new ViewMap<ContactsPage>()
+            new ViewMap(ViewModel: typeof(ShellModel)),
+            new ViewMap<MainPage, MainModel>(),
+            new ViewMap<DashboardPage, DashboardModel>(),
+            new ViewMap<PipelinePage, PipelineModel>(),
+            new ViewMap<LeadsPage, LeadsModel>(),
+            new ViewMap<ContactsPage, ContactsModel>(),
+            // Deal detail: the tapped Deal is bound as the model's nav-data parameter.
+            new DataViewMap<DealDetailPage, DealDetailModel, Deal>()
         );
 
         routes.Register(
             // The Shell hosts the extended splash screen and is the navigation root.
-            new RouteMap("", View: views.FindByViewModel<ShellViewModel>(),
+            new RouteMap("", View: views.FindByViewModel<ShellModel>(),
                 Nested:
                 [
                     // MainPage is the navigation shell: it owns the NavigationView / TabBar
@@ -73,7 +75,10 @@ public partial class App : Application
                             new RouteMap("Pipeline", View: views.FindByView<PipelinePage>()),
                             new RouteMap("Leads", View: views.FindByView<LeadsPage>()),
                             new RouteMap("Contacts", View: views.FindByView<ContactsPage>())
-                        ])
+                        ]),
+                    // Sibling of Main (not a tab): shown full-screen in the shell's content area so
+                    // the detail isn't overlaid by the TabBar / nav pane. Back returns to the tab.
+                    new RouteMap("DealDetail", View: views.FindByView<DealDetailPage>())
                 ])
         );
     }

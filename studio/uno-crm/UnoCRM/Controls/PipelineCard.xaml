@@ -19,7 +19,7 @@
         <TextBlock Grid.Column="0"
                    Text="{x:Bind Company, Mode=OneWay}"
                    Foreground="{ThemeResource DashboardPrimaryTextBrush}"
-                   FontFamily="Georgia"
+                   FontWeight="Medium"
                    FontSize="16"
                    TextWrapping="Wrap"
                    MaxLines="2"
@@ -34,13 +34,16 @@
                  Fill="{x:Bind Accent, Mode=OneWay}"
                  Visibility="{x:Bind DotVisibility(IsWon), Mode=OneWay}" />
 
-        <FontIcon Grid.Column="1"
-                  Glyph="&#xE73E;"
-                  FontSize="12"
-                  VerticalAlignment="Top"
-                  Margin="8,5,0,0"
-                  Foreground="{x:Bind Accent, Mode=OneWay}"
-                  Visibility="{x:Bind CheckVisibility(IsWon), Mode=OneWay}" />
+        <Viewbox Grid.Column="1"
+                 Width="14"
+                 Height="14"
+                 VerticalAlignment="Top"
+                 Margin="8,5,0,0"
+                 Visibility="{x:Bind CheckVisibility(IsWon), Mode=OneWay}">
+          <Path Data="F1 M4.53033 12.9697C4.23744 12.6768 3.76256 12.6768 3.46967 12.9697C3.17678 13.2626 3.17678 13.7374 3.46967 14.0303L7.96967 18.5303C8.26256 18.8232 8.73744 18.8232 9.03033 18.5303L20.0303 7.53033C20.3232 7.23744 20.3232 6.76256 20.0303 6.46967C19.7374 6.17678 19.2626 6.17678 18.9697 6.46967L8.5 16.9393L4.53033 12.9697Z"
+                Stretch="Uniform"
+                Fill="{x:Bind Accent, Mode=OneWay}" />
+        </Viewbox>
       </Grid>
 
       <TextBlock Text="{x:Bind Amount, Mode=OneWay}"

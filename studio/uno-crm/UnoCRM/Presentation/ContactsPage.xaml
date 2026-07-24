@@ -1,9 +1,8 @@
-<Page x:Class="UnoCRM.ContactsPage"
+<Page x:Class="UnoCRM.Presentation.ContactsPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:maps="clr-namespace:Mapsui.UI.WinUI;assembly=Mapsui.UI.Uno.WinUI"
       xmlns:utu="using:Uno.Toolkit.UI"
-      x:Uid="ContactsPage"
       Background="{ThemeResource DashboardPageBackgroundBrush}">
   <Page.Resources>
     <!--
@@ -56,6 +55,13 @@
     </Style>
   </Page.Resources>
   <Grid Background="{ThemeResource DashboardPageBackgroundBrush}">
+    <!-- Hidden probe: bound to the model's filtered feed so the code-behind can rebuild the
+         (non-bindable) Mapsui layers whenever the filters change. -->
+    <ListView x:Name="ContactsProbe"
+              ItemsSource="{Binding FilteredContacts}"
+              Visibility="Collapsed"
+              IsHitTestVisible="False" />
+
     <Grid x:Name="DesktopRoot" Visibility="{utu:Responsive Narrow=Collapsed, Wide=Visible}">
       <Grid Padding="28,22,28,28"
         RowSpacing="18">
@@ -85,9 +91,13 @@
                         Spacing="10"
                         VerticalAlignment="Center">
               <Button Style="{StaticResource DashboardPrimaryButtonStyle}"
-                      Click="ResetMap_Click">
+                      Click="ResetView_Click">
                 <StackPanel Orientation="Horizontal" Spacing="8">
-                  <FontIcon Glyph="&#xE81E;" FontSize="12" Foreground="White" />
+                  <Viewbox Width="14" Height="14">
+                    <Path Data="F1 M7.93413 16.0659C8.22703 16.3588 8.22703 16.8336 7.93413 17.1265C7.64124 17.4194 7.16637 17.4194 6.87347 17.1265C4.04217 14.2952 4.04217 9.70478 6.87347 6.87348C8.71833 5.02862 11.3099 4.38674 13.6723 4.94459C14.0755 5.03978 14.3251 5.44375 14.2299 5.84687C14.1347 6.25 13.7308 6.49963 13.3276 6.40444C11.45 5.96106 9.39622 6.47205 7.93413 7.93414C5.68862 10.1797 5.68862 13.8203 7.93413 16.0659ZM17.8879 9.1415C18.2789 9.00477 18.7067 9.21089 18.8435 9.60189C19.7333 12.1463 19.1624 15.0907 17.1265 17.1265C16.8336 17.4194 16.3588 17.4194 16.0659 17.1265C15.773 16.8336 15.773 16.3588 16.0659 16.0659C17.6791 14.4526 18.1344 12.1183 17.4276 10.097C17.2908 9.70604 17.4969 9.27824 17.8879 9.1415ZM15.8791 6.66732C16.1062 6.47297 16.439 6.46653 16.6734 6.65195C16.9078 6.83738 16.9781 7.16278 16.8412 7.42842L16.7119 7.67862C16.6295 7.83801 16.5113 8.06624 16.3681 8.34179C16.0818 8.89278 15.6954 9.63339 15.2955 10.3912C14.8959 11.1485 14.4815 11.9253 14.1395 12.5479C13.9686 12.8589 13.8142 13.1344 13.6879 13.3509C13.5703 13.5524 13.4548 13.7421 13.3688 13.8508C12.7263 14.6629 11.5471 14.8004 10.735 14.1579C9.92288 13.5154 9.78538 12.3362 10.4279 11.5241C10.5139 11.4154 10.672 11.2593 10.8409 11.0986C11.0226 10.9258 11.2552 10.7121 11.5185 10.4744C12.0457 9.9983 12.7063 9.41631 13.3514 8.85315C13.9969 8.28961 14.6288 7.74321 15.0991 7.33783C15.3343 7.1351 15.5292 6.96755 15.6654 6.85065L15.8791 6.66732Z"
+                          Stretch="Uniform"
+                          Fill="White" />
+                  </Viewbox>
                   <TextBlock Text="Reset View" Foreground="White" FontSize="14" />
                 </StackPanel>
               </Button>
@@ -102,41 +112,38 @@
             </Grid.ColumnDefinitions>
 
             <Grid Grid.Column="0">
-              <TextBox x:Name="DesktopSearchBox"
-                       PlaceholderText="Search contacts, company, city"
+              <TextBox PlaceholderText="Search contacts, company, city"
                        Style="{StaticResource DashboardSearchBoxStyle}"
                        Padding="36,11,14,11"
                        Height="44"
-                       TextChanged="SearchContacts_TextChanged" />
-              <FontIcon Glyph="&#xE721;"
-                        FontSize="14"
-                        Foreground="{ThemeResource DashboardMutedTextBrush}"
-                        Margin="14,0,0,0"
-                        VerticalAlignment="Center"
-                        HorizontalAlignment="Left" />
+                       Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+              <Viewbox Width="16" Height="16"
+                       Margin="14,0,0,0"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Left">
+                <Path Data="F1 M16.1017 17.1624C14.717 18.3101 12.9391 19 11 19C6.58172 19 3 15.4183 3 11C3 6.58172 6.58172 3 11 3C15.4183 3 19 6.58172 19 11C19 12.9391 18.3101 14.717 17.1624 16.1018L21.7803 20.7197C22.0732 21.0126 22.0732 21.4874 21.7803 21.7803C21.4874 22.0732 21.0125 22.0732 20.7196 21.7803L16.1017 17.1624ZM17.5 11C17.5 7.41015 14.5899 4.5 11 4.5C7.41015 4.5 4.5 7.41015 4.5 11C4.5 14.5899 7.41015 17.5 11 17.5C14.5899 17.5 17.5 14.5899 17.5 11Z"
+                      Stretch="Uniform"
+                      Fill="{ThemeResource DashboardMutedTextBrush}" />
+              </Viewbox>
             </Grid>
 
-            <ComboBox x:Name="DesktopRegionFilter"
-                      Grid.Column="1"
+            <ComboBox Grid.Column="1"
                       HorizontalAlignment="Stretch"
                       Height="44"
                       CornerRadius="12"
                       FontSize="14"
                       VerticalContentAlignment="Center"
                       ItemsSource="{Binding Regions}"
-                      SelectedIndex="0"
-                      SelectionChanged="RegionFilter_SelectionChanged" />
+                      SelectedItem="{Binding RegionFilter, Mode=TwoWay}" />
 
-            <ComboBox x:Name="DesktopSegmentFilter"
-                      Grid.Column="2"
+            <ComboBox Grid.Column="2"
                       HorizontalAlignment="Stretch"
                       Height="44"
                       CornerRadius="12"
                       FontSize="14"
                       VerticalContentAlignment="Center"
                       ItemsSource="{Binding Segments}"
-                      SelectedIndex="0"
-                      SelectionChanged="SegmentFilter_SelectionChanged" />
+                      SelectedItem="{Binding SegmentFilter, Mode=TwoWay}" />
           </Grid>
 
           <Grid Grid.Row="2" ColumnSpacing="16">
@@ -164,7 +171,7 @@
                   </Grid.ColumnDefinitions>
                   <TextBlock Text="Live Contact Geography"
                              Style="{StaticResource DashboardBodyTextStyle}"
-                             FontFamily="Georgia"
+                             FontWeight="SemiBold"
                              FontSize="22" />
                   <TextBlock Grid.Column="1"
                              Text="{Binding TotalFilteredLabel}"
@@ -200,7 +207,7 @@
 
                 <TextBlock Text="Filtered Contacts"
                            Style="{StaticResource DashboardBodyTextStyle}"
-                           FontFamily="Georgia"
+                           FontWeight="SemiBold"
                            FontSize="22" />
 
                 <ListView Grid.Row="1"
@@ -244,6 +251,15 @@
                     </DataTemplate>
                   </ListView.ItemTemplate>
                 </ListView>
+
+                <!-- Empty state when the filters match no contacts -->
+                <TextBlock Grid.Row="1"
+                           Text="No contacts match your filters."
+                           Style="{StaticResource DashboardSubtleTextStyle}"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Top"
+                           Margin="0,24,0,0"
+                           Visibility="{Binding HasNoResults, Converter={StaticResource BoolToVisibility}}" />
               </Grid>
             </Border>
           </Grid>
@@ -272,33 +288,32 @@
 
           <StackPanel Grid.Row="1" Spacing="10">
             <Grid>
-              <TextBox x:Name="MobileSearchBox"
-                       PlaceholderText="Search contacts"
+              <TextBox PlaceholderText="Search contacts"
                        Style="{StaticResource DashboardSearchBoxStyle}"
                        Padding="36,10,14,10"
-                       TextChanged="SearchContacts_TextChanged" />
-              <FontIcon Glyph="&#xE721;"
-                        FontSize="14"
-                        Foreground="{ThemeResource DashboardMutedTextBrush}"
-                        Margin="14,0,0,0"
-                        VerticalAlignment="Center"
-                        HorizontalAlignment="Left" />
+                       Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+              <Viewbox Width="16" Height="16"
+                       Margin="14,0,0,0"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Left">
+                <Path Data="F1 M16.1017 17.1624C14.717 18.3101 12.9391 19 11 19C6.58172 19 3 15.4183 3 11C3 6.58172 6.58172 3 11 3C15.4183 3 19 6.58172 19 11C19 12.9391 18.3101 14.717 17.1624 16.1018L21.7803 20.7197C22.0732 21.0126 22.0732 21.4874 21.7803 21.7803C21.4874 22.0732 21.0125 22.0732 20.7196 21.7803L16.1017 17.1624ZM17.5 11C17.5 7.41015 14.5899 4.5 11 4.5C7.41015 4.5 4.5 7.41015 4.5 11C4.5 14.5899 7.41015 17.5 11 17.5C14.5899 17.5 17.5 14.5899 17.5 11Z"
+                      Stretch="Uniform"
+                      Fill="{ThemeResource DashboardMutedTextBrush}" />
+              </Viewbox>
             </Grid>
             <StackPanel Orientation="Horizontal" Spacing="10">
 
-              <ComboBox x:Name="MobileRegionFilter"
-                        CornerRadius="12"
+              <ComboBox CornerRadius="12"
                         FontSize="14"
+                        HorizontalAlignment="Stretch"
                         ItemsSource="{Binding Regions}"
-                        SelectedIndex="0"
-                        SelectionChanged="RegionFilter_SelectionChanged" />
+                        SelectedItem="{Binding RegionFilter, Mode=TwoWay}" />
 
-              <ComboBox x:Name="MobileSegmentFilter"
-                        CornerRadius="12"
+              <ComboBox CornerRadius="12"
                         FontSize="14"
+                        HorizontalAlignment="Stretch"
                         ItemsSource="{Binding Segments}"
-                        SelectedIndex="0"
-                        SelectionChanged="SegmentFilter_SelectionChanged" />
+                        SelectedItem="{Binding SegmentFilter, Mode=TwoWay}" />
             </StackPanel>
           </StackPanel>
 
@@ -313,10 +328,10 @@
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="Contact Geography"
                            Style="{StaticResource DashboardBodyTextStyle}"
-                           FontFamily="Georgia"
+                           FontWeight="SemiBold"
                            FontSize="20" />
                 <Button Grid.Column="1"
-                        Click="ResetMap_Click"
+                        Click="ResetView_Click"
                         Style="{StaticResource DashboardFilterButtonStyle}">
                   <TextBlock Text="Reset" FontSize="12" />
                 </Button>
@@ -332,7 +347,7 @@
             <StackPanel Spacing="10">
               <TextBlock Text="Contacts"
                          Style="{StaticResource DashboardBodyTextStyle}"
-                         FontFamily="Georgia"
+                         FontWeight="SemiBold"
                          FontSize="20" />
               <!--
                 ItemsControl (not ListView) so the list has no inner scroll and the
@@ -360,6 +375,13 @@
                   </DataTemplate>
                 </ItemsControl.ItemTemplate>
               </ItemsControl>
+
+              <!-- Empty state when the filters match no contacts -->
+              <TextBlock Text="No contacts match your filters."
+                         Style="{StaticResource DashboardSubtleTextStyle}"
+                         HorizontalAlignment="Center"
+                         Margin="0,8,0,4"
+                         Visibility="{Binding HasNoResults, Converter={StaticResource BoolToVisibility}}" />
             </StackPanel>
           </Border>
         </Grid>
