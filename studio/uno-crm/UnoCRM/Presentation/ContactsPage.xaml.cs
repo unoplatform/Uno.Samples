@@ -28,6 +28,12 @@ public sealed partial class ContactsPage : Page
 
     private bool _initialFitDone;
 
+    // OpenStreetMap's tile usage policy requires a descriptive User-Agent that identifies the app;
+    // requests without a valid one are rejected. The framework-derived default is unreliable
+    // (notably on iOS, where there is no conventional entry assembly), so identify the sample
+    // explicitly to make tiles load on every platform.
+    private const string TileUserAgent = "UnoCRM/1.0 (Uno Platform sample; +https://platform.uno)";
+
     private void OnLoaded(object sender, RoutedEventArgs e)
     {
         // Rebuild the maps whenever the bound filtered set changes. The list feed materializes
@@ -81,7 +87,7 @@ public sealed partial class ContactsPage : Page
 
         if (!map.Layers.Any(layer => string.Equals(layer.Name, "BaseMap", StringComparison.Ordinal)))
         {
-            var baseLayer = OpenStreetMap.CreateTileLayer();
+            var baseLayer = OpenStreetMap.CreateTileLayer(TileUserAgent);
             baseLayer.Name = "BaseMap";
             map.Layers.Insert(0, baseLayer);
         }
@@ -130,7 +136,7 @@ public sealed partial class ContactsPage : Page
     private static Mapsui.Map CreateBaseMap()
     {
         var map = new Mapsui.Map();
-        var baseLayer = OpenStreetMap.CreateTileLayer();
+        var baseLayer = OpenStreetMap.CreateTileLayer(TileUserAgent);
         baseLayer.Name = "BaseMap";
         map.Layers.Add(baseLayer);
         return map;
