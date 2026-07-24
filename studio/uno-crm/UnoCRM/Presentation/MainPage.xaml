@@ -49,23 +49,21 @@
       </NavigationView.MenuItems>
 
       <NavigationView.Content>
+        <!--
+          Single cell so the floating TabBar OVERLAYS the content (last in z-order) rather than
+          reserving its own row. Content fills the full height and scrolls behind the translucent
+          Liquid-Glass bar (HIG peek-through); each content page's Narrow root already carries a
+          bottom Padding + SafeArea inset so its last item clears the floating bar.
+        -->
         <Grid>
-          <Grid.RowDefinitions>
-            <RowDefinition />
-            <RowDefinition Height="Auto" />
-          </Grid.RowDefinitions>
-
           <!-- Shared content area - navigation framework injects the active page here -->
-          <Grid Grid.Row="0"
-                uen:Region.Attached="True"
+          <Grid uen:Region.Attached="True"
                 uen:Region.Navigator="Visibility" />
 
-          <!-- Bottom TabBar: shown on Narrow, hidden once the pane appears on Wide -->
+          <!-- Bottom floating TabBar: overlays content on Narrow, hidden once the pane appears on Wide -->
           <utu:TabBar x:Name="BottomTabs"
-                      Grid.Row="1"
                       uen:Region.Attached="True"
-                      Style="{StaticResource BottomTabBarStyle}"
-                      utu:SafeArea.Insets="Bottom"
+                      Style="{StaticResource FloatingTabBarStyle}"
                       Visibility="{utu:Responsive Narrow=Visible, Wide=Collapsed}">
             <utu:TabBarItem uen:Region.Name="Dashboard" Content="Dashboard">
               <utu:TabBarItem.Icon>

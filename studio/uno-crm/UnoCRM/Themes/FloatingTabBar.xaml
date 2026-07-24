@@ -1,0 +1,370 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:utu="using:Uno.Toolkit.UI">
+
+  <!--
+    ═══════════════════════════════════════════════════════════════════════════════════════
+      FloatingTabBar.xaml — an iOS-style "floating" bottom TabBar theme for the Uno Simple theme.
+    ═══════════════════════════════════════════════════════════════════════════════════════
+
+    A standalone, drop-in ResourceDictionary. Merge it after the Simple theme and apply the
+    styles to any Uno Toolkit TabBar:
+
+        <utu:TabBar Style="{StaticResource FloatingTabBarStyle}"> ... </utu:TabBar>
+
+    THE LOOK — an iOS 26 "Liquid Glass"-style floating bar, following Apple's Human Interface
+    Guidelines: a detached, translucent capsule; each tab an icon above a short label; the selected
+    tab tinted with the app accent inside a brighter, raised glass capsule that glides between tabs;
+    content peeks through the translucent bar.
+
+      • Detached capsule    - the bar does not span the screen: HorizontalAlignment=Center sizes
+                              it to its tabs, a large CornerRadius rounds it into a pill, and a
+                              bottom Margin + SafeArea inset lift it off the home indicator.
+      • Glass surface       - a high-opacity (not fully opaque) surface colour reads as frosted
+                              material without a real backdrop blur (backdrop blur is Skia-only and
+                              not portable). A hairline border draws the edge as light, not a stroke.
+      • Layered soft shadow - two low-opacity (5-8% light) rounded layers, biased downward, stand in
+                              for a cast shadow. We deliberately do NOT use the Toolkit
+                              ShadowContainer here: it lives in the separate Uno.Toolkit.Skia.WinUI
+                              package and, because this is a *merged* dictionary, a version/reference
+                              mismatch aborts the whole dictionary at load. Layered translucent
+                              borders are the portable alternative.
+      • Selection capsule   - the moving highlight is the TabBar's own selection indicator, placed
+                              "Below" (behind the tab) so it reads as a raised Liquid-Glass lozenge
+                              hugging the active tab. Fixed size + centred (an indicator sized by
+                              margins alone stretches with the cell width and balloons on wider
+                              layouts), it glides between tabs over 200 ms (TransitionMode=Slide).
+      • Accent selection    - HIG: the selected tab tints with the app accent (Primary). Applied
+                              per-state to both icon and label (Foreground is not inherited).
+
+    THEME-AWARE: light/dark values live in the ThemeDictionaries below. The bar surface / puck /
+    shadow are declared as explicit ARGB colours (they need alpha the semantic role brushes don't
+    carry); the icon foregrounds alias the Simple theme's semantic OnSurface brushes, so the tabs
+    inherit whatever palette the host app maps onto those roles.
+
+    Built on the Simple theme's own base styles, so it keeps the Simple selection-indicator
+    presenter (the 200 ms slide storyboard) and the Simple TabBarItem defaults.
+  -->
+
+  <ResourceDictionary.ThemeDictionaries>
+
+    <!-- ─── Light ─── -->
+    <ResourceDictionary x:Key="Light">
+      <!-- Surface: ~95% opaque very light cool-neutral; puck is pure white so it reads as raised. -->
+      <Color x:Key="FloatingTabBarBackgroundColor">#F2F5F6F7</Color>
+      <Color x:Key="FloatingTabBarPuckColor">#FFFFFFFF</Color>
+      <Color x:Key="FloatingTabBarBorderColor">#14000000</Color>
+      <Color x:Key="FloatingTabBarPuckBorderColor">#0F000000</Color>
+
+      <SolidColorBrush x:Key="FloatingTabBarBackgroundBrush" Color="{StaticResource FloatingTabBarBackgroundColor}" />
+      <SolidColorBrush x:Key="FloatingTabBarPuckBrush" Color="{StaticResource FloatingTabBarPuckColor}" />
+      <SolidColorBrush x:Key="FloatingTabBarBorderBrush" Color="{StaticResource FloatingTabBarBorderColor}" />
+      <SolidColorBrush x:Key="FloatingTabBarPuckBorderBrush" Color="{StaticResource FloatingTabBarPuckBorderColor}" />
+
+      <!-- Soft shadow: two rounded layers (wide+faint, tight+darker); overlap fakes a falloff. -->
+      <SolidColorBrush x:Key="FloatingTabBarShadowAmbientBrush" Color="#0D000000" />
+      <SolidColorBrush x:Key="FloatingTabBarShadowKeyBrush" Color="#17000000" />
+      <SolidColorBrush x:Key="FloatingTabBarPuckShadowBrush" Color="#1A000000" />
+
+      <!-- Icon colours inherit the host palette via the Simple semantic role brushes. -->
+      <StaticResource x:Key="FloatingTabBarItemForegroundBrush" ResourceKey="OnSurfaceMediumBrush" />
+      <!-- HIG: the selected tab tints with the app accent. -->
+      <StaticResource x:Key="FloatingTabBarItemForegroundSelectedBrush" ResourceKey="PrimaryBrush" />
+    </ResourceDictionary>
+
+    <!-- ─── Dark (Default) ─── -->
+    <ResourceDictionary x:Key="Default">
+      <!-- Surface sits a step above the near-black page; puck is a lighter raised surface. -->
+      <Color x:Key="FloatingTabBarBackgroundColor">#F2222A2C</Color>
+      <Color x:Key="FloatingTabBarPuckColor">#FF323C3F</Color>
+      <Color x:Key="FloatingTabBarBorderColor">#1FFFFFFF</Color>
+      <Color x:Key="FloatingTabBarPuckBorderColor">#14FFFFFF</Color>
+
+      <SolidColorBrush x:Key="FloatingTabBarBackgroundBrush" Color="{StaticResource FloatingTabBarBackgroundColor}" />
+      <SolidColorBrush x:Key="FloatingTabBarPuckBrush" Color="{StaticResource FloatingTabBarPuckColor}" />
+      <SolidColorBrush x:Key="FloatingTabBarBorderBrush" Color="{StaticResource FloatingTabBarBorderColor}" />
+      <SolidColorBrush x:Key="FloatingTabBarPuckBorderBrush" Color="{StaticResource FloatingTabBarPuckBorderColor}" />
+
+      <SolidColorBrush x:Key="FloatingTabBarShadowAmbientBrush" Color="#40000000" />
+      <SolidColorBrush x:Key="FloatingTabBarShadowKeyBrush" Color="#59000000" />
+      <SolidColorBrush x:Key="FloatingTabBarPuckShadowBrush" Color="#4D000000" />
+
+      <StaticResource x:Key="FloatingTabBarItemForegroundBrush" ResourceKey="OnSurfaceMediumBrush" />
+      <!-- HIG: the selected tab tints with the app accent. -->
+      <StaticResource x:Key="FloatingTabBarItemForegroundSelectedBrush" ResourceKey="PrimaryBrush" />
+    </ResourceDictionary>
+
+  </ResourceDictionary.ThemeDictionaries>
+
+  <!-- ─── Metrics (shared across themes) ─── -->
+  <x:Double x:Key="FloatingTabBarHeight">58</x:Double>
+  <x:Double x:Key="FloatingTabBarItemWidth">82</x:Double>
+  <x:Double x:Key="FloatingTabBarIconSize">24</x:Double>
+  <x:Double x:Key="FloatingTabBarLabelFontSize">11</x:Double>
+  <x:Double x:Key="FloatingTabBarPressScale">0.98</x:Double>
+  <!-- Selection lozenge: the Liquid-Glass capsule that hugs the selected tab. Fixed size + centred
+       (never sized by margins, which would balloon with the cell width). -->
+  <x:Double x:Key="FloatingTabBarSelectionWidth">74</x:Double>
+  <x:Double x:Key="FloatingTabBarSelectionHeight">50</x:Double>
+  <!-- Bar radius = height / 2 → a full capsule; lozenge radius = its height / 2. -->
+  <CornerRadius x:Key="FloatingTabBarCornerRadius">29</CornerRadius>
+  <CornerRadius x:Key="FloatingTabBarSelectionCornerRadius">25</CornerRadius>
+
+  <!--
+    ═══ TabBarItem: icon above label, centred, colour follows selection ═══
+    HIG: include a short tab label beneath the icon. Foreground is not an inherited property in
+    WinUI/Uno, so the selected accent tint is applied per-state to BOTH the icon and the label. A
+    firm 0.98 press scale gives a tactile feel on pointer platforms.
+  -->
+  <Style x:Key="FloatingTabBarItemStyle"
+         BasedOn="{StaticResource SimpleBottomTabBarItemStyle}"
+         TargetType="utu:TabBarItem">
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="Foreground" Value="{ThemeResource FloatingTabBarItemForegroundBrush}" />
+    <Setter Property="Width" Value="{StaticResource FloatingTabBarItemWidth}" />
+    <Setter Property="MinHeight" Value="{StaticResource FloatingTabBarHeight}" />
+    <Setter Property="HorizontalContentAlignment" Value="Center" />
+    <Setter Property="VerticalContentAlignment" Value="Center" />
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="utu:TabBarItem">
+          <Grid x:Name="LayoutRoot"
+                Background="{TemplateBinding Background}"
+                Control.IsTemplateFocusTarget="True"
+                RenderTransformOrigin="0.5,0.5">
+            <Grid.RenderTransform>
+              <ScaleTransform x:Name="PressScaleTransform" />
+            </Grid.RenderTransform>
+
+            <Grid x:Name="ContentGrid"
+                  HorizontalAlignment="Center"
+                  VerticalAlignment="Center"
+                  RowSpacing="2">
+              <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+              </Grid.RowDefinitions>
+
+              <Viewbox x:Name="IconBox"
+                       Grid.Row="0"
+                       Width="{StaticResource FloatingTabBarIconSize}"
+                       Height="{StaticResource FloatingTabBarIconSize}"
+                       HorizontalAlignment="Center">
+                <ContentPresenter x:Name="Icon"
+                                  Content="{TemplateBinding Icon}"
+                                  Foreground="{TemplateBinding Foreground}" />
+              </Viewbox>
+
+              <!-- Tab label (HIG): a short word beneath the icon; tints with selection. -->
+              <ContentPresenter x:Name="ContentPresenter"
+                                Grid.Row="1"
+                                Content="{TemplateBinding Content}"
+                                ContentTemplate="{TemplateBinding ContentTemplate}"
+                                Foreground="{TemplateBinding Foreground}"
+                                FontFamily="{TemplateBinding FontFamily}"
+                                FontSize="{StaticResource FloatingTabBarLabelFontSize}"
+                                HorizontalAlignment="Center"
+                                TextWrapping="NoWrap"
+                                AutomationProperties.AccessibilityView="Raw" />
+            </Grid>
+
+            <VisualStateManager.VisualStateGroups>
+              <VisualStateGroup x:Name="CommonStates">
+                <VisualState x:Name="Normal" />
+                <VisualState x:Name="PointerOver" />
+                <VisualState x:Name="Pressed">
+                  <VisualState.Setters>
+                    <Setter Target="PressScaleTransform.ScaleX" Value="{StaticResource FloatingTabBarPressScale}" />
+                    <Setter Target="PressScaleTransform.ScaleY" Value="{StaticResource FloatingTabBarPressScale}" />
+                  </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Selected">
+                  <VisualState.Setters>
+                    <Setter Target="Icon.Foreground" Value="{ThemeResource FloatingTabBarItemForegroundSelectedBrush}" />
+                    <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource FloatingTabBarItemForegroundSelectedBrush}" />
+                  </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="PointerOverSelected">
+                  <VisualState.Setters>
+                    <Setter Target="Icon.Foreground" Value="{ThemeResource FloatingTabBarItemForegroundSelectedBrush}" />
+                    <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource FloatingTabBarItemForegroundSelectedBrush}" />
+                  </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="PressedSelected">
+                  <VisualState.Setters>
+                    <Setter Target="Icon.Foreground" Value="{ThemeResource FloatingTabBarItemForegroundSelectedBrush}" />
+                    <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource FloatingTabBarItemForegroundSelectedBrush}" />
+                    <Setter Target="PressScaleTransform.ScaleX" Value="{StaticResource FloatingTabBarPressScale}" />
+                    <Setter Target="PressScaleTransform.ScaleY" Value="{StaticResource FloatingTabBarPressScale}" />
+                  </VisualState.Setters>
+                </VisualState>
+              </VisualStateGroup>
+              <VisualStateGroup x:Name="DisabledStates">
+                <VisualState x:Name="Enabled" />
+                <VisualState x:Name="Disabled">
+                  <VisualState.Setters>
+                    <Setter Target="LayoutRoot.Opacity" Value="0.38" />
+                  </VisualState.Setters>
+                </VisualState>
+              </VisualStateGroup>
+              <!-- Layout is fixed (icon above label); these position states are inert but declared. -->
+              <VisualStateGroup x:Name="TabBarIconPositionStates">
+                <VisualState x:Name="IconOnTop" />
+                <VisualState x:Name="IconOnly" />
+                <VisualState x:Name="ContentOnly" />
+              </VisualStateGroup>
+            </VisualStateManager.VisualStateGroups>
+          </Grid>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
+
+  <!--
+    ═══ TabBar: the floating capsule ═══
+    Based on the Simple theme's base TabBar style (keeps the 200 ms slide selection-indicator
+    presenter). The template mirrors the Simple/base structure — a background Border, the two
+    selection-indicator presenters (Below is used here), and the ItemsPresenter — and adds the two
+    soft shadow layers behind the capsule. The root Grid must stay named "TabBarGrid" and keep the
+    OrientationStates / IndicatorPlacementStates groups: the control drives them by name.
+
+    Padding is 0 on purpose: the selection indicator sizes each cell to ActualWidth / itemCount, so
+    the items must fill the bar edge-to-edge for the centred selection capsule to track each tab
+    exactly. The bar's breathing room comes from the item width and the rounded ends, not padding.
+  -->
+  <Style x:Key="FloatingTabBarStyle"
+         BasedOn="{StaticResource BaseSimpleTabBarStyle}"
+         TargetType="utu:TabBar">
+    <Setter Property="Background" Value="{ThemeResource FloatingTabBarBackgroundBrush}" />
+    <Setter Property="BorderBrush" Value="{ThemeResource FloatingTabBarBorderBrush}" />
+    <Setter Property="BorderThickness" Value="1" />
+    <Setter Property="CornerRadius" Value="{StaticResource FloatingTabBarCornerRadius}" />
+    <Setter Property="MinHeight" Value="{StaticResource FloatingTabBarHeight}" />
+    <Setter Property="Padding" Value="0" />
+    <Setter Property="HorizontalAlignment" Value="Center" />
+    <Setter Property="VerticalAlignment" Value="Bottom" />
+    <!-- Detach from the home indicator; the Simple bottom bar bakes in no bottom inset. -->
+    <Setter Property="Margin" Value="0,0,0,12" />
+    <Setter Property="utu:SafeArea.Insets" Value="Bottom" />
+    <Setter Property="ItemContainerStyle" Value="{StaticResource FloatingTabBarItemStyle}" />
+    <!--
+      The default TabBarListPanel always claims the full available width and splits it into equal
+      cells, which would spread the icons across the screen. A horizontal StackPanel instead sizes
+      to its content, so HorizontalAlignment=Center hugs the icons into a snug capsule. The selection
+      indicator sizes each cell to ActualWidth / itemCount, which still equals the item width (82)
+      because the items are equal-width and flush — so the centred capsule keeps tracking each tab.
+      (Designed for a small, iOS-style tab set — up to ~5 tabs.)
+    -->
+    <Setter Property="ItemsPanel">
+      <Setter.Value>
+        <ItemsPanelTemplate>
+          <StackPanel Orientation="Horizontal" />
+        </ItemsPanelTemplate>
+      </Setter.Value>
+    </Setter>
+    <Setter Property="SelectionIndicatorPlacement" Value="Below" />
+    <Setter Property="SelectionIndicatorTransitionMode" Value="Slide" />
+    <Setter Property="SelectionIndicatorContentTemplate">
+      <Setter.Value>
+        <DataTemplate>
+          <!-- Fixed-size, centred Liquid-Glass capsule hugging the selected tab (raised, brighter
+               than the bar, with its own subtle shadow). -->
+          <Grid Width="{StaticResource FloatingTabBarSelectionWidth}"
+                Height="{StaticResource FloatingTabBarSelectionHeight}"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center">
+            <Border Margin="-1,1,-1,-2"
+                    Background="{ThemeResource FloatingTabBarPuckShadowBrush}"
+                    CornerRadius="{StaticResource FloatingTabBarSelectionCornerRadius}" />
+            <Border Background="{ThemeResource FloatingTabBarPuckBrush}"
+                    BorderBrush="{ThemeResource FloatingTabBarPuckBorderBrush}"
+                    BorderThickness="1"
+                    CornerRadius="{StaticResource FloatingTabBarSelectionCornerRadius}" />
+          </Grid>
+        </DataTemplate>
+      </Setter.Value>
+    </Setter>
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="utu:TabBar">
+          <Grid x:Name="TabBarGrid">
+            <!-- Soft cast shadow: rounded, low-opacity, biased downward. Negative margins let it
+                 bleed past the capsule (the items must stay flush to the bar edges, so the shadow
+                 room cannot come from padding). -->
+            <Border x:Name="AmbientShadow"
+                    Margin="-6,12,-6,-14"
+                    Background="{ThemeResource FloatingTabBarShadowAmbientBrush}"
+                    CornerRadius="{TemplateBinding CornerRadius}" />
+            <Border x:Name="KeyShadow"
+                    Margin="-2,8,-2,-8"
+                    Background="{ThemeResource FloatingTabBarShadowKeyBrush}"
+                    CornerRadius="{TemplateBinding CornerRadius}" />
+
+            <!-- The glass capsule. -->
+            <Border x:Name="BackgroundBorder"
+                    Background="{TemplateBinding Background}"
+                    BorderBrush="{TemplateBinding BorderBrush}"
+                    BorderThickness="{TemplateBinding BorderThickness}"
+                    CornerRadius="{TemplateBinding CornerRadius}" />
+
+            <!-- Behind the icons (SelectionIndicatorPlacement=Below). -->
+            <utu:TabBarSelectionIndicatorPresenter x:Name="BelowSelectionIndicatorPresenter"
+                                                   AutomationProperties.AutomationId="BelowSelectionIndicatorPresenter"
+                                                   Content="{TemplateBinding SelectionIndicatorContent}"
+                                                   ContentTemplate="{TemplateBinding SelectionIndicatorContentTemplate}"
+                                                   Foreground="{TemplateBinding Foreground}"
+                                                   IndicatorTransitionMode="{TemplateBinding SelectionIndicatorTransitionMode}"
+                                                   Opacity="0"
+                                                   Owner="{Binding RelativeSource={RelativeSource TemplatedParent}}"
+                                                   Style="{TemplateBinding SelectionIndicatorPresenterStyle}"
+                                                   Visibility="Collapsed" />
+
+            <ItemsPresenter x:Name="TabBarItemsPresenter" Margin="{TemplateBinding Padding}" />
+
+            <!-- In front of the icons (unused while placement is Below, kept for completeness). -->
+            <utu:TabBarSelectionIndicatorPresenter x:Name="AboveSelectionIndicatorPresenter"
+                                                   AutomationProperties.AutomationId="AboveSelectionIndicatorPresenter"
+                                                   Content="{TemplateBinding SelectionIndicatorContent}"
+                                                   ContentTemplate="{TemplateBinding SelectionIndicatorContentTemplate}"
+                                                   Foreground="{TemplateBinding Foreground}"
+                                                   IndicatorTransitionMode="{TemplateBinding SelectionIndicatorTransitionMode}"
+                                                   Opacity="0"
+                                                   Owner="{Binding RelativeSource={RelativeSource TemplatedParent}}"
+                                                   Style="{TemplateBinding SelectionIndicatorPresenterStyle}" />
+
+            <VisualStateManager.VisualStateGroups>
+              <VisualStateGroup x:Name="OrientationStates">
+                <VisualState x:Name="Horizontal">
+                  <VisualState.Setters>
+                    <Setter Target="BelowSelectionIndicatorPresenter.VerticalContentAlignment" Value="Stretch" />
+                    <Setter Target="BelowSelectionIndicatorPresenter.HorizontalContentAlignment" Value="Left" />
+                    <Setter Target="AboveSelectionIndicatorPresenter.VerticalContentAlignment" Value="Stretch" />
+                    <Setter Target="AboveSelectionIndicatorPresenter.HorizontalContentAlignment" Value="Left" />
+                  </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Vertical">
+                  <VisualState.Setters>
+                    <Setter Target="BelowSelectionIndicatorPresenter.VerticalContentAlignment" Value="Top" />
+                    <Setter Target="BelowSelectionIndicatorPresenter.HorizontalContentAlignment" Value="Stretch" />
+                    <Setter Target="AboveSelectionIndicatorPresenter.VerticalContentAlignment" Value="Top" />
+                    <Setter Target="AboveSelectionIndicatorPresenter.HorizontalContentAlignment" Value="Stretch" />
+                  </VisualState.Setters>
+                </VisualState>
+              </VisualStateGroup>
+              <VisualStateGroup x:Name="IndicatorPlacementStates">
+                <VisualState x:Name="Above" />
+                <VisualState x:Name="Below">
+                  <VisualState.Setters>
+                    <Setter Target="BelowSelectionIndicatorPresenter.Visibility" Value="Visible" />
+                    <Setter Target="AboveSelectionIndicatorPresenter.Visibility" Value="Collapsed" />
+                  </VisualState.Setters>
+                </VisualState>
+              </VisualStateGroup>
+            </VisualStateManager.VisualStateGroups>
+          </Grid>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
+
+</ResourceDictionary>
