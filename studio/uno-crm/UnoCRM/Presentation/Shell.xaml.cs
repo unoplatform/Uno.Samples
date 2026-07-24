@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.UI.Dispatching;
 using Uno.Toolkit.UI;
 
-namespace UnoCRM;
+namespace UnoCRM.Presentation;
 
 public sealed partial class Shell : UserControl
 {

@@ -1,12 +1,10 @@
-﻿<Page x:Class="UnoCRM.DashboardPage"
+﻿<Page x:Class="UnoCRM.Presentation.DashboardPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:local="using:UnoCRM"
       xmlns:utu="using:Uno.Toolkit.UI"
-      x:Uid="MainPage"
       Background="{ThemeResource DashboardPageBackgroundBrush}">
   <Page.Resources>
-    <!-- Recent-activity rows, bound to CrmData.Dashboard.Activities. The dot/icon colors come
+    <!-- Recent-activity rows, bound to the model's Activities. The dot/icon colors come
          from each item's palette keys via the shared ResourceKeyToBrush converter. -->
     <DataTemplate x:Key="DesktopActivityTemplate">
       <Border BorderBrush="{ThemeResource DashboardBorderBrush}" BorderThickness="0,0,0,1" Padding="0,14">
@@ -34,7 +32,7 @@
           </Grid.ColumnDefinitions>
           <StackPanel Spacing="4" VerticalAlignment="Center">
             <TextBlock Text="{Binding Title}" Style="{StaticResource DashboardBodyTextStyle}"
-                       FontFamily="Georgia" FontSize="18" FontWeight="Light" />
+                       FontSize="18" FontWeight="Light" />
             <TextBlock Text="{Binding Detail}" Style="{StaticResource DashboardSubtleTextStyle}" FontSize="16" />
           </StackPanel>
           <TextBlock Grid.Column="1" Text="{Binding TimeAgo}"
@@ -72,30 +70,32 @@
                         VerticalAlignment="Center">
               <Grid Width="280"
                     VerticalAlignment="Center">
-                <TextBox x:Uid="MainPage.DesktopSearch"
-                         AutomationProperties.Name="Search leads and deals"
+                <TextBox AutomationProperties.Name="Search leads and deals"
                          PlaceholderText="Search leads, deals..."
                          Style="{StaticResource DashboardSearchBoxStyle}"
                          Padding="36,10,14,10" />
-                <FontIcon Glyph="&#xE721;"
-                          FontSize="14"
-                          Foreground="{ThemeResource DashboardMutedTextBrush}"
-                          Margin="14,0,0,0"
-                          VerticalAlignment="Center"
-                          HorizontalAlignment="Left" />
+                <Viewbox Width="16" Height="16"
+                         Margin="14,0,0,0"
+                         VerticalAlignment="Center"
+                         HorizontalAlignment="Left">
+                  <Path Data="F1 M16.1017 17.1624C14.717 18.3101 12.9391 19 11 19C6.58172 19 3 15.4183 3 11C3 6.58172 6.58172 3 11 3C15.4183 3 19 6.58172 19 11C19 12.9391 18.3101 14.717 17.1624 16.1018L21.7803 20.7197C22.0732 21.0126 22.0732 21.4874 21.7803 21.7803C21.4874 22.0732 21.0125 22.0732 20.7196 21.7803L16.1017 17.1624ZM17.5 11C17.5 7.41015 14.5899 4.5 11 4.5C7.41015 4.5 4.5 7.41015 4.5 11C4.5 14.5899 7.41015 17.5 11 17.5C14.5899 17.5 17.5 14.5899 17.5 11Z"
+                        Stretch="Uniform"
+                        Fill="{ThemeResource DashboardMutedTextBrush}" />
+                </Viewbox>
               </Grid>
 
-              <Button x:Uid="MainPage.DesktopNotifications"
-                      AutomationProperties.Name="Notifications"
+              <Button AutomationProperties.Name="Notifications"
                       Width="42"
                       Height="42"
                       Background="{ThemeResource DashboardSurfaceBrush}"
                       BorderBrush="{ThemeResource DashboardBorderBrush}"
                       BorderThickness="1"
                       CornerRadius="12">
-                <FontIcon Glyph="&#xE7ED;"
-                          FontSize="15"
-                          Foreground="{ThemeResource DashboardPrimaryTextBrush}" />
+                <Viewbox Width="17" Height="17">
+                  <Path Data="F1 M12 2.00098C16.0041 2.00098 19.25 5.24691 19.25 9.25098C19.25 11.347 18.3493 13.2707 16.5869 14.9929C16.51 15.0681 16.4504 15.1586 16.4118 15.2582L16.3804 15.3605L15.2493 20.2561C15.0266 21.22 14.2035 21.9183 13.2302 21.993L13.057 21.9996H10.9433C9.95374 21.9996 9.08791 21.3545 8.79629 20.4228L8.75088 20.2555L7.62132 15.3607C7.58904 15.2208 7.51728 15.0931 7.41456 14.9928C5.73515 13.3526 4.83778 11.5297 4.75613 9.54923L4.75 9.25098L4.75388 9.01166C4.88014 5.11837 8.07601 2.00098 12 2.00098ZM14.115 18.499H9.884L10.2125 19.9182C10.2831 20.2245 10.5357 20.4504 10.8401 20.4925L10.9433 20.4996H13.057C13.3713 20.4996 13.6481 20.3044 13.7577 20.0174L13.7878 19.9184L14.115 18.499ZM12 3.50098C8.89821 3.50098 6.37006 5.95699 6.25415 9.03042L6.25 9.25098L6.25672 9.52799C6.33286 11.0913 7.05722 12.5471 8.46262 13.9197C8.72675 14.1777 8.92265 14.496 9.03422 14.846L9.08291 15.0235L9.538 16.999H14.461L14.9189 15.0228C15.0019 14.6634 15.1718 14.3309 15.4124 14.0539L15.5386 13.9201C16.9432 12.5475 17.6672 11.0916 17.7433 9.52803L17.75 9.25098L17.7458 9.03042C17.6299 5.95699 15.1018 3.50098 12 3.50098Z"
+                        Stretch="Uniform"
+                        Fill="{ThemeResource DashboardPrimaryTextBrush}" />
+                </Viewbox>
               </Button>
 
               <Border Width="32"
@@ -220,9 +220,7 @@
                     MinHeight="520">
               <StackPanel Spacing="24">
                 <TextBlock Text="Pipeline Summary"
-                           Style="{StaticResource DashboardBodyTextStyle}"
-                           FontFamily="Georgia"
-                           FontSize="22" />
+                           Style="{StaticResource DashboardSectionTitleStyle}" />
 
                 <StackPanel Spacing="14">
                   <StackPanel Spacing="8">
@@ -239,8 +237,8 @@
                     </Grid>
                     <Grid Height="8">
                       <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="{Binding Funnel[0].FillColumn}" />
-                        <ColumnDefinition Width="{Binding Funnel[0].RemainderColumn}" />
+                        <ColumnDefinition Width="{Binding Funnel[0].FillFraction, Converter={StaticResource DoubleToGridLength}}" />
+                        <ColumnDefinition Width="{Binding Funnel[0].FillFraction, Converter={StaticResource DoubleToGridLength}, ConverterParameter=Remainder}" />
                       </Grid.ColumnDefinitions>
                       <Border Grid.ColumnSpan="2"
                               Background="{ThemeResource DashboardBorderBrush}"
@@ -264,8 +262,8 @@
                     </Grid>
                     <Grid Height="8">
                       <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="{Binding Funnel[1].FillColumn}" />
-                        <ColumnDefinition Width="{Binding Funnel[1].RemainderColumn}" />
+                        <ColumnDefinition Width="{Binding Funnel[1].FillFraction, Converter={StaticResource DoubleToGridLength}}" />
+                        <ColumnDefinition Width="{Binding Funnel[1].FillFraction, Converter={StaticResource DoubleToGridLength}, ConverterParameter=Remainder}" />
                       </Grid.ColumnDefinitions>
                       <Border Grid.ColumnSpan="2"
                               Background="{ThemeResource DashboardBorderBrush}"
@@ -289,8 +287,8 @@
                     </Grid>
                     <Grid Height="8">
                       <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="{Binding Funnel[2].FillColumn}" />
-                        <ColumnDefinition Width="{Binding Funnel[2].RemainderColumn}" />
+                        <ColumnDefinition Width="{Binding Funnel[2].FillFraction, Converter={StaticResource DoubleToGridLength}}" />
+                        <ColumnDefinition Width="{Binding Funnel[2].FillFraction, Converter={StaticResource DoubleToGridLength}, ConverterParameter=Remainder}" />
                       </Grid.ColumnDefinitions>
                       <Border Grid.ColumnSpan="2"
                               Background="{ThemeResource DashboardBorderBrush}"
@@ -314,8 +312,8 @@
                     </Grid>
                     <Grid Height="8">
                       <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="{Binding Funnel[3].FillColumn}" />
-                        <ColumnDefinition Width="{Binding Funnel[3].RemainderColumn}" />
+                        <ColumnDefinition Width="{Binding Funnel[3].FillFraction, Converter={StaticResource DoubleToGridLength}}" />
+                        <ColumnDefinition Width="{Binding Funnel[3].FillFraction, Converter={StaticResource DoubleToGridLength}, ConverterParameter=Remainder}" />
                       </Grid.ColumnDefinitions>
                       <Border Grid.ColumnSpan="2"
                               Background="{ThemeResource DashboardBorderBrush}"
@@ -339,8 +337,8 @@
                     </Grid>
                     <Grid Height="8">
                       <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="{Binding Funnel[4].FillColumn}" />
-                        <ColumnDefinition Width="{Binding Funnel[4].RemainderColumn}" />
+                        <ColumnDefinition Width="{Binding Funnel[4].FillFraction, Converter={StaticResource DoubleToGridLength}}" />
+                        <ColumnDefinition Width="{Binding Funnel[4].FillFraction, Converter={StaticResource DoubleToGridLength}, ConverterParameter=Remainder}" />
                       </Grid.ColumnDefinitions>
                       <Border Grid.ColumnSpan="2"
                               Background="{ThemeResource DashboardBorderBrush}"
@@ -359,9 +357,7 @@
                     MinHeight="520">
               <StackPanel Spacing="14">
                 <TextBlock Text="Recent Activity"
-                           Style="{StaticResource DashboardBodyTextStyle}"
-                           FontFamily="Georgia"
-                           FontSize="22" />
+                           Style="{StaticResource DashboardSectionTitleStyle}" />
 
                 <ItemsControl ItemsSource="{Binding Activities}"
                               ItemTemplate="{StaticResource DesktopActivityTemplate}" />
@@ -401,13 +397,14 @@
             </StackPanel>
 
             <Button Grid.Column="1"
-                    x:Uid="MainPage.MobileNotifications"
                     AutomationProperties.Name="Notifications"
                     VerticalAlignment="Top"
                     Style="{StaticResource DashboardIconButtonStyle}">
-              <FontIcon Glyph="&#xE7ED;"
-                        FontSize="15"
-                        Foreground="{ThemeResource DashboardMutedTextBrush}" />
+              <Viewbox Width="17" Height="17">
+                <Path Data="F1 M12 2.00098C16.0041 2.00098 19.25 5.24691 19.25 9.25098C19.25 11.347 18.3493 13.2707 16.5869 14.9929C16.51 15.0681 16.4504 15.1586 16.4118 15.2582L16.3804 15.3605L15.2493 20.2561C15.0266 21.22 14.2035 21.9183 13.2302 21.993L13.057 21.9996H10.9433C9.95374 21.9996 9.08791 21.3545 8.79629 20.4228L8.75088 20.2555L7.62132 15.3607C7.58904 15.2208 7.51728 15.0931 7.41456 14.9928C5.73515 13.3526 4.83778 11.5297 4.75613 9.54923L4.75 9.25098L4.75388 9.01166C4.88014 5.11837 8.07601 2.00098 12 2.00098ZM14.115 18.499H9.884L10.2125 19.9182C10.2831 20.2245 10.5357 20.4504 10.8401 20.4925L10.9433 20.4996H13.057C13.3713 20.4996 13.6481 20.3044 13.7577 20.0174L13.7878 19.9184L14.115 18.499ZM12 3.50098C8.89821 3.50098 6.37006 5.95699 6.25415 9.03042L6.25 9.25098L6.25672 9.52799C6.33286 11.0913 7.05722 12.5471 8.46262 13.9197C8.72675 14.1777 8.92265 14.496 9.03422 14.846L9.08291 15.0235L9.538 16.999H14.461L14.9189 15.0228C15.0019 14.6634 15.1718 14.3309 15.4124 14.0539L15.5386 13.9201C16.9432 12.5475 17.6672 11.0916 17.7433 9.52803L17.75 9.25098L17.7458 9.03042C17.6299 5.95699 15.1018 3.50098 12 3.50098Z"
+                      Stretch="Uniform"
+                      Fill="{ThemeResource DashboardMutedTextBrush}" />
+              </Viewbox>
             </Button>
           </Grid>
 
@@ -473,8 +470,8 @@
                         VerticalAlignment="Center"
                         Margin="10,0,0,0">
                     <Grid.ColumnDefinitions>
-                      <ColumnDefinition Width="{Binding Funnel[0].FillColumn}" />
-                      <ColumnDefinition Width="{Binding Funnel[0].RemainderColumn}" />
+                      <ColumnDefinition Width="{Binding Funnel[0].FillFraction, Converter={StaticResource DoubleToGridLength}}" />
+                      <ColumnDefinition Width="{Binding Funnel[0].FillFraction, Converter={StaticResource DoubleToGridLength}, ConverterParameter=Remainder}" />
                     </Grid.ColumnDefinitions>
                     <Border Grid.ColumnSpan="2"
                             Background="{ThemeResource DashboardBorderBrush}"
@@ -500,8 +497,8 @@
                         VerticalAlignment="Center"
                         Margin="10,0,0,0">
                     <Grid.ColumnDefinitions>
-                      <ColumnDefinition Width="{Binding Funnel[1].FillColumn}" />
-                      <ColumnDefinition Width="{Binding Funnel[1].RemainderColumn}" />
+                      <ColumnDefinition Width="{Binding Funnel[1].FillFraction, Converter={StaticResource DoubleToGridLength}}" />
+                      <ColumnDefinition Width="{Binding Funnel[1].FillFraction, Converter={StaticResource DoubleToGridLength}, ConverterParameter=Remainder}" />
                     </Grid.ColumnDefinitions>
                     <Border Grid.ColumnSpan="2"
                             Background="{ThemeResource DashboardBorderBrush}"
@@ -527,8 +524,8 @@
                         VerticalAlignment="Center"
                         Margin="10,0,0,0">
                     <Grid.ColumnDefinitions>
-                      <ColumnDefinition Width="{Binding Funnel[2].FillColumn}" />
-                      <ColumnDefinition Width="{Binding Funnel[2].RemainderColumn}" />
+                      <ColumnDefinition Width="{Binding Funnel[2].FillFraction, Converter={StaticResource DoubleToGridLength}}" />
+                      <ColumnDefinition Width="{Binding Funnel[2].FillFraction, Converter={StaticResource DoubleToGridLength}, ConverterParameter=Remainder}" />
                     </Grid.ColumnDefinitions>
                     <Border Grid.ColumnSpan="2"
                             Background="{ThemeResource DashboardBorderBrush}"
@@ -554,8 +551,8 @@
                         VerticalAlignment="Center"
                         Margin="10,0,0,0">
                     <Grid.ColumnDefinitions>
-                      <ColumnDefinition Width="{Binding Funnel[3].FillColumn}" />
-                      <ColumnDefinition Width="{Binding Funnel[3].RemainderColumn}" />
+                      <ColumnDefinition Width="{Binding Funnel[3].FillFraction, Converter={StaticResource DoubleToGridLength}}" />
+                      <ColumnDefinition Width="{Binding Funnel[3].FillFraction, Converter={StaticResource DoubleToGridLength}, ConverterParameter=Remainder}" />
                     </Grid.ColumnDefinitions>
                     <Border Grid.ColumnSpan="2"
                             Background="{ThemeResource DashboardBorderBrush}"
@@ -581,8 +578,8 @@
                         VerticalAlignment="Center"
                         Margin="10,0,0,0">
                     <Grid.ColumnDefinitions>
-                      <ColumnDefinition Width="{Binding Funnel[4].FillColumn}" />
-                      <ColumnDefinition Width="{Binding Funnel[4].RemainderColumn}" />
+                      <ColumnDefinition Width="{Binding Funnel[4].FillFraction, Converter={StaticResource DoubleToGridLength}}" />
+                      <ColumnDefinition Width="{Binding Funnel[4].FillFraction, Converter={StaticResource DoubleToGridLength}, ConverterParameter=Remainder}" />
                     </Grid.ColumnDefinitions>
                     <Border Grid.ColumnSpan="2"
                             Background="{ThemeResource DashboardBorderBrush}"

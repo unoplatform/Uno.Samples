@@ -1,0 +1,235 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:utu="using:Uno.Toolkit.UI"
+                    xmlns:conv="using:UnoCRM.Converters">
+
+  <!--
+    App styling vocabulary: the shared converter, design tokens, the app-wide
+    responsive breakpoint, and every named Style. Merged LAST in App.xaml so any well-known-key
+    overrides win over the framework defaults. Pages only consume these keys.
+  -->
+
+  <!-- Converters -->
+  <conv:ResourceKeyToBrushConverter x:Key="ResourceKeyToBrush" />
+  <conv:BoolToVisibilityConverter x:Key="BoolToVisibility" />
+  <conv:DoubleToGridLengthConverter x:Key="DoubleToGridLength" />
+
+  <!-- App-wide responsive breakpoint: mobile below 900px, desktop at/above. Every {utu:Responsive}
+       usage resolves this one key so the shell and every page share a single breakpoint. -->
+  <utu:ResponsiveLayout x:Key="DefaultResponsiveLayout"
+                        Narrow="0"
+                        Wide="900" />
+
+  <!-- Design tokens -->
+  <Thickness x:Key="DashboardCardPadding">24</Thickness>
+  <CornerRadius x:Key="DashboardCardCornerRadius">18</CornerRadius>
+  <!-- Radius scale: small controls / cards / large panels -->
+  <CornerRadius x:Key="RadiusSm">6</CornerRadius>
+  <CornerRadius x:Key="RadiusMd">12</CornerRadius>
+  <CornerRadius x:Key="RadiusLg">18</CornerRadius>
+  <!-- Tactile press scale for buttons and clickable cards (design-polish house value) -->
+  <x:Double x:Key="PressScale">0.98</x:Double>
+
+  <Style x:Key="DashboardPanelBorderStyle" TargetType="Border">
+    <Setter Property="Background" Value="{ThemeResource DashboardSurfaceBrush}" />
+    <Setter Property="BorderBrush" Value="{ThemeResource DashboardBorderBrush}" />
+    <Setter Property="BorderThickness" Value="1" />
+    <Setter Property="CornerRadius" Value="{StaticResource DashboardCardCornerRadius}" />
+  </Style>
+
+  <Style x:Key="DashboardSidebarItemBorderStyle" TargetType="Border">
+    <Setter Property="CornerRadius" Value="{StaticResource RadiusMd}" />
+    <Setter Property="Padding" Value="12,10" />
+  </Style>
+
+  <!--
+    Used by the desktop sidebar nav rows. Custom template so press/hover is a rounded, theme-aware
+    highlight instead of the default WinUI square gray "ButtonBackgroundPressed" rectangle.
+  -->
+  <Style x:Key="DashboardNavButtonStyle" TargetType="Button">
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="BorderThickness" Value="0" />
+    <Setter Property="Padding" Value="0" />
+    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+    <Setter Property="HorizontalAlignment" Value="Stretch" />
+    <Setter Property="UseSystemFocusVisuals" Value="False" />
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="Button">
+          <Grid x:Name="ContentRoot"
+                Background="{TemplateBinding Background}"
+                CornerRadius="{StaticResource RadiusMd}">
+            <VisualStateManager.VisualStateGroups>
+              <VisualStateGroup x:Name="CommonStates">
+                <VisualState x:Name="Normal" />
+                <VisualState x:Name="PointerOver">
+                  <VisualState.Setters>
+                    <Setter Target="ContentRoot.Background" Value="{ThemeResource DashboardControlBrush}" />
+                  </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Pressed">
+                  <VisualState.Setters>
+                    <Setter Target="ContentRoot.Background" Value="{ThemeResource DashboardControlBrush}" />
+                  </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Disabled" />
+              </VisualStateGroup>
+            </VisualStateManager.VisualStateGroups>
+            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                              Padding="{TemplateBinding Padding}"
+                              Content="{TemplateBinding Content}" />
+          </Grid>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
+
+  <Style x:Key="DashboardSectionLabelStyle" TargetType="TextBlock">
+    <Setter Property="Foreground" Value="{ThemeResource DashboardMutedTextBrush}" />
+    <Setter Property="CharacterSpacing" Value="280" />
+    <Setter Property="FontSize" Value="13" />
+    <Setter Property="TextWrapping" Value="Wrap" />
+  </Style>
+
+  <!-- Large page/card title. Roboto (framework font) with SemiBold weight + tightened tracking gives
+       the editorial "display" feel the former Georgia serif was reaching for, but renders portably
+       on every platform. -->
+  <Style x:Key="DashboardCardTitleStyle" TargetType="TextBlock">
+    <Setter Property="Foreground" Value="{ThemeResource DashboardPrimaryTextBrush}" />
+    <Setter Property="FontSize" Value="30" />
+    <Setter Property="FontWeight" Value="SemiBold" />
+    <Setter Property="CharacterSpacing" Value="-15" />
+    <Setter Property="TextWrapping" Value="Wrap" />
+  </Style>
+
+  <!-- Mid-size section/card heading (18-22px). Replaces the per-site Georgia headings with one
+       shared style so the weight/tracking recipe lives in one place. -->
+  <Style x:Key="DashboardSectionTitleStyle" TargetType="TextBlock">
+    <Setter Property="Foreground" Value="{ThemeResource DashboardPrimaryTextBrush}" />
+    <Setter Property="FontSize" Value="22" />
+    <Setter Property="FontWeight" Value="SemiBold" />
+    <Setter Property="CharacterSpacing" Value="-10" />
+    <Setter Property="TextWrapping" Value="Wrap" />
+  </Style>
+
+  <Style x:Key="DashboardBodyTextStyle" TargetType="TextBlock">
+    <Setter Property="Foreground" Value="{ThemeResource DashboardPrimaryTextBrush}" />
+    <Setter Property="FontSize" Value="15" />
+    <Setter Property="TextWrapping" Value="Wrap" />
+  </Style>
+
+  <Style x:Key="DashboardSubtleTextStyle" TargetType="TextBlock">
+    <Setter Property="Foreground" Value="{ThemeResource DashboardMutedTextBrush}" />
+    <Setter Property="FontSize" Value="14" />
+    <Setter Property="TextWrapping" Value="Wrap" />
+  </Style>
+
+  <Style x:Key="DashboardMicroTextStyle" TargetType="TextBlock">
+    <Setter Property="Foreground" Value="{ThemeResource DashboardMutedTextBrush}" />
+    <Setter Property="FontSize" Value="11" />
+    <Setter Property="TextWrapping" Value="Wrap" />
+  </Style>
+
+  <Style x:Key="DashboardMetricValueStyle" TargetType="TextBlock">
+    <Setter Property="Foreground" Value="{ThemeResource DashboardPrimaryTextBrush}" />
+    <Setter Property="FontSize" Value="32" />
+    <Setter Property="FontWeight" Value="SemiBold" />
+  </Style>
+
+  <Style x:Key="DashboardSearchBoxStyle" TargetType="TextBox">
+    <Setter Property="Background" Value="{ThemeResource DashboardSurfaceBrush}" />
+    <Setter Property="BorderBrush" Value="{ThemeResource DashboardBorderBrush}" />
+    <Setter Property="BorderThickness" Value="1" />
+    <Setter Property="CornerRadius" Value="{StaticResource RadiusMd}" />
+    <Setter Property="Padding" Value="14,10" />
+    <Setter Property="Foreground" Value="{ThemeResource DashboardPrimaryTextBrush}" />
+    <Setter Property="PlaceholderForeground" Value="{ThemeResource DashboardMutedTextBrush}" />
+  </Style>
+
+  <Style x:Key="DashboardIconButtonStyle" TargetType="Button">
+    <Setter Property="Width" Value="38" />
+    <Setter Property="Height" Value="38" />
+    <Setter Property="Background" Value="{ThemeResource DashboardSurfaceBrush}" />
+    <Setter Property="BorderBrush" Value="{ThemeResource DashboardBorderBrush}" />
+    <Setter Property="BorderThickness" Value="1" />
+    <Setter Property="CornerRadius" Value="10" />
+    <Setter Property="Padding" Value="0" />
+  </Style>
+
+  <Style x:Key="DashboardFilterButtonStyle" TargetType="Button">
+    <Setter Property="Background" Value="{ThemeResource DashboardSurfaceBrush}" />
+    <Setter Property="BorderBrush" Value="{ThemeResource DashboardBorderBrush}" />
+    <Setter Property="BorderThickness" Value="1" />
+    <Setter Property="CornerRadius" Value="10" />
+    <Setter Property="Padding" Value="14,10" />
+    <Setter Property="Foreground" Value="{ThemeResource DashboardPrimaryTextBrush}" />
+    <Setter Property="FontSize" Value="13" />
+  </Style>
+
+  <Style x:Key="DashboardPrimaryButtonStyle" TargetType="Button">
+    <Setter Property="Background" Value="{ThemeResource DashboardAccentBrush}" />
+    <Setter Property="BorderBrush" Value="{ThemeResource DashboardAccentBrush}" />
+    <Setter Property="BorderThickness" Value="1" />
+    <Setter Property="CornerRadius" Value="10" />
+    <Setter Property="Padding" Value="16,10" />
+    <Setter Property="Foreground" Value="White" />
+    <Setter Property="FontSize" Value="14" />
+    <Setter Property="FontWeight" Value="SemiBold" />
+  </Style>
+
+  <!--
+    Chrome-less button that wraps a card so the whole card is a real, accessible activatable control
+    (focus + keyboard Enter/Space + screen-reader Invoke) instead of a pointer-only tapped Border
+    Adds the house tactile press: the content scales to 0.98 while pressed. The card's
+    own visual (border/background) comes from its content, so this stays fully transparent.
+  -->
+  <Style x:Key="ClickableCardButtonStyle" TargetType="Button">
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="BorderThickness" Value="0" />
+    <Setter Property="Padding" Value="0" />
+    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+    <Setter Property="HorizontalAlignment" Value="Stretch" />
+    <Setter Property="VerticalContentAlignment" Value="Stretch" />
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="Button">
+          <Grid x:Name="CardRoot"
+                Background="Transparent"
+                RenderTransformOrigin="0.5,0.5">
+            <Grid.RenderTransform>
+              <ScaleTransform x:Name="CardScale" ScaleX="1" ScaleY="1" />
+            </Grid.RenderTransform>
+            <VisualStateManager.VisualStateGroups>
+              <VisualStateGroup x:Name="CommonStates">
+                <VisualState x:Name="Normal" />
+                <VisualState x:Name="PointerOver" />
+                <VisualState x:Name="Pressed">
+                  <VisualState.Setters>
+                    <Setter Target="CardScale.ScaleX" Value="{StaticResource PressScale}" />
+                    <Setter Target="CardScale.ScaleY" Value="{StaticResource PressScale}" />
+                  </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Disabled" />
+              </VisualStateGroup>
+            </VisualStateManager.VisualStateGroups>
+            <ContentPresenter HorizontalAlignment="Stretch"
+                              HorizontalContentAlignment="Stretch"
+                              VerticalContentAlignment="Stretch"
+                              Content="{TemplateBinding Content}"
+                              Padding="{TemplateBinding Padding}" />
+          </Grid>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
+
+  <Style x:Key="DashboardKanbanCardStyle" TargetType="Border">
+    <Setter Property="Background" Value="{ThemeResource DashboardSurfaceBrush}" />
+    <Setter Property="BorderBrush" Value="{ThemeResource DashboardBorderBrush}" />
+    <Setter Property="BorderThickness" Value="1" />
+    <Setter Property="CornerRadius" Value="14" />
+    <Setter Property="Padding" Value="14,12" />
+  </Style>
+
+</ResourceDictionary>

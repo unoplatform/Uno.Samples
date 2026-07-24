@@ -8,7 +8,7 @@
     <!-- Display name -->
     <ApplicationTitle>UnoCRM</ApplicationTitle>
     <!-- App Identifier -->
-    <ApplicationId>com.companyname.unosfa</ApplicationId>
+    <ApplicationId>com.companyname.unocrm</ApplicationId>
     <!-- Versions -->
     <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
     <ApplicationVersion>1</ApplicationVersion>
@@ -22,10 +22,12 @@
       https://aka.platform.uno/singleproject-features
     -->
     <UnoFeatures>
-      SkiaRenderer;
-      Toolkit;
       Hosting;
+      Toolkit;
+      Logging;
+      MVUX;
       Navigation;
+      SkiaRenderer;
     </UnoFeatures>
   </PropertyGroup>
 
@@ -40,11 +42,6 @@
     <UnoSplashScreenFile>Assets/Splash/splash_screen.svg</UnoSplashScreenFile>
     <UnoSplashScreenColor>#151515</UnoSplashScreenColor>
   </PropertyGroup>
-
-  <ItemGroup>
-    <!-- Logo shown on the extended splash screen (see Shell.xaml). -->
-    <UnoImage Include="Assets/Images/*" />
-  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="LiveChartsCore.SkiaSharpView.Uno.WinUI" />
