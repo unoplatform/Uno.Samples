@@ -2,20 +2,35 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
   <!--
-    The CineStream brand mark drawn with native XAML shapes (not an SVG <Image>): the brand-red
-    play triangle on its dark #151515 tile. The 240x240 Canvas mirrors the source splash coords; the
-    Viewbox scales it to fit. Native shapes avoid any runtime SVG/gradient rendering gaps.
+    The CineStream brand mark drawn with native XAML shapes (not an SVG <Image>): the violet play
+    glyph on its dark #151515 tile — a rounded square with a white play triangle and a right-side
+    play-arrow accent. The 240x240 Canvas mirrors the source icon coordinates; the Viewbox scales it
+    to fit. Native shapes avoid any runtime SVG/gradient rendering gaps.
   -->
-  <Border CornerRadius="28" Background="#151515">
+  <Border CornerRadius="44" Background="#151515">
     <Viewbox Stretch="Uniform">
       <Canvas Width="240" Height="240">
         <Canvas.Resources>
-          <LinearGradientBrush x:Key="PlayBrush" StartPoint="0,0" EndPoint="1,1">
-            <GradientStop Offset="0" Color="#FF3D55" />
-            <GradientStop Offset="1" Color="#E8253A" />
+          <LinearGradientBrush x:Key="AccentBrush" StartPoint="1,0.1" EndPoint="0.1,1">
+            <GradientStop Offset="0" Color="#7895E6" />
+            <GradientStop Offset="1" Color="#9993E6" />
+          </LinearGradientBrush>
+          <LinearGradientBrush x:Key="SquareBrush" StartPoint="1,1" EndPoint="0,0">
+            <GradientStop Offset="0" Color="#85A6FF" />
+            <GradientStop Offset="1" Color="#AAA3FF" />
           </LinearGradientBrush>
         </Canvas.Resources>
-        <Path Data="M98 82 L98 158 L164 120 Z" Fill="{StaticResource PlayBrush}" />
+        <!-- Right play-arrow accent (behind) -->
+        <Path Fill="{StaticResource AccentBrush}"
+              Data="M210.001 159.924C210.001 167.815 201.289 172.597 194.632 168.361L131.894 128.437C125.719 124.507 125.719 115.493 131.894 111.563L194.632 71.6395C201.289 67.4031 210.001 72.1852 210.001 80.0761V159.924Z" />
+        <!-- Rounded square (the 180deg-rotated source rect, expressed axis-aligned) -->
+        <Rectangle Canvas.Left="30" Canvas.Top="47.425"
+                   Width="137.941" Height="145.151"
+                   RadiusX="30" RadiusY="30"
+                   Fill="{StaticResource SquareBrush}" />
+        <!-- White play triangle (on top) -->
+        <Path Fill="White"
+              Data="M67.3548 91.5392C67.3548 83.6483 76.0663 78.8661 82.7236 83.1025L127.446 111.562C133.621 115.492 133.621 124.506 127.446 128.435L82.7236 156.895C76.0663 161.131 67.3548 156.349 67.3548 148.458L67.3548 91.5392Z" />
       </Canvas>
     </Viewbox>
   </Border>
