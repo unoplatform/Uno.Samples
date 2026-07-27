@@ -1,13 +1,15 @@
 namespace MovieStreamApp.Presentation;
 
 /// <summary>
-/// Backs the movie detail views (a full-screen <see cref="MovieDetailPage"/> on phone/tablet and the
-/// <see cref="MovieDetailDialog"/> modal on desktop — two DataViewMaps, one model). Navigation injects
-/// the tapped <see cref="Movie"/> as the first ctor parameter; the shared <see cref="WatchlistService"/>
-/// resolves from DI (lesson 39). Reactive (it derives <see cref="IsInWatchlist"/> from the shared store),
-/// so it is NOT [ReactiveBindable(false)].
+/// Backs the desktop <see cref="MovieDetailDialog"/> modal. It mirrors <see cref="MovieDetailModel"/>
+/// (the phone/tablet page) member-for-member and both host the shared <c>MovieDetailContent</c>.
+///
+/// It is a SEPARATE view-model type on purpose: a reactive (bindable-generated) model canNOT be shared
+/// across two DataViewMaps — the reactive view-model mapping is keyed by view-model type, so registering
+/// the same reactive type for both the page and the dialog silently breaks its factory and the detail
+/// route falls back to the default tab. Two distinct types (one per view) keep both working.
 /// </summary>
-public partial record MovieDetailModel(Movie Movie, WatchlistService Watchlist)
+public partial record MovieDetailDialogModel(Movie Movie, WatchlistService Watchlist)
 {
     public string HeroImageUrl => MovieData.HeroEpic;
     public string PosterImageUrl => Movie.ImageUrl;
@@ -18,14 +20,12 @@ public partial record MovieDetailModel(Movie Movie, WatchlistService Watchlist)
     public string CriticsScore => "87%";
     public int ReviewCount => 2841;
 
-    // Five booleans (rating/2, rounded) — the view renders a filled or outline star per position.
     public IReadOnlyList<bool> Stars => MovieData.Stars(Movie.Rating);
 
     public IReadOnlyList<CastMemberDetail> Cast => MovieData.Cast;
     public IReadOnlyList<Review> Reviews => MovieData.Reviews;
     public IReadOnlyList<Movie> RelatedMovies => MovieData.RelatedTo(Movie);
 
-    // Reflects the shared store: opens showing the real "in list" state and flips live when toggled.
     public IFeed<bool> IsInWatchlist =>
         Watchlist.Movies.AsFeed().Select(list => list.Any(m => m.Id == Movie.Id));
 

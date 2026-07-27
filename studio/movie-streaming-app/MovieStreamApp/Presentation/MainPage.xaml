@@ -4,48 +4,59 @@
       xmlns:uen="using:Uno.Extensions.Navigation.UI"
       xmlns:utu="using:Uno.Toolkit.UI"
       Background="{ThemeResource BackgroundBrush}">
+
+  <!--
+    Navigation shell. Owns the chrome once for the whole app: an iOS-style floating capsule TabBar
+    (FloatingTabBarStyle) centred over the content on every width. The content region and the TabBar
+    share a single Grid cell so the bar OVERLAYS the content (last in z-order) and content scrolls
+    behind the translucent glass (HIG peek-through); each page reserves a bottom inset so its last
+    item clears the bar. Icons are PathIcon vector geometry (via the shared Icon converter) so they
+    render in the design host too — the outline glyph is the Icon, the filled glyph the Tag (shown
+    when the tab is selected). Region names match the nested route names in App.xaml.cs.
+  -->
+  <Grid uen:Region.Attached="True">
     <Grid>
-        <Grid uen:Region.Attached="True">
-            <Grid.RowDefinitions>
-                <RowDefinition />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
+      <!-- Shared content area - navigation injects the active tab page here -->
+      <Grid uen:Region.Attached="True"
+            uen:Region.Navigator="Visibility" />
 
-            <!-- Content area: visibility-based region switching -->
-            <Grid Grid.Row="0"
+      <!-- Bottom floating TabBar: overlays content, centred capsule -->
+      <utu:TabBar x:Name="BottomTabs"
                   uen:Region.Attached="True"
-                  uen:Region.Navigator="Visibility">
-            </Grid>
-
-            <!-- Bottom TabBar -->
-            <utu:TabBar Grid.Row="1"
-                        uen:Region.Attached="True"
-                        Style="{StaticResource BottomTabBarStyle}">
-                <utu:TabBarItem uen:Region.Name="Browse"
-                                Content="Browse">
-                    <utu:TabBarItem.Icon>
-                        <FontIcon Glyph="&#xE721;" />
-                    </utu:TabBarItem.Icon>
-                </utu:TabBarItem>
-                <utu:TabBarItem uen:Region.Name="Search"
-                                Content="Search">
-                    <utu:TabBarItem.Icon>
-                        <FontIcon Glyph="&#xE70F;" />
-                    </utu:TabBarItem.Icon>
-                </utu:TabBarItem>
-                <utu:TabBarItem uen:Region.Name="SocialFeed"
-                                Content="Friends">
-                    <utu:TabBarItem.Icon>
-                        <FontIcon Glyph="&#xE716;" />
-                    </utu:TabBarItem.Icon>
-                </utu:TabBarItem>
-                <utu:TabBarItem uen:Region.Name="Profile"
-                                Content="Profile">
-                    <utu:TabBarItem.Icon>
-                        <FontIcon Glyph="&#xE77B;" />
-                    </utu:TabBarItem.Icon>
-                </utu:TabBarItem>
-            </utu:TabBar>
-        </Grid>
+                  Style="{StaticResource FloatingTabBarStyle}">
+        <utu:TabBarItem uen:Region.Name="Browse" Content="Browse">
+          <utu:TabBarItem.Tag>
+            <PathIcon Data="{Binding Source=browse, Converter={StaticResource Icon}, ConverterParameter=filled}" />
+          </utu:TabBarItem.Tag>
+          <utu:TabBarItem.Icon>
+            <PathIcon Data="{Binding Source=browse, Converter={StaticResource Icon}}" />
+          </utu:TabBarItem.Icon>
+        </utu:TabBarItem>
+        <utu:TabBarItem uen:Region.Name="Search" Content="Search">
+          <utu:TabBarItem.Tag>
+            <PathIcon Data="{Binding Source=search, Converter={StaticResource Icon}, ConverterParameter=filled}" />
+          </utu:TabBarItem.Tag>
+          <utu:TabBarItem.Icon>
+            <PathIcon Data="{Binding Source=search, Converter={StaticResource Icon}}" />
+          </utu:TabBarItem.Icon>
+        </utu:TabBarItem>
+        <utu:TabBarItem uen:Region.Name="SocialFeed" Content="Friends">
+          <utu:TabBarItem.Tag>
+            <PathIcon Data="{Binding Source=friends, Converter={StaticResource Icon}, ConverterParameter=filled}" />
+          </utu:TabBarItem.Tag>
+          <utu:TabBarItem.Icon>
+            <PathIcon Data="{Binding Source=friends, Converter={StaticResource Icon}}" />
+          </utu:TabBarItem.Icon>
+        </utu:TabBarItem>
+        <utu:TabBarItem uen:Region.Name="Profile" Content="Profile">
+          <utu:TabBarItem.Tag>
+            <PathIcon Data="{Binding Source=profile, Converter={StaticResource Icon}, ConverterParameter=filled}" />
+          </utu:TabBarItem.Tag>
+          <utu:TabBarItem.Icon>
+            <PathIcon Data="{Binding Source=profile, Converter={StaticResource Icon}}" />
+          </utu:TabBarItem.Icon>
+        </utu:TabBarItem>
+      </utu:TabBar>
     </Grid>
+  </Grid>
 </Page>

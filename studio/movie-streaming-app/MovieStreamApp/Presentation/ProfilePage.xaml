@@ -4,234 +4,204 @@
       xmlns:utu="using:Uno.Toolkit.UI"
       Background="{ThemeResource BackgroundBrush}">
 
-    <Grid utu:SafeArea.Insets="Top,Bottom">
-        <ScrollViewer VerticalScrollBarVisibility="Hidden">
-            <StackPanel Spacing="0">
+  <!--
+    Profile tab. DataContext is ProfileModel. Header (circular avatar + identity + subscription
+    chip), a three-up stats row (My List / Watched / Reviews), and the settings groups rendered as
+    a vertical ItemsRepeater of groups, each a card of display-only rows. Every icon is vector
+    geometry via the Icon converter (leading icons keyed off the row Label with ConverterParameter
+    =setting); no FontIcon. The scroll content caps at 1100 on desktop and reserves ~110 of bottom
+    padding so the last row clears the floating TabBar.
+  -->
+  <Grid utu:SafeArea.Insets="Top">
+    <ScrollViewer VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Disabled">
+      <StackPanel MaxWidth="1100"
+                  HorizontalAlignment="Stretch"
+                  Padding="20,16,20,110"
+                  Spacing="24">
 
-                <!-- Header -->
-                <Grid Padding="20,16,20,0">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Grid.Column="0"
-                               Text="My Profile"
-                               Style="{StaticResource TitleLarge}"
-                               Foreground="{ThemeResource OnBackgroundBrush}" />
-                    <Button Grid.Column="1"
-                            Style="{StaticResource IconButtonStyle}"
-                            AutomationProperties.Name="Settings">
-                        <FontIcon Glyph="&#xE713;"
-                                  FontSize="20"
-                                  Foreground="{ThemeResource OnBackgroundBrush}" />
-                    </Button>
-                </Grid>
+        <!-- Header: avatar + identity + subscription chip -->
+        <Grid ColumnSpacing="16">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+          </Grid.ColumnDefinitions>
 
-                <!-- User Card -->
-                <utu:CardContentControl Style="{StaticResource ElevatedCardContentControlStyle}"
-                                        Margin="20,16,20,0"
-                                        HorizontalAlignment="Stretch"
-                                        IsClickable="False">
-                    <utu:CardContentControl.ContentTemplate>
-                        <DataTemplate>
-                            <Grid Padding="16" ColumnSpacing="16">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="*" />
-                                </Grid.ColumnDefinitions>
+          <!-- Large circular avatar -->
+          <Border Grid.Column="0"
+                  Width="88"
+                  Height="88"
+                  CornerRadius="44">
+            <Border.Background>
+              <ImageBrush ImageSource="{Binding AvatarUrl}" Stretch="UniformToFill" />
+            </Border.Background>
+          </Border>
 
-                                <!-- Avatar -->
-                                <Border Grid.Column="0"
-                                        Width="72"
-                                        Height="72"
-                                        CornerRadius="36"
-                                        Background="{ThemeResource SurfaceVariantBrush}">
-                                    <Image Source="{utu:AncestorBinding AncestorType=Page, Path=DataContext.AvatarUrl}"
-                                           Stretch="UniformToFill" />
-                                </Border>
+          <StackPanel Grid.Column="1" VerticalAlignment="Center" Spacing="4">
+            <TextBlock Text="{Binding UserName}"
+                       Style="{StaticResource TitleLarge}"
+                       Foreground="{ThemeResource OnBackgroundBrush}" />
+            <TextBlock Text="{Binding UserEmail}"
+                       Style="{StaticResource BodySmall}"
+                       Foreground="{ThemeResource OnSurfaceVariantBrush}" />
+            <TextBlock Text="{Binding MemberSince}"
+                       Style="{StaticResource LabelSmall}"
+                       Foreground="{ThemeResource OutlineBrush}" />
 
-                                <!-- User Info -->
-                                <StackPanel Grid.Column="1"
-                                            VerticalAlignment="Center"
-                                            Spacing="4">
-                                    <TextBlock Text="{utu:AncestorBinding AncestorType=Page, Path=DataContext.UserName}"
-                                               Style="{StaticResource TitleMedium}"
-                                               Foreground="{ThemeResource OnSurfaceBrush}" />
-                                    <TextBlock Text="{utu:AncestorBinding AncestorType=Page, Path=DataContext.UserEmail}"
-                                               Style="{StaticResource BodySmall}"
-                                               Foreground="{ThemeResource OutlineBrush}" />
-                                    <TextBlock Text="{utu:AncestorBinding AncestorType=Page, Path=DataContext.MemberSince}"
-                                               Style="{StaticResource BodySmall}"
-                                               Foreground="{ThemeResource OutlineVariantBrush}" />
+            <!-- Subscription chip -->
+            <Border Background="{ThemeResource PrimaryBrush}"
+                    CornerRadius="12"
+                    Padding="10,5"
+                    HorizontalAlignment="Left"
+                    Margin="0,4,0,0">
+              <StackPanel Orientation="Horizontal" Spacing="6" VerticalAlignment="Center">
+                <Viewbox Width="14" Height="14">
+                  <Path Data="{Binding Source=subscription, Converter={StaticResource Icon}}"
+                        Fill="{ThemeResource OnPrimaryBrush}"
+                        Stretch="Uniform" />
+                </Viewbox>
+                <TextBlock Text="{Binding SubscriptionTier}"
+                           Style="{StaticResource LabelMedium}"
+                           Foreground="{ThemeResource OnPrimaryBrush}"
+                           VerticalAlignment="Center" />
+                <TextBlock Text="{Binding SubscriptionRenewal}"
+                           Style="{StaticResource LabelSmall}"
+                           Foreground="{ThemeResource OnPrimaryBrush}"
+                           Opacity="0.8"
+                           VerticalAlignment="Center" />
+              </StackPanel>
+            </Border>
+          </StackPanel>
+        </Grid>
 
-                                    <!-- Subscription Badge -->
-                                    <Border Background="{ThemeResource PrimaryBrush}"
-                                            CornerRadius="6"
-                                            Padding="10,4"
-                                            HorizontalAlignment="Left"
-                                            Margin="0,4,0,0">
-                                        <StackPanel Orientation="Horizontal" Spacing="5">
-                                            <FontIcon Glyph="&#xE734;"
-                                                      FontSize="11"
-                                                      Foreground="{ThemeResource OnPrimaryBrush}"
-                                                      VerticalAlignment="Center" />
-                                            <TextBlock Text="{utu:AncestorBinding AncestorType=Page, Path=DataContext.SubscriptionTier}"
-                                                       Style="{StaticResource LabelMedium}"
-                                                       Foreground="{ThemeResource OnPrimaryBrush}" />
-                                        </StackPanel>
-                                    </Border>
-                                </StackPanel>
-                            </Grid>
-                        </DataTemplate>
-                    </utu:CardContentControl.ContentTemplate>
-                </utu:CardContentControl>
+        <!-- Stats row: My List / Watched / Reviews -->
+        <Border Background="{ThemeResource SurfaceVariantBrush}" CornerRadius="24" Padding="0,16">
+          <Grid>
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="Auto" />
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="Auto" />
+              <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
 
-                <!-- Stats Row -->
-                <utu:CardContentControl Style="{StaticResource FilledCardContentControlStyle}"
-                                        Margin="20,12,20,0"
-                                        HorizontalAlignment="Stretch"
-                                        IsClickable="False">
-                    <utu:CardContentControl.ContentTemplate>
-                        <DataTemplate>
-                            <Grid Padding="0,12">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="*" />
-                                </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0" HorizontalAlignment="Center" Spacing="2">
+              <TextBlock Text="{Binding WatchlistCount}"
+                         Style="{StaticResource HeadlineSmall}"
+                         Foreground="{ThemeResource PrimaryBrush}"
+                         HorizontalAlignment="Center" />
+              <TextBlock Text="My List"
+                         Style="{StaticResource LabelSmall}"
+                         Foreground="{ThemeResource OnSurfaceVariantBrush}"
+                         HorizontalAlignment="Center" />
+            </StackPanel>
 
-                                <StackPanel Grid.Column="0" HorizontalAlignment="Center" Spacing="2">
-                                    <TextBlock Text="{utu:AncestorBinding AncestorType=Page, Path=DataContext.WatchlistCount}"
-                                               Style="{StaticResource HeadlineSmall}"
-                                               Foreground="{ThemeResource PrimaryBrush}"
-                                               HorizontalAlignment="Center" />
-                                    <TextBlock Text="Watchlist"
-                                               Style="{StaticResource BodySmall}"
-                                               Foreground="{ThemeResource OutlineBrush}"
-                                               HorizontalAlignment="Center" />
-                                </StackPanel>
+            <Rectangle Grid.Column="1" Width="1" Fill="{ThemeResource OutlineBrush}" Margin="0,4" />
 
-                                <Rectangle Grid.Column="1"
-                                           Width="1"
-                                           Fill="{ThemeResource OutlineVariantBrush}"
-                                           Margin="0,4" />
+            <StackPanel Grid.Column="2" HorizontalAlignment="Center" Spacing="2">
+              <TextBlock Text="{Binding WatchedCount}"
+                         Style="{StaticResource HeadlineSmall}"
+                         Foreground="{ThemeResource PrimaryBrush}"
+                         HorizontalAlignment="Center" />
+              <TextBlock Text="Watched"
+                         Style="{StaticResource LabelSmall}"
+                         Foreground="{ThemeResource OnSurfaceVariantBrush}"
+                         HorizontalAlignment="Center" />
+            </StackPanel>
 
-                                <StackPanel Grid.Column="2" HorizontalAlignment="Center" Spacing="2">
-                                    <TextBlock Text="{utu:AncestorBinding AncestorType=Page, Path=DataContext.WatchedCount}"
-                                               Style="{StaticResource HeadlineSmall}"
-                                               Foreground="{ThemeResource PrimaryBrush}"
-                                               HorizontalAlignment="Center" />
-                                    <TextBlock Text="Watched"
-                                               Style="{StaticResource BodySmall}"
-                                               Foreground="{ThemeResource OutlineBrush}"
-                                               HorizontalAlignment="Center" />
-                                </StackPanel>
+            <Rectangle Grid.Column="3" Width="1" Fill="{ThemeResource OutlineBrush}" Margin="0,4" />
 
-                                <Rectangle Grid.Column="3"
-                                           Width="1"
-                                           Fill="{ThemeResource OutlineVariantBrush}"
-                                           Margin="0,4" />
+            <StackPanel Grid.Column="4" HorizontalAlignment="Center" Spacing="2">
+              <TextBlock Text="{Binding ReviewsCount}"
+                         Style="{StaticResource HeadlineSmall}"
+                         Foreground="{ThemeResource PrimaryBrush}"
+                         HorizontalAlignment="Center" />
+              <TextBlock Text="Reviews"
+                         Style="{StaticResource LabelSmall}"
+                         Foreground="{ThemeResource OnSurfaceVariantBrush}"
+                         HorizontalAlignment="Center" />
+            </StackPanel>
+          </Grid>
+        </Border>
 
-                                <StackPanel Grid.Column="4" HorizontalAlignment="Center" Spacing="2">
-                                    <TextBlock Text="{utu:AncestorBinding AncestorType=Page, Path=DataContext.ReviewsCount}"
-                                               Style="{StaticResource HeadlineSmall}"
-                                               Foreground="{ThemeResource PrimaryBrush}"
-                                               HorizontalAlignment="Center" />
-                                    <TextBlock Text="Reviews"
-                                               Style="{StaticResource BodySmall}"
-                                               Foreground="{ThemeResource OutlineBrush}"
-                                               HorizontalAlignment="Center" />
-                                </StackPanel>
-                            </Grid>
-                        </DataTemplate>
-                    </utu:CardContentControl.ContentTemplate>
-                </utu:CardContentControl>
+        <!-- Settings groups -->
+        <ItemsRepeater ItemsSource="{Binding SettingGroups}">
+          <ItemsRepeater.Layout>
+            <StackLayout Orientation="Vertical" Spacing="20" />
+          </ItemsRepeater.Layout>
+          <ItemsRepeater.ItemTemplate>
+            <DataTemplate>
+              <StackPanel Spacing="8">
+                <!-- Section label, small caps -->
+                <TextBlock Text="{Binding Title}"
+                           Style="{StaticResource LabelMedium}"
+                           Foreground="{ThemeResource OnSurfaceVariantBrush}"
+                           CharacterSpacing="80"
+                           Margin="4,0,0,0" />
 
-                <!-- Settings Groups -->
-                <ItemsRepeater ItemsSource="{Binding SettingGroups}"
-                               Margin="20,20,20,28">
+                <!-- Group rows -->
+                <Border Background="{ThemeResource SurfaceVariantBrush}" CornerRadius="24">
+                  <ItemsRepeater ItemsSource="{Binding Items}">
                     <ItemsRepeater.Layout>
-                        <StackLayout Orientation="Vertical" Spacing="16" />
+                      <StackLayout Orientation="Vertical" Spacing="0" />
                     </ItemsRepeater.Layout>
                     <ItemsRepeater.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel Spacing="6">
-                                <!-- Group Title -->
-                                <TextBlock Text="{Binding Title}"
-                                           Style="{StaticResource LabelLarge}"
-                                           Foreground="{ThemeResource PrimaryBrush}"
-                                           Margin="4,0,0,2" />
-                                <!-- Group Items -->
-                                <utu:CardContentControl Style="{StaticResource ElevatedCardContentControlStyle}"
-                                                        HorizontalAlignment="Stretch"
-                                                        IsClickable="False"
-                                                        Content="{Binding}">
-                                    <utu:CardContentControl.ContentTemplate>
-                                        <DataTemplate>
-                                            <ItemsRepeater ItemsSource="{Binding Items}">
-                                                <ItemsRepeater.Layout>
-                                                    <StackLayout Orientation="Vertical" Spacing="0" />
-                                                </ItemsRepeater.Layout>
-                                                <ItemsRepeater.ItemTemplate>
-                                                    <DataTemplate>
-                                                        <Grid Padding="16,13"
-                                                              ColumnSpacing="14">
-                                                            <Grid.ColumnDefinitions>
-                                                                <ColumnDefinition Width="Auto" />
-                                                                <ColumnDefinition Width="*" />
-                                                                <ColumnDefinition Width="Auto" />
-                                                            </Grid.ColumnDefinitions>
-                                                            <Border Grid.Column="0"
-                                                                    Background="{ThemeResource SurfaceVariantBrush}"
-                                                                    CornerRadius="8"
-                                                                    Width="36"
-                                                                    Height="36">
-                                                                <FontIcon Glyph="{Binding IconGlyph}"
-                                                                          FontSize="17"
-                                                                          Foreground="{ThemeResource OnSurfaceVariantBrush}"
-                                                                          HorizontalAlignment="Center"
-                                                                          VerticalAlignment="Center" />
-                                                            </Border>
-                                                            <StackPanel Grid.Column="1"
-                                                                        VerticalAlignment="Center"
-                                                                        Spacing="1">
-                                                                <TextBlock Text="{Binding Label}"
-                                                                           Style="{StaticResource BodyMedium}"
-                                                                           Foreground="{ThemeResource OnSurfaceBrush}" />
-                                                                <TextBlock Text="{Binding Subtitle}"
-                                                                           Style="{StaticResource BodySmall}"
-                                                                           Foreground="{ThemeResource OutlineBrush}"
-                                                                           Visibility="{Binding Subtitle}" />
-                                                            </StackPanel>
-                                                            <FontIcon Grid.Column="2"
-                                                                      Glyph="&#xE76C;"
-                                                                      FontSize="12"
-                                                                      Foreground="{ThemeResource OutlineVariantBrush}"
-                                                                      VerticalAlignment="Center" />
-                                                        </Grid>
-                                                    </DataTemplate>
-                                                </ItemsRepeater.ItemTemplate>
-                                            </ItemsRepeater>
-                                        </DataTemplate>
-                                    </utu:CardContentControl.ContentTemplate>
-                                </utu:CardContentControl>
-                            </StackPanel>
-                        </DataTemplate>
+                      <DataTemplate>
+                        <Grid Padding="14,13" ColumnSpacing="14">
+                          <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                          </Grid.ColumnDefinitions>
+
+                          <!-- Leading icon in a rounded container -->
+                          <Border Grid.Column="0"
+                                  Width="38"
+                                  Height="38"
+                                  CornerRadius="12"
+                                  Background="{ThemeResource SurfaceBrush}"
+                                  VerticalAlignment="Center">
+                            <Viewbox Width="20" Height="20">
+                              <Path Data="{Binding Label, Converter={StaticResource Icon}, ConverterParameter=setting}"
+                                    Fill="{ThemeResource OnSurfaceVariantBrush}"
+                                    Stretch="Uniform" />
+                            </Viewbox>
+                          </Border>
+
+                          <!-- Label + subtitle -->
+                          <StackPanel Grid.Column="1" VerticalAlignment="Center" Spacing="1">
+                            <TextBlock Text="{Binding Label}"
+                                       Style="{StaticResource BodyMedium}"
+                                       Foreground="{ThemeResource OnSurfaceBrush}" />
+                            <TextBlock Text="{Binding Subtitle}"
+                                       Style="{StaticResource BodySmall}"
+                                       Foreground="{ThemeResource OutlineBrush}"
+                                       TextTrimming="CharacterEllipsis"
+                                       MaxLines="1" />
+                          </StackPanel>
+
+                          <!-- Trailing chevron -->
+                          <Viewbox Grid.Column="2" Width="16" Height="16" VerticalAlignment="Center">
+                            <Path Data="{Binding Source=chevron, Converter={StaticResource Icon}}"
+                                  Fill="{ThemeResource OutlineBrush}"
+                                  Stretch="Uniform" />
+                          </Viewbox>
+                        </Grid>
+                      </DataTemplate>
                     </ItemsRepeater.ItemTemplate>
-                </ItemsRepeater>
+                  </ItemsRepeater>
+                </Border>
+              </StackPanel>
+            </DataTemplate>
+          </ItemsRepeater.ItemTemplate>
+        </ItemsRepeater>
 
-                <!-- Sign Out -->
-                <Button Content="Sign Out"
-                        Style="{StaticResource OutlinedButtonStyle}"
-                        HorizontalAlignment="Stretch"
-                        Margin="20,0,20,32"
-                        AutomationProperties.Name="Sign out of CineStream"
-                        uen:Navigation.Request="-/Onboarding"
-                        xmlns:uen="using:Uno.Extensions.Navigation.UI" />
+        <!-- Sign out (display-only) -->
+        <Button Content="Sign Out"
+                Style="{StaticResource OutlinedButtonStyle}"
+                HorizontalAlignment="Stretch"
+                AutomationProperties.Name="Sign out of CineStream" />
 
-            </StackPanel>
-        </ScrollViewer>
-    </Grid>
+      </StackPanel>
+    </ScrollViewer>
+  </Grid>
 </Page>

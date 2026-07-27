@@ -1,7 +1,11 @@
 namespace MovieStreamApp.Presentation;
 
+// Domain records are immutable (MVUX requirement). A record that flows through an IListState<T>
+// (the watchlist) declares a [property: Key] on its identity so add/remove/selection match by
+// identity, not reference — key equality is auto-generated for partial records.
+
 public partial record Movie(
-    string Id,
+    [property: global::Uno.Extensions.Equality.Key] string Id,
     string Title,
     string Genre,
     string Year,
@@ -15,6 +19,11 @@ public partial record Movie(
 public partial record CastMember(
     string Name,
     string Role);
+
+public partial record CastMemberDetail(
+    string Name,
+    string Role,
+    string ImageUrl);
 
 public partial record FriendActivity(
     string FriendId,

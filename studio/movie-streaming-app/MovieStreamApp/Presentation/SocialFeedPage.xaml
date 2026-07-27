@@ -1,224 +1,205 @@
+<Page x:Class="MovieStreamApp.Presentation.SocialFeedPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:utu="using:Uno.Toolkit.UI"
+      xmlns:uen="using:Uno.Extensions.Navigation.UI"
+      Background="{ThemeResource BackgroundBrush}">
 
-<Page x:Class="MovieStreamApp.Presentation.SocialFeedPage" Background="{ThemeResource BackgroundBrush}" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:utu="using:Uno.Toolkit.UI" xmlns:uen="using:Uno.Extensions.Navigation.UI">
+  <!--
+    The Friends tab. Overlaid by the floating TabBar, so the scroll content reserves ~110 bottom
+    padding to clear the bar. Content caps at MaxWidth=1100 on desktop so the header, rails and
+    activity feed share one left edge and reflow wider. Every icon is a vector Path via the Icon
+    converter; every image tile is a Border+ImageBrush so it clips to its corner radius. Movie-bearing
+    cards open the detail (full-screen page on phone/tablet, centred modal on desktop); activity cards
+    resolve their movie from the shared catalogue by title (MovieByTitle).
+  -->
+  <Grid utu:SafeArea.Insets="Top">
+    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+      <StackPanel MaxWidth="1100" HorizontalAlignment="Stretch" Padding="20,16,20,110" Spacing="24">
 
-    <Grid utu:SafeArea.Insets="Top">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
+        <!-- Header: title + online count with a small live dot -->
+        <StackPanel Spacing="2">
+          <TextBlock Text="Friends" Style="{StaticResource HeadlineSmall}" Foreground="{ThemeResource OnBackgroundBrush}" FontWeight="Bold" />
+          <StackPanel Orientation="Horizontal" Spacing="6">
+            <Border Width="9" Height="9" CornerRadius="5" Background="{ThemeResource TertiaryBrush}" VerticalAlignment="Center" />
+            <TextBlock Style="{StaticResource BodyMedium}" Foreground="{ThemeResource OnSurfaceVariantBrush}" VerticalAlignment="Center">
+              <Run Text="{Binding OnlineFriendsCount}" FontWeight="SemiBold" Foreground="{ThemeResource OnBackgroundBrush}" />
+              <Run Text="friends online" />
+            </TextBlock>
+          </StackPanel>
+        </StackPanel>
 
-        <Grid Grid.Row="0" Padding="20,16,20,12">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
-            <StackPanel Grid.Column="0" Spacing="2">
-                <TextBlock Text="Friends" Style="{StaticResource TitleLarge}" Foreground="{ThemeResource OnBackgroundBrush}" />
-                <StackPanel Orientation="Horizontal" Spacing="6">
-                    <Border Background="{ThemeResource TertiaryContainerBrush}" CornerRadius="10" Width="10" Height="10" VerticalAlignment="Center" />
-                    <TextBlock Foreground="{ThemeResource OnSurfaceVariantBrush}" Style="{StaticResource BodySmall}">
-                        <Run Text="{Binding OnlineFriendsCount}" />
-                        <Run Text="friends online" />
-                    </TextBlock>
-                </StackPanel>
-            </StackPanel>
-            <Button Grid.Column="1" Style="{StaticResource IconButtonStyle}" AutomationProperties.Name="Find friends">
-                <FontIcon Glyph="" FontSize="20" Foreground="{ThemeResource OnBackgroundBrush}" />
-            </Button>
-        </Grid>
-        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Hidden">
-            <StackPanel Spacing="0">
+        <!-- People You May Know -->
+        <StackPanel Spacing="10">
+          <TextBlock Text="People You May Know" Style="{StaticResource TitleMedium}" Foreground="{ThemeResource OnBackgroundBrush}" />
+          <ItemsRepeater ItemsSource="{Binding SuggestedFriends}">
+            <ItemsRepeater.Layout>
+              <UniformGridLayout MinItemWidth="120" MinColumnSpacing="12" MinRowSpacing="12" ItemsStretch="Fill" />
+            </ItemsRepeater.Layout>
+            <ItemsRepeater.ItemTemplate>
+              <DataTemplate>
+                <utu:CardContentControl Style="{StaticResource FilledCardContentControlStyle}"
+                                        HorizontalAlignment="Stretch"
+                                        Content="{Binding}">
+                  <utu:CardContentControl.ContentTemplate>
+                    <DataTemplate>
+                      <StackPanel Padding="12,14" Spacing="8" HorizontalAlignment="Center">
+                        <Border Width="56" Height="56" CornerRadius="28" HorizontalAlignment="Center">
+                          <Border.Background>
+                            <ImageBrush ImageSource="{Binding AvatarUrl}" Stretch="UniformToFill" />
+                          </Border.Background>
+                        </Border>
+                        <StackPanel Spacing="2" HorizontalAlignment="Center">
+                          <TextBlock Text="{Binding Name}" Style="{StaticResource LabelLarge}" Foreground="{ThemeResource OnSurfaceBrush}" TextAlignment="Center" TextWrapping="Wrap" MaxLines="2" />
+                          <TextBlock Text="{Binding Reason}" Style="{StaticResource BodySmall}" Foreground="{ThemeResource OutlineBrush}" TextAlignment="Center" TextWrapping="Wrap" MaxLines="2" />
+                        </StackPanel>
+                        <Button Style="{StaticResource IconGhostButtonStyle}" Width="36" Height="36" HorizontalAlignment="Center" AutomationProperties.Name="Add friend">
+                          <Viewbox Width="18" Height="18">
+                            <Path Data="{Binding Source=add, Converter={StaticResource Icon}}" Fill="{ThemeResource PrimaryBrush}" Stretch="Uniform" />
+                          </Viewbox>
+                        </Button>
+                      </StackPanel>
+                    </DataTemplate>
+                  </utu:CardContentControl.ContentTemplate>
+                </utu:CardContentControl>
+              </DataTemplate>
+            </ItemsRepeater.ItemTemplate>
+          </ItemsRepeater>
+        </StackPanel>
 
-                <StackPanel Padding="20,0,20,8" Spacing="8">
-                    <TextBlock Text="People You May Know" Style="{StaticResource TitleSmall}" Foreground="{ThemeResource OnBackgroundBrush}" />
-                    <ScrollViewer HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Disabled">
-                        <ItemsRepeater ItemsSource="{Binding SuggestedFriends}">
-                            <ItemsRepeater.Layout>
-                                <StackLayout Orientation="Horizontal" Spacing="10" />
-                            </ItemsRepeater.Layout>
-                            <ItemsRepeater.ItemTemplate>
-                                <DataTemplate>
-                                    <utu:CardContentControl Style="{StaticResource FilledCardContentControlStyle}" Width="130" IsClickable="False" Content="{Binding}">
-                                        <utu:CardContentControl.ContentTemplate>
-                                            <DataTemplate>
-                                                <StackPanel Padding="12,14" Spacing="8" HorizontalAlignment="Center">
-                                                    <Border Width="52" Height="52" CornerRadius="26" HorizontalAlignment="Center">
-                                                        <Image Source="{Binding AvatarUrl}" Stretch="UniformToFill" />
-                                                    </Border>
-                                                    <StackPanel Spacing="2" HorizontalAlignment="Center">
-                                                        <TextBlock Text="{Binding Name}" Style="{StaticResource LabelMedium}" Foreground="{ThemeResource OnSurfaceBrush}" TextAlignment="Center" TextWrapping="Wrap" MaxLines="2" />
-                                                        <TextBlock Text="{Binding Reason}" Style="{StaticResource BodySmall}" Foreground="{ThemeResource OutlineBrush}" TextAlignment="Center" TextWrapping="Wrap" MaxLines="2" />
-                                                    </StackPanel>
-                                                    <Button Content="Follow" Style="{StaticResource FilledTonalButtonStyle}" HorizontalAlignment="Center" AutomationProperties.Name="Follow friend" />
-                                                </StackPanel>
-                                            </DataTemplate>
-                                        </utu:CardContentControl.ContentTemplate>
-                                    </utu:CardContentControl>
-                                </DataTemplate>
-                            </ItemsRepeater.ItemTemplate>
-                        </ItemsRepeater>
-                    </ScrollViewer>
-                </StackPanel>
-                <Border Height="1" Background="{ThemeResource OutlineVariantBrush}" Margin="20,8,20,16" />
+        <!-- Recent activity feed -->
+        <StackPanel Spacing="12">
+          <TextBlock Text="Recent Activity" Style="{StaticResource TitleMedium}" Foreground="{ThemeResource OnBackgroundBrush}" />
+          <ItemsRepeater ItemsSource="{Binding Activities}">
+            <ItemsRepeater.Layout>
+              <StackLayout Spacing="12" />
+            </ItemsRepeater.Layout>
+            <ItemsRepeater.ItemTemplate>
+              <DataTemplate>
+                <utu:CardContentControl Style="{StaticResource FilledCardContentControlStyle}"
+                                        HorizontalAlignment="Stretch"
+                                        IsClickable="True"
+                                        Content="{Binding}"
+                                        uen:Navigation.Request="{utu:Responsive Layout={StaticResource DesktopModalBreakpoint}, Narrow=MovieDetail, Wide=MovieDetail, Widest='!MovieDetailModal'}"
+                                        uen:Navigation.Data="{Binding MovieTitle, Converter={StaticResource MovieByTitle}}">
+                  <utu:CardContentControl.ContentTemplate>
+                    <DataTemplate>
+                      <StackPanel Spacing="0">
 
-                <Grid Padding="20,0,20,12">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Grid.Column="0" Text="Recent Activity" Style="{StaticResource TitleSmall}" Foreground="{ThemeResource OnBackgroundBrush}" />
-                    <Button Grid.Column="1" Content="Filter" Style="{StaticResource TextButtonStyle}" AutomationProperties.Name="Filter activity feed">
-                        <Button.ContentTemplate>
-                            <DataTemplate>
-                                <StackPanel Orientation="Horizontal" Spacing="4">
-                                    <FontIcon Glyph="" FontSize="13" Foreground="{ThemeResource PrimaryBrush}" />
-                                    <TextBlock Text="Filter" Style="{StaticResource LabelMedium}" Foreground="{ThemeResource PrimaryBrush}" />
-                                </StackPanel>
-                            </DataTemplate>
-                        </Button.ContentTemplate>
-                    </Button>
-                </Grid>
-                <ItemsRepeater ItemsSource="{Binding Activities}" Margin="20,0,20,20">
-                    <ItemsRepeater.Layout>
-                        <StackLayout Orientation="Vertical" Spacing="12" />
-                    </ItemsRepeater.Layout>
-                    <ItemsRepeater.ItemTemplate>
-                        <DataTemplate>
-                            <utu:CardContentControl Style="{StaticResource ElevatedCardContentControlStyle}" HorizontalAlignment="Stretch" IsClickable="True" Content="{Binding}" uen:Navigation.Request="Playback">
-                                <utu:CardContentControl.ContentTemplate>
-                                    <DataTemplate>
-                                        <StackPanel Spacing="0">
+                        <!-- Avatar (with online dot) + friend/action line + time -->
+                        <Grid Padding="14,12,14,10" ColumnSpacing="12">
+                          <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                          </Grid.ColumnDefinitions>
+                          <Grid Grid.Column="0" Width="44" Height="44">
+                            <Border Width="44" Height="44" CornerRadius="22">
+                              <Border.Background>
+                                <ImageBrush ImageSource="{Binding AvatarUrl}" Stretch="UniformToFill" />
+                              </Border.Background>
+                            </Border>
+                            <Border Width="13" Height="13" CornerRadius="7"
+                                    Background="{ThemeResource TertiaryBrush}"
+                                    BorderThickness="2" BorderBrush="{ThemeResource SurfaceBrush}"
+                                    HorizontalAlignment="Right" VerticalAlignment="Bottom"
+                                    Visibility="{Binding IsOnline, Converter={StaticResource BoolToVisibility}}" />
+                          </Grid>
+                          <TextBlock Grid.Column="1" VerticalAlignment="Center" Style="{StaticResource BodyMedium}" Foreground="{ThemeResource OnSurfaceVariantBrush}" TextWrapping="Wrap">
+                            <Run Text="{Binding FriendName}" FontWeight="SemiBold" Foreground="{ThemeResource OnSurfaceBrush}" />
+                            <Run Text="{Binding Action}" />
+                            <Run Text="{Binding MovieTitle}" FontWeight="SemiBold" Foreground="{ThemeResource PrimaryBrush}" />
+                          </TextBlock>
+                          <TextBlock Grid.Column="2" Text="{Binding TimeAgo}" Style="{StaticResource LabelSmall}" Foreground="{ThemeResource OutlineBrush}" VerticalAlignment="Top" />
+                        </Grid>
 
-                                            <Grid Padding="14,12,14,10" ColumnSpacing="12">
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="Auto" />
-                                                    <ColumnDefinition Width="*" />
-                                                    <ColumnDefinition Width="Auto" />
-                                                </Grid.ColumnDefinitions>
+                        <!-- Poster thumb with genre chip -->
+                        <Grid Margin="14,0" Height="130">
+                          <Border CornerRadius="12">
+                            <Border.Background>
+                              <ImageBrush ImageSource="{Binding MovieImageUrl}" Stretch="UniformToFill" />
+                            </Border.Background>
+                          </Border>
+                          <Border CornerRadius="12">
+                            <Border.Background>
+                              <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                <GradientStop Color="#00000000" Offset="0.4" />
+                                <GradientStop Color="#B3000000" Offset="1.0" />
+                              </LinearGradientBrush>
+                            </Border.Background>
+                          </Border>
+                          <Border Background="#40000000" CornerRadius="6" Padding="8,3" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="10,0,0,10">
+                            <TextBlock Text="{Binding MovieGenre}" Style="{StaticResource LabelSmall}" Foreground="White" />
+                          </Border>
+                        </Grid>
 
-                                                <Grid Grid.Column="0" Width="44" Height="44">
-                                                    <Border CornerRadius="22" Width="44" Height="44">
-                                                        <Image Source="{Binding AvatarUrl}" Stretch="UniformToFill" />
-                                                    </Border>
-                                                    <Border Width="12" Height="12" CornerRadius="6" Background="{ThemeResource TertiaryContainerBrush}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Visibility="{Binding IsOnline}" />
-                                                </Grid>
-                                                <StackPanel Grid.Column="1" VerticalAlignment="Center" Spacing="2">
-                                                    <TextBlock Foreground="{ThemeResource OnSurfaceBrush}" Style="{StaticResource BodyMedium}" TextWrapping="Wrap">
-                                                        <Run Text="{Binding FriendName}" FontWeight="SemiBold" />
-                                                        <Run Text="{Binding Action}" Foreground="{ThemeResource OnSurfaceVariantBrush}" />
-                                                    </TextBlock>
-                                                    <TextBlock Text="{Binding MovieTitle}" Style="{StaticResource LabelLarge}" Foreground="{ThemeResource PrimaryBrush}" />
-                                                </StackPanel>
+                        <!-- Optional comment -->
+                        <TextBlock Margin="14,10,14,0" Style="{StaticResource BodySmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" FontStyle="Italic" TextWrapping="Wrap" Visibility="{Binding Comment}">
+                          <Run Text="&#x201C;" Foreground="{ThemeResource PrimaryBrush}" />
+                          <Run Text="{Binding Comment}" />
+                          <Run Text="&#x201D;" Foreground="{ThemeResource PrimaryBrush}" />
+                        </TextBlock>
 
-                                                <TextBlock Grid.Column="2" Text="{Binding TimeAgo}" Style="{StaticResource BodySmall}" Foreground="{ThemeResource OutlineVariantBrush}" VerticalAlignment="Top" />
-                                                <!-- Avatar with online dot -->
-                                                <!-- Name + action -->
-                                                <!-- Time -->
-                                            </Grid>
-                                            <Grid Margin="14,0" Height="120">
-                                                <Border CornerRadius="10">
-                                                    <Image Source="{Binding MovieImageUrl}" Stretch="UniformToFill" />
-                                                </Border>
-                                                <Border CornerRadius="10">
-                                                    <Border.Background>
-                                                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-                                                            <GradientStop Color="#00000000" Offset="0.4" />
-                                                            <GradientStop Color="#CC000000" Offset="1.0" />
-                                                        </LinearGradientBrush>
-                                                    </Border.Background>
-                                                </Border>
-                                                <Border Background="{ThemeResource SurfaceVariantBrush}" CornerRadius="6" Padding="8,3" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="10,0,0,10">
-                                                    <TextBlock Text="{Binding MovieGenre}" Style="{StaticResource LabelSmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" />
-                                                </Border>
-                                            </Grid>
+                        <!-- Footer: heart + like count + time -->
+                        <StackPanel Orientation="Horizontal" Spacing="8" Padding="14,12,14,14" VerticalAlignment="Center">
+                          <Viewbox Width="16" Height="16" VerticalAlignment="Center">
+                            <Path Data="{Binding Source=heart, Converter={StaticResource Icon}}" Fill="{ThemeResource OutlineBrush}" Stretch="Uniform" />
+                          </Viewbox>
+                          <TextBlock Text="{Binding LikeCount}" Style="{StaticResource LabelMedium}" Foreground="{ThemeResource OnSurfaceVariantBrush}" VerticalAlignment="Center" />
+                          <TextBlock Text="{Binding TimeAgo}" Style="{StaticResource LabelSmall}" Foreground="{ThemeResource OutlineBrush}" VerticalAlignment="Center" Margin="6,0,0,0" />
+                        </StackPanel>
 
-                                            <StackPanel Padding="14,10,14,4" Spacing="0" Visibility="{Binding Comment}">
-                                                <TextBlock Foreground="{ThemeResource OnSurfaceVariantBrush}" Style="{StaticResource BodySmall}" TextWrapping="Wrap" FontStyle="Italic">
-                                                    <Run Text="“" Foreground="{ThemeResource PrimaryBrush}" />
-                                                    <Run Text="{Binding Comment}" />
-                                                    <Run Text="”" Foreground="{ThemeResource PrimaryBrush}" />
-                                                </TextBlock>
-                                            </StackPanel>
-                                            <Grid Padding="8,6,8,8" ColumnSpacing="0">
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="Auto" />
-                                                    <ColumnDefinition Width="*" />
-                                                    <ColumnDefinition Width="Auto" />
-                                                    <ColumnDefinition Width="Auto" />
-                                                </Grid.ColumnDefinitions>
+                      </StackPanel>
+                    </DataTemplate>
+                  </utu:CardContentControl.ContentTemplate>
+                </utu:CardContentControl>
+              </DataTemplate>
+            </ItemsRepeater.ItemTemplate>
+          </ItemsRepeater>
+        </StackPanel>
 
-                                                <StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="2" VerticalAlignment="Center">
-                                                    <Button Style="{StaticResource IconButtonStyle}" AutomationProperties.Name="Like activity">
-                                                        <FontIcon Glyph="" FontSize="16" Foreground="{ThemeResource OutlineBrush}" />
-                                                    </Button>
-                                                    <TextBlock Text="{Binding LikeCount}" Style="{StaticResource BodySmall}" Foreground="{ThemeResource OutlineBrush}" VerticalAlignment="Center" />
-                                                </StackPanel>
-                                                <Button Grid.Column="2" Style="{StaticResource FilledTonalButtonStyle}" AutomationProperties.Name="Watch this movie" uen:Navigation.Request="Playback">
-                                                    <StackPanel Orientation="Horizontal" Spacing="6">
-                                                        <FontIcon Glyph="" FontSize="14" Foreground="{ThemeResource OnSecondaryContainerBrush}" />
-                                                        <TextBlock Text="Watch" Style="{StaticResource LabelMedium}" Foreground="{ThemeResource OnSecondaryContainerBrush}" />
-                                                    </StackPanel>
-                                                </Button>
+        <!-- Trending Among Friends -->
+        <StackPanel Spacing="10">
+          <TextBlock Text="Trending Among Friends" Style="{StaticResource TitleMedium}" Foreground="{ThemeResource OnBackgroundBrush}" />
+          <ItemsRepeater ItemsSource="{Binding TrendingAmongFriends}">
+            <ItemsRepeater.Layout>
+              <UniformGridLayout MinItemWidth="150" MinColumnSpacing="12" MinRowSpacing="12" ItemsStretch="Fill" />
+            </ItemsRepeater.Layout>
+            <ItemsRepeater.ItemTemplate>
+              <DataTemplate>
+                <utu:CardContentControl Style="{StaticResource FilledCardContentControlStyle}"
+                                        HorizontalAlignment="Stretch"
+                                        IsClickable="True"
+                                        Content="{Binding}"
+                                        uen:Navigation.Request="{utu:Responsive Layout={StaticResource DesktopModalBreakpoint}, Narrow=MovieDetail, Wide=MovieDetail, Widest='!MovieDetailModal'}"
+                                        uen:Navigation.Data="{Binding}">
+                  <utu:CardContentControl.ContentTemplate>
+                    <DataTemplate>
+                      <StackPanel>
+                        <Border Height="200" CornerRadius="12,12,0,0">
+                          <Border.Background>
+                            <ImageBrush ImageSource="{Binding ImageUrl}" Stretch="UniformToFill" />
+                          </Border.Background>
+                        </Border>
+                        <StackPanel Padding="10,8" Spacing="3">
+                          <TextBlock Text="{Binding Title}" Style="{StaticResource LabelLarge}" Foreground="{ThemeResource OnSurfaceBrush}" TextTrimming="CharacterEllipsis" MaxLines="1" />
+                          <StackPanel Orientation="Horizontal" Spacing="4">
+                            <Viewbox Width="12" Height="12" VerticalAlignment="Center">
+                              <Path Data="{Binding Source=star, Converter={StaticResource Icon}, ConverterParameter=filled}" Fill="{ThemeResource TertiaryBrush}" Stretch="Uniform" />
+                            </Viewbox>
+                            <TextBlock Text="{Binding Rating}" Style="{StaticResource BodySmall}" Foreground="{ThemeResource TertiaryBrush}" VerticalAlignment="Center" />
+                          </StackPanel>
+                        </StackPanel>
+                      </StackPanel>
+                    </DataTemplate>
+                  </utu:CardContentControl.ContentTemplate>
+                </utu:CardContentControl>
+              </DataTemplate>
+            </ItemsRepeater.ItemTemplate>
+          </ItemsRepeater>
+        </StackPanel>
 
-                                                <Button Grid.Column="3" Style="{StaticResource IconButtonStyle}" AutomationProperties.Name="Share activity">
-                                                    <FontIcon Glyph="" FontSize="16" Foreground="{ThemeResource OutlineBrush}" />
-                                                </Button>
-                                                <!-- Like button -->
-                                                <!-- Watch button -->
-                                                <!-- Share -->
-                                            </Grid>
-                                            <!-- Top row: avatar + friend info + time -->
-                                            <!-- Movie thumbnail + genre -->
-                                            <!-- Comment (if present) -->
-                                            <!-- Action Row: Like + Watch + Share -->
-
-                                        </StackPanel>
-                                    </DataTemplate>
-                                </utu:CardContentControl.ContentTemplate>
-                            </utu:CardContentControl>
-                        </DataTemplate>
-                    </ItemsRepeater.ItemTemplate>
-                </ItemsRepeater>
-
-                <TextBlock Text="Trending Among Friends" Style="{StaticResource TitleSmall}" Foreground="{ThemeResource OnBackgroundBrush}" Margin="20,0,20,12" />
-                <ScrollViewer HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Disabled" Margin="0,0,0,28">
-                    <ItemsRepeater ItemsSource="{Binding TrendingAmongFriends}" Margin="20,0">
-                        <ItemsRepeater.Layout>
-                            <StackLayout Orientation="Horizontal" Spacing="12" />
-                        </ItemsRepeater.Layout>
-                        <ItemsRepeater.ItemTemplate>
-                            <DataTemplate>
-                                <utu:CardContentControl Style="{StaticResource FilledCardContentControlStyle}" Width="140" IsClickable="True" Content="{Binding}" uen:Navigation.Request="Playback">
-                                    <utu:CardContentControl.ContentTemplate>
-                                        <DataTemplate>
-                                            <StackPanel>
-                                                <Border Height="190" CornerRadius="8,8,0,0">
-                                                    <Image Source="{Binding ImageUrl}" Stretch="UniformToFill" />
-                                                </Border>
-                                                <StackPanel Padding="10,8" Spacing="3">
-                                                    <TextBlock Text="{Binding Title}" Style="{StaticResource LabelLarge}" Foreground="{ThemeResource OnSurfaceBrush}" TextTrimming="CharacterEllipsis" MaxLines="1" />
-                                                    <StackPanel Orientation="Horizontal" Spacing="4">
-                                                        <FontIcon Glyph="" FontSize="11" Foreground="{ThemeResource TertiaryBrush}" />
-                                                        <TextBlock Text="{Binding Rating}" Style="{StaticResource BodySmall}" Foreground="{ThemeResource TertiaryBrush}" />
-                                                    </StackPanel>
-                                                </StackPanel>
-                                            </StackPanel>
-                                        </DataTemplate>
-                                    </utu:CardContentControl.ContentTemplate>
-                                </utu:CardContentControl>
-                            </DataTemplate>
-                        </ItemsRepeater.ItemTemplate>
-                    </ItemsRepeater>
-                </ScrollViewer>
-                <!-- Friend Suggestions Strip -->
-                <!-- Divider -->
-                <!-- Activity Feed Header -->
-                <!-- Activity Cards -->
-                <!-- Trending Among Friends -->
-
-            </StackPanel>
-        </ScrollViewer>
-        <!-- Header -->
-        <!-- Main Feed -->
-    </Grid>
+      </StackPanel>
+    </ScrollViewer>
+  </Grid>
 </Page>

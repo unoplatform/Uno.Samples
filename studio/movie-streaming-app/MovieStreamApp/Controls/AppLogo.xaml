@@ -1,0 +1,22 @@
+<UserControl x:Class="MovieStreamApp.Controls.AppLogo"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <!--
+    The CineStream brand mark drawn with native XAML shapes (not an SVG <Image>): the brand-red
+    play triangle on its dark #151515 tile. The 240x240 Canvas mirrors the source splash coords; the
+    Viewbox scales it to fit. Native shapes avoid any runtime SVG/gradient rendering gaps.
+  -->
+  <Border CornerRadius="28" Background="#151515">
+    <Viewbox Stretch="Uniform">
+      <Canvas Width="240" Height="240">
+        <Canvas.Resources>
+          <LinearGradientBrush x:Key="PlayBrush" StartPoint="0,0" EndPoint="1,1">
+            <GradientStop Offset="0" Color="#FF3D55" />
+            <GradientStop Offset="1" Color="#E8253A" />
+          </LinearGradientBrush>
+        </Canvas.Resources>
+        <Path Data="M98 82 L98 158 L164 120 Z" Fill="{StaticResource PlayBrush}" />
+      </Canvas>
+    </Viewbox>
+  </Border>
+</UserControl>

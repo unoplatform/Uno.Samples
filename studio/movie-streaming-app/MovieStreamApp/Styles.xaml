@@ -1,0 +1,96 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:utu="using:Uno.Toolkit.UI"
+                    xmlns:conv="using:MovieStreamApp.Converters">
+
+  <!--
+    App styling vocabulary: the shared converters, design tokens, the desktop-modal breakpoint, and
+    the reusable icon-button style. Merged LAST in App.xaml so the well-known corner-radius token
+    overrides win over the framework defaults. Pages only consume these keys.
+  -->
+
+  <!-- Converters -->
+  <conv:IconConverter x:Key="Icon" />
+  <conv:BoolToVisibilityConverter x:Key="BoolToVisibility" />
+  <conv:TitleToMovieConverter x:Key="MovieByTitle" />
+
+  <!-- A detail reached from a card is a full-screen page on phone/tablet and a centred modal on
+       desktop (lesson 64). Widest is set ABOVE every tablet (a 12.9" iPad landscape is 1366) so
+       only true desktop widths get the modal. Referenced via the extension's Layout= property, not
+       as an app-level DefaultResponsiveLayout (which would collide with the Simple theme's). -->
+  <utu:ResponsiveLayout x:Key="DesktopModalBreakpoint"
+                        Narrow="0"
+                        Wide="600"
+                        Widest="1400" />
+
+  <!-- Corner-radius scale (well-known Simple/WinUI token overrides) -->
+  <CornerRadius x:Key="ControlCornerRadiusSmall">6</CornerRadius>
+  <CornerRadius x:Key="ControlCornerRadius">14</CornerRadius>
+  <CornerRadius x:Key="OverlayCornerRadius">24</CornerRadius>
+
+  <!-- Tactile press scale (design-polish house value) -->
+  <x:Double x:Key="PressScale">0.98</x:Double>
+
+  <!--
+    Chrome-less circular icon button. A single transparent rounded root with a state-layer overlay
+    (PointerOver / Pressed) and a firm 0.98 press scale — crisp and stateful, without the default
+    themed Button's gray rectangle. MinWidth/MinHeight=0 so an explicit Width/Height isn't clamped
+    up to the theme minimum (lesson 41). Put a Path/PathIcon (or Viewbox) in Content.
+  -->
+  <Style x:Key="IconGhostButtonStyle" TargetType="Button">
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="BorderThickness" Value="0" />
+    <Setter Property="Padding" Value="8" />
+    <Setter Property="MinWidth" Value="0" />
+    <Setter Property="MinHeight" Value="0" />
+    <Setter Property="UseSystemFocusVisuals" Value="True" />
+    <Setter Property="HorizontalContentAlignment" Value="Center" />
+    <Setter Property="VerticalContentAlignment" Value="Center" />
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="Button">
+          <Grid x:Name="Root"
+                Background="{TemplateBinding Background}"
+                CornerRadius="999"
+                RenderTransformOrigin="0.5,0.5">
+            <Grid.RenderTransform>
+              <ScaleTransform x:Name="PressScale" ScaleX="1" ScaleY="1" />
+            </Grid.RenderTransform>
+            <Border x:Name="StateLayer"
+                    CornerRadius="999"
+                    Background="{ThemeResource OnSurfaceBrush}"
+                    Opacity="0" />
+            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                              Padding="{TemplateBinding Padding}"
+                              Content="{TemplateBinding Content}"
+                              ContentTemplate="{TemplateBinding ContentTemplate}" />
+            <VisualStateManager.VisualStateGroups>
+              <VisualStateGroup x:Name="CommonStates">
+                <VisualState x:Name="Normal" />
+                <VisualState x:Name="PointerOver">
+                  <VisualState.Setters>
+                    <Setter Target="StateLayer.Opacity" Value="0.08" />
+                  </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Pressed">
+                  <VisualState.Setters>
+                    <Setter Target="StateLayer.Opacity" Value="0.12" />
+                    <Setter Target="PressScale.ScaleX" Value="{StaticResource PressScale}" />
+                    <Setter Target="PressScale.ScaleY" Value="{StaticResource PressScale}" />
+                  </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Disabled">
+                  <VisualState.Setters>
+                    <Setter Target="Root.Opacity" Value="0.38" />
+                  </VisualState.Setters>
+                </VisualState>
+              </VisualStateGroup>
+            </VisualStateManager.VisualStateGroups>
+          </Grid>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
+
+</ResourceDictionary>

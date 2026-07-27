@@ -5,126 +5,128 @@
       xmlns:uen="using:Uno.Extensions.Navigation.UI"
       Background="{ThemeResource BackgroundBrush}">
 
-    <Grid utu:SafeArea.Insets="VisibleBounds">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
+  <!--
+    Full-screen cinematic onboarding carousel (shell sibling, no tab bar). A FlipView fills the
+    screen; each slide is a full-bleed Border+ImageBrush with a strong bottom gradient and an
+    overlaid icon Path + Title + Subtitle. A PipsPager (two-way synced to the FlipView) sits above
+    the CTA. A brand lockup rides the top; Skip (top-right) and Get Started both enter the app via
+    Navigation.Request="Main". All icons are vector Paths via the shared Icon converter.
+  -->
+  <Grid Background="{ThemeResource BackgroundBrush}">
 
-            <!-- Hero section -->
-            <Grid Grid.Row="0">
-                <!-- Background hero image with dark overlay -->
-                <Image Source="{Binding HeroImageUrl}"
-                       Stretch="UniformToFill" />
-                <!-- Gradient overlay -->
-                <Rectangle>
-                    <Rectangle.Fill>
-                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-                            <GradientStop Color="#00000000" Offset="0.0" />
-                            <GradientStop Color="#CC0F0B10" Offset="0.55" />
-                            <GradientStop Color="#FF0F0B10" Offset="1.0" />
-                        </LinearGradientBrush>
-                    </Rectangle.Fill>
-                </Rectangle>
+    <!-- Full-bleed carousel: the slide images bleed to every edge behind the chrome -->
+    <FlipView x:Name="SlidesFlip"
+              ItemsSource="{Binding Slides}"
+              Background="Transparent"
+              BorderThickness="0">
+      <FlipView.ItemTemplate>
+        <DataTemplate>
+          <Grid>
+            <!-- Slide artwork, clipped by the frame -->
+            <Border>
+              <Border.Background>
+                <ImageBrush ImageSource="{Binding ImageUrl}" Stretch="UniformToFill" />
+              </Border.Background>
+            </Border>
 
-                <!-- Content overlay -->
-                <StackPanel VerticalAlignment="Bottom"
-                            Padding="28,0,28,32"
-                            Spacing="8">
+            <!-- Cinematic bottom scrim so the copy stays legible over any frame -->
+            <Border>
+              <Border.Background>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                  <GradientStop Color="#00000000" Offset="0.0" />
+                  <GradientStop Color="#66000000" Offset="0.45" />
+                  <GradientStop Color="#E60F0B10" Offset="0.82" />
+                  <GradientStop Color="#FF0F0B10" Offset="1.0" />
+                </LinearGradientBrush>
+              </Border.Background>
+            </Border>
 
-                    <!-- App logo / name -->
-                    <StackPanel Orientation="Horizontal"
-                                Spacing="10"
-                                HorizontalAlignment="Center"
-                                Margin="0,0,0,8">
-                        <FontIcon Glyph="&#xE714;"
-                                  FontSize="36"
-                                  Foreground="{ThemeResource PrimaryBrush}" />
-                        <TextBlock Text="{Binding AppName}"
-                                   Style="{StaticResource DisplaySmall}"
-                                   Foreground="{ThemeResource OnBackgroundBrush}"
-                                   VerticalAlignment="Center"
-                                   FontWeight="ExtraBold" />
-                    </StackPanel>
-
-                    <TextBlock Text="{Binding Tagline}"
-                               Style="{StaticResource TitleSmall}"
-                               Foreground="{ThemeResource OnSurfaceVariantBrush}"
-                               HorizontalAlignment="Center"
-                               TextAlignment="Center"
-                               Margin="0,0,0,24" />
-
-                    <!-- Feature highlights -->
-                    <ItemsRepeater ItemsSource="{Binding Slides}">
-                        <ItemsRepeater.Layout>
-                            <StackLayout Orientation="Vertical" Spacing="12" />
-                        </ItemsRepeater.Layout>
-                        <ItemsRepeater.ItemTemplate>
-                            <DataTemplate>
-                                <utu:CardContentControl Style="{StaticResource FilledCardContentControlStyle}"
-                                                        HorizontalAlignment="Stretch"
-                                                        IsClickable="False">
-                                    <utu:CardContentControl.ContentTemplate>
-                                        <DataTemplate>
-                                            <Grid Padding="16,12"
-                                                  ColumnSpacing="14">
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="Auto" />
-                                                    <ColumnDefinition Width="*" />
-                                                </Grid.ColumnDefinitions>
-                                                <Border Grid.Column="0"
-                                                        Background="{ThemeResource PrimaryContainerBrush}"
-                                                        CornerRadius="12"
-                                                        Width="44"
-                                                        Height="44">
-                                                    <FontIcon Glyph="{Binding IconGlyph}"
-                                                              FontSize="20"
-                                                              Foreground="{ThemeResource OnPrimaryContainerBrush}"
-                                                              HorizontalAlignment="Center"
-                                                              VerticalAlignment="Center" />
-                                                </Border>
-                                                <StackPanel Grid.Column="1"
-                                                            VerticalAlignment="Center"
-                                                            Spacing="2">
-                                                    <TextBlock Text="{Binding Title}"
-                                                               Style="{StaticResource LabelLarge}"
-                                                               Foreground="{ThemeResource OnSurfaceBrush}" />
-                                                    <TextBlock Text="{Binding Subtitle}"
-                                                               Style="{StaticResource BodySmall}"
-                                                               Foreground="{ThemeResource OnSurfaceVariantBrush}"
-                                                               TextWrapping="Wrap" />
-                                                </StackPanel>
-                                            </Grid>
-                                        </DataTemplate>
-                                    </utu:CardContentControl.ContentTemplate>
-                                </utu:CardContentControl>
-                            </DataTemplate>
-                        </ItemsRepeater.ItemTemplate>
-                    </ItemsRepeater>
-                </StackPanel>
-            </Grid>
-
-            <!-- CTA buttons -->
-            <StackPanel Grid.Row="1"
-                        Padding="28,20,28,32"
-                        Spacing="12"
-                        Background="{ThemeResource BackgroundBrush}">
-                <Button Content="Get Started — It's Free"
-                        HorizontalAlignment="Stretch"
-                        Style="{StaticResource FilledButtonStyle}"
-                        AutomationProperties.Name="Get started with CineStream"
-                        uen:Navigation.Request="-/Browse" />
-                <Button Content="I Already Have an Account"
-                        HorizontalAlignment="Stretch"
-                        Style="{StaticResource OutlinedButtonStyle}"
-                        AutomationProperties.Name="Sign in to existing account"
-                        uen:Navigation.Request="-/Browse" />
-                <TextBlock Text="By continuing you agree to our Terms of Service and Privacy Policy."
-                           Style="{StaticResource BodySmall}"
-                           Foreground="{ThemeResource OutlineBrush}"
-                           TextAlignment="Center"
-                           TextWrapping="Wrap"
-                           HorizontalAlignment="Center" />
+            <!-- Overlaid slide copy: icon chip + Title (Headline) + Subtitle (Body) -->
+            <StackPanel VerticalAlignment="Bottom"
+                        HorizontalAlignment="Center"
+                        MaxWidth="560"
+                        Spacing="14"
+                        Padding="32,0,32,168"
+                        utu:SafeArea.Insets="Bottom">
+              <Border Width="64"
+                      Height="64"
+                      CornerRadius="24"
+                      HorizontalAlignment="Center"
+                      Background="{ThemeResource PrimaryBrush}">
+                <Viewbox Width="30" Height="30">
+                  <Path Data="{Binding IconKey, Converter={StaticResource Icon}}"
+                        Fill="{ThemeResource OnPrimaryBrush}"
+                        Stretch="Uniform" />
+                </Viewbox>
+              </Border>
+              <TextBlock Text="{Binding Title}"
+                         Style="{StaticResource HeadlineMedium}"
+                         Foreground="White"
+                         FontWeight="Bold"
+                         TextAlignment="Center"
+                         TextWrapping="Wrap" />
+              <TextBlock Text="{Binding Subtitle}"
+                         Style="{StaticResource BodyLarge}"
+                         Foreground="#CCFFFFFF"
+                         TextAlignment="Center"
+                         TextWrapping="Wrap" />
             </StackPanel>
+          </Grid>
+        </DataTemplate>
+      </FlipView.ItemTemplate>
+    </FlipView>
+
+    <!-- Top chrome: brand lockup (left) + Skip (right) -->
+    <Grid VerticalAlignment="Top"
+          Padding="24,20,20,0"
+          utu:SafeArea.Insets="Top">
+      <StackPanel Orientation="Horizontal"
+                  Spacing="8"
+                  VerticalAlignment="Center">
+        <Viewbox Width="22" Height="22" VerticalAlignment="Center">
+          <Path Data="{Binding Source=play, Converter={StaticResource Icon}}"
+                Fill="{ThemeResource PrimaryBrush}"
+                Stretch="Uniform" />
+        </Viewbox>
+        <TextBlock Text="{Binding AppName}"
+                   Style="{StaticResource TitleLarge}"
+                   Foreground="White"
+                   FontWeight="ExtraBold"
+                   VerticalAlignment="Center" />
+        <TextBlock Text="{Binding Tagline}"
+                   Style="{StaticResource LabelSmall}"
+                   Foreground="#99FFFFFF"
+                   VerticalAlignment="Bottom"
+                   Margin="4,0,0,3" />
+      </StackPanel>
+
+      <Button Content="Skip"
+              HorizontalAlignment="Right"
+              VerticalAlignment="Center"
+              Style="{StaticResource TextBlockButtonStyle}"
+              Foreground="#CCFFFFFF"
+              AutomationProperties.Name="Skip onboarding"
+              uen:Navigation.Request="Main" />
     </Grid>
+
+    <!-- Bottom chrome: pager synced to the FlipView + primary CTA -->
+    <StackPanel VerticalAlignment="Bottom"
+                HorizontalAlignment="Center"
+                MaxWidth="560"
+                Spacing="20"
+                Padding="32,0,32,40"
+                utu:SafeArea.Insets="Bottom">
+      <PipsPager x:Name="SlidesPager"
+                 HorizontalAlignment="Center"
+                 IsHitTestVisible="True"
+                 NumberOfPages="{Binding Slides.Count}"
+                 SelectedPageIndex="{Binding SelectedIndex, ElementName=SlidesFlip, Mode=TwoWay}" />
+
+      <Button Content="Get Started"
+              HorizontalAlignment="Stretch"
+              Style="{StaticResource FilledButtonStyle}"
+              AutomationProperties.Name="Get started with CineStream"
+              uen:Navigation.Request="Main" />
+    </StackPanel>
+  </Grid>
 </Page>
