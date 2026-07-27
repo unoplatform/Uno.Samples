@@ -30,9 +30,9 @@ The TubePlayer app utilizes the latest Uno Platform features, including:
 
 - [C# Markup](https://aka.platform.uno/csharp-markup)
 - [Extensions](https://platform.uno/docs/articles/external/uno.extensions/doc/ExtensionsOverview.html)
-    - [MVUX](https://aka.platform.uno/mvux)
-    - [Configuration](https://platform.uno/docs/articles/external/uno.extensions/doc/Learn/Configuration/ConfigurationOverview.html)
-    - [Http](https://platform.uno/docs/articles/external/uno.extensions/doc/Learn/Http/HttpOverview.html)
+  - [MVUX](https://aka.platform.uno/mvux)
+  - [Configuration](https://platform.uno/docs/articles/external/uno.extensions/doc/Learn/Configuration/ConfigurationOverview.html)
+  - [Http](https://platform.uno/docs/articles/external/uno.extensions/doc/Learn/Http/HttpOverview.html)
 - [Figma plugin](https://aka.platform.uno/uno-figma)
 - [Color overrides](https://platform.uno/docs/articles/external/uno.themes/doc/material-getting-started.html#manual-color-overrides)
 - [DSP import](https://platform.uno/docs/articles/external/uno.themes/doc/material-dsp.html)
