@@ -53,12 +53,30 @@
     <ResourceDictionary x:Key="Light">
       <!-- Surface: ~92% translucent light cool-neutral (glassier — content peeks through more);
            selected capsule is white with a soft lift, not a hard chip. -->
-      <Color x:Key="FloatingTabBarBackgroundColor">#EBF4F5F6</Color>
+      <Color x:Key="FloatingTabBarBackgroundColor">#F0F2F5</Color>
       <Color x:Key="FloatingTabBarPuckColor">#FFFFFFFF</Color>
       <Color x:Key="FloatingTabBarBorderColor">#14000000</Color>
       <Color x:Key="FloatingTabBarPuckBorderColor">#0F000000</Color>
+      <Color x:Key="FloatingTabBarSheenColor">#40FFFFFF</Color>
+      <!-- Scroll-edge scrim: fades page content toward the background just behind/below the bar so a
+           clear-glass bar stays legible (HIG scroll-edge effect), without frosting the bar itself.
+           Colour = the page BackgroundColor (light) with increasing alpha toward the bottom. -->
+      <LinearGradientBrush x:Key="FloatingTabBarScrimBrush" StartPoint="0.5,0" EndPoint="0.5,1">
+        <GradientStop Offset="0" Color="#00FFF8F7" />
+        <GradientStop Offset="0.5" Color="#26FFF8F7" />
+        <GradientStop Offset="1" Color="#C2FFF8F7" />
+      </LinearGradientBrush>
 
-      <SolidColorBrush x:Key="FloatingTabBarBackgroundBrush" Color="{StaticResource FloatingTabBarBackgroundColor}" />
+      <!-- Liquid-Glass backdrop blur: AlwaysUseFallback=False turns on the real in-app blur of the
+           content behind the bar (Backdrop acrylic, supported on all targets via the Skia renderer);
+           FallbackColor is used only where a backdrop isn't available. The BackgroundBorder it fills
+           has no children, satisfying the acrylic no-children requirement. -->
+      <AcrylicBrush x:Key="FloatingTabBarBackgroundBrush"
+                    AlwaysUseFallback="False"
+                    TintColor="#F4F5F7"
+                    TintOpacity="0.3"
+                    TintLuminosityOpacity="0.55"
+                    FallbackColor="{StaticResource FloatingTabBarBackgroundColor}" />
       <SolidColorBrush x:Key="FloatingTabBarPuckBrush" Color="{StaticResource FloatingTabBarPuckColor}" />
       <SolidColorBrush x:Key="FloatingTabBarBorderBrush" Color="{StaticResource FloatingTabBarBorderColor}" />
       <SolidColorBrush x:Key="FloatingTabBarPuckBorderBrush" Color="{StaticResource FloatingTabBarPuckBorderColor}" />
@@ -79,12 +97,24 @@
     <ResourceDictionary x:Key="Default">
       <!-- Surface: ~92% translucent, a step above the near-black page; selected capsule is a
            lighter raised glass. -->
-      <Color x:Key="FloatingTabBarBackgroundColor">#EB3A384C</Color>
+      <Color x:Key="FloatingTabBarBackgroundColor">#3A384C</Color>
       <Color x:Key="FloatingTabBarPuckColor">#FF474463</Color>
       <Color x:Key="FloatingTabBarBorderColor">#1FFFFFFF</Color>
       <Color x:Key="FloatingTabBarPuckBorderColor">#14FFFFFF</Color>
+      <Color x:Key="FloatingTabBarSheenColor">#3DFFFFFF</Color>
+      <!-- Scroll-edge scrim = the page BackgroundColor (dark) fading in toward the bottom. -->
+      <LinearGradientBrush x:Key="FloatingTabBarScrimBrush" StartPoint="0.5,0" EndPoint="0.5,1">
+        <GradientStop Offset="0" Color="#002A2836" />
+        <GradientStop Offset="0.5" Color="#262A2836" />
+        <GradientStop Offset="1" Color="#C22A2836" />
+      </LinearGradientBrush>
 
-      <SolidColorBrush x:Key="FloatingTabBarBackgroundBrush" Color="{StaticResource FloatingTabBarBackgroundColor}" />
+      <AcrylicBrush x:Key="FloatingTabBarBackgroundBrush"
+                    AlwaysUseFallback="False"
+                    TintColor="#44415C"
+                    TintOpacity="0.34"
+                    TintLuminosityOpacity="0.58"
+                    FallbackColor="{StaticResource FloatingTabBarBackgroundColor}" />
       <SolidColorBrush x:Key="FloatingTabBarPuckBrush" Color="{StaticResource FloatingTabBarPuckColor}" />
       <SolidColorBrush x:Key="FloatingTabBarBorderBrush" Color="{StaticResource FloatingTabBarBorderColor}" />
       <SolidColorBrush x:Key="FloatingTabBarPuckBorderBrush" Color="{StaticResource FloatingTabBarPuckBorderColor}" />
@@ -326,6 +356,20 @@
                     BorderBrush="{TemplateBinding BorderBrush}"
                     BorderThickness="{TemplateBinding BorderThickness}"
                     CornerRadius="{TemplateBinding CornerRadius}" />
+
+            <!-- Specular sheen: a soft top-edge highlight, as Liquid Glass catches light on its rim
+                 (HIG: the material carries reflections/highlights). Behind the items so it doesn't
+                 wash the labels; hit-test-invisible. -->
+            <Border x:Name="Sheen"
+                    IsHitTestVisible="False"
+                    CornerRadius="{TemplateBinding CornerRadius}">
+              <Border.Background>
+                <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                  <GradientStop Offset="0" Color="{ThemeResource FloatingTabBarSheenColor}" />
+                  <GradientStop Offset="0.45" Color="#00FFFFFF" />
+                </LinearGradientBrush>
+              </Border.Background>
+            </Border>
 
             <!-- Behind the icons (SelectionIndicatorPlacement=Below). -->
             <utu:TabBarSelectionIndicatorPresenter x:Name="BelowSelectionIndicatorPresenter"

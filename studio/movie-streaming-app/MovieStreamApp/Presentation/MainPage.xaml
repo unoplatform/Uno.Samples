@@ -20,6 +20,15 @@
       <Grid uen:Region.Attached="True"
             uen:Region.Navigator="Visibility" />
 
+      <!-- Scroll-edge scrim (Apple Liquid Glass legibility): fades content toward the page background
+           just behind/below the floating bar so the clear glass stays legible over bright posters,
+           without frosting the bar itself. Sits between the content and the bar; the bar's backdrop
+           blurs this already-dimmed edge. -->
+      <Border Height="168"
+              VerticalAlignment="Bottom"
+              IsHitTestVisible="False"
+              Background="{ThemeResource FloatingTabBarScrimBrush}" />
+
       <!-- Bottom floating TabBar: overlays content, centred capsule -->
       <utu:TabBar x:Name="BottomTabs"
                   uen:Region.Attached="True"
