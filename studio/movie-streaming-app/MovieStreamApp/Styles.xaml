@@ -9,6 +9,21 @@
     overrides win over the framework defaults. Pages only consume these keys.
   -->
 
+  <!--
+    Outlined-button hover: the Simple theme aliases OutlinedButtonBackgroundPointerOver to the filled
+    tonal button's hover (a SOLID PrimaryContainer — a saturated indigo in dark, lavender in light),
+    which reads as a jarring block fill on an outlined control. Replace it with a subtle neutral
+    overlay so a hovered outlined button (e.g. Sign Out) lifts gently instead. Per theme.
+  -->
+  <ResourceDictionary.ThemeDictionaries>
+    <ResourceDictionary x:Key="Light">
+      <SolidColorBrush x:Key="OutlinedButtonBackgroundPointerOver" Color="#14000000" />
+    </ResourceDictionary>
+    <ResourceDictionary x:Key="Default">
+      <SolidColorBrush x:Key="OutlinedButtonBackgroundPointerOver" Color="#1FFFFFFF" />
+    </ResourceDictionary>
+  </ResourceDictionary.ThemeDictionaries>
+
   <!-- Converters -->
   <conv:IconConverter x:Key="Icon" />
   <conv:BoolToVisibilityConverter x:Key="BoolToVisibility" />
