@@ -14,7 +14,7 @@
   -->
   <Grid utu:SafeArea.Insets="Top">
     <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
-      <StackPanel MaxWidth="1100" HorizontalAlignment="Stretch" Padding="{utu:Responsive Narrow='0,0,0,110', Wide='128,0,24,28'}" Spacing="0">
+      <StackPanel MaxWidth="1400" HorizontalAlignment="Stretch" Padding="{utu:Responsive Narrow='0,0,0,110', Wide='128,0,24,28'}" Spacing="0">
 
         <!-- Top bar: CineStream wordmark + notifications -->
         <Grid Padding="20,16,20,12">
@@ -170,7 +170,8 @@
         <TextBlock Text="New Arrivals" Style="{StaticResource TitleMedium}" Foreground="{ThemeResource OnBackgroundBrush}" Margin="20,28,20,12" />
         <ItemsRepeater ItemsSource="{Binding NewArrivals}" Margin="20,0">
           <ItemsRepeater.Layout>
-            <StackLayout Orientation="Vertical" Spacing="12" />
+            <!-- Reflows 1 column (phone) → 2-3 (tablet/desktop) so the wide row cards use the width. -->
+            <UniformGridLayout MinItemWidth="340" MinColumnSpacing="16" MinRowSpacing="12" ItemsStretch="Fill" />
           </ItemsRepeater.Layout>
           <ItemsRepeater.ItemTemplate>
             <DataTemplate>
