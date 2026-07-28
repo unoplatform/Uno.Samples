@@ -6,13 +6,18 @@
       Background="{ThemeResource BackgroundBrush}">
 
   <!--
-    Navigation shell. Owns the chrome once for the whole app: an iOS-style floating capsule TabBar
-    (FloatingTabBarStyle) centred over the content on every width. The content region and the TabBar
-    share a single Grid cell so the bar OVERLAYS the content (last in z-order) and content scrolls
-    behind the translucent glass (HIG peek-through); each page reserves a bottom inset so its last
-    item clears the bar. Icons are PathIcon vector geometry (via the shared Icon converter) so they
-    render in the design host too — the outline glyph is the Icon, the filled glyph the Tag (shown
-    when the tab is selected). Region names match the nested route names in App.xaml.cs.
+    Navigation shell. Owns the chrome once for the whole app as ONE Liquid-Glass system that
+    adapts to the form factor: a bottom floating capsule TabBar on phones (Narrow), and a
+    floating vertical glass rail pinned to the left on larger, non-mobile layouts (Wide). Both
+    are utu:TabBars sharing the same content region and route names, so selection stays in sync
+    and only one is visible at a time ({utu:Responsive} on Visibility, not AdaptiveTrigger).
+
+    The content region and both bars share a single Grid cell, so whichever bar is showing
+    OVERLAYS the content (last in z-order) and content scrolls behind the translucent glass
+    (the backdrop blur distorts it); each page reserves an inset — bottom on Narrow, left on
+    Wide — so its content clears the bar. Icons are PathIcon vector geometry (via the shared Icon
+    converter) so they render in the design host too — the outline glyph is the Icon, the filled
+    glyph the Tag (shown when selected). Region names match the nested routes in App.xaml.cs.
   -->
   <Grid uen:Region.Attached="True">
     <Grid>
@@ -20,19 +25,65 @@
       <Grid uen:Region.Attached="True"
             uen:Region.Navigator="Visibility" />
 
-      <!-- Scroll-edge scrim (Apple Liquid Glass legibility): fades content toward the page background
-           just behind/below the floating bar so the clear glass stays legible over bright posters,
-           without frosting the bar itself. Sits between the content and the bar; the bar's backdrop
-           blurs this already-dimmed edge. -->
+      <!-- Scroll-edge scrims (Apple Liquid Glass legibility): fade content toward the page
+           background just behind the floating bar so the clear glass stays legible over bright
+           posters. Bottom scrim on Narrow (behind the TabBar); left scrim on Wide (behind the
+           rail). The bar's backdrop blurs this already-dimmed edge. -->
       <Border Height="168"
               VerticalAlignment="Bottom"
               IsHitTestVisible="False"
-              Background="{ThemeResource FloatingTabBarScrimBrush}" />
+              Background="{ThemeResource FloatingTabBarScrimBrush}"
+              Visibility="{utu:Responsive Narrow=Visible, Wide=Collapsed}" />
+      <Border Width="200"
+              HorizontalAlignment="Left"
+              IsHitTestVisible="False"
+              Background="{ThemeResource SideNavScrimBrush}"
+              Visibility="{utu:Responsive Narrow=Collapsed, Wide=Visible}" />
 
-      <!-- Bottom floating TabBar: overlays content, centred capsule -->
+      <!-- Bottom floating TabBar (Narrow): overlays content, centred capsule -->
       <utu:TabBar x:Name="BottomTabs"
                   uen:Region.Attached="True"
-                  Style="{StaticResource FloatingTabBarStyle}">
+                  Style="{StaticResource FloatingTabBarStyle}"
+                  Visibility="{utu:Responsive Narrow=Visible, Wide=Collapsed}">
+        <utu:TabBarItem uen:Region.Name="Browse" Content="Browse">
+          <utu:TabBarItem.Tag>
+            <PathIcon Data="{Binding Source=browse, Converter={StaticResource Icon}, ConverterParameter=filled}" />
+          </utu:TabBarItem.Tag>
+          <utu:TabBarItem.Icon>
+            <PathIcon Data="{Binding Source=browse, Converter={StaticResource Icon}}" />
+          </utu:TabBarItem.Icon>
+        </utu:TabBarItem>
+        <utu:TabBarItem uen:Region.Name="Search" Content="Search">
+          <utu:TabBarItem.Tag>
+            <PathIcon Data="{Binding Source=search, Converter={StaticResource Icon}, ConverterParameter=filled}" />
+          </utu:TabBarItem.Tag>
+          <utu:TabBarItem.Icon>
+            <PathIcon Data="{Binding Source=search, Converter={StaticResource Icon}}" />
+          </utu:TabBarItem.Icon>
+        </utu:TabBarItem>
+        <utu:TabBarItem uen:Region.Name="SocialFeed" Content="Friends">
+          <utu:TabBarItem.Tag>
+            <PathIcon Data="{Binding Source=friends, Converter={StaticResource Icon}, ConverterParameter=filled}" />
+          </utu:TabBarItem.Tag>
+          <utu:TabBarItem.Icon>
+            <PathIcon Data="{Binding Source=friends, Converter={StaticResource Icon}}" />
+          </utu:TabBarItem.Icon>
+        </utu:TabBarItem>
+        <utu:TabBarItem uen:Region.Name="Profile" Content="Profile">
+          <utu:TabBarItem.Tag>
+            <PathIcon Data="{Binding Source=profile, Converter={StaticResource Icon}, ConverterParameter=filled}" />
+          </utu:TabBarItem.Tag>
+          <utu:TabBarItem.Icon>
+            <PathIcon Data="{Binding Source=profile, Converter={StaticResource Icon}}" />
+          </utu:TabBarItem.Icon>
+        </utu:TabBarItem>
+      </utu:TabBar>
+
+      <!-- Side floating glass rail (Wide / non-mobile): overlays content, pinned left, centred -->
+      <utu:TabBar x:Name="SideNav"
+                  uen:Region.Attached="True"
+                  Style="{StaticResource FloatingSideBarStyle}"
+                  Visibility="{utu:Responsive Narrow=Collapsed, Wide=Visible}">
         <utu:TabBarItem uen:Region.Name="Browse" Content="Browse">
           <utu:TabBarItem.Tag>
             <PathIcon Data="{Binding Source=browse, Converter={StaticResource Icon}, ConverterParameter=filled}" />

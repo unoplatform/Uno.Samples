@@ -89,6 +89,23 @@
       <StaticResource x:Key="FloatingTabBarItemForegroundBrush" ResourceKey="OnSurfaceMediumBrush" />
       <!-- HIG: the selected tab tints with the app accent. -->
       <StaticResource x:Key="FloatingTabBarItemForegroundSelectedBrush" ResourceKey="PrimaryBrush" />
+
+      <!-- ─── Liquid Glass side nav (wide / non-mobile layouts) ─── -->
+      <!-- The pane is a floating rounded glass panel over the full-bleed content: a backdrop blur
+           (media:BackdropBlur on the panel) distorts the content behind it, a thin tint keeps it
+           transparent, and a hairline draws the rim — the vertical twin of the floating TabBar. -->
+      <SolidColorBrush x:Key="SideNavPaneTintBrush" Color="#1FF4F5F7" />
+      <SolidColorBrush x:Key="SideNavPaneBorderBrush" Color="#14000000" />
+      <Color x:Key="SideNavSheenColor">#40FFFFFF</Color>
+      <!-- Selected item: a raised glass lozenge (white lift) + accent glyph/label. -->
+      <SolidColorBrush x:Key="SideNavItemSelectedBrush" Color="#FFFFFFFF" />
+      <SolidColorBrush x:Key="SideNavItemSelectedBorderBrush" Color="#0F000000" />
+      <!-- Left scroll-edge scrim: fades content toward the page background behind the rail. -->
+      <LinearGradientBrush x:Key="SideNavScrimBrush" StartPoint="0,0.5" EndPoint="1,0.5">
+        <GradientStop Offset="0" Color="#99FFF8F7" />
+        <GradientStop Offset="0.5" Color="#1AFFF8F7" />
+        <GradientStop Offset="1" Color="#00FFF8F7" />
+      </LinearGradientBrush>
     </ResourceDictionary>
 
     <!-- ─── Dark (Default) ─── -->
@@ -121,6 +138,18 @@
       <StaticResource x:Key="FloatingTabBarItemForegroundBrush" ResourceKey="OnSurfaceMediumBrush" />
       <!-- HIG: the selected tab tints with the app accent. -->
       <StaticResource x:Key="FloatingTabBarItemForegroundSelectedBrush" ResourceKey="PrimaryBrush" />
+
+      <!-- ─── Liquid Glass side nav (wide / non-mobile layouts) ─── -->
+      <SolidColorBrush x:Key="SideNavPaneTintBrush" Color="#2E44415C" />
+      <SolidColorBrush x:Key="SideNavPaneBorderBrush" Color="#1FFFFFFF" />
+      <Color x:Key="SideNavSheenColor">#3DFFFFFF</Color>
+      <SolidColorBrush x:Key="SideNavItemSelectedBrush" Color="#FF474463" />
+      <SolidColorBrush x:Key="SideNavItemSelectedBorderBrush" Color="#14FFFFFF" />
+      <LinearGradientBrush x:Key="SideNavScrimBrush" StartPoint="0,0.5" EndPoint="1,0.5">
+        <GradientStop Offset="0" Color="#992A2836" />
+        <GradientStop Offset="0.5" Color="#1A2A2836" />
+        <GradientStop Offset="1" Color="#002A2836" />
+      </LinearGradientBrush>
     </ResourceDictionary>
 
   </ResourceDictionary.ThemeDictionaries>
@@ -427,6 +456,250 @@
                     <Setter Target="AboveSelectionIndicatorPresenter.Visibility" Value="Collapsed" />
                   </VisualState.Setters>
                 </VisualState>
+              </VisualStateGroup>
+            </VisualStateManager.VisualStateGroups>
+          </Grid>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
+
+  <!--
+    ═══════════════════════════════════════════════════════════════════════════════════════
+      FloatingSideBar — the vertical twin of the floating TabBar, for wide / non-mobile layouts.
+    ═══════════════════════════════════════════════════════════════════════════════════════
+
+    A detached, floating glass rail pinned to the left edge and centred vertically, over the
+    same full-bleed content. It shares the floating bar's material — a controllable backdrop
+    blur (media:BackdropBlur) that distorts the content behind it, a thin tint that keeps it
+    transparent, a hairline rim, a top specular sheen, and a soft cast shadow — so the two
+    chrome forms read as one Liquid-Glass system across form factors.
+
+    Selection is drawn PER ITEM (a raised glass lozenge behind the active tab) rather than with
+    the sliding indicator the horizontal bar uses: a vertical StackPanel host makes the moving
+    indicator's geometry unreliable, whereas the item's own Selected state is orientation-proof.
+  -->
+  <x:Double x:Key="FloatingSideBarItemWidth">88</x:Double>
+  <x:Double x:Key="FloatingSideBarItemHeight">62</x:Double>
+  <CornerRadius x:Key="FloatingSideBarCornerRadius">32</CornerRadius>
+  <CornerRadius x:Key="FloatingSideBarItemCornerRadius">19</CornerRadius>
+
+  <Style x:Key="FloatingSideBarItemStyle"
+         BasedOn="{StaticResource SimpleBottomTabBarItemStyle}"
+         TargetType="utu:TabBarItem">
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="Foreground" Value="{ThemeResource FloatingTabBarItemForegroundBrush}" />
+    <Setter Property="Width" Value="{StaticResource FloatingSideBarItemWidth}" />
+    <Setter Property="Height" Value="{StaticResource FloatingSideBarItemHeight}" />
+    <Setter Property="Margin" Value="0,3" />
+    <Setter Property="HorizontalContentAlignment" Value="Center" />
+    <Setter Property="VerticalContentAlignment" Value="Center" />
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="utu:TabBarItem">
+          <Grid x:Name="LayoutRoot"
+                Background="{TemplateBinding Background}"
+                Control.IsTemplateFocusTarget="True"
+                RenderTransformOrigin="0.5,0.5">
+            <Grid.RenderTransform>
+              <ScaleTransform x:Name="PressScaleTransform" />
+            </Grid.RenderTransform>
+
+            <!-- Raised glass lozenge behind the selected tab (the vertical equivalent of the
+                 horizontal bar's sliding puck), shown only in the Selected states. -->
+            <Border x:Name="SelectedBackground"
+                    Margin="4,2"
+                    Background="{ThemeResource SideNavItemSelectedBrush}"
+                    BorderBrush="{ThemeResource SideNavItemSelectedBorderBrush}"
+                    BorderThickness="1"
+                    CornerRadius="{StaticResource FloatingSideBarItemCornerRadius}"
+                    Visibility="Collapsed" />
+
+            <Grid x:Name="ContentGrid"
+                  HorizontalAlignment="Center"
+                  VerticalAlignment="Center"
+                  RowSpacing="2">
+              <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+              </Grid.RowDefinitions>
+
+              <Viewbox x:Name="IconBox"
+                       Grid.Row="0"
+                       Width="{StaticResource FloatingTabBarIconSize}"
+                       Height="{StaticResource FloatingTabBarIconSize}"
+                       HorizontalAlignment="Center">
+                <Grid>
+                  <ContentPresenter x:Name="Icon"
+                                    Content="{TemplateBinding Icon}"
+                                    Foreground="{TemplateBinding Foreground}" />
+                  <ContentPresenter x:Name="IconSelected"
+                                    Content="{TemplateBinding Tag}"
+                                    Foreground="{TemplateBinding Foreground}"
+                                    Visibility="Collapsed" />
+                </Grid>
+              </Viewbox>
+
+              <ContentPresenter x:Name="ContentPresenter"
+                                Grid.Row="1"
+                                Content="{TemplateBinding Content}"
+                                ContentTemplate="{TemplateBinding ContentTemplate}"
+                                Foreground="{TemplateBinding Foreground}"
+                                FontFamily="{TemplateBinding FontFamily}"
+                                FontSize="{StaticResource FloatingTabBarLabelFontSize}"
+                                HorizontalAlignment="Center"
+                                TextWrapping="NoWrap"
+                                AutomationProperties.AccessibilityView="Raw" />
+            </Grid>
+
+            <VisualStateManager.VisualStateGroups>
+              <VisualStateGroup x:Name="CommonStates">
+                <VisualState x:Name="Normal" />
+                <VisualState x:Name="PointerOver" />
+                <VisualState x:Name="Pressed">
+                  <VisualState.Setters>
+                    <Setter Target="PressScaleTransform.ScaleX" Value="{StaticResource FloatingTabBarPressScale}" />
+                    <Setter Target="PressScaleTransform.ScaleY" Value="{StaticResource FloatingTabBarPressScale}" />
+                  </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Selected">
+                  <VisualState.Setters>
+                    <Setter Target="SelectedBackground.Visibility" Value="Visible" />
+                    <Setter Target="Icon.Visibility" Value="Collapsed" />
+                    <Setter Target="IconSelected.Visibility" Value="Visible" />
+                    <Setter Target="IconSelected.Foreground" Value="{ThemeResource FloatingTabBarItemForegroundSelectedBrush}" />
+                    <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource FloatingTabBarItemForegroundSelectedBrush}" />
+                  </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="PointerOverSelected">
+                  <VisualState.Setters>
+                    <Setter Target="SelectedBackground.Visibility" Value="Visible" />
+                    <Setter Target="Icon.Visibility" Value="Collapsed" />
+                    <Setter Target="IconSelected.Visibility" Value="Visible" />
+                    <Setter Target="IconSelected.Foreground" Value="{ThemeResource FloatingTabBarItemForegroundSelectedBrush}" />
+                    <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource FloatingTabBarItemForegroundSelectedBrush}" />
+                  </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="PressedSelected">
+                  <VisualState.Setters>
+                    <Setter Target="SelectedBackground.Visibility" Value="Visible" />
+                    <Setter Target="Icon.Visibility" Value="Collapsed" />
+                    <Setter Target="IconSelected.Visibility" Value="Visible" />
+                    <Setter Target="IconSelected.Foreground" Value="{ThemeResource FloatingTabBarItemForegroundSelectedBrush}" />
+                    <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource FloatingTabBarItemForegroundSelectedBrush}" />
+                    <Setter Target="PressScaleTransform.ScaleX" Value="{StaticResource FloatingTabBarPressScale}" />
+                    <Setter Target="PressScaleTransform.ScaleY" Value="{StaticResource FloatingTabBarPressScale}" />
+                  </VisualState.Setters>
+                </VisualState>
+              </VisualStateGroup>
+              <VisualStateGroup x:Name="DisabledStates">
+                <VisualState x:Name="Enabled" />
+                <VisualState x:Name="Disabled">
+                  <VisualState.Setters>
+                    <Setter Target="LayoutRoot.Opacity" Value="0.38" />
+                  </VisualState.Setters>
+                </VisualState>
+              </VisualStateGroup>
+              <VisualStateGroup x:Name="TabBarIconPositionStates">
+                <VisualState x:Name="IconOnTop" />
+                <VisualState x:Name="IconOnly" />
+                <VisualState x:Name="ContentOnly" />
+              </VisualStateGroup>
+            </VisualStateManager.VisualStateGroups>
+          </Grid>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
+
+  <Style x:Key="FloatingSideBarStyle"
+         BasedOn="{StaticResource BaseSimpleTabBarStyle}"
+         TargetType="utu:TabBar">
+    <Setter Property="Background" Value="{ThemeResource SideNavPaneTintBrush}" />
+    <Setter Property="BorderBrush" Value="{ThemeResource SideNavPaneBorderBrush}" />
+    <Setter Property="BorderThickness" Value="1" />
+    <Setter Property="CornerRadius" Value="{StaticResource FloatingSideBarCornerRadius}" />
+    <Setter Property="Padding" Value="6,14" />
+    <Setter Property="HorizontalAlignment" Value="Left" />
+    <Setter Property="VerticalAlignment" Value="Center" />
+    <Setter Property="Margin" Value="18,0,0,0" />
+    <Setter Property="utu:SafeArea.Insets" Value="Left" />
+    <Setter Property="ItemContainerStyle" Value="{StaticResource FloatingSideBarItemStyle}" />
+    <!-- Vertical StackPanel: sizes to its items so the rail hugs them into a slim capsule. -->
+    <Setter Property="ItemsPanel">
+      <Setter.Value>
+        <ItemsPanelTemplate>
+          <StackPanel Orientation="Vertical" />
+        </ItemsPanelTemplate>
+      </Setter.Value>
+    </Setter>
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="utu:TabBar">
+          <Grid x:Name="TabBarGrid">
+            <!-- Soft cast shadow, biased right + down (light comes from the upper-left). -->
+            <Border x:Name="AmbientShadow"
+                    Margin="-3,-3,-9,11"
+                    Background="{ThemeResource FloatingTabBarShadowAmbientBrush}"
+                    CornerRadius="{TemplateBinding CornerRadius}" />
+            <Border x:Name="KeyShadow"
+                    Margin="-1,-1,-5,6"
+                    Background="{ThemeResource FloatingTabBarShadowKeyBrush}"
+                    CornerRadius="{TemplateBinding CornerRadius}" />
+
+            <!-- Backdrop blur (childless host): the Liquid-Glass distortion of the content behind
+                 the rail. CornerRadius must match the rail's so the blur sprite's clip lines up. -->
+            <Border x:Name="BackgroundBorder"
+                    Background="Transparent"
+                    CornerRadius="{TemplateBinding CornerRadius}"
+                    media:BackdropBlur.Amount="48"
+                    media:BackdropBlur.CornerRadius="32" />
+
+            <!-- Thin colour veil + hairline edge, over the blur. -->
+            <Border x:Name="TintBorder"
+                    Background="{TemplateBinding Background}"
+                    BorderBrush="{TemplateBinding BorderBrush}"
+                    BorderThickness="{TemplateBinding BorderThickness}"
+                    CornerRadius="{TemplateBinding CornerRadius}" />
+
+            <!-- Specular sheen along the top rim. -->
+            <Border x:Name="Sheen"
+                    IsHitTestVisible="False"
+                    CornerRadius="{TemplateBinding CornerRadius}">
+              <Border.Background>
+                <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                  <GradientStop Offset="0" Color="{ThemeResource SideNavSheenColor}" />
+                  <GradientStop Offset="0.22" Color="#00FFFFFF" />
+                </LinearGradientBrush>
+              </Border.Background>
+            </Border>
+
+            <!-- Selection is drawn per-item; these presenters are kept (no content ⇒ invisible)
+                 only so the control's GoToState-by-name calls resolve. -->
+            <utu:TabBarSelectionIndicatorPresenter x:Name="BelowSelectionIndicatorPresenter"
+                                                   AutomationProperties.AutomationId="BelowSelectionIndicatorPresenter"
+                                                   Opacity="0"
+                                                   Owner="{Binding RelativeSource={RelativeSource TemplatedParent}}"
+                                                   Style="{TemplateBinding SelectionIndicatorPresenterStyle}"
+                                                   Visibility="Collapsed" />
+
+            <ItemsPresenter x:Name="TabBarItemsPresenter" Margin="{TemplateBinding Padding}" />
+
+            <utu:TabBarSelectionIndicatorPresenter x:Name="AboveSelectionIndicatorPresenter"
+                                                   AutomationProperties.AutomationId="AboveSelectionIndicatorPresenter"
+                                                   Opacity="0"
+                                                   Owner="{Binding RelativeSource={RelativeSource TemplatedParent}}"
+                                                   Style="{TemplateBinding SelectionIndicatorPresenterStyle}"
+                                                   Visibility="Collapsed" />
+
+            <VisualStateManager.VisualStateGroups>
+              <VisualStateGroup x:Name="OrientationStates">
+                <VisualState x:Name="Horizontal" />
+                <VisualState x:Name="Vertical" />
+              </VisualStateGroup>
+              <VisualStateGroup x:Name="IndicatorPlacementStates">
+                <VisualState x:Name="Above" />
+                <VisualState x:Name="Below" />
               </VisualStateGroup>
             </VisualStateManager.VisualStateGroups>
           </Grid>
