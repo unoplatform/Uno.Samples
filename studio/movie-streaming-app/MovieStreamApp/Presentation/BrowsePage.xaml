@@ -117,22 +117,26 @@
           </ItemsRepeater.ItemTemplate>
         </ItemsRepeater>
 
-        <!-- Trending Now -->
+        <!-- Trending Now — horizontal rail (single row: no wrapping grid, so no partial-row cell seams) -->
         <TextBlock Text="Trending Now" Style="{StaticResource TitleMedium}" Foreground="{ThemeResource OnBackgroundBrush}" Margin="20,24,20,12" />
-        <ItemsRepeater ItemsSource="{Binding Trending}" Margin="20,0">
-          <ItemsRepeater.Layout>
-            <UniformGridLayout MinItemWidth="150" MinColumnSpacing="12" MinRowSpacing="12" ItemsStretch="Fill" />
-          </ItemsRepeater.Layout>
-          <ItemsRepeater.ItemTemplate>
-            <DataTemplate>
-              <utu:CardContentControl Style="{StaticResource FilledCardContentControlStyle}"
-                                      HorizontalAlignment="Stretch"
-                                      IsClickable="True"
-                                      Content="{Binding}"
-                                      uen:Navigation.Request="{utu:Responsive Layout={StaticResource DesktopModalBreakpoint}, Narrow=MovieDetail, Wide=MovieDetail, Widest='!MovieDetailModal'}"
-                                      uen:Navigation.Data="{Binding}"
-                                      AutomationProperties.Name="{Binding Title}">
-                <utu:CardContentControl.ContentTemplate>
+        <Grid Margin="20,0">
+          <ScrollViewer x:Name="TrendingScroller"
+                        HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Disabled"
+                        HorizontalScrollMode="Enabled" VerticalScrollMode="Disabled">
+            <ItemsRepeater ItemsSource="{Binding Trending}">
+              <ItemsRepeater.Layout>
+                <StackLayout Orientation="Horizontal" Spacing="12" />
+              </ItemsRepeater.Layout>
+              <ItemsRepeater.ItemTemplate>
+                <DataTemplate>
+                  <utu:CardContentControl Style="{StaticResource FilledCardContentControlStyle}"
+                                          Width="160"
+                                          IsClickable="True"
+                                          Content="{Binding}"
+                                          uen:Navigation.Request="{utu:Responsive Layout={StaticResource DesktopModalBreakpoint}, Narrow=MovieDetail, Wide=MovieDetail, Widest='!MovieDetailModal'}"
+                                          uen:Navigation.Data="{Binding}"
+                                          AutomationProperties.Name="{Binding Title}">
+                    <utu:CardContentControl.ContentTemplate>
                   <DataTemplate>
                     <StackPanel>
                       <Grid>
@@ -160,29 +164,49 @@
                       </StackPanel>
                     </StackPanel>
                   </DataTemplate>
-                </utu:CardContentControl.ContentTemplate>
-              </utu:CardContentControl>
-            </DataTemplate>
-          </ItemsRepeater.ItemTemplate>
-        </ItemsRepeater>
+                    </utu:CardContentControl.ContentTemplate>
+                  </utu:CardContentControl>
+                </DataTemplate>
+              </ItemsRepeater.ItemTemplate>
+            </ItemsRepeater>
+          </ScrollViewer>
+          <Border Style="{StaticResource RailArrowScrimStyle}" HorizontalAlignment="Left" Visibility="{utu:Responsive Narrow=Collapsed, Wide=Visible}">
+            <Button Style="{StaticResource IconGhostButtonStyle}" Width="40" Height="40" Padding="0" Click="TrendingScrollLeft" AutomationProperties.Name="Scroll left">
+              <Viewbox Width="16" Height="16" RenderTransformOrigin="0.5,0.5">
+                <Viewbox.RenderTransform><ScaleTransform ScaleX="-1" /></Viewbox.RenderTransform>
+                <Path Data="{Binding Source=chevron, Converter={StaticResource Icon}}" Fill="White" Stretch="Uniform" />
+              </Viewbox>
+            </Button>
+          </Border>
+          <Border Style="{StaticResource RailArrowScrimStyle}" HorizontalAlignment="Right" Visibility="{utu:Responsive Narrow=Collapsed, Wide=Visible}">
+            <Button Style="{StaticResource IconGhostButtonStyle}" Width="40" Height="40" Padding="0" Click="TrendingScrollRight" AutomationProperties.Name="Scroll right">
+              <Viewbox Width="16" Height="16">
+                <Path Data="{Binding Source=chevron, Converter={StaticResource Icon}}" Fill="White" Stretch="Uniform" />
+              </Viewbox>
+            </Button>
+          </Border>
+        </Grid>
 
         <!-- New Arrivals -->
         <TextBlock Text="New Arrivals" Style="{StaticResource TitleMedium}" Foreground="{ThemeResource OnBackgroundBrush}" Margin="20,28,20,12" />
-        <ItemsRepeater ItemsSource="{Binding NewArrivals}" Margin="20,0">
-          <ItemsRepeater.Layout>
-            <!-- Reflows 1 column (phone) → 2-3 (tablet/desktop) so the wide row cards use the width. -->
-            <UniformGridLayout MinItemWidth="340" MinColumnSpacing="16" MinRowSpacing="12" ItemsStretch="Fill" />
-          </ItemsRepeater.Layout>
-          <ItemsRepeater.ItemTemplate>
-            <DataTemplate>
-              <utu:CardContentControl Style="{StaticResource FilledCardContentControlStyle}"
-                                      HorizontalAlignment="Stretch"
-                                      IsClickable="True"
-                                      Content="{Binding}"
-                                      uen:Navigation.Request="{utu:Responsive Layout={StaticResource DesktopModalBreakpoint}, Narrow=MovieDetail, Wide=MovieDetail, Widest='!MovieDetailModal'}"
-                                      uen:Navigation.Data="{Binding}"
-                                      AutomationProperties.Name="{Binding Title}">
-                <utu:CardContentControl.ContentTemplate>
+        <Grid Margin="20,0">
+          <ScrollViewer x:Name="NewArrivalsScroller"
+                        HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Disabled"
+                        HorizontalScrollMode="Enabled" VerticalScrollMode="Disabled">
+            <ItemsRepeater ItemsSource="{Binding NewArrivals}">
+              <ItemsRepeater.Layout>
+                <StackLayout Orientation="Horizontal" Spacing="16" />
+              </ItemsRepeater.Layout>
+              <ItemsRepeater.ItemTemplate>
+                <DataTemplate>
+                  <utu:CardContentControl Style="{StaticResource FilledCardContentControlStyle}"
+                                          Width="340"
+                                          IsClickable="True"
+                                          Content="{Binding}"
+                                          uen:Navigation.Request="{utu:Responsive Layout={StaticResource DesktopModalBreakpoint}, Narrow=MovieDetail, Wide=MovieDetail, Widest='!MovieDetailModal'}"
+                                          uen:Navigation.Data="{Binding}"
+                                          AutomationProperties.Name="{Binding Title}">
+                    <utu:CardContentControl.ContentTemplate>
                   <DataTemplate>
                     <Grid ColumnSpacing="14" Height="120">
                       <Grid.ColumnDefinitions>
@@ -215,11 +239,28 @@
                       </Button>
                     </Grid>
                   </DataTemplate>
-                </utu:CardContentControl.ContentTemplate>
-              </utu:CardContentControl>
-            </DataTemplate>
-          </ItemsRepeater.ItemTemplate>
-        </ItemsRepeater>
+                    </utu:CardContentControl.ContentTemplate>
+                  </utu:CardContentControl>
+                </DataTemplate>
+              </ItemsRepeater.ItemTemplate>
+            </ItemsRepeater>
+          </ScrollViewer>
+          <Border Style="{StaticResource RailArrowScrimStyle}" HorizontalAlignment="Left" Visibility="{utu:Responsive Narrow=Collapsed, Wide=Visible}">
+            <Button Style="{StaticResource IconGhostButtonStyle}" Width="40" Height="40" Padding="0" Click="NewArrivalsScrollLeft" AutomationProperties.Name="Scroll left">
+              <Viewbox Width="16" Height="16" RenderTransformOrigin="0.5,0.5">
+                <Viewbox.RenderTransform><ScaleTransform ScaleX="-1" /></Viewbox.RenderTransform>
+                <Path Data="{Binding Source=chevron, Converter={StaticResource Icon}}" Fill="White" Stretch="Uniform" />
+              </Viewbox>
+            </Button>
+          </Border>
+          <Border Style="{StaticResource RailArrowScrimStyle}" HorizontalAlignment="Right" Visibility="{utu:Responsive Narrow=Collapsed, Wide=Visible}">
+            <Button Style="{StaticResource IconGhostButtonStyle}" Width="40" Height="40" Padding="0" Click="NewArrivalsScrollRight" AutomationProperties.Name="Scroll right">
+              <Viewbox Width="16" Height="16">
+                <Path Data="{Binding Source=chevron, Converter={StaticResource Icon}}" Fill="White" Stretch="Uniform" />
+              </Viewbox>
+            </Button>
+          </Border>
+        </Grid>
 
       </StackPanel>
     </ScrollViewer>

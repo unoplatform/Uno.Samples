@@ -24,6 +24,17 @@
     </ResourceDictionary>
   </ResourceDictionary.ThemeDictionaries>
 
+  <!-- Circular translucent scrim behind a horizontal-rail scroll arrow (desktop only). Hosts a
+       ghost icon button so it reads over bright posters in both themes. -->
+  <Style x:Key="RailArrowScrimStyle" TargetType="Border">
+    <Setter Property="Width" Value="40" />
+    <Setter Property="Height" Value="40" />
+    <Setter Property="CornerRadius" Value="20" />
+    <Setter Property="Background" Value="#99000000" />
+    <Setter Property="VerticalAlignment" Value="Center" />
+    <Setter Property="Margin" Value="2,0" />
+  </Style>
+
   <!-- Converters -->
   <conv:IconConverter x:Key="Icon" />
   <conv:BoolToVisibilityConverter x:Key="BoolToVisibility" />
