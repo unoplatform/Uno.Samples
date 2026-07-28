@@ -24,7 +24,7 @@
     <StackPanel Grid.Row="0"
                 MaxWidth="1400"
                 HorizontalAlignment="Stretch"
-                Padding="20,16,20,12"
+                Padding="{utu:Responsive Narrow='20,16,20,12', Wide='128,16,24,12'}"
                 Spacing="14">
       <TextBlock Text="Discover"
                  Style="{StaticResource TitleLarge}"
@@ -165,7 +165,8 @@
           <ItemsRepeater ItemsSource="{Binding Results}"
                          Visibility="{Binding HasResults, Converter={StaticResource BoolToVisibility}}">
             <ItemsRepeater.Layout>
-              <StackLayout Orientation="Vertical" Spacing="10" />
+              <!-- Reflows 1 column (phone) → 2-3 (tablet/desktop) so results use the width. -->
+              <UniformGridLayout MinItemWidth="340" MinColumnSpacing="16" MinRowSpacing="12" ItemsStretch="Fill" />
             </ItemsRepeater.Layout>
             <ItemsRepeater.ItemTemplate>
               <DataTemplate>
