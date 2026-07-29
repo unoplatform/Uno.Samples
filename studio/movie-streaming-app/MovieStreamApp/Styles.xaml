@@ -66,6 +66,12 @@
   <Style x:Key="IconGhostButtonStyle" TargetType="Button">
     <Setter Property="Background" Value="Transparent" />
     <Setter Property="BorderThickness" Value="0" />
+    <!-- The hover/press state layer is tinted with Foreground (the button's on-color), so it
+         darkens a chrome-less button on the surface (default OnSurface, dark) yet LIGHTENS a
+         button that paints its own colored/dark background — set that button's Foreground to its
+         on-color (e.g. White / OnPrimary) and the highlight follows. A hardcoded OnSurface layer
+         instead reads as a muddy dark wash over a bright Play button in light mode. -->
+    <Setter Property="Foreground" Value="{ThemeResource OnSurfaceBrush}" />
     <Setter Property="Padding" Value="8" />
     <Setter Property="MinWidth" Value="0" />
     <Setter Property="MinHeight" Value="0" />
@@ -84,7 +90,7 @@
             </Grid.RenderTransform>
             <Border x:Name="StateLayer"
                     CornerRadius="999"
-                    Background="{ThemeResource OnSurfaceBrush}"
+                    Background="{TemplateBinding Foreground}"
                     Opacity="0" />
             <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                               VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
