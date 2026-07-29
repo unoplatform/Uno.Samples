@@ -17,13 +17,10 @@ public partial record PlaybackModel(Movie NowPlaying)
     public string ReleaseDate => NowPlaying.Year;
     public string AudienceScore => MovieData.SampleAudienceScore;
 
-    public IReadOnlyList<CastMember> Cast => new[]
-    {
-        new CastMember("Elias Mercer", "Commander Kane"),
-        new CastMember("Yuki Tanaka", "Dr. Solis"),
-        new CastMember("Ravi Osei", "Engineer Brax"),
-        new CastMember("Clara Voronova", "Mission Control"),
-    };
+    // Projected from the one shared cast pool (name + role, no avatar) so the playback screen shows the
+    // same cast as the movie's detail view instead of a second, contradicting list.
+    public IReadOnlyList<CastMember> Cast { get; } =
+        MovieData.Cast.Select(c => new CastMember(c.Name, c.Role)).ToList();
 
     public IReadOnlyList<Movie> RelatedMovies => MovieData.RelatedTo(NowPlaying);
 }

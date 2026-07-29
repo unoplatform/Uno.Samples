@@ -26,7 +26,6 @@ public partial record CastMemberDetail(
     string ImageUrl);
 
 public partial record FriendActivity(
-    string FriendId,
     string FriendName,
     string AvatarUrl,
     string Action,

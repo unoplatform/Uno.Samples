@@ -86,7 +86,7 @@ public static class MovieData
             PosterDrama, false, true),
     };
 
-    public static Movie Featured { get; } = ById("m-001");
+    public static Movie Featured { get; } = Catalog.First(m => m.IsFeatured);
 
     // Genre facets used by the Browse category chips and Search genre tiles. "All" is the reset.
     public static IReadOnlyList<string> Categories { get; } =

@@ -12,7 +12,9 @@ public partial record OnboardingModel
     public string Tagline => "Your world. Unlimited movies.";
     public string HeroImageUrl => MovieData.OnboardingHero;
 
-    public IReadOnlyList<OnboardingSlide> Slides => new[]
+    // Get-only (not expression-bodied) so the FlipView and its PipsPager bind ONE shared instance
+    // rather than a fresh array per access.
+    public IReadOnlyList<OnboardingSlide> Slides { get; } = new[]
     {
         new OnboardingSlide(
             "Discover Cinema",
