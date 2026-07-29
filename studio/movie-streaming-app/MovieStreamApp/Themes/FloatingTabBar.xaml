@@ -466,12 +466,17 @@
     transparent, a hairline rim, a top specular sheen, and a soft cast shadow — so the two
     chrome forms read as one Liquid-Glass system across form factors.
 
-    Selection is drawn PER ITEM (a raised glass lozenge behind the active tab) rather than with
-    the sliding indicator the horizontal bar uses: a vertical StackPanel host makes the moving
-    indicator's geometry unreliable, whereas the item's own Selected state is orientation-proof.
+    Selection uses the TabBar's own SLIDING indicator (a single glass lozenge that glides between
+    tabs), exactly like the horizontal bar — the trick is setting Orientation=Vertical on the bar so
+    the control lays out vertically AND drives the indicator's vertical storyboard (TranslateY). The
+    lozenge is fixed-size + centred, so it tracks each equal-size item; the item only tints its
+    icon/label when selected.
   -->
   <x:Double x:Key="FloatingSideBarItemWidth">88</x:Double>
   <x:Double x:Key="FloatingSideBarItemHeight">62</x:Double>
+  <!-- Sliding lozenge: fixed size, centred in the item cell (mirrors the old per-item 4/2 insets). -->
+  <x:Double x:Key="FloatingSideBarSelectionWidth">80</x:Double>
+  <x:Double x:Key="FloatingSideBarSelectionHeight">58</x:Double>
   <CornerRadius x:Key="FloatingSideBarCornerRadius">32</CornerRadius>
   <CornerRadius x:Key="FloatingSideBarItemCornerRadius">19</CornerRadius>
 
@@ -496,15 +501,9 @@
               <ScaleTransform x:Name="PressScaleTransform" />
             </Grid.RenderTransform>
 
-            <!-- Raised glass lozenge behind the selected tab (the vertical equivalent of the
-                 horizontal bar's sliding puck), shown only in the Selected states. -->
-            <Border x:Name="SelectedBackground"
-                    Margin="4,2"
-                    Background="{ThemeResource SideNavItemSelectedBrush}"
-                    BorderBrush="{ThemeResource SideNavItemSelectedBorderBrush}"
-                    BorderThickness="1"
-                    CornerRadius="{StaticResource FloatingSideBarItemCornerRadius}"
-                    Visibility="Collapsed" />
+            <!-- Selection is drawn by the bar's sliding indicator (see FloatingSideBarStyle), which
+                 glides a single glass lozenge between tabs — so the item only tints its icon/label
+                 when selected; it no longer paints its own background. -->
 
             <Grid x:Name="ContentGrid"
                   HorizontalAlignment="Center"
@@ -555,7 +554,6 @@
                 </VisualState>
                 <VisualState x:Name="Selected">
                   <VisualState.Setters>
-                    <Setter Target="SelectedBackground.Visibility" Value="Visible" />
                     <Setter Target="Icon.Visibility" Value="Collapsed" />
                     <Setter Target="IconSelected.Visibility" Value="Visible" />
                     <Setter Target="IconSelected.Foreground" Value="{ThemeResource FloatingTabBarItemForegroundSelectedBrush}" />
@@ -564,7 +562,6 @@
                 </VisualState>
                 <VisualState x:Name="PointerOverSelected">
                   <VisualState.Setters>
-                    <Setter Target="SelectedBackground.Visibility" Value="Visible" />
                     <Setter Target="Icon.Visibility" Value="Collapsed" />
                     <Setter Target="IconSelected.Visibility" Value="Visible" />
                     <Setter Target="IconSelected.Foreground" Value="{ThemeResource FloatingTabBarItemForegroundSelectedBrush}" />
@@ -573,7 +570,6 @@
                 </VisualState>
                 <VisualState x:Name="PressedSelected">
                   <VisualState.Setters>
-                    <Setter Target="SelectedBackground.Visibility" Value="Visible" />
                     <Setter Target="Icon.Visibility" Value="Collapsed" />
                     <Setter Target="IconSelected.Visibility" Value="Visible" />
                     <Setter Target="IconSelected.Foreground" Value="{ThemeResource FloatingTabBarItemForegroundSelectedBrush}" />
@@ -616,12 +612,33 @@
     <Setter Property="Margin" Value="18,0,0,0" />
     <Setter Property="utu:SafeArea.Insets" Value="Left" />
     <Setter Property="ItemContainerStyle" Value="{StaticResource FloatingSideBarItemStyle}" />
-    <!-- Vertical StackPanel: sizes to its items so the rail hugs them into a slim capsule. -->
+    <!-- Vertical orientation: lays the items out top-to-bottom AND drives the selection indicator's
+         vertical (TranslateY) storyboard so the lozenge slides down/up between tabs. -->
+    <Setter Property="Orientation" Value="Vertical" />
     <Setter Property="ItemsPanel">
       <Setter.Value>
         <ItemsPanelTemplate>
           <StackPanel Orientation="Vertical" />
         </ItemsPanelTemplate>
+      </Setter.Value>
+    </Setter>
+    <!-- Same sliding-indicator setup as the bottom bar: a fixed-size glass lozenge placed Below the
+         tab, gliding over 200 ms (Slide, not the default Snap). -->
+    <Setter Property="SelectionIndicatorPlacement" Value="Below" />
+    <Setter Property="SelectionIndicatorTransitionMode" Value="Slide" />
+    <Setter Property="SelectionIndicatorContentTemplate">
+      <Setter.Value>
+        <DataTemplate>
+          <Grid Width="{StaticResource FloatingSideBarSelectionWidth}"
+                Height="{StaticResource FloatingSideBarSelectionHeight}"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center">
+            <Border Background="{ThemeResource SideNavItemSelectedBrush}"
+                    BorderBrush="{ThemeResource SideNavItemSelectedBorderBrush}"
+                    BorderThickness="1"
+                    CornerRadius="{StaticResource FloatingSideBarItemCornerRadius}" />
+          </Grid>
+        </DataTemplate>
       </Setter.Value>
     </Setter>
     <Setter Property="Template">
@@ -665,10 +682,15 @@
               </Border.Background>
             </Border>
 
-            <!-- Selection is drawn per-item; these presenters are kept (no content ⇒ invisible)
-                 only so the control's GoToState-by-name calls resolve. -->
+            <!-- The sliding glass lozenge, Below the tabs (behind the icons/labels). The control
+                 translates it to the selected item and animates the move; the Vertical orientation
+                 state below aligns it for the top-to-bottom rail. -->
             <utu:TabBarSelectionIndicatorPresenter x:Name="BelowSelectionIndicatorPresenter"
                                                    AutomationProperties.AutomationId="BelowSelectionIndicatorPresenter"
+                                                   Content="{TemplateBinding SelectionIndicatorContent}"
+                                                   ContentTemplate="{TemplateBinding SelectionIndicatorContentTemplate}"
+                                                   Foreground="{TemplateBinding Foreground}"
+                                                   IndicatorTransitionMode="{TemplateBinding SelectionIndicatorTransitionMode}"
                                                    Opacity="0"
                                                    Owner="{Binding RelativeSource={RelativeSource TemplatedParent}}"
                                                    Style="{TemplateBinding SelectionIndicatorPresenterStyle}"
@@ -676,21 +698,44 @@
 
             <ItemsPresenter x:Name="TabBarItemsPresenter" Margin="{TemplateBinding Padding}" />
 
+            <!-- In front of the icons (unused while placement is Below, kept for completeness). -->
             <utu:TabBarSelectionIndicatorPresenter x:Name="AboveSelectionIndicatorPresenter"
                                                    AutomationProperties.AutomationId="AboveSelectionIndicatorPresenter"
+                                                   Content="{TemplateBinding SelectionIndicatorContent}"
+                                                   ContentTemplate="{TemplateBinding SelectionIndicatorContentTemplate}"
+                                                   Foreground="{TemplateBinding Foreground}"
+                                                   IndicatorTransitionMode="{TemplateBinding SelectionIndicatorTransitionMode}"
                                                    Opacity="0"
                                                    Owner="{Binding RelativeSource={RelativeSource TemplatedParent}}"
-                                                   Style="{TemplateBinding SelectionIndicatorPresenterStyle}"
-                                                   Visibility="Collapsed" />
+                                                   Style="{TemplateBinding SelectionIndicatorPresenterStyle}" />
 
             <VisualStateManager.VisualStateGroups>
               <VisualStateGroup x:Name="OrientationStates">
-                <VisualState x:Name="Horizontal" />
-                <VisualState x:Name="Vertical" />
+                <VisualState x:Name="Horizontal">
+                  <VisualState.Setters>
+                    <Setter Target="BelowSelectionIndicatorPresenter.VerticalContentAlignment" Value="Stretch" />
+                    <Setter Target="BelowSelectionIndicatorPresenter.HorizontalContentAlignment" Value="Left" />
+                    <Setter Target="AboveSelectionIndicatorPresenter.VerticalContentAlignment" Value="Stretch" />
+                    <Setter Target="AboveSelectionIndicatorPresenter.HorizontalContentAlignment" Value="Left" />
+                  </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Vertical">
+                  <VisualState.Setters>
+                    <Setter Target="BelowSelectionIndicatorPresenter.VerticalContentAlignment" Value="Top" />
+                    <Setter Target="BelowSelectionIndicatorPresenter.HorizontalContentAlignment" Value="Stretch" />
+                    <Setter Target="AboveSelectionIndicatorPresenter.VerticalContentAlignment" Value="Top" />
+                    <Setter Target="AboveSelectionIndicatorPresenter.HorizontalContentAlignment" Value="Stretch" />
+                  </VisualState.Setters>
+                </VisualState>
               </VisualStateGroup>
               <VisualStateGroup x:Name="IndicatorPlacementStates">
                 <VisualState x:Name="Above" />
-                <VisualState x:Name="Below" />
+                <VisualState x:Name="Below">
+                  <VisualState.Setters>
+                    <Setter Target="BelowSelectionIndicatorPresenter.Visibility" Value="Visible" />
+                    <Setter Target="AboveSelectionIndicatorPresenter.Visibility" Value="Collapsed" />
+                  </VisualState.Setters>
+                </VisualState>
               </VisualStateGroup>
             </VisualStateManager.VisualStateGroups>
           </Grid>
