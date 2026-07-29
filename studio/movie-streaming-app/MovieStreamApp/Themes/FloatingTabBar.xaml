@@ -52,9 +52,7 @@
 
     <!-- ─── Light ─── -->
     <ResourceDictionary x:Key="Light">
-      <!-- Surface: ~92% translucent light cool-neutral (glassier — content peeks through more);
-           selected capsule is white with a soft lift, not a hard chip. -->
-      <Color x:Key="FloatingTabBarBackgroundColor">#F0F2F5</Color>
+      <!-- Selected capsule is white with a soft lift, not a hard chip. -->
       <Color x:Key="FloatingTabBarPuckColor">#FFFFFFFF</Color>
       <Color x:Key="FloatingTabBarBorderColor">#14000000</Color>
       <Color x:Key="FloatingTabBarPuckBorderColor">#0F000000</Color>
@@ -68,10 +66,6 @@
         <GradientStop Offset="1" Color="#99FFF8F7" />
       </LinearGradientBrush>
 
-      <!-- Liquid-Glass backdrop blur: AlwaysUseFallback=False turns on the real in-app blur of the
-           content behind the bar (Backdrop acrylic, supported on all targets via the Skia renderer);
-           FallbackColor is used only where a backdrop isn't available. The BackgroundBorder it fills
-           has no children, satisfying the acrylic no-children requirement. -->
       <!-- Thin colour veil laid OVER the backdrop blur (media:BackdropBlur on BackgroundBorder does the
            distortion). Low alpha keeps the bar transparent so the blurred content reads through. -->
       <SolidColorBrush x:Key="FloatingTabBarBackgroundBrush" Color="#1FF4F5F7" />
@@ -108,9 +102,7 @@
 
     <!-- ─── Dark (Default) ─── -->
     <ResourceDictionary x:Key="Default">
-      <!-- Surface: ~92% translucent, a step above the near-black page; selected capsule is a
-           lighter raised glass. -->
-      <Color x:Key="FloatingTabBarBackgroundColor">#3A384C</Color>
+      <!-- Selected capsule is a lighter raised glass, a step above the near-black page. -->
       <Color x:Key="FloatingTabBarPuckColor">#FF474463</Color>
       <Color x:Key="FloatingTabBarBorderColor">#1FFFFFFF</Color>
       <Color x:Key="FloatingTabBarPuckBorderColor">#14FFFFFF</Color>
