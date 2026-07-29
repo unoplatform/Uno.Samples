@@ -80,8 +80,8 @@
       <SolidColorBrush x:Key="FloatingTabBarPuckBorderBrush" Color="{StaticResource FloatingTabBarPuckBorderColor}" />
 
       <!-- Soft shadow: two rounded layers (wide+faint, tight+darker); overlap fakes a falloff. -->
-      <SolidColorBrush x:Key="FloatingTabBarShadowAmbientBrush" Color="#05000000" />
-      <SolidColorBrush x:Key="FloatingTabBarShadowKeyBrush" Color="#0A000000" />
+      <SolidColorBrush x:Key="FloatingTabBarShadowAmbientBrush" Color="#03000000" />
+      <SolidColorBrush x:Key="FloatingTabBarShadowKeyBrush" Color="#05000000" />
       <!-- Selected capsule: a whisper of lift, not a Material chip shadow. -->
       <SolidColorBrush x:Key="FloatingTabBarPuckShadowBrush" Color="#12000000" />
 
@@ -639,11 +639,11 @@
           <Grid x:Name="TabBarGrid">
             <!-- Soft cast shadow, biased right + down (light comes from the upper-left). -->
             <Border x:Name="AmbientShadow"
-                    Margin="-3,-3,-9,11"
+                    Margin="-1,-1,-4,5"
                     Background="{ThemeResource FloatingTabBarShadowAmbientBrush}"
                     CornerRadius="{TemplateBinding CornerRadius}" />
             <Border x:Name="KeyShadow"
-                    Margin="-1,-1,-5,6"
+                    Margin="0,0,-2,3"
                     Background="{ThemeResource FloatingTabBarShadowKeyBrush}"
                     CornerRadius="{TemplateBinding CornerRadius}" />
 
