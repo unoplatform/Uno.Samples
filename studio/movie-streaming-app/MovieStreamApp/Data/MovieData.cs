@@ -23,12 +23,11 @@ public static class MovieData
 
     public const string HeroEpic = "https://images.pexels.com/photos/17845888/pexels-photo-17845888.jpeg?auto=compress&cs=tinysrgb&w=1200";
     public const string TheaterScreen = "https://images.pexels.com/photos/7991149/pexels-photo-7991149.jpeg?auto=compress&cs=tinysrgb&w=1200";
-    // Royalty-free progressive MP4 (Blender "Big Buck Bunny", CC-BY): a real H.264 stream the Playback
-    // screen plays via MediaPlayerElement. Remote (no bundled binary) and served over plain HTTPS with
-    // no User-Agent requirement, so it avoids the Skia-desktop 403 trap that bit the map tiles and
-    // Wikimedia images. Kept deliberately SMALL and low-profile (360p baseline H.264) so it decodes
-    // everywhere — including the iOS Simulator, whose media stack fails high-profile 720p streams.
-    public const string SampleVideo = "https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/360/Big_Buck_Bunny_360_10s_1MB.mp4";
+    // Small demo clip the Playback screen streams via MediaPlayerElement, bundled as an ms-appx asset
+    // so it plays offline on every head with no network/CORS/User-Agent concerns. A tiny (~135 KB)
+    // 240p baseline-H.264 encode of Blender's CC-BY "Big Buck Bunny" — low-profile so it decodes even
+    // on the iOS Simulator (which fails high-profile 720p streams) and small enough not to bloat the repo.
+    public const string SampleVideo = "ms-appx:///Assets/Media/big-buck-bunny-clip.mp4";
     public const string OnboardingHero = "https://images.pexels.com/photos/19281432/pexels-photo-19281432.jpeg?auto=compress&cs=tinysrgb&w=1200";
     public const string FestivalBanner = "https://images.pexels.com/photos/2504971/pexels-photo-2504971.jpeg?auto=compress&cs=tinysrgb&w=1200";
 
