@@ -1,6 +1,7 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:utu="using:Uno.Toolkit.UI"
+                    xmlns:uen="using:Uno.Extensions.Navigation.UI"
                     xmlns:conv="using:MovieStreamApp.Converters">
 
   <!--
@@ -49,7 +50,6 @@
                         Widest="1400" />
 
   <!-- Corner-radius scale (well-known Simple/WinUI token overrides) -->
-  <CornerRadius x:Key="ControlCornerRadiusSmall">6</CornerRadius>
   <CornerRadius x:Key="ControlCornerRadius">14</CornerRadius>
   <CornerRadius x:Key="OverlayCornerRadius">24</CornerRadius>
 
@@ -123,5 +123,40 @@
       </Setter.Value>
     </Setter>
   </Style>
+
+  <!-- Shared vertical poster card: image-on-top + title + star/rating, over a clickable FilledCard.
+       Used by the two rails whose tiles are identical — SocialFeed "Trending Among Friends" and
+       Playback "More Like This". DataContext is a Movie; tapping opens the responsive detail (a
+       full-screen page on phone/tablet, a centred modal on desktop). Each page keeps its own
+       ItemsRepeater layout (tile width); only the tile itself is shared here. -->
+  <DataTemplate x:Key="MoviePosterCardTemplate">
+    <utu:CardContentControl Style="{StaticResource FilledCardContentControlStyle}"
+                            HorizontalAlignment="Stretch"
+                            IsClickable="True"
+                            Content="{Binding}"
+                            uen:Navigation.Request="{utu:Responsive Layout={StaticResource DesktopModalBreakpoint}, Narrow=MovieDetail, Wide=MovieDetail, Widest='!MovieDetailModal'}"
+                            uen:Navigation.Data="{Binding}">
+      <utu:CardContentControl.ContentTemplate>
+        <DataTemplate>
+          <StackPanel>
+            <Border Height="190" CornerRadius="12,12,0,0">
+              <Border.Background>
+                <ImageBrush ImageSource="{Binding ImageUrl}" Stretch="UniformToFill" />
+              </Border.Background>
+            </Border>
+            <StackPanel Padding="10,8" Spacing="3">
+              <TextBlock Text="{Binding Title}" Style="{StaticResource LabelLarge}" Foreground="{ThemeResource OnSurfaceBrush}" TextTrimming="CharacterEllipsis" MaxLines="1" />
+              <StackPanel Orientation="Horizontal" Spacing="4" VerticalAlignment="Center">
+                <Viewbox Width="12" Height="12">
+                  <Path Data="{Binding Source=star, Converter={StaticResource Icon}, ConverterParameter=filled}" Fill="{ThemeResource TertiaryBrush}" Stretch="Uniform" />
+                </Viewbox>
+                <TextBlock Text="{Binding Rating}" Style="{StaticResource BodySmall}" Foreground="{ThemeResource TertiaryBrush}" VerticalAlignment="Center" />
+              </StackPanel>
+            </StackPanel>
+          </StackPanel>
+        </DataTemplate>
+      </utu:CardContentControl.ContentTemplate>
+    </utu:CardContentControl>
+  </DataTemplate>
 
 </ResourceDictionary>

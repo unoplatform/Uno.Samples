@@ -161,41 +161,10 @@
         <!-- Trending Among Friends -->
         <StackPanel Spacing="10">
           <TextBlock Text="Trending Among Friends" Style="{StaticResource TitleMedium}" Foreground="{ThemeResource OnBackgroundBrush}" />
-          <ItemsRepeater ItemsSource="{Binding TrendingAmongFriends}">
+          <ItemsRepeater ItemsSource="{Binding TrendingAmongFriends}" ItemTemplate="{StaticResource MoviePosterCardTemplate}">
             <ItemsRepeater.Layout>
               <UniformGridLayout MinItemWidth="150" MinColumnSpacing="12" MinRowSpacing="12" ItemsStretch="Fill" />
             </ItemsRepeater.Layout>
-            <ItemsRepeater.ItemTemplate>
-              <DataTemplate>
-                <utu:CardContentControl Style="{StaticResource FilledCardContentControlStyle}"
-                                        HorizontalAlignment="Stretch"
-                                        IsClickable="True"
-                                        Content="{Binding}"
-                                        uen:Navigation.Request="{utu:Responsive Layout={StaticResource DesktopModalBreakpoint}, Narrow=MovieDetail, Wide=MovieDetail, Widest='!MovieDetailModal'}"
-                                        uen:Navigation.Data="{Binding}">
-                  <utu:CardContentControl.ContentTemplate>
-                    <DataTemplate>
-                      <StackPanel>
-                        <Border Height="200" CornerRadius="12,12,0,0">
-                          <Border.Background>
-                            <ImageBrush ImageSource="{Binding ImageUrl}" Stretch="UniformToFill" />
-                          </Border.Background>
-                        </Border>
-                        <StackPanel Padding="10,8" Spacing="3">
-                          <TextBlock Text="{Binding Title}" Style="{StaticResource LabelLarge}" Foreground="{ThemeResource OnSurfaceBrush}" TextTrimming="CharacterEllipsis" MaxLines="1" />
-                          <StackPanel Orientation="Horizontal" Spacing="4">
-                            <Viewbox Width="12" Height="12" VerticalAlignment="Center">
-                              <Path Data="{Binding Source=star, Converter={StaticResource Icon}, ConverterParameter=filled}" Fill="{ThemeResource TertiaryBrush}" Stretch="Uniform" />
-                            </Viewbox>
-                            <TextBlock Text="{Binding Rating}" Style="{StaticResource BodySmall}" Foreground="{ThemeResource TertiaryBrush}" VerticalAlignment="Center" />
-                          </StackPanel>
-                        </StackPanel>
-                      </StackPanel>
-                    </DataTemplate>
-                  </utu:CardContentControl.ContentTemplate>
-                </utu:CardContentControl>
-              </DataTemplate>
-            </ItemsRepeater.ItemTemplate>
           </ItemsRepeater>
         </StackPanel>
 
