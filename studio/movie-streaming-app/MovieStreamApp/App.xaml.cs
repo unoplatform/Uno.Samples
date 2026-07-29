@@ -56,7 +56,8 @@ public partial class App : Application
         MainWindow.SetWindowIcon();
 
         // Navigate to the Shell, which shows the extended splash screen while the host starts and
-        // then reveals the navigated content (Main -> Browse) in its place.
+        // then reveals the navigated content in its place (ShellModel picks Onboarding on first run,
+        // otherwise Main -> Browse).
         Host = await builder.NavigateAsync<Shell>();
     }
 
