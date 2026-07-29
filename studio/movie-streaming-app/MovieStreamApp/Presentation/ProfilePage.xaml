@@ -167,12 +167,18 @@
                             </Viewbox>
                           </Border>
 
-                          <!-- Label + subtitle -->
+                          <!-- Label + optional subtitle. The subtitle MUST collapse when empty: an
+                               always-present empty TextBlock still reserves a line, which pushes the
+                               single-line rows' label off the row's vertical centre while the leading
+                               icon and trailing chevron stay centred — so rows with and without a
+                               subtitle would misalign. (Uno implicitly maps the empty string to
+                               Collapsed, matching the "optional comment" pattern on SocialFeedPage.) -->
                           <StackPanel Grid.Column="1" VerticalAlignment="Center" Spacing="1">
                             <TextBlock Text="{Binding Label}"
                                        Style="{StaticResource BodyMedium}"
                                        Foreground="{ThemeResource OnSurfaceBrush}" />
                             <TextBlock Text="{Binding Subtitle}"
+                                       Visibility="{Binding Subtitle}"
                                        Style="{StaticResource BodySmall}"
                                        Foreground="{ThemeResource OutlineBrush}"
                                        TextTrimming="CharacterEllipsis"
