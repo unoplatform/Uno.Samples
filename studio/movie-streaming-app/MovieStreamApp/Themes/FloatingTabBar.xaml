@@ -157,11 +157,14 @@
   <x:Double x:Key="FloatingTabBarLabelFontSize">10</x:Double>
   <x:Double x:Key="FloatingTabBarPressScale">0.98</x:Double>
   <!-- Selection lozenge: the Liquid-Glass capsule that hugs the selected tab. Fixed size + centred
-       (never sized by margins, which would balloon with the cell width). Geometry mirrors the side
-       rail's per-item lozenge — same 4/2 insets from the item bounds and the same rounded-rect
-       radius — so the two bars read as one system across form factors. -->
-  <x:Double x:Key="FloatingTabBarSelectionWidth">74</x:Double>
-  <x:Double x:Key="FloatingTabBarSelectionHeight">54</x:Double>
+       (never sized by margins, which would balloon with the cell width). It sits INSIDE the item
+       cell with a generous inset (≈8px horizontal / 5px vertical) so the end tabs' lozenge clears
+       the capsule's rounded ends. The bottom bar can't borrow the side rail's trick of end-padding
+       the panel (a horizontal Padding here would desync the sliding indicator, which sizes its cell
+       to barWidth/itemCount): the breathing room must come from the lozenge being smaller than the
+       cell, not from bar padding. So this inset is deliberately larger than the rail's tight 4/2. -->
+  <x:Double x:Key="FloatingTabBarSelectionWidth">66</x:Double>
+  <x:Double x:Key="FloatingTabBarSelectionHeight">48</x:Double>
   <!-- Bar radius = height / 2 → a full capsule; lozenge radius matches the side rail's (19). -->
   <CornerRadius x:Key="FloatingTabBarCornerRadius">29</CornerRadius>
   <CornerRadius x:Key="FloatingTabBarSelectionCornerRadius">19</CornerRadius>
