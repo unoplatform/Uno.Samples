@@ -25,10 +25,15 @@
             <Rectangle Width="1600" Height="900" Fill="Transparent" />
           </Viewbox>
 
+          <!-- Real video surface: the Uno MediaPlayerElement streams VideoUrl, showing VideoThumbUrl
+               as its poster until the first frame decodes. Its built-in transport is disabled — the
+               custom Liquid-Glass controls below drive MediaPlayerElement.MediaPlayer directly
+               (PlaybackPage.xaml.cs). The host Border clips the video to the page's bottom corners. -->
           <Border CornerRadius="0,0,24,24">
-            <Border.Background>
-              <ImageBrush ImageSource="{Binding VideoThumbUrl}" Stretch="UniformToFill" />
-            </Border.Background>
+            <MediaPlayerElement x:Name="Player"
+                                AreTransportControlsEnabled="False"
+                                PosterSource="{Binding VideoThumbUrl}"
+                                Stretch="UniformToFill" />
           </Border>
 
           <!-- Darken so controls stay legible over any frame -->
@@ -48,12 +53,13 @@
                   Foreground="White"
                   Width="76" Height="76"
                   HorizontalAlignment="Center" VerticalAlignment="Center"
+                  Click="TogglePlayPause"
                   AutomationProperties.Name="Play or pause">
             <Grid>
-              <Viewbox Width="34" Height="34" Visibility="{Binding IsPlaying, Converter={StaticResource BoolToVisibility}, ConverterParameter=invert}">
+              <Viewbox x:Name="CenterPlayIcon" Width="34" Height="34" Visibility="Collapsed">
                 <Path Data="{Binding Source=play, Converter={StaticResource Icon}}" Fill="White" Stretch="Uniform" />
               </Viewbox>
-              <Viewbox Width="34" Height="34" Visibility="{Binding IsPlaying, Converter={StaticResource BoolToVisibility}}">
+              <Viewbox x:Name="CenterPauseIcon" Width="34" Height="34">
                 <Path Data="{Binding Source=pause, Converter={StaticResource Icon}}" Fill="White" Stretch="Uniform" />
               </Viewbox>
             </Grid>
@@ -83,18 +89,20 @@
               <ColumnDefinition Width="*" />
               <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
-            <TextBlock Grid.Column="0" Text="{Binding CurrentTimeLabel}" Style="{StaticResource LabelSmall}" Foreground="{ThemeResource OnBackgroundBrush}" VerticalAlignment="Center" />
-            <Slider Grid.Column="1"
-                    Value="{Binding PlaybackProgress}"
+            <TextBlock x:Name="CurrentTime" Grid.Column="0" Text="0:00" Style="{StaticResource LabelSmall}" Foreground="{ThemeResource OnBackgroundBrush}" VerticalAlignment="Center" />
+            <Slider x:Name="ScrubSlider" Grid.Column="1"
                     Minimum="0" Maximum="1"
-                    StepFrequency="0.01"
+                    StepFrequency="0.001"
                     VerticalAlignment="Center"
+                    ValueChanged="ScrubSlider_ValueChanged"
+                    PointerPressed="ScrubSlider_PointerPressed"
+                    PointerCaptureLost="ScrubSlider_PointerReleased"
                     AutomationProperties.Name="Playback position" />
-            <TextBlock Grid.Column="2" Text="{Binding TotalTimeLabel}" Style="{StaticResource LabelSmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" VerticalAlignment="Center" />
+            <TextBlock x:Name="TotalTime" Grid.Column="2" Text="0:00" Style="{StaticResource LabelSmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" VerticalAlignment="Center" />
           </Grid>
 
           <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="14">
-            <Button Style="{StaticResource IconGhostButtonStyle}" Width="48" Height="48" AutomationProperties.Name="Skip back 10 seconds">
+            <Button Style="{StaticResource IconGhostButtonStyle}" Width="48" Height="48" Click="SkipBack" AutomationProperties.Name="Skip back 10 seconds">
               <Viewbox Width="24" Height="24">
                 <Path Data="{Binding Source=skip_back, Converter={StaticResource Icon}}" Fill="{ThemeResource OnBackgroundBrush}" Stretch="Uniform" />
               </Viewbox>
@@ -103,17 +111,18 @@
                     Background="{ThemeResource PrimaryBrush}"
                     Foreground="{ThemeResource OnPrimaryBrush}"
                     Width="56" Height="56"
+                    Click="TogglePlayPause"
                     AutomationProperties.Name="Play or pause">
               <Grid>
-                <Viewbox Width="26" Height="26" Visibility="{Binding IsPlaying, Converter={StaticResource BoolToVisibility}, ConverterParameter=invert}">
+                <Viewbox x:Name="TransportPlayIcon" Width="26" Height="26" Visibility="Collapsed">
                   <Path Data="{Binding Source=play, Converter={StaticResource Icon}}" Fill="{ThemeResource OnPrimaryBrush}" Stretch="Uniform" />
                 </Viewbox>
-                <Viewbox Width="26" Height="26" Visibility="{Binding IsPlaying, Converter={StaticResource BoolToVisibility}}">
+                <Viewbox x:Name="TransportPauseIcon" Width="26" Height="26">
                   <Path Data="{Binding Source=pause, Converter={StaticResource Icon}}" Fill="{ThemeResource OnPrimaryBrush}" Stretch="Uniform" />
                 </Viewbox>
               </Grid>
             </Button>
-            <Button Style="{StaticResource IconGhostButtonStyle}" Width="48" Height="48" AutomationProperties.Name="Skip forward 10 seconds">
+            <Button Style="{StaticResource IconGhostButtonStyle}" Width="48" Height="48" Click="SkipForward" AutomationProperties.Name="Skip forward 30 seconds">
               <Viewbox Width="24" Height="24">
                 <Path Data="{Binding Source=skip_fwd, Converter={StaticResource Icon}}" Fill="{ThemeResource OnBackgroundBrush}" Stretch="Uniform" />
               </Viewbox>

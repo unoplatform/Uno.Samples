@@ -8,11 +8,11 @@ namespace MovieStreamApp.Presentation;
 [Uno.Extensions.Reactive.ReactiveBindable(false)]
 public partial record PlaybackModel(Movie NowPlaying)
 {
+    // The video the player streams, and the still shown as its poster until the first frame decodes.
+    // Real playback state (position, duration, playing/paused) is owned by the MediaPlayer in the
+    // view, not mirrored here — see PlaybackPage.xaml.cs.
+    public string VideoUrl => MovieData.SampleVideo;
     public string VideoThumbUrl => MovieData.TheaterScreen;
-    public string CurrentTimeLabel => "38:14";
-    public string TotalTimeLabel => "2:18:00";
-    public double PlaybackProgress => 0.28;
-    public bool IsPlaying => true;
     public string Director => "Maren Okafor";
     public string ReleaseDate => NowPlaying.Year;
     public string AudienceScore => "94%";
