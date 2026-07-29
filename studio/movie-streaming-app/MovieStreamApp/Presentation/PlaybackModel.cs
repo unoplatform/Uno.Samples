@@ -13,9 +13,9 @@ public partial record PlaybackModel(Movie NowPlaying)
     // view, not mirrored here — see PlaybackPage.xaml.cs.
     public string VideoUrl => MovieData.SampleVideo;
     public string VideoThumbUrl => MovieData.TheaterScreen;
-    public string Director => "Maren Okafor";
+    public string Director => MovieData.SampleDirector;
     public string ReleaseDate => NowPlaying.Year;
-    public string AudienceScore => "94%";
+    public string AudienceScore => MovieData.SampleAudienceScore;
 
     public IReadOnlyList<CastMember> Cast => new[]
     {

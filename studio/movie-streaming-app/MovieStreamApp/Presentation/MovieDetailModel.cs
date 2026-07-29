@@ -11,12 +11,12 @@ public partial record MovieDetailModel(Movie Movie, WatchlistService Watchlist)
 {
     public string HeroImageUrl => MovieData.HeroEpic;
     public string PosterImageUrl => Movie.ImageUrl;
-    public string Tagline => "Every choice has a price. Hers just came due.";
-    public string AgeRating => "16+";
-    public string Director => "Elena Vasquez";
-    public string AudienceScore => "94%";
-    public string CriticsScore => "87%";
-    public int ReviewCount => 2841;
+    public string Tagline => MovieData.SampleTagline;
+    public string AgeRating => MovieData.SampleAgeRating;
+    public string Director => MovieData.SampleDirector;
+    public string AudienceScore => MovieData.SampleAudienceScore;
+    public string CriticsScore => MovieData.SampleCriticsScore;
+    public int ReviewCount => MovieData.SampleReviewCount;
 
     // Five booleans (rating/2, rounded) — the view renders a filled or outline star per position.
     public IReadOnlyList<bool> Stars => MovieData.Stars(Movie.Rating);

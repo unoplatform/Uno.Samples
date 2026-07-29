@@ -118,6 +118,17 @@ public static class MovieData
         new Review("r-003", "MidnightCritic", PortraitFriends, 4, "Gorgeous cinematography, tight editing, and a score that lodges itself in your brain.", "1w ago", 97),
     };
 
+    // ── Shared placeholder detail metadata ────────────────────────────────────────────────────
+    // A mockup has no real per-title crew or scores, so the detail and playback screens share one
+    // set of placeholder values (like the shared Cast / Reviews pools above) — one source keeps them
+    // consistent instead of copy-pasted (and contradicting) across each model.
+    public const string SampleTagline = "Every choice has a price. Hers just came due.";
+    public const string SampleAgeRating = "16+";
+    public const string SampleDirector = "Elena Vasquez";
+    public const string SampleAudienceScore = "94%";
+    public const string SampleCriticsScore = "87%";
+    public const int SampleReviewCount = 2841;
+
     // ── Lookups ─────────────────────────────────────────────────────────────────────────────
     public static Movie ById(string id) =>
         Catalog.FirstOrDefault(m => m.Id == id) ?? Catalog[0];

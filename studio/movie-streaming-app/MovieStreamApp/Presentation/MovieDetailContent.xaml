@@ -207,6 +207,10 @@
             </ItemsRepeater.Layout>
             <ItemsRepeater.ItemTemplate>
               <DataTemplate>
+                <!-- Related cards navigate to the full-screen MovieDetail page, NOT the responsive
+                     page/modal request the other cards use: this shared body is itself hosted by the
+                     desktop MovieDetailDialog, so drilling into a related title opens the full detail
+                     rather than stacking a modal inside the modal. -->
                 <utu:CardContentControl Style="{StaticResource FilledCardContentControlStyle}"
                                         HorizontalAlignment="Stretch"
                                         IsClickable="True"
