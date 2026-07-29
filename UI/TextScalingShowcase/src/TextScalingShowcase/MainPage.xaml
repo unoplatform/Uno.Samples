@@ -1,0 +1,121 @@
+﻿<Page x:Class="TextScalingShowcase.MainPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:local="using:TextScalingShowcase"
+      Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid Padding="28,20,28,20"
+          ColumnSpacing="24"
+          RowSpacing="16">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="360" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <StackPanel Grid.ColumnSpan="2" Spacing="6">
+            <TextBlock AutomationProperties.AutomationId="PageTitle"
+                       FontSize="28"
+                       FontWeight="SemiBold"
+                       Foreground="{ThemeResource TextFillColorPrimaryBrush}"
+                       IsTextScaleFactorEnabled="False"
+                       Text="OS text scaling, the WinUI way" />
+            <TextBlock AutomationProperties.AutomationId="PageSubtitle"
+                       FontSize="14"
+                       Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                       IsTextScaleFactorEnabled="False"
+                       Text="Uno Platform 6.7 honours the accessibility text-size setting with WinUI's logarithmic curve — small text grows a lot, large text barely moves."
+                       TextWrapping="Wrap" />
+        </StackPanel>
+
+        <Border Grid.Row="1"
+                Padding="20"
+                VerticalAlignment="Top"
+                Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                BorderThickness="1"
+                CornerRadius="8">
+            <StackPanel Spacing="10">
+                <TextBlock FontSize="12"
+                           FontWeight="SemiBold"
+                           Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                           IsTextScaleFactorEnabled="False"
+                           Text="SIMULATED OS TEXT SCALE" />
+                <Slider x:Name="ScaleSlider"
+                        AutomationProperties.AutomationId="ScaleSlider"
+                        IsTextScaleFactorEnabled="False"
+                        Maximum="225"
+                        Minimum="100"
+                        SnapsTo="StepValues"
+                        StepFrequency="5" />
+                <TextBlock x:Name="ScaleValueText"
+                           AutomationProperties.AutomationId="ScaleValueText"
+                           FontSize="20"
+                           FontWeight="SemiBold"
+                           Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
+                           IsTextScaleFactorEnabled="False" />
+                <TextBlock FontFamily="Consolas"
+                           FontSize="12"
+                           Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                           IsTextScaleFactorEnabled="False"
+                           Text="FeatureConfiguration.Font.TextScaleFactor" />
+                <Button AutomationProperties.AutomationId="ResetButton"
+                        Click="OnResetClick"
+                        Content="Reset to 100%"
+                        IsTextScaleFactorEnabled="False" />
+
+                <Border Height="1"
+                        Margin="0,6,0,6"
+                        Background="{ThemeResource DividerStrokeColorDefaultBrush}" />
+
+                <TextBlock FontSize="12"
+                           FontWeight="SemiBold"
+                           Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                           IsTextScaleFactorEnabled="False"
+                           Text="REPORTED BY THE OS" />
+                <TextBlock x:Name="OsScaleText"
+                           AutomationProperties.AutomationId="OsScaleText"
+                           FontSize="16"
+                           IsTextScaleFactorEnabled="False" />
+                <TextBlock AutomationProperties.AutomationId="OsScaleNote"
+                           FontSize="12"
+                           Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                           IsTextScaleFactorEnabled="False"
+                           Text="UISettings.TextScaleFactor, read once at startup on Windows: changing the accessibility setting while the app runs is not picked up yet. macOS and GNOME push updates live, WebAssembly has no OS source and always reports 100%."
+                           TextWrapping="Wrap" />
+
+                <Border Height="1"
+                        Margin="0,6,0,6"
+                        Background="{ThemeResource DividerStrokeColorDefaultBrush}" />
+
+                <TextBlock FontSize="12"
+                           FontWeight="SemiBold"
+                           Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                           IsTextScaleFactorEnabled="False"
+                           Text="THE CURVE, POINT BY POINT" />
+                <TextBlock x:Name="CurveText"
+                           AutomationProperties.AutomationId="CurveText"
+                           FontFamily="Consolas"
+                           FontSize="13"
+                           IsTextScaleFactorEnabled="False" />
+                <TextBlock FontSize="12"
+                           Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                           IsTextScaleFactorEnabled="False"
+                           Text="This panel opts out with IsTextScaleFactorEnabled=&quot;False&quot;, so the controls stay put while the form on the right grows."
+                           TextWrapping="Wrap" />
+            </StackPanel>
+        </Border>
+
+        <ScrollViewer Grid.Row="1"
+                      Grid.Column="1"
+                      HorizontalScrollMode="Disabled"
+                      VerticalScrollBarVisibility="Auto">
+            <Border x:Name="FormHost"
+                    AutomationProperties.AutomationId="FormHost"
+                    VerticalAlignment="Top" />
+        </ScrollViewer>
+    </Grid>
+</Page>
