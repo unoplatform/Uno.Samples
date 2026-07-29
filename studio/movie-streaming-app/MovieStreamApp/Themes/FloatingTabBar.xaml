@@ -162,6 +162,69 @@
   <CornerRadius x:Key="FloatingTabBarSelectionCornerRadius">19</CornerRadius>
 
   <!--
+    Selection-indicator presenter for BOTH bars. The Simple default slides the lozenge with a LINEAR
+    DoubleAnimation (abrupt start/stop); this copy adds a CubicEase EaseOut + a slightly longer 250 ms
+    so the glide decelerates into the target and reads smooth. Structure (element names, storyboard
+    names, TemplateSettings bindings) is identical to the Simple style so the control drives it the
+    same way — only the easing/duration change.
+  -->
+  <Style x:Key="SlidingIndicatorPresenterStyle" TargetType="utu:TabBarSelectionIndicatorPresenter">
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="utu:TabBarSelectionIndicatorPresenter">
+          <Grid x:Name="Root"
+                Background="{TemplateBinding Background}"
+                BorderBrush="{TemplateBinding BorderBrush}"
+                BorderThickness="{TemplateBinding BorderThickness}">
+            <ContentPresenter x:Name="IndicatorPresenter"
+                              Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.IndicatorMaxSize.Width}"
+                              Height="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.IndicatorMaxSize.Height}"
+                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                              Content="{TemplateBinding Content}"
+                              ContentTemplate="{TemplateBinding ContentTemplate}"
+                              RenderTransformOrigin=".5,.5">
+              <ContentPresenter.RenderTransform>
+                <CompositeTransform x:Name="IndicatorTransform" />
+              </ContentPresenter.RenderTransform>
+            </ContentPresenter>
+            <VisualStateManager.VisualStateGroups>
+              <VisualStateGroup x:Name="IndicatorTransitionStates">
+                <VisualState x:Name="Horizontal">
+                  <Storyboard x:Name="IndicatorTransitionHorizontalStoryboard">
+                    <DoubleAnimation Storyboard.TargetName="IndicatorTransform"
+                                     Storyboard.TargetProperty="TranslateX"
+                                     From="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.IndicatorTransitionFrom.X}"
+                                     To="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.IndicatorTransitionTo.X}"
+                                     Duration="00:00:00.25">
+                      <DoubleAnimation.EasingFunction>
+                        <CubicEase EasingMode="EaseOut" />
+                      </DoubleAnimation.EasingFunction>
+                    </DoubleAnimation>
+                  </Storyboard>
+                </VisualState>
+                <VisualState x:Name="Vertical">
+                  <Storyboard x:Name="IndicatorTransitionVerticalStoryboard">
+                    <DoubleAnimation Storyboard.TargetName="IndicatorTransform"
+                                     Storyboard.TargetProperty="TranslateY"
+                                     From="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.IndicatorTransitionFrom.Y}"
+                                     To="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.IndicatorTransitionTo.Y}"
+                                     Duration="00:00:00.25">
+                      <DoubleAnimation.EasingFunction>
+                        <CubicEase EasingMode="EaseOut" />
+                      </DoubleAnimation.EasingFunction>
+                    </DoubleAnimation>
+                  </Storyboard>
+                </VisualState>
+              </VisualStateGroup>
+            </VisualStateManager.VisualStateGroups>
+          </Grid>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
+
+  <!--
     ═══ TabBarItem: icon above label, centred, colour follows selection ═══
     HIG: include a short tab label beneath the icon. Foreground is not an inherited property in
     WinUI/Uno, so the selected accent tint is applied per-state to BOTH the icon and the label. A
@@ -330,6 +393,7 @@
     </Setter>
     <Setter Property="SelectionIndicatorPlacement" Value="Below" />
     <Setter Property="SelectionIndicatorTransitionMode" Value="Slide" />
+    <Setter Property="SelectionIndicatorPresenterStyle" Value="{StaticResource SlidingIndicatorPresenterStyle}" />
     <Setter Property="SelectionIndicatorContentTemplate">
       <Setter.Value>
         <DataTemplate>
@@ -487,7 +551,9 @@
     <Setter Property="Foreground" Value="{ThemeResource FloatingTabBarItemForegroundBrush}" />
     <Setter Property="Width" Value="{StaticResource FloatingSideBarItemWidth}" />
     <Setter Property="Height" Value="{StaticResource FloatingSideBarItemHeight}" />
-    <Setter Property="Margin" Value="0,3" />
+    <!-- No vertical margin: the sliding indicator sizes each cell to barHeight/itemCount, so the items
+         must be flush (like the bottom bar) for the lozenge to track each one — a per-item margin or a
+         vertical bar Padding inflates the cell and the lozenge drifts off the item. -->
     <Setter Property="HorizontalContentAlignment" Value="Center" />
     <Setter Property="VerticalContentAlignment" Value="Center" />
     <Setter Property="Template">
@@ -606,7 +672,10 @@
     <Setter Property="BorderBrush" Value="{ThemeResource SideNavPaneBorderBrush}" />
     <Setter Property="BorderThickness" Value="1" />
     <Setter Property="CornerRadius" Value="{StaticResource FloatingSideBarCornerRadius}" />
-    <Setter Property="Padding" Value="6,14" />
+    <!-- No vertical padding: it would inflate the sliding indicator's per-item cell (barHeight/itemCount)
+         and drift the lozenge off each tab. End breathing room comes from the lozenge being smaller than
+         the item, not from padding — same trick as the bottom bar. -->
+    <Setter Property="Padding" Value="6,0" />
     <Setter Property="HorizontalAlignment" Value="Left" />
     <Setter Property="VerticalAlignment" Value="Center" />
     <Setter Property="Margin" Value="18,0,0,0" />
@@ -623,9 +692,10 @@
       </Setter.Value>
     </Setter>
     <!-- Same sliding-indicator setup as the bottom bar: a fixed-size glass lozenge placed Below the
-         tab, gliding over 200 ms (Slide, not the default Snap). -->
+         tab, gliding with the eased presenter (Slide, not the default Snap). -->
     <Setter Property="SelectionIndicatorPlacement" Value="Below" />
     <Setter Property="SelectionIndicatorTransitionMode" Value="Slide" />
+    <Setter Property="SelectionIndicatorPresenterStyle" Value="{StaticResource SlidingIndicatorPresenterStyle}" />
     <Setter Property="SelectionIndicatorContentTemplate">
       <Setter.Value>
         <DataTemplate>
