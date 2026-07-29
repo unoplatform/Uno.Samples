@@ -1,0 +1,700 @@
+<Page x:Class="ScrollViewerZoom.MainPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:local="using:ScrollViewerZoom"
+      Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+  <Page.Resources>
+    <Style x:Key="RoomStyle" TargetType="Rectangle">
+      <Setter Property="Fill" Value="{ThemeResource LayerFillColorDefaultBrush}" />
+      <Setter Property="Stroke" Value="{ThemeResource TextFillColorSecondaryBrush}" />
+      <Setter Property="StrokeThickness" Value="3" />
+    </Style>
+
+    <Style x:Key="WetRoomStyle" TargetType="Rectangle" BasedOn="{StaticResource RoomStyle}">
+      <Setter Property="Fill" Value="{ThemeResource SubtleFillColorSecondaryBrush}" />
+    </Style>
+
+    <Style x:Key="FurnitureStyle" TargetType="Rectangle">
+      <Setter Property="Fill" Value="{ThemeResource CardBackgroundFillColorSecondaryBrush}" />
+      <Setter Property="Stroke" Value="{ThemeResource TextFillColorTertiaryBrush}" />
+      <Setter Property="StrokeThickness" Value="1.5" />
+    </Style>
+
+    <Style x:Key="FurnitureEllipseStyle" TargetType="Ellipse">
+      <Setter Property="Fill" Value="{ThemeResource CardBackgroundFillColorSecondaryBrush}" />
+      <Setter Property="Stroke" Value="{ThemeResource TextFillColorTertiaryBrush}" />
+      <Setter Property="StrokeThickness" Value="1.5" />
+    </Style>
+
+    <Style x:Key="RoomNameStyle" TargetType="TextBlock">
+      <Setter Property="FontSize" Value="17" />
+      <Setter Property="FontWeight" Value="SemiBold" />
+      <Setter Property="Foreground" Value="{ThemeResource TextFillColorPrimaryBrush}" />
+    </Style>
+
+    <Style x:Key="RoomAreaStyle" TargetType="TextBlock">
+      <Setter Property="FontSize" Value="11" />
+      <Setter Property="Foreground" Value="{ThemeResource TextFillColorSecondaryBrush}" />
+    </Style>
+
+    <!-- Only legible once zoomed in — this is what makes the zoom worth doing. -->
+    <Style x:Key="FinePrintStyle" TargetType="TextBlock">
+      <Setter Property="FontSize" Value="7" />
+      <Setter Property="Foreground" Value="{ThemeResource TextFillColorTertiaryBrush}" />
+    </Style>
+
+    <Style x:Key="DimensionLineStyle" TargetType="Line">
+      <Setter Property="Stroke" Value="{ThemeResource AccentFillColorDefaultBrush}" />
+      <Setter Property="StrokeThickness" Value="1.5" />
+    </Style>
+
+    <Style x:Key="ThinLineStyle" TargetType="Line">
+      <Setter Property="Stroke" Value="{ThemeResource TextFillColorTertiaryBrush}" />
+      <Setter Property="StrokeThickness" Value="1" />
+    </Style>
+
+    <Style x:Key="DoorStyle" TargetType="Path">
+      <Setter Property="Stroke" Value="{ThemeResource TextFillColorTertiaryBrush}" />
+      <Setter Property="StrokeThickness" Value="1.5" />
+    </Style>
+  </Page.Resources>
+
+  <Grid RowSpacing="12" Padding="20,16,20,16">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="*" />
+      <RowDefinition Height="Auto" />
+    </Grid.RowDefinitions>
+
+    <!-- Header -->
+    <StackPanel Grid.Row="0" Spacing="2">
+      <TextBlock AutomationProperties.AutomationId="PageTitleText"
+                 Style="{StaticResource TitleTextBlockStyle}"
+                 Text="ScrollViewer zoom" />
+      <TextBlock AutomationProperties.AutomationId="PageSubtitleText"
+                 Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                 Style="{StaticResource BodyTextBlockStyle}"
+                 Text="A plain ScrollViewer with ZoomMode=&quot;Enabled&quot;. Pinch, Ctrl+wheel and Ctrl+plus/minus now zoom on Skia targets." />
+    </StackPanel>
+
+    <!-- Toolbar -->
+    <Grid Grid.Row="1" ColumnSpacing="16">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="Auto" />
+      </Grid.ColumnDefinitions>
+
+      <StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="8">
+        <Button AutomationProperties.AutomationId="ZoomFitButton"
+                Click="OnZoomToFit"
+                Content="Fit" />
+        <Button AutomationProperties.AutomationId="Zoom1xButton"
+                Click="OnZoomToPreset"
+                Content="1x"
+                Tag="1" />
+        <Button AutomationProperties.AutomationId="Zoom2xButton"
+                Click="OnZoomToPreset"
+                Content="2x"
+                Tag="2" />
+        <Button AutomationProperties.AutomationId="Zoom4xButton"
+                Click="OnZoomToPreset"
+                Content="4x"
+                Tag="4" />
+      </StackPanel>
+
+      <Border Grid.Column="2"
+              Padding="14,6"
+              Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+              BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+              BorderThickness="1"
+              CornerRadius="6">
+        <StackPanel Orientation="Horizontal" Spacing="10">
+          <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                     Style="{StaticResource CaptionTextBlockStyle}"
+                     Text="ZoomFactor"
+                     VerticalAlignment="Center" />
+          <TextBlock x:Name="ZoomFactorText"
+                     AutomationProperties.AutomationId="ZoomFactorText"
+                     FontFamily="Consolas"
+                     FontSize="18"
+                     FontWeight="SemiBold"
+                     Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
+                     Text="1.00x"
+                     VerticalAlignment="Center" />
+          <TextBlock AutomationProperties.AutomationId="ZoomRangeText"
+                     Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+                     Style="{StaticResource CaptionTextBlockStyle}"
+                     Text="0.5x – 6x"
+                     VerticalAlignment="Center" />
+        </StackPanel>
+      </Border>
+    </Grid>
+
+    <!-- The feature: a plain ScrollViewer with zoom enabled -->
+    <Border Grid.Row="2"
+            Background="{ThemeResource SolidBackgroundFillColorSecondaryBrush}"
+            BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+            BorderThickness="1"
+            CornerRadius="8">
+      <ScrollViewer x:Name="PlanScrollViewer"
+                    AutomationProperties.AutomationId="PlanScrollViewer"
+                    HorizontalScrollBarVisibility="Auto"
+                    HorizontalScrollMode="Enabled"
+                    IsTabStop="True"
+                    Loaded="OnScrollViewerLoaded"
+                    MaxZoomFactor="6"
+                    MinZoomFactor="0.5"
+                    VerticalScrollBarVisibility="Auto"
+                    VerticalScrollMode="Enabled"
+                    ViewChanged="OnViewChanged"
+                    ZoomMode="Enabled">
+
+        <Canvas x:Name="FloorPlanCanvas"
+                AutomationProperties.AutomationId="FloorPlanCanvas"
+                Height="900"
+                Width="1360">
+
+          <!-- Drawing sheet -->
+          <Rectangle Fill="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                     Height="900"
+                     Width="1360" />
+          <Rectangle Canvas.Left="16"
+                     Canvas.Top="16"
+                     Height="868"
+                     Stroke="{ThemeResource DividerStrokeColorDefaultBrush}"
+                     StrokeThickness="2"
+                     Width="1328" />
+
+          <!-- Construction guides -->
+          <Line Stroke="{ThemeResource DividerStrokeColorDefaultBrush}"
+                StrokeDashArray="6,6"
+                StrokeThickness="1"
+                X1="70"
+                X2="1010"
+                Y1="390"
+                Y2="390" />
+          <Line Stroke="{ThemeResource DividerStrokeColorDefaultBrush}"
+                StrokeDashArray="6,6"
+                StrokeThickness="1"
+                X1="540"
+                X2="540"
+                Y1="60"
+                Y2="750" />
+
+          <!-- Rooms -->
+          <Rectangle Canvas.Left="70"
+                     Canvas.Top="90"
+                     Height="300"
+                     Style="{StaticResource RoomStyle}"
+                     Width="400" />
+          <Rectangle Canvas.Left="470"
+                     Canvas.Top="90"
+                     Height="300"
+                     Style="{StaticResource RoomStyle}"
+                     Width="270" />
+          <Rectangle Canvas.Left="740"
+                     Canvas.Top="90"
+                     Height="300"
+                     Style="{StaticResource RoomStyle}"
+                     Width="270" />
+          <Rectangle Canvas.Left="70"
+                     Canvas.Top="390"
+                     Height="80"
+                     Style="{StaticResource RoomStyle}"
+                     Width="940" />
+          <Rectangle Canvas.Left="70"
+                     Canvas.Top="470"
+                     Height="250"
+                     Style="{StaticResource RoomStyle}"
+                     Width="320" />
+          <Rectangle Canvas.Left="390"
+                     Canvas.Top="470"
+                     Height="250"
+                     Style="{StaticResource RoomStyle}"
+                     Width="270" />
+          <Rectangle Canvas.Left="660"
+                     Canvas.Top="470"
+                     Height="250"
+                     Style="{StaticResource WetRoomStyle}"
+                     Width="160" />
+          <Rectangle Canvas.Left="820"
+                     Canvas.Top="470"
+                     Height="250"
+                     Style="{StaticResource WetRoomStyle}"
+                     Width="100" />
+          <Rectangle Canvas.Left="920"
+                     Canvas.Top="470"
+                     Height="250"
+                     Style="{StaticResource RoomStyle}"
+                     Width="90" />
+
+          <!-- Living room furniture -->
+          <Ellipse Canvas.Left="110"
+                   Canvas.Top="210"
+                   Fill="{ThemeResource SubtleFillColorSecondaryBrush}"
+                   Height="150"
+                   Width="240" />
+          <Rectangle Canvas.Left="100"
+                     Canvas.Top="318"
+                     Height="12"
+                     Style="{StaticResource FurnitureStyle}"
+                     Width="210" />
+          <Rectangle Canvas.Left="100"
+                     Canvas.Top="330"
+                     Height="44"
+                     RadiusX="6"
+                     RadiusY="6"
+                     Style="{StaticResource FurnitureStyle}"
+                     Width="210" />
+          <Rectangle Canvas.Left="180"
+                     Canvas.Top="250"
+                     Height="60"
+                     RadiusX="4"
+                     RadiusY="4"
+                     Style="{StaticResource FurnitureStyle}"
+                     Width="100" />
+          <Rectangle Canvas.Left="380"
+                     Canvas.Top="200"
+                     Height="120"
+                     Style="{StaticResource FurnitureStyle}"
+                     Width="12" />
+
+          <!-- Kitchen furniture -->
+          <Rectangle Canvas.Left="474"
+                     Canvas.Top="300"
+                     Height="56"
+                     Style="{StaticResource FurnitureStyle}"
+                     Width="250" />
+          <Rectangle Canvas.Left="668"
+                     Canvas.Top="180"
+                     Height="176"
+                     Style="{StaticResource FurnitureStyle}"
+                     Width="56" />
+          <Rectangle Canvas.Left="474"
+                     Canvas.Top="200"
+                     Height="60"
+                     Style="{StaticResource FurnitureStyle}"
+                     Width="56" />
+          <Ellipse Canvas.Left="496"
+                   Canvas.Top="312"
+                   Height="32"
+                   Style="{StaticResource FurnitureEllipseStyle}"
+                   Width="56" />
+          <Ellipse Canvas.Left="592"
+                   Canvas.Top="308"
+                   Height="18"
+                   Style="{StaticResource FurnitureEllipseStyle}"
+                   Width="18" />
+          <Ellipse Canvas.Left="618"
+                   Canvas.Top="308"
+                   Height="18"
+                   Style="{StaticResource FurnitureEllipseStyle}"
+                   Width="18" />
+          <Ellipse Canvas.Left="592"
+                   Canvas.Top="330"
+                   Height="18"
+                   Style="{StaticResource FurnitureEllipseStyle}"
+                   Width="18" />
+          <Ellipse Canvas.Left="618"
+                   Canvas.Top="330"
+                   Height="18"
+                   Style="{StaticResource FurnitureEllipseStyle}"
+                   Width="18" />
+
+          <!-- Dining furniture -->
+          <Ellipse Canvas.Left="800"
+                   Canvas.Top="220"
+                   Height="100"
+                   Style="{StaticResource FurnitureEllipseStyle}"
+                   Width="150" />
+          <Rectangle Canvas.Left="820"
+                     Canvas.Top="196"
+                     Height="16"
+                     Style="{StaticResource FurnitureStyle}"
+                     Width="26" />
+          <Rectangle Canvas.Left="862"
+                     Canvas.Top="196"
+                     Height="16"
+                     Style="{StaticResource FurnitureStyle}"
+                     Width="26" />
+          <Rectangle Canvas.Left="904"
+                     Canvas.Top="196"
+                     Height="16"
+                     Style="{StaticResource FurnitureStyle}"
+                     Width="26" />
+          <Rectangle Canvas.Left="820"
+                     Canvas.Top="328"
+                     Height="16"
+                     Style="{StaticResource FurnitureStyle}"
+                     Width="26" />
+          <Rectangle Canvas.Left="862"
+                     Canvas.Top="328"
+                     Height="16"
+                     Style="{StaticResource FurnitureStyle}"
+                     Width="26" />
+          <Rectangle Canvas.Left="904"
+                     Canvas.Top="328"
+                     Height="16"
+                     Style="{StaticResource FurnitureStyle}"
+                     Width="26" />
+
+          <!-- Bedroom furniture -->
+          <Rectangle Canvas.Left="110"
+                     Canvas.Top="560"
+                     Height="130"
+                     RadiusX="3"
+                     RadiusY="3"
+                     Style="{StaticResource FurnitureStyle}"
+                     Width="160" />
+          <Rectangle Canvas.Left="118"
+                     Canvas.Top="566"
+                     Height="26"
+                     RadiusX="3"
+                     RadiusY="3"
+                     Style="{StaticResource FurnitureStyle}"
+                     Width="66" />
+          <Rectangle Canvas.Left="192"
+                     Canvas.Top="566"
+                     Height="26"
+                     RadiusX="3"
+                     RadiusY="3"
+                     Style="{StaticResource FurnitureStyle}"
+                     Width="66" />
+          <Rectangle Canvas.Left="300"
+                     Canvas.Top="560"
+                     Height="140"
+                     Style="{StaticResource FurnitureStyle}"
+                     Width="80" />
+          <Rectangle Canvas.Left="430"
+                     Canvas.Top="570"
+                     Height="120"
+                     RadiusX="3"
+                     RadiusY="3"
+                     Style="{StaticResource FurnitureStyle}"
+                     Width="120" />
+          <Rectangle Canvas.Left="438"
+                     Canvas.Top="576"
+                     Height="26"
+                     RadiusX="3"
+                     RadiusY="3"
+                     Style="{StaticResource FurnitureStyle}"
+                     Width="104" />
+          <Rectangle Canvas.Left="570"
+                     Canvas.Top="560"
+                     Height="130"
+                     Style="{StaticResource FurnitureStyle}"
+                     Width="70" />
+
+          <!-- Bath and utility fixtures -->
+          <Rectangle Canvas.Left="668"
+                     Canvas.Top="560"
+                     Height="140"
+                     RadiusX="8"
+                     RadiusY="8"
+                     Style="{StaticResource FurnitureStyle}"
+                     Width="64" />
+          <Ellipse Canvas.Left="752"
+                   Canvas.Top="560"
+                   Height="36"
+                   Style="{StaticResource FurnitureEllipseStyle}"
+                   Width="52" />
+          <Ellipse Canvas.Left="756"
+                   Canvas.Top="630"
+                   Height="54"
+                   Style="{StaticResource FurnitureEllipseStyle}"
+                   Width="42" />
+          <Rectangle Canvas.Left="830"
+                     Canvas.Top="560"
+                     Height="60"
+                     Style="{StaticResource FurnitureStyle}"
+                     Width="60" />
+          <Ellipse Canvas.Left="842"
+                   Canvas.Top="572"
+                   Height="36"
+                   Style="{StaticResource FurnitureEllipseStyle}"
+                   Width="36" />
+
+          <!-- Stair treads -->
+          <Line Style="{StaticResource ThinLineStyle}" X1="926" X2="1004" Y1="540" Y2="540" />
+          <Line Style="{StaticResource ThinLineStyle}" X1="926" X2="1004" Y1="560" Y2="560" />
+          <Line Style="{StaticResource ThinLineStyle}" X1="926" X2="1004" Y1="580" Y2="580" />
+          <Line Style="{StaticResource ThinLineStyle}" X1="926" X2="1004" Y1="600" Y2="600" />
+          <Line Style="{StaticResource ThinLineStyle}" X1="926" X2="1004" Y1="620" Y2="620" />
+          <Line Style="{StaticResource ThinLineStyle}" X1="926" X2="1004" Y1="640" Y2="640" />
+          <Line Style="{StaticResource ThinLineStyle}" X1="926" X2="1004" Y1="660" Y2="660" />
+          <Line Style="{StaticResource ThinLineStyle}" X1="926" X2="1004" Y1="680" Y2="680" />
+          <Path Data="M 965,700 L 965,545 M 958,557 L 965,545 L 972,557"
+                Stroke="{ThemeResource AccentFillColorDefaultBrush}"
+                StrokeThickness="1.5" />
+
+          <!-- Building envelope -->
+          <Rectangle Canvas.Left="70"
+                     Canvas.Top="90"
+                     Height="630"
+                     Stroke="{ThemeResource TextFillColorPrimaryBrush}"
+                     StrokeThickness="6"
+                     Width="940" />
+
+          <!-- Window openings -->
+          <Rectangle Canvas.Left="150"
+                     Canvas.Top="84"
+                     Fill="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                     Height="12"
+                     Width="150" />
+          <Line Style="{StaticResource DimensionLineStyle}" X1="150" X2="300" Y1="90" Y2="90" />
+          <Rectangle Canvas.Left="820"
+                     Canvas.Top="84"
+                     Fill="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                     Height="12"
+                     Width="120" />
+          <Line Style="{StaticResource DimensionLineStyle}" X1="820" X2="940" Y1="90" Y2="90" />
+          <Rectangle Canvas.Left="150"
+                     Canvas.Top="714"
+                     Fill="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                     Height="12"
+                     Width="140" />
+          <Line Style="{StaticResource DimensionLineStyle}" X1="150" X2="290" Y1="720" Y2="720" />
+          <Rectangle Canvas.Left="430"
+                     Canvas.Top="714"
+                     Fill="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                     Height="12"
+                     Width="120" />
+          <Line Style="{StaticResource DimensionLineStyle}" X1="430" X2="550" Y1="720" Y2="720" />
+          <Rectangle Canvas.Left="64"
+                     Canvas.Top="180"
+                     Fill="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                     Height="120"
+                     Width="12" />
+          <Line Style="{StaticResource DimensionLineStyle}" X1="70" X2="70" Y1="180" Y2="300" />
+
+          <!-- Door swings -->
+          <Path Data="M 330,390 L 330,440 M 330,440 A 50,50 0 0 0 380,390" Style="{StaticResource DoorStyle}" />
+          <Path Data="M 160,470 L 160,420 M 160,420 A 50,50 0 0 0 210,470" Style="{StaticResource DoorStyle}" />
+          <Path Data="M 480,470 L 480,420 M 480,420 A 50,50 0 0 0 530,470" Style="{StaticResource DoorStyle}" />
+          <Path Data="M 700,470 L 700,425 M 700,425 A 45,45 0 0 0 745,470" Style="{StaticResource DoorStyle}" />
+
+          <!-- Room labels -->
+          <TextBlock Canvas.Left="90" Canvas.Top="106" Style="{StaticResource RoomNameStyle}" Text="LIVING" />
+          <TextBlock Canvas.Left="90" Canvas.Top="130" Style="{StaticResource RoomAreaStyle}" Text="24.0 m²" />
+          <TextBlock Canvas.Left="90" Canvas.Top="148" Style="{StaticResource FinePrintStyle}" Text="4.00 × 6.00 m · oak plank 180 mm · lacquer matte" />
+          <TextBlock Canvas.Left="90" Canvas.Top="160" Style="{StaticResource FinePrintStyle}" Text="ceiling 2 700 mm · 3 × pendant, dimmable" />
+
+          <TextBlock Canvas.Left="490" Canvas.Top="106" Style="{StaticResource RoomNameStyle}" Text="KITCHEN" />
+          <TextBlock Canvas.Left="490" Canvas.Top="130" Style="{StaticResource RoomAreaStyle}" Text="9.5 m²" />
+          <TextBlock Canvas.Left="490" Canvas.Top="148" Style="{StaticResource FinePrintStyle}" Text="2.70 × 3.50 m · porcelain tile 600 mm" />
+          <TextBlock Canvas.Left="490" Canvas.Top="160" Style="{StaticResource FinePrintStyle}" Text="extract 250 m³/h · 4 × 16 A circuit" />
+
+          <TextBlock Canvas.Left="760" Canvas.Top="106" Style="{StaticResource RoomNameStyle}" Text="DINING" />
+          <TextBlock Canvas.Left="760" Canvas.Top="130" Style="{StaticResource RoomAreaStyle}" Text="9.5 m²" />
+          <TextBlock Canvas.Left="760" Canvas.Top="148" Style="{StaticResource FinePrintStyle}" Text="2.70 × 3.50 m · seats 6" />
+
+          <TextBlock Canvas.Left="545" Canvas.Top="410" Style="{StaticResource RoomAreaStyle}" Text="HALL" />
+          <TextBlock Canvas.Left="545" Canvas.Top="428" Style="{StaticResource FinePrintStyle}" Text="7.6 m² · clear width 1 200 mm · non-slip R10" />
+
+          <TextBlock Canvas.Left="90" Canvas.Top="488" Style="{StaticResource RoomNameStyle}" Text="BEDROOM 1" />
+          <TextBlock Canvas.Left="90" Canvas.Top="512" Style="{StaticResource RoomAreaStyle}" Text="8.0 m²" />
+          <TextBlock Canvas.Left="90" Canvas.Top="530" Style="{StaticResource FinePrintStyle}" Text="3.20 × 2.50 m · wardrobe 800 mm deep" />
+
+          <TextBlock Canvas.Left="410" Canvas.Top="488" Style="{StaticResource RoomNameStyle}" Text="BEDROOM 2" />
+          <TextBlock Canvas.Left="410" Canvas.Top="512" Style="{StaticResource RoomAreaStyle}" Text="6.8 m²" />
+          <TextBlock Canvas.Left="410" Canvas.Top="530" Style="{StaticResource FinePrintStyle}" Text="2.70 × 2.50 m · desk 700 × 1 300 mm" />
+
+          <TextBlock Canvas.Left="676" Canvas.Top="490" Style="{StaticResource RoomAreaStyle}" Text="BATH" />
+          <TextBlock Canvas.Left="676" Canvas.Top="508" Style="{StaticResource FinePrintStyle}" Text="4.0 m² · 1.60 × 2.50 m" />
+          <TextBlock Canvas.Left="676" Canvas.Top="520" Style="{StaticResource FinePrintStyle}" Text="tanked to 1 800 mm · floor fall 1:80" />
+
+          <TextBlock Canvas.Left="830" Canvas.Top="490" Style="{StaticResource RoomAreaStyle}" Text="UTIL." />
+          <TextBlock Canvas.Left="830" Canvas.Top="508" Style="{StaticResource FinePrintStyle}" Text="2.5 m² · washer" />
+
+          <TextBlock Canvas.Left="930" Canvas.Top="490" Style="{StaticResource RoomAreaStyle}" Text="STAIR" />
+          <TextBlock Canvas.Left="930" Canvas.Top="508" Style="{StaticResource FinePrintStyle}" Text="8 risers @ 187 mm" />
+          <TextBlock Canvas.Left="930" Canvas.Top="520" Style="{StaticResource FinePrintStyle}" Text="going 260 mm" />
+
+          <!-- Overall dimensions -->
+          <Line Style="{StaticResource ThinLineStyle}" X1="70" X2="70" Y1="724" Y2="782" />
+          <Line Style="{StaticResource ThinLineStyle}" X1="1010" X2="1010" Y1="724" Y2="782" />
+          <Line Style="{StaticResource DimensionLineStyle}" X1="70" X2="1010" Y1="770" Y2="770" />
+          <Line Style="{StaticResource DimensionLineStyle}" X1="70" X2="70" Y1="762" Y2="778" />
+          <Line Style="{StaticResource DimensionLineStyle}" X1="1010" X2="1010" Y1="762" Y2="778" />
+          <TextBlock Canvas.Left="505"
+                     Canvas.Top="748"
+                     FontSize="12"
+                     Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
+                     Text="9.40 m" />
+
+          <Line Style="{StaticResource DimensionLineStyle}" X1="48" X2="48" Y1="90" Y2="720" />
+          <Line Style="{StaticResource DimensionLineStyle}" X1="40" X2="56" Y1="90" Y2="90" />
+          <Line Style="{StaticResource DimensionLineStyle}" X1="40" X2="56" Y1="720" Y2="720" />
+          <TextBlock Canvas.Left="24"
+                     Canvas.Top="392"
+                     FontSize="10"
+                     Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
+                     Text="6.30" />
+
+          <!-- Scale bar -->
+          <Rectangle Canvas.Left="70"
+                     Canvas.Top="812"
+                     Fill="{ThemeResource TextFillColorPrimaryBrush}"
+                     Height="10"
+                     Width="60" />
+          <Rectangle Canvas.Left="130"
+                     Canvas.Top="812"
+                     Height="10"
+                     Stroke="{ThemeResource TextFillColorPrimaryBrush}"
+                     StrokeThickness="1"
+                     Width="60" />
+          <Rectangle Canvas.Left="190"
+                     Canvas.Top="812"
+                     Fill="{ThemeResource TextFillColorPrimaryBrush}"
+                     Height="10"
+                     Width="60" />
+          <Rectangle Canvas.Left="250"
+                     Canvas.Top="812"
+                     Height="10"
+                     Stroke="{ThemeResource TextFillColorPrimaryBrush}"
+                     StrokeThickness="1"
+                     Width="60" />
+          <TextBlock Canvas.Left="68" Canvas.Top="824" Style="{StaticResource FinePrintStyle}" Text="0" />
+          <TextBlock Canvas.Left="126" Canvas.Top="824" Style="{StaticResource FinePrintStyle}" Text="1 m" />
+          <TextBlock Canvas.Left="186" Canvas.Top="824" Style="{StaticResource FinePrintStyle}" Text="2 m" />
+          <TextBlock Canvas.Left="246" Canvas.Top="824" Style="{StaticResource FinePrintStyle}" Text="3 m" />
+          <TextBlock Canvas.Left="306" Canvas.Top="824" Style="{StaticResource FinePrintStyle}" Text="4 m" />
+
+          <!-- North arrow -->
+          <Ellipse Canvas.Left="930"
+                   Canvas.Top="790"
+                   Height="70"
+                   Stroke="{ThemeResource TextFillColorTertiaryBrush}"
+                   StrokeThickness="1"
+                   Width="70" />
+          <Path Data="M 965,798 L 976,842 L 965,834 L 954,842 Z"
+                Fill="{ThemeResource TextFillColorPrimaryBrush}"
+                Stroke="{ThemeResource TextFillColorPrimaryBrush}"
+                StrokeThickness="1" />
+          <TextBlock Canvas.Left="961"
+                     Canvas.Top="842"
+                     FontSize="9"
+                     FontWeight="SemiBold"
+                     Foreground="{ThemeResource TextFillColorPrimaryBrush}"
+                     Text="N" />
+
+          <!-- Legend -->
+          <Rectangle Canvas.Left="1040"
+                     Canvas.Top="90"
+                     Fill="{ThemeResource CardBackgroundFillColorSecondaryBrush}"
+                     Height="300"
+                     Stroke="{ThemeResource CardStrokeColorDefaultBrush}"
+                     StrokeThickness="1"
+                     Width="290" />
+          <TextBlock Canvas.Left="1056"
+                     Canvas.Top="102"
+                     FontSize="13"
+                     FontWeight="SemiBold"
+                     Foreground="{ThemeResource TextFillColorPrimaryBrush}"
+                     Text="LEGEND" />
+          <Line Style="{StaticResource ThinLineStyle}" X1="1056" X2="1314" Y1="124" Y2="124" />
+
+          <Rectangle Canvas.Left="1056"
+                     Canvas.Top="136"
+                     Height="14"
+                     Style="{StaticResource RoomStyle}"
+                     Width="18" />
+          <TextBlock Canvas.Left="1084" Canvas.Top="134" Style="{StaticResource RoomAreaStyle}" Text="Habitable room" />
+          <TextBlock Canvas.Left="1084" Canvas.Top="150" Style="{StaticResource FinePrintStyle}" Text="engineered oak on 18 mm ply, acoustic mat" />
+
+          <Rectangle Canvas.Left="1056"
+                     Canvas.Top="180"
+                     Height="14"
+                     Style="{StaticResource WetRoomStyle}"
+                     Width="18" />
+          <TextBlock Canvas.Left="1084" Canvas.Top="178" Style="{StaticResource RoomAreaStyle}" Text="Wet room" />
+          <TextBlock Canvas.Left="1084" Canvas.Top="194" Style="{StaticResource FinePrintStyle}" Text="tanked substrate, 1:80 fall to gully" />
+
+          <Rectangle Canvas.Left="1056"
+                     Canvas.Top="224"
+                     Height="14"
+                     Style="{StaticResource FurnitureStyle}"
+                     Width="18" />
+          <TextBlock Canvas.Left="1084" Canvas.Top="222" Style="{StaticResource RoomAreaStyle}" Text="Fixture / joinery" />
+          <TextBlock Canvas.Left="1084" Canvas.Top="238" Style="{StaticResource FinePrintStyle}" Text="indicative only, confirm with supplier" />
+
+          <Line Style="{StaticResource DimensionLineStyle}" X1="1056" X2="1074" Y1="275" Y2="275" />
+          <TextBlock Canvas.Left="1084" Canvas.Top="266" Style="{StaticResource RoomAreaStyle}" Text="Opening / dimension" />
+          <TextBlock Canvas.Left="1084" Canvas.Top="282" Style="{StaticResource FinePrintStyle}" Text="structural opening, ±5 mm tolerance" />
+
+          <Path Data="M 1056,318 L 1056,336 M 1056,336 A 18,18 0 0 0 1074,318" Style="{StaticResource DoorStyle}" />
+          <TextBlock Canvas.Left="1084" Canvas.Top="312" Style="{StaticResource RoomAreaStyle}" Text="Door swing" />
+          <TextBlock Canvas.Left="1084" Canvas.Top="328" Style="{StaticResource FinePrintStyle}" Text="826 mm leaf unless noted otherwise" />
+
+          <TextBlock Canvas.Left="1056" Canvas.Top="356" Style="{StaticResource FinePrintStyle}" Text="Zoom to 4x to read the fine print — every glyph is vector," />
+          <TextBlock Canvas.Left="1056" Canvas.Top="368" Style="{StaticResource FinePrintStyle}" Text="so it stays crisp at any ZoomFactor." />
+
+          <!-- Title block -->
+          <Rectangle Canvas.Left="1040"
+                     Canvas.Top="420"
+                     Fill="{ThemeResource CardBackgroundFillColorSecondaryBrush}"
+                     Height="410"
+                     Stroke="{ThemeResource CardStrokeColorDefaultBrush}"
+                     StrokeThickness="1"
+                     Width="290" />
+          <TextBlock Canvas.Left="1056" Canvas.Top="432" Style="{StaticResource FinePrintStyle}" Text="PROJECT" />
+          <TextBlock Canvas.Left="1056"
+                     Canvas.Top="444"
+                     FontSize="14"
+                     FontWeight="SemiBold"
+                     Foreground="{ThemeResource TextFillColorPrimaryBrush}"
+                     Text="MAPLE COURT · UNIT 3B" />
+          <Line Style="{StaticResource ThinLineStyle}" X1="1056" X2="1314" Y1="470" Y2="470" />
+
+          <TextBlock Canvas.Left="1056" Canvas.Top="480" Style="{StaticResource FinePrintStyle}" Text="DRAWING" />
+          <TextBlock Canvas.Left="1160" Canvas.Top="478" Style="{StaticResource RoomAreaStyle}" Text="Ground floor plan" />
+          <TextBlock Canvas.Left="1056" Canvas.Top="506" Style="{StaticResource FinePrintStyle}" Text="SCALE" />
+          <TextBlock Canvas.Left="1160" Canvas.Top="504" Style="{StaticResource RoomAreaStyle}" Text="1:50 @ A3" />
+          <TextBlock Canvas.Left="1056" Canvas.Top="532" Style="{StaticResource FinePrintStyle}" Text="DRAWN BY" />
+          <TextBlock Canvas.Left="1160" Canvas.Top="530" Style="{StaticResource RoomAreaStyle}" Text="U. Platform" />
+          <TextBlock Canvas.Left="1056" Canvas.Top="558" Style="{StaticResource FinePrintStyle}" Text="ISSUED" />
+          <TextBlock Canvas.Left="1160" Canvas.Top="556" Style="{StaticResource RoomAreaStyle}" Text="2026-07-29" />
+          <TextBlock Canvas.Left="1056" Canvas.Top="584" Style="{StaticResource FinePrintStyle}" Text="REVISION" />
+          <TextBlock Canvas.Left="1160" Canvas.Top="582" Style="{StaticResource RoomAreaStyle}" Text="C" />
+          <TextBlock Canvas.Left="1056" Canvas.Top="610" Style="{StaticResource FinePrintStyle}" Text="SHEET" />
+          <TextBlock Canvas.Left="1160"
+                     Canvas.Top="606"
+                     FontSize="13"
+                     FontWeight="SemiBold"
+                     Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
+                     Text="A-101" />
+
+          <Line Style="{StaticResource ThinLineStyle}" X1="1056" X2="1314" Y1="636" Y2="636" />
+          <TextBlock Canvas.Left="1056" Canvas.Top="646" Style="{StaticResource FinePrintStyle}" Text="NOTES" />
+          <TextBlock Canvas.Left="1056" Canvas.Top="662" Style="{StaticResource FinePrintStyle}" Text="1  Do not scale from this drawing. Figured dimensions" />
+          <TextBlock Canvas.Left="1056" Canvas.Top="674" Style="{StaticResource FinePrintStyle}" Text="    take precedence over scaled measurements." />
+          <TextBlock Canvas.Left="1056" Canvas.Top="690" Style="{StaticResource FinePrintStyle}" Text="2  All dimensions in millimetres unless noted." />
+          <TextBlock Canvas.Left="1056" Canvas.Top="706" Style="{StaticResource FinePrintStyle}" Text="3  Verify all openings on site before fabrication." />
+          <TextBlock Canvas.Left="1056" Canvas.Top="722" Style="{StaticResource FinePrintStyle}" Text="4  Setting-out datum is the internal face of the" />
+          <TextBlock Canvas.Left="1056" Canvas.Top="734" Style="{StaticResource FinePrintStyle}" Text="    north-east party wall, level +0.000." />
+          <TextBlock Canvas.Left="1056" Canvas.Top="750" Style="{StaticResource FinePrintStyle}" Text="5  Refer to A-210 for wall build-ups and A-330 for" />
+          <TextBlock Canvas.Left="1056" Canvas.Top="762" Style="{StaticResource FinePrintStyle}" Text="    the joinery schedule." />
+          <TextBlock Canvas.Left="1056" Canvas.Top="786" Style="{StaticResource FinePrintStyle}" Text="This sheet is drawn entirely with Shapes, Borders and" />
+          <TextBlock Canvas.Left="1056" Canvas.Top="798" Style="{StaticResource FinePrintStyle}" Text="TextBlocks — no bitmap is involved at any zoom level." />
+        </Canvas>
+      </ScrollViewer>
+    </Border>
+
+    <!-- Hint -->
+    <Border Grid.Row="3"
+            Padding="14,8"
+            Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+            BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+            BorderThickness="1"
+            CornerRadius="6">
+      <TextBlock AutomationProperties.AutomationId="ZoomHintText"
+                 Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                 Style="{StaticResource CaptionTextBlockStyle}"
+                 Text="Three ways to zoom: pinch with two fingers · hold Ctrl and scroll the mouse wheel · press Ctrl+Plus / Ctrl+Minus once the plan has keyboard focus. Use the scrollbars or the arrow keys to pan."
+                 TextWrapping="Wrap" />
+    </Border>
+  </Grid>
+</Page>
