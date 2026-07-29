@@ -62,6 +62,12 @@ An Android-specific sample that shows how to start a camera capture intent, and 
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/AndroidCustomCamera)
 
+### Animated Icons Showcase
+
+`AnimatedIcon` and `AnimatedVisualPlayer` playing LottieGen-generated Fluent animations on Skia — the stock Expander, CheckBox and NavigationView templates, plus the generated sources driven directly through `AnimatedIcon.State` and the player's transport API.
+
+[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/AnimatedIconsShowcase)
+
 ### Authentication with OpenID Connect (OIDC)
 
 This sample application demonstrates the usage of the `WebAuthenticationBroker` in Uno with an OpenID Connect endpoint.
@@ -131,6 +137,12 @@ An example of creating a custom control library and calling a control from your 
 Sample app to accompany "Adding Custom Sorting Logic" blog post.
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/CustomSorting)
+
+### Damage Regions Showcase
+
+Uno Platform repaints only the region that actually changed. Switch on `FeatureConfiguration.Rendering.DamageRegionOverlay` to tint the repainted pixels red and watch the boundary fall between the animating panel and the static one.
+
+[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/DamageRegionsShowcase)
 
 ### Dual-Screen
 
@@ -304,6 +316,12 @@ An example series demonstrating the use of various Navigation features.
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/Navigation)
 
+### NavigationView Showcase
+
+An app shell built on `NavigationView`, with hierarchical items, a separator, footer items and a live switch between every `PaneDisplayMode` — Auto, Left, LeftCompact, LeftMinimal and Top.
+
+[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/NavigationViewShowcase)
+
 ### Neumorphism
 
 An example of an app containing an animated lock that you can unlock.
@@ -355,6 +373,12 @@ A sample demonstrating how to use `SKCanvasElement`.
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/SKCanvasElementShowcase) | [Read the documentation](https://aka.platform.uno/skcanvaselement)
 
+### ScrollViewer Zoom
+
+A vector floor plan inside a `ScrollViewer` with `ZoomMode="Enabled"`. Zoom by pinch, Ctrl + mouse wheel or Ctrl+Plus / Ctrl+Minus, or jump to a preset factor with `ChangeView`.
+
+[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/ScrollViewerZoom)
+
 ### SkiaSharp Test
 
 An example of the Uno implementation of SkiaSharp creating a basic canvas with text.
@@ -387,11 +411,23 @@ An example showing how to adjust the `StatusBar` and `CommandBar` dynamically ba
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/StatusBarThemeColor) | [Follow the tutorial](https://aka.platform.uno/how-to-update-status-bar-theme-color)
 
+### System Backdrop Showcase
+
+`Window.SystemBackdrop` on Skia Win32 — switch a running window between Mica, Desktop Acrylic and no material, and see what `MicaController.IsSupported()` reports on the current OS. Requires Windows 11 build 22621 or later.
+
+[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/SystemBackdropShowcase)
+
 ### The Cat API Client
 
 An example demonstrating an approach to consuming REST web services in Uno using HttpClient.
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/TheCatApiClient) | [Follow the tutorial](https://aka.platform.uno/how-to-consume-webservices)
+
+### Text Scaling Showcase
+
+OS text-scaling accessibility support, following WinUI's logarithmic curve. A profile form grows with the scale factor while a line opting out with `IsTextScaleFactorEnabled="False"` stays put.
+
+[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/TextScalingShowcase)
 
 ### Time Entry
 
