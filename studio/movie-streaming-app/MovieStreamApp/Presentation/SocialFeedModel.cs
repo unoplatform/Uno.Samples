@@ -39,12 +39,8 @@ public partial record SocialFeedModel
 
     private static FriendActivity Activity(
         string id, string name, string avatar, string action, string title, string timeAgo,
-        string comment, int likes, bool online)
-    {
-        var movie = MovieData.ByTitle(title);
-        return new FriendActivity(id, name, avatar, action, movie.Title, movie.Genre, movie.ImageUrl,
-            timeAgo, comment, likes, online);
-    }
+        string comment, int likes, bool online) =>
+        new(id, name, avatar, action, MovieData.ByTitle(title), timeAgo, comment, likes, online);
 }
 
 public partial record FriendSuggestion(

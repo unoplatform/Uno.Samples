@@ -10,8 +10,8 @@
     padding to clear the bar. Content caps at MaxWidth=1100 on desktop so the header, rails and
     activity feed share one left edge and reflow wider. Every icon is a vector Path via the Icon
     converter; every image tile is a Border+ImageBrush so it clips to its corner radius. Movie-bearing
-    cards open the detail (full-screen page on phone/tablet, centred modal on desktop); activity cards
-    resolve their movie from the shared catalogue by title (MovieByTitle).
+    cards open the detail (full-screen page on phone/tablet, centred modal on desktop); each activity
+    carries the real Movie it references, so its card binds and opens the same entity directly.
   -->
   <Grid utu:SafeArea.Insets="Top">
     <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
@@ -81,7 +81,7 @@
                                         IsClickable="True"
                                         Content="{Binding}"
                                         uen:Navigation.Request="{utu:Responsive Layout={StaticResource DesktopModalBreakpoint}, Narrow=MovieDetail, Wide=MovieDetail, Widest='!MovieDetailModal'}"
-                                        uen:Navigation.Data="{Binding MovieTitle, Converter={StaticResource MovieByTitle}}">
+                                        uen:Navigation.Data="{Binding Movie}">
                   <utu:CardContentControl.ContentTemplate>
                     <DataTemplate>
                       <StackPanel Spacing="0">
@@ -108,7 +108,7 @@
                           <TextBlock Grid.Column="1" VerticalAlignment="Center" Style="{StaticResource BodyMedium}" Foreground="{ThemeResource OnSurfaceVariantBrush}" TextWrapping="Wrap">
                             <Run Text="{Binding FriendName}" FontWeight="SemiBold" Foreground="{ThemeResource OnSurfaceBrush}" />
                             <Run Text="{Binding Action}" />
-                            <Run Text="{Binding MovieTitle}" FontWeight="SemiBold" Foreground="{ThemeResource PrimaryBrush}" />
+                            <Run Text="{Binding Movie.Title}" FontWeight="SemiBold" Foreground="{ThemeResource PrimaryBrush}" />
                           </TextBlock>
                           <TextBlock Grid.Column="2" Text="{Binding TimeAgo}" Style="{StaticResource LabelSmall}" Foreground="{ThemeResource OutlineBrush}" VerticalAlignment="Top" />
                         </Grid>
@@ -117,7 +117,7 @@
                         <Grid Margin="14,0" Height="130">
                           <Border CornerRadius="12">
                             <Border.Background>
-                              <ImageBrush ImageSource="{Binding MovieImageUrl}" Stretch="UniformToFill" />
+                              <ImageBrush ImageSource="{Binding Movie.ImageUrl}" Stretch="UniformToFill" />
                             </Border.Background>
                           </Border>
                           <Border CornerRadius="12">
@@ -129,7 +129,7 @@
                             </Border.Background>
                           </Border>
                           <Border Background="#40000000" CornerRadius="6" Padding="8,3" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="10,0,0,10">
-                            <TextBlock Text="{Binding MovieGenre}" Style="{StaticResource LabelSmall}" Foreground="White" />
+                            <TextBlock Text="{Binding Movie.Genre}" Style="{StaticResource LabelSmall}" Foreground="White" />
                           </Border>
                         </Grid>
 
