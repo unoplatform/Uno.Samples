@@ -10,8 +10,14 @@
     Extended splash screen: continues the native (Resizetizer) splash while the app finishes
     loading, overlaying the brand mark + a loading ring on the same #151515 field. iOS shows the
     native splash white otherwise, so the mark is drawn here in LoadingContent.
+
+    Platforms excludes WebAssembly on purpose: the LoadingContent below already paints the full
+    brand field, so the native splash is redundant in the browser — and reading it there throws
+    (the Toolkit's WASM manifest parser trips on the app's missing appmanifest.js). Dropping the
+    WebAssembly flag skips that read; the branded LoadingContent + reveal flow are unaffected.
   -->
   <utu:ExtendedSplashScreen x:Name="Splash"
+                            Platforms="Android,iOS,Windows,Skia"
                             HorizontalAlignment="Stretch"
                             VerticalAlignment="Stretch"
                             HorizontalContentAlignment="Stretch"
