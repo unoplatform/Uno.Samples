@@ -124,6 +124,73 @@
     </Setter>
   </Style>
 
+  <!--
+    Crisp flat/tonal text button. A single FILLED rounded Border (no BorderThickness — nothing to
+    stroke/alias along the corner, per lesson 42's anti-aliasing note) + a Foreground-tinted
+    state-layer overlay + the 0.98 press. Use for chips and secondary actions that would otherwise
+    lean on the Simple themed button's 1px OutlineBrush stroke, which reads as a rough hairline on
+    small, tight corners at high DPI. Set Background to a fill that reads against the page (SurfaceBrush
+    stands off the deepened page background); the state layer follows Foreground like IconGhostButtonStyle.
+  -->
+  <Style x:Key="FlatButtonStyle" TargetType="Button">
+    <Setter Property="Background" Value="{ThemeResource SurfaceBrush}" />
+    <Setter Property="Foreground" Value="{ThemeResource OnSurfaceBrush}" />
+    <Setter Property="BorderThickness" Value="0" />
+    <Setter Property="CornerRadius" Value="{StaticResource ControlCornerRadius}" />
+    <Setter Property="Padding" Value="16,8" />
+    <Setter Property="MinWidth" Value="0" />
+    <Setter Property="MinHeight" Value="0" />
+    <Setter Property="UseSystemFocusVisuals" Value="True" />
+    <Setter Property="HorizontalContentAlignment" Value="Center" />
+    <Setter Property="VerticalContentAlignment" Value="Center" />
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="Button">
+          <Grid x:Name="Root" RenderTransformOrigin="0.5,0.5">
+            <Grid.RenderTransform>
+              <ScaleTransform x:Name="PressScale" ScaleX="1" ScaleY="1" />
+            </Grid.RenderTransform>
+            <Border x:Name="Fill"
+                    Background="{TemplateBinding Background}"
+                    CornerRadius="{TemplateBinding CornerRadius}" />
+            <Border x:Name="StateLayer"
+                    CornerRadius="{TemplateBinding CornerRadius}"
+                    Background="{TemplateBinding Foreground}"
+                    Opacity="0" />
+            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                              Padding="{TemplateBinding Padding}"
+                              Content="{TemplateBinding Content}"
+                              ContentTemplate="{TemplateBinding ContentTemplate}"
+                              Foreground="{TemplateBinding Foreground}" />
+            <VisualStateManager.VisualStateGroups>
+              <VisualStateGroup x:Name="CommonStates">
+                <VisualState x:Name="Normal" />
+                <VisualState x:Name="PointerOver">
+                  <VisualState.Setters>
+                    <Setter Target="StateLayer.Opacity" Value="0.08" />
+                  </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Pressed">
+                  <VisualState.Setters>
+                    <Setter Target="StateLayer.Opacity" Value="0.12" />
+                    <Setter Target="PressScale.ScaleX" Value="{StaticResource PressScale}" />
+                    <Setter Target="PressScale.ScaleY" Value="{StaticResource PressScale}" />
+                  </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Disabled">
+                  <VisualState.Setters>
+                    <Setter Target="Root.Opacity" Value="0.38" />
+                  </VisualState.Setters>
+                </VisualState>
+              </VisualStateGroup>
+            </VisualStateManager.VisualStateGroups>
+          </Grid>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
+
   <!-- Shared vertical poster card: image-on-top + title + star/rating, over a clickable FilledCard.
        Used by the two rails whose tiles are identical — SocialFeed "Trending Among Friends" and
        Playback "More Like This". DataContext is a Movie; tapping opens the responsive detail (a

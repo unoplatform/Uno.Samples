@@ -109,7 +109,7 @@
           <ItemsRepeater.ItemTemplate>
             <DataTemplate>
               <Button Content="{Binding}"
-                      Style="{StaticResource FilledTonalButtonStyle}"
+                      Style="{StaticResource FlatButtonStyle}"
                       Command="{utu:ItemsControlBinding Path=DataContext.SelectCategory}"
                       CommandParameter="{Binding}"
                       AutomationProperties.Name="{Binding}" />
@@ -129,11 +129,11 @@
               </ItemsRepeater.Layout>
               <ItemsRepeater.ItemTemplate>
                 <DataTemplate>
-                  <!-- Fixed uniform tile: explicit Width x Height + Top alignment, and a hairline
-                       border so the card has a crisp intentional edge on the near-white page (a
-                       borderless white card leaves only an antialiasing seam as its edge at high
-                       DPI, which reads as stray lines). The image row absorbs the leftover height,
-                       so every tile is identical regardless of text metrics. -->
+                  <!-- Fixed uniform tile: the Surface card fill stands off the deepened page
+                       background on its own, so the tile carries NO border — a 1px stroke on the
+                       rounded corner just aliases at high DPI (lesson 42), and it's no longer needed
+                       to separate the card from a near-white page. The image row absorbs the leftover
+                       height, so every tile is identical regardless of text metrics. -->
                   <!-- Stretch is required in BOTH axes: the Simple card template re-binds its root
                        Grid's alignment to the control's, so a non-Stretch card renders its visible
                        box at desired size INSIDE the fixed tile (collapsing the * image row). -->
@@ -142,8 +142,6 @@
                                           Height="260"
                                           HorizontalAlignment="Stretch"
                                           VerticalAlignment="Stretch"
-                                          BorderBrush="{ThemeResource OutlineVariantBrush}"
-                                          BorderThickness="1"
                                           IsClickable="True"
                                           Content="{Binding}"
                                           uen:Navigation.Request="{utu:Responsive Layout={StaticResource DesktopModalBreakpoint}, Narrow=MovieDetail, Wide=MovieDetail, Widest='!MovieDetailModal'}"
@@ -216,14 +214,12 @@
               </ItemsRepeater.Layout>
               <ItemsRepeater.ItemTemplate>
                 <DataTemplate>
-                  <!-- Fixed uniform tile + hairline edge; Stretch both axes (see the Trending note). -->
+                  <!-- Fixed uniform tile, borderless (fill defines it — see the Trending note); Stretch both axes. -->
                   <utu:CardContentControl Style="{StaticResource FilledCardContentControlStyle}"
                                           Width="340"
                                           Height="122"
                                           HorizontalAlignment="Stretch"
                                           VerticalAlignment="Stretch"
-                                          BorderBrush="{ThemeResource OutlineVariantBrush}"
-                                          BorderThickness="1"
                                           IsClickable="True"
                                           Content="{Binding}"
                                           uen:Navigation.Request="{utu:Responsive Layout={StaticResource DesktopModalBreakpoint}, Narrow=MovieDetail, Wide=MovieDetail, Widest='!MovieDetailModal'}"
