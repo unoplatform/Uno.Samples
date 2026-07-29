@@ -1,0 +1,120 @@
+<Page x:Class="SystemBackdropShowcase.MainPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:local="using:SystemBackdropShowcase"
+      Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+  <Page.Resources>
+    <Style x:Key="CardStyle"
+           TargetType="Border">
+      <Setter Property="Background" Value="{ThemeResource CardBackgroundFillColorDefaultBrush}" />
+      <Setter Property="BorderBrush" Value="{ThemeResource CardStrokeColorDefaultBrush}" />
+      <Setter Property="BorderThickness" Value="1" />
+      <Setter Property="CornerRadius" Value="8" />
+      <Setter Property="Padding" Value="20" />
+      <Setter Property="VerticalAlignment" Value="Top" />
+    </Style>
+
+    <Style x:Key="CodeStyle"
+           TargetType="TextBlock">
+      <Setter Property="FontFamily" Value="Consolas" />
+      <Setter Property="IsTextSelectionEnabled" Value="True" />
+      <Setter Property="TextWrapping" Value="Wrap" />
+    </Style>
+
+    <Style x:Key="StepStyle"
+           BasedOn="{StaticResource BodyTextBlockStyle}"
+           TargetType="TextBlock">
+      <Setter Property="Foreground" Value="{ThemeResource TextFillColorSecondaryBrush}" />
+      <Setter Property="TextWrapping" Value="Wrap" />
+    </Style>
+  </Page.Resources>
+
+  <Grid Padding="24"
+        RowSpacing="16">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="*" />
+    </Grid.RowDefinitions>
+
+    <StackPanel Grid.Row="0"
+                Spacing="4">
+      <TextBlock AutomationProperties.AutomationId="PageTitle"
+                 Style="{ThemeResource TitleTextBlockStyle}"
+                 Text="Window.SystemBackdrop on Skia Win32" />
+      <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                 Style="{ThemeResource BodyTextBlockStyle}"
+                 Text="Uno Platform 6.7 renders the Windows 11 Mica and Desktop Acrylic materials behind a desktop window. Pick a material and this window changes live."
+                 TextWrapping="Wrap" />
+    </StackPanel>
+
+    <Grid Grid.Row="1"
+          ColumnSpacing="16">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="360" />
+        <ColumnDefinition Width="*" />
+      </Grid.ColumnDefinitions>
+
+      <Border Grid.Column="0"
+              Style="{StaticResource CardStyle}">
+        <StackPanel Spacing="16">
+          <RadioButtons x:Name="BackdropSelector"
+                        AutomationProperties.AutomationId="BackdropSelector"
+                        Header="Backdrop material"
+                        SelectionChanged="OnBackdropSelectionChanged">
+            <RadioButton AutomationProperties.AutomationId="BackdropOptionNone"
+                         Content="None" />
+            <RadioButton AutomationProperties.AutomationId="BackdropOptionMica"
+                         Content="Mica" />
+            <RadioButton AutomationProperties.AutomationId="BackdropOptionAcrylic"
+                         Content="Desktop Acrylic" />
+          </RadioButtons>
+
+          <StackPanel Spacing="4">
+            <TextBlock Margin="0,0,0,2"
+                       Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                       Style="{ThemeResource CaptionTextBlockStyle}"
+                       Text="PLATFORM SUPPORT" />
+            <TextBlock x:Name="MicaSupportText"
+                       AutomationProperties.AutomationId="MicaSupportText"
+                       Style="{StaticResource CodeStyle}" />
+            <TextBlock x:Name="AcrylicSupportText"
+                       AutomationProperties.AutomationId="AcrylicSupportText"
+                       Style="{StaticResource CodeStyle}" />
+            <TextBlock x:Name="SupportNoticeText"
+                       AutomationProperties.AutomationId="SupportNoticeText"
+                       Margin="0,8,0,0"
+                       Foreground="{ThemeResource SystemFillColorCautionBrush}"
+                       Text="Mica and Desktop Acrylic need Windows 11 build 22621 or later. On this machine the selection has no visible effect."
+                       TextWrapping="Wrap"
+                       Visibility="Collapsed" />
+          </StackPanel>
+        </StackPanel>
+      </Border>
+
+      <Border Grid.Column="1"
+              Style="{StaticResource CardStyle}">
+        <StackPanel Spacing="10">
+          <TextBlock FontWeight="SemiBold"
+                     Text="What happens when you set the property" />
+          <TextBlock Style="{StaticResource StepStyle}"
+                     Text="DWM draws the material, and the window frame is extended across the client area so it also fills the title bar." />
+          <TextBlock Style="{StaticResource StepStyle}"
+                     Text="Uno Platform makes the solid backgrounds in the visual tree transparent while a backdrop is active, and restores them when it is cleared." />
+          <TextBlock Style="{StaticResource StepStyle}"
+                     Text="The controllers report whether the running OS can render the materials at all." />
+
+          <Border Padding="12"
+                  Margin="0,4,0,0"
+                  Background="{ThemeResource SubtleFillColorSecondaryBrush}"
+                  BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                  BorderThickness="1"
+                  CornerRadius="6">
+            <TextBlock AutomationProperties.AutomationId="CodeSnippetText"
+                       Style="{StaticResource CodeStyle}"><Run Text="using Microsoft.UI.Xaml.Media;" /><LineBreak /><LineBreak /><Run Text="window.SystemBackdrop = new MicaBackdrop();" /><LineBreak /><Run Text="window.SystemBackdrop =" /><LineBreak /><Run Text="    new DesktopAcrylicBackdrop();" /><LineBreak /><Run Text="window.SystemBackdrop = null;" /></TextBlock>
+          </Border>
+        </StackPanel>
+      </Border>
+    </Grid>
+  </Grid>
+</Page>
