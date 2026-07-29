@@ -129,8 +129,21 @@
               </ItemsRepeater.Layout>
               <ItemsRepeater.ItemTemplate>
                 <DataTemplate>
+                  <!-- Fixed uniform tile: explicit Width x Height + Top alignment, and a hairline
+                       border so the card has a crisp intentional edge on the near-white page (a
+                       borderless white card leaves only an antialiasing seam as its edge at high
+                       DPI, which reads as stray lines). The image row absorbs the leftover height,
+                       so every tile is identical regardless of text metrics. -->
+                  <!-- Stretch is required in BOTH axes: the Simple card template re-binds its root
+                       Grid's alignment to the control's, so a non-Stretch card renders its visible
+                       box at desired size INSIDE the fixed tile (collapsing the * image row). -->
                   <utu:CardContentControl Style="{StaticResource FilledCardContentControlStyle}"
                                           Width="160"
+                                          Height="260"
+                                          HorizontalAlignment="Stretch"
+                                          VerticalAlignment="Stretch"
+                                          BorderBrush="{ThemeResource OutlineVariantBrush}"
+                                          BorderThickness="1"
                                           IsClickable="True"
                                           Content="{Binding}"
                                           uen:Navigation.Request="{utu:Responsive Layout={StaticResource DesktopModalBreakpoint}, Narrow=MovieDetail, Wide=MovieDetail, Widest='!MovieDetailModal'}"
@@ -138,9 +151,13 @@
                                           AutomationProperties.Name="{Binding Title}">
                     <utu:CardContentControl.ContentTemplate>
                   <DataTemplate>
-                    <StackPanel>
-                      <Grid>
-                        <Border Height="200" CornerRadius="12,12,0,0">
+                    <Grid>
+                      <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                      </Grid.RowDefinitions>
+                      <Grid Grid.Row="0">
+                        <Border CornerRadius="12,12,0,0">
                           <Border.Background>
                             <ImageBrush ImageSource="{Binding ImageUrl}" Stretch="UniformToFill" />
                           </Border.Background>
@@ -151,7 +168,7 @@
                           <TextBlock Text="NEW" Style="{StaticResource LabelSmall}" Foreground="{ThemeResource OnPrimaryBrush}" />
                         </Border>
                       </Grid>
-                      <StackPanel Padding="10,8" Spacing="3">
+                      <StackPanel Grid.Row="1" Padding="10,8" Spacing="3">
                         <TextBlock Text="{Binding Title}" Style="{StaticResource LabelLarge}" Foreground="{ThemeResource OnSurfaceBrush}" TextTrimming="CharacterEllipsis" MaxLines="1" />
                         <StackPanel Orientation="Horizontal" Spacing="6">
                           <TextBlock Text="{Binding Genre}" Style="{StaticResource BodySmall}" Foreground="{ThemeResource OutlineBrush}" VerticalAlignment="Center" />
@@ -162,7 +179,7 @@
                           <TextBlock Text="{Binding Rating}" Style="{StaticResource BodySmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" VerticalAlignment="Center" />
                         </StackPanel>
                       </StackPanel>
-                    </StackPanel>
+                    </Grid>
                   </DataTemplate>
                     </utu:CardContentControl.ContentTemplate>
                   </utu:CardContentControl>
@@ -199,8 +216,14 @@
               </ItemsRepeater.Layout>
               <ItemsRepeater.ItemTemplate>
                 <DataTemplate>
+                  <!-- Fixed uniform tile + hairline edge; Stretch both axes (see the Trending note). -->
                   <utu:CardContentControl Style="{StaticResource FilledCardContentControlStyle}"
                                           Width="340"
+                                          Height="122"
+                                          HorizontalAlignment="Stretch"
+                                          VerticalAlignment="Stretch"
+                                          BorderBrush="{ThemeResource OutlineVariantBrush}"
+                                          BorderThickness="1"
                                           IsClickable="True"
                                           Content="{Binding}"
                                           uen:Navigation.Request="{utu:Responsive Layout={StaticResource DesktopModalBreakpoint}, Narrow=MovieDetail, Wide=MovieDetail, Widest='!MovieDetailModal'}"
