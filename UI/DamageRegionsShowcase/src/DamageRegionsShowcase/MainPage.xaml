@@ -1,0 +1,154 @@
+<Page x:Class="DamageRegionsShowcase.MainPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:local="using:DamageRegionsShowcase"
+      Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+  <Page.Resources>
+    <Style x:Key="CardStyle"
+           TargetType="Border">
+      <Setter Property="Background" Value="{ThemeResource CardBackgroundFillColorDefaultBrush}" />
+      <Setter Property="BorderBrush" Value="{ThemeResource CardStrokeColorDefaultBrush}" />
+      <Setter Property="BorderThickness" Value="1" />
+      <Setter Property="CornerRadius" Value="8" />
+      <Setter Property="Padding" Value="16" />
+    </Style>
+  </Page.Resources>
+
+  <Grid RowSpacing="16"
+        Padding="24">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="*" />
+    </Grid.RowDefinitions>
+
+    <StackPanel Spacing="4">
+      <TextBlock Text="Damage regions"
+                 Style="{StaticResource TitleTextBlockStyle}" />
+      <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                 TextWrapping="Wrap"
+                 Text="Uno Platform repaints only the region that actually changed. Turn on the overlay and interact with the panel below — the red tint marks every pixel the GPU was asked to redraw this frame. The static cards stay untinted." />
+    </StackPanel>
+
+    <Border Grid.Row="1"
+            Style="{StaticResource CardStyle}">
+      <StackPanel Orientation="Horizontal"
+                  Spacing="24">
+        <ToggleSwitch x:Name="OverlayToggle"
+                      AutomationProperties.AutomationId="OverlayToggle"
+                      Header="Highlight repainted regions"
+                      OnContent="On"
+                      OffContent="Off"
+                      Toggled="OnOverlayToggled" />
+        <StackPanel VerticalAlignment="Bottom"
+                    Spacing="2">
+          <TextBlock Text="FeatureConfiguration.Rendering.DamageRegionOverlay"
+                     FontFamily="Consolas"
+                     FontSize="12"
+                     Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
+          <TextBlock x:Name="StatusText"
+                     AutomationProperties.AutomationId="StatusText"
+                     Text="Overlay off — normal rendering"
+                     Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+                     FontSize="12" />
+        </StackPanel>
+      </StackPanel>
+    </Border>
+
+    <Grid Grid.Row="2"
+          ColumnSpacing="16">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="1.4*" />
+      </Grid.ColumnDefinitions>
+
+      <!-- Everything that moves lives here, so the damage stays in this column -->
+      <Border Style="{StaticResource CardStyle}">
+        <StackPanel Spacing="20">
+          <TextBlock Text="Things that change"
+                     Style="{StaticResource SubtitleTextBlockStyle}" />
+
+          <StackPanel Spacing="6">
+            <TextBlock Text="A blinking caret"
+                       FontWeight="SemiBold" />
+            <TextBox AutomationProperties.AutomationId="CaretBox"
+                     Text="Click here and watch the caret"
+                     PlaceholderText="Type to see the damage follow the caret" />
+          </StackPanel>
+
+          <StackPanel Spacing="6">
+            <TextBlock Text="A spinner"
+                       FontWeight="SemiBold" />
+            <ProgressRing AutomationProperties.AutomationId="Spinner"
+                          IsActive="True"
+                          HorizontalAlignment="Left"
+                          Width="40"
+                          Height="40" />
+          </StackPanel>
+
+          <StackPanel Spacing="6">
+            <TextBlock Text="A hover state"
+                       FontWeight="SemiBold" />
+            <Button AutomationProperties.AutomationId="HoverButton"
+                    Content="Hover or focus me"
+                    HorizontalAlignment="Left" />
+          </StackPanel>
+
+          <StackPanel Spacing="6">
+            <TextBlock Text="A moving shape"
+                       FontWeight="SemiBold" />
+            <Canvas Height="60"
+                    Background="{ThemeResource SubtleFillColorSecondaryBrush}">
+              <Ellipse x:Name="Dot"
+                       Width="24"
+                       Height="24"
+                       Canvas.Top="18"
+                       Fill="{ThemeResource AccentFillColorDefaultBrush}">
+                <Ellipse.RenderTransform>
+                  <TranslateTransform x:Name="DotTransform" />
+                </Ellipse.RenderTransform>
+              </Ellipse>
+            </Canvas>
+          </StackPanel>
+        </StackPanel>
+      </Border>
+
+      <!-- Static content: with damage regions this is never re-rasterized -->
+      <Border Grid.Column="1"
+              Style="{StaticResource CardStyle}">
+        <Grid RowSpacing="12">
+          <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+          </Grid.RowDefinitions>
+          <TextBlock Text="Things that don't"
+                     Style="{StaticResource SubtitleTextBlockStyle}" />
+          <ItemsControl Grid.Row="1"
+                        x:Name="StaticCards">
+            <ItemsControl.ItemsPanel>
+              <ItemsPanelTemplate>
+                <StackPanel Spacing="8" />
+              </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+              <DataTemplate x:DataType="local:StaticCard">
+                <Border Style="{StaticResource CardStyle}"
+                        Padding="12">
+                  <StackPanel Spacing="2">
+                    <TextBlock Text="{Binding Title}"
+                               FontWeight="SemiBold" />
+                    <TextBlock Text="{Binding Body}"
+                               TextWrapping="Wrap"
+                               Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                               FontSize="12" />
+                  </StackPanel>
+                </Border>
+              </DataTemplate>
+            </ItemsControl.ItemTemplate>
+          </ItemsControl>
+        </Grid>
+      </Border>
+    </Grid>
+  </Grid>
+</Page>
