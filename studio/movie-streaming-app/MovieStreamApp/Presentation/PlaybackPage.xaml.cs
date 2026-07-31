@@ -102,7 +102,9 @@ public sealed partial class PlaybackPage : Page
             }
 
             _suppressSliderUpdate = true;
-            ScrubSlider.Value = position / duration;
+            // Scrub position as a 0..1 ratio (the slider's range). Compute over TotalSeconds and clamp,
+            // so a position that momentarily runs past the reported duration can't overshoot the track.
+            ScrubSlider.Value = Math.Clamp(position.TotalSeconds / duration.TotalSeconds, 0, 1);
             _suppressSliderUpdate = false;
         });
     }
