@@ -38,6 +38,10 @@ public sealed partial class PlaybackPage : Page
 
     private void OnLoaded(object sender, RoutedEventArgs e)
     {
+        // Give the page keyboard focus so the Esc accelerator fires without the user clicking first
+        // (Programmatic focus draws no focus ring); Space/Enter on this button then toggles play/pause.
+        PlayPauseButton.Focus(FocusState.Programmatic);
+
         if (_player is not null)
         {
             return;
@@ -84,6 +88,15 @@ public sealed partial class PlaybackPage : Page
     {
         var duration = sender.PlaybackSession.NaturalDuration;
         DispatcherQueue.TryEnqueue(() => TotalTime.Text = Format(duration));
+    }
+
+    // Esc = leave the player (see Page.KeyboardAccelerators). Routes back through the same navigator the
+    // on-screen Back button uses (uen:Navigation.Request="-"), so it works even when the native video
+    // surface covers that button — a keyboard exit that never depends on a clickable overlay.
+    private void OnEscapeInvoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
+    {
+        args.Handled = true;
+        _ = this.Navigator()?.NavigateBackAsync(this);
     }
 
     private void OnMediaFailed(WinMediaPlayer sender, MediaPlayerFailedEventArgs args) =>

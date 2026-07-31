@@ -5,6 +5,13 @@
       xmlns:utu="using:Uno.Toolkit.UI"
       Background="{ThemeResource BackgroundBrush}">
 
+  <!-- Esc leaves the player (the desktop convention for exiting a full-screen video). Keyboard input
+       is immune to the native video surface, so this is a reliable way out even on heads where that
+       surface paints over the on-screen Back button. -->
+  <Page.KeyboardAccelerators>
+    <KeyboardAccelerator Key="Escape" Invoked="OnEscapeInvoked" />
+  </Page.KeyboardAccelerators>
+
   <!--
     Full-screen playback surface (a shell sibling, so the floating TabBar doesn't overlay it — no
     bottom inset needed). A 16:9 "player" (Border+ImageBrush so it clips to its corner radius) with
@@ -48,7 +55,8 @@
           </Border>
 
           <!-- Centred large play/pause -->
-          <Button Style="{StaticResource IconGhostButtonStyle}"
+          <Button x:Name="PlayPauseButton"
+                  Style="{StaticResource IconGhostButtonStyle}"
                   Background="#66000000"
                   Foreground="White"
                   Width="76" Height="76"
