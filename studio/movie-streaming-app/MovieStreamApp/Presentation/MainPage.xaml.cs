@@ -8,6 +8,5 @@ public sealed partial class MainPage : Page
 
         // For Hot Design Previews (which bypass Navigation). At runtime the template's
         // ViewMap<MainPage, MainModel> wires the DataContext; replacing this is expected.
-        this.DataContext = new MainModel();
     }
 }

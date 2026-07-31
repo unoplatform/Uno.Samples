@@ -1,56 +1,34 @@
 namespace MovieStreamApp.Presentation;
 
-[Uno.Extensions.Reactive.ReactiveBindable(false)]
-public partial record BrowseModel
+/// <summary>
+/// Backs <see cref="BrowsePage"/>. A reactive model: the category chips drive a two-way
+/// <see cref="SelectedCategory"/> state, and the Trending / New Arrivals rails are derived
+/// <see cref="IListFeed{Movie}"/>s that re-filter when it changes. Watchlist "+" actions write to the
+/// shared <see cref="WatchlistService"/> (injected via DI).
+/// </summary>
+public partial record BrowseModel(WatchlistService Watchlist)
 {
-    public Movie FeaturedMovie { get; } = new Movie(
-        "m-001",
-        "The Last Horizon",
-        "Sci-Fi",
-        "2024",
-        "8.4",
-        "2h 18m",
-        "A lone astronaut discovers a signal from the edge of the universe that could reshape humanity's understanding of existence. A breathtaking journey into the unknown.",
-        "https://picsum.photos/seed/sci-fi%20space%20movie%20poster/768/1024",
-        true,
-        false);
+    public Movie FeaturedMovie => MovieData.Featured;
 
-    public IReadOnlyList<string> Categories { get; } = new[]
-    {
-        "All", "Action", "Drama", "Sci-Fi", "Horror", "Comedy", "Documentary"
-    };
+    public IReadOnlyList<string> Categories => MovieData.Categories;
 
-    public string SelectedCategory { get; } = "All";
+    public IState<string> SelectedCategory => State.Value(this, () => "All");
 
-    public IReadOnlyList<Movie> TrendingNow { get; } = new[]
-    {
-        new Movie("m-002", "Crimson Protocol", "Action", "2024", "7.9", "1h 52m",
-            "An elite operative uncovers a global conspiracy that puts millions at risk.",
-            "https://picsum.photos/seed/cinematic%20movie%20poster%20action/768/1024", false, true),
-        new Movie("m-003", "Shattered Glass", "Drama", "2024", "8.1", "2h 05m",
-            "A celebrated artist's life unravels when a forgotten past resurfaces.",
-            "https://picsum.photos/seed/drama%20romance%20movie%20poster/768/1024", false, false),
-        new Movie("m-004", "Void Walker", "Horror", "2023", "7.5", "1h 44m",
-            "Something in the darkness has been watching since the beginning.",
-            "https://picsum.photos/seed/horror%20mystery%20movie%20poster%20dark/768/1024", false, false),
-        new Movie("m-005", "Solar Drift", "Sci-Fi", "2024", "8.7", "2h 31m",
-            "In a dying solar system, a crew races against time to find a new home for mankind.",
-            "https://picsum.photos/seed/documentary%20nature%20landscape%20film/1280/720", false, true),
-        new Movie("m-006", "The Wildest Show", "Comedy", "2024", "7.3", "1h 38m",
-            "A chaotic talent-show audition weekend spirals into the most unforgettable 48 hours.",
-            "https://picsum.photos/seed/comedy%20animated%20movie%20poster%20colorful/768/1024", false, false),
-    };
+    public IListFeed<Movie> Trending =>
+        SelectedCategory.Select(cat => Filter(MovieData.Trending, cat)).AsListFeed();
 
-    public IReadOnlyList<Movie> NewArrivals { get; } = new[]
-    {
-        new Movie("m-007", "Iron Veil", "Action", "2024", "7.8", "2h 10m",
-            "A disbanded special forces unit is called back for one final impossible mission.",
-            "https://picsum.photos/seed/superhero%20action%20blockbuster%20movie/768/1024", false, true),
-        new Movie("m-008", "Between Worlds", "Drama", "2024", "8.3", "1h 58m",
-            "Two strangers meet at the crossroads of grief and hope in a timeless love story.",
-            "https://picsum.photos/seed/dark%20thriller%20movie%20poster/768/1024", false, true),
-        new Movie("m-009", "Earth Reborn", "Documentary", "2024", "9.0", "1h 30m",
-            "An astonishing look at how life regenerates in the most hostile environments.",
-            "https://picsum.photos/seed/documentary%20nature%20landscape%20film/1280/720", false, true),
-    };
+    public IListFeed<Movie> NewArrivals =>
+        SelectedCategory.Select(cat => Filter(MovieData.NewArrivals, cat)).AsListFeed();
+
+    // The parameter is named "category" (not "selectedCategory") so it does NOT match the
+    // SelectedCategory feed case-insensitively — otherwise MVUX would inject the feed's current value
+    // and discard the chip's CommandParameter (lesson 44).
+    public async ValueTask SelectCategory(string category, CancellationToken ct = default) =>
+        await SelectedCategory.SetAsync(category, ct);
+
+    public async ValueTask ToggleWatchlist(Movie movie, CancellationToken ct = default) =>
+        await Watchlist.ToggleAsync(movie, ct);
+
+    private static IImmutableList<Movie> Filter(IReadOnlyList<Movie> source, string? category) =>
+        (category is null or "All" ? source : source.Where(m => m.Genre == category)).ToImmutableList();
 }

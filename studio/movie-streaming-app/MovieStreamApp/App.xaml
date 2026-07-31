@@ -3,16 +3,40 @@
        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
        xmlns:utus="using:Uno.Toolkit.UI.Simple">
 
+  <!--
+    App.xaml is a thin manifest: it only merges the dedicated dictionaries. The app runs on the Uno
+    Simple theme (SimpleToolkitTheme), whose ColorOverrideSource maps the CineStream brand palette
+    onto the semantic role colors in ThemeColors.xaml, so the built-in controls pick up the identity.
+    The floating TabBar theme and the app styling vocabulary (Styles.xaml, merged LAST so its token
+    overrides win) follow. Body text is the framework Roboto — portable on every platform, where the
+    Simple default renders Regular weight as monospace.
+  -->
   <Application.Resources>
     <ResourceDictionary>
       <ResourceDictionary.MergedDictionaries>
         <!-- Load WinUI resources -->
         <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
-        <utus:SimpleToolkitTheme xmlns:utus="using:Uno.Toolkit.UI.Simple" ColorOverrideSource="ms-appx:///ThemeColors.xaml"><utus:SimpleToolkitTheme.FontOverrideDictionary><ResourceDictionary><FontFamily x:Key="SimpleFontFamily">Inter</FontFamily><FontFamily x:Key="DisplayLargeFontFamily">Inter</FontFamily><FontWeight x:Key="DisplayLargeFontWeight">800</FontWeight><FontWeight x:Key="TitleLargeFontWeight">700</FontWeight><FontWeight x:Key="TitleMediumFontWeight">600</FontWeight><FontWeight x:Key="TitleSmallFontWeight">600</FontWeight><FontWeight x:Key="LabelLargeFontWeight">600</FontWeight><x:Double x:Key="LabelMediumFontSize">11</x:Double><x:Double x:Key="BodyMediumFontSize">14</x:Double><x:Double x:Key="BodySmallFontSize">12</x:Double></ResourceDictionary></utus:SimpleToolkitTheme.FontOverrideDictionary></utus:SimpleToolkitTheme>
-      </ResourceDictionary.MergedDictionaries><CornerRadius x:Key="ControlCornerRadiusSmall">6</CornerRadius><CornerRadius x:Key="ControlCornerRadius">14</CornerRadius><CornerRadius x:Key="OverlayCornerRadius">24</CornerRadius><SolidColorBrush x:Key="App.PageBackground.Background" Color="{ThemeResource BackgroundBrush}" /><SolidColorBrush x:Key="App.PageBackground.Foreground" Color="{ThemeResource OnBackgroundBrush}" /><SolidColorBrush x:Key="App.CardBackground.Background" Color="{ThemeResource SurfaceVariantBrush}" /><SolidColorBrush x:Key="App.CardBackground.Foreground" Color="{ThemeResource OnSurfaceVariantBrush}" /><SolidColorBrush x:Key="App.NestedSurface.Background" Color="{ThemeResource SurfaceBrush}" /><SolidColorBrush x:Key="App.NestedSurface.Foreground" Color="{ThemeResource OnSurfaceBrush}" /><SolidColorBrush x:Key="App.TabBar.Background" Color="{ThemeResource SurfaceVariantBrush}" /><SolidColorBrush x:Key="App.TabBar.Foreground" Color="{ThemeResource OnSurfaceVariantBrush}" /><SolidColorBrush x:Key="App.TabBar.SelectionIndicator" Color="{ThemeResource PrimaryBrush}" /><SolidColorBrush x:Key="App.NavigationView.SidebarBackground" Color="{ThemeResource SurfaceVariantBrush}" /><SolidColorBrush x:Key="App.NavigationView.SidebarForeground" Color="{ThemeResource OnSurfaceVariantBrush}" /><SolidColorBrush x:Key="App.Accent.Indicator" Color="{ThemeResource PrimaryBrush}" /><SolidColorBrush x:Key="App.Badge.Positive" Color="{ThemeResource TertiaryContainerBrush}" /><SolidColorBrush x:Key="App.Badge.Positive.Foreground" Color="{ThemeResource OnTertiaryContainerBrush}" /><SolidColorBrush x:Key="App.Badge.Negative" Color="{ThemeResource ErrorBrush}" /><SolidColorBrush x:Key="App.Badge.Negative.Foreground" Color="{ThemeResource OnErrorBrush}" /><SolidColorBrush x:Key="App.Badge.Neutral" Color="{ThemeResource SecondaryContainerBrush}" /><SolidColorBrush x:Key="App.Badge.Neutral.Foreground" Color="{ThemeResource OnSecondaryContainerBrush}" /><SolidColorBrush x:Key="App.Text.High" Color="{ThemeResource OnSurfaceBrush}" /><SolidColorBrush x:Key="App.Text.Medium" Color="{ThemeResource OnSurfaceVariantBrush}" /><SolidColorBrush x:Key="App.Text.Low" Color="{ThemeResource OutlineBrush}" /><SolidColorBrush x:Key="App.Text.Disabled" Color="{ThemeResource OutlineVariantBrush}" />
-
-      <!-- Add resources here -->
-
+        <!-- Uno Simple theme: brand palette mapped to semantic roles + Roboto text -->
+        <utus:SimpleToolkitTheme ColorOverrideSource="ms-appx:///ThemeColors.xaml">
+          <utus:SimpleToolkitTheme.FontOverrideDictionary>
+            <ResourceDictionary>
+              <FontFamily x:Key="SimpleFontFamily">ms-appx:///Uno.Fonts.Roboto/Fonts/Roboto-Regular.ttf#Roboto</FontFamily>
+              <FontWeight x:Key="DisplayLargeFontWeight">800</FontWeight>
+              <FontWeight x:Key="TitleLargeFontWeight">700</FontWeight>
+              <FontWeight x:Key="TitleMediumFontWeight">600</FontWeight>
+              <FontWeight x:Key="TitleSmallFontWeight">600</FontWeight>
+              <FontWeight x:Key="LabelLargeFontWeight">600</FontWeight>
+              <x:Double x:Key="LabelMediumFontSize">11</x:Double>
+              <x:Double x:Key="BodyMediumFontSize">14</x:Double>
+              <x:Double x:Key="BodySmallFontSize">12</x:Double>
+            </ResourceDictionary>
+          </utus:SimpleToolkitTheme.FontOverrideDictionary>
+        </utus:SimpleToolkitTheme>
+        <!-- iOS-style floating capsule TabBar theme (built on the Simple base styles; merged after it) -->
+        <ResourceDictionary Source="ms-appx:///Themes/FloatingTabBar.xaml" />
+        <!-- App styling vocabulary: converters, design tokens, responsive breakpoints, shared styles -->
+        <ResourceDictionary Source="ms-appx:///Styles.xaml" />
+      </ResourceDictionary.MergedDictionaries>
     </ResourceDictionary>
   </Application.Resources>
 

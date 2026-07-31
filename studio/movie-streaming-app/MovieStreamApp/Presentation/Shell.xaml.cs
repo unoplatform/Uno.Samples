@@ -1,0 +1,63 @@
+using System;
+using System.Threading.Tasks;
+using Microsoft.UI.Dispatching;
+using Uno.Toolkit.UI;
+
+namespace MovieStreamApp.Presentation;
+
+public sealed partial class Shell : UserControl
+{
+    // Demo-only: a fixed minimum so the splash is perceptible while the app warms up. A production
+    // app would gate the reveal on real readiness (first navigation / data loaded) instead.
+    private static readonly TimeSpan SplashMinimumDuration = TimeSpan.FromSeconds(2);
+
+    public Shell()
+    {
+        this.InitializeComponent();
+
+        var loader = new StartupLoadable();
+        Splash.Source = loader;
+        loader.Begin(DispatcherQueue, SplashMinimumDuration);
+    }
+
+    /// <summary>
+    /// Minimal <see cref="ILoadable"/> that reports "executing" for a fixed delay then flips to done
+    /// so the <see cref="ExtendedSplashScreen"/> reveals its content. The flag is always cleared —
+    /// even if the UI dispatcher can't be reached — so the app can never get stuck on the splash.
+    /// </summary>
+    private sealed class StartupLoadable : ILoadable
+    {
+        public bool IsExecuting { get; private set; } = true;
+
+        public event EventHandler? IsExecutingChanged;
+
+        public async void Begin(DispatcherQueue dispatcher, TimeSpan delay)
+        {
+            try
+            {
+                await Task.Delay(delay);
+            }
+            catch (OperationCanceledException)
+            {
+                // The only thing Task.Delay can raise (if a future version passes a cancellation
+                // token); swallow it so the splash is still dismissed below and never gets stuck.
+            }
+
+            if (!dispatcher.TryEnqueue(Complete))
+            {
+                Complete();
+            }
+        }
+
+        private void Complete()
+        {
+            if (!IsExecuting)
+            {
+                return;
+            }
+
+            IsExecuting = false;
+            IsExecutingChanged?.Invoke(this, EventArgs.Empty);
+        }
+    }
+}

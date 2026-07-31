@@ -5,6 +5,9 @@ public sealed partial class SearchPage : Page
     public SearchPage()
     {
         this.InitializeComponent();
-        this.DataContext = new SearchModel();
+
+        // Seed a sample DataContext so the Hot Design Previews gallery (which renders without
+        // Navigation) populates; Navigation overrides this.DataContext at runtime.
+        this.DataContext = new SearchViewModel();
     }
 }
