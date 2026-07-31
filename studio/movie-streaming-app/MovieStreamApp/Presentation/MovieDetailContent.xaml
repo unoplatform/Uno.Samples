@@ -88,7 +88,10 @@
               <Viewbox Width="18" Height="18">
                 <Path Data="{Binding Source=play, Converter={StaticResource Icon}}" Fill="{ThemeResource OnPrimaryBrush}" Stretch="Uniform" />
               </Viewbox>
-              <TextBlock Text="Play" VerticalAlignment="Center" />
+              <!-- Explicit on-color: a VisualState-set ContentPresenter.Foreground doesn't reliably
+                   inherit into a nested TextBlock, so the label is pinned to the button's on-color
+                   (white) directly — it stays legible on the accent fill in every interactive state. -->
+              <TextBlock Text="Play" VerticalAlignment="Center" Foreground="{ThemeResource OnPrimaryBrush}" />
             </StackPanel>
           </Button>
           <Button Style="{StaticResource IconGhostButtonStyle}" Width="44" Height="44"
