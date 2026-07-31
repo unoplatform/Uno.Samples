@@ -78,8 +78,15 @@ public sealed partial class PlaybackPage : Page
         _player.PlaybackSession.PlaybackStateChanged -= OnPlaybackStateChanged;
         _player.Pause();
         Player.SetMediaPlayer(null);
-        _player.Dispose();
+
+        // Defer Dispose one dispatcher turn instead of disposing inline. On the macOS desktop head the
+        // native player keeps posting periodic position callbacks, and disposing mid-teardown pulls the
+        // player out from under a callback that's already queued on the UI thread — it then dereferences
+        // a null and throws deep in the media runtime. Pausing quiesces those callbacks and deferring the
+        // dispose lets any queued one drain against a live player first, so teardown is race-free.
+        var player = _player;
         _player = null;
+        DispatcherQueue.TryEnqueue(() => player.Dispose());
     }
 
     // ── Player → UI (events arrive off-thread) ──────────────────────────────────────────────────
