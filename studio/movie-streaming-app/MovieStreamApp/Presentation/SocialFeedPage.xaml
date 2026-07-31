@@ -40,25 +40,39 @@
               <DataTemplate>
                 <utu:CardContentControl Style="{StaticResource FilledCardContentControlStyle}"
                                         HorizontalAlignment="Stretch"
+                                        VerticalAlignment="Stretch"
                                         Content="{Binding}">
                   <utu:CardContentControl.ContentTemplate>
                     <DataTemplate>
-                      <StackPanel Padding="12,14" Spacing="8" HorizontalAlignment="Center">
-                        <Border Width="56" Height="56" CornerRadius="28" HorizontalAlignment="Center">
-                          <Border.Background>
-                            <ImageBrush ImageSource="{Binding AvatarUrl}" Stretch="UniformToFill" />
-                          </Border.Background>
-                        </Border>
-                        <StackPanel Spacing="2" HorizontalAlignment="Center">
-                          <TextBlock Text="{Binding Name}" Style="{StaticResource LabelLarge}" Foreground="{ThemeResource OnSurfaceBrush}" TextAlignment="Center" TextWrapping="Wrap" MaxLines="2" />
-                          <TextBlock Text="{Binding Reason}" Style="{StaticResource BodySmall}" Foreground="{ThemeResource OutlineBrush}" TextAlignment="Center" TextWrapping="Wrap" MaxLines="2" />
+                      <!-- CANON: tiles laid out multi-up must be the SAME size. When tile content varies
+                           in length (name and reason each wrap to 1–2 lines), a content-sized StackPanel
+                           makes every card as tall as its own text, so the row comes out ragged. The card
+                           Stretches on BOTH axes to fill its uniform grid cell, and the content is a Grid:
+                           the avatar/name/reason group pins to the TOP (so avatars line up across the row)
+                           while the Add button pins to the BOTTOM (so the buttons line up too), whatever
+                           the text does in between. -->
+                      <Grid Padding="12,14" RowSpacing="8">
+                        <Grid.RowDefinitions>
+                          <RowDefinition Height="*" />
+                          <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <StackPanel Grid.Row="0" Spacing="8" HorizontalAlignment="Center" VerticalAlignment="Top">
+                          <Border Width="56" Height="56" CornerRadius="28" HorizontalAlignment="Center">
+                            <Border.Background>
+                              <ImageBrush ImageSource="{Binding AvatarUrl}" Stretch="UniformToFill" />
+                            </Border.Background>
+                          </Border>
+                          <StackPanel Spacing="2" HorizontalAlignment="Center">
+                            <TextBlock Text="{Binding Name}" Style="{StaticResource LabelLarge}" Foreground="{ThemeResource OnSurfaceBrush}" TextAlignment="Center" TextWrapping="Wrap" MaxLines="2" />
+                            <TextBlock Text="{Binding Reason}" Style="{StaticResource BodySmall}" Foreground="{ThemeResource OutlineBrush}" TextAlignment="Center" TextWrapping="Wrap" MaxLines="2" />
+                          </StackPanel>
                         </StackPanel>
-                        <Button Style="{StaticResource IconGhostButtonStyle}" Width="36" Height="36" HorizontalAlignment="Center" AutomationProperties.Name="Add friend">
+                        <Button Grid.Row="1" Style="{StaticResource IconGhostButtonStyle}" Width="36" Height="36" HorizontalAlignment="Center" VerticalAlignment="Bottom" AutomationProperties.Name="Add friend">
                           <Viewbox Width="18" Height="18">
                             <Path Data="{Binding Source=add, Converter={StaticResource Icon}}" Fill="{ThemeResource PrimaryBrush}" Stretch="Uniform" />
                           </Viewbox>
                         </Button>
-                      </StackPanel>
+                      </Grid>
                     </DataTemplate>
                   </utu:CardContentControl.ContentTemplate>
                 </utu:CardContentControl>
