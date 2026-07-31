@@ -37,9 +37,10 @@ public sealed partial class Shell : UserControl
             {
                 await Task.Delay(delay);
             }
-            catch
+            catch (OperationCanceledException)
             {
-                // Swallow: the splash must still be dismissed below.
+                // The only thing Task.Delay can raise (if a future version passes a cancellation
+                // token); swallow it so the splash is still dismissed below and never gets stuck.
             }
 
             if (!dispatcher.TryEnqueue(Complete))
