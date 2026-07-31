@@ -148,7 +148,7 @@
                         </Grid>
 
                         <!-- Optional comment -->
-                        <TextBlock Margin="14,10,14,0" Style="{StaticResource BodySmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" FontStyle="Italic" TextWrapping="Wrap" Visibility="{Binding Comment}">
+                        <TextBlock Margin="14,10,14,0" Style="{StaticResource BodySmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" FontStyle="Italic" TextWrapping="Wrap" Visibility="{Binding Comment, Converter={StaticResource StringToVisibility}}">
                           <Run Text="&#x201C;" Foreground="{ThemeResource PrimaryBrush}" />
                           <Run Text="{Binding Comment}" />
                           <Run Text="&#x201D;" Foreground="{ThemeResource PrimaryBrush}" />

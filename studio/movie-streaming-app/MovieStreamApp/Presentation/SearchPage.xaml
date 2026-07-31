@@ -14,7 +14,7 @@
     Border+ImageBrush so they clip to the corner radius. This tab is overlaid by the floating
     TabBar, so the scroll content reserves a bottom inset.
   -->
-  <Grid utu:SafeArea.Insets="Top,SoftInput">
+  <Grid utu:SafeArea.Insets="Top">
     <Grid.RowDefinitions>
       <RowDefinition Height="Auto" />
       <RowDefinition Height="*" />
@@ -57,8 +57,9 @@
       </Border>
     </StackPanel>
 
-    <!-- Scrollable content -->
-    <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+    <!-- Scrollable content. SoftInset here (a valid SafeArea/ScrollViewer target — the mask is a no-op
+         on a plain Grid) so the results inset above the soft keyboard when the search field is focused. -->
+    <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" utu:SafeArea.Insets="SoftInput">
       <StackPanel MaxWidth="1400"
                   HorizontalAlignment="Stretch"
                   Padding="{utu:Responsive Narrow='20,4,20,110', Wide='148,4,24,28'}"
@@ -120,8 +121,8 @@
                                         HorizontalAlignment="Stretch"
                                         IsClickable="True"
                                         Content="{Binding}"
-                                        Command="{utu:ItemsControlBinding Path=DataContext.FilterByGenre}"
-                                        CommandParameter="{Binding}">
+                                        utu:CommandExtensions.Command="{utu:ItemsControlBinding Path=DataContext.FilterByGenre}"
+                                        utu:CommandExtensions.CommandParameter="{Binding}">
                   <utu:CardContentControl.ContentTemplate>
                     <DataTemplate>
                       <Grid Padding="14,12" ColumnSpacing="12">

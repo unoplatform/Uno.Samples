@@ -171,14 +171,16 @@
                                always-present empty TextBlock still reserves a line, which pushes the
                                single-line rows' label off the row's vertical centre while the leading
                                icon and trailing chevron stay centred — so rows with and without a
-                               subtitle would misalign. (Uno implicitly maps the empty string to
-                               Collapsed, matching the "optional comment" pattern on SocialFeedPage.) -->
+                               subtitle would misalign. Collapse it through StringToVisibility (a non-empty
+                               subtitle is Visible, empty is Collapsed): binding Visibility straight to the
+                               string only *looks* like it works — it throws on every non-empty value as the
+                               framework tries to parse the text as a Visibility enum. -->
                           <StackPanel Grid.Column="1" VerticalAlignment="Center" Spacing="1">
                             <TextBlock Text="{Binding Label}"
                                        Style="{StaticResource BodyMedium}"
                                        Foreground="{ThemeResource OnSurfaceBrush}" />
                             <TextBlock Text="{Binding Subtitle}"
-                                       Visibility="{Binding Subtitle}"
+                                       Visibility="{Binding Subtitle, Converter={StaticResource StringToVisibility}}"
                                        Style="{StaticResource BodySmall}"
                                        Foreground="{ThemeResource OutlineBrush}"
                                        TextTrimming="CharacterEllipsis"
