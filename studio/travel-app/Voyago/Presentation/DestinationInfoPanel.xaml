@@ -1,0 +1,79 @@
+<UserControl x:Class="Voyago.Presentation.DestinationInfoPanel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:utu="using:Uno.Toolkit.UI">
+
+    <!-- Detail body (rating, tagline, highlights, price + Book), shared by the stacked (phone) and
+         two-column (wide modal) arrangements of the detail dialog. DataContext = DestinationDetailModel. -->
+    <StackPanel Padding="24,22,24,28" Spacing="22">
+        <StackPanel Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
+            <Viewbox Width="18" Height="18" VerticalAlignment="Center">
+                <Path Data="{Binding Converter={StaticResource Icon}, ConverterParameter=star_filled}" Fill="{ThemeResource SecondaryBrush}" Stretch="Uniform" />
+            </Viewbox>
+            <TextBlock Text="{Binding Rating}" Style="{StaticResource TitleSmall}" Foreground="{ThemeResource OnBackgroundBrush}" VerticalAlignment="Center" />
+            <TextBlock Text="{Binding ReviewsText}" Style="{StaticResource BodyMedium}" Foreground="{ThemeResource OnSurfaceVariantBrush}" VerticalAlignment="Center" />
+        </StackPanel>
+
+        <TextBlock Text="{Binding Tagline}" Style="{StaticResource BodyLarge}" Foreground="{ThemeResource OnBackgroundBrush}" TextWrapping="Wrap" />
+
+        <StackPanel Spacing="12">
+            <TextBlock Text="WHY YOU'LL LOVE IT" Style="{StaticResource SectionLabel}" />
+            <Grid ColumnSpacing="10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Border Grid.Column="0" Background="{ThemeResource SurfaceBrush}" BorderBrush="{ThemeResource CardBorderBrush}" BorderThickness="1" CornerRadius="{StaticResource CardCornerRadius}" Padding="12,14">
+                    <StackPanel Spacing="8" HorizontalAlignment="Center">
+                        <Viewbox Width="22" Height="22"><Path Data="{Binding Converter={StaticResource Icon}, ConverterParameter=star_filled}" Fill="{ThemeResource PrimaryBrush}" Stretch="Uniform" /></Viewbox>
+                        <TextBlock Text="Top rated" Style="{StaticResource LabelSmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" HorizontalAlignment="Center" TextAlignment="Center" />
+                    </StackPanel>
+                </Border>
+                <Border Grid.Column="1" Background="{ThemeResource SurfaceBrush}" BorderBrush="{ThemeResource CardBorderBrush}" BorderThickness="1" CornerRadius="{StaticResource CardCornerRadius}" Padding="12,14">
+                    <StackPanel Spacing="8" HorizontalAlignment="Center">
+                        <Viewbox Width="22" Height="22"><Path Data="{Binding Converter={StaticResource Icon}, ConverterParameter=calendar}" Fill="{ThemeResource PrimaryBrush}" Stretch="Uniform" /></Viewbox>
+                        <TextBlock Text="Flexible dates" Style="{StaticResource LabelSmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" HorizontalAlignment="Center" TextAlignment="Center" />
+                    </StackPanel>
+                </Border>
+                <Border Grid.Column="2" Background="{ThemeResource SurfaceBrush}" BorderBrush="{ThemeResource CardBorderBrush}" BorderThickness="1" CornerRadius="{StaticResource CardCornerRadius}" Padding="12,14">
+                    <StackPanel Spacing="8" HorizontalAlignment="Center">
+                        <Viewbox Width="22" Height="22"><Path Data="{Binding Converter={StaticResource Icon}, ConverterParameter=compass}" Fill="{ThemeResource PrimaryBrush}" Stretch="Uniform" /></Viewbox>
+                        <TextBlock Text="Guided tours" Style="{StaticResource LabelSmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" HorizontalAlignment="Center" TextAlignment="Center" />
+                    </StackPanel>
+                </Border>
+            </Grid>
+        </StackPanel>
+
+        <Border Height="1" Background="{ThemeResource HairlineBrush}" />
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0" VerticalAlignment="Center" Spacing="2">
+                <TextBlock Text="Starting from" Style="{StaticResource BodySmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" />
+                <TextBlock Text="{Binding PriceFrom}" Style="{StaticResource TitleMedium}" Foreground="{ThemeResource OnBackgroundBrush}" />
+            </StackPanel>
+            <Button Grid.Column="1"
+                    Style="{StaticResource BookButtonStyle}"
+                    Content="Book this trip"
+                    Command="{Binding Book}"
+                    AutomationProperties.Name="Book this trip"
+                    VerticalAlignment="Center"
+                    Visibility="{Binding IsBooked, Converter={StaticResource BoolToVisibility}, ConverterParameter=Invert}" />
+            <Border Grid.Column="1"
+                    Background="{ThemeResource SecondaryContainerBrush}"
+                    CornerRadius="{StaticResource ControlCornerRadius}"
+                    Padding="18,12"
+                    VerticalAlignment="Center"
+                    Visibility="{Binding IsBooked, Converter={StaticResource BoolToVisibility}}">
+                <StackPanel Orientation="Horizontal" Spacing="8">
+                    <Viewbox Width="18" Height="18" VerticalAlignment="Center"><Path Data="{Binding Converter={StaticResource Icon}, ConverterParameter=heart_filled}" Fill="{ThemeResource OnSecondaryContainerBrush}" Stretch="Uniform" /></Viewbox>
+                    <TextBlock Text="Booked" Style="{StaticResource LabelMedium}" Foreground="{ThemeResource OnSecondaryContainerBrush}" VerticalAlignment="Center" />
+                </StackPanel>
+            </Border>
+        </Grid>
+    </StackPanel>
+</UserControl>
