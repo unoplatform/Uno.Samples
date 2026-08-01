@@ -21,343 +21,255 @@
       </Border>
     </DataTemplate>
   </Page.Resources>
-  <Grid Background="{ThemeResource DashboardPageBackgroundBrush}">
-    <Grid x:Name="DesktopRoot" Visibility="{utu:Responsive Narrow=Collapsed, Wide=Visible}">
-      <ScrollViewer HorizontalScrollBarVisibility="Disabled"
-                    VerticalScrollBarVisibility="Auto">
-        <Grid Padding="28,22,28,28"
-              RowSpacing="18">
-          <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-          </Grid.RowDefinitions>
 
-          <Grid>
-            <Grid.ColumnDefinitions>
-              <ColumnDefinition Width="*" />
-              <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
+  <!--
+    Single responsive tree: every element (and in particular every LiveCharts control) exists
+    exactly ONCE, re-flowed between the phone and desktop layouts with {utu:Responsive} on
+    sizes and Grid attach properties. LiveCharts series/axis objects hold per-chart state, so
+    the same model instance must never be bound to two chart controls (a duplicated
+    desktop/mobile tree does exactly that, and a chart that first measures while collapsed
+    can stay permanently blank).
+  -->
+  <Grid Background="{ThemeResource DashboardPageBackgroundBrush}"
+        utu:SafeArea.Insets="Top,Bottom">
+    <ScrollViewer HorizontalScrollBarVisibility="Disabled"
+                  VerticalScrollBarVisibility="Auto">
+      <!-- Narrow keeps a tall bottom padding so the last card clears the floating TabBar. -->
+      <Grid Padding="{utu:Responsive Narrow='20,16,20,130', Wide='28,22,28,28'}"
+            RowSpacing="18">
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
 
-            <StackPanel Spacing="4">
-              <TextBlock Text="Leads Intelligence"
-                         Style="{StaticResource DashboardCardTitleStyle}"
-                         FontSize="26" />
-              <TextBlock Text="Track acquisition momentum, source quality, and stage progression in real time"
-                         Style="{StaticResource DashboardSubtleTextStyle}"
-                         HorizontalAlignment="Left"
-                         MaxWidth="620" />
-            </StackPanel>
+        <!-- Header: full title + search on desktop, compact title on phone -->
+        <Grid>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+          </Grid.ColumnDefinitions>
 
-            <StackPanel Grid.Column="1"
-                        Orientation="Horizontal"
-                        Spacing="10"
-                        VerticalAlignment="Center">
-              <Grid Width="260"
-                    VerticalAlignment="Center">
-                <TextBox AutomationProperties.Name="Search leads"
-                         PlaceholderText="Search leads"
-                         Style="{StaticResource DashboardSearchBoxStyle}"
-                         Padding="36,10,14,10" />
-                <Viewbox Width="16" Height="16"
-                         Margin="14,0,0,0"
-                         VerticalAlignment="Center"
-                         HorizontalAlignment="Left">
-                  <Path Data="F1 M16.1017 17.1624C14.717 18.3101 12.9391 19 11 19C6.58172 19 3 15.4183 3 11C3 6.58172 6.58172 3 11 3C15.4183 3 19 6.58172 19 11C19 12.9391 18.3101 14.717 17.1624 16.1018L21.7803 20.7197C22.0732 21.0126 22.0732 21.4874 21.7803 21.7803C21.4874 22.0732 21.0125 22.0732 20.7196 21.7803L16.1017 17.1624ZM17.5 11C17.5 7.41015 14.5899 4.5 11 4.5C7.41015 4.5 4.5 7.41015 4.5 11C4.5 14.5899 7.41015 17.5 11 17.5C14.5899 17.5 17.5 14.5899 17.5 11Z"
-                        Stretch="Uniform"
-                        Fill="{ThemeResource DashboardMutedTextBrush}" />
-                </Viewbox>
-              </Grid>
+          <StackPanel Spacing="4">
+            <TextBlock Text="{utu:Responsive Narrow='Leads', Wide='Leads Intelligence'}"
+                       Style="{StaticResource DashboardCardTitleStyle}"
+                       FontSize="{utu:Responsive Narrow=32, Wide=26}" />
+            <TextBlock Text="{utu:Responsive Narrow='Realtime lead analytics', Wide='Track acquisition momentum, source quality, and stage progression in real time'}"
+                       Style="{StaticResource DashboardSubtleTextStyle}"
+                       HorizontalAlignment="Left"
+                       MaxWidth="620" />
+          </StackPanel>
 
-              <Button Style="{StaticResource DashboardIconButtonStyle}">
-                <Viewbox Width="17" Height="17">
-                  <Path Data="F1 M12 2.00098C16.0041 2.00098 19.25 5.24691 19.25 9.25098C19.25 11.347 18.3493 13.2707 16.5869 14.9929C16.51 15.0681 16.4504 15.1586 16.4118 15.2582L16.3804 15.3605L15.2493 20.2561C15.0266 21.22 14.2035 21.9183 13.2302 21.993L13.057 21.9996H10.9433C9.95374 21.9996 9.08791 21.3545 8.79629 20.4228L8.75088 20.2555L7.62132 15.3607C7.58904 15.2208 7.51728 15.0931 7.41456 14.9928C5.73515 13.3526 4.83778 11.5297 4.75613 9.54923L4.75 9.25098L4.75388 9.01166C4.88014 5.11837 8.07601 2.00098 12 2.00098ZM14.115 18.499H9.884L10.2125 19.9182C10.2831 20.2245 10.5357 20.4504 10.8401 20.4925L10.9433 20.4996H13.057C13.3713 20.4996 13.6481 20.3044 13.7577 20.0174L13.7878 19.9184L14.115 18.499ZM12 3.50098C8.89821 3.50098 6.37006 5.95699 6.25415 9.03042L6.25 9.25098L6.25672 9.52799C6.33286 11.0913 7.05722 12.5471 8.46262 13.9197C8.72675 14.1777 8.92265 14.496 9.03422 14.846L9.08291 15.0235L9.538 16.999H14.461L14.9189 15.0228C15.0019 14.6634 15.1718 14.3309 15.4124 14.0539L15.5386 13.9201C16.9432 12.5475 17.6672 11.0916 17.7433 9.52803L17.75 9.25098L17.7458 9.03042C17.6299 5.95699 15.1018 3.50098 12 3.50098Z"
-                        Stretch="Uniform"
-                        Fill="{ThemeResource DashboardMutedTextBrush}" />
-                </Viewbox>
-              </Button>
-            </StackPanel>
-          </Grid>
+          <StackPanel Grid.Column="1"
+                      Orientation="Horizontal"
+                      Spacing="10"
+                      VerticalAlignment="Center">
+            <Grid Width="260"
+                  VerticalAlignment="Center"
+                  Visibility="{utu:Responsive Narrow=Collapsed, Wide=Visible}">
+              <TextBox AutomationProperties.Name="Search leads"
+                       PlaceholderText="Search leads"
+                       Style="{StaticResource DashboardSearchBoxStyle}"
+                       Padding="36,10,14,10" />
+              <Viewbox Width="16" Height="16"
+                       Margin="14,0,0,0"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Left">
+                <Path Data="F1 M16.1017 17.1624C14.717 18.3101 12.9391 19 11 19C6.58172 19 3 15.4183 3 11C3 6.58172 6.58172 3 11 3C15.4183 3 19 6.58172 19 11C19 12.9391 18.3101 14.717 17.1624 16.1018L21.7803 20.7197C22.0732 21.0126 22.0732 21.4874 21.7803 21.7803C21.4874 22.0732 21.0125 22.0732 20.7196 21.7803L16.1017 17.1624ZM17.5 11C17.5 7.41015 14.5899 4.5 11 4.5C7.41015 4.5 4.5 7.41015 4.5 11C4.5 14.5899 7.41015 17.5 11 17.5C14.5899 17.5 17.5 14.5899 17.5 11Z"
+                      Stretch="Uniform"
+                      Fill="{ThemeResource DashboardMutedTextBrush}" />
+              </Viewbox>
+            </Grid>
 
-          <Grid Grid.Row="1"
-                ColumnSpacing="14">
-            <Grid.ColumnDefinitions>
-              <ColumnDefinition Width="*" />
-              <ColumnDefinition Width="*" />
-              <ColumnDefinition Width="*" />
-              <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-
-            <Border Grid.Column="0"
-                    Style="{StaticResource DashboardPanelBorderStyle}"
-                    Padding="20,16"
-                    MinHeight="112">
-              <Grid>
-                <Grid.RowDefinitions>
-                  <RowDefinition Height="Auto" />
-                  <RowDefinition Height="*" />
-                  <RowDefinition Height="Auto" />
-                </Grid.RowDefinitions>
-                <TextBlock Text="NEW LEADS"
-                           Style="{StaticResource DashboardSectionLabelStyle}" />
-                <TextBlock Grid.Row="2"
-                           Text="{Binding NewLeadsText}"
-                           Style="{StaticResource DashboardMetricValueStyle}"
-                           FontSize="28" />
-              </Grid>
-            </Border>
-
-            <Border Grid.Column="1"
-                    Style="{StaticResource DashboardPanelBorderStyle}"
-                    Padding="20,16"
-                    MinHeight="112">
-              <Grid>
-                <Grid.RowDefinitions>
-                  <RowDefinition Height="Auto" />
-                  <RowDefinition Height="*" />
-                  <RowDefinition Height="Auto" />
-                </Grid.RowDefinitions>
-                <TextBlock Text="QUALIFICATION RATE"
-                           Style="{StaticResource DashboardSectionLabelStyle}" />
-                <TextBlock Grid.Row="2"
-                           Text="{Binding QualificationRateText}"
-                           Style="{StaticResource DashboardMetricValueStyle}"
-                           FontSize="28" />
-              </Grid>
-            </Border>
-
-            <Border Grid.Column="2"
-                    Style="{StaticResource DashboardPanelBorderStyle}"
-                    Padding="20,16"
-                    MinHeight="112">
-              <Grid>
-                <Grid.RowDefinitions>
-                  <RowDefinition Height="Auto" />
-                  <RowDefinition Height="*" />
-                  <RowDefinition Height="Auto" />
-                </Grid.RowDefinitions>
-                <TextBlock Text="PIPELINE VALUE"
-                           Style="{StaticResource DashboardSectionLabelStyle}" />
-                <TextBlock Grid.Row="2"
-                           Text="{Binding PipelineValueText}"
-                           Style="{StaticResource DashboardMetricValueStyle}"
-                           FontSize="28" />
-              </Grid>
-            </Border>
-
-            <Border Grid.Column="3"
-                    Style="{StaticResource DashboardPanelBorderStyle}"
-                    Padding="20,16"
-                    MinHeight="112">
-              <Grid>
-                <Grid.RowDefinitions>
-                  <RowDefinition Height="Auto" />
-                  <RowDefinition Height="*" />
-                  <RowDefinition Height="Auto" />
-                </Grid.RowDefinitions>
-                <TextBlock Text="AVG DEAL SIZE"
-                           Style="{StaticResource DashboardSectionLabelStyle}" />
-                <TextBlock Grid.Row="2"
-                           Text="{Binding AverageDealSizeText}"
-                           Style="{StaticResource DashboardMetricValueStyle}"
-                           FontSize="28" />
-              </Grid>
-            </Border>
-          </Grid>
-
-          <Grid Grid.Row="2"
-                ColumnSpacing="18">
-            <Grid.ColumnDefinitions>
-              <ColumnDefinition Width="1.35*" />
-              <ColumnDefinition Width="1*" />
-            </Grid.ColumnDefinitions>
-
-            <Border Grid.Column="0"
-                    Style="{StaticResource DashboardPanelBorderStyle}"
-                    Padding="18,14,18,16">
-              <StackPanel Spacing="12">
-                <TextBlock Text="Lead Acquisition Trend"
-                           Style="{StaticResource DashboardBodyTextStyle}"
-                           FontWeight="SemiBold"
-                           FontSize="22" />
-                <lvc:CartesianChart Height="280"
-                                    Series="{Binding LeadTrendSeries}"
-                                    XAxes="{Binding MonthXAxis}"
-                                    YAxes="{Binding CountYAxis}" />
-              </StackPanel>
-            </Border>
-
-            <Border Grid.Column="1"
-                    Style="{StaticResource DashboardPanelBorderStyle}"
-                    Padding="18,14,18,16">
-              <StackPanel Spacing="12">
-                <TextBlock Text="Lead Stage Distribution"
-                           Style="{StaticResource DashboardBodyTextStyle}"
-                           FontWeight="SemiBold"
-                           FontSize="22" />
-                <lvc:PieChart Height="280"
-                              Series="{Binding StageDistributionSeries}"
-                              LegendPosition="Bottom"
-                              InitialRotation="-90" />
-              </StackPanel>
-            </Border>
-          </Grid>
-
-          <Grid Grid.Row="3"
-                ColumnSpacing="18">
-            <Grid.ColumnDefinitions>
-              <ColumnDefinition Width="1.35*" />
-              <ColumnDefinition Width="1*" />
-            </Grid.ColumnDefinitions>
-
-            <Border Grid.Column="0"
-                    Style="{StaticResource DashboardPanelBorderStyle}"
-                    Padding="18,14,18,16">
-              <StackPanel Spacing="12">
-                <TextBlock Text="Leads by Source"
-                           Style="{StaticResource DashboardBodyTextStyle}"
-                           FontWeight="SemiBold"
-                           FontSize="22" />
-                <lvc:CartesianChart Height="260"
-                                    Series="{Binding LeadsBySourceSeries}"
-                                    XAxes="{Binding SourceXAxis}"
-                                    YAxes="{Binding SourceYAxis}" />
-              </StackPanel>
-            </Border>
-
-            <Border Grid.Column="1"
-                    Style="{StaticResource DashboardPanelBorderStyle}"
-                    Padding="18,14,18,16">
-              <StackPanel Spacing="12">
-                <TextBlock Text="Top Open Leads"
-                           Style="{StaticResource DashboardBodyTextStyle}"
-                           FontWeight="SemiBold"
-                           FontSize="22" />
-
-                <ItemsControl ItemsSource="{Binding TopOpenLeads}"
-                              ItemTemplate="{StaticResource TopLeadTemplate}" />
-              </StackPanel>
-            </Border>
-          </Grid>
-        </Grid>
-      </ScrollViewer>
-    </Grid>
-
-    <Grid x:Name="MobileRoot" Visibility="{utu:Responsive Narrow=Visible, Wide=Collapsed}" utu:SafeArea.Insets="Top,Bottom">
-      <ScrollViewer VerticalScrollBarVisibility="Auto"
-                    HorizontalScrollBarVisibility="Disabled">
-        <Grid Padding="20,16,20,130"
-              RowSpacing="18">
-          <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-          </Grid.RowDefinitions>
-
-          <Grid>
-            <Grid.ColumnDefinitions>
-              <ColumnDefinition Width="*" />
-              <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
-            <StackPanel Spacing="4">
-              <TextBlock Text="Leads"
-                         Style="{StaticResource DashboardCardTitleStyle}"
-                         FontSize="32" />
-              <TextBlock Text="Realtime lead analytics"
-                         Style="{StaticResource DashboardSubtleTextStyle}" />
-            </StackPanel>
-            <Button Grid.Column="1"
-                    Style="{StaticResource DashboardIconButtonStyle}">
+            <Button Style="{StaticResource DashboardIconButtonStyle}">
               <Viewbox Width="17" Height="17">
                 <Path Data="F1 M12 2.00098C16.0041 2.00098 19.25 5.24691 19.25 9.25098C19.25 11.347 18.3493 13.2707 16.5869 14.9929C16.51 15.0681 16.4504 15.1586 16.4118 15.2582L16.3804 15.3605L15.2493 20.2561C15.0266 21.22 14.2035 21.9183 13.2302 21.993L13.057 21.9996H10.9433C9.95374 21.9996 9.08791 21.3545 8.79629 20.4228L8.75088 20.2555L7.62132 15.3607C7.58904 15.2208 7.51728 15.0931 7.41456 14.9928C5.73515 13.3526 4.83778 11.5297 4.75613 9.54923L4.75 9.25098L4.75388 9.01166C4.88014 5.11837 8.07601 2.00098 12 2.00098ZM14.115 18.499H9.884L10.2125 19.9182C10.2831 20.2245 10.5357 20.4504 10.8401 20.4925L10.9433 20.4996H13.057C13.3713 20.4996 13.6481 20.3044 13.7577 20.0174L13.7878 19.9184L14.115 18.499ZM12 3.50098C8.89821 3.50098 6.37006 5.95699 6.25415 9.03042L6.25 9.25098L6.25672 9.52799C6.33286 11.0913 7.05722 12.5471 8.46262 13.9197C8.72675 14.1777 8.92265 14.496 9.03422 14.846L9.08291 15.0235L9.538 16.999H14.461L14.9189 15.0228C15.0019 14.6634 15.1718 14.3309 15.4124 14.0539L15.5386 13.9201C16.9432 12.5475 17.6672 11.0916 17.7433 9.52803L17.75 9.25098L17.7458 9.03042C17.6299 5.95699 15.1018 3.50098 12 3.50098Z"
                       Stretch="Uniform"
                       Fill="{ThemeResource DashboardMutedTextBrush}" />
               </Viewbox>
             </Button>
-          </Grid>
+          </StackPanel>
+        </Grid>
 
-          <Grid Grid.Row="1"
-                ColumnSpacing="12"
-                RowSpacing="12">
-            <Grid.ColumnDefinitions>
-              <ColumnDefinition Width="*" />
-              <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
+        <!-- KPI cards: all four in one row on desktop; the first two side by side on phone -->
+        <Grid Grid.Row="1"
+              ColumnSpacing="{utu:Responsive Narrow=12, Wide=14}">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+          </Grid.ColumnDefinitions>
 
-            <Border Grid.Column="0"
-                    Style="{StaticResource DashboardPanelBorderStyle}"
-                    Padding="16,14">
-              <StackPanel Spacing="6">
-                <TextBlock Text="NEW LEADS"
-                           Style="{StaticResource DashboardSectionLabelStyle}" />
-                <TextBlock Text="{Binding NewLeadsText}"
-                           Style="{StaticResource DashboardMetricValueStyle}"
-                           FontSize="24" />
-              </StackPanel>
-            </Border>
-
-            <Border Grid.Column="1"
-                    Style="{StaticResource DashboardPanelBorderStyle}"
-                    Padding="16,14">
-              <StackPanel Spacing="6">
-                <TextBlock Text="QUALIFIED"
-                           Style="{StaticResource DashboardSectionLabelStyle}" />
-                <TextBlock Text="{Binding QualificationRateText}"
-                           Style="{StaticResource DashboardMetricValueStyle}"
-                           FontSize="24" />
-              </StackPanel>
-            </Border>
-          </Grid>
-
-          <Border Grid.Row="2"
+          <Border Grid.Column="0"
+                  Grid.ColumnSpan="{utu:Responsive Narrow=2, Wide=1}"
                   Style="{StaticResource DashboardPanelBorderStyle}"
-                  Padding="16,14">
-            <StackPanel Spacing="10">
-              <TextBlock Text="Monthly Lead Flow"
+                  Padding="{utu:Responsive Narrow='16,14', Wide='20,16'}"
+                  MinHeight="{utu:Responsive Narrow=0, Wide=112}">
+            <Grid RowSpacing="6">
+              <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+              </Grid.RowDefinitions>
+              <TextBlock Text="NEW LEADS"
+                         Style="{StaticResource DashboardSectionLabelStyle}" />
+              <TextBlock Grid.Row="2"
+                         Text="{Binding NewLeadsText}"
+                         Style="{StaticResource DashboardMetricValueStyle}"
+                         FontSize="{utu:Responsive Narrow=24, Wide=28}" />
+            </Grid>
+          </Border>
+
+          <Border Grid.Column="{utu:Responsive Narrow=2, Wide=1}"
+                  Grid.ColumnSpan="{utu:Responsive Narrow=2, Wide=1}"
+                  Style="{StaticResource DashboardPanelBorderStyle}"
+                  Padding="{utu:Responsive Narrow='16,14', Wide='20,16'}"
+                  MinHeight="{utu:Responsive Narrow=0, Wide=112}">
+            <Grid RowSpacing="6">
+              <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+              </Grid.RowDefinitions>
+              <TextBlock Text="{utu:Responsive Narrow='QUALIFIED', Wide='QUALIFICATION RATE'}"
+                         Style="{StaticResource DashboardSectionLabelStyle}" />
+              <TextBlock Grid.Row="2"
+                         Text="{Binding QualificationRateText}"
+                         Style="{StaticResource DashboardMetricValueStyle}"
+                         FontSize="{utu:Responsive Narrow=24, Wide=28}" />
+            </Grid>
+          </Border>
+
+          <Border Grid.Column="2"
+                  Style="{StaticResource DashboardPanelBorderStyle}"
+                  Padding="20,16"
+                  MinHeight="112"
+                  Visibility="{utu:Responsive Narrow=Collapsed, Wide=Visible}">
+            <Grid RowSpacing="6">
+              <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+              </Grid.RowDefinitions>
+              <TextBlock Text="PIPELINE VALUE"
+                         Style="{StaticResource DashboardSectionLabelStyle}" />
+              <TextBlock Grid.Row="2"
+                         Text="{Binding PipelineValueText}"
+                         Style="{StaticResource DashboardMetricValueStyle}"
+                         FontSize="28" />
+            </Grid>
+          </Border>
+
+          <Border Grid.Column="3"
+                  Style="{StaticResource DashboardPanelBorderStyle}"
+                  Padding="20,16"
+                  MinHeight="112"
+                  Visibility="{utu:Responsive Narrow=Collapsed, Wide=Visible}">
+            <Grid RowSpacing="6">
+              <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+              </Grid.RowDefinitions>
+              <TextBlock Text="AVG DEAL SIZE"
+                         Style="{StaticResource DashboardSectionLabelStyle}" />
+              <TextBlock Grid.Row="2"
+                         Text="{Binding AverageDealSizeText}"
+                         Style="{StaticResource DashboardMetricValueStyle}"
+                         FontSize="28" />
+            </Grid>
+          </Border>
+        </Grid>
+
+        <!-- Charts: 2x2 board on desktop, single stacked column on phone.
+             Row gaps come from per-card top margins (not RowSpacing) so the layout that
+             leaves rows empty doesn't accumulate trailing space. -->
+        <Grid Grid.Row="2"
+              ColumnSpacing="18">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1.35*" />
+            <ColumnDefinition Width="1*" />
+          </Grid.ColumnDefinitions>
+          <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+          </Grid.RowDefinitions>
+
+          <Border Grid.Row="0"
+                  Grid.Column="0"
+                  Grid.ColumnSpan="{utu:Responsive Narrow=2, Wide=1}"
+                  Style="{StaticResource DashboardPanelBorderStyle}"
+                  Padding="{utu:Responsive Narrow='16,14', Wide='18,14,18,16'}">
+            <StackPanel Spacing="{utu:Responsive Narrow=10, Wide=12}">
+              <TextBlock Text="{utu:Responsive Narrow='Monthly Lead Flow', Wide='Lead Acquisition Trend'}"
                          Style="{StaticResource DashboardBodyTextStyle}"
                          FontWeight="SemiBold"
-                         FontSize="20" />
-              <lvc:CartesianChart Height="230"
+                         FontSize="{utu:Responsive Narrow=20, Wide=22}" />
+              <lvc:CartesianChart Height="{utu:Responsive Narrow=230, Wide=280}"
                                   Series="{Binding LeadTrendSeries}"
                                   XAxes="{Binding MonthXAxis}"
                                   YAxes="{Binding CountYAxis}" />
             </StackPanel>
           </Border>
 
-          <Border Grid.Row="3"
+          <Border Grid.Row="{utu:Responsive Narrow=1, Wide=0}"
+                  Grid.Column="{utu:Responsive Narrow=0, Wide=1}"
+                  Grid.ColumnSpan="{utu:Responsive Narrow=2, Wide=1}"
+                  Margin="{utu:Responsive Narrow='0,18,0,0', Wide='0'}"
                   Style="{StaticResource DashboardPanelBorderStyle}"
-                  Padding="16,14">
-            <StackPanel Spacing="10">
-              <TextBlock Text="Lead Mix by Stage"
+                  Padding="{utu:Responsive Narrow='16,14', Wide='18,14,18,16'}">
+            <StackPanel Spacing="{utu:Responsive Narrow=10, Wide=12}">
+              <TextBlock Text="{utu:Responsive Narrow='Lead Mix by Stage', Wide='Lead Stage Distribution'}"
                          Style="{StaticResource DashboardBodyTextStyle}"
                          FontWeight="SemiBold"
-                         FontSize="20" />
-              <lvc:PieChart Height="240"
+                         FontSize="{utu:Responsive Narrow=20, Wide=22}" />
+              <lvc:PieChart Height="{utu:Responsive Narrow=240, Wide=280}"
                             Series="{Binding StageDistributionSeries}"
                             LegendPosition="Bottom"
                             InitialRotation="-90" />
             </StackPanel>
           </Border>
 
-          <Border Grid.Row="4"
+          <Border Grid.Row="{utu:Responsive Narrow=2, Wide=1}"
+                  Grid.Column="0"
+                  Grid.ColumnSpan="{utu:Responsive Narrow=2, Wide=1}"
+                  Margin="0,18,0,0"
                   Style="{StaticResource DashboardPanelBorderStyle}"
-                  Padding="16,14">
-            <StackPanel Spacing="10">
-              <TextBlock Text="Top Sources"
+                  Padding="{utu:Responsive Narrow='16,14', Wide='18,14,18,16'}">
+            <StackPanel Spacing="{utu:Responsive Narrow=10, Wide=12}">
+              <TextBlock Text="{utu:Responsive Narrow='Top Sources', Wide='Leads by Source'}"
                          Style="{StaticResource DashboardBodyTextStyle}"
                          FontWeight="SemiBold"
-                         FontSize="20" />
-              <lvc:CartesianChart Height="230"
+                         FontSize="{utu:Responsive Narrow=20, Wide=22}" />
+              <lvc:CartesianChart Height="{utu:Responsive Narrow=230, Wide=260}"
                                   Series="{Binding LeadsBySourceSeries}"
                                   XAxes="{Binding SourceXAxis}"
                                   YAxes="{Binding SourceYAxis}" />
             </StackPanel>
           </Border>
+
+          <!-- Desktop-only companion list; the phone layout ends with the sources chart. -->
+          <Border Grid.Row="1"
+                  Grid.Column="1"
+                  Margin="0,18,0,0"
+                  Style="{StaticResource DashboardPanelBorderStyle}"
+                  Padding="18,14,18,16"
+                  Visibility="{utu:Responsive Narrow=Collapsed, Wide=Visible}">
+            <StackPanel Spacing="12">
+              <TextBlock Text="Top Open Leads"
+                         Style="{StaticResource DashboardBodyTextStyle}"
+                         FontWeight="SemiBold"
+                         FontSize="22" />
+
+              <ItemsControl ItemsSource="{Binding TopOpenLeads}"
+                            ItemTemplate="{StaticResource TopLeadTemplate}" />
+            </StackPanel>
+          </Border>
         </Grid>
-      </ScrollViewer>
-    </Grid>
+      </Grid>
+    </ScrollViewer>
   </Grid>
 </Page>
