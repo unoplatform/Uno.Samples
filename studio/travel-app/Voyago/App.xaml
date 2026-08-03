@@ -1,31 +1,30 @@
-<Application x:Class="Voyago.App"
-       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-       xmlns:utus="using:Uno.Toolkit.UI.Simple">
+﻿<Application
+    x:Class="Voyago.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:utum="using:Uno.Toolkit.UI.Material">
 
-  <!-- Thin manifest: only merges, defines no keys of its own (lesson 56).
-       Styles.xaml is merged LAST so its well-known token overrides
-       (ControlCornerRadius*, OverlayCornerRadius) win over the theme defaults. -->
-  <Application.Resources>
-    <ResourceDictionary>
-      <ResourceDictionary.MergedDictionaries>
-        <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
-        <utus:SimpleToolkitTheme ColorOverrideSource="ms-appx:///ThemeColors.xaml">
-          <utus:SimpleToolkitTheme.FontOverrideDictionary>
-            <ResourceDictionary>
-              <!-- Base font = Roboto, from Uno's own font package (NOT a bundled custom font — those
-                   don't serve in Studio Live, studio.live#3093). The Simple theme's default resolves
-                   Regular-weight text to a monospace fallback here (the OpenSans package has no
-                   Regular face); Roboto ships Regular/Medium/Bold, so body + weighted text all render
-                   as a proper proportional sans and it loads on every head including Studio Live. -->
-              <FontFamily x:Key="SimpleFontFamily">ms-appx:///Uno.Fonts.Roboto/Fonts/Roboto-Regular.ttf#Roboto</FontFamily>
-            </ResourceDictionary>
-          </utus:SimpleToolkitTheme.FontOverrideDictionary>
-        </utus:SimpleToolkitTheme>
-        <ResourceDictionary Source="ms-appx:///ControlThemeOverrides.xaml" />
-        <ResourceDictionary Source="ms-appx:///Styles.xaml" />
-      </ResourceDictionary.MergedDictionaries>
-    </ResourceDictionary>
-  </Application.Resources>
+    <!--
+        Thin manifest: only merges, defines no keys of its own (lesson 56).
+        Styles.xaml is merged LAST so its well-known token overrides
+        (ControlCornerRadius*, OverlayCornerRadius) win over the theme defaults.
+    -->
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
+                <!--
+                    MaterialToolkitTheme already includes MaterialTheme + ToolkitResources; never merge
+                    those separately. No FontOverride is needed: Uno.Material ships Uno.Fonts.Roboto and
+                    defaults to it (Light/Regular/Medium faces), so weighted text renders as a proper
+                    proportional sans on every head including Studio Live — no bundled custom font, which
+                    would not serve there (studio.live#3093).
+                -->
+                <utum:MaterialToolkitTheme ColorOverrideSource="ms-appx:///ThemeColors.xaml" />
+                <ResourceDictionary Source="ms-appx:///ControlThemeOverrides.xaml" />
+                <ResourceDictionary Source="ms-appx:///Styles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Application.Resources>
 
 </Application>

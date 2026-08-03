@@ -9,7 +9,7 @@
        defaults (lesson 56). App.xaml defines no keys of its own.
        ========================================================================= -->
 
-  <!-- Theme-varying brushes owned by the app (not part of the Simple palette) -->
+  <!-- Theme-varying brushes owned by the app (not part of the Material palette) -->
   <ResourceDictionary.ThemeDictionaries>
     <ResourceDictionary x:Key="Light">
       <!-- Hairline ring that stands in for a card border; light in light theme -->
@@ -26,7 +26,7 @@
   <local:BoolToVisibilityConverter x:Key="BoolToVisibility" />
   <local:IconConverter x:Key="Icon" />
 
-  <!-- ===== Type ramp (drives every FontSize + weight by role, on the Simple theme's default font).
+  <!-- ===== Type ramp (drives every FontSize + weight by role, on the Material theme's default font (Roboto)).
              Samples do not bundle custom fonts — bundled ms-appx font files don't serve in Studio
              Live (studio.live#3093), so hierarchy comes from weight/size, not a custom family. The
              default font has real weight faces, so FontWeight selects true weights (no faux-bold). ===== -->
@@ -116,7 +116,7 @@
        Referenced via {utu:Responsive Layout=...} so it doesn't disturb the default breakpoints. -->
   <utu:ResponsiveLayout x:Key="DesktopModalBreakpoint" Narrowest="150" Narrow="300" Normal="600" Wide="800" Widest="1400" />
 
-  <!-- ===== Corner radius tokens (override the well-known WinUI/Simple keys; win by last-merge) ===== -->
+  <!-- ===== Corner radius tokens (override the well-known WinUI/Material keys; win by last-merge) ===== -->
   <CornerRadius x:Key="ControlCornerRadiusSmall">8</CornerRadius>
   <CornerRadius x:Key="ControlCornerRadius">14</CornerRadius>
   <CornerRadius x:Key="OverlayCornerRadius">24</CornerRadius>
