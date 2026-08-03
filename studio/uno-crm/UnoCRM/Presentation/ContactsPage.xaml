@@ -162,30 +162,25 @@
                   <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
 
-                <Grid>
-                  <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                  </Grid.ColumnDefinitions>
+<!-- Title on its own line (full card width so it never clips), stats in a row beneath it —
+                     a stat row sharing the title's row squeezes the title into a mid-word wrap at
+                     tablet widths. -->
+                <StackPanel Spacing="4">
                   <TextBlock Text="Live Contact Geography"
                              Style="{StaticResource DashboardBodyTextStyle}"
                              FontWeight="SemiBold"
-                             FontSize="22" />
-                  <TextBlock Grid.Column="1"
-                             Text="{Binding TotalFilteredLabel}"
-                             Style="{StaticResource DashboardSubtleTextStyle}"
-                             Margin="12,2,0,0" />
-                  <TextBlock Grid.Column="2"
-                             Text="{Binding RegionsLabel}"
-                             Style="{StaticResource DashboardSubtleTextStyle}"
-                             Margin="12,2,0,0" />
-                  <TextBlock Grid.Column="3"
-                             Text="{Binding SegmentsLabel}"
-                             Style="{StaticResource DashboardSubtleTextStyle}"
-                             Margin="12,2,0,0" />
-                </Grid>
+                             FontSize="22"
+                             TextWrapping="NoWrap"
+                             TextTrimming="CharacterEllipsis" />
+                  <StackPanel Orientation="Horizontal" Spacing="16">
+                    <TextBlock Text="{Binding TotalFilteredLabel}"
+                               Style="{StaticResource DashboardSubtleTextStyle}" />
+                    <TextBlock Text="{Binding RegionsLabel}"
+                               Style="{StaticResource DashboardSubtleTextStyle}" />
+                    <TextBlock Text="{Binding SegmentsLabel}"
+                               Style="{StaticResource DashboardSubtleTextStyle}" />
+                  </StackPanel>
+                </StackPanel>
 
                 <maps:MapControl x:Name="DesktopMapControl"
                                  Grid.Row="1"
@@ -301,20 +296,26 @@
                       Fill="{ThemeResource DashboardMutedTextBrush}" />
               </Viewbox>
             </Grid>
-            <StackPanel Orientation="Horizontal" Spacing="10">
-
-              <ComboBox CornerRadius="12"
+            <!-- Grid, not a horizontal StackPanel: Stretch is ignored inside a StackPanel, so the two
+                 dropdowns would size to content and leave dead space. Two * columns split the width. -->
+            <Grid ColumnSpacing="10">
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+              </Grid.ColumnDefinitions>
+              <ComboBox Grid.Column="0"
+                        CornerRadius="12"
                         FontSize="14"
                         HorizontalAlignment="Stretch"
                         ItemsSource="{Binding Regions}"
                         SelectedItem="{Binding RegionFilter, Mode=TwoWay}" />
-
-              <ComboBox CornerRadius="12"
+              <ComboBox Grid.Column="1"
+                        CornerRadius="12"
                         FontSize="14"
                         HorizontalAlignment="Stretch"
                         ItemsSource="{Binding Segments}"
                         SelectedItem="{Binding SegmentFilter, Mode=TwoWay}" />
-            </StackPanel>
+            </Grid>
           </StackPanel>
 
           <Border Grid.Row="2"

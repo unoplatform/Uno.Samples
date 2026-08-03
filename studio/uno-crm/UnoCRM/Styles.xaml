@@ -135,6 +135,9 @@
     <Setter Property="Foreground" Value="{ThemeResource DashboardPrimaryTextBrush}" />
     <Setter Property="FontSize" Value="32" />
     <Setter Property="FontWeight" Value="SemiBold" />
+    <!-- A metric/currency value must never wrap to a second line. -->
+    <Setter Property="TextWrapping" Value="NoWrap" />
+    <Setter Property="TextTrimming" Value="CharacterEllipsis" />
   </Style>
 
   <Style x:Key="DashboardSearchBoxStyle" TargetType="TextBox">
@@ -168,8 +171,10 @@
   </Style>
 
   <Style x:Key="DashboardPrimaryButtonStyle" TargetType="Button">
-    <Setter Property="Background" Value="{ThemeResource DashboardAccentBrush}" />
-    <Setter Property="BorderBrush" Value="{ThemeResource DashboardAccentBrush}" />
+    <!-- A dedicated (slightly deeper in dark) teal so the White label clears AA — the accent brush
+         used for text/links stays bright; darkening it there would hurt accent-on-surface contrast. -->
+    <Setter Property="Background" Value="{ThemeResource DashboardPrimaryButtonBrush}" />
+    <Setter Property="BorderBrush" Value="{ThemeResource DashboardPrimaryButtonBrush}" />
     <Setter Property="BorderThickness" Value="1" />
     <Setter Property="CornerRadius" Value="10" />
     <Setter Property="Padding" Value="16,10" />

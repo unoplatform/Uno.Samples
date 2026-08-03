@@ -128,7 +128,8 @@ public sealed partial class ContactsPage : Page
             Fill = new Mapsui.Styles.Brush(Color.FromString("#0D6E6E")),
             Outline = new Pen { Color = Color.FromString("#FFFFFF"), Width = 2 },
         });
-        feature.Styles.Add(new LabelStyle { LabelColumn = "Name" });
+        // No per-pin LabelStyle: labelling all 85 points overlaps into an unreadable mess.
+        // The contact names live in the filtered list beside the map instead.
 
         return feature;
     }
