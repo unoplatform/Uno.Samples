@@ -101,7 +101,8 @@ public partial record LeadsModel
                 Name = Data.StageLabels[i],
                 Values = [count],
                 Fill = new SolidColorPaint(stageColors[i]),
-                MaxRadialColumnWidth = 28,
+                // No MaxRadialColumnWidth: that caps the slice radius (fine for a thin donut ring, but
+                // it shrank this full pie to a tiny disc) — let it fill the chart area.
             })
             .ToArray();
     }

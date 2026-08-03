@@ -21,7 +21,8 @@
                    Foreground="{ThemeResource DashboardPrimaryTextBrush}"
                    FontWeight="Medium"
                    FontSize="16"
-                   TextWrapping="Wrap"
+                   TextWrapping="WrapWholeWords"
+                   TextTrimming="CharacterEllipsis"
                    MaxLines="2"
                    Height="46"
                    VerticalAlignment="Top" />
@@ -49,17 +50,30 @@
       <TextBlock Text="{x:Bind Amount, Mode=OneWay}"
                  Foreground="{ThemeResource DashboardPrimaryTextBrush}"
                  FontSize="20"
-                 FontWeight="SemiBold" />
+                 FontWeight="SemiBold"
+                 TextWrapping="NoWrap"
+                 TextTrimming="CharacterEllipsis" />
 
-      <Grid>
-        <TextBlock Text="{x:Bind Owner, Mode=OneWay}"
+      <!-- Owner (left) and the age / "Won" meta (right) each get their own column so a
+           long owner name truncates instead of colliding with the trailing meta. -->
+      <Grid ColumnSpacing="8">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <TextBlock Grid.Column="0"
+                   Text="{x:Bind Owner, Mode=OneWay}"
                    Foreground="{ThemeResource DashboardMutedTextBrush}"
-                   FontSize="13" />
-        <TextBlock HorizontalAlignment="Right"
+                   FontSize="13"
+                   TextWrapping="NoWrap"
+                   TextTrimming="CharacterEllipsis"
+                   VerticalAlignment="Center" />
+        <TextBlock Grid.Column="1"
                    Text="{x:Bind Meta, Mode=OneWay}"
                    Foreground="{x:Bind MetaBrush, Mode=OneWay}"
                    FontSize="11"
-                   FontWeight="{x:Bind MetaWeight(IsWon), Mode=OneWay}" />
+                   FontWeight="{x:Bind MetaWeight(IsWon), Mode=OneWay}"
+                   VerticalAlignment="Center" />
       </Grid>
     </StackPanel>
   </Border>
