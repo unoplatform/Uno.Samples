@@ -232,4 +232,119 @@
     <Setter Property="Padding" Value="14,12" />
   </Style>
 
+  <!--
+    Bottom-tab item that shows the FILLED icon variant when a tab is selected (outline otherwise) and
+    tints both the icon and the label with the accent on selection. The filled glyph is supplied per
+    item via Tag; Foreground is not inherited in WinUI/Uno, so the accent is applied per state to each.
+    Applied to the stock bottom TabBar through its ItemContainerStyle.
+  -->
+  <Style x:Key="FilledSelectTabBarItemStyle"
+         BasedOn="{StaticResource SimpleBottomTabBarItemStyle}"
+         TargetType="utu:TabBarItem">
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="Foreground" Value="{ThemeResource OnSurfaceMediumBrush}" />
+    <Setter Property="FontSize" Value="11" />
+    <Setter Property="HorizontalContentAlignment" Value="Center" />
+    <Setter Property="VerticalContentAlignment" Value="Center" />
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="utu:TabBarItem">
+          <Grid x:Name="LayoutRoot"
+                Background="{TemplateBinding Background}"
+                Control.IsTemplateFocusTarget="True"
+                RenderTransformOrigin="0.5,0.5">
+            <Grid.RenderTransform>
+              <ScaleTransform x:Name="PressScaleTransform" />
+            </Grid.RenderTransform>
+
+            <Grid HorizontalAlignment="Center"
+                  VerticalAlignment="Center"
+                  RowSpacing="2">
+              <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+              </Grid.RowDefinitions>
+
+              <!-- Outline (inactive) + filled (selected) icons overlaid; the Selected states swap them. -->
+              <Viewbox Grid.Row="0" Width="24" Height="24" HorizontalAlignment="Center">
+                <Grid>
+                  <ContentPresenter x:Name="Icon"
+                                    Content="{TemplateBinding Icon}"
+                                    Foreground="{TemplateBinding Foreground}" />
+                  <ContentPresenter x:Name="IconSelected"
+                                    Content="{TemplateBinding Tag}"
+                                    Foreground="{TemplateBinding Foreground}"
+                                    Visibility="Collapsed" />
+                </Grid>
+              </Viewbox>
+
+              <ContentPresenter x:Name="ContentPresenter"
+                                Grid.Row="1"
+                                Content="{TemplateBinding Content}"
+                                ContentTemplate="{TemplateBinding ContentTemplate}"
+                                Foreground="{TemplateBinding Foreground}"
+                                FontFamily="{TemplateBinding FontFamily}"
+                                FontSize="{TemplateBinding FontSize}"
+                                HorizontalAlignment="Center"
+                                TextWrapping="NoWrap"
+                                AutomationProperties.AccessibilityView="Raw" />
+            </Grid>
+
+            <VisualStateManager.VisualStateGroups>
+              <VisualStateGroup x:Name="CommonStates">
+                <VisualState x:Name="Normal" />
+                <VisualState x:Name="PointerOver" />
+                <VisualState x:Name="Pressed">
+                  <VisualState.Setters>
+                    <Setter Target="PressScaleTransform.ScaleX" Value="0.98" />
+                    <Setter Target="PressScaleTransform.ScaleY" Value="0.98" />
+                  </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Selected">
+                  <VisualState.Setters>
+                    <Setter Target="Icon.Visibility" Value="Collapsed" />
+                    <Setter Target="IconSelected.Visibility" Value="Visible" />
+                    <Setter Target="IconSelected.Foreground" Value="{ThemeResource PrimaryBrush}" />
+                    <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource PrimaryBrush}" />
+                  </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="PointerOverSelected">
+                  <VisualState.Setters>
+                    <Setter Target="Icon.Visibility" Value="Collapsed" />
+                    <Setter Target="IconSelected.Visibility" Value="Visible" />
+                    <Setter Target="IconSelected.Foreground" Value="{ThemeResource PrimaryBrush}" />
+                    <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource PrimaryBrush}" />
+                  </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="PressedSelected">
+                  <VisualState.Setters>
+                    <Setter Target="Icon.Visibility" Value="Collapsed" />
+                    <Setter Target="IconSelected.Visibility" Value="Visible" />
+                    <Setter Target="IconSelected.Foreground" Value="{ThemeResource PrimaryBrush}" />
+                    <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource PrimaryBrush}" />
+                    <Setter Target="PressScaleTransform.ScaleX" Value="0.98" />
+                    <Setter Target="PressScaleTransform.ScaleY" Value="0.98" />
+                  </VisualState.Setters>
+                </VisualState>
+              </VisualStateGroup>
+              <VisualStateGroup x:Name="DisabledStates">
+                <VisualState x:Name="Enabled" />
+                <VisualState x:Name="Disabled">
+                  <VisualState.Setters>
+                    <Setter Target="LayoutRoot.Opacity" Value="0.38" />
+                  </VisualState.Setters>
+                </VisualState>
+              </VisualStateGroup>
+              <VisualStateGroup x:Name="TabBarIconPositionStates">
+                <VisualState x:Name="IconOnTop" />
+                <VisualState x:Name="IconOnly" />
+                <VisualState x:Name="ContentOnly" />
+              </VisualStateGroup>
+            </VisualStateManager.VisualStateGroups>
+          </Grid>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
+
 </ResourceDictionary>
