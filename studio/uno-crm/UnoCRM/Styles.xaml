@@ -270,18 +270,10 @@
                 <RowDefinition Height="Auto" />
               </Grid.RowDefinitions>
 
-              <!-- Outline (inactive) + filled (selected) icons overlaid; the Selected states swap them. -->
-              <Viewbox Grid.Row="0" Width="24" Height="24" HorizontalAlignment="Center">
-                <Grid>
-                  <ContentPresenter x:Name="Icon"
-                                    Content="{TemplateBinding Icon}"
-                                    Foreground="{TemplateBinding Foreground}" />
-                  <ContentPresenter x:Name="IconSelected"
-                                    Content="{TemplateBinding Tag}"
-                                    Foreground="{TemplateBinding Foreground}"
-                                    Visibility="Collapsed" />
-                </Grid>
-              </Viewbox>
+              <!-- The item's Tag holds the icon overlay (outline/filled Paths toggled by IsSelected). -->
+              <ContentPresenter Grid.Row="0"
+                                Content="{TemplateBinding Tag}"
+                                HorizontalAlignment="Center" />
 
               <ContentPresenter x:Name="ContentPresenter"
                                 Grid.Row="1"
@@ -307,25 +299,16 @@
                 </VisualState>
                 <VisualState x:Name="Selected">
                   <VisualState.Setters>
-                    <Setter Target="Icon.Visibility" Value="Collapsed" />
-                    <Setter Target="IconSelected.Visibility" Value="Visible" />
-                    <Setter Target="IconSelected.Foreground" Value="{ThemeResource PrimaryBrush}" />
                     <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource PrimaryBrush}" />
                   </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="PointerOverSelected">
                   <VisualState.Setters>
-                    <Setter Target="Icon.Visibility" Value="Collapsed" />
-                    <Setter Target="IconSelected.Visibility" Value="Visible" />
-                    <Setter Target="IconSelected.Foreground" Value="{ThemeResource PrimaryBrush}" />
                     <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource PrimaryBrush}" />
                   </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="PressedSelected">
                   <VisualState.Setters>
-                    <Setter Target="Icon.Visibility" Value="Collapsed" />
-                    <Setter Target="IconSelected.Visibility" Value="Visible" />
-                    <Setter Target="IconSelected.Foreground" Value="{ThemeResource PrimaryBrush}" />
                     <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource PrimaryBrush}" />
                     <Setter Target="PressScaleTransform.ScaleX" Value="0.98" />
                     <Setter Target="PressScaleTransform.ScaleY" Value="0.98" />
