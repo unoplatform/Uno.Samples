@@ -1,17 +1,39 @@
-<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
-  <!-- Lightweight-styling overrides for built-in controls, per theme (lessons 6b / 51). -->
-  <ResourceDictionary.ThemeDictionaries>
-    <ResourceDictionary x:Key="Light">
-      <!-- The default NavigationView indicator is a system-accent blue bar that stretches as it
-           travels between items. The selected row already carries a strong violet fill as the cue,
-           so remove the indicator entirely (Transparent) rather than tint it (lesson 51). -->
-      <SolidColorBrush x:Key="NavigationViewSelectionIndicatorForeground" Color="Transparent" />
-    </ResourceDictionary>
-    <ResourceDictionary x:Key="Default">
-      <SolidColorBrush x:Key="NavigationViewSelectionIndicatorForeground" Color="Transparent" />
-    </ResourceDictionary>
-  </ResourceDictionary.ThemeDictionaries>
+    <!--  Lightweight-styling overrides for built-in controls, per theme (lessons 6b / 51).  -->
+    <ResourceDictionary.ThemeDictionaries>
+        <ResourceDictionary x:Key="Light">
+            <!--
+                The default NavigationView indicator is a system-accent blue bar that stretches as it
+                travels between items. The selected row already carries a strong violet fill as the cue,
+                so remove the indicator entirely (Transparent) rather than tint it (lesson 51).
+            -->
+            <SolidColorBrush x:Key="NavigationViewSelectionIndicatorForeground" Color="Transparent" />
+
+            <!--
+                Material maps the selected nav row to SecondaryContainer, which in this palette is the
+                amber reserved for prices and the Book CTA (see Styles.xaml). Navigation identity is
+                violet, so re-point the selected states at PrimaryContainer to keep the accents distinct.
+                These are the well-known WinUI NavigationViewItem keys — the MaterialMUX* aliases are
+                internal to Uno.Material and overriding those has no effect on the presenter template.
+            -->
+            <SolidColorBrush x:Key="NavigationViewItemBackgroundSelected" Color="{ThemeResource PrimaryContainerColor}" />
+            <SolidColorBrush x:Key="NavigationViewItemBackgroundSelectedPointerOver" Color="{ThemeResource PrimaryContainerColor}" />
+            <SolidColorBrush x:Key="NavigationViewItemBackgroundSelectedPressed" Color="{ThemeResource PrimaryContainerColor}" />
+            <SolidColorBrush x:Key="NavigationViewItemForegroundSelected" Color="{ThemeResource OnPrimaryContainerColor}" />
+            <SolidColorBrush x:Key="NavigationViewItemForegroundSelectedPointerOver" Color="{ThemeResource OnPrimaryContainerColor}" />
+            <SolidColorBrush x:Key="NavigationViewItemForegroundSelectedPressed" Color="{ThemeResource OnPrimaryContainerColor}" />
+        </ResourceDictionary>
+        <ResourceDictionary x:Key="Default">
+            <SolidColorBrush x:Key="NavigationViewSelectionIndicatorForeground" Color="Transparent" />
+
+            <SolidColorBrush x:Key="NavigationViewItemBackgroundSelected" Color="{ThemeResource PrimaryContainerColor}" />
+            <SolidColorBrush x:Key="NavigationViewItemBackgroundSelectedPointerOver" Color="{ThemeResource PrimaryContainerColor}" />
+            <SolidColorBrush x:Key="NavigationViewItemBackgroundSelectedPressed" Color="{ThemeResource PrimaryContainerColor}" />
+            <SolidColorBrush x:Key="NavigationViewItemForegroundSelected" Color="{ThemeResource OnPrimaryContainerColor}" />
+            <SolidColorBrush x:Key="NavigationViewItemForegroundSelectedPointerOver" Color="{ThemeResource OnPrimaryContainerColor}" />
+            <SolidColorBrush x:Key="NavigationViewItemForegroundSelectedPressed" Color="{ThemeResource OnPrimaryContainerColor}" />
+        </ResourceDictionary>
+    </ResourceDictionary.ThemeDictionaries>
 
 </ResourceDictionary>
