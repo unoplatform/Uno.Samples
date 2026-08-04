@@ -94,13 +94,13 @@ public static class CrmData
 
     private static IReadOnlyList<PipelineStage> BuildStages()
     {
-        (DealStage Stage, string Name, string Accent, string Soft)[] defs =
+        (DealStage Stage, string Name, string Accent, string Deep, string Soft)[] defs =
         [
-            (DealStage.NewLead, "NEW LEAD", "DashboardBlueBrush", "DashboardBlueSoftBrush"),
-            (DealStage.Qualified, "QUALIFIED", "DashboardPurpleBrush", "DashboardPurpleSoftBrush"),
-            (DealStage.Proposal, "PROPOSAL", "DashboardAmberBrush", "DashboardAmberSoftBrush"),
-            (DealStage.Negotiation, "NEGOTIATION", "DashboardRedBrush", "DashboardRedSoftBrush"),
-            (DealStage.ClosedWon, "CLOSED WON", "DashboardGreenBrush", "DashboardGreenSoftBrush"),
+            (DealStage.NewLead, "NEW LEAD", "DashboardBlueBrush", "DashboardBlueDeepBrush", "DashboardBlueSoftBrush"),
+            (DealStage.Qualified, "QUALIFIED", "DashboardPurpleBrush", "DashboardPurpleDeepBrush", "DashboardPurpleSoftBrush"),
+            (DealStage.Proposal, "PROPOSAL", "DashboardAmberBrush", "DashboardAmberDeepBrush", "DashboardAmberSoftBrush"),
+            (DealStage.Negotiation, "NEGOTIATION", "DashboardRedBrush", "DashboardRedDeepBrush", "DashboardRedSoftBrush"),
+            (DealStage.ClosedWon, "CLOSED WON", "DashboardGreenBrush", "DashboardGreenDeepBrush", "DashboardGreenSoftBrush"),
         ];
 
         return defs
@@ -109,6 +109,7 @@ public static class CrmData
                 Name = d.Name,
                 Stage = d.Stage,
                 AccentKey = d.Accent,
+                DeepKey = d.Deep,
                 SoftKey = d.Soft,
                 Deals = Deals.Where(deal => deal.Stage == d.Stage).ToList(),
             })

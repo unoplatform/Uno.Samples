@@ -21,68 +21,21 @@
                         Wide="900" />
 
   <!-- Design tokens -->
-  <Thickness x:Key="DashboardCardPadding">24</Thickness>
-  <CornerRadius x:Key="DashboardCardCornerRadius">18</CornerRadius>
-  <!-- Radius scale: small controls / cards / large panels -->
+  <!-- Radius scale: small controls / buttons+inputs / cards+panels -->
   <CornerRadius x:Key="RadiusSm">6</CornerRadius>
   <CornerRadius x:Key="RadiusMd">12</CornerRadius>
   <CornerRadius x:Key="RadiusLg">18</CornerRadius>
   <!-- Tactile press scale for buttons and clickable cards (design-polish house value) -->
   <x:Double x:Key="PressScale">0.98</x:Double>
+  <!-- Type ramp: 11 micro / 12 caption / 13 label / 14 subtle / 15 body / 20 amount /
+       22 section title / 30 page title + desktop metric / 32 mobile title / 44 hero metric.
+       Pick a rung instead of inventing a new size. -->
 
   <Style x:Key="DashboardPanelBorderStyle" TargetType="Border">
     <Setter Property="Background" Value="{ThemeResource DashboardSurfaceBrush}" />
     <Setter Property="BorderBrush" Value="{ThemeResource DashboardBorderBrush}" />
     <Setter Property="BorderThickness" Value="1" />
-    <Setter Property="CornerRadius" Value="{StaticResource DashboardCardCornerRadius}" />
-  </Style>
-
-  <Style x:Key="DashboardSidebarItemBorderStyle" TargetType="Border">
-    <Setter Property="CornerRadius" Value="{StaticResource RadiusMd}" />
-    <Setter Property="Padding" Value="12,10" />
-  </Style>
-
-  <!--
-    Used by the desktop sidebar nav rows. Custom template so press/hover is a rounded, theme-aware
-    highlight instead of the default WinUI square gray "ButtonBackgroundPressed" rectangle.
-  -->
-  <Style x:Key="DashboardNavButtonStyle" TargetType="Button">
-    <Setter Property="Background" Value="Transparent" />
-    <Setter Property="BorderThickness" Value="0" />
-    <Setter Property="Padding" Value="0" />
-    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-    <Setter Property="HorizontalAlignment" Value="Stretch" />
-    <Setter Property="UseSystemFocusVisuals" Value="False" />
-    <Setter Property="Template">
-      <Setter.Value>
-        <ControlTemplate TargetType="Button">
-          <Grid x:Name="ContentRoot"
-                Background="{TemplateBinding Background}"
-                CornerRadius="{StaticResource RadiusMd}">
-            <VisualStateManager.VisualStateGroups>
-              <VisualStateGroup x:Name="CommonStates">
-                <VisualState x:Name="Normal" />
-                <VisualState x:Name="PointerOver">
-                  <VisualState.Setters>
-                    <Setter Target="ContentRoot.Background" Value="{ThemeResource DashboardControlBrush}" />
-                  </VisualState.Setters>
-                </VisualState>
-                <VisualState x:Name="Pressed">
-                  <VisualState.Setters>
-                    <Setter Target="ContentRoot.Background" Value="{ThemeResource DashboardControlBrush}" />
-                  </VisualState.Setters>
-                </VisualState>
-                <VisualState x:Name="Disabled" />
-              </VisualStateGroup>
-            </VisualStateManager.VisualStateGroups>
-            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                              Padding="{TemplateBinding Padding}"
-                              Content="{TemplateBinding Content}" />
-          </Grid>
-        </ControlTemplate>
-      </Setter.Value>
-    </Setter>
+    <Setter Property="CornerRadius" Value="{StaticResource RadiusLg}" />
   </Style>
 
   <Style x:Key="DashboardSectionLabelStyle" TargetType="TextBlock">
@@ -133,7 +86,7 @@
 
   <Style x:Key="DashboardMetricValueStyle" TargetType="TextBlock">
     <Setter Property="Foreground" Value="{ThemeResource DashboardPrimaryTextBrush}" />
-    <Setter Property="FontSize" Value="32" />
+    <Setter Property="FontSize" Value="30" />
     <Setter Property="FontWeight" Value="SemiBold" />
     <!-- A metric/currency value must never wrap to a second line. -->
     <Setter Property="TextWrapping" Value="NoWrap" />
@@ -156,7 +109,7 @@
     <Setter Property="Background" Value="{ThemeResource DashboardSurfaceBrush}" />
     <Setter Property="BorderBrush" Value="{ThemeResource DashboardBorderBrush}" />
     <Setter Property="BorderThickness" Value="1" />
-    <Setter Property="CornerRadius" Value="10" />
+    <Setter Property="CornerRadius" Value="{StaticResource RadiusMd}" />
     <Setter Property="Padding" Value="0" />
   </Style>
 
@@ -164,7 +117,7 @@
     <Setter Property="Background" Value="{ThemeResource DashboardSurfaceBrush}" />
     <Setter Property="BorderBrush" Value="{ThemeResource DashboardBorderBrush}" />
     <Setter Property="BorderThickness" Value="1" />
-    <Setter Property="CornerRadius" Value="10" />
+    <Setter Property="CornerRadius" Value="{StaticResource RadiusMd}" />
     <Setter Property="Padding" Value="14,10" />
     <Setter Property="Foreground" Value="{ThemeResource DashboardPrimaryTextBrush}" />
     <Setter Property="FontSize" Value="13" />
@@ -176,7 +129,7 @@
     <Setter Property="Background" Value="{ThemeResource DashboardPrimaryButtonBrush}" />
     <Setter Property="BorderBrush" Value="{ThemeResource DashboardPrimaryButtonBrush}" />
     <Setter Property="BorderThickness" Value="1" />
-    <Setter Property="CornerRadius" Value="10" />
+    <Setter Property="CornerRadius" Value="{StaticResource RadiusMd}" />
     <Setter Property="Padding" Value="16,10" />
     <Setter Property="Foreground" Value="White" />
     <Setter Property="FontSize" Value="14" />
@@ -233,7 +186,7 @@
     <Setter Property="Background" Value="{ThemeResource DashboardSurfaceBrush}" />
     <Setter Property="BorderBrush" Value="{ThemeResource DashboardBorderBrush}" />
     <Setter Property="BorderThickness" Value="1" />
-    <Setter Property="CornerRadius" Value="14" />
+    <Setter Property="CornerRadius" Value="{StaticResource RadiusMd}" />
     <Setter Property="Padding" Value="14,12" />
   </Style>
 
@@ -293,8 +246,8 @@
                 <VisualState x:Name="PointerOver" />
                 <VisualState x:Name="Pressed">
                   <VisualState.Setters>
-                    <Setter Target="PressScaleTransform.ScaleX" Value="0.98" />
-                    <Setter Target="PressScaleTransform.ScaleY" Value="0.98" />
+                    <Setter Target="PressScaleTransform.ScaleX" Value="{StaticResource PressScale}" />
+                    <Setter Target="PressScaleTransform.ScaleY" Value="{StaticResource PressScale}" />
                   </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="Selected">
@@ -310,8 +263,8 @@
                 <VisualState x:Name="PressedSelected">
                   <VisualState.Setters>
                     <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource PrimaryBrush}" />
-                    <Setter Target="PressScaleTransform.ScaleX" Value="0.98" />
-                    <Setter Target="PressScaleTransform.ScaleY" Value="0.98" />
+                    <Setter Target="PressScaleTransform.ScaleX" Value="{StaticResource PressScale}" />
+                    <Setter Target="PressScaleTransform.ScaleY" Value="{StaticResource PressScale}" />
                   </VisualState.Setters>
                 </VisualState>
               </VisualStateGroup>

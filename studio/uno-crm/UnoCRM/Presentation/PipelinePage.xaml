@@ -32,16 +32,22 @@
     <!-- A full mobile stage section: colored header with live count, then its deal cards. -->
     <DataTemplate x:Key="MobileStageTemplate">
       <StackPanel Spacing="12" Margin="0,0,0,6">
-        <StackPanel Orientation="Horizontal" Spacing="8">
+        <Grid ColumnSpacing="8">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+          </Grid.ColumnDefinitions>
           <Ellipse Width="10" Height="10" VerticalAlignment="Center"
                    Fill="{Binding AccentKey, Converter={StaticResource ResourceKeyToBrush}}" />
-          <TextBlock Text="{Binding Name}" Style="{StaticResource DashboardSectionLabelStyle}" VerticalAlignment="Center" />
-          <Border CornerRadius="8" Padding="6,1" VerticalAlignment="Center"
+          <TextBlock Grid.Column="1" Text="{Binding Name}" Style="{StaticResource DashboardSectionLabelStyle}" VerticalAlignment="Center"
+                     TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" />
+          <Border Grid.Column="2" HorizontalAlignment="Left" CornerRadius="8" Padding="6,1" VerticalAlignment="Center"
                   Background="{Binding SoftKey, Converter={StaticResource ResourceKeyToBrush}}">
             <TextBlock Text="{Binding Count}" FontSize="11"
-                       Foreground="{Binding AccentKey, Converter={StaticResource ResourceKeyToBrush}}" />
+                       Foreground="{Binding DeepKey, Converter={StaticResource ResourceKeyToBrush}}" />
           </Border>
-        </StackPanel>
+        </Grid>
         <ItemsControl ItemsSource="{Binding Deals}"
                       ItemTemplate="{StaticResource DealCardTemplate}"
                       ItemsPanel="{StaticResource DealStackPanel}" />
@@ -52,7 +58,7 @@
     <Grid x:Name="DesktopRoot" Visibility="{utu:Responsive Narrow=Collapsed, Wide=Visible}">
       <ScrollViewer HorizontalScrollBarVisibility="Disabled"
             VerticalScrollBarVisibility="Auto">
-          <Grid Padding="28,20,28,28"
+          <Grid Padding="28,22,28,28"
           RowSpacing="18">
           <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -68,8 +74,7 @@
 
             <StackPanel Spacing="4">
               <TextBlock Text="Sales Pipeline"
-                         Style="{StaticResource DashboardCardTitleStyle}"
-                         FontSize="30" />
+                         Style="{StaticResource DashboardCardTitleStyle}" />
               <TextBlock Text="Manage and track your deals across stages"
                          Style="{StaticResource DashboardSubtleTextStyle}" />
             </StackPanel>
@@ -172,7 +177,7 @@
                 <Ellipse Grid.Column="0" Width="10" Height="10" VerticalAlignment="Center" Fill="{ThemeResource DashboardBlueBrush}" />
                 <TextBlock Grid.Column="1" Text="NEW LEAD" Style="{StaticResource DashboardSectionLabelStyle}" VerticalAlignment="Center" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" />
                 <Border Grid.Column="2" VerticalAlignment="Center" Background="{ThemeResource DashboardBlueSoftBrush}" CornerRadius="8" Padding="6,1">
-                  <TextBlock Text="{Binding NewLead.Count}" Foreground="{ThemeResource DashboardBlueBrush}" FontSize="11" />
+                  <TextBlock Text="{Binding NewLead.Count}" Foreground="{ThemeResource DashboardBlueDeepBrush}" FontSize="11" />
                 </Border>
               </Grid>
               <ItemsControl ItemsSource="{Binding NewLead.Deals}"
@@ -190,7 +195,7 @@
                 <Ellipse Grid.Column="0" Width="10" Height="10" VerticalAlignment="Center" Fill="{ThemeResource DashboardPurpleBrush}" />
                 <TextBlock Grid.Column="1" Text="QUALIFIED" Style="{StaticResource DashboardSectionLabelStyle}" VerticalAlignment="Center" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" />
                 <Border Grid.Column="2" VerticalAlignment="Center" Background="{ThemeResource DashboardPurpleSoftBrush}" CornerRadius="8" Padding="6,1">
-                  <TextBlock Text="{Binding Qualified.Count}" Foreground="{ThemeResource DashboardPurpleBrush}" FontSize="11" />
+                  <TextBlock Text="{Binding Qualified.Count}" Foreground="{ThemeResource DashboardPurpleDeepBrush}" FontSize="11" />
                 </Border>
               </Grid>
               <ItemsControl ItemsSource="{Binding Qualified.Deals}"
@@ -208,7 +213,7 @@
                 <Ellipse Grid.Column="0" Width="10" Height="10" VerticalAlignment="Center" Fill="{ThemeResource DashboardAmberBrush}" />
                 <TextBlock Grid.Column="1" Text="PROPOSAL" Style="{StaticResource DashboardSectionLabelStyle}" VerticalAlignment="Center" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" />
                 <Border Grid.Column="2" VerticalAlignment="Center" Background="{ThemeResource DashboardAmberSoftBrush}" CornerRadius="8" Padding="6,1">
-                  <TextBlock Text="{Binding Proposal.Count}" Foreground="{ThemeResource DashboardAmberBrush}" FontSize="11" />
+                  <TextBlock Text="{Binding Proposal.Count}" Foreground="{ThemeResource DashboardAmberDeepBrush}" FontSize="11" />
                 </Border>
               </Grid>
               <ItemsControl ItemsSource="{Binding Proposal.Deals}"
@@ -226,7 +231,7 @@
                 <Ellipse Grid.Column="0" Width="10" Height="10" VerticalAlignment="Center" Fill="{ThemeResource DashboardRedBrush}" />
                 <TextBlock Grid.Column="1" Text="NEGOTIATION" Style="{StaticResource DashboardSectionLabelStyle}" VerticalAlignment="Center" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" />
                 <Border Grid.Column="2" VerticalAlignment="Center" Background="{ThemeResource DashboardRedSoftBrush}" CornerRadius="8" Padding="6,1">
-                  <TextBlock Text="{Binding Negotiation.Count}" Foreground="{ThemeResource DashboardRedBrush}" FontSize="11" />
+                  <TextBlock Text="{Binding Negotiation.Count}" Foreground="{ThemeResource DashboardRedDeepBrush}" FontSize="11" />
                 </Border>
               </Grid>
               <ItemsControl ItemsSource="{Binding Negotiation.Deals}"
@@ -244,7 +249,7 @@
                 <Ellipse Grid.Column="0" Width="10" Height="10" VerticalAlignment="Center" Fill="{ThemeResource DashboardGreenBrush}" />
                 <TextBlock Grid.Column="1" Text="CLOSED WON" Style="{StaticResource DashboardSectionLabelStyle}" VerticalAlignment="Center" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" />
                 <Border Grid.Column="2" VerticalAlignment="Center" Background="{ThemeResource DashboardGreenSoftBrush}" CornerRadius="8" Padding="6,1">
-                  <TextBlock Text="{Binding ClosedWon.Count}" Foreground="{ThemeResource DashboardGreenBrush}" FontSize="11" />
+                  <TextBlock Text="{Binding ClosedWon.Count}" Foreground="{ThemeResource DashboardGreenDeepBrush}" FontSize="11" />
                 </Border>
               </Grid>
               <ItemsControl ItemsSource="{Binding ClosedWon.Deals}"
@@ -259,7 +264,7 @@
     <Grid x:Name="MobileRoot" Visibility="{utu:Responsive Narrow=Visible, Wide=Collapsed}" utu:SafeArea.Insets="Top,Bottom">
       <ScrollViewer VerticalScrollBarVisibility="Auto"
                     HorizontalScrollBarVisibility="Disabled">
-        <Grid Padding="20,28,20,130"
+        <Grid Padding="20,28,20,28"
               RowSpacing="18">
           <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />

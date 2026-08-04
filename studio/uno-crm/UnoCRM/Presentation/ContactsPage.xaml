@@ -44,7 +44,7 @@
                                 ContentTransitions="{TemplateBinding ContentTransitions}" />
               <Border x:Name="HoverRing"
                       Margin="0,0,0,10"
-                      CornerRadius="14"
+                      CornerRadius="12"
                       BorderThickness="1.5"
                       BorderBrush="Transparent"
                       IsHitTestVisible="False" />
@@ -78,8 +78,7 @@
             </Grid.ColumnDefinitions>
             <StackPanel Spacing="4">
               <TextBlock Text="Contacts Atlas"
-                         Style="{StaticResource DashboardCardTitleStyle}"
-                         FontSize="30" />
+                         Style="{StaticResource DashboardCardTitleStyle}" />
               <TextBlock Text="Discover and segment contacts by geography, region, and segment"
                          Style="{StaticResource DashboardSubtleTextStyle}"
                          HorizontalAlignment="Left"
@@ -114,7 +113,7 @@
             <Grid Grid.Column="0">
               <TextBox PlaceholderText="Search contacts, company, city"
                        Style="{StaticResource DashboardSearchBoxStyle}"
-                       Padding="36,11,14,11"
+                       Padding="36,10,14,10"
                        Height="44"
                        Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
               <Viewbox Width="16" Height="16"
@@ -167,9 +166,7 @@
                      tablet widths. -->
                 <StackPanel Spacing="4">
                   <TextBlock Text="Live Contact Geography"
-                             Style="{StaticResource DashboardBodyTextStyle}"
-                             FontWeight="SemiBold"
-                             FontSize="22"
+                             Style="{StaticResource DashboardSectionTitleStyle}"
                              TextWrapping="NoWrap"
                              TextTrimming="CharacterEllipsis" />
                   <StackPanel Orientation="Horizontal" Spacing="16">
@@ -201,9 +198,7 @@
                 </Grid.RowDefinitions>
 
                 <TextBlock Text="Filtered Contacts"
-                           Style="{StaticResource DashboardBodyTextStyle}"
-                           FontWeight="SemiBold"
-                           FontSize="22" />
+                           Style="{StaticResource DashboardSectionTitleStyle}" />
 
                 <ListView Grid.Row="1"
                           ItemsSource="{Binding FilteredContacts}"
@@ -264,7 +259,7 @@
     <Grid x:Name="MobileRoot" Visibility="{utu:Responsive Narrow=Visible, Wide=Collapsed}" utu:SafeArea.Insets="Top,Bottom">
       <ScrollViewer VerticalScrollBarVisibility="Auto"
                     HorizontalScrollBarVisibility="Disabled">
-        <Grid Padding="20,28,20,130"
+        <Grid Padding="20,28,20,28"
               RowSpacing="18">
           <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -328,14 +323,12 @@
                   <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="Contact Geography"
-                           Style="{StaticResource DashboardBodyTextStyle}"
-                           FontWeight="SemiBold"
+                           Style="{StaticResource DashboardSectionTitleStyle}"
                            FontSize="20" />
                 <Button Grid.Column="1"
                         Click="ResetView_Click"
-                        Style="{StaticResource DashboardFilterButtonStyle}">
-                  <TextBlock Text="Reset" FontSize="12" Foreground="{ThemeResource DashboardPrimaryTextBrush}" />
-                </Button>
+                        Content="Reset"
+                        Style="{StaticResource DashboardFilterButtonStyle}" />
               </Grid>
               <maps:MapControl x:Name="MobileMapControl"
                                Height="300" />
@@ -347,8 +340,7 @@
                   Padding="14,12,14,14">
             <StackPanel Spacing="10">
               <TextBlock Text="Contacts"
-                         Style="{StaticResource DashboardBodyTextStyle}"
-                         FontWeight="SemiBold"
+                         Style="{StaticResource DashboardSectionTitleStyle}"
                          FontSize="20" />
               <!--
                 ItemsControl (not ListView) so the list has no inner scroll and the

@@ -27,7 +27,7 @@
       <Color x:Key="DashboardBorderColor">#FFE5E5E5</Color>
       <Color x:Key="DashboardDividerColor">#FFF0F0F0</Color>
       <Color x:Key="DashboardMutedTextColor">#FF6E6E6E</Color>
-      <Color x:Key="DashboardSubtleTextColor">#FF8A8A8A</Color>
+      <Color x:Key="DashboardSubtleTextColor">#FF757575</Color>
       <Color x:Key="DashboardDisabledTextColor">#FFBBBBBB</Color>
       <Color x:Key="DashboardPrimaryTextColor">#FF1A1A1A</Color>
       <Color x:Key="DashboardAccentColor">#FF0D6E6E</Color>
@@ -46,6 +46,15 @@
       <Color x:Key="DashboardAmberSoftColor">#FFFFF5E7</Color>
       <Color x:Key="DashboardRedSoftColor">#FFFFEFEF</Color>
       <Color x:Key="DashboardGreenSoftColor">#FFEFFBF6</Color>
+
+      <!-- Deep text variants: 11-13px text set ON the matching soft container (count badges,
+           stage pills, "Won" meta). The base Blue/Purple/... colors are tuned for fills (bars,
+           dots, chart series) and fall short of AA as small text on the soft tints. -->
+      <Color x:Key="DashboardBlueDeepColor">#FF2563EB</Color>
+      <Color x:Key="DashboardPurpleDeepColor">#FF7C3AED</Color>
+      <Color x:Key="DashboardAmberDeepColor">#FFB45309</Color>
+      <Color x:Key="DashboardRedDeepColor">#FFB91C1C</Color>
+      <Color x:Key="DashboardGreenDeepColor">#FF047857</Color>
 
       <!-- Dedicated categorical chart palette -->
       <Color x:Key="Chart1Color">#FF0D6E6E</Color>
@@ -80,6 +89,11 @@
       <SolidColorBrush x:Key="DashboardAmberSoftBrush" Color="{StaticResource DashboardAmberSoftColor}" />
       <SolidColorBrush x:Key="DashboardRedSoftBrush" Color="{StaticResource DashboardRedSoftColor}" />
       <SolidColorBrush x:Key="DashboardGreenSoftBrush" Color="{StaticResource DashboardGreenSoftColor}" />
+      <SolidColorBrush x:Key="DashboardBlueDeepBrush" Color="{StaticResource DashboardBlueDeepColor}" />
+      <SolidColorBrush x:Key="DashboardPurpleDeepBrush" Color="{StaticResource DashboardPurpleDeepColor}" />
+      <SolidColorBrush x:Key="DashboardAmberDeepBrush" Color="{StaticResource DashboardAmberDeepColor}" />
+      <SolidColorBrush x:Key="DashboardRedDeepBrush" Color="{StaticResource DashboardRedDeepColor}" />
+      <SolidColorBrush x:Key="DashboardGreenDeepBrush" Color="{StaticResource DashboardGreenDeepColor}" />
 
       <!-- ComboBox lightweight styling: align the closed box, chevron, drop-down and items with the dashboard palette. -->
       <SolidColorBrush x:Key="ComboBoxBackground" Color="{StaticResource DashboardSurfaceColor}" />
@@ -123,9 +137,11 @@
       <Color x:Key="DashboardSubtleTextColor">#FF9AA4A9</Color>
       <Color x:Key="DashboardDisabledTextColor">#FF565E62</Color>
       <Color x:Key="DashboardPrimaryTextColor">#FFECF1F2</Color>
-      <Color x:Key="DashboardAccentColor">#FF1FA39E</Color>
+      <!-- Accent + soft pair tuned together: 12-13px accent text must clear AA both on the
+           charcoal surface and when set on the accent-soft pill/selection fill. -->
+      <Color x:Key="DashboardAccentColor">#FF2CB5AF</Color>
       <Color x:Key="DashboardPrimaryButtonColor">#FF157C78</Color>
-      <Color x:Key="DashboardAccentSoftColor">#FF224342</Color>
+      <Color x:Key="DashboardAccentSoftColor">#FF1C3736</Color>
       <Color x:Key="DashboardBlueColor">#FF5B97F7</Color>
       <Color x:Key="DashboardPurpleColor">#FFA482F8</Color>
       <Color x:Key="DashboardAmberColor">#FFF6AE33</Color>
@@ -140,8 +156,17 @@
       <Color x:Key="DashboardRedSoftColor">#FF4A3234</Color>
       <Color x:Key="DashboardGreenSoftColor">#FF224138</Color>
 
+      <!-- Deep text variants (see the light dictionary): here "deep" means *lightened* — small
+           text on the dark soft tints needs more luminance than the fill colors carry. Amber and
+           green already clear AA on their soft tints, so they reuse the fill color. -->
+      <Color x:Key="DashboardBlueDeepColor">#FF7FADF9</Color>
+      <Color x:Key="DashboardPurpleDeepColor">#FFB7A0FA</Color>
+      <Color x:Key="DashboardAmberDeepColor">#FFF6AE33</Color>
+      <Color x:Key="DashboardRedDeepColor">#FFF58C8C</Color>
+      <Color x:Key="DashboardGreenDeepColor">#FF2DD0A0</Color>
+
       <!-- Dedicated categorical chart palette -->
-      <Color x:Key="Chart1Color">#FF1FA39E</Color>
+      <Color x:Key="Chart1Color">#FF2CB5AF</Color>
       <Color x:Key="Chart2Color">#FFA482F8</Color>
       <Color x:Key="Chart3Color">#FFF6AE33</Color>
       <Color x:Key="Chart4Color">#FFF26B6B</Color>
@@ -173,6 +198,11 @@
       <SolidColorBrush x:Key="DashboardAmberSoftBrush" Color="{StaticResource DashboardAmberSoftColor}" />
       <SolidColorBrush x:Key="DashboardRedSoftBrush" Color="{StaticResource DashboardRedSoftColor}" />
       <SolidColorBrush x:Key="DashboardGreenSoftBrush" Color="{StaticResource DashboardGreenSoftColor}" />
+      <SolidColorBrush x:Key="DashboardBlueDeepBrush" Color="{StaticResource DashboardBlueDeepColor}" />
+      <SolidColorBrush x:Key="DashboardPurpleDeepBrush" Color="{StaticResource DashboardPurpleDeepColor}" />
+      <SolidColorBrush x:Key="DashboardAmberDeepBrush" Color="{StaticResource DashboardAmberDeepColor}" />
+      <SolidColorBrush x:Key="DashboardRedDeepBrush" Color="{StaticResource DashboardRedDeepColor}" />
+      <SolidColorBrush x:Key="DashboardGreenDeepBrush" Color="{StaticResource DashboardGreenDeepColor}" />
 
       <!-- ComboBox lightweight styling: align the closed box, chevron, drop-down and items with the dashboard palette. -->
       <SolidColorBrush x:Key="ComboBoxBackground" Color="{StaticResource DashboardSurfaceColor}" />

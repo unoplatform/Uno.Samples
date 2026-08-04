@@ -68,8 +68,9 @@ public partial record Deal(
             _ => "DashboardGreenBrush",
         };
 
-    /// <summary>Resource key for the meta text — green/bold for won deals, muted otherwise.</summary>
-    public string MetaKey => IsWon ? "DashboardGreenBrush" : "DashboardMutedTextBrush";
+    /// <summary>Resource key for the meta text — green/bold for won deals, muted otherwise.
+    /// Uses the Deep green (text variant): the fill green is too light for 11px text on a card.</summary>
+    public string MetaKey => IsWon ? "DashboardGreenDeepBrush" : "DashboardMutedTextBrush";
 
     /// <summary>Human-readable health label for a detail view.</summary>
     public string HealthDisplay => Health switch
@@ -80,12 +81,15 @@ public partial record Deal(
     };
 }
 
-/// <summary>A pipeline column: a stage plus the deals currently in it, with its palette keys.</summary>
+/// <summary>A pipeline column: a stage plus the deals currently in it, with its palette keys.
+/// <see cref="AccentKey"/> fills the stage dot; <see cref="DeepKey"/> is the darker (light theme)
+/// / lighter (dark theme) text variant for the small count set on the <see cref="SoftKey"/> tint.</summary>
 public partial record PipelineStage
 {
     public required string Name { get; init; }
     public required DealStage Stage { get; init; }
     public required string AccentKey { get; init; }
+    public required string DeepKey { get; init; }
     public required string SoftKey { get; init; }
     public required IReadOnlyList<Deal> Deals { get; init; }
 

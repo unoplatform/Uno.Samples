@@ -37,6 +37,9 @@ public partial record LeadsModel
     private Axis[]? _countYAxis;
     private Axis[]? _sourceXAxis;
     private Axis[]? _sourceYAxis;
+    private SolidColorPaint? _legendTextPaint;
+    private SolidColorPaint? _tooltipTextPaint;
+    private SolidColorPaint? _tooltipBackgroundPaint;
 
     public ISeries[] LeadTrendSeries => _leadTrendSeries ??= BuildLeadTrendSeries();
     public ISeries[] LeadsBySourceSeries => _leadsBySourceSeries ??= BuildLeadsBySourceSeries();
@@ -45,6 +48,15 @@ public partial record LeadsModel
     public Axis[] CountYAxis => _countYAxis ??= BuildCountYAxis();
     public Axis[] SourceXAxis => _sourceXAxis ??= BuildSourceXAxis();
     public Axis[] SourceYAxis => _sourceYAxis ??= BuildSourceYAxis();
+
+    // LiveCharts' default legend/tooltip text paints are not theme-aware, so the pie legend and
+    // the hover tooltips resolve the dashboard palette like the axes above do.
+    public SolidColorPaint LegendTextPaint => _legendTextPaint ??=
+        new SolidColorPaint(ResolveColor("DashboardMutedTextColor", new SKColor(110, 110, 110)));
+    public SolidColorPaint TooltipTextPaint => _tooltipTextPaint ??=
+        new SolidColorPaint(ResolveColor("DashboardPrimaryTextColor", new SKColor(26, 26, 26)));
+    public SolidColorPaint TooltipBackgroundPaint => _tooltipBackgroundPaint ??=
+        new SolidColorPaint(ResolveColor("DashboardControlColor", new SKColor(240, 240, 240)));
 
     private static ISeries[] BuildLeadTrendSeries()
     {

@@ -34,8 +34,9 @@
         utu:SafeArea.Insets="Top,Bottom">
     <ScrollViewer HorizontalScrollBarVisibility="Disabled"
                   VerticalScrollBarVisibility="Auto">
-      <!-- Narrow keeps a tall bottom padding so the last card clears the floating TabBar. -->
-      <Grid Padding="{utu:Responsive Narrow='20,28,20,130', Wide='28,22,28,28'}"
+      <!-- The shell's bottom TabBar sits in its own row below this content, so Narrow only
+           needs normal breathing room at the end of the scroll. -->
+      <Grid Padding="{utu:Responsive Narrow='20,28,20,28', Wide='28,22,28,28'}"
             RowSpacing="18">
         <Grid.RowDefinitions>
           <RowDefinition Height="Auto" />
@@ -53,7 +54,7 @@
           <StackPanel Spacing="4">
             <TextBlock Text="{utu:Responsive Narrow='Leads', Wide='Leads Intelligence'}"
                        Style="{StaticResource DashboardCardTitleStyle}"
-                       FontSize="{utu:Responsive Narrow=32, Wide=26}" />
+                       FontSize="{utu:Responsive Narrow=32, Wide=30}" />
             <TextBlock Text="{utu:Responsive Narrow='Realtime lead analytics', Wide='Track acquisition momentum, source quality, and stage progression in real time'}"
                        Style="{StaticResource DashboardSubtleTextStyle}"
                        HorizontalAlignment="Left"
@@ -117,7 +118,7 @@
               <TextBlock Grid.Row="2"
                          Text="{Binding NewLeadsText}"
                          Style="{StaticResource DashboardMetricValueStyle}"
-                         FontSize="{utu:Responsive Narrow=24, Wide=28}" />
+                         FontSize="{utu:Responsive Narrow=44, Wide=30}" />
             </Grid>
           </Border>
 
@@ -137,7 +138,7 @@
               <TextBlock Grid.Row="2"
                          Text="{Binding QualificationRateText}"
                          Style="{StaticResource DashboardMetricValueStyle}"
-                         FontSize="{utu:Responsive Narrow=24, Wide=28}" />
+                         FontSize="{utu:Responsive Narrow=44, Wide=30}" />
             </Grid>
           </Border>
 
@@ -156,8 +157,7 @@
                          Style="{StaticResource DashboardSectionLabelStyle}" />
               <TextBlock Grid.Row="2"
                          Text="{Binding PipelineValueText}"
-                         Style="{StaticResource DashboardMetricValueStyle}"
-                         FontSize="28" />
+                         Style="{StaticResource DashboardMetricValueStyle}" />
             </Grid>
           </Border>
 
@@ -176,8 +176,7 @@
                          Style="{StaticResource DashboardSectionLabelStyle}" />
               <TextBlock Grid.Row="2"
                          Text="{Binding AverageDealSizeText}"
-                         Style="{StaticResource DashboardMetricValueStyle}"
-                         FontSize="28" />
+                         Style="{StaticResource DashboardMetricValueStyle}" />
             </Grid>
           </Border>
         </Grid>
@@ -205,13 +204,14 @@
                   Padding="{utu:Responsive Narrow='16,14', Wide='18,14,18,16'}">
             <StackPanel Spacing="{utu:Responsive Narrow=10, Wide=12}">
               <TextBlock Text="{utu:Responsive Narrow='Monthly Lead Flow', Wide='Lead Acquisition Trend'}"
-                         Style="{StaticResource DashboardBodyTextStyle}"
-                         FontWeight="SemiBold"
+                         Style="{StaticResource DashboardSectionTitleStyle}"
                          FontSize="{utu:Responsive Narrow=20, Wide=22}" />
               <lvc:CartesianChart Height="{utu:Responsive Narrow=230, Wide=280}"
                                   Series="{Binding LeadTrendSeries}"
                                   XAxes="{Binding MonthXAxis}"
-                                  YAxes="{Binding CountYAxis}" />
+                                  YAxes="{Binding CountYAxis}"
+                                  TooltipTextPaint="{Binding TooltipTextPaint}"
+                                  TooltipBackgroundPaint="{Binding TooltipBackgroundPaint}" />
             </StackPanel>
           </Border>
 
@@ -223,12 +223,17 @@
                   Padding="{utu:Responsive Narrow='16,14', Wide='18,14,18,16'}">
             <StackPanel Spacing="{utu:Responsive Narrow=10, Wide=12}">
               <TextBlock Text="{utu:Responsive Narrow='Lead Mix by Stage', Wide='Lead Stage Distribution'}"
-                         Style="{StaticResource DashboardBodyTextStyle}"
-                         FontWeight="SemiBold"
+                         Style="{StaticResource DashboardSectionTitleStyle}"
                          FontSize="{utu:Responsive Narrow=20, Wide=22}" />
+              <!-- Legend paint/size themed via the model: LiveCharts' default legend text is
+                   neither theme-aware nor sized to the app's caption tier. -->
               <lvc:PieChart Height="{utu:Responsive Narrow=240, Wide=280}"
                             Series="{Binding StageDistributionSeries}"
                             LegendPosition="Bottom"
+                            LegendTextPaint="{Binding LegendTextPaint}"
+                            LegendTextSize="13"
+                            TooltipTextPaint="{Binding TooltipTextPaint}"
+                            TooltipBackgroundPaint="{Binding TooltipBackgroundPaint}"
                             InitialRotation="-90" />
             </StackPanel>
           </Border>
@@ -241,13 +246,14 @@
                   Padding="{utu:Responsive Narrow='16,14', Wide='18,14,18,16'}">
             <StackPanel Spacing="{utu:Responsive Narrow=10, Wide=12}">
               <TextBlock Text="{utu:Responsive Narrow='Top Sources', Wide='Leads by Source'}"
-                         Style="{StaticResource DashboardBodyTextStyle}"
-                         FontWeight="SemiBold"
+                         Style="{StaticResource DashboardSectionTitleStyle}"
                          FontSize="{utu:Responsive Narrow=20, Wide=22}" />
               <lvc:CartesianChart Height="{utu:Responsive Narrow=230, Wide=260}"
                                   Series="{Binding LeadsBySourceSeries}"
                                   XAxes="{Binding SourceXAxis}"
-                                  YAxes="{Binding SourceYAxis}" />
+                                  YAxes="{Binding SourceYAxis}"
+                                  TooltipTextPaint="{Binding TooltipTextPaint}"
+                                  TooltipBackgroundPaint="{Binding TooltipBackgroundPaint}" />
             </StackPanel>
           </Border>
 
@@ -260,9 +266,7 @@
                   Visibility="{utu:Responsive Narrow=Collapsed, Wide=Visible}">
             <StackPanel Spacing="12">
               <TextBlock Text="Top Open Leads"
-                         Style="{StaticResource DashboardBodyTextStyle}"
-                         FontWeight="SemiBold"
-                         FontSize="22" />
+                         Style="{StaticResource DashboardSectionTitleStyle}" />
 
               <ItemsControl ItemsSource="{Binding TopOpenLeads}"
                             ItemTemplate="{StaticResource TopLeadTemplate}" />
