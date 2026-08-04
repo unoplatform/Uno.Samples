@@ -27,6 +27,7 @@ public sealed partial class ContactsPage : Page
     }
 
     private bool _initialFitDone;
+    private bool _mapsWired;
 
     // OpenStreetMap's tile usage policy requires a descriptive User-Agent that identifies the app;
     // requests without a valid one are rejected. The framework-derived default is unreliable
@@ -36,6 +37,17 @@ public sealed partial class ContactsPage : Page
 
     private void OnLoaded(object sender, RoutedEventArgs e)
     {
+        // Wire the map rebuild exactly once per page instance: Loaded can fire again if the page is
+        // detached and re-attached to the visual tree, and re-subscribing would stack duplicate
+        // VectorChanged handlers (and duplicate RefreshMaps calls). The subscription lives with the
+        // probe for the page's lifetime, so nothing needs unwiring.
+        if (_mapsWired)
+        {
+            return;
+        }
+
+        _mapsWired = true;
+
         // Rebuild the maps whenever the bound filtered set changes. The list feed materializes
         // asynchronously, so the viewport is fit on the first rebuild that actually has contacts
         // (which may be a later VectorChanged, not this initial call); after that, filter changes

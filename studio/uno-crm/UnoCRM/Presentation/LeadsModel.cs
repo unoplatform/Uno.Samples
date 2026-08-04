@@ -171,7 +171,7 @@ public partial record LeadsModel
 
     private static SKColor ResolveColor(string resourceKey, SKColor fallback)
     {
-        if (Application.Current?.Resources.TryGetValue(resourceKey, out var resource) == true
+        if (Application.Current?.Resources.TryGetValue(resourceKey, out var resource) is true
             && resource is Color color)
         {
             return new SKColor(color.R, color.G, color.B, color.A);

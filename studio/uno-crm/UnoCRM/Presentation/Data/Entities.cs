@@ -109,10 +109,7 @@ public partial record FunnelStage
 public partial record ActivityItem(
     string Title,
     string Detail,
-    string TimeAgo,
-    string AccentKey,
-    string SoftKey,
-    string Glyph);
+    string TimeAgo);
 
 /// <summary>A row in the Leads "Top Open Leads" list.</summary>
 public partial record TopLead(string Company, string AmountDisplay);

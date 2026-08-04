@@ -28,29 +28,30 @@ public partial record ContactsModel
             .Concat(CrmData.Contacts.Select(c => c.Segment).Distinct(StringComparer.OrdinalIgnoreCase))
             .ToArray();
 
-    // The single reactive source both the list and the map read from.
-    public IListFeed<ContactLocation> FilteredContacts =>
-        Feed.Combine(SearchText, RegionFilter, SegmentFilter)
-            .Select(c => (IImmutableList<ContactLocation>)Filter(c.Item1, c.Item2, c.Item3))
-            .AsListFeed();
+    // One filtered feed that the list, the header metrics and the empty-state all derive from, so
+    // the filter query runs once per change instead of being recomputed independently in each feed.
+    // Cached on first access so every derived feed shares the same instance.
+    private IFeed<IImmutableList<ContactLocation>>? _filtered;
+    private IFeed<IImmutableList<ContactLocation>> Filtered =>
+        _filtered ??= Feed.Combine(SearchText, RegionFilter, SegmentFilter)
+            .Select(c => Filter(c.Item1, c.Item2, c.Item3));
+
+    // The reactive source both the list and the map read from.
+    public IListFeed<ContactLocation> FilteredContacts => Filtered.AsListFeed();
 
     // Header metrics as scalar feeds (never None), so they bind directly — no INPC.
     public IFeed<string> TotalFilteredLabel =>
-        Feed.Combine(SearchText, RegionFilter, SegmentFilter)
-            .Select(c => $"{Filter(c.Item1, c.Item2, c.Item3).Count} contacts");
+        Filtered.Select(list => $"{list.Count} contacts");
 
     public IFeed<string> RegionsLabel =>
-        Feed.Combine(SearchText, RegionFilter, SegmentFilter)
-            .Select(c => $"{DistinctCount(Filter(c.Item1, c.Item2, c.Item3), x => x.Region)} regions");
+        Filtered.Select(list => $"{DistinctCount(list, x => x.Region)} regions");
 
     public IFeed<string> SegmentsLabel =>
-        Feed.Combine(SearchText, RegionFilter, SegmentFilter)
-            .Select(c => $"{DistinctCount(Filter(c.Item1, c.Item2, c.Item3), x => x.Segment)} segments");
+        Filtered.Select(list => $"{DistinctCount(list, x => x.Segment)} segments");
 
     // Empty-state flag: a bool feed the XAML shows/hides an empty message with (via BoolToVisibility).
     public IFeed<bool> HasNoResults =>
-        Feed.Combine(SearchText, RegionFilter, SegmentFilter)
-            .Select(c => Filter(c.Item1, c.Item2, c.Item3).Count == 0);
+        Filtered.Select(list => list.Count == 0);
 
     private IImmutableList<ContactLocation> Filter(string? search, string? region, string? segment)
     {

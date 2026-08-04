@@ -153,16 +153,11 @@ public static class CrmData
 
     private static IReadOnlyList<ActivityItem> BuildActivities() =>
     [
-        new("Deal won — Summit Retail", "$156,000  •  Closed Won", "2h ago",
-            "DashboardGreenBrush", "DashboardGreenSoftBrush", ""),
-        new("New lead assigned — Acme Corp", "Sarah Chen  •  Web", "15m ago",
-            "DashboardBlueBrush", "DashboardBlueSoftBrush", ""),
-        new("Proposal sent — Meridian Health", "$124,000  •  Proposal", "1h ago",
-            "DashboardAmberBrush", "DashboardAmberSoftBrush", ""),
-        new("Lead qualified — NovaTech", "David Kim  •  Referral", "2h ago",
-            "DashboardPurpleBrush", "DashboardPurpleSoftBrush", ""),
-        new("Negotiation started — Vertex Labs", "$210,000  •  Negotiation", "3h ago",
-            "DashboardRedBrush", "DashboardRedSoftBrush", ""),
+        new("Deal won — Summit Retail", "$156,000  •  Closed Won", "2h ago"),
+        new("New lead assigned — Acme Corp", "Sarah Chen  •  Web", "15m ago"),
+        new("Proposal sent — Meridian Health", "$124,000  •  Proposal", "1h ago"),
+        new("Lead qualified — NovaTech", "David Kim  •  Referral", "2h ago"),
+        new("Negotiation started — Vertex Labs", "$210,000  •  Negotiation", "3h ago"),
     ];
 
     private static LeadsAnalytics BuildLeads()
