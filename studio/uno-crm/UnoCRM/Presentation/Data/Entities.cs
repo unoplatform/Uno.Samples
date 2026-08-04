@@ -68,10 +68,6 @@ public partial record Deal(
             _ => "DashboardGreenBrush",
         };
 
-    /// <summary>Resource key for the meta text — green/bold for won deals, muted otherwise.
-    /// Uses the Deep green (text variant): the fill green is too light for 11px text on a card.</summary>
-    public string MetaKey => IsWon ? "DashboardGreenDeepBrush" : "DashboardMutedTextBrush";
-
     /// <summary>Human-readable health label for a detail view.</summary>
     public string HealthDisplay => Health switch
     {

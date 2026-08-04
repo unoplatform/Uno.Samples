@@ -68,12 +68,24 @@
                    TextWrapping="NoWrap"
                    TextTrimming="CharacterEllipsis"
                    VerticalAlignment="Center" />
+        <!-- Age meta for open deals (muted) / "Won" for closed (accent green, SemiBold). Both
+             colors come straight from {ThemeResource} — the same theme-tracking path as the Owner
+             text and the Recent Activity rows — so they follow the light/dark theme. Resolving a
+             brush key through a value converter picks the wrong theme's brush (a data key can't
+             see the element's ActualTheme), which rendered the days too dark in dark mode. -->
         <TextBlock Grid.Column="1"
                    Text="{x:Bind Meta, Mode=OneWay}"
-                   Foreground="{x:Bind MetaBrush, Mode=OneWay}"
+                   Foreground="{ThemeResource DashboardMutedTextBrush}"
                    FontSize="11"
-                   FontWeight="{x:Bind MetaWeight(IsWon), Mode=OneWay}"
-                   VerticalAlignment="Center" />
+                   VerticalAlignment="Center"
+                   Visibility="{x:Bind DotVisibility(IsWon), Mode=OneWay}" />
+        <TextBlock Grid.Column="1"
+                   Text="{x:Bind Meta, Mode=OneWay}"
+                   Foreground="{ThemeResource DashboardGreenDeepBrush}"
+                   FontSize="11"
+                   FontWeight="SemiBold"
+                   VerticalAlignment="Center"
+                   Visibility="{x:Bind CheckVisibility(IsWon), Mode=OneWay}" />
       </Grid>
     </StackPanel>
   </Border>
