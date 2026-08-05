@@ -6,7 +6,7 @@ public partial class ExpirationDateViewModel
 {
 	private readonly INavigator _navigator;
 
-	private ExpirationDateViewModel(INavigator navigator, PickedDate entity)
+	public ExpirationDateViewModel(INavigator navigator, PickedDate entity)
 	{
 		_navigator = navigator;
 
