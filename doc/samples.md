@@ -4,7 +4,7 @@ uid: Uno.Samples
 
 # Uno.Samples
 
-The [Uno.Samples repository](https://github.com/unoplatform/Uno.Samples) gathers various working examples for Uno Platform, ranging from small single-feature samples to larger showcase applications.
+The [Uno.Samples repository](https://aka.platform.uno/uno-samples-repo) gathers various working examples for Uno Platform, ranging from small single-feature samples to larger showcase applications.
 
 Browse the complete list below:
 
@@ -15,40 +15,86 @@ Browse the complete list below:
 Experience the simplicity and power of Uno.Extensions through the Counter App, a straightforward yet powerful demonstration of both basic and advanced features of the Uno Platform. This app provides a hands-on experience with fundamental concepts such as state management, user interaction, and real-time UI updates.
 This sample app was built using the four variants of the [Counter workshop](https://aka.platform.uno/counter-tutorial), combining markup language (XAML or C# Markup) and presentation framework (MVVM or MVUX).
 
-[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/reference/Counter)
+[Browse source](https://aka.platform.uno/counter-app)
 
 ### SimpleCalc App
 
 The SimpleCalc App is a sample application designed to perform basic arithmetic operations. App was built using the four variants of the [Simple Calc workshop](https://aka.platform.uno/simplecalc-workshop), combining different markup languages (XAML or C# Markup) and presentation frameworks (MVVM or MVUX).
 
-[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/reference/SimpleCalc)
+[Browse source](https://aka.platform.uno/simple-calc-app)
 
 ### TubePlayer App
 
 The TubePlayer App is a sample application that allows users to search for, and stream Youtube videos. This app was created using the tools, libraries, and patterns provided by the Uno Platform, designed to facilitate the rapid development of high-quality applications.
 This sample app was built following the [Tube Player workshop](https://aka.platform.uno/tubeplayer-workshop).
 
-[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/reference/TubePlayer)
+[Browse source](https://aka.platform.uno/tubeplayer-sampleapp)
 
 ### Chefs App
 
 The [Chefs app](xref:Uno.Chefs.Overview) is an engaging recipe platform where you can explore a wide variety of recipes with step-by-step instructions, video tutorials, nutritional details with charts, and user reviews. You can save your favorite recipes, filter options based on your preferences, and even discover nearby contributors on the maps. The app also offers an exciting opportunity to learn from the [Recipe Books](xref:Uno.Recipes.Overview) section, where you'll find specially selected collections that show how powerful Uno Platform features are applied in real-world scenarios, providing you with practical insights and examples to enhance your development skills.
 
-[Browse source](https://github.com/unoplatform/uno.chefs)
+[Browse source](https://aka.platform.uno/uno-chefs-repo)
 
 ### Commerce App
 
 The Commerce App is a sample application that demonstrates the use of ListFeed pagination, Feedviews, and other features provided by Uno.Extensions. It illustrates how these features can be applied to create an application complete with a shopping cart, products, and more.
 
-[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/reference/Commerce)
+[Browse source](https://aka.platform.uno/commerce-app)
 
 ### ToDo App
 
 Dive into the essentials of task management with the ToDo App, a meticulously crafted sample application that highlights the power and flexibility of Uno.Extensions. By emphasizing the creation and organization of to-do lists, this app showcases practical applications of essential Uno.Extensions features, offering a hands-on experience in crafting responsive and user-friendly interfaces across multiple platforms.
 
-[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/reference/ToDo)
+[Browse source](https://aka.platform.uno/todo-app)
 
-### Other Samples
+## Studio Gallery Samples
+
+These apps are featured in the **Uno Platform Studio Gallery** — a curated set of complete, cross-platform sample apps you can open, run, and extend directly in Uno Platform Studio. Each one is a full Uno single-project app built with MVUX and the Uno Toolkit, showcasing a responsive navigation shell, semantic theming, and real-world app patterns across iOS, Android, WebAssembly, and desktop. Browse them below, or explore the [`studio` folder](https://aka.platform.uno/studio-samples).
+
+### BrewHouse
+
+A cross-platform coffee-shop ordering app — browse the menu, filter by category, build a cart, and place orders. It demonstrates a responsive navigation shell (a NavigationView pane on desktop/web, a bottom TabBar on phones) whose content reflows to multiple columns on wide screens, MVUX page-models wired through Uno.Extensions Navigation with one shared cart/orders state, and a warm light/dark theme — all from a single Uno project targeting iOS, Android, WebAssembly, and desktop.
+
+[Open in Studio](https://aka.platform.uno/studio-sample-coffee-shop) or [browse source](https://aka.platform.uno/coffee-shop-app)
+
+### Claude Code Tracker
+
+A cross-platform Claude Code usage dashboard covering coding sessions, token use, and cost. It demonstrates a responsive NavigationView + bottom-TabBar shell, the MVUX pattern with typed page-to-page navigation, theme-aware LiveCharts2 charts, and a custom light/dark palette — from a single Uno project targeting iOS, Android, WebAssembly, and desktop.
+
+[Open in Studio](https://aka.platform.uno/gallery-claude-code-tracker-app) or [browse source](https://aka.platform.uno/claude-code-tracker-app)
+
+### FitStart
+
+A beginner-friendly fitness companion built with MVUX and mock seeded data. An adaptive shell shows a NavigationView pane on wide screens and a bottom TabBar on phones, behind a branded ExtendedSplashScreen. Home has a personalized greeting, today's workout with a Start button, weekly activity stats, recent results, and quick tips, alongside a Plan page (scheduled workouts), a Progress page (history + milestones), a Profile page, and a guided full-screen Workout Session. Clean, motivating UI on the Uno Toolkit Simple theme.
+
+[Open in Studio](https://aka.platform.uno/gallery-fitstart) or [browse source](https://aka.platform.uno/fit-start-app)
+
+### Movie Streaming App
+
+A cinematic movie-streaming app (CineStream) with a dark, poster-driven UI on the Uno Simple theme and an iOS-style floating capsule TabBar shell. It includes an onboarding carousel, a Browse home (featured hero, category filter chips, Trending and New Arrivals rails), a Search page (live query + genre filter), a Social Feed of friend activity, a Profile with a live watchlist count, a rich Movie Detail (a full-screen page on phone/tablet and a modal on desktop), and a Playback screen. A shared watchlist service and MVUX state make the filters and "My List" toggle actually work, and the app runs responsively on desktop and mobile.
+
+[Open in Studio](https://aka.platform.uno/gallery-movie-streaming-app) or [browse source](https://aka.platform.uno/movie-streaming-app)
+
+### Overalls Maker
+
+An interactive denim overalls configurator built with MVUX. Customize length, bib type, denim color, pockets, and embroidered text, with a live reactive preview drawn entirely in XAML (a single-coordinate, "SVG-like" denim figure that reacts to every selection) and real-time pricing. It includes an order Summary and Checkout flow, a warm linen/denim aesthetic with brass hardware and topstitching, and a responsive split layout (preview + options on wide screens).
+
+[Open in Studio](https://aka.platform.uno/gallery-overalls-maker-app) or [browse source](https://aka.platform.uno/overalls-maker-app) 
+
+### Uno CRM
+
+A production-ready CRM sales dashboard with mock state and a responsive desktop/mobile layout. It includes a Dashboard (KPI cards for leads, deals, revenue, and conversion rate, a pipeline summary by stage, and a recent-activity feed) plus dedicated Pipeline, Leads, and Contacts pages, all inside an adaptive shell (sidebar on desktop, bottom navigation on mobile) with a clean, professional UI.
+
+[Open in Studio](https://aka.platform.uno/gallery-uno-crm) or [browse source](https://aka.platform.uno/uno-crm-app)
+
+### Voyago
+
+A polished travel-discovery app built with MVUX and Uno.Extensions Navigation. A responsive shell (a NavigationView rail on desktop, a bottom TabBar on mobile) hosts Home, Search, Trips, Favorites, and Profile, plus a full-screen destination detail page reached with navigation-passed data. It demonstrates a branded icon and splash, a bundled type + design-token system, vector PathIcon iconography, a hero carousel, and distinct light/dark theming from a single palette.
+
+[Open in Studio](https://aka.platform.uno/gallery-travel-app) or [browse source](https://aka.platform.uno/travel-app)
+
+## Other Samples
 
 ### Advanced XBind
 
