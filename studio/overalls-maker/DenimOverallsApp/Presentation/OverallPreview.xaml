@@ -103,10 +103,21 @@
 				<GradientStop Offset="1.0" Color="#8A5E2C" />
 			</LinearGradientBrush>
 
-			<!-- Neutral denim weave grain (bitmap overlay; works over any dynamic colour) -->
-			<ImageBrush x:Key="DenimWeaveBrush"
-						ImageSource="ms-appx:///Assets/Textures/denim-weave.png"
-						Stretch="UniformToFill" />
+			<!-- Denim warp grain: fine vertical thread banding painted over any dynamic colour. A gradient
+				 rather than a bundled bitmap, which wouldn't serve in Studio Live (and Uno has no DrawingBrush). -->
+			<LinearGradientBrush x:Key="DenimWeaveBrush" StartPoint="0,0" EndPoint="1,0">
+				<GradientStop Offset="0.00" Color="#00000000" />
+				<GradientStop Offset="0.10" Color="#1E000000" />
+				<GradientStop Offset="0.20" Color="#00000000" />
+				<GradientStop Offset="0.30" Color="#1E000000" />
+				<GradientStop Offset="0.40" Color="#00000000" />
+				<GradientStop Offset="0.50" Color="#1E000000" />
+				<GradientStop Offset="0.60" Color="#00000000" />
+				<GradientStop Offset="0.70" Color="#1E000000" />
+				<GradientStop Offset="0.80" Color="#00000000" />
+				<GradientStop Offset="0.90" Color="#1E000000" />
+				<GradientStop Offset="1.00" Color="#00000000" />
+			</LinearGradientBrush>
 	</UserControl.Resources>
 
 							<Viewbox x:Name="Figure" MaxWidth="250"

@@ -73,24 +73,6 @@ public partial record MainModel(INavigator Navigator)
     public IFeed<string> PreviewBibLabel    => Configuration.Select(c => OverallCatalog.BibLabel(c.BibType));
     public IFeed<string> PreviewPocketLabel => Configuration.Select(c => OverallCatalog.PocketLabel(c.PocketType));
 
-    /// <summary>Leg length of the rendered overall — shorter for the "short" cut.</summary>
-    public IFeed<double> LegHeight => Configuration.Select(c => c.LengthOption == "short" ? 96d : 208d);
-
-    /// <summary>Discrete length variants for the single-coordinate ("SVG") figure: each length has its own continuous body geometry.</summary>
-    public IFeed<bool> IsLongLength  => Configuration.Select(c => c.LengthOption == "long");
-    public IFeed<bool> IsShortLength => Configuration.Select(c => c.LengthOption == "short");
-
-    public IFeed<bool> ShowBibPanel          => Configuration.Select(c => c.BibType != "crossback");
-    public IFeed<bool> ShowSingleChestPocket => Configuration.Select(c => c.BibType == "classic");
-    public IFeed<bool> ShowDoubleChestPocket => Configuration.Select(c => c.BibType == "wide");
-    public IFeed<bool> ShowCrossStraps       => Configuration.Select(c => c.BibType == "crossback");
-
-    /// <summary>Distinct bib silhouettes for the "SVG" figure (classic / wide / scoop).</summary>
-    public IFeed<bool> IsClassicBib => Configuration.Select(c => c.BibType == "classic");
-    public IFeed<bool> IsWideBib    => Configuration.Select(c => c.BibType == "wide");
-    public IFeed<bool> IsScoopBib   => Configuration.Select(c => c.BibType == "scoop");
-    public IFeed<bool> ShowThighPockets      => Configuration.Select(c => c.PocketType is "patch" or "cargo");
-
     // ── Navigation ────────────────────────────────────────────────────────────
     /// <summary>Carries the current configuration to the order summary.</summary>
     public async ValueTask ReviewOrder(CancellationToken ct)
