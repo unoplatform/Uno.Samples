@@ -78,6 +78,7 @@
 			<conv:HexColorToBrushConverter x:Key="HexToBrush" />
 			<conv:BooleanToVisibilityConverter x:Key="BoolToVis" />
 			<conv:SelectionToThicknessConverter x:Key="SelThickness" />
+			<conv:IconConverter x:Key="Icon" />
 
 
 			<!-- Borderless click surface: the CardContentControl inside provides all visuals -->
@@ -396,9 +397,7 @@
 					<StackPanel Spacing="10">
 						<StackPanel Orientation="Horizontal"
 									Spacing="8">
-							<FontIcon Glyph="&#xE8A5;"
-									  FontSize="16"
-									  Foreground="{ThemeResource SecondaryBrush}" />
+							<Viewbox Width="16" Height="16" VerticalAlignment="Center"><Path Data="{Binding Converter={StaticResource Icon}, ConverterParameter=length}" Fill="{ThemeResource SecondaryBrush}" Stretch="Uniform" /></Viewbox>
 							<TextBlock Text="LENGTH"
 									   Style="{StaticResource LabelLarge}"
 									   CharacterSpacing="80"
@@ -452,9 +451,7 @@
 													Margin="0,8,8,0"
 													IsHitTestVisible="False"
 													Visibility="{Binding IsSelected, Converter={StaticResource BoolToVis}}">
-												<FontIcon Glyph="&#xE73E;"
-														  FontSize="12"
-														  Foreground="{ThemeResource OnPrimaryBrush}" />
+												<Viewbox Width="12" Height="12" VerticalAlignment="Center"><Path Data="{Binding Converter={StaticResource Icon}, ConverterParameter=check}" Fill="{ThemeResource OnPrimaryBrush}" Stretch="Uniform" /></Viewbox>
 											</Border>
 										</Grid>
 									</Button>
@@ -467,9 +464,7 @@
 					<StackPanel Spacing="10">
 						<StackPanel Orientation="Horizontal"
 									Spacing="8">
-							<FontIcon Glyph="&#xE8FD;"
-									  FontSize="16"
-									  Foreground="{ThemeResource SecondaryBrush}" />
+							<Viewbox Width="16" Height="16" VerticalAlignment="Center"><Path Data="{Binding Converter={StaticResource Icon}, ConverterParameter=bib}" Fill="{ThemeResource SecondaryBrush}" Stretch="Uniform" /></Viewbox>
 							<TextBlock Text="BIB TYPE"
 									   Style="{StaticResource LabelLarge}"
 									   CharacterSpacing="80"
@@ -519,9 +514,7 @@
 													Margin="0,8,8,0"
 													IsHitTestVisible="False"
 													Visibility="{Binding IsSelected, Converter={StaticResource BoolToVis}}">
-												<FontIcon Glyph="&#xE73E;"
-														  FontSize="12"
-														  Foreground="{ThemeResource OnPrimaryBrush}" />
+												<Viewbox Width="12" Height="12" VerticalAlignment="Center"><Path Data="{Binding Converter={StaticResource Icon}, ConverterParameter=check}" Fill="{ThemeResource OnPrimaryBrush}" Stretch="Uniform" /></Viewbox>
 											</Border>
 										</Grid>
 									</Button>
@@ -534,9 +527,7 @@
 					<StackPanel Spacing="10">
 						<StackPanel Orientation="Horizontal"
 									Spacing="8">
-							<FontIcon Glyph="&#xE771;"
-									  FontSize="16"
-									  Foreground="{ThemeResource SecondaryBrush}" />
+							<Viewbox Width="16" Height="16" VerticalAlignment="Center"><Path Data="{Binding Converter={StaticResource Icon}, ConverterParameter=droplet}" Fill="{ThemeResource SecondaryBrush}" Stretch="Uniform" /></Viewbox>
 							<TextBlock Text="DENIM COLOR"
 									   Style="{StaticResource LabelLarge}"
 									   CharacterSpacing="80"
@@ -588,9 +579,7 @@
 													Margin="0,8,8,0"
 													IsHitTestVisible="False"
 													Visibility="{Binding IsSelected, Converter={StaticResource BoolToVis}}">
-												<FontIcon Glyph="&#xE73E;"
-														  FontSize="12"
-														  Foreground="{ThemeResource OnPrimaryBrush}" />
+												<Viewbox Width="12" Height="12" VerticalAlignment="Center"><Path Data="{Binding Converter={StaticResource Icon}, ConverterParameter=check}" Fill="{ThemeResource OnPrimaryBrush}" Stretch="Uniform" /></Viewbox>
 											</Border>
 										</Grid>
 									</Button>
@@ -603,9 +592,7 @@
 					<StackPanel Spacing="10">
 						<StackPanel Orientation="Horizontal"
 									Spacing="8">
-							<FontIcon Glyph="&#xE70F;"
-									  FontSize="16"
-									  Foreground="{ThemeResource SecondaryBrush}" />
+							<Viewbox Width="16" Height="16" VerticalAlignment="Center"><Path Data="{Binding Converter={StaticResource Icon}, ConverterParameter=pen}" Fill="{ThemeResource SecondaryBrush}" Stretch="Uniform" /></Viewbox>
 							<TextBlock Text="EMBROIDERY TEXT"
 									   Style="{StaticResource LabelLarge}"
 									   CharacterSpacing="80"
@@ -638,9 +625,7 @@
 					<StackPanel Spacing="10">
 						<StackPanel Orientation="Horizontal"
 									Spacing="8">
-							<FontIcon Glyph="&#xE946;"
-									  FontSize="16"
-									  Foreground="{ThemeResource SecondaryBrush}" />
+							<Viewbox Width="16" Height="16" VerticalAlignment="Center"><Path Data="{Binding Converter={StaticResource Icon}, ConverterParameter=star}" Fill="{ThemeResource SecondaryBrush}" Stretch="Uniform" /></Viewbox>
 							<TextBlock Text="UNO LOGO"
 									   Style="{StaticResource LabelLarge}"
 									   CharacterSpacing="80"
@@ -676,9 +661,7 @@
 					<StackPanel Spacing="10">
 						<StackPanel Orientation="Horizontal"
 									Spacing="8">
-							<FontIcon Glyph="&#xE8FD;"
-									  FontSize="16"
-									  Foreground="{ThemeResource SecondaryBrush}" />
+							<Viewbox Width="16" Height="16" VerticalAlignment="Center"><Path Data="{Binding Converter={StaticResource Icon}, ConverterParameter=pocket}" Fill="{ThemeResource SecondaryBrush}" Stretch="Uniform" /></Viewbox>
 							<TextBlock Text="POCKET STYLE"
 									   Style="{StaticResource LabelLarge}"
 									   CharacterSpacing="80"
@@ -728,9 +711,7 @@
 													Margin="0,8,8,0"
 													IsHitTestVisible="False"
 													Visibility="{Binding IsSelected, Converter={StaticResource BoolToVis}}">
-												<FontIcon Glyph="&#xE73E;"
-														  FontSize="12"
-														  Foreground="{ThemeResource OnPrimaryBrush}" />
+												<Viewbox Width="12" Height="12" VerticalAlignment="Center"><Path Data="{Binding Converter={StaticResource Icon}, ConverterParameter=check}" Fill="{ThemeResource OnPrimaryBrush}" Stretch="Uniform" /></Viewbox>
 											</Border>
 										</Grid>
 									</Button>

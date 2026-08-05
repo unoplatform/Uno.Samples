@@ -4,8 +4,7 @@ namespace DenimOverallsApp.Presentation;
 public partial record OverallOption(
     string Id,
     string Label,
-    string Description,
-    string Glyph);
+    string Description);
 
 /// <summary>The user's complete customization selection — shared between configurator, summary and checkout.</summary>
 public partial record OverallConfiguration(

@@ -15,16 +15,16 @@ public static class OverallCatalog
 
     public static readonly IReadOnlyList<OverallOption> Lengths = new[]
     {
-        new OverallOption("long",  "Long",  "Full-length bib overall, ankle cuff", ""),
-        new OverallOption("short", "Short", "Shorts overall, mid-thigh cut",       ""),
+        new OverallOption("long",  "Long",  "Full-length bib overall, ankle cuff"),
+        new OverallOption("short", "Short", "Shorts overall, mid-thigh cut"),
     };
 
     public static readonly IReadOnlyList<OverallOption> Bibs = new[]
     {
-        new OverallOption("classic",   "Classic Bib", "Straight bib with single chest pocket",      ""),
-        new OverallOption("wide",      "Wide Bib",    "Broad bib, double chest pockets",            ""),
-        new OverallOption("scoop",     "Scoop Bib",   "Low curved bib, relaxed silhouette",         ""),
-        new OverallOption("crossback", "Cross-Back",  "Adjustable cross-back straps, no front bib", ""),
+        new OverallOption("classic",   "Classic Bib", "Straight bib with single chest pocket"),
+        new OverallOption("wide",      "Wide Bib",    "Broad bib, double chest pockets"),
+        new OverallOption("scoop",     "Scoop Bib",   "Low curved bib, relaxed silhouette"),
+        new OverallOption("crossback", "Cross-Back",  "Adjustable cross-back straps, no front bib"),
     };
 
     public static readonly IReadOnlyList<DenimColorOption> Colors = new[]
@@ -39,10 +39,10 @@ public static class OverallCatalog
 
     public static readonly IReadOnlyList<OverallOption> Pockets = new[]
     {
-        new OverallOption("patch", "Patch Pockets",   "Classic large patch pockets on the thighs",  ""),
-        new OverallOption("cargo", "Cargo Pockets",   "Side cargo pockets with brass button flaps", ""),
-        new OverallOption("slim",  "Slim Pockets",    "Minimal hidden side-seam pockets",           ""),
-        new OverallOption("none",  "No Side Pockets", "Clean lines, chest pocket only",             ""),
+        new OverallOption("patch", "Patch Pockets",   "Classic large patch pockets on the thighs"),
+        new OverallOption("cargo", "Cargo Pockets",   "Side cargo pockets with brass button flaps"),
+        new OverallOption("slim",  "Slim Pockets",    "Minimal hidden side-seam pockets"),
+        new OverallOption("none",  "No Side Pockets", "Clean lines, chest pocket only"),
     };
 
     public static OverallConfiguration CreateDefault()

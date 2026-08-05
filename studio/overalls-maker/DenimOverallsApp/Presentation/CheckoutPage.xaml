@@ -3,7 +3,12 @@
 	  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	  xmlns:utu="using:Uno.Toolkit.UI"
 	  xmlns:uen="using:Uno.Extensions.Navigation.UI"
+	  xmlns:conv="using:DenimOverallsApp.Converters"
 	  Background="{ThemeResource BackgroundBrush}">
+
+	<Page.Resources>
+		<conv:IconConverter x:Key="Icon" />
+	</Page.Resources>
 
 	<Grid utu:SafeArea.Insets="SoftInput,VisibleBounds">
 		<Grid.RowDefinitions>
@@ -43,10 +48,7 @@
 								<StackPanel Padding="10,6"
 											Orientation="Horizontal"
 											Spacing="6">
-									<FontIcon Glyph="&#xE946;"
-											  FontSize="13"
-											  Foreground="{ThemeResource TertiaryBrush}"
-											  VerticalAlignment="Center" />
+									<Viewbox Width="13" Height="13" VerticalAlignment="Center"><Path Data="{Binding Converter={StaticResource Icon}}" Fill="{ThemeResource TertiaryBrush}" Stretch="Uniform" /></Viewbox>
 									<TextBlock Text="{Binding}"
 											   Style="{StaticResource LabelSmall}"
 											   Foreground="{ThemeResource OnSurfaceBrush}"
@@ -62,9 +64,7 @@
 				<StackPanel Spacing="10">
 					<StackPanel Orientation="Horizontal"
 								Spacing="8">
-						<FontIcon Glyph="&#xE707;"
-								  FontSize="16"
-								  Foreground="{ThemeResource SecondaryBrush}" />
+						<Viewbox Width="16" Height="16" VerticalAlignment="Center"><Path Data="{Binding Converter={StaticResource Icon}, ConverterParameter=location}" Fill="{ThemeResource SecondaryBrush}" Stretch="Uniform" /></Viewbox>
 						<TextBlock Text="SHIPPING ADDRESS"
 								   Style="{StaticResource LabelLarge}"
 								   CharacterSpacing="80"
@@ -209,9 +209,7 @@
 				<StackPanel Spacing="10">
 					<StackPanel Orientation="Horizontal"
 								Spacing="8">
-						<FontIcon Glyph="&#xE8C5;"
-								  FontSize="16"
-								  Foreground="{ThemeResource SecondaryBrush}" />
+						<Viewbox Width="16" Height="16" VerticalAlignment="Center"><Path Data="{Binding Converter={StaticResource Icon}, ConverterParameter=wallet}" Fill="{ThemeResource SecondaryBrush}" Stretch="Uniform" /></Viewbox>
 						<TextBlock Text="PAYMENT METHOD"
 								   Style="{StaticResource LabelLarge}"
 								   CharacterSpacing="80"
@@ -234,10 +232,7 @@
 										<RadioButton GroupName="PaymentGroup"
 													 VerticalAlignment="Center"
 													 AutomationProperties.Name="{Binding Label}" />
-										<FontIcon Glyph="{Binding Glyph}"
-												  FontSize="20"
-												  Foreground="{ThemeResource PrimaryBrush}"
-												  VerticalAlignment="Center" />
+										<Viewbox Width="20" Height="20" VerticalAlignment="Center"><Path Data="{Binding Label, Converter={StaticResource Icon}}" Fill="{ThemeResource PrimaryBrush}" Stretch="Uniform" /></Viewbox>
 										<TextBlock Text="{Binding Label}"
 												   Style="{StaticResource TitleSmall}"
 												   Foreground="{ThemeResource OnSurfaceBrush}"
@@ -294,9 +289,12 @@
 												 AutomationProperties.Name="CVV" />
 								</StackPanel>
 							</Grid>
-							<TextBlock Text="&#xE72E; Payments are secured with 256-bit SSL encryption"
-									   Style="{StaticResource LabelSmall}"
-									   Foreground="{ThemeResource TertiaryBrush}" />
+							<StackPanel Orientation="Horizontal" Spacing="6">
+								<Viewbox Width="14" Height="14" VerticalAlignment="Center">
+									<Path Data="{Binding Converter={StaticResource Icon}, ConverterParameter=shield}" Fill="{ThemeResource TertiaryBrush}" Stretch="Uniform" />
+								</Viewbox>
+								<TextBlock Text="Payments are secured with 256-bit SSL encryption" Style="{StaticResource LabelSmall}" Foreground="{ThemeResource TertiaryBrush}" TextWrapping="Wrap" VerticalAlignment="Center" />
+							</StackPanel>
 						</StackPanel>
 					</utu:CardContentControl>
 				</StackPanel>
@@ -308,10 +306,7 @@
 					<StackPanel Padding="16,10"
 								Orientation="Horizontal"
 								Spacing="12">
-						<FontIcon Glyph="&#xE787;"
-								  FontSize="18"
-								  Foreground="{ThemeResource TertiaryBrush}"
-								  VerticalAlignment="Center" />
+						<Viewbox Width="18" Height="18" VerticalAlignment="Center"><Path Data="{Binding Converter={StaticResource Icon}, ConverterParameter=history}" Fill="{ThemeResource TertiaryBrush}" Stretch="Uniform" /></Viewbox>
 						<TextBlock Text="{Binding LeadTimeSummary}"
 								   Style="{StaticResource BodyMedium}"
 								   Foreground="{ThemeResource OnSurfaceVariantBrush}"

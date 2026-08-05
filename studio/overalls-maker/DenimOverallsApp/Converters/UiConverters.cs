@@ -1,10 +1,29 @@
 using System.Globalization;
+using DenimOverallsApp.Presentation;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Media;
 using Windows.UI;
 
 namespace DenimOverallsApp.Converters;
+
+/// <summary>
+/// Resolves a vector icon <see cref="Geometry"/> from <see cref="Icons"/>. Use
+/// <c>ConverterParameter</c> to name a key directly (static icons: <c>ConverterParameter=length</c>),
+/// or bind a domain label as the value (icon lists: the label maps to a key via <see cref="Icons.KeyFor"/>).
+/// A fresh geometry is produced each call, so no instance is shared across the visual tree.
+/// </summary>
+public sealed partial class IconConverter : IValueConverter
+{
+    public object? Convert(object value, Type targetType, object parameter, string language)
+    {
+        var key = parameter is string p ? p : (value is string s ? Icons.KeyFor(s) : null);
+        return Icons.Get(key);
+    }
+
+    public object ConvertBack(object value, Type targetType, object parameter, string language)
+        => throw new NotSupportedException();
+}
 
 /// <summary>Converts a "#RRGGBB" / "#AARRGGBB" hex string into a <see cref="SolidColorBrush"/>.</summary>
 public sealed partial class HexColorToBrushConverter : IValueConverter

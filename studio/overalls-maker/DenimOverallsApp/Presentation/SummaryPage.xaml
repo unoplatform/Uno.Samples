@@ -9,6 +9,7 @@
 
     <Page.Resources>
         <conv:HexColorToBrushConverter x:Key="HexToBrush"/>
+        <conv:IconConverter x:Key="Icon"/>
     </Page.Resources>
 
     <Grid utu:SafeArea.Insets="VisibleBounds">
@@ -107,7 +108,7 @@
                 <!-- ── Price Breakdown ────────────────────────────────── -->
                 <StackPanel Spacing="8">
                     <StackPanel Orientation="Horizontal" Spacing="8">
-                        <FontIcon Glyph="&#xE7BF;" FontSize="16" Foreground="{ThemeResource SecondaryBrush}"/>
+                        <Viewbox Width="16" Height="16" VerticalAlignment="Center"><Path Data="{Binding Converter={StaticResource Icon}, ConverterParameter=money}" Fill="{ThemeResource SecondaryBrush}" Stretch="Uniform" /></Viewbox>
                         <TextBlock Text="PRICE BREAKDOWN"
                                    Style="{StaticResource LabelLarge}"
                                    CharacterSpacing="80"
@@ -201,7 +202,7 @@
                                         HorizontalAlignment="Stretch">
                     <StackPanel Padding="16,12" Spacing="8">
                         <StackPanel Orientation="Horizontal" Spacing="8">
-                            <FontIcon Glyph="&#xE8A5;" FontSize="16" Foreground="{ThemeResource TertiaryBrush}"/>
+                            <Viewbox Width="16" Height="16" VerticalAlignment="Center"><Path Data="{Binding Converter={StaticResource Icon}, ConverterParameter=luggage}" Fill="{ThemeResource TertiaryBrush}" Stretch="Uniform" /></Viewbox>
                             <TextBlock Text="PRODUCTION &#x26; DELIVERY"
                                        Style="{StaticResource LabelLarge}"
                                        CharacterSpacing="60"
@@ -209,13 +210,13 @@
                         </StackPanel>
                         <StackPanel Spacing="4">
                             <StackPanel Orientation="Horizontal" Spacing="6">
-                                <FontIcon Glyph="&#xE787;" FontSize="13" Foreground="{ThemeResource OnSurfaceVariantBrush}"/>
+                                <Viewbox Width="13" Height="13" VerticalAlignment="Center"><Path Data="{Binding Converter={StaticResource Icon}, ConverterParameter=history}" Fill="{ThemeResource OnSurfaceVariantBrush}" Stretch="Uniform" /></Viewbox>
                                 <TextBlock Text="{Binding LeadTime}"
                                            Style="{StaticResource BodyMedium}"
                                            Foreground="{ThemeResource OnSurfaceVariantBrush}"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" Spacing="6">
-                                <FontIcon Glyph="&#xE72D;" FontSize="13" Foreground="{ThemeResource OnSurfaceVariantBrush}"/>
+                                <Viewbox Width="13" Height="13" VerticalAlignment="Center"><Path Data="{Binding Converter={StaticResource Icon}, ConverterParameter=car}" Fill="{ThemeResource OnSurfaceVariantBrush}" Stretch="Uniform" /></Viewbox>
                                 <TextBlock Text="{Binding ShipMethod}"
                                            Style="{StaticResource BodyMedium}"
                                            Foreground="{ThemeResource OnSurfaceVariantBrush}"/>

@@ -24,9 +24,9 @@ public partial record CheckoutModel
     // ── Payment method options ────────────────────────────────────────────
     public IReadOnlyList<PaymentMethod> PaymentMethods { get; } = new[]
     {
-        new PaymentMethod("card",   "Credit / Debit Card", "\uE8C5"),
-        new PaymentMethod("paypal", "PayPal",              "\uE8C5"),
-        new PaymentMethod("klarna", "Pay in 3 (Klarna)",   "\uE8C5"),
+        new PaymentMethod("card",   "Credit / Debit Card"),
+        new PaymentMethod("paypal", "PayPal"),
+        new PaymentMethod("klarna", "Pay in 3 (Klarna)"),
     };
 
     public string SelectedPayment { get; } = "card";
@@ -47,5 +47,4 @@ public partial record CheckoutModel
 
 public partial record PaymentMethod(
     string Id,
-    string Label,
-    string Glyph);
+    string Label);
