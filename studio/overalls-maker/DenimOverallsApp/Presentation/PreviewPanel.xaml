@@ -1,0 +1,264 @@
+<UserControl x:Class="DenimOverallsApp.Presentation.PreviewPanel"
+			 x:Name="Root"
+			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:utu="using:Uno.Toolkit.UI"
+			 xmlns:conv="using:DenimOverallsApp.Converters"
+			 xmlns:local="using:DenimOverallsApp.Presentation">
+
+	<UserControl.Resources>
+		<ResourceDictionary>
+			<ResourceDictionary.ThemeDictionaries>
+				<ResourceDictionary x:Key="Light">
+					<LinearGradientBrush x:Key="PreviewCardBrush" StartPoint="0,0" EndPoint="0.4,1">
+						<GradientStop Offset="0" Color="#FBF8F1" />
+						<GradientStop Offset="1" Color="#F1ECE0" />
+					</LinearGradientBrush>
+					<SolidColorBrush x:Key="MotifInkBrush"
+									 Color="#1F2430"
+									 Opacity="0.16" />
+					<SolidColorBrush x:Key="MotifBrassBrush"
+									 Color="#B07B3C"
+									 Opacity="0.22" />
+					<SolidColorBrush x:Key="PreviewCardBorderBrush"
+									 Color="#C9A36A"
+									 Opacity="0.35" />
+				</ResourceDictionary>
+				<ResourceDictionary x:Key="Dark">
+					<LinearGradientBrush x:Key="PreviewCardBrush" StartPoint="0,0" EndPoint="0.4,1">
+						<GradientStop Offset="0" Color="#2B303C" />
+						<GradientStop Offset="1" Color="#222734" />
+					</LinearGradientBrush>
+					<SolidColorBrush x:Key="MotifInkBrush"
+									 Color="#EDE8DE"
+									 Opacity="0.13" />
+					<SolidColorBrush x:Key="MotifBrassBrush"
+									 Color="#D9B877"
+									 Opacity="0.26" />
+					<SolidColorBrush x:Key="PreviewCardBorderBrush"
+									 Color="#C9A36A"
+									 Opacity="0.30" />
+				</ResourceDictionary>
+			</ResourceDictionary.ThemeDictionaries>
+			<conv:HexColorToBrushConverter x:Key="HexToBrush" />
+		</ResourceDictionary>
+	</UserControl.Resources>
+
+					<StackPanel Margin="16"
+							Spacing="16">
+					<TextBlock Text="PREVIEW"
+							   Style="{StaticResource LabelExtraSmall}"
+							   CharacterSpacing="150"
+							   Foreground="{ThemeResource SecondaryBrush}"
+							   HorizontalAlignment="Center" />
+
+					<!-- Preview card — warm linen, faint motifs behind a single-coordinate "SVG" overall -->
+					<Border CornerRadius="18"
+							Background="{ThemeResource PreviewCardBrush}"
+							BorderBrush="{ThemeResource PreviewCardBorderBrush}"
+							BorderThickness="1"
+							Padding="8"
+							HorizontalAlignment="Stretch">
+						<Grid MinHeight="578">
+
+							<!-- ░░ Decorative line-art motifs (behind figure, non-interactive) ░░ -->
+							<Grid IsHitTestVisible="False">
+								<Viewbox Width="54"
+										 Height="70"
+										 HorizontalAlignment="Left"
+										 VerticalAlignment="Top"
+										 Margin="8,8,0,0">
+									<Canvas Width="58"
+											Height="74">
+										<Path Stroke="{ThemeResource MotifBrassBrush}"
+											  StrokeThickness="1"
+											  StrokeLineJoin="Round"
+											  StrokeStartLineCap="Round"
+											  StrokeEndLineCap="Round"
+											  Data="M 29,72 C 27,52 26,34 30,8" />
+										<Path Stroke="{ThemeResource MotifBrassBrush}"
+											  StrokeThickness="1"
+											  StrokeLineJoin="Round"
+											  Data="M 28,56 C 14,52 8,44 6,34 C 18,36 26,44 28,56 Z" />
+										<Path Stroke="{ThemeResource MotifBrassBrush}"
+											  StrokeThickness="1"
+											  StrokeLineJoin="Round"
+											  Data="M 29,44 C 43,40 50,32 52,22 C 40,24 31,32 29,44 Z" />
+										<Path Stroke="{ThemeResource MotifBrassBrush}"
+											  StrokeThickness="1"
+											  StrokeLineJoin="Round"
+											  Data="M 30,30 C 20,26 15,18 14,10 C 24,12 29,20 30,30 Z" />
+									</Canvas>
+								</Viewbox>
+								<Viewbox Width="54"
+										 Height="54"
+										 HorizontalAlignment="Right"
+										 VerticalAlignment="Top"
+										 Margin="0,10,10,0">
+									<Canvas Width="60"
+											Height="60">
+										<Ellipse Canvas.Left="20"
+												 Canvas.Top="20"
+												 Width="20"
+												 Height="20"
+												 Stroke="{ThemeResource MotifBrassBrush}"
+												 StrokeThickness="1" />
+										<Line X1="30"
+											  Y1="2"
+											  X2="30"
+											  Y2="12"
+											  Stroke="{ThemeResource MotifBrassBrush}"
+											  StrokeThickness="1"
+											  StrokeStartLineCap="Round"
+											  StrokeEndLineCap="Round" />
+										<Line X1="30"
+											  Y1="48"
+											  X2="30"
+											  Y2="58"
+											  Stroke="{ThemeResource MotifBrassBrush}"
+											  StrokeThickness="1"
+											  StrokeStartLineCap="Round"
+											  StrokeEndLineCap="Round" />
+										<Line X1="2"
+											  Y1="30"
+											  X2="12"
+											  Y2="30"
+											  Stroke="{ThemeResource MotifBrassBrush}"
+											  StrokeThickness="1"
+											  StrokeStartLineCap="Round"
+											  StrokeEndLineCap="Round" />
+										<Line X1="48"
+											  Y1="30"
+											  X2="58"
+											  Y2="30"
+											  Stroke="{ThemeResource MotifBrassBrush}"
+											  StrokeThickness="1"
+											  StrokeStartLineCap="Round"
+											  StrokeEndLineCap="Round" />
+										<Line X1="11"
+											  Y1="11"
+											  X2="18"
+											  Y2="18"
+											  Stroke="{ThemeResource MotifBrassBrush}"
+											  StrokeThickness="1"
+											  StrokeStartLineCap="Round"
+											  StrokeEndLineCap="Round" />
+										<Line X1="49"
+											  Y1="11"
+											  X2="42"
+											  Y2="18"
+											  Stroke="{ThemeResource MotifBrassBrush}"
+											  StrokeThickness="1"
+											  StrokeStartLineCap="Round"
+											  StrokeEndLineCap="Round" />
+										<Line X1="11"
+											  Y1="49"
+											  X2="18"
+											  Y2="42"
+											  Stroke="{ThemeResource MotifBrassBrush}"
+											  StrokeThickness="1"
+											  StrokeStartLineCap="Round"
+											  StrokeEndLineCap="Round" />
+										<Line X1="49"
+											  Y1="49"
+											  X2="42"
+											  Y2="42"
+											  Stroke="{ThemeResource MotifBrassBrush}"
+											  StrokeThickness="1"
+											  StrokeStartLineCap="Round"
+											  StrokeEndLineCap="Round" />
+									</Canvas>
+								</Viewbox>
+								<Viewbox Width="72"
+										 Height="42"
+										 HorizontalAlignment="Right"
+										 VerticalAlignment="Top"
+										 Margin="0,150,8,0">
+									<Canvas Width="74"
+											Height="44">
+										<Polyline Stroke="{ThemeResource MotifInkBrush}"
+												  StrokeThickness="1"
+												  StrokeLineJoin="Round"
+												  Points="0,42 16,18 26,30 40,6 54,26 62,16 74,42" />
+										<Polyline Stroke="{ThemeResource MotifInkBrush}"
+												  StrokeThickness="1"
+												  StrokeLineJoin="Round"
+												  Points="34,14 40,6 46,15 42,13 38,16" />
+									</Canvas>
+								</Viewbox>
+								<Viewbox Width="150"
+										 Height="34"
+										 HorizontalAlignment="Center"
+										 VerticalAlignment="Bottom"
+										 Margin="0,0,0,14">
+									<Canvas Width="150"
+											Height="34">
+										<Path Stroke="{ThemeResource MotifInkBrush}"
+											  StrokeThickness="1"
+											  StrokeStartLineCap="Round"
+											  StrokeEndLineCap="Round"
+											  Data="M 0,8 C 12,2 24,14 36,8 C 48,2 60,14 72,8 C 84,2 96,14 108,8 C 120,2 132,14 150,8" />
+										<Path Stroke="{ThemeResource MotifInkBrush}"
+											  StrokeThickness="1"
+											  StrokeStartLineCap="Round"
+											  StrokeEndLineCap="Round"
+											  Data="M 0,22 C 12,16 24,28 36,22 C 48,16 60,28 72,22 C 84,16 96,28 108,22 C 120,16 132,28 150,22" />
+									</Canvas>
+								</Viewbox>
+							</Grid>
+
+							<!-- Hero denim figure — reusable control, shared with the order summary -->
+							<local:OverallPreview ColorHex="{Binding SelectedColorHex}"
+												  LengthOption="{Binding LengthId}"
+												  BibType="{Binding BibId}"
+												  PocketType="{Binding PocketId}"
+												  HasLogo="{Binding ShowLogo}"
+												  EmbroideryText="{Binding CustomText}" />
+						</Grid>
+					</Border>
+
+					<!-- Selected color badge -->
+					<utu:CardContentControl Style="{StaticResource FilledCardContentControlStyle}"
+											IsClickable="False"
+											HorizontalAlignment="Center">
+						<StackPanel Padding="12,6"
+									Orientation="Horizontal"
+									Spacing="8">
+							<Ellipse Width="14"
+									 Height="14"
+									 Fill="{Binding SelectedColorHex, Converter={StaticResource HexToBrush}}"
+									 VerticalAlignment="Center" />
+							<TextBlock Text="{Binding SelectedColorName}"
+									   Style="{StaticResource LabelMedium}"
+									   Foreground="{ThemeResource OnSurfaceBrush}"
+									   VerticalAlignment="Center" />
+						</StackPanel>
+					</utu:CardContentControl>
+
+					<!-- Config summary pills -->
+					<StackPanel Spacing="6"
+								HorizontalAlignment="Center">
+						<utu:CardContentControl Style="{StaticResource OutlinedCardContentControlStyle}"
+												IsClickable="False">
+							<TextBlock Text="{Binding PreviewLengthLabel}"
+									   Style="{StaticResource BodySmall}"
+									   Foreground="{ThemeResource OnSurfaceVariantBrush}"
+									   Padding="10,4" />
+						</utu:CardContentControl>
+						<utu:CardContentControl Style="{StaticResource OutlinedCardContentControlStyle}"
+												IsClickable="False">
+							<TextBlock Text="{Binding PreviewBibLabel}"
+									   Style="{StaticResource BodySmall}"
+									   Foreground="{ThemeResource OnSurfaceVariantBrush}"
+									   Padding="10,4" />
+						</utu:CardContentControl>
+						<utu:CardContentControl Style="{StaticResource OutlinedCardContentControlStyle}"
+												IsClickable="False">
+							<TextBlock Text="{Binding PreviewPocketLabel}"
+									   Style="{StaticResource BodySmall}"
+									   Foreground="{ThemeResource OnSurfaceVariantBrush}"
+									   Padding="10,4" />
+						</utu:CardContentControl>
+					</StackPanel>
+				</StackPanel>
+</UserControl>

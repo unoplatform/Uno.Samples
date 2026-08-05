@@ -1,0 +1,372 @@
+<UserControl x:Class="DenimOverallsApp.Presentation.OptionsPanel"
+			 x:Name="Root"
+			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:utu="using:Uno.Toolkit.UI"
+			 xmlns:conv="using:DenimOverallsApp.Converters">
+
+	<UserControl.Resources>
+		<ResourceDictionary>
+			<conv:HexColorToBrushConverter x:Key="HexToBrush" />
+			<conv:BooleanToVisibilityConverter x:Key="BoolToVis" />
+			<conv:SelectionToThicknessConverter x:Key="SelThickness" />
+			<conv:IconConverter x:Key="Icon" />
+						<!-- Borderless click surface: the CardContentControl inside provides all visuals -->
+			<Style x:Key="OptionCardButtonStyle"
+				   TargetType="Button">
+				<Setter Property="HorizontalAlignment" Value="Stretch" />
+				<Setter Property="HorizontalContentAlignment" Value="Stretch" />
+				<Setter Property="VerticalAlignment" Value="Stretch" />
+				<Setter Property="VerticalContentAlignment" Value="Stretch" />
+				<Setter Property="Padding" Value="0" />
+				<Setter Property="Background" Value="Transparent" />
+				<Setter Property="BorderThickness" Value="0" />
+				<Setter Property="UseSystemFocusVisuals" Value="True" />
+				<Setter Property="Template">
+					<Setter.Value>
+						<ControlTemplate TargetType="Button">
+							<ContentPresenter Content="{TemplateBinding Content}"
+											  HorizontalAlignment="Stretch"
+											  VerticalAlignment="Stretch"
+											  HorizontalContentAlignment="Stretch"
+											  VerticalContentAlignment="Stretch" />
+						</ControlTemplate>
+					</Setter.Value>
+				</Setter>
+			</Style>
+		</ResourceDictionary>
+	</UserControl.Resources>
+
+					<StackPanel Margin="16"
+							Spacing="20">
+
+					<!-- ── Length ──────────────────────────────────────── -->
+					<StackPanel Spacing="10">
+						<StackPanel Orientation="Horizontal"
+									Spacing="8">
+							<Viewbox Width="16" Height="16" VerticalAlignment="Center"><Path Data="{Binding Converter={StaticResource Icon}, ConverterParameter=length}" Fill="{ThemeResource SecondaryBrush}" Stretch="Uniform" /></Viewbox>
+							<TextBlock Text="LENGTH"
+									   Style="{StaticResource LabelLarge}"
+									   CharacterSpacing="80"
+									   Foreground="{ThemeResource OnBackgroundBrush}" />
+						</StackPanel>
+						<!--
+							MinWidth matches UniformGridLayout.MinItemWidth so the repeater is never measured
+							below one item width. Without it, a transient measure pass with availableWidth < MinItemWidth
+							makes UniformGridLayout compute itemsPerLine = 0 and throw DivideByZeroException.
+						-->
+						<ItemsRepeater ItemsSource="{Binding Lengths}"
+									   MinWidth="140">
+							<ItemsRepeater.Layout>
+								<UniformGridLayout MinItemWidth="140"
+												   MinItemHeight="96"
+												   MinColumnSpacing="8"
+												   MinRowSpacing="8" />
+							</ItemsRepeater.Layout>
+							<ItemsRepeater.ItemTemplate>
+								<DataTemplate>
+									<Button Style="{StaticResource OptionCardButtonStyle}"
+											Command="{Binding DataContext.SelectLength, ElementName=Root}"
+											CommandParameter="{Binding Option}"
+											AutomationProperties.Name="{Binding Option.Label}">
+										<Grid>
+											<utu:CardContentControl Style="{StaticResource ElevatedCardContentControlStyle}"
+																	IsClickable="True"
+																	HorizontalAlignment="Stretch"
+																	VerticalAlignment="Stretch">
+												<StackPanel Padding="14,12"
+															Spacing="4">
+													<TextBlock Text="{Binding Option.Label}"
+															   Style="{StaticResource TitleSmall}"
+															   Foreground="{ThemeResource OnSurfaceBrush}" />
+													<TextBlock Text="{Binding Option.Description}"
+															   Style="{StaticResource BodySmall}"
+															   Foreground="{ThemeResource OnSurfaceVariantBrush}"
+															   TextWrapping="Wrap" />
+												</StackPanel>
+											</utu:CardContentControl>
+											<Border CornerRadius="8"
+													BorderBrush="{ThemeResource PrimaryBrush}"
+													BorderThickness="{Binding IsSelected, Converter={StaticResource SelThickness}}"
+													IsHitTestVisible="False" />
+											<Border Width="22"
+													Height="22"
+													CornerRadius="11"
+													Background="{ThemeResource PrimaryBrush}"
+													HorizontalAlignment="Right"
+													VerticalAlignment="Top"
+													Margin="0,8,8,0"
+													IsHitTestVisible="False"
+													Visibility="{Binding IsSelected, Converter={StaticResource BoolToVis}}">
+												<Viewbox Width="12" Height="12" VerticalAlignment="Center"><Path Data="{Binding Converter={StaticResource Icon}, ConverterParameter=check}" Fill="{ThemeResource OnPrimaryBrush}" Stretch="Uniform" /></Viewbox>
+											</Border>
+										</Grid>
+									</Button>
+								</DataTemplate>
+							</ItemsRepeater.ItemTemplate>
+						</ItemsRepeater>
+					</StackPanel>
+
+					<!-- ── Bib Type ────────────────────────────────────── -->
+					<StackPanel Spacing="10">
+						<StackPanel Orientation="Horizontal"
+									Spacing="8">
+							<Viewbox Width="16" Height="16" VerticalAlignment="Center"><Path Data="{Binding Converter={StaticResource Icon}, ConverterParameter=bib}" Fill="{ThemeResource SecondaryBrush}" Stretch="Uniform" /></Viewbox>
+							<TextBlock Text="BIB TYPE"
+									   Style="{StaticResource LabelLarge}"
+									   CharacterSpacing="80"
+									   Foreground="{ThemeResource OnBackgroundBrush}" />
+						</StackPanel>
+						<!-- MinWidth guards against UniformGridLayout itemsPerLine = 0 divide-by-zero (see Lengths above). -->
+						<ItemsRepeater ItemsSource="{Binding Bibs}"
+									   MinWidth="140">
+							<ItemsRepeater.Layout>
+								<UniformGridLayout MinItemWidth="140"
+												   MinItemHeight="118"
+												   MinColumnSpacing="8"
+												   MinRowSpacing="8" />
+							</ItemsRepeater.Layout>
+							<ItemsRepeater.ItemTemplate>
+								<DataTemplate>
+									<Button Style="{StaticResource OptionCardButtonStyle}"
+											Command="{Binding DataContext.SelectBib, ElementName=Root}"
+											CommandParameter="{Binding Option}"
+											AutomationProperties.Name="{Binding Option.Label}">
+										<Grid>
+											<utu:CardContentControl Style="{StaticResource ElevatedCardContentControlStyle}"
+																	IsClickable="True"
+																	HorizontalAlignment="Stretch"
+																	VerticalAlignment="Stretch">
+												<StackPanel Padding="14,12"
+															Spacing="4">
+													<TextBlock Text="{Binding Option.Label}"
+															   Style="{StaticResource TitleSmall}"
+															   Foreground="{ThemeResource OnSurfaceBrush}" />
+													<TextBlock Text="{Binding Option.Description}"
+															   Style="{StaticResource BodySmall}"
+															   Foreground="{ThemeResource OnSurfaceVariantBrush}"
+															   TextWrapping="Wrap" />
+												</StackPanel>
+											</utu:CardContentControl>
+											<Border CornerRadius="8"
+													BorderBrush="{ThemeResource PrimaryBrush}"
+													BorderThickness="{Binding IsSelected, Converter={StaticResource SelThickness}}"
+													IsHitTestVisible="False" />
+											<Border Width="22"
+													Height="22"
+													CornerRadius="11"
+													Background="{ThemeResource PrimaryBrush}"
+													HorizontalAlignment="Right"
+													VerticalAlignment="Top"
+													Margin="0,8,8,0"
+													IsHitTestVisible="False"
+													Visibility="{Binding IsSelected, Converter={StaticResource BoolToVis}}">
+												<Viewbox Width="12" Height="12" VerticalAlignment="Center"><Path Data="{Binding Converter={StaticResource Icon}, ConverterParameter=check}" Fill="{ThemeResource OnPrimaryBrush}" Stretch="Uniform" /></Viewbox>
+											</Border>
+										</Grid>
+									</Button>
+								</DataTemplate>
+							</ItemsRepeater.ItemTemplate>
+						</ItemsRepeater>
+					</StackPanel>
+
+					<!-- ── Denim Color ────────────────────────────────── -->
+					<StackPanel Spacing="10">
+						<StackPanel Orientation="Horizontal"
+									Spacing="8">
+							<Viewbox Width="16" Height="16" VerticalAlignment="Center"><Path Data="{Binding Converter={StaticResource Icon}, ConverterParameter=droplet}" Fill="{ThemeResource SecondaryBrush}" Stretch="Uniform" /></Viewbox>
+							<TextBlock Text="DENIM COLOR"
+									   Style="{StaticResource LabelLarge}"
+									   CharacterSpacing="80"
+									   Foreground="{ThemeResource OnBackgroundBrush}" />
+						</StackPanel>
+						<!-- MinWidth guards against UniformGridLayout itemsPerLine = 0 divide-by-zero (see Lengths above). -->
+						<ItemsRepeater ItemsSource="{Binding Colors}"
+									   MinWidth="110">
+							<ItemsRepeater.Layout>
+								<UniformGridLayout MinItemWidth="110"
+												   MinItemHeight="92"
+												   MinColumnSpacing="8"
+												   MinRowSpacing="8" />
+							</ItemsRepeater.Layout>
+							<ItemsRepeater.ItemTemplate>
+								<DataTemplate>
+									<Button Style="{StaticResource OptionCardButtonStyle}"
+											Command="{Binding DataContext.SelectColor, ElementName=Root}"
+											CommandParameter="{Binding Option}"
+											AutomationProperties.Name="{Binding Option.Label}">
+										<Grid>
+											<utu:CardContentControl Style="{StaticResource ElevatedCardContentControlStyle}"
+																	IsClickable="True"
+																	HorizontalAlignment="Stretch"
+																	VerticalAlignment="Stretch">
+												<StackPanel Padding="12,10"
+															Spacing="6">
+													<Border Width="36"
+															Height="36"
+															CornerRadius="18"
+															HorizontalAlignment="Left"
+															Background="{Binding Option.HexColor, Converter={StaticResource HexToBrush}}" />
+													<TextBlock Text="{Binding Option.Label}"
+															   Style="{StaticResource LabelMedium}"
+															   Foreground="{ThemeResource OnSurfaceBrush}"
+															   TextWrapping="Wrap" />
+												</StackPanel>
+											</utu:CardContentControl>
+											<Border CornerRadius="8"
+													BorderBrush="{ThemeResource PrimaryBrush}"
+													BorderThickness="{Binding IsSelected, Converter={StaticResource SelThickness}}"
+													IsHitTestVisible="False" />
+											<Border Width="22"
+													Height="22"
+													CornerRadius="11"
+													Background="{ThemeResource PrimaryBrush}"
+													HorizontalAlignment="Right"
+													VerticalAlignment="Top"
+													Margin="0,8,8,0"
+													IsHitTestVisible="False"
+													Visibility="{Binding IsSelected, Converter={StaticResource BoolToVis}}">
+												<Viewbox Width="12" Height="12" VerticalAlignment="Center"><Path Data="{Binding Converter={StaticResource Icon}, ConverterParameter=check}" Fill="{ThemeResource OnPrimaryBrush}" Stretch="Uniform" /></Viewbox>
+											</Border>
+										</Grid>
+									</Button>
+								</DataTemplate>
+							</ItemsRepeater.ItemTemplate>
+						</ItemsRepeater>
+					</StackPanel>
+
+					<!-- ── Custom Text ────────────────────────────────── -->
+					<StackPanel Spacing="10">
+						<StackPanel Orientation="Horizontal"
+									Spacing="8">
+							<Viewbox Width="16" Height="16" VerticalAlignment="Center"><Path Data="{Binding Converter={StaticResource Icon}, ConverterParameter=pen}" Fill="{ThemeResource SecondaryBrush}" Stretch="Uniform" /></Viewbox>
+							<TextBlock Text="EMBROIDERY TEXT"
+									   Style="{StaticResource LabelLarge}"
+									   CharacterSpacing="80"
+									   Foreground="{ThemeResource OnBackgroundBrush}" />
+						</StackPanel>
+						<utu:CardContentControl Style="{StaticResource ElevatedCardContentControlStyle}"
+												IsClickable="False"
+												HorizontalAlignment="Stretch">
+							<StackPanel Padding="16,12"
+										Spacing="8">
+								<TextBlock Text="Add your personal touch &#x2014; name, motto, or short phrase"
+										   Style="{StaticResource BodySmall}"
+										   Foreground="{ThemeResource OnSurfaceVariantBrush}"
+										   TextWrapping="Wrap" />
+								<TextBox x:Name="EmbroideryBox"
+										 Text="{Binding CustomText, Mode=TwoWay}"
+										 PlaceholderText="e.g. Alex, REBEL, 1987 …"
+										 MaxLength="20"
+										 Style="{StaticResource OutlinedTextBoxStyle}"
+										 HorizontalAlignment="Stretch"
+										 AutomationProperties.Name="Custom embroidery text" />
+								<TextBlock Text="Max 20 characters &#x00B7; Stitched on the bib chest"
+										   Style="{StaticResource LabelSmall}"
+										   Foreground="{ThemeResource OutlineBrush}" />
+							</StackPanel>
+						</utu:CardContentControl>
+					</StackPanel>
+
+					<!-- ── Uno Logo ───────────────────────────────────── -->
+					<StackPanel Spacing="10">
+						<StackPanel Orientation="Horizontal"
+									Spacing="8">
+							<Viewbox Width="16" Height="16" VerticalAlignment="Center"><Path Data="{Binding Converter={StaticResource Icon}, ConverterParameter=star}" Fill="{ThemeResource SecondaryBrush}" Stretch="Uniform" /></Viewbox>
+							<TextBlock Text="UNO LOGO"
+									   Style="{StaticResource LabelLarge}"
+									   CharacterSpacing="80"
+									   Foreground="{ThemeResource OnBackgroundBrush}" />
+						</StackPanel>
+						<utu:CardContentControl Style="{StaticResource ElevatedCardContentControlStyle}"
+												IsClickable="False"
+												HorizontalAlignment="Stretch">
+							<Grid Padding="16,10">
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition Width="*" />
+									<ColumnDefinition Width="Auto" />
+								</Grid.ColumnDefinitions>
+								<StackPanel Grid.Column="0"
+											VerticalAlignment="Center"
+											Spacing="2">
+									<TextBlock Text="Show the Uno Platform logo"
+											   Style="{StaticResource BodyMedium}"
+											   Foreground="{ThemeResource OnSurfaceBrush}" />
+									<TextBlock Text="Stitched patch on the bib chest"
+											   Style="{StaticResource LabelSmall}"
+											   Foreground="{ThemeResource OnSurfaceVariantBrush}" />
+								</StackPanel>
+								<ToggleSwitch Grid.Column="1"
+											  IsOn="{Binding ShowLogo, Mode=TwoWay}"
+											  VerticalAlignment="Center"
+											  AutomationProperties.Name="Show Uno logo on the bib" />
+							</Grid>
+						</utu:CardContentControl>
+					</StackPanel>
+
+					<!-- ── Pocket Type ────────────────────────────────── -->
+					<StackPanel Spacing="10">
+						<StackPanel Orientation="Horizontal"
+									Spacing="8">
+							<Viewbox Width="16" Height="16" VerticalAlignment="Center"><Path Data="{Binding Converter={StaticResource Icon}, ConverterParameter=pocket}" Fill="{ThemeResource SecondaryBrush}" Stretch="Uniform" /></Viewbox>
+							<TextBlock Text="POCKET STYLE"
+									   Style="{StaticResource LabelLarge}"
+									   CharacterSpacing="80"
+									   Foreground="{ThemeResource OnBackgroundBrush}" />
+						</StackPanel>
+						<!-- MinWidth guards against UniformGridLayout itemsPerLine = 0 divide-by-zero (see Lengths above). -->
+						<ItemsRepeater ItemsSource="{Binding Pockets}"
+									   MinWidth="140">
+							<ItemsRepeater.Layout>
+								<UniformGridLayout MinItemWidth="140"
+												   MinItemHeight="118"
+												   MinColumnSpacing="8"
+												   MinRowSpacing="8" />
+							</ItemsRepeater.Layout>
+							<ItemsRepeater.ItemTemplate>
+								<DataTemplate>
+									<Button Style="{StaticResource OptionCardButtonStyle}"
+											Command="{Binding DataContext.SelectPocket, ElementName=Root}"
+											CommandParameter="{Binding Option}"
+											AutomationProperties.Name="{Binding Option.Label}">
+										<Grid>
+											<utu:CardContentControl Style="{StaticResource ElevatedCardContentControlStyle}"
+																	IsClickable="True"
+																	HorizontalAlignment="Stretch"
+																	VerticalAlignment="Stretch">
+												<StackPanel Padding="14,12"
+															Spacing="4">
+													<TextBlock Text="{Binding Option.Label}"
+															   Style="{StaticResource TitleSmall}"
+															   Foreground="{ThemeResource OnSurfaceBrush}" />
+													<TextBlock Text="{Binding Option.Description}"
+															   Style="{StaticResource BodySmall}"
+															   Foreground="{ThemeResource OnSurfaceVariantBrush}"
+															   TextWrapping="Wrap" />
+												</StackPanel>
+											</utu:CardContentControl>
+											<Border CornerRadius="8"
+													BorderBrush="{ThemeResource PrimaryBrush}"
+													BorderThickness="{Binding IsSelected, Converter={StaticResource SelThickness}}"
+													IsHitTestVisible="False" />
+											<Border Width="22"
+													Height="22"
+													CornerRadius="11"
+													Background="{ThemeResource PrimaryBrush}"
+													HorizontalAlignment="Right"
+													VerticalAlignment="Top"
+													Margin="0,8,8,0"
+													IsHitTestVisible="False"
+													Visibility="{Binding IsSelected, Converter={StaticResource BoolToVis}}">
+												<Viewbox Width="12" Height="12" VerticalAlignment="Center"><Path Data="{Binding Converter={StaticResource Icon}, ConverterParameter=check}" Fill="{ThemeResource OnPrimaryBrush}" Stretch="Uniform" /></Viewbox>
+											</Border>
+										</Grid>
+									</Button>
+								</DataTemplate>
+							</ItemsRepeater.ItemTemplate>
+						</ItemsRepeater>
+					</StackPanel>
+
+					<Border Height="16" />
+				</StackPanel>
+</UserControl>
