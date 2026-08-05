@@ -1,5 +1,3 @@
-using Microsoft.UI.Text;
-
 namespace UnoCRM.Controls;
 
 /// <summary>
@@ -30,9 +28,6 @@ public sealed partial class PipelineCard : UserControl
     public static readonly DependencyProperty AccentProperty =
         DependencyProperty.Register(nameof(Accent), typeof(Brush), typeof(PipelineCard), new PropertyMetadata(null));
 
-    public static readonly DependencyProperty MetaBrushProperty =
-        DependencyProperty.Register(nameof(MetaBrush), typeof(Brush), typeof(PipelineCard), new PropertyMetadata(null));
-
     public static readonly DependencyProperty IsWonProperty =
         DependencyProperty.Register(nameof(IsWon), typeof(bool), typeof(PipelineCard), new PropertyMetadata(false));
 
@@ -41,13 +36,11 @@ public sealed partial class PipelineCard : UserControl
     public string Owner { get => (string)GetValue(OwnerProperty); set => SetValue(OwnerProperty, value); }
     public string Meta { get => (string)GetValue(MetaProperty); set => SetValue(MetaProperty, value); }
     public Brush? Accent { get => (Brush?)GetValue(AccentProperty); set => SetValue(AccentProperty, value); }
-    public Brush? MetaBrush { get => (Brush?)GetValue(MetaBrushProperty); set => SetValue(MetaBrushProperty, value); }
     public bool IsWon { get => (bool)GetValue(IsWonProperty); set => SetValue(IsWonProperty, value); }
 
     // Consumed only by this control's own x:Bind (generated into the same partial class).
+    // DotVisibility also gates the muted age meta; CheckVisibility also gates the green "Won" meta.
     private Visibility DotVisibility(bool isWon) => isWon ? Visibility.Collapsed : Visibility.Visible;
 
     private Visibility CheckVisibility(bool isWon) => isWon ? Visibility.Visible : Visibility.Collapsed;
-
-    private Windows.UI.Text.FontWeight MetaWeight(bool isWon) => isWon ? FontWeights.SemiBold : FontWeights.Normal;
 }
