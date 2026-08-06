@@ -96,45 +96,45 @@ public partial class App : Application
 
         views.Register(
             // Dialogs and Flyouts
-            new ViewMap<AddTaskFlyout, AddTaskViewModel>(),
-            new ViewMap<AddListFlyout, AddListViewModel>(),
-            new ViewMap<ExpirationDateFlyout, ExpirationDateViewModel>(Data: new DataMap<PickedDate>()),
-            new ViewMap<RenameListFlyout, RenameListViewModel>(),
+            new ViewMap<AddTaskFlyout, AddTaskModel>(),
+            new ViewMap<AddListFlyout, AddListModel>(),
+            new ViewMap<ExpirationDateFlyout, ExpirationDateModel>(Data: new DataMap<PickedDate>()),
+            new ViewMap<RenameListFlyout, RenameListModel>(),
 
             // Views
-            new ViewMap<HomePage, HomeViewModel>(),
+            new ViewMap<HomePage, HomeModel>(),
             new ViewMap<TaskSearchFlyout>(),
-            new ViewMap<SearchPage, SearchViewModel>(),
-            new ViewMap<SettingsFlyout, SettingsViewModel>(),
-            new ViewMap<Shell, ShellViewModel>(),
-            new ViewMap<WelcomePage, WelcomeViewModel>(),
-            new DataViewMap<TaskListPage, TaskListViewModel, TaskList>(),
-            new DataViewMap<TaskPage, TaskViewModel, ToDoTask>(),
+            new ViewMap<SearchPage, SearchModel>(),
+            new ViewMap<SettingsFlyout, SettingsModel>(),
+            new ViewMap<Shell, ShellModel>(),
+            new ViewMap<WelcomePage, WelcomeModel>(),
+            new DataViewMap<TaskListPage, TaskListModel, TaskList>(),
+            new DataViewMap<TaskPage, TaskModel, ToDoTask>(),
             confirmDeleteListDialog,
             confirmDeleteTaskDialog,
             confirmSignOutDialog
         );
 
         routes.Register(
-            new RouteMap("", View: views.FindByViewModel<ShellViewModel>(), Nested: new RouteMap[]
+            new RouteMap("", View: views.FindByViewModel<ShellModel>(), Nested: new RouteMap[]
             {
-                new("Welcome", View: views.FindByViewModel<WelcomeViewModel>()),
-                new("Home", View: views.FindByViewModel<HomeViewModel>()),
-                new("TaskList", View: views.FindByViewModel<TaskListViewModel>(), Nested: new[]
+                new("Welcome", View: views.FindByViewModel<WelcomeModel>()),
+                new("Home", View: views.FindByViewModel<HomeModel>()),
+                new("TaskList", View: views.FindByViewModel<TaskListModel>(), Nested: new[]
                 {
                     new RouteMap("ToDo", IsDefault:true),
                     new RouteMap("Completed")
                 }),
-                new("Task", View: views.FindByViewModel<TaskViewModel>(), DependsOn:"TaskList"),
+                new("Task", View: views.FindByViewModel<TaskModel>(), DependsOn:"TaskList"),
                 new("TaskSearch", View: views.FindByView<TaskSearchFlyout>(), Nested: new RouteMap[]
                 {
-                    new("Search", View: views.FindByViewModel<SearchViewModel>(), IsDefault: true)
+                    new("Search", View: views.FindByViewModel<SearchModel>(), IsDefault: true)
                 }),
-                new("Settings", View: views.FindByViewModel<SettingsViewModel>()),
-                new("AddTask", View: views.FindByViewModel<AddTaskViewModel>()),
-                new("AddList", View: views.FindByViewModel<AddListViewModel>()),
-                new("ExpirationDate", View: views.FindByViewModel<ExpirationDateViewModel>()),
-                new("RenameList", View: views.FindByViewModel<RenameListViewModel>()),
+                new("Settings", View: views.FindByViewModel<SettingsModel>()),
+                new("AddTask", View: views.FindByViewModel<AddTaskModel>()),
+                new("AddList", View: views.FindByViewModel<AddListModel>()),
+                new("ExpirationDate", View: views.FindByViewModel<ExpirationDateModel>()),
+                new("RenameList", View: views.FindByViewModel<RenameListModel>()),
                 new(Dialog.ConfirmDeleteList, confirmDeleteListDialog),
                 new(Dialog.ConfirmDeleteTask, confirmDeleteTaskDialog),
                 new(Dialog.ConfirmSignOut, confirmSignOutDialog)

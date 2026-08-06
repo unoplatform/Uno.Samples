@@ -2,7 +2,7 @@ using IAuthenticationService = ToDo.Business.IAuthenticationService;
 
 namespace ToDo.Presentation;
 
-public partial class HomeViewModel
+public partial class HomeModel
 {
 	private readonly INavigator _navigator;
 	private readonly IAuthenticationService _authSvc;
@@ -11,7 +11,7 @@ public partial class HomeViewModel
 	private readonly ITaskListService _listSvc;
 	private readonly IWritableOptions<ToDoApp> _appSettings;
 
-	public HomeViewModel(
+	public HomeModel(
 		INavigator navigator,
 		IStringLocalizer localizer,
 		IAuthenticationService authSvc,
@@ -62,7 +62,7 @@ public partial class HomeViewModel
 
 	public async ValueTask CreateTaskList(CancellationToken ct)
 	{
-		var listName = await _navigator.GetDataAsync<AddListViewModel, string>(this, qualifier: Qualifiers.Dialog, cancellation: ct);
+		var listName = await _navigator.GetDataAsync<AddListModel, string>(this, qualifier: Qualifiers.Dialog, cancellation: ct);
 
 		if (listName is not null)
 		{

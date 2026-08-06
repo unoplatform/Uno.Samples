@@ -2,15 +2,15 @@ using Dialog = ToDo.Presentation.Dialogs.Dialog;
 
 namespace ToDo.Presentation;
 
-public partial class TaskListViewModel
+public partial class TaskListModel
 {
     private readonly INavigator _navigator;
     private readonly ITaskListService _listSvc;
     private readonly ITaskService _taskSvc;
     private readonly ILogger _logger;
 
-    public TaskListViewModel(
-        ILogger<TaskListViewModel> logger,
+    public TaskListModel(
+        ILogger<TaskListModel> logger,
         INavigator navigator,
         ITaskListService listSvc,
         ITaskService taskSvc,
@@ -51,7 +51,7 @@ public partial class TaskListViewModel
             return;
         }
 
-        var taskName = await _navigator.GetDataAsync<AddTaskViewModel, string>(this, qualifier: Qualifiers.Dialog, cancellation: ct);
+        var taskName = await _navigator.GetDataAsync<AddTaskModel, string>(this, qualifier: Qualifiers.Dialog, cancellation: ct);
         if (taskName is { Length: > 0 })
         {
             var newTask = new ToDoTask { Title = taskName };
@@ -83,7 +83,7 @@ public partial class TaskListViewModel
             return;
         }
 
-        var result = await _navigator.NavigateViewModelForResultAsync<RenameListViewModel, string>(this, qualifier: Qualifiers.Dialog, data: list, cancellation: ct).AsResult();
+        var result = await _navigator.NavigateViewModelForResultAsync<RenameListModel, string>(this, qualifier: Qualifiers.Dialog, data: list, cancellation: ct).AsResult();
         if (result.IsSome(out var newListName) && !string.IsNullOrWhiteSpace(newListName))
         {
             list = list with { DisplayName = newListName };

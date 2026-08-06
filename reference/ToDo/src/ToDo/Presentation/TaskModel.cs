@@ -2,12 +2,12 @@
 
 namespace ToDo.Presentation;
 
-public partial class TaskViewModel
+public partial class TaskModel
 {
     private readonly INavigator _navigator;
     private readonly ITaskService _svc;
 
-    public TaskViewModel(
+    public TaskModel(
         INavigator navigator,
         ITaskService svc,
         ToDoTask entity)
@@ -76,7 +76,7 @@ public partial class TaskViewModel
         }
 
         var result = await _navigator
-            .NavigateViewModelForResultAsync<ExpirationDateViewModel, PickedDate>(this, qualifier: Qualifiers.Dialog, data: new PickedDate(task.DueDateTime), cancellation: ct)
+            .NavigateViewModelForResultAsync<ExpirationDateModel, PickedDate>(this, qualifier: Qualifiers.Dialog, data: new PickedDate(task.DueDateTime), cancellation: ct)
             .AsResult();
 
         if (result.SomeOrDefault()?.Date is { } date)

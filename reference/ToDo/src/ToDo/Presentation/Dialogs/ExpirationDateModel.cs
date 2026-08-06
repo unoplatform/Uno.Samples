@@ -2,11 +2,11 @@ namespace ToDo.Presentation.Dialogs;
 
 public partial record PickedDate(DateTimeOffset? Date);
 
-public partial class ExpirationDateViewModel
+public partial class ExpirationDateModel
 {
 	private readonly INavigator _navigator;
 
-	private ExpirationDateViewModel(INavigator navigator, PickedDate entity)
+	private ExpirationDateModel(INavigator navigator, PickedDate entity)
 	{
 		_navigator = navigator;
 

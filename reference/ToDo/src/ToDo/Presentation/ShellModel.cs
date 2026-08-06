@@ -1,11 +1,11 @@
 namespace ToDo.Presentation;
 
-public class ShellViewModel
+public class ShellModel
 {
     private readonly INavigator _navigator;
     private readonly IAuthenticationTokenProvider _auth;
 
-    public ShellViewModel(
+    public ShellModel(
         INavigator navigator,
         IAuthenticationTokenProvider authentication)
     {
@@ -20,11 +20,11 @@ public class ShellViewModel
         var token = await _auth.GetAccessToken();
         if (string.IsNullOrWhiteSpace(token))
         {
-            await _navigator.NavigateViewModelAsync<WelcomeViewModel>(this);
+            await _navigator.NavigateViewModelAsync<WelcomeModel>(this);
         }
         else
         {
-            await _navigator.NavigateViewModelAsync<HomeViewModel>(this);
+            await _navigator.NavigateViewModelAsync<HomeModel>(this);
         }
     }
 }
