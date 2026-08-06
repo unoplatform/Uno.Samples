@@ -44,3 +44,11 @@ global using Windows.Security.Authentication.Web;
 global using System;
 global using System.Collections.Generic;
 global using Uno.Extensions.Navigation;
+
+// Pins the MVUX bindable generator to v2, which matches this sample's naming
+// convention: a model named SettingsViewModel generates BindableSettingsViewModel.
+// Uno.Extensions.Reactive 7.2.3 made v3 the default instead. v3 strips a trailing
+// "Model" from the model's name and appends "ViewModel", so SettingsViewModel would
+// generate SettingsViewViewModel and BindableSettingsViewModel would no longer
+// exist. Moving to v3 means renaming the models here from *ViewModel to *Model.
+[assembly: Uno.Extensions.Reactive.Config.BindableGenerationTool(2)]
