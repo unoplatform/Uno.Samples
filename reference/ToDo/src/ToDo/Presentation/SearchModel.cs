@@ -1,10 +1,10 @@
 ﻿namespace ToDo.Presentation;
 
-public partial class SearchViewModel
+public partial class SearchModel
 {
 	private readonly ITaskService _svc;
 
-	public SearchViewModel(ITaskService svc)
+	public SearchModel(ITaskService svc)
 	{
 		_svc = svc;
 	}

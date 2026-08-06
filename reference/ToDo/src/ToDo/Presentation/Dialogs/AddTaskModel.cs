@@ -1,5 +1,5 @@
 namespace ToDo.Presentation.Dialogs;
 
-public partial class AddListViewModel
+public partial class AddTaskModel
 {
 }

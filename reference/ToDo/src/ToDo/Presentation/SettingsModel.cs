@@ -3,7 +3,7 @@ using IAuthenticationService = ToDo.Business.IAuthenticationService;
 
 namespace ToDo.Presentation;
 
-public partial class SettingsViewModel
+public partial class SettingsModel
 {
     private readonly IAuthenticationService _authService;
     private readonly IUserProfilePictureService _userSvc;
@@ -19,7 +19,7 @@ public partial class SettingsViewModel
 
     public string[] AppThemes { get; }
 
-    public SettingsViewModel(
+    public SettingsModel(
         NavigationRequest request,
         INavigator navigator,
         IAuthenticationService authService,
@@ -67,7 +67,7 @@ public partial class SettingsViewModel
         {
             await _authService.SignOutAsync();
 
-            await _sourceNavigator.NavigateViewModelAsync<HomeViewModel>(this);
+            await _sourceNavigator.NavigateViewModelAsync<HomeModel>(this);
         }
     }
 

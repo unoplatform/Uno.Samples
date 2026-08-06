@@ -3,13 +3,13 @@ using IAuthenticationService = ToDo.Business.IAuthenticationService;
 
 namespace ToDo.Presentation;
 
-public partial class WelcomeViewModel
+public partial class WelcomeModel
 {
 	private readonly IAuthenticationService _authService;
 	private readonly INavigator _navigator;
 	private readonly IDispatcher _dispatcher;
 
-	public WelcomeViewModel(
+	public WelcomeModel(
 		IDispatcher dispatcher,
 		INavigator navigator,
 		IAuthenticationService authService)
