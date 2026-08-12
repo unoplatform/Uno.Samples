@@ -119,6 +119,7 @@ internal sealed class AuthenticationService
             // The fix is https://github.com/unoplatform/uno/pull/24055, which makes the build deploy
             // the platform flavour of Uno.UI.MSAL under SkiaRenderer. Once it has merged and shipped,
             // delete the #if block and restore the single .WithUnoHelpers() call below.
+
             //.WithUnoHelpers()
 #if ANDROID
             .WithParentActivityOrWindow(() => Uno.UI.ContextHelper.Current as Android.App.Activity)
