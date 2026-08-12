@@ -108,6 +108,12 @@ An Android-specific sample that shows how to start a camera capture intent, and 
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/AndroidCustomCamera)
 
+### Authentication with MSAL (Microsoft Entra ID)
+
+This sample application demonstrates signing users in with `Uno.WinUI.MSAL` and MSAL.NET against Microsoft Entra ID, then calling Microsoft Graph with the acquired token. It narrates each step of the token cache → silent → interactive flow, and documents the Entra ID registration and redirect URI each platform needs.
+
+[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/Authentication.MsalDemo) | [Read the docs](https://platform.uno/docs/articles/interop/MSAL.html)
+
 ### Authentication with OpenID Connect (OIDC)
 
 This sample application demonstrates the usage of the `WebAuthenticationBroker` in Uno with an OpenID Connect endpoint.

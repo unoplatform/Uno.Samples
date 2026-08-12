@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+	<dict>
+		<!--
+			Required by MSAL.
+
+			MSAL stores its token cache in the iOS keychain, and on construction it works out the
+			publisher's Team ID by writing a probe item to the keychain and reading back the access
+			group iOS assigned to it. An app with no keychain-access-groups entitlement cannot do
+			that, so PublicClientApplicationBuilder.Build() throws before sign-in even starts:
+
+				MsalClientException: cannot_access_publisher_keychain
+				The application cannot access the iOS keychain for the application publisher
+				(the TeamId is null).
+
+			com.microsoft.adalcache is MSAL's default group, so it needs no matching
+			.WithIosKeychainSecurityGroup(...) call in code. $(AppIdentifierPrefix) is substituted
+			at build time with the Team ID from the provisioning profile, which is what makes the
+			group resolve to {TeamId}.com.microsoft.adalcache - the value MSAL derives on its own.
+
+			Sharing this group is also what gives single sign-on between apps from the same
+			publisher. To keep the cache private to this app instead, use
+			$(AppIdentifierPrefix)$(CFBundleIdentifier) here and pass the same value to
+			.WithIosKeychainSecurityGroup(...) when building the IPublicClientApplication.
+
+			See https://aka.ms/msal-net-enable-keychain-access
+		-->
+		<key>keychain-access-groups</key>
+		<array>
+			<string>$(AppIdentifierPrefix)com.microsoft.adalcache</string>
+		</array>
+	</dict>
+</plist>

@@ -1,0 +1,58 @@
+<Project Sdk="Uno.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>net10.0-android;net10.0-ios;net10.0-browserwasm;net10.0-desktop</TargetFrameworks>
+
+    <OutputType>Exe</OutputType>
+    <UnoSingleProject>true</UnoSingleProject>
+
+    <!-- Display name -->
+    <ApplicationTitle>Authentication.MsalDemo</ApplicationTitle>
+    <!-- App Identifier -->
+    <ApplicationId>com.companyname.authentication.msaldemo</ApplicationId>
+    <!-- Versions -->
+    <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
+    <ApplicationVersion>1</ApplicationVersion>
+    <!-- Package Publisher -->
+    <ApplicationPublisher>Authentication.MsalDemo</ApplicationPublisher>
+    <!-- Package Description -->
+    <Description>Authentication.MsalDemo powered by Uno Platform.</Description>
+
+    <!--
+      UnoFeatures are used to quickly add and manage features enabled for your app.
+      https://aka.platform.uno/singleproject-features
+    -->
+    <!--
+      SkiaRenderer draws every head with Skia rather than native platform elements. Note that it
+      also decides which flavour of Uno.UI.MSAL gets loaded: with it enabled, the WebAssembly head
+      loads the skia build, whose .WithUnoHelpers() is a no-op, and interactive sign-in cannot
+      complete in the browser. See MSAL-SETUP.md before changing this.
+    -->
+    <UnoFeatures>
+      SkiaRenderer;
+    </UnoFeatures>
+
+    <!--
+      IL2007: Uno.WinUI.MSAL's embedded ILLink descriptor references System.IdentityModel.Tokens.Jwt,
+      which this app does not use, so the trimmer reports it as unresolved. It comes from the
+      package, not from this project, and is safe to ignore.
+    -->
+    <NoWarn>$(NoWarn);IL2007</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!--
+      MSAL integration. `Uno.WinUI.MSAL` provides the `.WithUnoHelpers()` extensions that plug
+      MSAL.NET into each Uno target. The package ships one Uno.UI.MSAL.dll per runtime flavour: the
+      Android and iOS builds supply the parent activity/view controller, the "webassembly" build
+      supplies a popup-based ICustomWebUi and an HttpClient factory, and the "skia" build is a
+      no-op. SkiaRenderer above means every head - WebAssembly included - loads the skia build,
+      which is why interactive sign-in does not work on the WebAssembly head. See MSAL-SETUP.md.
+      Microsoft.Identity.Client comes in transitively, but is referenced explicitly here so the
+      version is visible and pinnable in Directory.Packages.props.
+      See https://aka.platform.uno/msal
+    -->
+    <PackageReference Include="Uno.WinUI.MSAL" />
+    <PackageReference Include="Microsoft.Identity.Client" />
+  </ItemGroup>
+
+</Project>
