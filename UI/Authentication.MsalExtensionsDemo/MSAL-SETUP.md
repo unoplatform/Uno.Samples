@@ -20,7 +20,7 @@ The sample ships with a placeholder value so the app can run and explain what is
 | iOS | `msauth.com.companyname.authentication.msalextensionsdemo://auth` |
 | WebAssembly | `http://localhost:5000/authentication/login-callback.htm` |
 
-The app prints the exact redirect URI it is using at runtime. Register the value shown in the UI for the target you are launching.
+The app prints the exact redirect URI it is using at runtime. Register the value shown in the UI for the target you are launching. On the latest Uno.Extensions bits, the provider derives the default Android/iOS/desktop redirect automatically; this sample only overrides the WebAssembly callback page because the browser needs a fixed SPA return URI.
 
 ## Notes
 

@@ -28,8 +28,7 @@ public partial class App : Application
                     .UseConfiguration(configure: configBuilder => configBuilder
                         .EmbeddedSource<App>())
                     .UseAuthentication(auth => auth
-                        .AddMsal(window, msal => msal
-                            .Builder(ConfigurePlatformRedirect)))
+                        .AddMsal(window))
                     .ConfigureServices(services => services
                         .AddSingleton<IDispatcher>(new Dispatcher(window))));
 
@@ -65,20 +64,6 @@ public partial class App : Application
         var origin = WebAuthenticationBroker.GetCurrentApplicationCallbackUri().GetLeftPart(UriPartial.Authority);
         Uno.WinRTFeatureConfiguration.WebAuthenticationBroker.DefaultReturnUri =
             new Uri($"{origin}{MsalConfig.WasmRedirectPath}");
-    }
-
-    private static void ConfigurePlatformRedirect(PublicClientApplicationBuilder builder)
-    {
-#if ANDROID
-        builder.WithRedirectUri($"{MsalConfig.AndroidRedirectScheme}://auth");
-#elif IOS
-        builder.WithRedirectUri(MsalConfig.IosRedirectUri);
-#else
-        if (!PlatformHelper.IsWebAssembly)
-        {
-            builder.WithRedirectUri(MsalConfig.DesktopRedirectUri);
-        }
-#endif
     }
 
     public static void InitializeLogging()

@@ -22,4 +22,6 @@ See [MSAL-SETUP.md](MSAL-SETUP.md) for the complete platform matrix and troubles
 
 ## Notes
 
-This sample deliberately keeps the app logic thin and uses the default Uno.Extensions host configuration. The actual provider integration is the point of the sample: MSAL sign-in is configured with the extensions pipeline and the token cache is consumed through `IAuthenticationService` and `ITokenCache`.
+This sample deliberately keeps the app logic thin and uses the default Uno.Extensions host configuration. The provider derives the platform redirect URI automatically on the latest 6.8.0-dev bits, so the app does not need a custom `Builder(...)` redirect override; the only app-specific override is the WebAssembly callback path used by `WebAuthenticationBroker`.
+
+The actual provider integration is the point of the sample: MSAL sign-in is configured with the extensions pipeline and the token cache is consumed through `IAuthenticationService` and `ITokenCache`.
