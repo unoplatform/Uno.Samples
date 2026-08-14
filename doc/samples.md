@@ -114,6 +114,12 @@ This sample application demonstrates signing users in with `Uno.WinUI.MSAL` and 
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/Authentication.MsalDemo) | [Read the docs](https://platform.uno/docs/articles/interop/MSAL.html)
 
+### Authentication with MSAL using Uno.Extensions.Authentication.MSAL
+
+This sample demonstrates the `Uno.Extensions.Authentication.MSAL` provider, wiring `UseAuthentication` + `AddMsal` into the Uno host builder and validating the sign-in, refresh, and token-cache flow across desktop, Android, iOS, and WebAssembly.
+
+[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/Authentication.MsalExtensionsDemo) | [Read the docs](https://github.com/unoplatform/Uno.Samples/blob/master/UI/Authentication.MsalExtensionsDemo/MSAL-SETUP.md)
+
 ### Authentication with OpenID Connect (OIDC)
 
 This sample application demonstrates the usage of the `WebAuthenticationBroker` in Uno with an OpenID Connect endpoint.

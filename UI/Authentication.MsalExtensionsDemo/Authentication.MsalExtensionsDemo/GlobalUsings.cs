@@ -1,0 +1,10 @@
+global using Authentication.MsalExtensionsDemo.Authentication;
+global using Microsoft.Extensions.DependencyInjection;
+global using Microsoft.Extensions.Hosting;
+global using Microsoft.Extensions.Logging;
+global using Microsoft.Identity.Client;
+global using Uno.Extensions;
+global using Uno.Extensions.Authentication;
+global using Uno.Extensions.Configuration;
+global using Uno.Extensions.Hosting;
+global using LogLevel = Microsoft.Extensions.Logging.LogLevel;

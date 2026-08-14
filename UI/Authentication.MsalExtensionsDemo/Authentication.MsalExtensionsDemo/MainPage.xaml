@@ -1,0 +1,51 @@
+<Page x:Class="Authentication.MsalExtensionsDemo.MainPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+  <Grid Padding="20" RowSpacing="12">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="*" />
+    </Grid.RowDefinitions>
+
+    <StackPanel Spacing="4">
+      <TextBlock Text="MSAL via Uno.Extensions.Authentication"
+                 Style="{StaticResource TitleTextBlockStyle}" />
+      <TextBlock x:Name="StatusText"
+                 Text="Starting..."
+                 Style="{StaticResource BodyStrongTextBlockStyle}" />
+    </StackPanel>
+
+    <StackPanel Grid.Row="1"
+                Orientation="Horizontal"
+                Spacing="8">
+      <Button x:Name="SignInButton" Content="Sign in" Click="OnSignIn" />
+      <Button Content="Silent refresh" Click="OnRefresh" />
+      <Button Content="Sign out" Click="OnSignOut" />
+      <Button Content="Cache state" Click="OnCacheState" />
+    </StackPanel>
+
+    <TextBlock Grid.Row="2"
+               x:Name="TokenText"
+               FontFamily="{StaticResource CodeFontFamily}"
+               FontSize="12"
+               IsTextSelectionEnabled="True"
+               TextWrapping="Wrap" />
+
+    <ScrollViewer Grid.Row="3"
+                  x:Name="LogScroll"
+                  BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                  BorderThickness="1"
+                  CornerRadius="4"
+                  Padding="8">
+      <TextBlock x:Name="LogText"
+                 FontFamily="{StaticResource CodeFontFamily}"
+                 FontSize="12"
+                 IsTextSelectionEnabled="True"
+                 TextWrapping="Wrap" />
+    </ScrollViewer>
+  </Grid>
+</Page>
