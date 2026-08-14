@@ -2,7 +2,7 @@
 
 This sample demonstrates how to sign users in with `Uno.Extensions.Authentication.MSAL` and then use the resulting access token against Microsoft Graph.
 
-It wires the Uno extensions host builder with `UseAuthentication(auth => auth.AddMsal(...))` so the provider setup and token-cache lifecycle stay in the host, while the app logic remains intentionally small and portable.
+It targets the `Uno.Sdk` 6.8.0-dev line, where the Skia MSAL fix is in place and `.WithUnoHelpers()` is no longer the no-op it was before the runtime asset fix. The provider is wired through the Uno Extensions host with `UseAuthentication(auth => auth.AddMsal(...))`, so the provider setup and token-cache lifecycle stay in the host while the app logic remains intentionally small and portable.
 
 ## What it shows
 

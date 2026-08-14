@@ -9,7 +9,7 @@ Use the same client ID in both places:
 - `Authentication.MsalExtensionsDemo/Authentication/MsalConfig.cs`
 - `Authentication.MsalExtensionsDemo/appsettings.json`
 
-The sample ships with a placeholder value so the app can run and explain what is missing without failing silently.
+The sample ships with a placeholder value so the app can run and explain what is missing without failing silently. This sample targets the `Uno.Sdk` 6.8.0-dev line, where the Skia runtime-asset fix for `.WithUnoHelpers()` is present.
 
 ## Redirect URIs by platform
 
