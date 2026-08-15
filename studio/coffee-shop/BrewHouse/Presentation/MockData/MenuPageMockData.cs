@@ -6,7 +6,18 @@ namespace BrewHouse.Presentation.MockData;
 // these plain values just the same. At runtime the navigation-injected generated MenuModel VM wins.
 public partial record MenuPageMockData
 {
+    // Default design-time state: the whole catalogue.
     public static MenuPageMockData Data { get; } = new();
+
+    // A second design-time state: an active search that matches nothing, so the product grid is
+    // empty and the "No matches found" panel shows. The "Menu — No Results" preview uses this to
+    // demonstrate previewing the same page in more than one data state.
+    public static MenuPageMockData NoResults { get; } = new()
+    {
+        SearchText = "unicorn frappé",
+        FilteredProducts = [],
+        HasNoResults = true,
+    };
 
     public string PageTitle => "Our Menu";
 
@@ -16,9 +27,11 @@ public partial record MenuPageMockData
 
     public IReadOnlyList<CategoryItem> Categories => CatalogData.Categories;
 
-    public IReadOnlyList<ProductItem> FilteredProducts => CatalogData.AllProducts;
+    // Init-settable so a variant (see NoResults) can supply an empty result set; defaults to the
+    // full catalogue for the standard design-time DataContext.
+    public IReadOnlyList<ProductItem> FilteredProducts { get; init; } = CatalogData.AllProducts;
 
-    public bool HasNoResults => false;
+    public bool HasNoResults { get; init; }
 
     public void AddToCart(ProductItem product) { }
     public void ViewProduct(ProductItem product) { }

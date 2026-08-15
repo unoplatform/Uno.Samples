@@ -36,6 +36,18 @@
   </PropertyGroup>
 
   <!--
+    Hot Design Previews live in Previews/. This pinned Uno SDK still sets the legacy
+    HotDesignStoriesFolder property, which the Uno.UI.HotDesign package bridges to the newer
+    HotDesignPreviewsFolder. Setting both to Previews makes the previews source generator scan the
+    folder AND keeps the SDK's rule that excludes it from Release (Optimize=true) builds — where the
+    Hot Design types are not referenced — so the previews compile only in Debug.
+  -->
+  <PropertyGroup>
+    <HotDesignPreviewsFolder>Previews</HotDesignPreviewsFolder>
+    <HotDesignStoriesFolder>Previews</HotDesignStoriesFolder>
+  </PropertyGroup>
+
+  <!--
     App icon + splash screen via Uno.Resizetizer (all platforms). Required on Android:
     the generated manifest references @mipmap/icon, and Resources/values/Styles.xml
     references @drawable/uno_splash_image / @color/uno_splash_color — the resizetizer
