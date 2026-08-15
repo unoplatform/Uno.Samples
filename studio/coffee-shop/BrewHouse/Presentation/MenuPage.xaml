@@ -82,114 +82,14 @@
             <ScrollViewer Grid.Row="2"
                           VerticalScrollBarVisibility="Hidden"
                           Padding="16,4,16,16">
-                <ItemsRepeater ItemsSource="{Binding FilteredProducts}">
+                <ItemsRepeater ItemsSource="{Binding FilteredProducts}"
+                               ItemTemplate="{StaticResource ProductCardTemplate}">
                     <ItemsRepeater.Layout>
                         <UniformGridLayout MinItemWidth="360"
                                            MinColumnSpacing="12"
                                            MinRowSpacing="12"
                                            ItemsStretch="Fill" />
                     </ItemsRepeater.Layout>
-                    <ItemsRepeater.ItemTemplate>
-                        <DataTemplate>
-                            <!-- The whole card is a focusable button that opens the product detail page;
-                                 the inner "+ Add to Cart" is a nested button with its own command -->
-                            <Button Style="{StaticResource FlatButtonStyle}"
-                                    CornerRadius="16"
-                                    HorizontalAlignment="Stretch"
-                                    HorizontalContentAlignment="Stretch"
-                                    VerticalContentAlignment="Stretch"
-                                    AutomationProperties.Name="{Binding Name}"
-                                    Command="{utu:AncestorBinding AncestorType=ItemsRepeater, Path=DataContext.ViewProduct}"
-                                    CommandParameter="{Binding}">
-                                <Border Background="{ThemeResource SurfaceBrush}"
-                                        CornerRadius="16"
-                                        BorderBrush="{ThemeResource BrewCardBorderBrush}"
-                                        BorderThickness="1"
-                                        VerticalAlignment="Stretch">
-                                    <Grid>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="100" />
-                                            <ColumnDefinition />
-                                        </Grid.ColumnDefinitions>
-
-                                        <!-- Product image: fills the card height; corners match the card -->
-                                        <Border Grid.Column="0"
-                                                CornerRadius="16,0,0,16">
-                                            <Border.Background>
-                                                <ImageBrush ImageSource="{Binding ImageUrl}"
-                                                            Stretch="UniformToFill" />
-                                            </Border.Background>
-                                        </Border>
-
-                                        <!-- Product Info -->
-                                        <StackPanel Grid.Column="1"
-                                                    Padding="12,8"
-                                                    Spacing="2"
-                                                    VerticalAlignment="Center">
-
-                                            <!-- Name + right-aligned "Today's Special" badge on one row, so the
-                                                 badge never adds height and every tile stays the same height -->
-                                            <Grid>
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="*" />
-                                                    <ColumnDefinition Width="Auto" />
-                                                </Grid.ColumnDefinitions>
-                                                <TextBlock Grid.Column="0"
-                                                           Text="{Binding Name}"
-                                                           FontSize="16"
-                                                           FontWeight="SemiBold"
-                                                           Foreground="{ThemeResource OnSurfaceBrush}"
-                                                           TextWrapping="NoWrap"
-                                                           TextTrimming="CharacterEllipsis"
-                                                           VerticalAlignment="Center" />
-                                                <Border Grid.Column="1"
-                                                        Background="{ThemeResource SurfaceVariantBrush}"
-                                                        CornerRadius="6"
-                                                        Padding="6,2"
-                                                        Margin="8,0,0,0"
-                                                        VerticalAlignment="Center"
-                                                        Visibility="{Binding IsSpecial, Converter={StaticResource BoolToVisibility}}">
-                                                    <TextBlock Text="Today's Special"
-                                                               FontSize="10"
-                                                               FontWeight="SemiBold"
-                                                               Foreground="{ThemeResource SecondaryBrush}" />
-                                                </Border>
-                                            </Grid>
-
-                                            <TextBlock Text="{Binding Description}"
-                                                       FontSize="12"
-                                                       Foreground="{ThemeResource OnSurfaceVariantBrush}"
-                                                       TextWrapping="Wrap"
-                                                       MaxLines="1"
-                                                       TextTrimming="CharacterEllipsis" />
-
-                                            <Grid Margin="0,4,0,0" VerticalAlignment="Center">
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="*" />
-                                                    <ColumnDefinition Width="Auto" />
-                                                </Grid.ColumnDefinitions>
-                                                <TextBlock Grid.Column="0" FontSize="17" FontWeight="Bold"
-                                                           Foreground="{ThemeResource SecondaryBrush}" VerticalAlignment="Center">
-                                                    <Run Text="$" /><Run Text="{Binding Price}" />
-                                                </TextBlock>
-                                                <Button Grid.Column="1"
-                                                        Style="{StaticResource BrewButtonStyle}"
-                                                        Content="+ Add to Cart"
-                                                        AutomationProperties.Name="Add to cart"
-                                                        CornerRadius="8"
-                                                        Padding="10,4"
-                                                        FontSize="11"
-                                                        HorizontalAlignment="Right"
-                                                        VerticalAlignment="Center"
-                                                        Command="{utu:AncestorBinding AncestorType=ItemsRepeater, Path=DataContext.AddToCart}"
-                                                        CommandParameter="{Binding}" />
-                                            </Grid>
-                                        </StackPanel>
-                                    </Grid>
-                                </Border>
-                            </Button>
-                        </DataTemplate>
-                    </ItemsRepeater.ItemTemplate>
                 </ItemsRepeater>
             </ScrollViewer>
 
