@@ -3,7 +3,7 @@ using Uno.UI.HotDesign;
 namespace BrewHouse.Previews;
 
 // OrdersPage with a seed order history (OrdersPageMockData.Data).
-[Preview("Orders", typeof(OrdersPage))]
+[Preview("Orders — History", typeof(OrdersPage))]
 public sealed partial class OrdersPagePreview : Preview
 {
     public OrdersPagePreview() => this.InitializeComponent();
