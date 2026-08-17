@@ -1,6 +1,7 @@
 <hd:Preview x:Class="BrewHouse.Previews.OrderStatusReadyPreview"
             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+            xmlns:mock="using:BrewHouse.Presentation.MockData"
             xmlns:hd="using:Uno.UI.HotDesign"
             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -8,8 +9,11 @@
             Width="240"
             Height="80">
 
-    <!-- The order status badge in isolation, fed an OrderRecord by LoadDataContext(). -->
-    <ContentControl ContentTemplate="{StaticResource OrderStatusBadgeTemplate}"
-                    HorizontalContentAlignment="Center"
-                    VerticalContentAlignment="Center" />
+    <!-- The order status badge in isolation; the OrderRecord is bound in XAML via {x:Bind}. -->
+    <Grid>
+        <ContentControl ContentTemplate="{StaticResource OrderStatusBadgeTemplate}"
+                        Content="{x:Bind mock:PreviewData.ReadyOrder}"
+                        HorizontalContentAlignment="Center"
+                        VerticalContentAlignment="Center" />
+    </Grid>
 </hd:Preview>

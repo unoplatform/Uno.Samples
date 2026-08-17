@@ -3,11 +3,9 @@ using Uno.UI.HotDesign;
 
 namespace BrewHouse.Previews;
 
-// The order status badge in its "Completed" state.
+// The order status badge in its "Completed" state. Data bound in XAML via {x:Bind}.
 [Preview("Order Status — Completed", typeof(ContentControl), dataTemplateKey: "OrderStatusBadgeTemplate")]
 public sealed partial class OrderStatusCompletedPreview : Preview
 {
     public OrderStatusCompletedPreview() => this.InitializeComponent();
-
-    protected override object? LoadDataContext() => CatalogData.SeedOrders[2]; // "Completed"
 }

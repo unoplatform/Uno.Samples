@@ -3,12 +3,9 @@ using Uno.UI.HotDesign;
 
 namespace BrewHouse.Previews;
 
-// The product card for a "Today's Special" product, so the badge is visible. Same DataTemplate as
-// the other card previews, differing only in the ProductItem returned below.
+// The product card for a "Today's Special" product (badge visible). Data bound in XAML via {x:Bind}.
 [Preview("Product Card — Today's Special", typeof(ContentControl), dataTemplateKey: "ProductCardTemplate")]
 public sealed partial class ProductCardSpecialPreview : Preview
 {
     public ProductCardSpecialPreview() => this.InitializeComponent();
-
-    protected override object? LoadDataContext() => CatalogData.AllProducts[0]; // Classic Latte (special)
 }
