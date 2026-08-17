@@ -345,4 +345,45 @@
     </Button>
   </DataTemplate>
 
+  <!-- Order status badge, bound to an OrderRecord. Shared by the Orders list (OrdersPage) and the
+       Hot Design status-badge previews. Three visibility-toggled coloured pills (one per status);
+       the pill background carries the status colour and re-themes via {ThemeResource}. -->
+  <DataTemplate x:Key="OrderStatusBadgeTemplate">
+    <Grid VerticalAlignment="Center">
+      <Border Background="{ThemeResource BrewStatusReadyContainerBrush}"
+              CornerRadius="6"
+              Padding="10,5"
+              VerticalAlignment="Center"
+              Visibility="{Binding IsReady, Converter={StaticResource BoolToVisibility}}">
+        <TextBlock Text="{Binding Status}"
+                   FontSize="11"
+                   FontWeight="SemiBold"
+                   Foreground="{ThemeResource BrewStatusReadyOnContainerBrush}"
+                   VerticalAlignment="Center" />
+      </Border>
+      <Border Background="{ThemeResource BrewStatusPreparingContainerBrush}"
+              CornerRadius="6"
+              Padding="10,5"
+              VerticalAlignment="Center"
+              Visibility="{Binding IsPreparing, Converter={StaticResource BoolToVisibility}}">
+        <TextBlock Text="{Binding Status}"
+                   FontSize="11"
+                   FontWeight="SemiBold"
+                   Foreground="{ThemeResource BrewStatusPreparingOnContainerBrush}"
+                   VerticalAlignment="Center" />
+      </Border>
+      <Border Background="{ThemeResource BrewStatusCompletedContainerBrush}"
+              CornerRadius="6"
+              Padding="10,5"
+              VerticalAlignment="Center"
+              Visibility="{Binding IsCompleted, Converter={StaticResource BoolToVisibility}}">
+        <TextBlock Text="{Binding Status}"
+                   FontSize="11"
+                   FontWeight="SemiBold"
+                   Foreground="{ThemeResource BrewStatusCompletedOnContainerBrush}"
+                   VerticalAlignment="Center" />
+      </Border>
+    </Grid>
+  </DataTemplate>
+
 </ResourceDictionary>

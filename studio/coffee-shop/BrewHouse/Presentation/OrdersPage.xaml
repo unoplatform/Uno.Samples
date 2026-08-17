@@ -63,45 +63,13 @@
                                                            Foreground="{ThemeResource OnSurfaceVariantBrush}" />
                                             </StackPanel>
 
-                                            <!-- Status badge: three visibility-toggled coloured pills, one per status — the
-                                                 pill background itself carries the status colour (not just a dot); the choice
-                                                 stays in XAML and re-themes via {ThemeResource}. -->
-                                            <Border Grid.Column="1"
-                                                    Background="{ThemeResource BrewStatusReadyContainerBrush}"
-                                                    CornerRadius="6"
-                                                    Padding="10,5"
-                                                    VerticalAlignment="Center"
-                                                    Visibility="{Binding IsReady, Converter={StaticResource BoolToVisibility}}">
-                                                <TextBlock Text="{Binding Status}"
-                                                           FontSize="11"
-                                                           FontWeight="SemiBold"
-                                                           Foreground="{ThemeResource BrewStatusReadyOnContainerBrush}"
-                                                           VerticalAlignment="Center" />
-                                            </Border>
-                                            <Border Grid.Column="1"
-                                                    Background="{ThemeResource BrewStatusPreparingContainerBrush}"
-                                                    CornerRadius="6"
-                                                    Padding="10,5"
-                                                    VerticalAlignment="Center"
-                                                    Visibility="{Binding IsPreparing, Converter={StaticResource BoolToVisibility}}">
-                                                <TextBlock Text="{Binding Status}"
-                                                           FontSize="11"
-                                                           FontWeight="SemiBold"
-                                                           Foreground="{ThemeResource BrewStatusPreparingOnContainerBrush}"
-                                                           VerticalAlignment="Center" />
-                                            </Border>
-                                            <Border Grid.Column="1"
-                                                    Background="{ThemeResource BrewStatusCompletedContainerBrush}"
-                                                    CornerRadius="6"
-                                                    Padding="10,5"
-                                                    VerticalAlignment="Center"
-                                                    Visibility="{Binding IsCompleted, Converter={StaticResource BoolToVisibility}}">
-                                                <TextBlock Text="{Binding Status}"
-                                                           FontSize="11"
-                                                           FontWeight="SemiBold"
-                                                           Foreground="{ThemeResource BrewStatusCompletedOnContainerBrush}"
-                                                           VerticalAlignment="Center" />
-                                            </Border>
+                                            <!-- Status badge: three visibility-toggled coloured pills, one per
+                                                 status. The template is shared with the Hot Design status-badge
+                                                 previews (OrderStatusBadgeTemplate in Styles.xaml). -->
+                                            <ContentControl Grid.Column="1"
+                                                            VerticalAlignment="Center"
+                                                            ContentTemplate="{StaticResource OrderStatusBadgeTemplate}"
+                                                            Content="{Binding}" />
                                         </Grid>
 
                                         <!-- Divider -->
