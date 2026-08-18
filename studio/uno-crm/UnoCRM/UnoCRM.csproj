@@ -34,15 +34,11 @@
 
   <!--
     Hot Design Previews live in Previews/. Hot Design locates them at runtime via the
-    ApplicationPreviewsFolder assembly-metadata the SDK generates from this folder property, so it
-    MUST point at our folder or no previews are listed. The pinned SDK sets only the legacy
-    HotDesignStoriesFolder (default HotDesignStories) which the Uno.UI.HotDesign package bridges to
-    HotDesignPreviewsFolder; we set both to Previews so (a) discovery points at Previews/ and (b) the
-    SDK excludes Previews/ from Release (Optimize=true) builds, where the Hot Design types are absent.
+    ApplicationPreviewsFolder assembly-metadata the SDK generates from this property, so it MUST
+    point at our folder or no previews are listed.
   -->
   <PropertyGroup>
     <HotDesignPreviewsFolder>Previews</HotDesignPreviewsFolder>
-    <HotDesignStoriesFolder>Previews</HotDesignStoriesFolder>
   </PropertyGroup>
 
   <!--
