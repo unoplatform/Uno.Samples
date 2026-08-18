@@ -1,0 +1,21 @@
+<hd:Preview x:Class="UnoCRM.Previews.PipelineCardHealthyPreview"
+            xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+            xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+            xmlns:controls="using:UnoCRM.Controls"
+            xmlns:hd="using:Uno.UI.HotDesign"
+            xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+            xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+            mc:Ignorable="d"
+            Width="260"
+            Height="150">
+
+    <!-- A single pipeline deal tile. Data is set directly on the control's dependency properties in
+         XAML; open + healthy -> green status dot and a muted age meta. -->
+    <controls:PipelineCard Company="Atlas Financial"
+                           Amount="$95,600"
+                           Owner="Nina Brooks"
+                           Meta="11d"
+                           IsWon="False"
+                           Accent="{ThemeResource DashboardGreenBrush}"
+                           VerticalAlignment="Center" />
+</hd:Preview>

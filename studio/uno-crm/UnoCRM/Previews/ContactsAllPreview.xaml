@@ -1,0 +1,17 @@
+<hd:Preview x:Class="UnoCRM.Previews.ContactsAllPreview"
+            xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+            xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+            xmlns:local="using:UnoCRM.Presentation"
+            xmlns:mock="using:UnoCRM.Presentation.MockData"
+            xmlns:hd="using:Uno.UI.HotDesign"
+            xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+            xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+            mc:Ignorable="d"
+            Width="420"
+            Height="840">
+
+    <!-- Contacts with the full set (narrow / mobile layout). Note: the Mapsui map is populated in
+         code-behind, not data-bound, so it renders as an empty basemap in a preview — the filters,
+         header stats and contact list are the data-bound surface this preview exercises. -->
+    <local:ContactsPage DataContext="{x:Bind mock:ContactsPageMockData.Data}" />
+</hd:Preview>

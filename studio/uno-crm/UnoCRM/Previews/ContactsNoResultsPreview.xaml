@@ -1,0 +1,16 @@
+<hd:Preview x:Class="UnoCRM.Previews.ContactsNoResultsPreview"
+            xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+            xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+            xmlns:local="using:UnoCRM.Presentation"
+            xmlns:mock="using:UnoCRM.Presentation.MockData"
+            xmlns:hd="using:Uno.UI.HotDesign"
+            xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+            xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+            mc:Ignorable="d"
+            Width="420"
+            Height="840">
+
+    <!-- Same page, a filter that matches nothing: the "No contacts match your filters." message shows
+         and the list is empty. State comes from the XAML-bound DataContext. -->
+    <local:ContactsPage DataContext="{x:Bind mock:ContactsPageMockData.NoResults}" />
+</hd:Preview>
