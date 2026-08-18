@@ -1,0 +1,25 @@
+<hd:PreviewGroup x:Class="BrewHouse.Previews.MenuPreviews"
+                 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                 xmlns:local="using:BrewHouse.Presentation"
+                 xmlns:mock="using:BrewHouse.Presentation.MockData"
+                 xmlns:hd="using:Uno.UI.HotDesign"
+                 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                 mc:Ignorable="d">
+
+    <!-- MenuPage in two data states; each child sets the page's DataContext in XAML. -->
+    <hd:Preview PreviewName="Full Catalog"
+                Visibility="Collapsed"
+                Width="390"
+                Height="844">
+        <local:MenuPage DataContext="{x:Bind mock:MenuPageMockData.Data}" />
+    </hd:Preview>
+
+    <hd:Preview PreviewName="No Results"
+                Visibility="Collapsed"
+                Width="390"
+                Height="844">
+        <local:MenuPage DataContext="{x:Bind mock:MenuPageMockData.NoResults}" />
+    </hd:Preview>
+</hd:PreviewGroup>
