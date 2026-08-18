@@ -36,6 +36,15 @@
   </PropertyGroup>
 
   <!--
+    Hot Design Previews live in Previews/. Hot Design locates them at runtime via the
+    ApplicationPreviewsFolder assembly-metadata the SDK generates from this property, so it MUST
+    point at our folder or no previews are listed.
+  -->
+  <PropertyGroup>
+    <HotDesignPreviewsFolder>Previews</HotDesignPreviewsFolder>
+  </PropertyGroup>
+
+  <!--
     App icon + splash screen via Uno.Resizetizer (all platforms). Required on Android:
     the generated manifest references @mipmap/icon, and Resources/values/Styles.xml
     references @drawable/uno_splash_image / @color/uno_splash_color — the resizetizer
