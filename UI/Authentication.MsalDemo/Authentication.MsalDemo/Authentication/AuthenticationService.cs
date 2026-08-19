@@ -103,34 +103,7 @@ internal sealed class AuthenticationService
             .Create(MsalConfig.ClientId)
             .WithAuthority(AzureCloudInstance.AzurePublic, MsalConfig.Tenant)
             .WithRedirectUri(PlatformSupport.RedirectUri)
-            // Uno Platform: this is where .WithUnoHelpers() belongs, and where it will go back once
-            // the issue below is fixed. It wires up the parent activity/view controller on Android
-            // and iOS, and the popup-based web UI plus HttpClient factory on WebAssembly.
-            //
-            // TEMPORARY WORKAROUND for https://github.com/unoplatform/uno/issues/20601:
-            // with the SkiaRenderer feature enabled, every head - Android and iOS included - loads
-            // the "skia" flavour of Uno.UI.MSAL, where .WithUnoHelpers() is a no-op. On Android that
-            // leaves MSAL with no parent Activity and AcquireTokenInteractive fails with
-            // activity_required. The #if branches below supply the same values by hand, from the
-            // same sources the mobile flavours of the package use. There is no WebAssembly branch:
-            // the popup web UI and WasmHttpFactory live only in the "webassembly" flavour, so they
-            // cannot even be referenced from a head that compiles against the skia one.
-            //
-            // The fix is https://github.com/unoplatform/uno/pull/24055, which makes the build deploy
-            // the platform flavour of Uno.UI.MSAL under SkiaRenderer. Once it has merged and shipped,
-            // delete the #if block and restore the single .WithUnoHelpers() call below.
-
-            //.WithUnoHelpers()
-#if ANDROID
-            .WithParentActivityOrWindow(() => Uno.UI.ContextHelper.Current as Android.App.Activity)
-#elif IOS
-            // CA1422: KeyWindow is obsolete for multi-scene apps, but it is exactly what the iOS
-            // flavour of Uno.UI.MSAL reads to resolve the parent. This branch stands in for that
-            // code, so it deliberately resolves the parent the same way rather than a better one.
-#pragma warning disable CA1422
-            .WithParentActivityOrWindow(() => UIKit.UIApplication.SharedApplication?.KeyWindow?.RootViewController)
-#pragma warning restore CA1422
-#endif
+            .WithUnoHelpers()
             .Build();
 
         Log.Success("IPublicClientApplication ready", $"Running on {PlatformSupport.PlatformName}.");

@@ -249,12 +249,7 @@ _app = PublicClientApplicationBuilder
     .Create(MsalConfig.ClientId)
     .WithAuthority(AzureCloudInstance.AzurePublic, MsalConfig.Tenant)
     .WithRedirectUri(PlatformSupport.RedirectUri)
-    //.WithUnoHelpers()        // ← temporary workaround, see below
-#if ANDROID
-    .WithParentActivityOrWindow(() => Uno.UI.ContextHelper.Current as Android.App.Activity)
-#elif IOS
-    .WithParentActivityOrWindow(() => UIKit.UIApplication.SharedApplication?.KeyWindow?.RootViewController)
-#endif
+    .WithUnoHelpers()
     .Build();
 ```
 
