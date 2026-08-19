@@ -11,45 +11,28 @@ namespace Authentication.MsalDemo.Authentication;
 /// <para>
 /// This is the only type in the sample that talks to MSAL. Two things need a platform-specific
 /// answer - who is the parent of the sign-in UI on mobile, and what shows the web UI in the
-/// browser - and this is how each head gets them:
+/// browser - and <c>.WithUnoHelpers()</c> supplies both. It is the only Uno-specific line in the
+/// flow, called once on the builder in <see cref="GetOrCreateApp"/> and once on the interactive
+/// request in <see cref="AcquireInteractiveAsync"/>.
+/// </para>
+/// <para>
+/// It is not one implementation: <c>Uno.WinUI.MSAL</c> ships a different <c>Uno.UI.MSAL.dll</c> per
+/// runtime flavour and the build deploys the one matching the head, independently of the renderer.
+/// What it does per head:
 /// </para>
 /// <list type="bullet">
-/// <item><description>Android - <c>.WithParentActivityOrWindow(...)</c> on the builder, resolved
-/// from <c>ContextHelper.Current</c>. This is the parent <c>Activity</c> hosting the sign-in
-/// UI; without it <c>AcquireTokenInteractive</c> crashes.</description></item>
-/// <item><description>iOS / Mac Catalyst - <c>.WithParentActivityOrWindow(...)</c> on the builder,
-/// resolved from the key window's <c>RootViewController</c>.</description></item>
-/// <item><description>Desktop (Skia) and Windows - nothing to supply. MSAL.NET launches the system
-/// browser and collects the code on an <c>http://localhost</c> loopback listener.</description></item>
-/// <item><description>WebAssembly - nothing is supplied, and interactive sign-in therefore cannot
-/// complete. See below.</description></item>
+/// <item><description>Android - <c>WithParentActivityOrWindow</c> from <c>ContextHelper.Current</c>.
+/// This is the parent <c>Activity</c> hosting the sign-in UI; without it
+/// <c>AcquireTokenInteractive</c> crashes.</description></item>
+/// <item><description>iOS / Mac Catalyst - <c>WithParentActivityOrWindow</c> from the key window's
+/// <c>RootViewController</c>.</description></item>
+/// <item><description>WebAssembly - an <c>ICustomWebUi</c> that opens a popup with
+/// <c>window.open</c> and polls its URL, plus an <c>IMsalHttpClientFactory</c> that hands MSAL a
+/// browser-backed <c>HttpClient</c>.</description></item>
+/// <item><description>Desktop (Skia) and Windows - nothing, and nothing is needed. MSAL.NET
+/// launches the system browser and collects the code on an <c>http://localhost</c> loopback
+/// listener.</description></item>
 /// </list>
-/// <para>
-/// Those two explicit calls are a <b>temporary workaround</b> for
-/// <see href="https://github.com/unoplatform/uno/issues/20601"/>, not the shape this sample is meant
-/// to show. Normally a single <c>.WithUnoHelpers()</c> on the builder supplies both, from exactly
-/// those two sources - but under the <c>SkiaRenderer</c> feature every head loads the <c>skia</c>
-/// flavour of <c>Uno.UI.MSAL</c>, where the helper is a no-op, so the values have to be set by hand.
-/// <see href="https://github.com/unoplatform/uno/pull/24055"/> fixes that; once it ships, the
-/// <c>#if</c> block in <see cref="GetOrCreateApp"/> goes away and <c>.WithUnoHelpers()</c> comes back.
-/// </para>
-/// <para>
-/// <c>.WithUnoHelpers()</c> is still called on the interactive request in
-/// <see cref="AcquireInteractiveAsync"/>, and is the only Uno-specific line left in the flow. It is
-/// not one implementation, though: the package ships a different <c>Uno.UI.MSAL.dll</c> per runtime
-/// flavour, and the <c>skia</c> one is a no-op. Because the app enables Uno's <c>SkiaRenderer</c>
-/// feature, that no-op flavour is what every head loads - including
-/// <c>net10.0-browserwasm</c>. The <c>ICustomWebUi</c> that opens a browser popup and polls its URL,
-/// and the WASM <c>HttpClient</c> factory, live only in the package's <c>webassembly</c> flavour,
-/// which this app never loads.
-/// </para>
-/// <para>
-/// The consequence on WebAssembly: no web UI is registered, so MSAL falls back to its default one,
-/// which needs to launch a browser process and open a loopback listener. Neither is possible inside
-/// the browser sandbox, so <c>AcquireTokenInteractive</c> cannot complete there. The silent path,
-/// <see cref="GetAccountsAsync"/>, sign-out and the Graph call are unaffected. MSAL-SETUP.md
-/// documents the diagnosis and the options for restoring a browser flow.
-/// </para>
 /// <para>
 /// A singleton is used rather than dependency injection to keep the sample free of any host
 /// builder or Uno.Extensions dependency. In a real app, register this as a singleton service.
@@ -299,10 +282,9 @@ internal sealed class AuthenticationService
             var request = app
                 .AcquireTokenInteractive(MsalConfig.Scopes)
                 .WithPrompt(Prompt.SelectAccount)
-                // Uno Platform: supplies the parent activity/view controller on Android and iOS -
-                // redundantly, since the builder sets it too. A no-op on Desktop, on Windows, and
-                // now on WebAssembly, where the skia flavour of Uno.UI.MSAL that the SkiaRenderer
-                // feature loads no longer brings the popup-based ICustomWebUi.
+                // Uno Platform: supplies the popup-based ICustomWebUi on WebAssembly, and the
+                // parent activity/view controller on Android and iOS - redundantly there, since
+                // the builder already set it. A no-op on Desktop and Windows.
                 .WithUnoHelpers();
 
             if (!string.IsNullOrWhiteSpace(account?.Username))
@@ -327,8 +309,8 @@ internal sealed class AuthenticationService
     {
         AppPlatform.Android => "Chrome custom tab, returning through the msal{ClientId}:// intent filter",
         AppPlatform.AppleUIKit => "ASWebAuthenticationSession, returning through the msauth.{BundleId} URL scheme",
-        AppPlatform.WebAssembly => "none - with the Skia renderer Uno supplies no web UI to MSAL in "
-            + "the browser, so this call cannot complete (see the Platform setup page)",
+        AppPlatform.WebAssembly => "a browser popup opened by Uno's ICustomWebUi, returning to the "
+            + "registered single-page-application redirect URI",
         AppPlatform.Windows => "the system browser, returning to the http://localhost loopback listener",
         _ => "the system browser, returning to the http://localhost loopback listener"
     };
@@ -430,11 +412,9 @@ internal sealed class AuthenticationService
             + $"{PlatformSupport.RedirectUri} on {PlatformSupport.PlatformName}.",
 
         _ when PlatformSupport.Current == AppPlatform.WebAssembly =>
-            "On WebAssembly this is expected, and not a configuration problem: the SkiaRenderer "
-            + "feature makes this head load the skia build of Uno.UI.MSAL, which supplies no "
-            + "ICustomWebUi, so MSAL falls back to a web UI that needs a browser process and a "
-            + "loopback listener - neither of which exists in the browser sandbox. No redirect URI "
-            + "or Entra setting fixes it; see the Platform setup page or MSAL-SETUP.md.",
+            "Check that the popup was not blocked by the browser, and that the redirect URI above "
+            + "is registered under the Single-page application platform - only that type has CORS "
+            + "enabled on the token endpoint. See the Platform setup page or MSAL-SETUP.md.",
 
         _ => "See the Platform setup page for what this head needs."
     };

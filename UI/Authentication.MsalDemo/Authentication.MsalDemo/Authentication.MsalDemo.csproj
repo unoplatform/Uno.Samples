@@ -1,4 +1,4 @@
-<Project Sdk="Uno.Sdk">
+﻿<Project Sdk="Uno.Sdk">
   <PropertyGroup>
     <TargetFrameworks>net10.0-android;net10.0-ios;net10.0-browserwasm;net10.0-desktop</TargetFrameworks>
 
@@ -22,10 +22,9 @@
       https://aka.platform.uno/singleproject-features
     -->
     <!--
-      SkiaRenderer draws every head with Skia rather than native platform elements. Note that it
-      also decides which flavour of Uno.UI.MSAL gets loaded: with it enabled, the WebAssembly head
-      loads the skia build, whose .WithUnoHelpers() is a no-op, and interactive sign-in cannot
-      complete in the browser. See MSAL-SETUP.md before changing this.
+      SkiaRenderer draws every head with Skia rather than native platform elements. It does not
+      change which flavour of Uno.UI.MSAL is loaded: the build deploys the platform flavour
+      (android, ios, webassembly) either way.
     -->
     <UnoFeatures>
       SkiaRenderer;
@@ -44,9 +43,8 @@
       MSAL integration. `Uno.WinUI.MSAL` provides the `.WithUnoHelpers()` extensions that plug
       MSAL.NET into each Uno target. The package ships one Uno.UI.MSAL.dll per runtime flavour: the
       Android and iOS builds supply the parent activity/view controller, the "webassembly" build
-      supplies a popup-based ICustomWebUi and an HttpClient factory, and the "skia" build is a
-      no-op. SkiaRenderer above means every head - WebAssembly included - loads the skia build,
-      which is why interactive sign-in does not work on the WebAssembly head. See MSAL-SETUP.md.
+      supplies a popup-based ICustomWebUi and an HttpClient factory, and the "skia" build - used by
+      Desktop and Windows, where MSAL.NET needs nothing from Uno - is a no-op.
       Microsoft.Identity.Client comes in transitively, but is referenced explicitly here so the
       version is visible and pinnable in Directory.Packages.props.
       See https://aka.platform.uno/msal

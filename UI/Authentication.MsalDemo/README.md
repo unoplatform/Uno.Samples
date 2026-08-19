@@ -13,9 +13,7 @@ Tested on:
 - [x] Desktop (Skia)
 - [x] Android
 - [x] iOS
-- [ ] WebAssembly — builds and runs, but interactive sign-in cannot complete under the Skia
-      renderer. See [MSAL-SETUP.md](MSAL-SETUP.md#webassembly-and-the-skia-renderer) for the
-      diagnosis and the options.
+- [x] WebAssembly
 
 ## What it shows
 
@@ -40,30 +38,6 @@ Tested on:
 [MSAL-SETUP.md](MSAL-SETUP.md) walks through all of this in detail — the registration, the redirect
 URI per platform, the per-head project requirements, and a troubleshooting table mapping the MSAL
 error codes you are most likely to hit onto their fix.
-
-## Note: temporary workaround for unoplatform/uno#20601
-
-`GetOrCreateApp` in `Authentication/AuthenticationService.cs` currently supplies the parent
-`Activity` / `UIViewController` by hand behind `#if ANDROID` / `#elif IOS`, with `.WithUnoHelpers()`
-commented out directly above it:
-
-```csharp
-//.WithUnoHelpers()
-#if ANDROID
-    .WithParentActivityOrWindow(() => Uno.UI.ContextHelper.Current as Android.App.Activity)
-#elif IOS
-    .WithParentActivityOrWindow(() => UIKit.UIApplication.SharedApplication?.KeyWindow?.RootViewController)
-#endif
-```
-
-This works around [unoplatform/uno#20601](https://github.com/unoplatform/uno/issues/20601): with the
-`SkiaRenderer` feature enabled, every head loads the `skia` flavour of `Uno.UI.MSAL`, where
-`.WithUnoHelpers()` is a no-op — so on Android MSAL is left with no parent `Activity` and
-`AcquireTokenInteractive` fails with `activity_required`.
-
-The fix is [unoplatform/uno#24055](https://github.com/unoplatform/uno/pull/24055). **Once it has
-merged and shipped, the `#if` block should be deleted and the single `.WithUnoHelpers()` call
-restored** — that is the shape this sample is meant to demonstrate.
 
 ## Relevant documentation
 
