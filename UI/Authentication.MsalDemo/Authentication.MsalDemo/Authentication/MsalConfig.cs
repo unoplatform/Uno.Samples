@@ -64,8 +64,8 @@ internal static class MsalConfig
     /// <c>wwwroot/authentication/login-callback.htm</c>.
     /// </summary>
     /// <remarks>
-    /// Vestigial while the app uses the Skia renderer: no popup is opened on WebAssembly, so
-    /// nothing lands on this path. It remains the registered redirect URI, and MSAL still sends it.
+    /// The popup Uno opens for MSAL lands here, and Uno polls the popup's URL until it matches.
+    /// The page itself does nothing - it only has to exist and be served from this origin.
     /// </remarks>
     public const string WasmRedirectPath = "/authentication/login-callback.htm";
 

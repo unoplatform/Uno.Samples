@@ -111,9 +111,9 @@ internal static class PlatformGuide
                 new(SetupArea.Project,
                     "Nothing to change",
                     """
-                    There is no #if branch for this head, and .WithUnoHelpers() is a no-op in the
-                    skia build of Uno.UI.MSAL that it loads. MSAL.NET does all of the work: it
-                    launches the system browser and collects the code on the loopback listener.
+                    .WithUnoHelpers() is a no-op in the skia build of Uno.UI.MSAL that this head
+                    loads, and nothing else is needed. MSAL.NET does all of the work: it launches
+                    the system browser and collects the code on the loopback listener.
                     """),
 
                 new(SetupArea.Runtime,
@@ -129,32 +129,22 @@ internal static class PlatformGuide
         new(AppPlatform.WebAssembly,
             "WebAssembly",
             "{origin}" + MsalConfig.WasmRedirectPath,
-            "Interactive sign-in does not work on this head with the Skia renderer.",
+            "MSAL shows the sign-in UI in a popup opened by Uno's ICustomWebUi.",
             [
-                new(SetupArea.Runtime,
-                    "Interactive sign-in cannot complete here",
+                new(SetupArea.Project,
+                    "Nothing to change",
                     """
-                    Uno.WinUI.MSAL ships one Uno.UI.MSAL.dll per runtime flavour. The popup web UI -
-                    an ICustomWebUi that opens a window with window.open and polls its URL - exists
-                    only in the "webassembly" flavour. Because this app enables the SkiaRenderer
-                    feature, the browserwasm head loads the "skia" flavour instead, in which
-                    .WithUnoHelpers() is a no-op.
-
-                    With no ICustomWebUi registered, MSAL falls back to its default web UI, which
-                    needs to launch a browser process and listen on a loopback port. Neither is
-                    possible inside the browser sandbox.
-
-                    The silent path, cached accounts, sign-out and the Graph call are unaffected -
-                    only AcquireTokenInteractive is. MSAL-SETUP.md lists the options for restoring a
-                    browser flow; none of them is implemented in this sample.
+                    Uno.WinUI.MSAL ships one Uno.UI.MSAL.dll per runtime flavour, and this head
+                    loads the "webassembly" one. Its .WithUnoHelpers() supplies the ICustomWebUi
+                    that opens the popup with window.open and polls its URL, plus an
+                    IMsalHttpClientFactory so MSAL's HTTP calls go through the browser rather than
+                    through sockets. The SkiaRenderer feature does not change which flavour is
+                    deployed.
                     """),
 
                 new(SetupArea.EntraId,
                     "Register the redirect URI as a Single-page application",
                     $"""
-                    Needed for whenever this head can sign in again - it is a fact about Entra ID,
-                    not about the renderer.
-
                     Authentication > Add a platform > Single-page application, then add the exact
                     origin and path the app is served from, for example:
 
@@ -179,19 +169,17 @@ internal static class PlatformGuide
                 new(SetupArea.Project,
                     "Keep the callback page",
                     """
-                    Platforms/WebAssembly/wwwroot/authentication/login-callback.htm is static
-                    content that a sign-in popup would land on. Nothing opens or polls a popup under
-                    the Skia renderer, so it is vestigial today - but it is still what the
-                    registered redirect URI points at, so keep it if you intend to restore a
-                    browser flow.
+                    Platforms/WebAssembly/wwwroot/authentication/login-callback.htm is the static
+                    page the sign-in popup lands on, and what the registered redirect URI points
+                    at. Uno polls the popup's URL until it matches, then hands it to MSAL. The page
+                    has no script of its own - it only has to exist on this origin.
                     """),
 
                 new(SetupArea.Runtime,
                     "The token cache is in memory",
                     """
-                    Uno does not persist MSAL's cache in the browser, so a page reload signs out.
-                    Moot in practice while interactive sign-in cannot run here: nothing ever
-                    populates the cache.
+                    Uno does not persist MSAL's cache in the browser, so a page reload signs out
+                    and the next run starts with an interactive sign-in.
                     """)
             ]),
 
@@ -235,15 +223,12 @@ internal static class PlatformGuide
                     """),
 
                 new(SetupArea.Project,
-                    "The parent activity is set explicitly",
+                    "The parent activity comes from .WithUnoHelpers()",
                     """
-                    AuthenticationService sets WithParentActivityOrWindow on the builder under
-                    #if ANDROID, resolved from ContextHelper.Current. Calling
-                    AcquireTokenInteractive without a parent activity crashes on Android.
-
-                    .WithUnoHelpers() supplies the same value from the same source on this head, so
-                    the explicit call duplicates it rather than replacing anything - it only removes
-                    the dependency on which flavour of Uno.UI.MSAL the build loaded.
+                    AuthenticationService calls .WithUnoHelpers() on the builder; the android
+                    flavour of Uno.UI.MSAL turns that into WithParentActivityOrWindow, resolved
+                    from ContextHelper.Current. Calling AcquireTokenInteractive without a parent
+                    activity crashes on Android, so this line is not optional here.
                     """),
 
                 new(SetupArea.Runtime,
@@ -281,11 +266,11 @@ internal static class PlatformGuide
                     """),
 
                 new(SetupArea.Project,
-                    "The parent view controller is set explicitly",
+                    "The parent view controller comes from .WithUnoHelpers()",
                     """
-                    AuthenticationService sets WithParentActivityOrWindow on the builder under
-                    #if IOS, resolved from the key window's RootViewController - the same value
-                    .WithUnoHelpers() supplies on this head.
+                    AuthenticationService calls .WithUnoHelpers() on the builder; the ios flavour
+                    of Uno.UI.MSAL turns that into WithParentActivityOrWindow, resolved from the
+                    key window's RootViewController.
                     """),
 
                 new(SetupArea.Project,
@@ -331,9 +316,9 @@ internal static class PlatformGuide
                     "Add the head, change no code",
                     """
                     Add net10.0-windows10.0.19041.0 to <TargetFrameworks> and build on Windows.
-                    There is no #if branch for this head and .WithUnoHelpers() is a no-op on
-                    WinAppSDK, so the authentication code in this sample is unchanged. Like Desktop,
-                    it uses the system browser and the loopback listener.
+                    .WithUnoHelpers() is a no-op on WinAppSDK and nothing else is needed, so the
+                    authentication code in this sample is unchanged. Like Desktop, it uses the
+                    system browser and the loopback listener.
                     """),
 
                 new(SetupArea.Project,

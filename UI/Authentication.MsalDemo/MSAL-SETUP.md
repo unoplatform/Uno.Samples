@@ -7,7 +7,7 @@ It uses only:
 
 | Package | Why |
 | --- | --- |
-| `Uno.WinUI.MSAL` | Uno's MSAL add-in. Supplies `.WithUnoHelpers()`, which resolves the parent activity/view controller on Android and iOS. Its WebAssembly helpers — a popup-based web UI and an `HttpClient` factory — are **not** available under the Skia renderer this app uses. |
+| `Uno.WinUI.MSAL` | Uno's MSAL add-in. Supplies `.WithUnoHelpers()`, which resolves the parent activity/view controller on Android and iOS, and a popup-based web UI plus an `HttpClient` factory on WebAssembly. |
 | `Microsoft.Identity.Client` | MSAL.NET itself. |
 
 There is deliberately **no Uno.Extensions** here — no host builder, no DI container, no navigation
@@ -15,11 +15,9 @@ framework. The authentication service is a plain singleton, so you can lift
 `Authentication/AuthenticationService.cs` into an app of any shape.
 
 The app enables Uno's `SkiaRenderer` feature (`<UnoFeatures>` in `Authentication.MsalDemo.csproj`), so every head —
-WebAssembly included — is drawn with Skia rather than native platform elements. That choice decides
-which flavour of `Uno.UI.MSAL.dll` gets loaded and therefore what `.WithUnoHelpers()` actually does.
-It is why **interactive sign-in does not work on the WebAssembly head** as this sample stands; see
-[WebAssembly and the Skia renderer](#webassembly-and-the-skia-renderer). The other three heads are
-unaffected.
+WebAssembly included — is drawn with Skia rather than native platform elements. This does not affect
+MSAL: the build deploys the platform flavour of `Uno.UI.MSAL.dll` (android, ios, webassembly)
+regardless of the renderer, so `.WithUnoHelpers()` does the same thing either way.
 
 Reference: <https://platform.uno/docs/articles/interop/MSAL.html>
 
@@ -78,7 +76,7 @@ must be registered under the right **platform** in **Authentication → Add a pl
 | Head | Redirect URI | Register under | Notes |
 | --- | --- | --- | --- |
 | Desktop (Skia) | `http://localhost` | Mobile and desktop applications | Tick the `http://localhost` checkbox. MSAL picks a free port at runtime, and Entra ID allows any port on `localhost`, so one entry covers them all. |
-| WebAssembly | `http://localhost:5000/authentication/login-callback.htm` | **Single-page application** | Must match your origin exactly. One entry per origin you serve from (dev, staging, production). Registering it does not make this head sign in — see [WebAssembly and the Skia renderer](#webassembly-and-the-skia-renderer). |
+| WebAssembly | `http://localhost:5000/authentication/login-callback.htm` | **Single-page application** | Must match your origin exactly. One entry per origin you serve from (dev, staging, production). |
 | Android | `msal{ClientId}://auth` | Mobile and desktop applications → *Custom redirect URI* | For example `msal00000000-0000-0000-0000-000000000000://auth`. |
 | iOS / Mac Catalyst | `msauth.com.companyname.authentication.msaldemo://auth` | iOS/macOS | Enter the bundle ID (`<ApplicationId>` in `Authentication.MsalDemo.csproj`) and the portal builds the URI. |
 | Windows (WinAppSDK) | `http://localhost` | Mobile and desktop applications | Not one of this sample's four heads; see [Adding a Windows head](#adding-a-windows-head). |
@@ -88,11 +86,9 @@ The running app always shows the value it computed, under **Redirect URI to regi
 
 ### WebAssembly must be registered as a Single-page application
 
-Background for whenever the WebAssembly head can sign in again — it is a fact about Entra ID, not
-about the renderer, so it stays true. In the browser, MSAL redeems the authorization code with a
-`fetch` call from your origin, and **only SPA-type redirect URIs have CORS enabled on the token
-endpoint**. Register the same URI under *Mobile and desktop applications* instead and sign-in fails
-with:
+In the browser, MSAL redeems the authorization code with a `fetch` call from your origin, and **only
+SPA-type redirect URIs have CORS enabled on the token endpoint**. Register the same URI under
+*Mobile and desktop applications* instead and sign-in fails with:
 
 > cross-origin token redemption is permitted only for the 'Single-Page Application' client-type
 
@@ -156,14 +152,9 @@ dotnet run --project Authentication.MsalDemo/Authentication.MsalDemo.csproj -f n
 The port matters — it is part of the origin, and therefore part of the redirect URI you registered.
 `http://localhost:5000` comes from `Authentication.MsalDemo/Properties/launchSettings.json`.
 
-> **Interactive sign-in does not work on this head.** The app builds, runs and navigates, and the
-> *Sign in* page still shows the resolved configuration, the platform and the redirect URI — but
-> pressing **Sign in** cannot show a sign-in UI, because under the Skia renderer Uno supplies no
-> web UI to MSAL in the browser. [WebAssembly and the Skia
-> renderer](#webassembly-and-the-skia-renderer) explains why and what the options are.
->
-> This also makes the old `Cross-Origin-Opener-Policy` advice moot: COOP mattered only because Uno
-> used to read a popup's URL to extract the authorization code, and there is no popup any more.
+> Sign-in opens a popup, and Uno reads that popup's URL to extract the authorization code. If you
+> serve the app behind a `Cross-Origin-Opener-Policy` header, the opener loses its handle on the
+> popup and the flow hangs — leave COOP unset, or use `unsafe-none`, on the origin serving the app.
 
 **Android** (emulator or device connected)
 
@@ -186,7 +177,7 @@ dotnet build Authentication.MsalDemo/Authentication.MsalDemo.csproj -f net10.0-i
 | `Authentication/MsalConfig.cs` | The only file you edit: client ID, tenant, scopes. |
 | `Authentication/AuthenticationService.cs` | All MSAL usage. Builds the `IPublicClientApplication`, runs silent-then-interactive acquisition, signs out, and narrates every step. |
 | `Authentication/PlatformSupport.cs` | `partial` declaration of the per-platform facts (redirect URI, platform name). |
-| `Platforms/<platform>/PlatformSupport.*.cs` | One implementation per head. Uno's single project compiles only the folder matching the target framework, so these files need no `#if` blocks — and adding a head without giving MSAL a redirect URI is a compile error. (`AuthenticationService` itself does use `#if`, for the parent activity/window.) |
+| `Platforms/<platform>/PlatformSupport.*.cs` | One implementation per head. Uno's single project compiles only the folder matching the target framework, so these files need no `#if` blocks — and adding a head without giving MSAL a redirect URI is a compile error. |
 | `Authentication/PlatformGuide.cs` | The reference content shown on the *Platform setup* page. |
 | `Authentication/AuthFlowLog.cs` | The observable step-by-step log. |
 | `Services/GraphClient.cs` | The Microsoft Graph `/me` call. |
@@ -202,7 +193,7 @@ Platform plumbing:
 | `Platforms/iOS/Main.iOS.cs` | Installs it with `.UseAppleUIKit(b => b.UseUIApplicationDelegate<MsalAppDelegate>())`. |
 | `Platforms/iOS/Info.plist` | Declares the `msauth.<bundle id>` URL scheme. |
 | `Platforms/iOS/Entitlements.plist` | Grants the `$(AppIdentifierPrefix)com.microsoft.adalcache` keychain access group. MSAL stores its token cache in the keychain and reads the publisher's Team ID back out of it, so without this entitlement `PublicClientApplicationBuilder.Build()` throws `cannot_access_publisher_keychain`. The Uno SDK picks this file up automatically as `CodesignEntitlements`. |
-| `Platforms/WebAssembly/wwwroot/authentication/login-callback.htm` | Static page on our own origin for a sign-in popup to land on. Vestigial under the Skia renderer — nothing opens or polls a popup any more — but it is still what the registered SPA redirect URI points at, so keep it if you intend to restore a browser flow. |
+| `Platforms/WebAssembly/wwwroot/authentication/login-callback.htm` | Static page on our own origin for the sign-in popup to land on, and what the registered SPA redirect URI points at. Uno polls the popup's URL until it matches this one. The page needs no script of its own — it only has to exist. |
 
 ---
 
@@ -241,80 +232,30 @@ warning step, not an error, precisely to make that clear.
 ### What supplies the platform-specific pieces
 
 Two things need a platform answer: **who is the parent** of the sign-in UI on mobile, and **what
-shows the web UI** in the browser. Normally `.WithUnoHelpers()` answers both. Right now it cannot,
-so the parent is set explicitly on the builder in `GetOrCreateApp`:
+shows the web UI** in the browser. `.WithUnoHelpers()` answers both, and it is the only Uno-specific
+line in the flow — once on the builder in `GetOrCreateApp`, once on the interactive request:
 
 ```csharp
 _app = PublicClientApplicationBuilder
     .Create(MsalConfig.ClientId)
     .WithAuthority(AzureCloudInstance.AzurePublic, MsalConfig.Tenant)
     .WithRedirectUri(PlatformSupport.RedirectUri)
-    //.WithUnoHelpers()        // ← temporary workaround, see below
-#if ANDROID
-    .WithParentActivityOrWindow(() => Uno.UI.ContextHelper.Current as Android.App.Activity)
-#elif IOS
-    .WithParentActivityOrWindow(() => UIKit.UIApplication.SharedApplication?.KeyWindow?.RootViewController)
-#endif
+    .WithUnoHelpers()
     .Build();
 ```
 
-> [!IMPORTANT]
-> **This `#if` block is a temporary workaround for
-> [unoplatform/uno#20601](https://github.com/unoplatform/uno/issues/20601).** With the `SkiaRenderer`
-> feature enabled, every head loads the `skia` flavour of `Uno.UI.MSAL`, where `.WithUnoHelpers()` is
-> a no-op — so on Android MSAL is left with no parent `Activity` and `AcquireTokenInteractive` fails
-> with `activity_required`. The fix is
-> [unoplatform/uno#24055](https://github.com/unoplatform/uno/pull/24055), which makes the build
-> deploy the platform flavour of `Uno.UI.MSAL` under `SkiaRenderer`. **Once it has merged and
-> shipped, delete the `#if` block and restore the single `.WithUnoHelpers()` call.**
+It is not one implementation. `Uno.WinUI.MSAL` ships a different `Uno.UI.MSAL.dll` per runtime
+flavour, and the build deploys the one matching the head:
 
-On Android and iOS these are the same values a working `.WithUnoHelpers()` supplies — the package's
-mobile builds resolve them from `ContextHelper.Current` and the key window's `RootViewController`
-respectively — so the explicit calls stand in for the helper rather than doing anything different.
-Desktop and Windows need neither branch: MSAL.NET launches the system browser and collects the code
-on an `http://localhost` loopback listener. There is no WebAssembly branch either, because the popup
-web UI and `WasmHttpFactory` exist only in the `webassembly` flavour of the assembly and cannot be
-referenced from a head that compiles against the `skia` one — see the next section.
+| Flavour in the package | Used by | What `.WithUnoHelpers()` does there |
+| --- | --- | --- |
+| `lib/net10.0-android`, `lib/net10.0-ios26.0` | `net10.0-android`, `net10.0-ios` | Supplies `WithParentActivityOrWindow` from `ContextHelper.Current` / the key window's `RootViewController`. Without it `AcquireTokenInteractive` fails with `activity_required` on Android. |
+| `uno-runtime/net10.0/webassembly` | `net10.0-browserwasm` | Supplies a `WasmWebUi` — an `ICustomWebUi` that opens a popup with `window.open` and polls its URL — plus an `IMsalHttpClientFactory` so MSAL's HTTP goes through the browser rather than through sockets. |
+| `uno-runtime/net10.0/skia` | `net10.0-desktop`, WinAppSDK | Nothing, and nothing is needed: MSAL.NET launches the system browser and collects the code on an `http://localhost` loopback listener. |
 
-`.WithUnoHelpers()` on the interactive request (step 3 above) is still called, unconditionally, and
-is the only Uno-specific line left in the flow. It is a no-op today for the same reason, and starts
-working again with the same fix.
-
----
-
-## WebAssembly and the Skia renderer
-
-`.WithUnoHelpers()` is not one implementation. `Uno.WinUI.MSAL` ships a different `Uno.UI.MSAL.dll`
-per runtime flavour, and the build picks one:
-
-| Flavour in the package | What `.WithUnoHelpers()` does there |
-| --- | --- |
-| `lib/net10.0-android`, `lib/net10.0-ios26.0` | Supplies `WithParentActivityOrWindow` from `ContextHelper.Current` / the key window's `RootViewController`. |
-| `uno-runtime/net10.0/webassembly` | Supplies a `WasmWebUi` — an `ICustomWebUi` that opens a popup with `window.open` and polls its URL — plus an `IMsalHttpClientFactory`. |
-| `uno-runtime/net10.0/skia` | Nothing. It is a no-op. |
-
-Because `<UnoFeatures>SkiaRenderer</UnoFeatures>` is enabled, the **`skia` flavour is what the
-`net10.0-browserwasm` head deploys** — the `Uno.UI.MSAL.dll` in
-`bin/Debug/net10.0-browserwasm/` is byte-for-byte the one from `uno-runtime/net10.0/skia`, not the
-`webassembly` one. The popup web UI is in a file this app never loads.
-
-So on the WebAssembly head no `ICustomWebUi` is registered, and `AcquireTokenInteractive` falls back
-to MSAL.NET's default web UI — which launches a browser process and listens on a loopback port.
-Neither is possible from inside the browser sandbox, so the interactive call cannot complete. The
-silent path, `GetAccountsAsync`, sign-out and the Graph call are all unaffected; only interactive
-sign-in is.
-
-### Options, none of them implemented here
-
-- **Build the WebAssembly head without the Skia renderer**, so the `webassembly` flavour of the
-  package is loaded and the popup flow returns. `<UnoFeatures>` can be set per target framework.
-  This gives up Skia rendering on that head, and it has not been tried in this repository.
-- **Supply your own `ICustomWebUi`** and pass it with `.WithCustomWebUi(...)`. It has to open a
-  window, wait until its URL is the redirect URI, and return that URI to MSAL — the same contract
-  `WasmWebUi` implements. This is renderer-independent, but it is code you write and maintain.
-
-Both are directions rather than verified recipes. What *is* verified is the diagnosis above: the
-deployed assembly is the no-op one.
+The `SkiaRenderer` feature does not change that selection — every head gets its own flavour, so
+`.WithUnoHelpers()` is the same single line everywhere and there is no `#if` anywhere in
+`AuthenticationService`.
 
 ---
 
@@ -327,7 +268,8 @@ deployed assembly is the no-op one.
 | `unauthorized_client` or `invalid_client` | Not registered as a public client, or the client ID does not exist in the tenant | **Authentication → Allow public client flows → Yes**, and check `MsalConfig.ClientId` / `Tenant`. |
 | `access_denied` | Consent declined | The user or an administrator refused the requested scopes. |
 | `authentication_canceled` | The user closed the sign-in window | On Android, iOS and Desktop this means what it says. |
-| **WebAssembly:** pressing *Sign in* fails or does nothing after the silent step | Not a configuration problem — no web UI is available to MSAL in the browser under the Skia renderer | [WebAssembly and the Skia renderer](#webassembly-and-the-skia-renderer). No redirect URI or Entra setting fixes this. |
+| **WebAssembly:** the popup opens and never closes | `Cross-Origin-Opener-Policy` on the serving origin, so the app loses its handle on the popup | Leave COOP unset or set it to `unsafe-none`. |
+| **WebAssembly:** the popup is blocked | The browser blocked `window.open` | Sign-in must be triggered by a user gesture; allow popups for the origin. |
 | **Android:** app hangs after signing in | `OnActivityResult` not forwarded, or no intent filter for the scheme | Both are wired in this sample; if you copied only part of it, check `MsalActivity.Android.cs` and `MainActivity.OnActivityResult`. |
 | **Android:** `AndroidActivityNotFound` | No browser on the device | Install one; prefer a browser with custom tab support. |
 | **iOS:** browser closes and nothing happens | `CFBundleURLSchemes` missing or not `msauth.<bundle id>`, or `OpenUrl` not forwarded | Check `Info.plist` and `MsalAppDelegate.iOS.cs`. |
@@ -383,8 +325,8 @@ keep the dependency list to MSAL alone.
 
 ## Adding a Windows head
 
-There is no `#if` branch for Windows and `.WithUnoHelpers()` is a no-op on WinAppSDK, so **no
-authentication code changes**. Like Desktop, it uses the system browser and the loopback listener.
+`.WithUnoHelpers()` is a no-op on WinAppSDK and nothing else is needed, so **no authentication code
+changes**. Like Desktop, it uses the system browser and the loopback listener.
 Add the target framework and build on Windows:
 
 ```xml
