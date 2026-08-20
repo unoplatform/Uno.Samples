@@ -9,6 +9,7 @@ public partial record MainModel
         INavigator navigator)
     {
         _authentication = authentication;
+        _navigator = navigator;
         Title = "Main";
         Title += $" - {localizer["ApplicationName"]}";
         Title += $" - {appInfo?.Value?.Environment}";
@@ -19,8 +20,20 @@ public partial record MainModel
 
     public async ValueTask Logout(CancellationToken token)
     {
-        await _authentication.LogoutAsync(token);
+        // LogoutAsync only clears the token cache - the app still has to leave the authenticated
+        // page, or a completely successful sign-out looks like the button did nothing.
+        if (await _authentication.LogoutAsync(token))
+        {
+            // First argument is the *sender* (object), not the cancellation token: passing `token`
+            // there compiles, because sender is typed `object`, and then navigation has no view
+            // model to resolve a region from.
+            await _navigator.NavigateViewModelAsync<LoginModel>(
+                this,
+                qualifier: Qualifiers.ClearBackStack,
+                cancellation: token);
+        }
     }
 
     private IAuthenticationService _authentication;
+    private INavigator _navigator;
 }

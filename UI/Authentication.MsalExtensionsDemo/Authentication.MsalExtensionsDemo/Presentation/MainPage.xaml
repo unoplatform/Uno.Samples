@@ -7,11 +7,18 @@
       xmlns:us="using:Uno.Simple"
       NavigationCacheMode="Required"
       Background="{ThemeResource BackgroundBrush}">
-  <Grid utu:SafeArea.Insets="VisibleBounds">
+  <StackPanel HorizontalAlignment="Center"
+              VerticalAlignment="Center"
+              Spacing="20">
     <TextBlock Text="Hello Uno Platform!"
                AutomationProperties.AutomationId="HelloTextBlock"
                FontSize="20"
                HorizontalAlignment="Center"
                VerticalAlignment="Center" />
-  </Grid>
+    <Button Content="Logout"
+            AutomationProperties.AutomationId="LogoutButton"
+            Command="{Binding Logout}"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center" />
+  </StackPanel>
 </Page>
