@@ -5,11 +5,9 @@
             xmlns:hd="using:Uno.UI.HotDesign"
             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-            mc:Ignorable="d"
-            Width="240"
-            Height="80">
+            mc:Ignorable="d">
 
-    <!-- The order status badge in isolation; the OrderRecord is bound in XAML via {x:Bind}. -->
+    <!-- The order status badge in isolation (auto-sizes); the OrderRecord is bound in XAML via {x:Bind}. -->
     <Grid>
         <ContentControl ContentTemplate="{StaticResource OrderStatusBadgeTemplate}"
                         Content="{x:Bind mock:PreviewData.ReadyOrder}"

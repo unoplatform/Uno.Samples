@@ -9,17 +9,11 @@
                  mc:Ignorable="d">
 
     <!-- CartPage populated vs. empty. -->
-    <hd:Preview PreviewName="Items"
-                Visibility="Collapsed"
-                Width="390"
-                Height="844">
+    <hd:Preview PreviewName="Items" Visibility="Collapsed">
         <local:CartPage DataContext="{x:Bind mock:CartPageMockData.Data}" />
     </hd:Preview>
 
-    <hd:Preview PreviewName="Empty"
-                Visibility="Collapsed"
-                Width="390"
-                Height="844">
+    <hd:Preview PreviewName="Empty" Visibility="Collapsed">
         <local:CartPage DataContext="{x:Bind mock:CartPageMockData.Empty}" />
     </hd:Preview>
 </hd:PreviewGroup>

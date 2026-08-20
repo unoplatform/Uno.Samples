@@ -9,17 +9,11 @@
                  mc:Ignorable="d">
 
     <!-- OrdersPage with a seed history vs. empty. -->
-    <hd:Preview PreviewName="History"
-                Visibility="Collapsed"
-                Width="390"
-                Height="844">
+    <hd:Preview PreviewName="History" Visibility="Collapsed">
         <local:OrdersPage DataContext="{x:Bind mock:OrdersPageMockData.Data}" />
     </hd:Preview>
 
-    <hd:Preview PreviewName="Empty"
-                Visibility="Collapsed"
-                Width="390"
-                Height="844">
+    <hd:Preview PreviewName="Empty" Visibility="Collapsed">
         <local:OrdersPage DataContext="{x:Bind mock:OrdersPageMockData.Empty}" />
     </hd:Preview>
 </hd:PreviewGroup>

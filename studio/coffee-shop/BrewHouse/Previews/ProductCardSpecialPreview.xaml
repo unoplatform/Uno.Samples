@@ -5,14 +5,13 @@
             xmlns:hd="using:Uno.UI.HotDesign"
             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-            mc:Ignorable="d"
-            Width="380"
-            Height="150">
+            mc:Ignorable="d">
 
     <!-- Same template, a "Today's Special" product, so the special badge shows. -->
     <Grid>
         <ContentControl ContentTemplate="{StaticResource ProductCardTemplate}"
                         Content="{x:Bind mock:PreviewData.SpecialProduct}"
+                        Width="360"
                         HorizontalContentAlignment="Stretch"
                         VerticalAlignment="Top" />
     </Grid>

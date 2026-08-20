@@ -5,16 +5,16 @@
             xmlns:hd="using:Uno.UI.HotDesign"
             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-            mc:Ignorable="d"
-            Width="380"
-            Height="150">
+            mc:Ignorable="d">
 
-    <!-- Previews the ProductCardTemplate in isolation. The card's data (a ProductItem) is bound in
-         XAML via {x:Bind}. The ContentControl is wrapped so it is not the preview's direct content
-         (the Preview base would otherwise overwrite a templated ContentControl's Content). -->
+    <!-- Previews the ProductCardTemplate in isolation; data bound in XAML via {x:Bind}. Any size goes
+         on the previewed element (the card host), never the <hd:Preview>. The ContentControl is
+         wrapped so it is not the preview's direct content (the Preview base would otherwise overwrite
+         a templated ContentControl's Content). -->
     <Grid>
         <ContentControl ContentTemplate="{StaticResource ProductCardTemplate}"
                         Content="{x:Bind mock:PreviewData.StandardProduct}"
+                        Width="360"
                         HorizontalContentAlignment="Stretch"
                         VerticalAlignment="Top" />
     </Grid>
