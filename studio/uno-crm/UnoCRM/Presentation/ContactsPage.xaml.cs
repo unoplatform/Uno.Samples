@@ -3,7 +3,6 @@ using Mapsui.Layers;
 using Mapsui.Projections;
 using Mapsui.Styles;
 using Mapsui.Tiling;
-using UnoCRM.Presentation.MockData;
 
 namespace UnoCRM.Presentation;
 
@@ -19,9 +18,12 @@ public sealed partial class ContactsPage : Page
     {
         this.InitializeComponent();
 
-        // Design-time DataContext for Hot Design / Studio (seed on the page, never a child).
-        // At runtime Uno.Extensions Navigation injects the generated ContactsModel VM.
-        this.DataContext = ContactsPageMockData.Data;
+        // Design-time DataContext for Hot Design / Studio: the code-generated ContactsViewModel. Its
+        // parameterless ctor builds a ContactsModel and its reactive SourceContext, so the page's
+        // FeedView is driven by a real list feed at design time — a FeedView needs a feed and cannot
+        // be driven by the plain mock record. At runtime Navigation injects the mapped
+        // ContactsViewModel, which overrides this.
+        this.DataContext = new ContactsViewModel();
 
         Loaded += OnLoaded;
     }
