@@ -3,6 +3,7 @@ using Mapsui.Layers;
 using Mapsui.Projections;
 using Mapsui.Styles;
 using Mapsui.Tiling;
+using UnoCRM.Presentation.MockData;
 
 namespace UnoCRM.Presentation;
 
@@ -18,11 +19,10 @@ public sealed partial class ContactsPage : Page
     {
         this.InitializeComponent();
 
-        // No design-time DataContext seed here. Navigation injects the mapped ContactsViewModel and
-        // its reactive context, which is what drives the FeedView's list feed (and the map probe
-        // bound to the same feed). Seeding `new ContactsViewModel()` here breaks that: navigation
-        // adopts the already-assigned, non-hosted instance whose feeds never pump, so the list and
-        // the map render empty at runtime.
+        // Design-time DataContext for Hot Design / Studio (seed on the page, never a child).
+        // At runtime Uno.Extensions Navigation injects the generated ContactsModel VM.
+        this.DataContext = ContactsPageMockData.Data;
+
         Loaded += OnLoaded;
     }
 

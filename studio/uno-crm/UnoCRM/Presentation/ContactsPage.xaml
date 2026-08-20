@@ -3,7 +3,6 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:maps="clr-namespace:Mapsui.UI.WinUI;assembly=Mapsui.UI.Uno.WinUI"
       xmlns:utu="using:Uno.Toolkit.UI"
-      xmlns:mvux="using:Uno.Extensions.Reactive.UI"
       Background="{ThemeResource DashboardPageBackgroundBrush}">
   <Page.Resources>
     <!--
@@ -199,65 +198,56 @@
                 <TextBlock Text="Filtered Contacts"
                            Style="{StaticResource DashboardSectionTitleStyle}" />
 
-                <!-- FeedView consumes the FilteredContacts list feed directly: it renders the list in
-                     its ValueTemplate and, because an IListFeed goes to the None state when the filter
-                     matches nothing, shows the empty message via its NoneTemplate (no separate
-                     HasNoResults binding needed here). -->
-                <mvux:FeedView Grid.Row="1" Source="{Binding FilteredContacts}">
-                  <mvux:FeedView.ValueTemplate>
+                <ListView Grid.Row="1"
+                          ItemsSource="{Binding FilteredContacts}"
+                          BorderThickness="0"
+                          Background="Transparent"
+                          SelectionMode="None"
+                          ItemContainerStyle="{StaticResource ContactListItemStyle}">
+                  <ListView.ItemTemplate>
                     <DataTemplate>
-                      <ListView ItemsSource="{Binding Data}"
-                                BorderThickness="0"
-                                Background="Transparent"
-                                SelectionMode="None"
-                                ItemContainerStyle="{StaticResource ContactListItemStyle}">
-                        <ListView.ItemTemplate>
-                          <DataTemplate>
-                            <Border Style="{StaticResource DashboardKanbanCardStyle}"
-                                    Margin="0,0,0,10">
-                              <StackPanel Spacing="6">
-                                <Grid>
-                                  <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="Auto" />
-                                  </Grid.ColumnDefinitions>
-                                  <TextBlock Text="{Binding Name}"
-                                             Style="{StaticResource DashboardBodyTextStyle}" />
-                                  <TextBlock Grid.Column="1"
-                                             Text="{Binding Segment}"
-                                             Style="{StaticResource DashboardMicroTextStyle}" />
-                                </Grid>
-                                <TextBlock Text="{Binding Company}"
-                                           Style="{StaticResource DashboardSubtleTextStyle}" />
-                                <Grid>
-                                  <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="Auto" />
-                                  </Grid.ColumnDefinitions>
-                                  <TextBlock Text="{Binding City}"
-                                             Style="{StaticResource DashboardSubtleTextStyle}" />
-                                  <TextBlock Grid.Column="1"
-                                             Text="{Binding Region}"
-                                             Foreground="{ThemeResource DashboardAccentBrush}"
-                                             FontSize="12" />
-                                </Grid>
-                              </StackPanel>
-                            </Border>
-                          </DataTemplate>
-                        </ListView.ItemTemplate>
-                      </ListView>
+                      <Border Style="{StaticResource DashboardKanbanCardStyle}"
+                              Margin="0,0,0,10">
+                        <StackPanel Spacing="6">
+                          <Grid>
+                            <Grid.ColumnDefinitions>
+                              <ColumnDefinition Width="*" />
+                              <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="{Binding Name}"
+                                       Style="{StaticResource DashboardBodyTextStyle}" />
+                            <TextBlock Grid.Column="1"
+                                       Text="{Binding Segment}"
+                                       Style="{StaticResource DashboardMicroTextStyle}" />
+                          </Grid>
+                          <TextBlock Text="{Binding Company}"
+                                     Style="{StaticResource DashboardSubtleTextStyle}" />
+                          <Grid>
+                            <Grid.ColumnDefinitions>
+                              <ColumnDefinition Width="*" />
+                              <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="{Binding City}"
+                                       Style="{StaticResource DashboardSubtleTextStyle}" />
+                            <TextBlock Grid.Column="1"
+                                       Text="{Binding Region}"
+                                       Foreground="{ThemeResource DashboardAccentBrush}"
+                                       FontSize="12" />
+                          </Grid>
+                        </StackPanel>
+                      </Border>
                     </DataTemplate>
-                  </mvux:FeedView.ValueTemplate>
-                  <mvux:FeedView.NoneTemplate>
-                    <DataTemplate>
-                      <TextBlock Text="No contacts match your filters."
-                                 Style="{StaticResource DashboardSubtleTextStyle}"
-                                 HorizontalAlignment="Center"
-                                 VerticalAlignment="Top"
-                                 Margin="0,24,0,0" />
-                    </DataTemplate>
-                  </mvux:FeedView.NoneTemplate>
-                </mvux:FeedView>
+                  </ListView.ItemTemplate>
+                </ListView>
+
+                <!-- Empty state when the filters match no contacts -->
+                <TextBlock Grid.Row="1"
+                           Text="No contacts match your filters."
+                           Style="{StaticResource DashboardSubtleTextStyle}"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Top"
+                           Margin="0,24,0,0"
+                           Visibility="{Binding HasNoResults, Converter={StaticResource BoolToVisibility}}" />
               </Grid>
             </Border>
           </Grid>
@@ -349,47 +339,39 @@
               <TextBlock Text="Contacts"
                          Style="{StaticResource DashboardSectionTitleStyle}"
                          FontSize="20" />
-              <!-- Same FeedView pattern as desktop, over the same FilteredContacts list feed. -->
-              <mvux:FeedView Source="{Binding FilteredContacts}">
-                <mvux:FeedView.ValueTemplate>
+              <!--
+                ItemsControl (not ListView) so the list has no inner scroll and the
+                whole page scrolls as one. A nested ListView scroll would trap the
+                gesture and never move the page offset.
+              -->
+              <ItemsControl ItemsSource="{Binding FilteredContacts}">
+                <ItemsControl.ItemTemplate>
                   <DataTemplate>
-                    <!--
-                      ItemsControl (not ListView) so the list has no inner scroll and the
-                      whole page scrolls as one. A nested ListView scroll would trap the
-                      gesture and never move the page offset.
-                    -->
-                    <ItemsControl ItemsSource="{Binding Data}">
-                      <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                          <Border Style="{StaticResource DashboardKanbanCardStyle}"
-                                  Margin="0,0,0,10">
-                            <StackPanel Spacing="6">
-                              <TextBlock Text="{Binding Name}" Style="{StaticResource DashboardBodyTextStyle}" />
-                              <TextBlock Text="{Binding Company}" Style="{StaticResource DashboardSubtleTextStyle}" />
-                              <Grid>
-                                <Grid.ColumnDefinitions>
-                                  <ColumnDefinition Width="*" />
-                                  <ColumnDefinition Width="Auto" />
-                                </Grid.ColumnDefinitions>
-                                <TextBlock Text="{Binding City}" Style="{StaticResource DashboardSubtleTextStyle}" />
-                                <TextBlock Grid.Column="1" Text="{Binding Region}" Foreground="{ThemeResource DashboardAccentBrush}" FontSize="12" />
-                              </Grid>
-                            </StackPanel>
-                          </Border>
-                        </DataTemplate>
-                      </ItemsControl.ItemTemplate>
-                    </ItemsControl>
+                    <Border Style="{StaticResource DashboardKanbanCardStyle}"
+                            Margin="0,0,0,10">
+                      <StackPanel Spacing="6">
+                        <TextBlock Text="{Binding Name}" Style="{StaticResource DashboardBodyTextStyle}" />
+                        <TextBlock Text="{Binding Company}" Style="{StaticResource DashboardSubtleTextStyle}" />
+                        <Grid>
+                          <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                          </Grid.ColumnDefinitions>
+                          <TextBlock Text="{Binding City}" Style="{StaticResource DashboardSubtleTextStyle}" />
+                          <TextBlock Grid.Column="1" Text="{Binding Region}" Foreground="{ThemeResource DashboardAccentBrush}" FontSize="12" />
+                        </Grid>
+                      </StackPanel>
+                    </Border>
                   </DataTemplate>
-                </mvux:FeedView.ValueTemplate>
-                <mvux:FeedView.NoneTemplate>
-                  <DataTemplate>
-                    <TextBlock Text="No contacts match your filters."
-                               Style="{StaticResource DashboardSubtleTextStyle}"
-                               HorizontalAlignment="Center"
-                               Margin="0,8,0,4" />
-                  </DataTemplate>
-                </mvux:FeedView.NoneTemplate>
-              </mvux:FeedView>
+                </ItemsControl.ItemTemplate>
+              </ItemsControl>
+
+              <!-- Empty state when the filters match no contacts -->
+              <TextBlock Text="No contacts match your filters."
+                         Style="{StaticResource DashboardSubtleTextStyle}"
+                         HorizontalAlignment="Center"
+                         Margin="0,8,0,4"
+                         Visibility="{Binding HasNoResults, Converter={StaticResource BoolToVisibility}}" />
             </StackPanel>
           </Border>
         </Grid>
