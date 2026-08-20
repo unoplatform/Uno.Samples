@@ -18,13 +18,11 @@ public sealed partial class ContactsPage : Page
     {
         this.InitializeComponent();
 
-        // Design-time DataContext for Hot Design / Studio: the code-generated ContactsViewModel. Its
-        // parameterless ctor builds a ContactsModel and its reactive SourceContext, so the page's
-        // FeedView is driven by a real list feed at design time — a FeedView needs a feed and cannot
-        // be driven by the plain mock record. At runtime Navigation injects the mapped
-        // ContactsViewModel, which overrides this.
-        this.DataContext = new ContactsViewModel();
-
+        // No design-time DataContext seed here. Navigation injects the mapped ContactsViewModel and
+        // its reactive context, which is what drives the FeedView's list feed (and the map probe
+        // bound to the same feed). Seeding `new ContactsViewModel()` here breaks that: navigation
+        // adopts the already-assigned, non-hosted instance whose feeds never pump, so the list and
+        // the map render empty at runtime.
         Loaded += OnLoaded;
     }
 
