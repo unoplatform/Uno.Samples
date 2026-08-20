@@ -9,25 +9,17 @@
                  mc:Ignorable="d">
 
     <!-- DealDetailPage across its health / won states. Each child sets the page's design-time
-         DataContext in XAML, overriding the page ctor's default seed. -->
-    <hd:Preview PreviewName="At Risk"
-                Visibility="Collapsed"
-                Width="420"
-                Height="760">
+         DataContext in XAML, overriding the page ctor's default seed. No size on the <hd:Preview>:
+         a page fills the canvas / device frame. -->
+    <hd:Preview PreviewName="At Risk" Visibility="Collapsed">
         <local:DealDetailPage DataContext="{x:Bind mock:DealDetailPageMockData.AtRisk}" />
     </hd:Preview>
 
-    <hd:Preview PreviewName="Won"
-                Visibility="Collapsed"
-                Width="420"
-                Height="760">
+    <hd:Preview PreviewName="Won" Visibility="Collapsed">
         <local:DealDetailPage DataContext="{x:Bind mock:DealDetailPageMockData.Won}" />
     </hd:Preview>
 
-    <hd:Preview PreviewName="Healthy"
-                Visibility="Collapsed"
-                Width="420"
-                Height="760">
+    <hd:Preview PreviewName="Healthy" Visibility="Collapsed">
         <local:DealDetailPage DataContext="{x:Bind mock:DealDetailPageMockData.Healthy}" />
     </hd:Preview>
 </hd:PreviewGroup>

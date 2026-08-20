@@ -7,13 +7,12 @@
                  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                  mc:Ignorable="d">
 
-    <!-- The PipelineCard deal tile in its four states. Each child is a named preview of the same
-         control; data is set directly on the control's dependency properties in XAML. -->
-    <hd:Preview PreviewName="Healthy"
-                Visibility="Collapsed"
-                Width="260"
-                Height="150">
-        <controls:PipelineCard Company="Atlas Financial"
+    <!-- The PipelineCard deal tile in its four states. Data is set on the control's dependency
+         properties; any size (the card's board width) goes on the control itself, never the
+         <hd:Preview>. -->
+    <hd:Preview PreviewName="Healthy" Visibility="Collapsed">
+        <controls:PipelineCard Width="260"
+                               Company="Atlas Financial"
                                Amount="$95,600"
                                Owner="Nina Brooks"
                                Meta="11d"
@@ -22,11 +21,9 @@
                                VerticalAlignment="Center" />
     </hd:Preview>
 
-    <hd:Preview PreviewName="Watch"
-                Visibility="Collapsed"
-                Width="260"
-                Height="150">
-        <controls:PipelineCard Company="TechVision Inc"
+    <hd:Preview PreviewName="Watch" Visibility="Collapsed">
+        <controls:PipelineCard Width="260"
+                               Company="TechVision Inc"
                                Amount="$28,500"
                                Owner="Mike Johnson"
                                Meta="5d"
@@ -35,11 +32,9 @@
                                VerticalAlignment="Center" />
     </hd:Preview>
 
-    <hd:Preview PreviewName="At Risk"
-                Visibility="Collapsed"
-                Width="260"
-                Height="150">
-        <controls:PipelineCard Company="Vertex Labs"
+    <hd:Preview PreviewName="At Risk" Visibility="Collapsed">
+        <controls:PipelineCard Width="260"
+                               Company="Vertex Labs"
                                Amount="$210,000"
                                Owner="Kevin Zhang"
                                Meta="22d"
@@ -48,11 +43,9 @@
                                VerticalAlignment="Center" />
     </hd:Preview>
 
-    <hd:Preview PreviewName="Won"
-                Visibility="Collapsed"
-                Width="260"
-                Height="150">
-        <controls:PipelineCard Company="Summit Retail"
+    <hd:Preview PreviewName="Won" Visibility="Collapsed">
+        <controls:PipelineCard Width="260"
+                               Company="Summit Retail"
                                Amount="$156,000"
                                Owner="Paul Martinez"
                                Meta="Won"

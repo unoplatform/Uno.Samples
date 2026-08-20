@@ -10,17 +10,11 @@
 
     <!-- ContactsPage populated vs. no-results. Note: the Mapsui map is populated in code-behind (not
          data-bound), so it shows an empty basemap; the filters/stats/list are the bound surface. -->
-    <hd:Preview PreviewName="All"
-                Visibility="Collapsed"
-                Width="420"
-                Height="840">
+    <hd:Preview PreviewName="All" Visibility="Collapsed">
         <local:ContactsPage DataContext="{x:Bind mock:ContactsPageMockData.Data}" />
     </hd:Preview>
 
-    <hd:Preview PreviewName="No Results"
-                Visibility="Collapsed"
-                Width="420"
-                Height="840">
+    <hd:Preview PreviewName="No Results" Visibility="Collapsed">
         <local:ContactsPage DataContext="{x:Bind mock:ContactsPageMockData.NoResults}" />
     </hd:Preview>
 </hd:PreviewGroup>
