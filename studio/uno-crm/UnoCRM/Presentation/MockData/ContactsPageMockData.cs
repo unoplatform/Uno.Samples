@@ -16,7 +16,7 @@ public partial record ContactsPageMockData
     public static ContactsPageMockData NoResults { get; } = new()
     {
         SearchText = "zzz",
-        FilteredContacts = Array.Empty<ContactLocation>(),
+        FilteredContacts = ListFeed.Async(_ => ValueTask.FromResult<IImmutableList<ContactLocation>>(ImmutableList<ContactLocation>.Empty)),
         TotalFilteredLabel = "0 contacts",
         RegionsLabel = "0 regions",
         SegmentsLabel = "0 segments",
@@ -38,9 +38,11 @@ public partial record ContactsPageMockData
             .Concat(CrmData.Contacts.Select(c => c.Segment).Distinct(StringComparer.OrdinalIgnoreCase))
             .ToArray();
 
-    // Init-settable so a variant (see NoResults) can supply an empty/filtered set; default to the
-    // full catalogue with matching header counts.
-    public IReadOnlyList<ContactLocation> FilteredContacts { get; init; } = CrmData.Contacts;
+    // A list FEED (not a plain list) so it drives the page's FeedView the same way the real model
+    // does. Init-settable so a variant (see NoResults) can supply an empty set. ListFeed.Async emits
+    // immediately, and Hot Design is a live running app, so the FeedView renders it at design time.
+    public IListFeed<ContactLocation> FilteredContacts { get; init; } =
+        ListFeed.Async(_ => ValueTask.FromResult<IImmutableList<ContactLocation>>(CrmData.Contacts.ToImmutableList()));
 
     public string TotalFilteredLabel { get; init; } = $"{CrmData.Contacts.Count} contacts";
     public string RegionsLabel { get; init; } = $"{CrmData.Contacts.Select(c => c.Region).Distinct().Count()} regions";

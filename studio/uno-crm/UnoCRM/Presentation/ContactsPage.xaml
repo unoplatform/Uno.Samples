@@ -349,39 +349,47 @@
               <TextBlock Text="Contacts"
                          Style="{StaticResource DashboardSectionTitleStyle}"
                          FontSize="20" />
-              <!--
-                ItemsControl (not ListView) so the list has no inner scroll and the
-                whole page scrolls as one. A nested ListView scroll would trap the
-                gesture and never move the page offset.
-              -->
-              <ItemsControl ItemsSource="{Binding FilteredContacts}">
-                <ItemsControl.ItemTemplate>
+              <!-- Same FeedView pattern as desktop, over the same FilteredContacts list feed. -->
+              <mvux:FeedView Source="{Binding FilteredContacts}">
+                <mvux:FeedView.ValueTemplate>
                   <DataTemplate>
-                    <Border Style="{StaticResource DashboardKanbanCardStyle}"
-                            Margin="0,0,0,10">
-                      <StackPanel Spacing="6">
-                        <TextBlock Text="{Binding Name}" Style="{StaticResource DashboardBodyTextStyle}" />
-                        <TextBlock Text="{Binding Company}" Style="{StaticResource DashboardSubtleTextStyle}" />
-                        <Grid>
-                          <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="Auto" />
-                          </Grid.ColumnDefinitions>
-                          <TextBlock Text="{Binding City}" Style="{StaticResource DashboardSubtleTextStyle}" />
-                          <TextBlock Grid.Column="1" Text="{Binding Region}" Foreground="{ThemeResource DashboardAccentBrush}" FontSize="12" />
-                        </Grid>
-                      </StackPanel>
-                    </Border>
+                    <!--
+                      ItemsControl (not ListView) so the list has no inner scroll and the
+                      whole page scrolls as one. A nested ListView scroll would trap the
+                      gesture and never move the page offset.
+                    -->
+                    <ItemsControl ItemsSource="{Binding Data}">
+                      <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                          <Border Style="{StaticResource DashboardKanbanCardStyle}"
+                                  Margin="0,0,0,10">
+                            <StackPanel Spacing="6">
+                              <TextBlock Text="{Binding Name}" Style="{StaticResource DashboardBodyTextStyle}" />
+                              <TextBlock Text="{Binding Company}" Style="{StaticResource DashboardSubtleTextStyle}" />
+                              <Grid>
+                                <Grid.ColumnDefinitions>
+                                  <ColumnDefinition Width="*" />
+                                  <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="{Binding City}" Style="{StaticResource DashboardSubtleTextStyle}" />
+                                <TextBlock Grid.Column="1" Text="{Binding Region}" Foreground="{ThemeResource DashboardAccentBrush}" FontSize="12" />
+                              </Grid>
+                            </StackPanel>
+                          </Border>
+                        </DataTemplate>
+                      </ItemsControl.ItemTemplate>
+                    </ItemsControl>
                   </DataTemplate>
-                </ItemsControl.ItemTemplate>
-              </ItemsControl>
-
-              <!-- Empty state when the filters match no contacts -->
-              <TextBlock Text="No contacts match your filters."
-                         Style="{StaticResource DashboardSubtleTextStyle}"
-                         HorizontalAlignment="Center"
-                         Margin="0,8,0,4"
-                         Visibility="{Binding HasNoResults, Converter={StaticResource BoolToVisibility}}" />
+                </mvux:FeedView.ValueTemplate>
+                <mvux:FeedView.NoneTemplate>
+                  <DataTemplate>
+                    <TextBlock Text="No contacts match your filters."
+                               Style="{StaticResource DashboardSubtleTextStyle}"
+                               HorizontalAlignment="Center"
+                               Margin="0,8,0,4" />
+                  </DataTemplate>
+                </mvux:FeedView.NoneTemplate>
+              </mvux:FeedView>
             </StackPanel>
           </Border>
         </Grid>
