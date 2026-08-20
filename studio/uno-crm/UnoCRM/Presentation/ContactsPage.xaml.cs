@@ -19,10 +19,6 @@ public sealed partial class ContactsPage : Page
     {
         this.InitializeComponent();
 
-        // Design-time DataContext for Hot Design / Studio (seed on the page, never a child).
-        // At runtime Uno.Extensions Navigation injects the generated ContactsModel VM.
-        this.DataContext = ContactsPageMockData.Data;
-
         Loaded += OnLoaded;
     }
 
