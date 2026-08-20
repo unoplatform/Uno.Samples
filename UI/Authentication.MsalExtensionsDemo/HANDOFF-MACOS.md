@@ -1,5 +1,29 @@
 # Handoff: MSAL auth fixes — continue on macOS
 
+> [!IMPORTANT]
+> **Update 2026-08-20 (Windows machine, after this handoff was written):** substantial parts of
+> this document are now historical. Since it was written:
+>
+> - **WASM token-cache persistence landed** (`specs/011-wasm-msal-token-cache` in `uno.extensions`,
+>   all items implemented): tokens now persist to `sessionStorage` by default and sign-in survives
+>   a page reload. The "in-memory only / does not survive a reload" statements below describe the
+>   pre-011 behavior and are no longer expected results — a reload signing the user out is now a bug.
+>   Configure via `KeyValueStorageConfiguration:BrowserCacheLocation`
+>   (`SessionStorage` default / `LocalStorage` / `MemoryStorage`).
+> - **Logout is fixed twice over**: `InternalLogoutAsync` no longer throws when called through the
+>   dispatcher-less `LogoutAsync(CancellationToken)` overload, removes *every* account, and deletes
+>   the serialized MSAL cache.
+> - The uncommitted diffs listed in the appendix and the repo-state table are all committed and
+>   pushed (`uno.extensions` @ `dev/sb/msal-auth-fixes` through `2e04d589a`; this repo through the
+>   current head of `dev/sb/msa-ext`).
+> - The verification checklist and iteration loop remain valid, with one addition: after repacking,
+>   verify the *served* assembly (e.g. fetch `/_framework/Uno.Extensions.Authentication.MSAL.WinUI.wasm`
+>   and check it for a marker of your change) before validating behavior — see
+>   `specs/lessons.md` in `uno.extensions`.
+> - Remaining validation: a human sign-in pass on the WASM head (sign in → reload keeps the session
+>   → logout clears `MsalCache_*`/`AuthToken_*` from `sessionStorage` → tab close drops the session).
+
+
 Context for picking up the `uno.extensions` MSAL work on a macOS machine, using this demo
 app as the live test bed. Written 2026-08-19 on the Windows machine where the work so far
 happened. Read `specs/009-msal-auth-fixes/progress.md` and `AGENTS.md` in `uno.extensions`
