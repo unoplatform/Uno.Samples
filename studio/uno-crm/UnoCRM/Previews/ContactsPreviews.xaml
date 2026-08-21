@@ -9,19 +9,16 @@
                  mc:Ignorable="d">
 
     <!-- ContactsPage in its two data states. Each child sets the page's design-time DataContext in
-         XAML, overriding the page ctor's default seed. The narrow 420x840 frame goes on the page
-         (never the <hd:Preview>) so the utu:Responsive layout resolves to the mobile view. Note: the
-         Mapsui map is populated in code-behind, not data-bound, so it renders as an empty basemap in
-         a preview — the filters, header stats and the FeedView-driven contact list are the data-bound
-         surface these previews exercise. -->
+         XAML, overriding the page ctor's default seed. A page fills the canvas / device frame, so no
+         size goes on the page or the <hd:Preview> — pick the frame (desktop or mobile) in Hot Design.
+         Note: the Mapsui map is populated in code-behind, not data-bound, so it renders as an empty
+         basemap in a preview — the filters, header stats and the FeedView-driven contact list are the
+         data-bound surface these previews exercise. -->
     <hd:Preview PreviewName="All Contacts" Visibility="Collapsed">
-        <local:ContactsPage 
-                            DataContext="{x:Bind mock:ContactsPageMockData.Data}" />
+        <local:ContactsPage DataContext="{x:Bind mock:ContactsPageMockData.Data}" />
     </hd:Preview>
 
     <hd:Preview PreviewName="No Results" Visibility="Collapsed">
-        <local:ContactsPage Width="420"
-                            Height="840"
-                            DataContext="{x:Bind mock:ContactsPageMockData.NoResults}" />
+        <local:ContactsPage DataContext="{x:Bind mock:ContactsPageMockData.NoResults}" />
     </hd:Preview>
 </hd:PreviewGroup>
