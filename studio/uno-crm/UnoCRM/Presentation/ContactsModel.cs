@@ -49,10 +49,6 @@ public partial record ContactsModel
     public IFeed<string> SegmentsLabel =>
         Filtered.Select(list => $"{DistinctCount(list, x => x.Segment)} segments");
 
-    // Empty-state flag: a bool feed the XAML shows/hides an empty message with (via BoolToVisibility).
-    public IFeed<bool> HasNoResults =>
-        Filtered.Select(list => list.Count == 0);
-
     private IImmutableList<ContactLocation> Filter(string? search, string? region, string? segment)
     {
         var query = (search ?? string.Empty).Trim();
