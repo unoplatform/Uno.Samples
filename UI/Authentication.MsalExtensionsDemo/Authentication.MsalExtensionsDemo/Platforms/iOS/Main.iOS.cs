@@ -10,7 +10,9 @@ public class EntryPoint
     {
         var host = UnoPlatformHostBuilder.Create()
             .App(() => new App())
-            .UseAppleUIKit()
+            // MsalAppDelegate overrides OpenUrl so the msauth.{BundleId}:// sign-in callback
+            // reaches MSAL. See Platforms/iOS/MsalAppDelegate.iOS.cs.
+            .UseAppleUIKit(builder => builder.UseUIApplicationDelegate<MsalAppDelegate>())
             .Build();
 
         host.Run();

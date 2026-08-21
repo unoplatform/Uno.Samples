@@ -1,4 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
+using Authentication.MsalExtensionsDemo.Authentication;
 using Uno.Resizetizer;
 
 namespace Authentication.MsalExtensionsDemo;
@@ -76,8 +77,9 @@ public partial class App : Application
                 )
                 .ConfigureServices((context, services) =>
                 {
-                    // TODO: Register your services
-                    //services.AddSingleton<IMyService, MyService>();
+                    // Narrates every IAuthenticationService call into a flow log shown in the UI.
+                    // A singleton so the log and sign-in state survive switching sections.
+                    services.AddSingleton<MsalFlowService>();
                 })
                 .UseNavigation(ReactiveViewModelMappings.ViewModelMappings, RegisterRoutes)
             );
@@ -89,16 +91,13 @@ public partial class App : Application
 
         async Task InitialNavigate(IServiceProvider services, INavigator navigator)
         {
-            var auth = services.GetRequiredService<IAuthenticationService>();
-            var authenticated = await auth.RefreshAsync();
-            if (authenticated)
-            {
-                await navigator.NavigateViewModelAsync<MainModel>(this, qualifier: Qualifiers.ClearBackStack);
-            }
-            else
-            {
-                await navigator.NavigateViewModelAsync<LoginModel>(this, qualifier: Qualifiers.ClearBackStack);
-            }
+            // Run (and narrate) the silent path a production app should use at startup: on
+            // platforms where the provider persists the token cache, this signs back in with no
+            // UI. Sign-in itself lives on the page, so navigation happens either way.
+            var flow = services.GetRequiredService<MsalFlowService>();
+            await flow.StartupAsync();
+
+            await navigator.NavigateViewModelAsync<MainModel>(this, qualifier: Qualifiers.ClearBackStack);
         }
         Host = await MainWindow.InitializeNavigationAsync(
             () => Task.FromResult(builder.Build()),
@@ -108,12 +107,10 @@ public partial class App : Application
     private static void RegisterRoutes(IViewRegistry views, IRouteRegistry routes)
     {
         views.Register(
-            new ViewMap<LoginPage, LoginModel>(),
             new ViewMap<MainPage, MainModel>()
         );
 
         routes.Register(
-            new RouteMap("Login", View: views.FindByViewModel<LoginModel>()),
             new RouteMap("Main", View: views.FindByViewModel<MainModel>(), IsDefault:true)
         );
     }

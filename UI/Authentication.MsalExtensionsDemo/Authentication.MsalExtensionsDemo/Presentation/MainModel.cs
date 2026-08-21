@@ -1,39 +1,24 @@
+using Authentication.MsalExtensionsDemo.Authentication;
+
 namespace Authentication.MsalExtensionsDemo.Presentation;
 
-public partial record MainModel
+/// <summary>
+/// Shell view model for <see cref="MainPage"/>: one child view model per section. Resolved by
+/// Uno.Extensions Navigation, which injects the shared <see cref="MsalFlowService"/> singleton
+/// and the window's <see cref="IDispatcher"/>.
+/// </summary>
+public sealed class MainModel
 {
-    public MainModel(
-        IStringLocalizer localizer,
-        IOptions<AppConfig> appInfo,
-        IAuthenticationService authentication,
-        INavigator navigator)
+    public MainModel(MsalFlowService flow, IDispatcher dispatcher)
     {
-        _authentication = authentication;
-        _navigator = navigator;
-        Title = "Main";
-        Title += $" - {localizer["ApplicationName"]}";
-        Title += $" - {appInfo?.Value?.Environment}";
+        SignIn = new SignInViewModel(flow, dispatcher);
+        Graph = new GraphViewModel(flow);
+        Setup = new PlatformSetupViewModel(flow);
     }
 
-    public string? Title { get; }
+    public SignInViewModel SignIn { get; }
 
+    public GraphViewModel Graph { get; }
 
-    public async ValueTask Logout(CancellationToken token)
-    {
-        // LogoutAsync only clears the token cache - the app still has to leave the authenticated
-        // page, or a completely successful sign-out looks like the button did nothing.
-        if (await _authentication.LogoutAsync(token))
-        {
-            // First argument is the *sender* (object), not the cancellation token: passing `token`
-            // there compiles, because sender is typed `object`, and then navigation has no view
-            // model to resolve a region from.
-            await _navigator.NavigateViewModelAsync<LoginModel>(
-                this,
-                qualifier: Qualifiers.ClearBackStack,
-                cancellation: token);
-        }
-    }
-
-    private IAuthenticationService _authentication;
-    private INavigator _navigator;
+    public PlatformSetupViewModel Setup { get; }
 }
