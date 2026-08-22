@@ -80,6 +80,10 @@ public partial class App : Application
                 .ConfigureServices((context, services) =>
                 {
                     services
+                        // DuendeOAuthClient and WebFlowService inject IHttpClientFactory for
+                        // their raw HTTP calls; UseHttp only registers the factory when
+                        // named/typed clients are added, so register it explicitly.
+                        .AddHttpClient()
                         // The OAuth mechanics AddWeb's typed callbacks receive.
                         .AddSingleton<DuendeOAuthClient>()
                         // Narrates every IAuthenticationService call into a flow log shown in the

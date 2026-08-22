@@ -75,6 +75,12 @@ public partial class App : Application
                 )
                 .ConfigureServices((context, services) =>
                 {
+                    services
+                        // The flow service injects IHttpClientFactory for its raw API call;
+                        // UseHttp only registers the factory when named/typed clients are added,
+                        // so register it explicitly.
+                        .AddHttpClient();
+
                     // Narrates every IAuthenticationService call into a flow log shown in the UI.
                     // A singleton so the log and sign-in state survive the app's lifetime.
                     services.AddSingleton<OidcFlowService>();
