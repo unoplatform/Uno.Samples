@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+	<dict>
+		<key>LSRequiresIPhoneOS</key>
+		<true/>
+		<key>UIDeviceFamily</key>
+		<array>
+			<integer>1</integer>
+			<integer>2</integer>
+		</array>
+		<key>UIRequiredDeviceCapabilities</key>
+		<array>
+			<string>armv7</string>
+			<string>arm64</string>
+		</array>
+		<key>UISupportedInterfaceOrientations</key>
+		<array>
+			<string>UIInterfaceOrientationPortrait</string>
+			<string>UIInterfaceOrientationLandscapeLeft</string>
+			<string>UIInterfaceOrientationLandscapeRight</string>
+		</array>
+		<key>UISupportedInterfaceOrientations~ipad</key>
+		<array>
+			<string>UIInterfaceOrientationPortrait</string>
+			<string>UIInterfaceOrientationPortraitUpsideDown</string>
+			<string>UIInterfaceOrientationLandscapeLeft</string>
+			<string>UIInterfaceOrientationLandscapeRight</string>
+		</array>
+		<key>UIViewControllerBasedStatusBarAppearance</key>
+		<false/>
+		<key>XSAppIconAssets</key>
+		<string>Assets.xcassets/icon.appiconset</string>
+		<key>UIApplicationSupportsIndirectInputEvents</key>
+		<true/>
+
+		<!--
+		Adjust this to your application's encryption usage.
+		<key>ITSAppUsesNonExemptEncryption</key>
+		<false/>
+		-->
+		<!--
+			The custom URL scheme the identity provider redirects back to. Uno's
+			WebAuthenticationBroker derives the app's callback URI from the first scheme declared
+			here (oidc-ext-demo:///), and ASWebAuthenticationSession returns through it. Without
+			this entry the browser closes and nothing happens.
+		-->
+		<key>CFBundleURLTypes</key>
+		<array>
+			<dict>
+				<key>CFBundleURLName</key>
+				<string>com.companyname.authentication-oidcextensionsdemo.auth</string>
+				<key>CFBundleURLSchemes</key>
+				<array>
+					<string>oidc-ext-demo</string>
+				</array>
+			</dict>
+		</array>
+	</dict>
+</plist>

@@ -1,0 +1,45 @@
+<Page x:Class="Authentication.WebExtensionsDemo.Presentation.MainPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:toolkit="using:Uno.UI.Toolkit"
+      xmlns:views="using:Authentication.WebExtensionsDemo.Presentation"
+      NavigationCacheMode="Required"
+      Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+  <Grid RowDefinitions="Auto,*">
+
+    <!-- PaddingMask keeps the header clear of the status bar / notch on mobile. -->
+    <Border Grid.Row="0"
+            Padding="16,12"
+            toolkit:VisibleBoundsPadding.PaddingMask="Top"
+            Background="{ThemeResource LayerFillColorDefaultBrush}"
+            BorderBrush="{ThemeResource DividerStrokeColorDefaultBrush}"
+            BorderThickness="0,0,0,1">
+      <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12">
+        <StackPanel VerticalAlignment="Center">
+          <TextBlock Text="Web (OAuth) authentication on Uno Platform"
+                     Style="{StaticResource SubtitleTextBlockStyle}" />
+          <TextBlock Text="Uno.Extensions.Authentication AddWeb against the public Duende demo server"
+                     Style="{StaticResource CaptionTextBlockStyle}"
+                     Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
+        </StackPanel>
+        <Border Grid.Column="1"
+                Padding="8,4"
+                VerticalAlignment="Center"
+                Background="{ThemeResource ControlAltFillColorSecondaryBrush}"
+                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                BorderThickness="1"
+                CornerRadius="4">
+          <TextBlock x:Name="PlatformChip"
+                     FontSize="11"
+                     FontWeight="SemiBold"
+                     Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
+        </Border>
+      </Grid>
+    </Border>
+
+    <views:SignInView Grid.Row="1" DataContext="{Binding SignIn}" />
+
+  </Grid>
+
+</Page>
