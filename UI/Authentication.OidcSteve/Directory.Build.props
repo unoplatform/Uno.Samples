@@ -1,0 +1,20 @@
+<Project>
+  <PropertyGroup>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+
+    <!--
+      Adding NoWarn to remove build warnings
+      NU1507: Warning when there are multiple package sources when using CPM with no source mapping
+      NETSDK1201: Warning that specifying RID won't create self containing app
+      PRI257: Ignore default language (en) not being one of the included resources (eg en-us, en-uk)
+    -->
+    <NoWarn>$(NoWarn);NU1507;NETSDK1201;PRI257</NoWarn>
+
+    <!-- Local testing of uno.extensions branch dev/sb/auth-providers-fixes (see NuGet.config): the
+         desktop loopback WebAuthenticationBroker and the Oidc provider fixes are not in released
+         packages yet. -->
+    <UnoExtensionsVersion>255.255.255.255-local</UnoExtensionsVersion>
+  </PropertyGroup>
+</Project>

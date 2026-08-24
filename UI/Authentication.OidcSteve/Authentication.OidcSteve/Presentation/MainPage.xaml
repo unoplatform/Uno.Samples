@@ -1,0 +1,94 @@
+<Page x:Class="Authentication.OidcSteve.Presentation.MainPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:local="using:Authentication.OidcSteve.Presentation"
+      xmlns:uen="using:Uno.Extensions.Navigation.UI"
+      xmlns:utu="using:Uno.Toolkit.UI"
+      NavigationCacheMode="Required"
+      Background="{ThemeResource BackgroundBrush}">
+
+  <Grid utu:SafeArea.Insets="VisibleBounds" RowDefinitions="Auto,*">
+
+    <!-- Header mirrors the Login page so the two feel like one app. -->
+    <Border Grid.Row="0"
+            Padding="16,12"
+            Background="{ThemeResource LayerFillColorDefaultBrush}"
+            BorderBrush="{ThemeResource DividerStrokeColorDefaultBrush}"
+            BorderThickness="0,0,0,1">
+      <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12">
+        <StackPanel VerticalAlignment="Center">
+          <TextBlock Text="Signed in"
+                     Style="{StaticResource SubtitleTextBlockStyle}" />
+          <TextBlock Text="Tokens live in ITokenCache; the demo API proves the access token works"
+                     Style="{StaticResource CaptionTextBlockStyle}"
+                     Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
+        </StackPanel>
+        <Border Grid.Column="1"
+                Padding="8,4"
+                VerticalAlignment="Center"
+                Background="{ThemeResource ControlAltFillColorSecondaryBrush}"
+                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                BorderThickness="1"
+                CornerRadius="4">
+          <TextBlock x:Name="PlatformChip"
+                     FontSize="11"
+                     FontWeight="SemiBold"
+                     Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
+        </Border>
+      </Grid>
+    </Border>
+
+    <ScrollViewer x:Name="RootScroll" Grid.Row="1">
+      <StackPanel MaxWidth="920"
+                  Padding="16"
+                  Spacing="16">
+
+        <!-- What the app can see of the token cache. -->
+        <Border Style="{StaticResource CardStyle}">
+          <StackPanel Spacing="10">
+            <TextBlock Text="TOKEN" Style="{StaticResource LabelTextStyle}" />
+            <TextBlock x:Name="TokensSummaryText" Style="{StaticResource CodeTextStyle}" />
+          </StackPanel>
+        </Border>
+
+        <!-- Actions. Horizontally scrollable so the row survives narrow phone screens. -->
+        <ScrollViewer HorizontalScrollBarVisibility="Auto"
+                      HorizontalScrollMode="Auto"
+                      VerticalScrollBarVisibility="Disabled"
+                      VerticalScrollMode="Disabled">
+          <StackPanel Orientation="Horizontal" Spacing="8">
+            <Button Content="Call demo API"
+                    Command="{Binding CallApi}"
+                    Style="{StaticResource AccentButtonStyle}" />
+            <!-- Clears the cached tokens only; the identity provider's browser session survives. -->
+            <Button Content="Logout"
+                    Command="{Binding Logout}" />
+            <!-- Also ends the identity provider session via the browser end-session flow. -->
+            <Button Content="Logout everywhere"
+                    Command="{Binding LogoutEverywhere}" />
+          </StackPanel>
+        </ScrollViewer>
+
+        <!-- The demo server's test API echoes the token's claims - proof the token works. -->
+        <Border x:Name="ApiCard"
+                Style="{StaticResource CardStyle}"
+                Visibility="Collapsed">
+          <StackPanel Spacing="10">
+            <TextBlock Text="DEMO API RESPONSE (GET /api/test)" Style="{StaticResource LabelTextStyle}" />
+            <TextBlock x:Name="ApiResponseText" Style="{StaticResource CodeTextStyle}" />
+          </StackPanel>
+        </Border>
+
+        <!-- Every authentication call, in order, with the reason it was made. -->
+        <Border Style="{StaticResource CardStyle}">
+          <StackPanel Spacing="12">
+            <TextBlock Text="FLOW LOG" Style="{StaticResource LabelTextStyle}" />
+            <ItemsControl x:Name="LogItems"
+                          ItemTemplate="{StaticResource FlowStepTemplate}" />
+          </StackPanel>
+        </Border>
+
+      </StackPanel>
+    </ScrollViewer>
+  </Grid>
+</Page>
