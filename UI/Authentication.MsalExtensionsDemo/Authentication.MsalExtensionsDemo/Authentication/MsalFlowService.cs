@@ -1,3 +1,4 @@
+using Authentication.MsalExtensionsDemo.Common;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Identity.Client;
 using ITokenCache = Uno.Extensions.Authentication.ITokenCache;
@@ -34,15 +35,31 @@ public sealed class MsalFlowService
     private readonly ITokenCache _tokens;
     private readonly IConfiguration _configuration;
 
-    public MsalFlowService(IAuthenticationService auth, ITokenCache tokens, IConfiguration configuration)
+    public MsalFlowService(
+        IAuthenticationService auth,
+        ITokenCache tokens,
+        IConfiguration configuration,
+        SecretRedactor redactor)
     {
         _auth = auth;
         _tokens = tokens;
         _configuration = configuration;
+
+        Log = new AuthFlowLog(redactor);
+
+        // The two values that identify this app registration. Registering them here means every
+        // string that carries one - the redirect URI, an MSAL error message, the setup guide -
+        // is covered in recording mode without each of those knowing about redaction.
+        redactor.Remember(ClientId, "client ID");
+
+        if (Guid.TryParse(TenantId, out _))
+        {
+            redactor.Remember(TenantId, "tenant ID");
+        }
     }
 
     /// <summary>Step-by-step narration of the flow, bound to the UI.</summary>
-    public AuthFlowLog Log { get; } = new();
+    public AuthFlowLog Log { get; }
 
     /// <summary>Whether the last authentication call left the app signed in.</summary>
     public bool IsSignedIn { get; private set; }
@@ -336,6 +353,11 @@ public sealed class MsalFlowService
         MsalException { ErrorCode: "invalid_client" } =>
             "The registration expects a client secret, so it is a confidential client. This sample "
             + "needs a public client registration.",
+
+        MsalException { ErrorCode: "missing_entitlements" or "cannot_access_publisher_keychain" } =>
+            "iOS only: MSAL could not reach the keychain group it stores the token cache in. "
+            + "Platforms/iOS/Entitlements.plist must grant keychain-access-groups with "
+            + "$(AppIdentifierPrefix)com.microsoft.adalcache. See the Platform setup page.",
 
         MsalException { ErrorCode: "access_denied" } =>
             "The user or an administrator declined consent for the requested scopes.",

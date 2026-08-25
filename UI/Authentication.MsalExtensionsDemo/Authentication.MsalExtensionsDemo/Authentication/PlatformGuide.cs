@@ -282,12 +282,43 @@ public static class PlatformGuide
                         """),
 
                     new(SetupArea.Project,
-                        "Optional: keychain sharing for SSO",
+                        "Grant keychain access in Entitlements.plist",
                         """
-                        To share the token cache with other apps or with Microsoft Authenticator,
-                        set "KeychainSecurityGroup" in the MsalAuthentication configuration section
-                        and add the matching keychain-access-groups entitlement. Not needed for
-                        this sample.
+                        MSAL keeps its token cache in the iOS keychain, under the access group
+                        com.microsoft.adalcache. Platforms/iOS/Entitlements.plist must therefore
+                        grant keychain-access-groups with
+
+                            $(AppIdentifierPrefix)$(CFBundleIdentifier)
+                            $(AppIdentifierPrefix)com.microsoft.adalcache
+
+                        or the first token save fails with missing_entitlements (and on some MSAL
+                        versions the failure comes earlier still, as
+                        cannot_access_publisher_keychain). $(AppIdentifierPrefix) expands to the
+                        Team ID from the provisioning profile, which is exactly the group MSAL
+                        derives, so no code has to name it. The bundle's own group comes first
+                        because the first entry is the default group for every keychain item the
+                        app writes without naming one. Development profiles already carry
+                        {TeamId}.*; a distribution build needs Keychain Sharing on the App ID.
+                        """),
+
+                    new(SetupArea.Project,
+                        "Optional: a private or shared keychain group",
+                        """
+                        The default group is shared with every app signed by the same team that
+                        uses it, which is what gives them single sign-on. For a group of your
+                        own, put it in the entitlement and pass the same value to MSAL: the
+                        provider owns the IPublicClientApplication, so the way in is AddMsal's
+                        configure callback -
+
+                            auth.AddMsal(
+                                window,
+                                configure: msal => msal.Builder(
+                                    pca => pca.WithIosKeychainSecurityGroup("...")),
+                                name: "MsalAuthentication")
+
+                        There is no configuration key for it: MSAL's
+                        PublicClientApplicationOptions, which the MsalAuthentication section binds
+                        to, has no keychain group property.
                         """),
 
                     new(SetupArea.Runtime,

@@ -51,3 +51,19 @@ entries — the Platform setup page flags both:
 - `Platforms/Android/MsalActivity.Android.cs` — the intent filter scheme must be
   `msal` + your client ID.
 - `Platforms/iOS/Info.plist` — `CFBundleURLTypes` must contain `msauth.{BundleId}`.
+
+On iOS a third one is not a value but a permission: `Platforms/iOS/Entitlements.plist` grants
+`keychain-access-groups` `$(AppIdentifierPrefix)com.microsoft.adalcache`, without which MSAL
+cannot write its token cache and sign-in ends in `missing_entitlements`.
+
+## Recording a demo
+
+The **Redact** switch in the header hides everything that identifies the app registration or the
+signed-in user — client and tenant IDs, the account, the Graph response, anything token-shaped —
+across all three pages and the flow log at once. It works at display time, so it can be switched
+mid-demo and still covers steps already on screen, and the choice survives a restart, which the
+silent-sign-in demo needs.
+
+It cannot reach the sign-in UI itself: that runs in the system browser or an
+`ASWebAuthenticationSession`, outside the app, so the account picker shows real addresses. Use a
+throwaway account for the recording, or cut that part.

@@ -19,10 +19,10 @@ public partial class App : Application
     protected IHost? Host { get; private set; }
 
     /// <summary>
-    /// The host's service provider, available from the first navigation on. Public so the pages'
-    /// code-behind can resolve the shared <see cref="AuthFlow.AuthFlowService"/> for the
-    /// flow log and token summaries (App.Host is only assigned after the first navigation has
-    /// already constructed a page).
+    /// The host's service provider. Assigned before navigation starts, so the pages' code-behind
+    /// can resolve the shared <see cref="AuthFlow.AuthFlowService"/> for the flow log and token
+    /// summaries - including on the very first page navigation builds (App.Host is only assigned
+    /// once InitializeNavigationAsync returns, which is after that page already exists).
     /// </summary>
     public IServiceProvider? Services { get; private set; }
 
@@ -82,13 +82,21 @@ public partial class App : Application
 #endif
 
                 })
-                // The most basic Web provider setup: everything comes from the "Web" section
-                // of appsettings.json - the login/logout page URIs, the callback URI, and the
-                // query keys the provider reads the tokens from on the redirect. No callbacks:
-                // the provider opens LoginStartUri in the platform browser surface and stores
-                // whatever tokens ride back on the redirect to LoginCallbackUri.
+                // Nearly everything comes from the "Web" section of appsettings.json - the
+                // login/logout page URIs, the callback URI, and the query keys the provider reads
+                // the tokens from on the redirect. The provider opens LoginStartUri in the
+                // platform browser surface and stores whatever tokens ride back on the redirect
+                // to LoginCallbackUri.
                 .UseAuthentication(auth =>
-                    auth.AddWeb()
+                    auth.AddWeb(web => web
+                        // The one thing static configuration cannot carry: RP-initiated logout
+                        // (OpenID Connect Session Management) identifies the session to end with
+                        // id_token_hint, and that token only exists once someone has signed in.
+                        // Without it Duende (like most providers) shows a "do you want to log
+                        // out?" prompt and will not honour post_logout_redirect_uri, so the app
+                        // never gets control back.
+                        .PrepareLogoutStartUri((services, cache, tokens, logoutStartUri, ct) =>
+                            ValueTask.FromResult(WithIdTokenHint(logoutStartUri, tokens))))
                 )
                 .ConfigureServices((context, services) =>
                 {
@@ -101,13 +109,12 @@ public partial class App : Application
             );
         MainWindow = builder.Window;
 
-#if DEBUG
-        MainWindow.UseStudio();
-#endif
         MainWindow.SetWindowIcon();
 
         async Task InitialNavigate(IServiceProvider services, INavigator navigator)
         {
+            // The navigation scope, now that there is one - a narrower provider than the host's,
+            // and the one the pages should resolve from once navigation is under way.
             Services = services;
 
             // Run (and narrate) the silent path a production app should use at startup.
@@ -123,9 +130,37 @@ public partial class App : Application
             }
         }
 
+        // Build the host before navigation starts: Uno.Extensions navigates to the default route
+        // ("Main") before it calls initialNavigate, so a page constructor runs before the callback
+        // below could publish the provider. Pages resolve AuthFlowService in their constructor, so
+        // Services has to be set by then - otherwise that first page fails to construct.
+        var host = builder.Build();
+        Services = host.Services;
+
         Host = await MainWindow.InitializeNavigationAsync(
-            () => Task.FromResult(builder.Build()),
+            () => Task.FromResult(host),
             initialNavigate: InitialNavigate);
+    }
+
+    /// <summary>
+    /// Appends <c>id_token_hint</c> to the end-session URI, taking the id_token out of the token
+    /// cache. The Web section maps <c>AccessTokenKey</c> to <c>id_token</c>, so the value cached
+    /// under the standard access-token key is the id_token this flow issues.
+    /// </summary>
+    private static string WithIdTokenHint(string? logoutStartUri, IDictionary<string, string>? tokens)
+    {
+        if (string.IsNullOrWhiteSpace(logoutStartUri))
+        {
+            return string.Empty;
+        }
+
+        var idToken = tokens?.TryGetValue(Uno.Extensions.Authentication.TokenCacheExtensions.AccessTokenKey, out var cached) == true
+            ? cached
+            : null;
+
+        return string.IsNullOrWhiteSpace(idToken)
+            ? logoutStartUri
+            : $"{logoutStartUri}&id_token_hint={Uri.EscapeDataString(idToken)}";
     }
 
     private static void RegisterRoutes(IViewRegistry views, IRouteRegistry routes)

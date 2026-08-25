@@ -57,9 +57,14 @@
                       VerticalScrollBarVisibility="Disabled"
                       VerticalScrollMode="Disabled">
           <StackPanel Orientation="Horizontal" Spacing="8">
-<!-- Clears the cached tokens only; the identity provider's browser session survives. -->
+<!-- The end-session round trip: signs out of the identity provider's browser session too,
+                 so the next sign-in prompts for credentials. -->
             <Button Content="Logout"
                     Command="{Binding Logout}" />
+<!-- Clears the cached tokens only; the identity provider's browser session survives, so the
+                 next sign-in completes silently. Here to make the difference visible. -->
+            <Button Content="Logout (local only)"
+                    Command="{Binding LogoutLocally}" />
           </StackPanel>
         </ScrollViewer>
 

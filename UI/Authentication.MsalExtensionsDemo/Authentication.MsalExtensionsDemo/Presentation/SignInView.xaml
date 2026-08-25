@@ -120,11 +120,11 @@
                              Style="{StaticResource CodeTextStyle}"
                              Foreground="{ThemeResource TextFillColorTertiaryBrush}" />
                   <StackPanel Grid.Column="2" Spacing="3">
-                    <TextBlock Text="{Binding Title}"
+                    <TextBlock Text="{Binding DisplayTitle}"
                                Style="{StaticResource BodyStrongTextBlockStyle}"
                                Foreground="{Binding Kind, Converter={StaticResource FlowStepKindToBrush}}"
                                TextWrapping="Wrap" />
-                    <TextBlock Text="{Binding Detail}"
+                    <TextBlock Text="{Binding DisplayDetail}"
                                Style="{StaticResource CodeTextStyle}"
                                Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                                Visibility="{Binding HasDetail, Converter={StaticResource BoolToVisibility}}" />

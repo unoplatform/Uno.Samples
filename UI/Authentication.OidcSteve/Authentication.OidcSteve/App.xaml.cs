@@ -108,9 +108,6 @@ public partial class App : Application
             );
         MainWindow = builder.Window;
 
-#if DEBUG
-        MainWindow.UseStudio();
-#endif
         MainWindow.SetWindowIcon();
 
         async Task InitialNavigate(IServiceProvider services, INavigator navigator)

@@ -11,6 +11,7 @@ namespace Authentication.MsalExtensionsDemo.Presentation;
 public sealed class GraphViewModel : ObservableObject
 {
     private readonly MsalFlowService _flow;
+    private readonly SecretRedactor _redactor;
 
     private bool _isBusy;
     private string _status = "Not called yet.";
@@ -18,15 +19,23 @@ public sealed class GraphViewModel : ObservableObject
     private string _rawJson = "";
     private bool _hasResponse;
 
-    public GraphViewModel(MsalFlowService flow)
+    public GraphViewModel(MsalFlowService flow, SecretRedactor redactor)
     {
         _flow = flow;
+        _redactor = redactor;
 
         _flow.StateChanged += (_, _) =>
         {
             Raise(nameof(CanCall));
             Raise(nameof(SignInHint));
             Raise(nameof(NeedsSignIn));
+        };
+
+        _redactor.Changed += (_, _) =>
+        {
+            Raise(nameof(Status));
+            Raise(nameof(Profile));
+            Raise(nameof(RawJson));
         };
     }
 
@@ -50,19 +59,24 @@ public sealed class GraphViewModel : ObservableObject
 
     public string Status
     {
-        get => _status;
+        get => _redactor.Apply(_status) ?? _status;
         private set => Set(ref _status, value);
     }
 
     public string Profile
     {
-        get => _profile;
+        get => _redactor.Apply(_profile) ?? _profile;
         private set => Set(ref _profile, value);
     }
 
+    /// <summary>
+    /// The response body. In recording mode every string value is replaced rather than only the
+    /// fields the app parsed, so a tenant that returns more of the user's profile than this
+    /// sample reads cannot leak through.
+    /// </summary>
     public string RawJson
     {
-        get => _rawJson;
+        get => _redactor.ApplyToJson(_rawJson);
         private set => Set(ref _rawJson, value);
     }
 
@@ -86,6 +100,13 @@ public sealed class GraphViewModel : ObservableObject
         try
         {
             var result = await GraphClient.GetMeAsync(token);
+
+            // Before anything is shown: whatever came back identifies a real person, so register
+            // it and it stays hidden everywhere it is echoed, including the flow log.
+            _redactor.Remember(result.DisplayName, "name");
+            _redactor.Remember(result.UserPrincipalName, "account");
+            _redactor.Remember(result.Mail, "address");
+            _redactor.Remember(result.JobTitle, "job title");
 
             HasResponse = true;
             RawJson = result.Body;

@@ -11,16 +11,22 @@ public sealed class SignInViewModel : ObservableObject
 {
     private readonly MsalFlowService _flow;
     private readonly IDispatcher _dispatcher;
+    private readonly SecretRedactor _redactor;
 
     private bool _isBusy;
     private string _tokensSummary = "";
 
-    public SignInViewModel(MsalFlowService flow, IDispatcher dispatcher)
+    public SignInViewModel(MsalFlowService flow, IDispatcher dispatcher, SecretRedactor redactor)
     {
         _flow = flow;
         _dispatcher = dispatcher;
+        _redactor = redactor;
 
         _flow.StateChanged += (_, _) => RaiseResultProperties();
+
+        // Recording mode hides identifiers at display time, so every property that can carry one
+        // has to be re-read when it is switched.
+        _redactor.Changed += (_, _) => RaiseRedactedProperties();
     }
 
     public AuthFlowLog Log => _flow.Log;
@@ -41,15 +47,15 @@ public sealed class SignInViewModel : ObservableObject
 
     public string PlatformName => PlatformSupport.PlatformName;
 
-    public string RedirectUri => _flow.RedirectUri;
+    public string RedirectUri => _redactor.Apply(_flow.RedirectUri) ?? _flow.RedirectUri;
 
     public string RedirectUriSource => PlatformSupport.RedirectUriSource;
 
-    public string ClientIdDisplay => _flow.IsConfigured
+    public string ClientIdDisplay => Redacted(_flow.IsConfigured
         ? _flow.ClientId!
-        : $"{(string.IsNullOrEmpty(_flow.ClientId) ? "(empty)" : _flow.ClientId)}  (not configured)";
+        : $"{(string.IsNullOrEmpty(_flow.ClientId) ? "(empty)" : _flow.ClientId)}  (not configured)");
 
-    public string TenantDisplay => string.IsNullOrEmpty(_flow.TenantId) ? "(not set)" : _flow.TenantId!;
+    public string TenantDisplay => Redacted(string.IsNullOrEmpty(_flow.TenantId) ? "(not set)" : _flow.TenantId!);
 
     public string ScopesDisplay => _flow.Scopes.Length == 0
         ? "(none configured)"
@@ -81,7 +87,7 @@ public sealed class SignInViewModel : ObservableObject
 
     public string TokensSummary
     {
-        get => _tokensSummary;
+        get => Redacted(_tokensSummary);
         private set => Set(ref _tokensSummary, value);
     }
 
@@ -132,4 +138,15 @@ public sealed class SignInViewModel : ObservableObject
         Raise(nameof(StatusHeadline));
         Raise(nameof(ResultDetail));
     }
+
+    private void RaiseRedactedProperties()
+    {
+        Raise(nameof(ClientIdDisplay));
+        Raise(nameof(TenantDisplay));
+        Raise(nameof(RedirectUri));
+        Raise(nameof(ResultDetail));
+        Raise(nameof(TokensSummary));
+    }
+
+    private string Redacted(string value) => _redactor.Apply(value) ?? value;
 }

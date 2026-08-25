@@ -39,9 +39,22 @@
 		<key>ITSAppUsesNonExemptEncryption</key>
 		<false/>
 		-->
-		<key>CFBundleURLSchemes</key>
+		<!--
+		The custom scheme the sign-in redirect comes back on. It must sit inside CFBundleURLTypes:
+		a bare CFBundleURLSchemes key at the root is ignored, iOS routes nothing to the app, and
+		WebAuthenticationBroker.GetCurrentApplicationCallbackUri() - which is what fills the
+		{RedirectUri} placeholder in appsettings.json - finds no scheme to derive a callback from.
+		-->
+		<key>CFBundleURLTypes</key>
 		<array>
-			<string>web-steve</string>
+			<dict>
+				<key>CFBundleURLName</key>
+				<string>com.companyname.authentication-websteve.auth</string>
+				<key>CFBundleURLSchemes</key>
+				<array>
+					<string>web-steve</string>
+				</array>
+			</dict>
 		</array>
 	</dict>
 </plist>

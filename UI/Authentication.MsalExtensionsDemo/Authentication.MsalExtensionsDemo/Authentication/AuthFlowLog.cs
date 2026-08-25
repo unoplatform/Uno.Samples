@@ -1,4 +1,6 @@
 using System.Collections.ObjectModel;
+using System.ComponentModel;
+using Authentication.MsalExtensionsDemo.Common;
 using Microsoft.UI.Dispatching;
 
 namespace Authentication.MsalExtensionsDemo.Authentication;
@@ -27,14 +29,25 @@ public enum FlowStepKind
 /// <summary>
 /// A single entry in the authentication flow log.
 /// </summary>
-public sealed class FlowStep
+/// <remarks>
+/// The entry keeps what was actually logged and exposes it through
+/// <see cref="DisplayTitle"/> / <see cref="DisplayDetail"/>, which run it past the
+/// <see cref="SecretRedactor"/> on the way to the screen. That is what lets recording mode be
+/// switched on mid-demo and still cover the steps already on screen.
+/// </remarks>
+public sealed class FlowStep : INotifyPropertyChanged
 {
-    public FlowStep(FlowStepKind kind, string title, string? detail)
+    private readonly SecretRedactor _redactor;
+
+    public FlowStep(FlowStepKind kind, string title, string? detail, SecretRedactor redactor)
     {
         Kind = kind;
         Title = title;
         Detail = detail;
+        _redactor = redactor;
     }
+
+    public event PropertyChangedEventHandler? PropertyChanged;
 
     public FlowStepKind Kind { get; }
 
@@ -42,7 +55,18 @@ public sealed class FlowStep
 
     public string? Detail { get; }
 
+    public string DisplayTitle => _redactor.Apply(Title) ?? Title;
+
+    public string? DisplayDetail => _redactor.Apply(Detail);
+
     public bool HasDetail => !string.IsNullOrWhiteSpace(Detail);
+
+    /// <summary>Re-reads the display properties, after redaction was turned on or off.</summary>
+    internal void RefreshDisplay()
+    {
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(DisplayTitle)));
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(DisplayDetail)));
+    }
 
     public DateTimeOffset Timestamp { get; } = DateTimeOffset.Now;
 
@@ -65,7 +89,21 @@ public sealed class FlowStep
 /// </summary>
 public sealed class AuthFlowLog : ObservableCollection<FlowStep>
 {
+    private readonly SecretRedactor _redactor;
+
     private DispatcherQueue? _dispatcher;
+
+    public AuthFlowLog(SecretRedactor redactor)
+    {
+        _redactor = redactor;
+        _redactor.Changed += (_, _) =>
+        {
+            foreach (var step in this)
+            {
+                step.RefreshDisplay();
+            }
+        };
+    }
 
     /// <summary>
     /// Lets the log marshal additions onto the UI thread. MSAL continuations normally resume on
@@ -86,7 +124,7 @@ public sealed class AuthFlowLog : ObservableCollection<FlowStep>
 
     private void Append(FlowStepKind kind, string title, string? detail)
     {
-        var step = new FlowStep(kind, title, detail);
+        var step = new FlowStep(kind, title, detail, _redactor);
 
         if (_dispatcher is { } dispatcher && !dispatcher.HasThreadAccess)
         {

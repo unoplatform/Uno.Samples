@@ -1,4 +1,5 @@
 using Authentication.MsalExtensionsDemo.Authentication;
+using Authentication.MsalExtensionsDemo.Common;
 
 namespace Authentication.MsalExtensionsDemo.Presentation;
 
@@ -9,12 +10,17 @@ namespace Authentication.MsalExtensionsDemo.Presentation;
 /// </summary>
 public sealed class MainModel
 {
-    public MainModel(MsalFlowService flow, IDispatcher dispatcher)
+    public MainModel(MsalFlowService flow, IDispatcher dispatcher, SecretRedactor redaction)
     {
-        SignIn = new SignInViewModel(flow, dispatcher);
-        Graph = new GraphViewModel(flow);
-        Setup = new PlatformSetupViewModel(flow);
+        Redaction = redaction;
+
+        SignIn = new SignInViewModel(flow, dispatcher, redaction);
+        Graph = new GraphViewModel(flow, redaction);
+        Setup = new PlatformSetupViewModel(flow, redaction);
     }
+
+    /// <summary>Recording mode, toggled from the header and shared by every section.</summary>
+    public SecretRedactor Redaction { get; }
 
     public SignInViewModel SignIn { get; }
 

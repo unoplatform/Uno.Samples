@@ -1,5 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 using Authentication.MsalExtensionsDemo.Authentication;
+using Authentication.MsalExtensionsDemo.Common;
 using Uno.Resizetizer;
 
 namespace Authentication.MsalExtensionsDemo;
@@ -77,6 +78,10 @@ public partial class App : Application
                 )
                 .ConfigureServices((context, services) =>
                 {
+                    // Hides identifiers on screen while a demo is being recorded. A singleton, so
+                    // the switch in the header covers every section and the flow log at once.
+                    services.AddSingleton<SecretRedactor>();
+
                     // Narrates every IAuthenticationService call into a flow log shown in the UI.
                     // A singleton so the log and sign-in state survive switching sections.
                     services.AddSingleton<MsalFlowService>();

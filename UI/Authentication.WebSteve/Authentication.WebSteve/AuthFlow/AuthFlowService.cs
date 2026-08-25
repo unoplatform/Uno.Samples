@@ -219,37 +219,70 @@ public sealed class AuthFlowService
     }
 
     /// <summary>
-    /// Full sign-out: the provider opens the configured LogoutStartUri in the browser surface,
-    /// then clears the cached tokens.
+    /// Full sign-out: the provider opens LogoutStartUri - the identity provider's end-session
+    /// endpoint - in the same browser surface the sign-in used, so the cookie that keeps the
+    /// provider's own session alive is in scope and gets cleared. The cached tokens go with it.
     /// </summary>
+    /// <remarks>
+    /// The local cache is cleared whatever the round trip does. Getting control back depends on
+    /// the provider honouring post_logout_redirect_uri, which it only does for a redirect the
+    /// client has registered; when it does not, the browser stops on "you are now logged out" and
+    /// the user dismisses the sheet. The provider reports that as a failed logout - but the
+    /// session is gone by then, and tokens for a dead session are worse than no tokens at all.
+    /// </remarks>
     public async Task<bool> SignOutEverywhereAsync(IDispatcher? dispatcher, CancellationToken ct = default)
     {
         Log.Call(
-            "IAuthenticationService.LogoutAsync()",
-            "The provider opens LogoutStartUri in the browser surface; when the redirect to "
-            + "LogoutCallbackUri completes, the ITokenCache is cleared. Backing out keeps the session.");
+            "IAuthenticationService.LogoutAsync(dispatcher)",
+            $"""
+            The provider opens LogoutStartUri in {PlatformSupport.SignInSurface}, with
+            id_token_hint naming the session to end and post_logout_redirect_uri pointing back at
+            the app. This is what signs the browser out - a local clear leaves the provider's
+            session alone, which is why the next sign-in then completes without a prompt.
+            """);
+
+        var loggedOut = false;
 
         try
         {
-            var loggedOut = await _auth.LogoutAsync(dispatcher, ct);
+            loggedOut = await _auth.LogoutAsync(dispatcher, ct);
 
             if (loggedOut)
             {
-                Log.Success("Signed out", "The logout flow completed and the token cache was cleared.");
+                Log.Success("Signed out", "The end-session round trip completed and the token cache was cleared.");
             }
             else
             {
-                Log.Warning("Sign-out did not complete", "The logout flow was cancelled or failed; the session was kept.");
+                Log.Warning(
+                    "Sign-out did not round-trip",
+                    "The end-session page did not redirect back - the browser session is signed "
+                    + "out, but the provider could not confirm it. Clearing the tokens anyway.");
             }
-
-            Publish(!loggedOut && IsSignedIn);
-            return loggedOut;
+        }
+        catch (OperationCanceledException)
+        {
+            Log.Warning(
+                "Sign-out dismissed",
+                "The browser was closed before the end-session redirect returned. Clearing the "
+                + "tokens anyway.");
         }
         catch (Exception ex)
         {
             LogException("Sign-out failed", ex);
-            return false;
         }
+        finally
+        {
+            if (!loggedOut)
+            {
+                // CancellationToken.None deliberately: an already-cancelled token would make this
+                // cleanup the no-op it exists to prevent.
+                await _tokens.ClearAsync(CancellationToken.None);
+            }
+
+            Publish(false);
+        }
+
+        return loggedOut;
     }
 
     /// <summary>What the app can see of the token cache, for the TOKEN card in the UI.</summary>
