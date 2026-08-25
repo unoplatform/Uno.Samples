@@ -1,19 +1,16 @@
 using Android.App;
-using Android.Content;
+using Android.Widget;
+using Android.OS;
 using Android.Content.PM;
+using Android.Views;
 
 namespace Authentication.OidcExtensionsDemo.Droid;
 
-/// <summary>
-/// Receives the identity provider's redirect on Android: Uno's WebAuthenticationBroker derives
-/// the app's callback URI (oidc-ext-demo:///) from this activity's intent filter, and the custom
-/// tab returns here when the provider redirects to it.
-/// </summary>
-[Activity(NoHistory = true, Exported = true, LaunchMode = LaunchMode.SingleTop)]
+[Activity(NoHistory = true, LaunchMode = LaunchMode.SingleTop, Exported = true)]
 [IntentFilter(
-    new[] { Intent.ActionView },
-    Categories = new[] { Intent.CategoryDefault, Intent.CategoryBrowsable },
+    new[] { Android.Content.Intent.ActionView },
+    Categories = new[] { Android.Content.Intent.CategoryDefault, Android.Content.Intent.CategoryBrowsable },
     DataScheme = "oidc-ext-demo")]
-public partial class WebAuthenticationBrokerActivity : Uno.AuthenticationBroker.WebAuthenticationBrokerActivityBase
+public class WebAuthenticationBrokerActivity : Uno.AuthenticationBroker.WebAuthenticationBrokerActivityBase
 {
 }

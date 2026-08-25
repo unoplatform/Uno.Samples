@@ -1,4 +1,4 @@
-using Authentication.WebExtensionsDemo.Authentication;
+using Authentication.WebExtensionsDemo.AuthFlow;
 using Microsoft.UI.Xaml.Data;
 
 namespace Authentication.WebExtensionsDemo.Common;

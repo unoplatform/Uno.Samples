@@ -7,5 +7,6 @@ global using Microsoft.Extensions.Options;
 global using Authentication.WebExtensionsDemo.Models;
 global using Authentication.WebExtensionsDemo.Presentation;
 global using Authentication.WebExtensionsDemo.Services.Endpoints;
+global using Uno.Extensions.Http.Kiota;
 global using ApplicationExecutionState = Windows.ApplicationModel.Activation.ApplicationExecutionState;
 [assembly: Uno.Extensions.Reactive.Config.BindableGenerationTool(3)]

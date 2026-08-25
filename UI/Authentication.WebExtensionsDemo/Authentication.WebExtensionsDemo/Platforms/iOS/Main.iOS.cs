@@ -10,8 +10,6 @@ public class EntryPoint
     {
         var host = UnoPlatformHostBuilder.Create()
             .App(() => new App())
-            // No custom UIApplicationDelegate needed: ASWebAuthenticationSession hands the
-            // web-ext-demo:// callback straight back to Uno's WebAuthenticationBroker.
             .UseAppleUIKit()
             .Build();
 

@@ -1,15 +1,18 @@
-<Page x:Class="Authentication.WebExtensionsDemo.Presentation.MainPage"
+<Page x:Class="Authentication.WebExtensionsDemo.Presentation.LoginPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:local="using:Authentication.WebExtensionsDemo.Presentation"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:uen="using:Uno.Extensions.Navigation.UI"
       xmlns:utu="using:Uno.Toolkit.UI"
+      mc:Ignorable="d"
       NavigationCacheMode="Required"
       Background="{ThemeResource BackgroundBrush}">
 
   <Grid utu:SafeArea.Insets="VisibleBounds" RowDefinitions="Auto,*">
 
-    <!-- Header mirrors the Login page so the two feel like one app. -->
+    <!-- Header: what this app is, and which head it is running on. -->
     <Border Grid.Row="0"
             Padding="16,12"
             Background="{ThemeResource LayerFillColorDefaultBrush}"
@@ -17,9 +20,9 @@
             BorderThickness="0,0,0,1">
       <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12">
         <StackPanel VerticalAlignment="Center">
-          <TextBlock Text="Signed in"
+          <TextBlock Text="Web auth via Uno.Extensions"
                      Style="{StaticResource SubtitleTextBlockStyle}" />
-          <TextBlock Text="Tokens live in ITokenCache, stored by the Web provider from the redirect"
+          <TextBlock Text="AddWeb, configured entirely from the Web section of appsettings"
                      Style="{StaticResource CaptionTextBlockStyle}"
                      Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
         </StackPanel>
@@ -43,32 +46,42 @@
                   Padding="16"
                   Spacing="16">
 
-        <!-- What the app can see of the token cache. -->
+        <!-- What the provider was handed; the redirect URI is derived per platform at runtime. -->
         <Border Style="{StaticResource CardStyle}">
-          <StackPanel Spacing="10">
-            <TextBlock Text="TOKEN" Style="{StaticResource LabelTextStyle}" />
-            <TextBlock x:Name="TokensSummaryText" Style="{StaticResource CodeTextStyle}" />
+          <StackPanel Spacing="14">
+            <TextBlock Text="WEB PROVIDER CONFIGURATION (appsettings, section Web)"
+                       Style="{StaticResource LabelTextStyle}" />
+
+            <StackPanel Spacing="2">
+              <TextBlock Text="Login page (LoginStartUri)" Style="{StaticResource LabelTextStyle}" />
+              <TextBlock x:Name="LoginStartText" Style="{StaticResource CodeTextStyle}" />
+            </StackPanel>
+
+            <StackPanel Spacing="2">
+              <TextBlock Text="Token keys on the redirect" Style="{StaticResource LabelTextStyle}" />
+              <TextBlock x:Name="TokenKeysText" Style="{StaticResource CodeTextStyle}" />
+            </StackPanel>
+
+            <StackPanel Spacing="2">
+              <TextBlock Text="Callback (LoginCallbackUri)" Style="{StaticResource LabelTextStyle}" />
+              <TextBlock x:Name="RedirectText"
+                         Style="{StaticResource CodeTextStyle}"
+                         FontSize="13"
+                         Foreground="{StaticResource FlowCallBrush}" />
+              <TextBlock x:Name="SurfaceText"
+                         Style="{StaticResource CodeTextStyle}"
+                         Margin="0,4,0,0"
+                         Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
+            </StackPanel>
           </StackPanel>
         </Border>
 
-        <!-- Actions. Horizontally scrollable so the row survives narrow phone screens. -->
-        <ScrollViewer HorizontalScrollBarVisibility="Auto"
-                      HorizontalScrollMode="Auto"
-                      VerticalScrollBarVisibility="Disabled"
-                      VerticalScrollMode="Disabled">
-          <StackPanel Orientation="Horizontal" Spacing="8">
-<!-- The end-session round trip: signs out of the identity provider's browser session too,
-                 so the next sign-in prompts for credentials. -->
-            <Button Content="Logout"
-                    Command="{Binding Logout}" />
-<!-- Clears the cached tokens only; the identity provider's browser session survives, so the
-                 next sign-in completes silently. Here to make the difference visible. -->
-            <Button Content="Logout (local only)"
-                    Command="{Binding LogoutLocally}" />
-          </StackPanel>
-        </ScrollViewer>
+        <Button Content="Sign in"
+                Command="{Binding Login}"
+                Style="{StaticResource AccentButtonStyle}"
+                HorizontalAlignment="Center" />
 
-<!-- Every authentication call, in order, with the reason it was made. -->
+        <!-- Every authentication call, in order, with the reason it was made. -->
         <Border Style="{StaticResource CardStyle}">
           <StackPanel Spacing="12">
             <TextBlock Text="FLOW LOG" Style="{StaticResource LabelTextStyle}" />

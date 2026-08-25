@@ -13,8 +13,6 @@
       </ResourceDictionary.MergedDictionaries>
 
       <common:BoolToVisibilityConverter x:Key="BoolToVisibility" />
-      <common:BoolToVisibilityConverter x:Key="NotBoolToVisibility"
-                                        Invert="True" />
       <common:FlowStepKindToBrushConverter x:Key="FlowStepKindToBrush" />
 
       <!--
@@ -52,30 +50,28 @@
         <Setter Property="Foreground" Value="{ThemeResource TextFillColorSecondaryBrush}" />
       </Style>
 
-      <!-- One setup requirement, used by the Platform setup page for both lists. -->
-      <DataTemplate x:Key="SetupStepTemplate">
-        <Grid Margin="0,0,0,14"
-              ColumnDefinitions="72,*"
-              ColumnSpacing="10">
-          <Border Padding="6,2"
-                  VerticalAlignment="Top"
-                  Background="{ThemeResource ControlAltFillColorSecondaryBrush}"
-                  BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-                  BorderThickness="1"
-                  CornerRadius="4">
-            <TextBlock Text="{Binding AreaLabel}"
-                       HorizontalAlignment="Center"
-                       FontSize="9"
-                       FontWeight="SemiBold"
-                       Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
-          </Border>
-          <StackPanel Grid.Column="1" Spacing="3">
+      <!-- One entry of the authentication flow log, shared by the Login and Main pages. -->
+      <DataTemplate x:Key="FlowStepTemplate">
+        <Grid Margin="0,0,0,12"
+              ColumnDefinitions="16,Auto,*"
+              ColumnSpacing="8">
+          <TextBlock Grid.Column="0"
+                     Text="{Binding Glyph}"
+                     FontWeight="Bold"
+                     Foreground="{Binding Kind, Converter={StaticResource FlowStepKindToBrush}}" />
+          <TextBlock Grid.Column="1"
+                     Text="{Binding Time}"
+                     Style="{StaticResource CodeTextStyle}"
+                     Foreground="{ThemeResource TextFillColorTertiaryBrush}" />
+          <StackPanel Grid.Column="2" Spacing="3">
             <TextBlock Text="{Binding Title}"
                        Style="{StaticResource BodyStrongTextBlockStyle}"
+                       Foreground="{Binding Kind, Converter={StaticResource FlowStepKindToBrush}}"
                        TextWrapping="Wrap" />
             <TextBlock Text="{Binding Detail}"
                        Style="{StaticResource CodeTextStyle}"
-                       Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
+                       Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                       Visibility="{Binding HasDetail, Converter={StaticResource BoolToVisibility}}" />
           </StackPanel>
         </Grid>
       </DataTemplate>

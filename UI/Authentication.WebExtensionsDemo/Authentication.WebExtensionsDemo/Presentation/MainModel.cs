@@ -1,18 +1,52 @@
-using Authentication.WebExtensionsDemo.Authentication;
+using Authentication.WebExtensionsDemo.AuthFlow;
 
 namespace Authentication.WebExtensionsDemo.Presentation;
 
-/// <summary>
-/// Shell view model for <see cref="MainPage"/>. Resolved by Uno.Extensions Navigation, which
-/// injects the shared <see cref="WebFlowService"/> singleton and the window's
-/// <see cref="IDispatcher"/>.
-/// </summary>
-public sealed class MainModel
+public partial record MainModel
 {
-    public MainModel(WebFlowService flow, IDispatcher dispatcher)
+    public MainModel(
+        IStringLocalizer localizer,
+        IOptions<AppConfig> appInfo,
+        IDispatcher dispatcher,
+        INavigator navigator,
+        AuthFlowService flow)
     {
-        SignIn = new SignInViewModel(flow, dispatcher);
+        _dispatcher = dispatcher;
+        _navigator = navigator;
+        _flow = flow;
+        Title = "Signed in";
+        Title += $" - {localizer["ApplicationName"]}";
+        Title += $" - {appInfo?.Value?.Environment}";
     }
 
-    public SignInViewModel SignIn { get; }
+    public string? Title { get; }
+
+    /// <summary>
+    /// Full sign-out: the end-session round trip through the browser, which clears the identity
+    /// provider's own session as well as the cached tokens. The next sign-in prompts for
+    /// credentials again.
+    /// </summary>
+    public async ValueTask Logout(CancellationToken token)
+    {
+        await _flow.SignOutEverywhereAsync(_dispatcher, token);
+
+        await _navigator.NavigateViewModelAsync<LoginModel>(this, qualifier: Qualifiers.ClearBackStack);
+    }
+
+    /// <summary>
+    /// Local sign-out only: clears the cached tokens without the browser end-session round trip.
+    /// The identity provider's browser session survives, so the next interactive sign-in
+    /// completes without prompting for credentials - the contrast that makes the full sign-out
+    /// above worth its extra round trip.
+    /// </summary>
+    public async ValueTask LogoutLocally(CancellationToken token)
+    {
+        await _flow.SignOutLocallyAsync(token);
+
+        await _navigator.NavigateViewModelAsync<LoginModel>(this, qualifier: Qualifiers.ClearBackStack);
+    }
+
+    private readonly IDispatcher _dispatcher;
+    private readonly INavigator _navigator;
+    private readonly AuthFlowService _flow;
 }

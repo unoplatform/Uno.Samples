@@ -1,4 +1,4 @@
-namespace Authentication.WebExtensionsDemo.Authentication;
+namespace Authentication.WebExtensionsDemo.AuthFlow;
 
 public static partial class PlatformSupport
 {

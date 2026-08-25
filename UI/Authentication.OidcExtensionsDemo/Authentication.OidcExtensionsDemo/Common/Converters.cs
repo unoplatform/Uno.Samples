@@ -1,4 +1,4 @@
-using Authentication.OidcExtensionsDemo.Authentication;
+using Authentication.OidcExtensionsDemo.AuthFlow;
 using Microsoft.UI.Xaml.Data;
 
 namespace Authentication.OidcExtensionsDemo.Common;

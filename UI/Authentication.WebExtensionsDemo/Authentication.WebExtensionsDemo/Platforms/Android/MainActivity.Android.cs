@@ -3,7 +3,6 @@ using Android.Content.PM;
 using Android.OS;
 using Android.Views;
 using Android.Widget;
-using Microsoft.Identity.Client;
 
 namespace Authentication.WebExtensionsDemo.Droid;
 
@@ -22,9 +21,4 @@ public class MainActivity : Microsoft.UI.Xaml.ApplicationActivity
         base.OnCreate(savedInstanceState);
     }
 
-    protected override void OnActivityResult(int requestCode, Result resultCode, Android.Content.Intent? data)
-    {
-        base.OnActivityResult(requestCode, resultCode, data);
-        AuthenticationContinuationHelper.SetAuthenticationContinuationEventArgs(requestCode, resultCode, data);
-    }
 }

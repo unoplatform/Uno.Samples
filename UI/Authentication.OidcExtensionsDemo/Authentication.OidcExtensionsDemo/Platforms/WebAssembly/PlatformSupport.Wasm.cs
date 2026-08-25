@@ -1,4 +1,4 @@
-namespace Authentication.OidcExtensionsDemo.Authentication;
+namespace Authentication.OidcExtensionsDemo.AuthFlow;
 
 public static partial class PlatformSupport
 {

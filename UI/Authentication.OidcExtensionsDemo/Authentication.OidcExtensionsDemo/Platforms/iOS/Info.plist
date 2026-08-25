@@ -40,10 +40,11 @@
 		<false/>
 		-->
 		<!--
-			The custom URL scheme the identity provider redirects back to. Uno's
-			WebAuthenticationBroker derives the app's callback URI from the first scheme declared
-			here (oidc-ext-demo:///), and ASWebAuthenticationSession returns through it. Without
-			this entry the browser closes and nothing happens.
+		The custom scheme the sign-in redirect comes back on. It must sit inside CFBundleURLTypes:
+		a bare CFBundleURLSchemes key at the root is ignored, iOS routes nothing to the app, and
+		WebAuthenticationBroker.GetCurrentApplicationCallbackUri() - which is what
+		AutoRedirectUriFromWebAuthenticationBroker uses to build the redirect URI - finds no
+		scheme to derive a callback from and throws "No custom scheme found for this application".
 		-->
 		<key>CFBundleURLTypes</key>
 		<array>
