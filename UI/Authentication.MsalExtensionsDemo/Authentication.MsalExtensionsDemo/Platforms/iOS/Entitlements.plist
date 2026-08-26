@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+	<dict>
+		<!--
+			Required by MSAL.
+
+			MSAL keeps its token cache in the iOS keychain, under the access group
+			com.microsoft.adalcache unless told otherwise. An app whose entitlements do not grant
+			that group cannot write there, so the first token save fails and sign-in reports:
+
+				MsalClientException: missing_entitlements
+				The application does not have keychain access groups enabled in the
+				Entitlements.plist ... the keychain access group
+				'{TeamId}.com.microsoft.adalcache' is not enabled.
+
+			(On some MSAL versions the failure comes even earlier, as
+			cannot_access_publisher_keychain, when MSAL probes the keychain to work out the
+			publisher's Team ID while building the IPublicClientApplication.)
+
+			$(AppIdentifierPrefix) is substituted at build time with the Team ID from the
+			provisioning profile, so the group resolves to {TeamId}.com.microsoft.adalcache - the
+			value MSAL derives on its own, which is why no matching
+			.WithIosKeychainSecurityGroup(...) call is needed in code. Development provisioning
+			profiles carry keychain-access-groups {TeamId}.*, so this signs without any extra
+			capability; a distribution build needs Keychain Sharing enabled on the App ID.
+
+			Sharing this group is also what gives single sign-on between apps signed by the same
+			team that use it - the group is team-prefixed, so it never reaches another
+			publisher's apps. To keep the cache private to this app,
+			use $(AppIdentifierPrefix)$(CFBundleIdentifier) here and pass the same value to
+			MSAL from App.xaml.cs - the Uno.Extensions provider owns the
+			IPublicClientApplication, so the way in is the builder callback:
+
+				auth.AddMsal(
+				    window,
+				    configure: msal => msal.Builder(
+				        pca => pca.WithIosKeychainSecurityGroup("{BundleId}")),
+				    name: "MsalAuthentication")
+
+			The bundle's own group is listed first on purpose: once this entitlement exists, its
+			first entry becomes the default access group for every keychain item the app writes
+			without naming one, and listing com.microsoft.adalcache alone would quietly move
+			those into the shared group. Nothing else in this head writes to the keychain - on a
+			Skia head Uno.Extensions' key-value storage is ApplicationData, not
+			KeyChainKeyValueStorage - but a native iOS head does keep ITokenCache there, so this
+			ordering is the one to copy.
+
+			See https://aka.ms/msal-net-enable-keychain-groups
+		-->
+		<key>keychain-access-groups</key>
+		<array>
+			<string>$(AppIdentifierPrefix)$(CFBundleIdentifier)</string>
+			<string>$(AppIdentifierPrefix)com.microsoft.adalcache</string>
+		</array>
+	</dict>
+</plist>
