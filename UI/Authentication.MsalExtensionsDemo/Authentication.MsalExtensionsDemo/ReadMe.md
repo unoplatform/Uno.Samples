@@ -26,6 +26,9 @@ are directly comparable — this one is the "let the provider do it" version:
 
 ## Running it
 
+The full setup guide — every value to edit, per head, with the Entra ID registration and a
+troubleshooting table — is in [../README.md](../README.md). The short version:
+
 1. Register a public-client app in the [Microsoft Entra admin center](https://entra.microsoft.com):
    enable **Allow public client flows**, grant Microsoft Graph **User.Read**.
 2. Put the Application (client) ID and tenant in `appsettings.development.json`:
