@@ -4,7 +4,8 @@
       xmlns:maps="clr-namespace:Mapsui.UI.WinUI;assembly=Mapsui.UI.Uno.WinUI"
       xmlns:utu="using:Uno.Toolkit.UI"
       xmlns:mvux="using:Uno.Extensions.Reactive.UI"
-      Background="{ThemeResource DashboardPageBackgroundBrush}">
+      Background="{ThemeResource DashboardPageBackgroundBrush}"
+      ContactsSource="{Binding FilteredContacts}">
   <Page.Resources>
     <!--
       Custom ListView item template: replaces the default WinUI item chrome (the square
@@ -56,13 +57,6 @@
     </Style>
   </Page.Resources>
   <Grid Background="{ThemeResource DashboardPageBackgroundBrush}">
-    <!-- Hidden probe: bound to the model's filtered feed so the code-behind can rebuild the
-         (non-bindable) Mapsui layers whenever the filters change. -->
-    <ListView x:Name="ContactsProbe"
-              ItemsSource="{Binding FilteredContacts}"
-              Visibility="Collapsed"
-              IsHitTestVisible="False" />
-
     <Grid x:Name="DesktopRoot" Visibility="{utu:Responsive Narrow=Collapsed, Wide=Visible}">
       <Grid Padding="28,22,28,28"
         RowSpacing="18">
