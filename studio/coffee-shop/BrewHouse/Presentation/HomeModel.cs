@@ -22,18 +22,13 @@ public partial record HomeModel(ICartService Cart, INavigator Navigator)
         CatalogData.AllProducts.Where(p => p.IsFeatured).ToList();
     public IReadOnlyList<CategoryItem> Categories { get; } = CatalogData.Categories;
 
-    // Cart summary strip. A scalar feed projection (never None) so the strip's totals bind directly
-    // (e.g. {Binding Summary.SubtotalFormatted}) and update reactively as items change.
-    public IFeed<CartSummary> Summary => Cart.Cart
-        .AsFeed()
-        .Select(items => new CartSummary(items));
+    // Cart summary strip. The shared always-scalar summary feed off the cart state, so the strip's
+    // totals bind directly (e.g. {Binding Summary.SubtotalFormatted}) and update reactively.
+    public IFeed<CartSummary> Summary => Cart.Summary;
 
     // Whether the cart has anything in it — drives which branch (summary strip vs. empty-cup card)
-    // is visible, via a bool + BoolToVisibility converter in XAML. A scalar projection
-    // so it flips reliably even at zero items.
-    public IFeed<bool> CartHasItems => Cart.Cart
-        .AsFeed()
-        .Select(items => items.Sum(i => i.Quantity) > 0);
+    // is visible, via a bool + BoolToVisibility converter in XAML.
+    public IFeed<bool> CartHasItems => Cart.Summary.Select(summary => summary.HasItems);
 
     public async ValueTask AddToCart(ProductItem product, CancellationToken ct)
         => await Cart.AddToCartAsync(product, ct);

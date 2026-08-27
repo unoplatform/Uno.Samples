@@ -36,7 +36,6 @@ public partial record CartPageMockData
 
     public void Increment(CartItem item) { }
     public void Decrement(CartItem item) { }
-    public void RemoveItem(CartItem item) { }
     public void PlaceOrder() { }
     public void GoToMenu() { }
 }
