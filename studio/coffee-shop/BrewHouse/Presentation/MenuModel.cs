@@ -9,8 +9,6 @@ namespace BrewHouse.Presentation;
 // (no Clear()+Add(); the derivation rebuilds the immutable list each time).
 public partial record MenuModel(ICartService Cart, INavigator Navigator)
 {
-    public string PageTitle => "Our Menu";
-
     // Two-way bound to the search box.
     public IState<string> SearchText => State.Value(this, () => string.Empty);
 
@@ -23,21 +21,24 @@ public partial record MenuModel(ICartService Cart, INavigator Navigator)
             .Select(c => c with { IsSelected = c.Id == active })
             .ToImmutableList());
 
-    // The filtered product list: category + text search combined via Feed.Combine, so it recomputes
-    // whenever either state changes — no Clear()+Add(), the whole immutable list is rebuilt and
-    // re-projected. Exposed as a list feed so the grid binds its ItemsSource directly
-    // (keeping the page VM as the ItemsRepeater DataContext, so item templates reach the page
-    // commands via {utu:AncestorBinding}).
-    public IListFeed<ProductItem> FilteredProducts =>
-        Feed.Combine(CategoryId, SearchText)
-            .Select(criteria => (IImmutableList<ProductItem>)Filter(criteria.Item1, criteria.Item2))
-            .AsListFeed();
+    // One filtered feed that the grid and the empty state both derive from: category + text search
+    // combined via Feed.Combine, so it recomputes whenever either state changes — no Clear()+Add(),
+    // the whole immutable list is rebuilt and re-projected. Cached on first access so every derived
+    // feed shares the same instance and the filter query runs ONCE per change, not once per consumer.
+    private IFeed<IImmutableList<ProductItem>>? _filtered;
+    private IFeed<IImmutableList<ProductItem>> Filtered =>
+        _filtered ??= Feed.Combine(CategoryId, SearchText)
+            .Select(criteria => Filter(criteria.Item1, criteria.Item2));
+
+    // Exposed as a list feed so the grid binds its ItemsSource directly (keeping the page VM as the
+    // ItemsRepeater DataContext, so item templates reach the page commands via {utu:AncestorBinding}).
+    public IListFeed<ProductItem> FilteredProducts => Filtered.AsListFeed();
 
     // True when the current filter/search matches nothing — drives the "no results" empty state.
-    // A scalar feed projection (never None), so it flips reliably even at zero matches.
-    public IFeed<bool> HasNoResults =>
-        Feed.Combine(CategoryId, SearchText)
-            .Select(criteria => Filter(criteria.Item1, criteria.Item2).Count == 0);
+    // A scalar feed projection (never None), so it flips reliably even at zero matches. Deliberately
+    // a bool + converter rather than a FeedView NoneTemplate: the page's design-time DataContext is a
+    // plain mock, which cannot drive a FeedView, and the populated "Full Catalog" preview is the point.
+    public IFeed<bool> HasNoResults => Filtered.Select(products => products.Count == 0);
 
     private static IImmutableList<ProductItem> Filter(string categoryId, string? searchText)
     {

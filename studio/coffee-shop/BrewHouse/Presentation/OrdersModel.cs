@@ -11,7 +11,11 @@ public partial record OrdersModel(ICartService Cart)
     public IListState<OrderRecord> Orders => Cart.Orders;
 
     // True when there are no orders — drives the empty-state card. Scalar projection (never None)
-    // so it flips reliably even at zero orders.
+    // so it flips reliably even at zero orders. Note this is a first-run / empty-shop state rather
+    // than one the running app reaches: the order book is seeded and only ever appended to. It stays
+    // a bool + converter (not a FeedView NoneTemplate) because the page's design-time DataContext is
+    // a plain mock, which cannot drive a FeedView — and the "Orders — Empty" preview is what
+    // exercises this branch.
     public IFeed<bool> HasNoOrders => Cart.Orders
         .AsFeed()
         .Select(orders => orders.Count == 0);

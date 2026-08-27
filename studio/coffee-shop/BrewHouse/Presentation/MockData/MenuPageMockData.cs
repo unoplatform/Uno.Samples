@@ -19,8 +19,6 @@ public partial record MenuPageMockData
         HasNoResults = true,
     };
 
-    public string PageTitle => "Our Menu";
-
     // Plain settable strings so the AutoSuggestBox/search two-way binds in Hot Design.
     public string SearchText { get; set; } = string.Empty;
     public string CategoryId { get; set; } = "all";
