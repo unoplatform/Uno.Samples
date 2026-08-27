@@ -4,23 +4,6 @@
       xmlns:lvc="using:LiveChartsCore.SkiaSharpView.WinUI"
       xmlns:utu="using:Uno.Toolkit.UI"
       Background="{ThemeResource DashboardPageBackgroundBrush}">
-  <Page.Resources>
-    <!-- A "Top Open Leads" row, bound to the highest-value open deals in the shared dataset. -->
-    <DataTemplate x:Key="TopLeadTemplate">
-      <Border BorderBrush="{ThemeResource DashboardBorderBrush}" BorderThickness="0,0,0,1" Padding="0,0,0,10" Margin="0,0,0,10">
-        <Grid>
-          <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="Auto" />
-          </Grid.ColumnDefinitions>
-          <TextBlock Text="{Binding Company}" Style="{StaticResource DashboardBodyTextStyle}" />
-          <TextBlock Grid.Column="1" Text="{Binding AmountDisplay}"
-                     Style="{StaticResource DashboardBodyTextStyle}"
-                     Foreground="{ThemeResource DashboardAccentBrush}" />
-        </Grid>
-      </Border>
-    </DataTemplate>
-  </Page.Resources>
 
   <!--
     Single responsive tree: every element (and in particular every LiveCharts control) exists

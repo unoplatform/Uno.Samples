@@ -1,45 +1,8 @@
-﻿<Page x:Class="UnoCRM.Presentation.DashboardPage"
+<Page x:Class="UnoCRM.Presentation.DashboardPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:utu="using:Uno.Toolkit.UI"
       Background="{ThemeResource DashboardPageBackgroundBrush}">
-  <Page.Resources>
-    <!-- Recent-activity rows, bound to the model's Activities: each shows a title, a detail line
-         and a relative timestamp. -->
-    <DataTemplate x:Key="DesktopActivityTemplate">
-      <Border BorderBrush="{ThemeResource DashboardBorderBrush}" BorderThickness="0,0,0,1" Padding="0,14">
-        <Grid ColumnSpacing="12">
-          <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="Auto" />
-          </Grid.ColumnDefinitions>
-          <StackPanel Spacing="4">
-            <TextBlock Text="{Binding Title}" Style="{StaticResource DashboardBodyTextStyle}" />
-            <TextBlock Text="{Binding Detail}" Style="{StaticResource DashboardSubtleTextStyle}" />
-          </StackPanel>
-          <TextBlock Grid.Column="1" Text="{Binding TimeAgo}"
-                     Style="{StaticResource DashboardSubtleTextStyle}" FontSize="12" />
-        </Grid>
-      </Border>
-    </DataTemplate>
-
-    <DataTemplate x:Key="MobileActivityTemplate">
-      <Border BorderBrush="{ThemeResource DashboardBorderBrush}" BorderThickness="0,0,0,1" Padding="16,16">
-        <Grid ColumnSpacing="14">
-          <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="Auto" />
-          </Grid.ColumnDefinitions>
-          <StackPanel Spacing="4" VerticalAlignment="Center">
-            <TextBlock Text="{Binding Title}" Style="{StaticResource DashboardBodyTextStyle}" />
-            <TextBlock Text="{Binding Detail}" Style="{StaticResource DashboardSubtleTextStyle}" />
-          </StackPanel>
-          <TextBlock Grid.Column="1" Text="{Binding TimeAgo}"
-                     Style="{StaticResource DashboardSubtleTextStyle}" FontSize="12" VerticalAlignment="Center" />
-        </Grid>
-      </Border>
-    </DataTemplate>
-  </Page.Resources>
   <Grid Background="{ThemeResource DashboardPageBackgroundBrush}">
     <Grid x:Name="DesktopRoot" Visibility="{utu:Responsive Narrow=Collapsed, Wide=Visible}">
       <ScrollViewer VerticalScrollBarVisibility="Auto"

@@ -288,4 +288,53 @@
     </Setter>
   </Style>
 
+  <!--
+    Contact list item container: replaces the default WinUI item chrome (the square gray
+    hover/press rectangle) with a hover ring that exactly matches the contact card's rounded
+    shape and bottom margin. The ring sits above the card (hit-test transparent) and turns
+    accent on pointer-over / press.
+  -->
+  <Style x:Key="ContactListItemStyle" TargetType="ListViewItem">
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="Padding" Value="0" />
+    <Setter Property="Margin" Value="0" />
+    <Setter Property="MinHeight" Value="0" />
+    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="ListViewItem">
+          <Grid>
+            <VisualStateManager.VisualStateGroups>
+              <VisualStateGroup x:Name="CommonStates">
+                <VisualState x:Name="Normal" />
+                <VisualState x:Name="PointerOver">
+                  <VisualState.Setters>
+                    <Setter Target="HoverRing.BorderBrush" Value="{ThemeResource DashboardAccentBrush}" />
+                  </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Pressed">
+                  <VisualState.Setters>
+                    <Setter Target="HoverRing.BorderBrush" Value="{ThemeResource DashboardAccentBrush}" />
+                  </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Disabled" />
+              </VisualStateGroup>
+            </VisualStateManager.VisualStateGroups>
+            <ContentPresenter HorizontalAlignment="Stretch"
+                              HorizontalContentAlignment="Stretch"
+                              Content="{TemplateBinding Content}"
+                              ContentTemplate="{TemplateBinding ContentTemplate}"
+                              ContentTransitions="{TemplateBinding ContentTransitions}" />
+            <Border x:Name="HoverRing"
+                    Margin="0,0,0,10"
+                    CornerRadius="12"
+                    BorderThickness="1.5"
+                    BorderBrush="Transparent"
+                    IsHitTestVisible="False" />
+          </Grid>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
+
 </ResourceDictionary>

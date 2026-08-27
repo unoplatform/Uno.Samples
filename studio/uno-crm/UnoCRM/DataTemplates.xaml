@@ -1,0 +1,218 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:uen="using:Uno.Extensions.Navigation.UI"
+                    xmlns:controls="using:UnoCRM.Controls">
+
+  <!--
+    Every item/content template in the app, keyed and shared rather than declared inline in a
+    page's <Page.Resources>. Two reasons: a template defined here is a standalone design-time
+    surface (it can be previewed and edited on its own, instead of only as part of whichever page
+    happened to declare it), and a template that a preview inflates outside its page can still
+    resolve its {StaticResource}s — an inline page resource cannot.
+
+    Merged after Styles.xaml in App.xaml, so these templates consume that file's styles, tokens
+    and converters by key. Templates that depend on another key here are declared after it.
+  -->
+
+  <!-- ══════════ ContactsPage ══════════ -->
+
+  <!-- One contact, as a card: name + segment, company, then city + region. -->
+  <DataTemplate x:Key="DesktopContactCardTemplate">
+    <Border Style="{StaticResource DashboardKanbanCardStyle}"
+            Margin="0,0,0,10">
+      <StackPanel Spacing="6">
+        <Grid>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+          </Grid.ColumnDefinitions>
+          <TextBlock Text="{Binding Name}"
+                     Style="{StaticResource DashboardBodyTextStyle}" />
+          <TextBlock Grid.Column="1"
+                     Text="{Binding Segment}"
+                     Style="{StaticResource DashboardMicroTextStyle}" />
+        </Grid>
+        <TextBlock Text="{Binding Company}"
+                   Style="{StaticResource DashboardSubtleTextStyle}" />
+        <Grid>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+          </Grid.ColumnDefinitions>
+          <TextBlock Text="{Binding City}"
+                     Style="{StaticResource DashboardSubtleTextStyle}" />
+          <TextBlock Grid.Column="1"
+                     Text="{Binding Region}"
+                     Foreground="{ThemeResource DashboardAccentBrush}"
+                     FontSize="12" />
+        </Grid>
+      </StackPanel>
+    </Border>
+  </DataTemplate>
+
+  <!-- The desktop FeedView's populated state: the materialized feed value in a ListView. The item
+       container style is in Styles.xaml with the rest of the named styles. -->
+  <DataTemplate x:Key="DesktopContactListTemplate">
+    <ListView ItemsSource="{Binding Data}"
+              BorderThickness="0"
+              Background="Transparent"
+              SelectionMode="None"
+              ItemContainerStyle="{StaticResource ContactListItemStyle}"
+              ItemTemplate="{StaticResource DesktopContactCardTemplate}" />
+  </DataTemplate>
+
+  <!-- The desktop FeedView's None state (a list feed emits None when it has no items). -->
+  <DataTemplate x:Key="DesktopContactsEmptyTemplate">
+    <TextBlock Text="No contacts match your filters."
+               Style="{StaticResource DashboardSubtleTextStyle}"
+               HorizontalAlignment="Center"
+               VerticalAlignment="Top"
+               Margin="0,24,0,0" />
+  </DataTemplate>
+
+  <!-- The same contact card, without the segment label the narrow layout has no room for. -->
+  <DataTemplate x:Key="MobileContactCardTemplate">
+    <Border Style="{StaticResource DashboardKanbanCardStyle}"
+            Margin="0,0,0,10">
+      <StackPanel Spacing="6">
+        <TextBlock Text="{Binding Name}" Style="{StaticResource DashboardBodyTextStyle}" />
+        <TextBlock Text="{Binding Company}" Style="{StaticResource DashboardSubtleTextStyle}" />
+        <Grid>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+          </Grid.ColumnDefinitions>
+          <TextBlock Text="{Binding City}" Style="{StaticResource DashboardSubtleTextStyle}" />
+          <TextBlock Grid.Column="1" Text="{Binding Region}" Foreground="{ThemeResource DashboardAccentBrush}" FontSize="12" />
+        </Grid>
+      </StackPanel>
+    </Border>
+  </DataTemplate>
+
+  <!-- The mobile FeedView's populated state. ItemsControl (not ListView) so the list has no inner
+       scroll and the whole page scrolls as one — a nested ListView scroll would trap the gesture
+       and never move the page offset. -->
+  <DataTemplate x:Key="MobileContactListTemplate">
+    <ItemsControl ItemsSource="{Binding Data}"
+                  ItemTemplate="{StaticResource MobileContactCardTemplate}" />
+  </DataTemplate>
+
+  <!-- The mobile FeedView's None state. -->
+  <DataTemplate x:Key="MobileContactsEmptyTemplate">
+    <TextBlock Text="No contacts match your filters."
+               Style="{StaticResource DashboardSubtleTextStyle}"
+               HorizontalAlignment="Center"
+               Margin="0,8,0,4" />
+  </DataTemplate>
+
+  <!-- ══════════ DashboardPage ══════════ -->
+
+  <!-- Recent-activity rows, bound to the model's Activities: each shows a title, a detail line
+       and a relative timestamp. -->
+  <DataTemplate x:Key="DesktopActivityTemplate">
+    <Border BorderBrush="{ThemeResource DashboardBorderBrush}" BorderThickness="0,0,0,1" Padding="0,14">
+      <Grid ColumnSpacing="12">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <StackPanel Spacing="4">
+          <TextBlock Text="{Binding Title}" Style="{StaticResource DashboardBodyTextStyle}" />
+          <TextBlock Text="{Binding Detail}" Style="{StaticResource DashboardSubtleTextStyle}" />
+        </StackPanel>
+        <TextBlock Grid.Column="1" Text="{Binding TimeAgo}"
+                   Style="{StaticResource DashboardSubtleTextStyle}" FontSize="12" />
+      </Grid>
+    </Border>
+  </DataTemplate>
+
+  <DataTemplate x:Key="MobileActivityTemplate">
+    <Border BorderBrush="{ThemeResource DashboardBorderBrush}" BorderThickness="0,0,0,1" Padding="16,16">
+      <Grid ColumnSpacing="14">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <StackPanel Spacing="4" VerticalAlignment="Center">
+          <TextBlock Text="{Binding Title}" Style="{StaticResource DashboardBodyTextStyle}" />
+          <TextBlock Text="{Binding Detail}" Style="{StaticResource DashboardSubtleTextStyle}" />
+        </StackPanel>
+        <TextBlock Grid.Column="1" Text="{Binding TimeAgo}"
+                   Style="{StaticResource DashboardSubtleTextStyle}" FontSize="12" VerticalAlignment="Center" />
+      </Grid>
+    </Border>
+  </DataTemplate>
+
+  <!-- ══════════ LeadsPage ══════════ -->
+
+  <!-- A "Top Open Leads" row, bound to the highest-value open deals in the shared dataset. -->
+  <DataTemplate x:Key="TopLeadTemplate">
+    <Border BorderBrush="{ThemeResource DashboardBorderBrush}" BorderThickness="0,0,0,1" Padding="0,0,0,10" Margin="0,0,0,10">
+      <Grid>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <TextBlock Text="{Binding Company}" Style="{StaticResource DashboardBodyTextStyle}" />
+        <TextBlock Grid.Column="1" Text="{Binding AmountDisplay}"
+                   Style="{StaticResource DashboardBodyTextStyle}"
+                   Foreground="{ThemeResource DashboardAccentBrush}" />
+      </Grid>
+    </Border>
+  </DataTemplate>
+
+  <!-- ══════════ PipelinePage ══════════ -->
+
+  <!-- One deal tile, bound to a Deal from the shared dataset. Reused by every stage column
+       (desktop) and by the stacked stage list (mobile). -->
+  <DataTemplate x:Key="DealCardTemplate">
+    <!-- The whole card is a real Button (accessible + tactile press) that opens the deal detail
+         via the navigation-data route. -->
+    <Button Style="{StaticResource ClickableCardButtonStyle}"
+            uen:Navigation.Request="DealDetail"
+            uen:Navigation.Data="{Binding}"
+            AutomationProperties.Name="{Binding Company}">
+      <controls:PipelineCard Company="{Binding Company}"
+                             Amount="{Binding AmountDisplay}"
+                             Owner="{Binding Owner}"
+                             Meta="{Binding MetaDisplay}"
+                             IsWon="{Binding IsWon}"
+                             Accent="{Binding AccentKey, Converter={StaticResource ResourceKeyToBrush}}" />
+    </Button>
+  </DataTemplate>
+
+  <ItemsPanelTemplate x:Key="DealStackPanel">
+    <StackPanel Spacing="12" />
+  </ItemsPanelTemplate>
+
+  <!-- Panel for the mobile list of stage sections (wider gap than between cards within a stage). -->
+  <ItemsPanelTemplate x:Key="StageStackPanel">
+    <StackPanel Spacing="18" />
+  </ItemsPanelTemplate>
+
+  <!-- A full mobile stage section: colored header with live count, then its deal cards. -->
+  <DataTemplate x:Key="MobileStageTemplate">
+    <StackPanel Spacing="12" Margin="0,0,0,6">
+      <Grid ColumnSpacing="8">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Ellipse Width="10" Height="10" VerticalAlignment="Center"
+                 Fill="{Binding AccentKey, Converter={StaticResource ResourceKeyToBrush}}" />
+        <TextBlock Grid.Column="1" Text="{Binding Name}" Style="{StaticResource DashboardSectionLabelStyle}" VerticalAlignment="Center"
+                   TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" />
+        <Border Grid.Column="2" HorizontalAlignment="Left" CornerRadius="8" Padding="6,1" VerticalAlignment="Center"
+                Background="{Binding SoftKey, Converter={StaticResource ResourceKeyToBrush}}">
+          <TextBlock Text="{Binding Count}" FontSize="11"
+                     Foreground="{Binding DeepKey, Converter={StaticResource ResourceKeyToBrush}}" />
+        </Border>
+      </Grid>
+      <ItemsControl ItemsSource="{Binding Deals}"
+                    ItemTemplate="{StaticResource DealCardTemplate}"
+                    ItemsPanel="{StaticResource DealStackPanel}" />
+    </StackPanel>
+  </DataTemplate>
+
+</ResourceDictionary>
