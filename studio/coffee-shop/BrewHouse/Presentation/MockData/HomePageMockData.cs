@@ -5,7 +5,12 @@ namespace BrewHouse.Presentation.MockData;
 // render in Hot Design / Studio. At runtime the navigation-injected generated HomeModel VM wins.
 public partial record HomePageMockData
 {
+    // Default design-time state: a small non-empty cart, so the summary strip shows.
     public static HomePageMockData Data { get; } = new();
+
+    // A second design-time state: an empty cart, so the "add something" card shows in place of the
+    // summary strip. The "Home — Empty Cart" preview uses this.
+    public static HomePageMockData EmptyCart { get; } = new() { Cart = [] };
 
     public IReadOnlyList<HeroBanner> HeroBanners => CatalogData.HeroBanners;
     // Mirror HomeModel: the PipsPager binds NumberOfPages to this, so the design-time pager shows the
@@ -22,9 +27,12 @@ public partial record HomePageMockData
         new("p-001", "Classic Latte", "", 5.50, 2),
     ];
 
+    // Init-settable so a variant (see EmptyCart) can supply no items; defaults to the sample cart.
+    public IImmutableList<CartItem> Cart { get; init; } = SampleCart;
+
     // Plain CartSummary (not a feed) so the summary strip binds directly (e.g.
     // {Binding Summary.SubtotalFormatted}) in Hot Design; CartHasItems chooses the visible branch.
-    public CartSummary Summary => new(SampleCart);
+    public CartSummary Summary => new(Cart);
     public bool CartHasItems => Summary.HasItems;
 
     public void AddToCart(ProductItem product) { }

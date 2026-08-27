@@ -8,7 +8,9 @@
                  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                  mc:Ignorable="d">
 
-    <!-- CartPage populated vs. empty. -->
+    <!-- CartPage populated vs. empty. The page's third visual state — the "Your order has been
+         placed!" toast — is driven from the code-behind by x:Name (not by model state), so no
+         DataContext can reveal it and it is deliberately out of preview scope. -->
     <hd:Preview PreviewName="Items" Visibility="Collapsed">
         <local:CartPage DataContext="{x:Bind mock:CartPageMockData.Data}" />
     </hd:Preview>
