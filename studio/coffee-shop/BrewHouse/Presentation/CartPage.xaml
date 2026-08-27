@@ -40,101 +40,22 @@
                             <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
 
-                        <!-- Cart Items List. Bound to the shared cart list-state via ElementName=Root;
-                             item +/- and remove commands live on the page VM, reached the same way
-                             (the item template's own DataContext is the CartItem, not the page VM). -->
+                        <!-- Cart Items List. Bound to the shared cart list-state via ElementName=Root.
+                             The line template (CartLineItemTemplate) lives in DataTemplates.xaml, so its
+                             +/- commands reach the page VM through {utu:ItemsControlBinding} — this
+                             ItemsControl's own DataContext — and not through the page namescope, which a
+                             template in a dictionary cannot see. -->
                         <ScrollViewer Grid.Row="0"
                                       Grid.Column="0"
                                       Grid.ColumnSpan="{utu:Responsive Narrow=2, Wide=1}"
                                       VerticalScrollBarVisibility="Hidden">
-                            <ItemsControl ItemsSource="{Binding DataContext.CartItems, ElementName=Root}">
+                            <ItemsControl ItemsSource="{Binding DataContext.CartItems, ElementName=Root}"
+                                          ItemTemplate="{StaticResource CartLineItemTemplate}">
                                 <ItemsControl.ItemsPanel>
                                     <ItemsPanelTemplate>
                                         <StackPanel Spacing="10" />
                                     </ItemsPanelTemplate>
                                 </ItemsControl.ItemsPanel>
-                                <ItemsControl.ItemTemplate>
-                                    <DataTemplate>
-                                        <Border Background="{ThemeResource SurfaceBrush}"
-                                                CornerRadius="16"
-                                                Padding="12"
-                                                BorderBrush="{ThemeResource BrewCardBorderBrush}"
-                                                BorderThickness="1">
-                                            <Grid>
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="72" />
-                                                    <ColumnDefinition Width="*" />
-                                                    <ColumnDefinition Width="Auto" />
-                                                </Grid.ColumnDefinitions>
-
-                                                <!-- Product Image -->
-                                                <Border Grid.Column="0"
-                                                        CornerRadius="10"
-                                                        Width="72"
-                                                        Height="72">
-                                                    <Border.Background>
-                                                        <ImageBrush ImageSource="{Binding ImageUrl}"
-                                                                    Stretch="UniformToFill" />
-                                                    </Border.Background>
-                                                </Border>
-
-                                                <!-- Product Info -->
-                                                <StackPanel Grid.Column="1"
-                                                            Padding="12,4,8,4"
-                                                            Spacing="4"
-                                                            VerticalAlignment="Center">
-                                                    <TextBlock Text="{Binding Name}"
-                                                               FontSize="15"
-                                                               FontWeight="SemiBold"
-                                                               Foreground="{ThemeResource OnSurfaceBrush}"
-                                                               TextTrimming="CharacterEllipsis" />
-                                                    <TextBlock FontSize="13"
-                                                               Foreground="{ThemeResource SecondaryBrush}"
-                                                               FontWeight="SemiBold">
-                                                        <Run Text="$" />
-                                                        <Run Text="{Binding PriceFormatted}" />
-                                                    </TextBlock>
-                                                    <TextBlock FontSize="12"
-                                                               Foreground="{ThemeResource OnSurfaceVariantBrush}">
-                                                        <Run Text="Line total: $" />
-                                                        <Run Text="{Binding LineTotalFormatted}" />
-                                                    </TextBlock>
-                                                </StackPanel>
-
-                                                <!-- Quantity stepper: BrewButtonStyle at 28px (MinWidth/MinHeight zeroed so the theme minimum
-                                                     can't inflate it); crisp rounded fill + foreground state layer for hover/pressed. The +/-
-                                                     glyphs are centred Rectangles — explicit size + Center alignment = pixel-perfect, with no
-                                                     text-baseline or PathIcon bounds offset. -->
-                                                <StackPanel Grid.Column="2" VerticalAlignment="Center" Spacing="6" HorizontalAlignment="Center">
-                                                    <Button Style="{StaticResource BrewButtonStyle}"
-                                                            AutomationProperties.Name="Increase quantity"
-                                                            Width="28" Height="28" MinWidth="0" MinHeight="0" Padding="0" CornerRadius="6"
-                                                            Command="{Binding DataContext.Increment, ElementName=Root}"
-                                                            CommandParameter="{Binding}">
-                                                        <Grid>
-                                                            <Rectangle Width="12" Height="2" RadiusX="1" RadiusY="1" Fill="{ThemeResource OnPrimaryBrush}"
-                                                                       HorizontalAlignment="Center" VerticalAlignment="Center" />
-                                                            <Rectangle Width="2" Height="12" RadiusX="1" RadiusY="1" Fill="{ThemeResource OnPrimaryBrush}"
-                                                                       HorizontalAlignment="Center" VerticalAlignment="Center" />
-                                                        </Grid>
-                                                    </Button>
-                                                    <TextBlock Text="{Binding Quantity}" FontSize="16" FontWeight="Bold"
-                                                               Foreground="{ThemeResource OnSurfaceBrush}" HorizontalAlignment="Center" />
-                                                    <Button Style="{StaticResource BrewButtonStyle}"
-                                                            AutomationProperties.Name="Decrease quantity"
-                                                            Background="{ThemeResource SurfaceVariantBrush}"
-                                                            Foreground="{ThemeResource OnSurfaceVariantBrush}"
-                                                            Width="28" Height="28" MinWidth="0" MinHeight="0" Padding="0" CornerRadius="6"
-                                                            Command="{Binding DataContext.Decrement, ElementName=Root}"
-                                                            CommandParameter="{Binding}">
-                                                        <Rectangle Width="12" Height="2" RadiusX="1" RadiusY="1" Fill="{ThemeResource OnSurfaceVariantBrush}"
-                                                                   HorizontalAlignment="Center" VerticalAlignment="Center" />
-                                                    </Button>
-                                                </StackPanel>
-                                            </Grid>
-                                        </Border>
-                                    </DataTemplate>
-                                </ItemsControl.ItemTemplate>
                             </ItemsControl>
                         </ScrollViewer>
 
@@ -278,24 +199,13 @@
                                                    Foreground="{ThemeResource SecondaryBrush}"
                                                    HorizontalAlignment="Center" />
                                         <!-- Popular-choice pills: one ItemsControl + shared template; each jumps to the Menu -->
-                                        <ItemsControl ItemsSource="{Binding PopularChoices}" HorizontalAlignment="Center">
+                                        <ItemsControl ItemsSource="{Binding PopularChoices}" HorizontalAlignment="Center"
+                                                      ItemTemplate="{StaticResource PopularChoiceTemplate}">
                                             <ItemsControl.ItemsPanel>
                                                 <ItemsPanelTemplate>
                                                     <StackPanel Orientation="Horizontal" Spacing="8" />
                                                 </ItemsPanelTemplate>
                                             </ItemsControl.ItemsPanel>
-                                            <ItemsControl.ItemTemplate>
-                                                <DataTemplate>
-                                                <Button Style="{StaticResource FlatButtonStyle}"
-                                                        CornerRadius="12"
-                                                        AutomationProperties.Name="{Binding}"
-                                                        Command="{Binding DataContext.GoToMenu, ElementName=Root}">
-                                                    <Border Background="{ThemeResource SurfaceBrush}" CornerRadius="12" Padding="12,6">
-                                                        <TextBlock Text="{Binding}" FontSize="13" Foreground="{ThemeResource OnSurfaceBrush}" />
-                                                    </Border>
-                                                </Button>
-                                                </DataTemplate>
-                                            </ItemsControl.ItemTemplate>
                                         </ItemsControl>
                                     </StackPanel>
                                 </Border>

@@ -37,44 +37,14 @@
                           Background="{ThemeResource BackgroundBrush}"
                           Padding="0,12,0,12">
                 <ItemsControl ItemsSource="{Binding Categories}"
-                              Padding="16,0,16,0">
+                              Padding="16,0,16,0"
+                              ItemTemplate="{StaticResource CategoryFilterChipTemplate}">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
                             <StackPanel Orientation="Horizontal"
                                         Spacing="10" />
                         </ItemsPanelTemplate>
                     </ItemsControl.ItemsPanel>
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Button Style="{StaticResource FlatButtonStyle}"
-                                    CornerRadius="12"
-                                    AutomationProperties.Name="{Binding Name}"
-                                    Command="{utu:ItemsControlBinding Path=DataContext.FilterByCategory}"
-                                    CommandParameter="{Binding Id}">
-                                <Grid>
-                                    <!-- unselected pill -->
-                                    <Border Background="{ThemeResource SurfaceVariantBrush}"
-                                            CornerRadius="12"
-                                            Padding="16,8">
-                                        <TextBlock Text="{Binding Name}"
-                                                   FontSize="13"
-                                                   FontWeight="SemiBold"
-                                                   Foreground="{ThemeResource OnSurfaceVariantBrush}" />
-                                    </Border>
-                                    <!-- selected pill overlays when this category is active -->
-                                    <Border Background="{ThemeResource PrimaryBrush}"
-                                            CornerRadius="12"
-                                            Padding="16,8"
-                                            Visibility="{Binding IsSelected, Converter={StaticResource BoolToVisibility}}">
-                                        <TextBlock Text="{Binding Name}"
-                                                   FontSize="13"
-                                                   FontWeight="SemiBold"
-                                                   Foreground="{ThemeResource OnPrimaryBrush}" />
-                                    </Border>
-                                </Grid>
-                            </Button>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
                 </ItemsControl>
             </ScrollViewer>
 
@@ -94,7 +64,9 @@
             </ScrollViewer>
 
             <!-- No results: shown over the (empty) grid when the category/search filter matches
-                 nothing. Driven by a plain bool feed so it flips reliably at zero matches. -->
+                 nothing. Driven by a plain bool feed rather than a FeedView NoneTemplate — the grid
+                 must render populated from the page's plain design-time mock, which a FeedView
+                 cannot subscribe to (see MenuModel.HasNoResults). -->
             <Border Grid.Row="2"
                     VerticalAlignment="Top"
                     Margin="16,12,16,16"

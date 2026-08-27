@@ -29,100 +29,23 @@
                 <StackPanel Spacing="12">
 
                     <!-- Orders: 1 column on phones, reflows to 2 on wide screens (no breakpoints) -->
-                    <ItemsRepeater ItemsSource="{Binding Orders}">
+                    <ItemsRepeater ItemsSource="{Binding Orders}"
+                                   ItemTemplate="{StaticResource OrderCardTemplate}">
                         <ItemsRepeater.Layout>
                             <UniformGridLayout MinItemWidth="360"
                                                MinColumnSpacing="12"
                                                MinRowSpacing="12"
                                                ItemsStretch="Fill" />
                         </ItemsRepeater.Layout>
-                        <ItemsRepeater.ItemTemplate>
-                            <DataTemplate>
-                                <Border Background="{ThemeResource SurfaceBrush}"
-                                        CornerRadius="16"
-                                        Padding="16"
-                                        BorderBrush="{ThemeResource BrewCardBorderBrush}"
-                                        BorderThickness="1"
-                                        HorizontalAlignment="Stretch">
-                                    <StackPanel Spacing="12">
-
-                                        <!-- Order Header Row -->
-                                        <Grid>
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition />
-                                                <ColumnDefinition Width="Auto" />
-                                            </Grid.ColumnDefinitions>
-
-                                            <StackPanel Grid.Column="0" Spacing="2">
-                                                <TextBlock Text="{Binding Id}"
-                                                           FontSize="15"
-                                                           FontWeight="Bold"
-                                                           Foreground="{ThemeResource OnSurfaceBrush}" />
-                                                <TextBlock Text="{Binding PlacedAt}"
-                                                           FontSize="12"
-                                                           Foreground="{ThemeResource OnSurfaceVariantBrush}" />
-                                            </StackPanel>
-
-                                            <!-- Status badge: three visibility-toggled coloured pills, one per
-                                                 status. The template is shared with the Hot Design status-badge
-                                                 previews (OrderStatusBadgeTemplate in Styles.xaml). -->
-                                            <ContentControl Grid.Column="1"
-                                                            VerticalAlignment="Center"
-                                                            ContentTemplate="{StaticResource OrderStatusBadgeTemplate}"
-                                                            Content="{Binding}" />
-                                        </Grid>
-
-                                        <!-- Divider -->
-                                        <Border Height="1"
-                                                Background="{ThemeResource OutlineVariantBrush}"
-                                                HorizontalAlignment="Stretch" />
-
-                                        <!-- Items Summary -->
-                                        <StackPanel Spacing="4">
-                                            <TextBlock Text="Items"
-                                                       FontSize="11"
-                                                       FontWeight="SemiBold"
-                                                       Foreground="{ThemeResource OnSurfaceVariantBrush}"
-                                                       CharacterSpacing="50" />
-                                            <TextBlock Text="{Binding ItemSummary}"
-                                                       FontSize="13"
-                                                       Foreground="{ThemeResource OnSurfaceBrush}"
-                                                       TextWrapping="Wrap" />
-                                        </StackPanel>
-
-                                        <!-- Total Row -->
-                                        <Grid>
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition />
-                                                <ColumnDefinition Width="Auto" />
-                                            </Grid.ColumnDefinitions>
-
-                                            <TextBlock Grid.Column="0"
-                                                       Text="Order Total"
-                                                       FontSize="13"
-                                                       Foreground="{ThemeResource OnSurfaceVariantBrush}"
-                                                       VerticalAlignment="Center" />
-
-                                            <TextBlock Grid.Column="1"
-                                                       FontSize="17"
-                                                       FontWeight="Bold"
-                                                       Foreground="{ThemeResource SecondaryBrush}">
-                                                <Run Text="$" />
-                                                <Run Text="{Binding TotalFormatted}" />
-                                            </TextBlock>
-                                        </Grid>
-
-                                    </StackPanel>
-                                </Border>
-                            </DataTemplate>
-                        </ItemsRepeater.ItemTemplate>
                     </ItemsRepeater>
 
                 </StackPanel>
             </ScrollViewer>
 
             <!-- No orders yet: shown when the order book is empty (HasNoOrders bool via
-                 BoolToVisibility). -->
+                 BoolToVisibility, not a FeedView NoneTemplate — see OrdersModel.HasNoOrders). At
+                 runtime the book is seeded and only appended to, so this is the first-run state;
+                 the "Orders — Empty" preview is what exercises it. -->
             <Border Grid.Row="1"
                     Background="{ThemeResource SurfaceBrush}"
                     CornerRadius="16"

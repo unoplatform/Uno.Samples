@@ -36,50 +36,8 @@
                                   HorizontalAlignment="Stretch"
                                   VerticalAlignment="Stretch"
                                   CornerRadius="{utu:Responsive Narrow=0, Wide=16}"
-                                  AutomationProperties.Name="Featured promotions carousel">
-                            <FlipView.ItemTemplate>
-                                <DataTemplate>
-                                    <Grid>
-                                        <!-- Decorative: the caption + carousel name carry the meaning -->
-                                        <Image Source="{Binding ImageUrl}"
-                                               Stretch="UniformToFill"
-                                               AutomationProperties.AccessibilityView="Raw" />
-                                        <!-- Dark scrim keeps the white caption legible over any photo -->
-                                        <Rectangle>
-                                            <Rectangle.Fill>
-                                                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-                                                    <GradientStop Color="#00140800" Offset="0.0" />
-                                                    <GradientStop Color="#40140800" Offset="0.45" />
-                                                    <GradientStop Color="#F0140800" Offset="1.0" />
-                                                </LinearGradientBrush>
-                                            </Rectangle.Fill>
-                                        </Rectangle>
-                                        <StackPanel VerticalAlignment="Bottom"
-                                                    Padding="24,0,24,32"
-                                                    Spacing="6">
-                                            <TextBlock Text="{Binding Title}"
-                                                       FontSize="26"
-                                                       FontWeight="Bold"
-                                                       Foreground="White"
-                                                       TextWrapping="Wrap" />
-                                            <TextBlock Text="{Binding Subtitle}"
-                                                       FontSize="13"
-                                                       Foreground="White"
-                                                       TextWrapping="Wrap" />
-                                            <Button Style="{StaticResource BrewButtonStyle}"
-                                                    Content="Order Now"
-                                                    AutomationProperties.Name="Order Now"
-                                                    CornerRadius="12"
-                                                    Padding="20,10"
-                                                    FontSize="14"
-                                                    HorizontalAlignment="Left"
-                                                    Margin="0,6,0,0"
-                                                    Command="{utu:ItemsControlBinding Path=DataContext.OrderNow}" />
-                                        </StackPanel>
-                                    </Grid>
-                                </DataTemplate>
-                            </FlipView.ItemTemplate>
-                        </FlipView>
+                                  AutomationProperties.Name="Featured promotions carousel"
+                                  ItemTemplate="{StaticResource HeroBannerTemplate}" />
                         <!-- Position indicator only (IsHitTestVisible=False): it mirrors the FlipView's
                              current page (kept in sync in code-behind) but isn't itself clickable —
                              clicking a pip to move the FlipView is unreliable on Uno, and a display-only
@@ -149,62 +107,13 @@
                                       VerticalScrollBarVisibility="Disabled"
                                       HorizontalScrollMode="Enabled"
                                       Padding="20,0,20,4">
-                            <ItemsControl ItemsSource="{Binding Specials}">
+                            <ItemsControl ItemsSource="{Binding Specials}"
+                                          ItemTemplate="{StaticResource SpecialProductCardTemplate}">
                                 <ItemsControl.ItemsPanel>
                                     <ItemsPanelTemplate>
                                         <StackPanel Orientation="Horizontal" Spacing="14" />
                                     </ItemsPanelTemplate>
                                 </ItemsControl.ItemsPanel>
-                                <ItemsControl.ItemTemplate>
-                                    <DataTemplate>
-                                        <!-- Card is a focusable button -> product detail -->
-                                        <Button Style="{StaticResource FlatButtonStyle}"
-                                                CornerRadius="16"
-                                                AutomationProperties.Name="{Binding Name}"
-                                                Command="{utu:ItemsControlBinding Path=DataContext.ViewProduct}"
-                                                CommandParameter="{Binding}">
-                                            <Border Width="158"
-                                                    Background="{ThemeResource SurfaceBrush}"
-                                                    CornerRadius="16"
-                                                    BorderBrush="{ThemeResource BrewCardBorderBrush}"
-                                                    BorderThickness="1">
-                                                <StackPanel Spacing="0">
-                                                    <!-- Banner image; top corners match the card -->
-                                                    <Border CornerRadius="16,16,0,0"
-                                                            Height="112">
-                                                        <Border.Background>
-                                                            <ImageBrush ImageSource="{Binding ImageUrl}"
-                                                                        Stretch="UniformToFill" />
-                                                        </Border.Background>
-                                                    </Border>
-                                                    <StackPanel Padding="10,10,10,12" Spacing="4">
-                                                        <TextBlock Text="{Binding Name}"
-                                                                   FontSize="14"
-                                                                   FontWeight="SemiBold"
-                                                                   Foreground="{ThemeResource OnSurfaceBrush}"
-                                                                   TextTrimming="CharacterEllipsis" />
-                                                        <TextBlock FontSize="13"
-                                                                   FontWeight="Bold"
-                                                                   Foreground="{ThemeResource SecondaryBrush}">
-                                                            <Run Text="$" />
-                                                            <Run Text="{Binding Price}" />
-                                                        </TextBlock>
-                                                        <Button Style="{StaticResource BrewButtonStyle}"
-                                                                Content="+ Add to Cart"
-                                                                AutomationProperties.Name="Add special to cart"
-                                                                CornerRadius="8"
-                                                                Padding="0,5"
-                                                                FontSize="11"
-                                                                HorizontalAlignment="Stretch"
-                                                                Margin="0,4,0,0"
-                                                                Command="{utu:ItemsControlBinding Path=DataContext.AddToCart}"
-                                                                CommandParameter="{Binding}" />
-                                                    </StackPanel>
-                                                </StackPanel>
-                                            </Border>
-                                        </Button>
-                                    </DataTemplate>
-                                </ItemsControl.ItemTemplate>
                             </ItemsControl>
                         </ScrollViewer>
 
@@ -217,31 +126,13 @@
                             <ScrollViewer HorizontalScrollBarVisibility="Hidden"
                                           VerticalScrollBarVisibility="Disabled"
                                           HorizontalScrollMode="Enabled">
-                                <ItemsControl ItemsSource="{Binding Categories}">
+                                <ItemsControl ItemsSource="{Binding Categories}"
+                                              ItemTemplate="{StaticResource CategoryShortcutTemplate}">
                                     <ItemsControl.ItemsPanel>
                                         <ItemsPanelTemplate>
                                             <StackPanel Orientation="Horizontal" Spacing="8" />
                                         </ItemsPanelTemplate>
                                     </ItemsControl.ItemsPanel>
-                                    <ItemsControl.ItemTemplate>
-                                        <DataTemplate>
-                                            <!-- Tap a category to jump to the full Menu -->
-                                            <Button Style="{StaticResource FlatButtonStyle}"
-                                                    CornerRadius="12"
-                                                    AutomationProperties.Name="{Binding Name}"
-                                                    Command="{utu:ItemsControlBinding Path=DataContext.GoToMenu}">
-                                                <Border Background="{ThemeResource SurfaceVariantBrush}"
-                                                        CornerRadius="12"
-                                                        Padding="16,8">
-                                                    <TextBlock Text="{Binding Name}"
-                                                               FontSize="13"
-                                                               FontWeight="SemiBold"
-                                                               Foreground="{ThemeResource OnSurfaceVariantBrush}"
-                                                               VerticalAlignment="Center" />
-                                                </Border>
-                                            </Button>
-                                        </DataTemplate>
-                                    </ItemsControl.ItemTemplate>
                                 </ItemsControl>
                             </ScrollViewer>
                         </StackPanel>
@@ -253,82 +144,14 @@
                                        FontWeight="Bold"
                                        Foreground="{ThemeResource OnBackgroundBrush}" />
 
-                            <ItemsRepeater ItemsSource="{Binding FeaturedProducts}">
+                            <ItemsRepeater ItemsSource="{Binding FeaturedProducts}"
+                                           ItemTemplate="{StaticResource FeaturedProductCardTemplate}">
                                 <ItemsRepeater.Layout>
                                     <UniformGridLayout MinItemWidth="360"
                                                        MinColumnSpacing="12"
                                                        MinRowSpacing="12"
                                                        ItemsStretch="Fill" />
                                 </ItemsRepeater.Layout>
-                                <ItemsRepeater.ItemTemplate>
-                                    <DataTemplate>
-                                        <!-- Card is a focusable button -> product detail; inner "+ Add" is its own button -->
-                                        <Button Style="{StaticResource FlatButtonStyle}"
-                                                CornerRadius="16"
-                                                HorizontalAlignment="Stretch"
-                                                HorizontalContentAlignment="Stretch"
-                                                VerticalContentAlignment="Stretch"
-                                                AutomationProperties.Name="{Binding Name}"
-                                                Command="{utu:AncestorBinding AncestorType=ItemsRepeater, Path=DataContext.ViewProduct}"
-                                                CommandParameter="{Binding}">
-                                            <Border Background="{ThemeResource SurfaceBrush}"
-                                                    CornerRadius="16"
-                                                    BorderBrush="{ThemeResource BrewCardBorderBrush}"
-                                                    BorderThickness="1">
-                                                <Grid>
-                                                    <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="104" />
-                                                        <ColumnDefinition />
-                                                    </Grid.ColumnDefinitions>
-                                                    <!-- Image fills the card height; corners match the card -->
-                                                    <Border Grid.Column="0"
-                                                            CornerRadius="16,0,0,16">
-                                                        <Border.Background>
-                                                            <ImageBrush ImageSource="{Binding ImageUrl}"
-                                                                        Stretch="UniformToFill" />
-                                                        </Border.Background>
-                                                    </Border>
-                                                    <StackPanel Grid.Column="1"
-                                                                Padding="12,8"
-                                                                Spacing="2"
-                                                                VerticalAlignment="Center">
-                                                        <TextBlock Text="{Binding Name}"
-                                                                   FontSize="16"
-                                                                   FontWeight="SemiBold"
-                                                                   Foreground="{ThemeResource OnSurfaceBrush}" />
-                                                        <TextBlock Text="{Binding Description}"
-                                                                   FontSize="12"
-                                                                   Foreground="{ThemeResource OnSurfaceVariantBrush}"
-                                                                   TextWrapping="Wrap"
-                                                                   MaxLines="1"
-                                                                   TextTrimming="CharacterEllipsis" />
-                                                        <Grid Margin="0,4,0,0" VerticalAlignment="Center">
-                                                            <Grid.ColumnDefinitions>
-                                                                <ColumnDefinition Width="*" />
-                                                                <ColumnDefinition Width="Auto" />
-                                                            </Grid.ColumnDefinitions>
-                                                            <TextBlock Grid.Column="0" FontSize="17" FontWeight="Bold"
-                                                                       Foreground="{ThemeResource SecondaryBrush}" VerticalAlignment="Center">
-                                                                <Run Text="$" /><Run Text="{Binding Price}" />
-                                                            </TextBlock>
-                                                            <Button Grid.Column="1"
-                                                                    Style="{StaticResource BrewButtonStyle}"
-                                                                    Content="+ Add"
-                                                                    AutomationProperties.Name="Add product to cart"
-                                                                    CornerRadius="8"
-                                                                    Padding="10,4"
-                                                                    FontSize="11"
-                                                                    HorizontalAlignment="Right"
-                                                                    VerticalAlignment="Center"
-                                                                    Command="{utu:AncestorBinding AncestorType=ItemsRepeater, Path=DataContext.AddToCart}"
-                                                                    CommandParameter="{Binding}" />
-                                                        </Grid>
-                                                    </StackPanel>
-                                                </Grid>
-                                            </Border>
-                                        </Button>
-                                    </DataTemplate>
-                                </ItemsRepeater.ItemTemplate>
                             </ItemsRepeater>
                         </StackPanel>
 
@@ -347,11 +170,13 @@
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
                                 <StackPanel Grid.Column="0" Spacing="2" VerticalAlignment="Center">
+                                    <!-- ItemCountText, not ItemCount + a literal "items": the
+                                         summary already pluralizes ("1 item" / "2 items"). -->
                                     <TextBlock FontSize="12"
                                                Foreground="{ThemeResource OnPrimaryBrush}"
                                                Opacity="0.85">
-                                        <Run Text="{Binding Summary.ItemCount}" />
-                                        <Run Text="items in your cart" />
+                                        <Run Text="{Binding Summary.ItemCountText}" />
+                                        <Run Text="in your cart" />
                                     </TextBlock>
                                     <TextBlock FontSize="17"
                                                FontWeight="Bold"
