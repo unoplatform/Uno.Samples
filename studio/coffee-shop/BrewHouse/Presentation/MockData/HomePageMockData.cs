@@ -1,42 +1,58 @@
 namespace BrewHouse.Presentation.MockData;
 
-// Design-time DataContext for HomePage. Mirrors HomeModel's binding surface with the real
-// catalogue plus a small sample cart so the carousel, specials, featured grid and summary strip
-// render in Hot Design / Studio. At runtime the navigation-injected generated HomeModel VM wins.
+// Design-time DataContext for HomePage in Hot Design / Studio. The specials and featured sections
+// are FeedViews, which can only subscribe to a FEED, so this mock is [ReactiveBindable] and its
+// statics return the GENERATED ViewModel. See MenuPageMockData for the full rationale.
+[Uno.Extensions.Reactive.ReactiveBindable]
 public partial record HomePageMockData
 {
-    public IReadOnlyList<HeroBanner> HeroBanners => CatalogData.HeroBanners;
-    // Mirror HomeModel: the PipsPager binds NumberOfPages to this, so the design-time pager shows the
-    // right page count in Hot Design instead of the control's default.
-    public int HeroBannerCount => HeroBanners.Count;
-    public IReadOnlyList<ProductItem> Specials =>
-        CatalogData.AllProducts.Where(p => p.IsSpecial).ToList();
-    public IReadOnlyList<ProductItem> FeaturedProducts =>
-        CatalogData.AllProducts.Where(p => p.IsFeatured).ToList();
-    public IReadOnlyList<CategoryItem> Categories => CatalogData.Categories;
+    // Default design-time state: full catalogue, a small non-empty cart so the summary strip shows.
+    public static HomePageMockDataViewModel Data => new();
 
-    // DECLARED FIRST, above the statics below that construct instances: static members initialize in
-    // textual order, so a `Data { get; } = new()` placed above this field would run the instance
-    // initializer while SampleCart is still null — leaving Data.Cart null with no exception at all,
-    // and the summary strip silently rendering as an empty cart.
-    private static readonly IImmutableList<CartItem> SampleCart =
-    [
-        new("p-001", "Classic Latte", "", 5.50, 2),
-    ];
+    // A second design-time state: an empty cart, so the "your cart is empty" card shows in place of
+    // the summary strip. The catalogue sections are unaffected.
+    public static HomePageMockDataViewModel EmptyCart =>
+        HomePageMockDataViewModel.ForModel(new()
+        {
+            Summary = new CartSummary(ImmutableList<CartItem>.Empty),
+        });
 
-    // Default design-time state: a small non-empty cart, so the summary strip shows.
-    public static HomePageMockData Data { get; } = new();
+    // A third design-time state: the catalogue came back with nothing, so both content sections fall
+    // through to their NoneTemplate. Unreachable in the running app against the in-memory service,
+    // which is precisely why it needs a preview.
+    public static HomePageMockDataViewModel EmptyCatalog =>
+        HomePageMockDataViewModel.ForModel(new()
+        {
+            Specials = EmptyProducts,
+            FeaturedProducts = EmptyProducts,
+        });
 
-    // A second design-time state: an empty cart, so the "add something" card shows in place of the
-    // summary strip. The "Home — Empty Cart" preview uses this.
-    public static HomePageMockData EmptyCart { get; } = new() { Cart = [] };
+    private static IListFeed<ProductItem> EmptyProducts =>
+        ListFeed.Async(_ => ValueTask.FromResult<IImmutableList<ProductItem>>(ImmutableList<ProductItem>.Empty));
 
-    // Init-settable so a variant (see EmptyCart) can supply no items; defaults to the sample cart.
-    public IImmutableList<CartItem> Cart { get; init; } = SampleCart;
+    public IListFeed<HeroBanner> HeroBanners { get; init; } =
+        ListFeed.Async(_ => ValueTask.FromResult<IImmutableList<HeroBanner>>(CatalogData.HeroBanners.ToImmutableList()));
 
-    // Plain CartSummary (not a feed) so the summary strip binds directly (e.g.
-    // {Binding Summary.SubtotalFormatted}) in Hot Design; CartHasItems chooses the visible branch.
-    public CartSummary Summary => new(Cart);
+    // Mirrors the Model: the PipsPager binds NumberOfPages to this, so the design-time pager shows
+    // the right page count instead of the control's default of 5.
+    public int HeroBannerCount { get; init; } = CatalogData.HeroBanners.Count;
+
+    public IListFeed<ProductItem> Specials { get; init; } =
+        ListFeed.Async(_ => ValueTask.FromResult<IImmutableList<ProductItem>>(
+            CatalogData.AllProducts.Where(p => p.IsSpecial).ToImmutableList()));
+
+    public IListFeed<ProductItem> FeaturedProducts { get; init; } =
+        ListFeed.Async(_ => ValueTask.FromResult<IImmutableList<ProductItem>>(
+            CatalogData.AllProducts.Where(p => p.IsFeatured).ToImmutableList()));
+
+    public IListFeed<CategoryItem> Categories { get; init; } =
+        ListFeed.Async(_ => ValueTask.FromResult<IImmutableList<CategoryItem>>(CatalogData.Categories.ToImmutableList()));
+
+    // The cart summary is the app's own state, not a request, so it stays a plain value here just as
+    // the page binds it plainly. Init-settable so the EmptyCart variant can zero it.
+    public CartSummary Summary { get; init; } =
+        new(ImmutableList.Create(new CartItem("p-001", "Classic Latte", "", 5.50, 2)));
+
     public bool CartHasItems => Summary.HasItems;
 
     public void AddToCart(ProductItem product) { }
@@ -44,4 +60,11 @@ public partial record HomePageMockData
     public void GoToCart() { }
     public void GoToMenu() { }
     public void ViewProduct(ProductItem product) { }
+}
+
+// The generator's model-taking ViewModel constructor is protected; this partial reaches it from
+// inside the class so the variants above can wrap a customized model.
+public partial class HomePageMockDataViewModel
+{
+    internal static HomePageMockDataViewModel ForModel(HomePageMockData model) => new(model);
 }

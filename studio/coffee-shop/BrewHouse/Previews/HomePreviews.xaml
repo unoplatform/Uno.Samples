@@ -8,8 +8,8 @@
                  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                  mc:Ignorable="d">
 
-    <!-- HomePage with a stocked cart vs. an empty one — the page's one data branch (the cart
-         summary strip vs. the "Your cart is empty" card). Each child sets the page's
+    <!-- HomePage with a stocked cart vs. an empty one — the page's data branches — the cart summary
+         strip vs. the "Your cart is empty" card, and the catalogue sections' FeedView states. Each child sets the page's
          DataContext in XAML. No size on the <hd:Preview>: a page fills the canvas / device frame. -->
     <hd:Preview PreviewName="With Cart" Visibility="Collapsed">
         <local:HomePage DataContext="{x:Bind mock:HomePageMockData.Data}" />
@@ -17,5 +17,11 @@
 
     <hd:Preview PreviewName="Empty Cart" Visibility="Collapsed">
         <local:HomePage DataContext="{x:Bind mock:HomePageMockData.EmptyCart}" />
+    </hd:Preview>
+
+    <!-- The catalogue came back with nothing: both content FeedViews fall through to their
+         NoneTemplate. Unreachable against the in-memory service, so only a preview shows it. -->
+    <hd:Preview PreviewName="Empty Catalog" Visibility="Collapsed">
+        <local:HomePage DataContext="{x:Bind mock:HomePageMockData.EmptyCatalog}" />
     </hd:Preview>
 </hd:PreviewGroup>
