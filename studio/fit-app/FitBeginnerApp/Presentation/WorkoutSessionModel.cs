@@ -12,6 +12,10 @@ public partial record WorkoutSessionModel(WorkoutEntry Workout)
     public string WorkoutType => Workout.Type;
     public int TotalDurationMinutes => Workout.DurationMinutes;
     public string Difficulty => Workout.Difficulty;
+    // Safe as a plain .Count only because Exercises is a materialized IReadOnlyList. If it ever
+    // becomes an IListState/IListFeed, an empty list emits None and Select() skips None — the count
+    // would then render BLANK rather than "0", and must be projected with the Option-aware
+    // SelectData, owned once by whoever owns the state.
     public int TotalExercises => Exercises.Count;
 
     public string MotivationQuote { get; } = "Every rep counts. You've got this!";

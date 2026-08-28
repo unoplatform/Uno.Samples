@@ -8,7 +8,6 @@ public partial record ProgressModel
     public int TotalCalories { get; } = 1840;
     public int CurrentStreak { get; } = 5;
     public int LongestStreak { get; } = 7;
-    public int ThisMonthWorkouts { get; } = 8;
 
     public IReadOnlyList<WorkoutResult> WorkoutHistory { get; } = new[]
     {
@@ -26,9 +25,12 @@ public partial record ProgressModel
         new MilestoneBadge("First Workout!", "You completed your very first session.", true),
         new MilestoneBadge("3-Day Streak", "Worked out 3 days in a row.", true),
         new MilestoneBadge("5 Workouts Done", "You have completed 5 workouts.", true),
-        new MilestoneBadge("7-Day Streak", "Worked out every day for a week.", false),
-        new MilestoneBadge("10 Workouts", "Reached 10 total sessions.", false),
-        new MilestoneBadge("100 Minutes Active", "Clocked 100 minutes of exercise.", false),
+        // Unlocked flags follow the stats above: 12 total workouts, 245 minutes, longest streak 7.
+        new MilestoneBadge("7-Day Streak", "Worked out every day for a week.", true),
+        new MilestoneBadge("10 Workouts", "Reached 10 total sessions.", true),
+        new MilestoneBadge("100 Minutes Active", "Clocked 100 minutes of exercise.", true),
+        new MilestoneBadge("20 Workouts", "Reached 20 total sessions.", false),
+        new MilestoneBadge("30-Day Streak", "A full month, every day.", false),
     };
 }
 

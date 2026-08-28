@@ -13,7 +13,6 @@ public partial record ProfileModel
 
     public string AvatarInitials { get; } = "AR";
     public string JoinedDate { get; } = "Joined April 2026";
-    public int Age { get; } = 28;
     public string PreferredTime { get; } = "Morning";
     public string EquipmentAvailable { get; } = "No equipment";
     public int SessionLengthMinutes { get; } = 20;
