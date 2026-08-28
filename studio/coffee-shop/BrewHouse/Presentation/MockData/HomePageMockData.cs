@@ -5,13 +5,6 @@ namespace BrewHouse.Presentation.MockData;
 // render in Hot Design / Studio. At runtime the navigation-injected generated HomeModel VM wins.
 public partial record HomePageMockData
 {
-    // Default design-time state: a small non-empty cart, so the summary strip shows.
-    public static HomePageMockData Data { get; } = new();
-
-    // A second design-time state: an empty cart, so the "add something" card shows in place of the
-    // summary strip. The "Home — Empty Cart" preview uses this.
-    public static HomePageMockData EmptyCart { get; } = new() { Cart = [] };
-
     public IReadOnlyList<HeroBanner> HeroBanners => CatalogData.HeroBanners;
     // Mirror HomeModel: the PipsPager binds NumberOfPages to this, so the design-time pager shows the
     // right page count in Hot Design instead of the control's default.
@@ -22,10 +15,21 @@ public partial record HomePageMockData
         CatalogData.AllProducts.Where(p => p.IsFeatured).ToList();
     public IReadOnlyList<CategoryItem> Categories => CatalogData.Categories;
 
+    // DECLARED FIRST, above the statics below that construct instances: static members initialize in
+    // textual order, so a `Data { get; } = new()` placed above this field would run the instance
+    // initializer while SampleCart is still null — leaving Data.Cart null with no exception at all,
+    // and the summary strip silently rendering as an empty cart.
     private static readonly IImmutableList<CartItem> SampleCart =
     [
         new("p-001", "Classic Latte", "", 5.50, 2),
     ];
+
+    // Default design-time state: a small non-empty cart, so the summary strip shows.
+    public static HomePageMockData Data { get; } = new();
+
+    // A second design-time state: an empty cart, so the "add something" card shows in place of the
+    // summary strip. The "Home — Empty Cart" preview uses this.
+    public static HomePageMockData EmptyCart { get; } = new() { Cart = [] };
 
     // Init-settable so a variant (see EmptyCart) can supply no items; defaults to the sample cart.
     public IImmutableList<CartItem> Cart { get; init; } = SampleCart;
