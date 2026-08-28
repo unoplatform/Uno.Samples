@@ -24,8 +24,15 @@ public partial record CartModel(ICartService Cart, INavigator Navigator)
     // Header subtitle ("N items"); shows "0 items" when the cart is empty.
     public IFeed<string> ItemCountText => Cart.Summary.Select(summary => summary.ItemCountText);
 
-    // Whether the cart has anything in it — chooses the body branch (items + summary vs. empty-cart
-    // hero) via a bool + BoolToVisibility converter in XAML.
+    // Whether the cart has anything in it — chooses the body branch (items + summary vs. the
+    // empty-cart hero) via a bool + BoolToVisibility converter in XAML.
+    //
+    // Deliberately NOT a FeedView, unlike the Menu and Orders pages. Those read the catalogue over
+    // ICatalogService, so their feeds have genuine loading and failure states for a FeedView to
+    // render. The cart is the user's own edited state — an IListState, which is what the MVUX docs
+    // prescribe for a collection you edit — and it issues no request: there is nothing to be in
+    // Progress or Error, and "empty" here is a product state with its own designed hero (suggestion
+    // pills that navigate), not a data-availability state.
     public IFeed<bool> CartHasItems => Cart.Summary.Select(summary => summary.HasItems);
 
     // Quick "popular choices" shown in the empty-cart state; each pill jumps to the Menu.

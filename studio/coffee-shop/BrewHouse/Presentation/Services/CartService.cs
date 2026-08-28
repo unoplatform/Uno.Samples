@@ -47,6 +47,8 @@ public interface ICartService
 
 public sealed class CartService : ICartService
 {
+    private readonly ICatalogService _catalog;
+
     // CRITICAL: Cart/Orders are once-initialized (assigned in the ctor), NOT expression-bodied
     // getters — a `=>` getter would rebuild a fresh state on every access and break sharing. The
     // service itself is the reactive owner; as a singleton it lives for the app's lifetime.
@@ -54,10 +56,16 @@ public sealed class CartService : ICartService
     public IListState<OrderRecord> Orders { get; }
     public IFeed<CartSummary> Summary { get; }
 
-    public CartService()
+    public CartService(ICatalogService catalog)
     {
+        _catalog = catalog;
+
         Cart = ListState<CartItem>.Empty(this);
-        Orders = ListState.Value(this, () => CatalogData.SeedOrders);
+
+        // The order book is a STATE, not a feed: the app edits it (Place Order prepends). But its
+        // initial contents come from the service, so it is seeded with ListState.Async — the history
+        // genuinely loads, and OrdersPage's FeedView shows Progress then Value (or Error) for it.
+        Orders = ListState.Async(this, _catalog.GetOrderHistoryAsync);
 
         // Built once alongside the states so every screen shares one projection (see the interface
         // for why this is SelectData and not Select).
