@@ -2,6 +2,7 @@
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:utu="using:Uno.Toolkit.UI"
+      xmlns:mvux="using:Uno.Extensions.Reactive.UI"
       Background="{ThemeResource BackgroundBrush}">
 
     <utu:SafeArea Insets="VisibleBounds">
@@ -20,61 +21,15 @@
                 </StackPanel>
             </Border>
 
-            <!-- Orders list: binds the ItemsSource directly to the shared order book (an IListState
-                 at runtime, a plain list in the mock — both are valid items sources). Shown when
-                 there are orders; the empty-state card below covers the no-orders case. -->
-            <ScrollViewer Grid.Row="1"
-                          VerticalScrollBarVisibility="Hidden"
-                          Padding="20,0,20,16">
-                <StackPanel Spacing="12">
-
-                    <!-- Orders: 1 column on phones, reflows to 2 on wide screens (no breakpoints) -->
-                    <ItemsRepeater ItemsSource="{Binding Orders}"
-                                   ItemTemplate="{StaticResource OrderCardTemplate}">
-                        <ItemsRepeater.Layout>
-                            <UniformGridLayout MinItemWidth="360"
-                                               MinColumnSpacing="12"
-                                               MinRowSpacing="12"
-                                               ItemsStretch="Fill" />
-                        </ItemsRepeater.Layout>
-                    </ItemsRepeater>
-
-                </StackPanel>
-            </ScrollViewer>
-
-            <!-- No orders yet: shown when the order book is empty (HasNoOrders bool via
-                 BoolToVisibility, not a FeedView NoneTemplate — see OrdersModel.HasNoOrders). At
-                 runtime the book is seeded and only appended to, so this is the first-run state;
-                 the "Orders — Empty" preview is what exercises it. -->
-            <Border Grid.Row="1"
-                    Background="{ThemeResource SurfaceBrush}"
-                    CornerRadius="16"
-                    Padding="32,40"
-                    Margin="20,0,20,16"
-                    VerticalAlignment="Top"
-                    BorderBrush="{ThemeResource BrewCardBorderBrush}"
-                    BorderThickness="1"
-                    Visibility="{Binding HasNoOrders, Converter={StaticResource BoolToVisibility}}">
-                <StackPanel HorizontalAlignment="Center"
-                            Spacing="12">
-                    <Viewbox Width="44" Height="44" HorizontalAlignment="Center">
-                        <PathIcon Data="F1 M3 5.25C3 4.00736 4.00736 3 5.25 3H14.75C15.9926 3 17 4.00736 17 5.25V14H21V17.75C21 19.5449 19.5449 21 17.75 21H6.25C4.45507 21 3 19.5449 3 17.75V5.25ZM17 19.5H17.75C18.7165 19.5 19.5 18.7165 19.5 17.75V15.5H17V19.5ZM5.25 4.5C4.83579 4.5 4.5 4.83579 4.5 5.25V17.75C4.5 18.7165 5.2835 19.5 6.25 19.5H15.5V5.25C15.5 4.83579 15.1642 4.5 14.75 4.5H5.25ZM7.25 7C6.83579 7 6.5 7.33579 6.5 7.75C6.5 8.16421 6.83579 8.5 7.25 8.5H12.75C13.1642 8.5 13.5 8.16421 13.5 7.75C13.5 7.33579 13.1642 7 12.75 7H7.25ZM6.5 11.75C6.5 11.3358 6.83579 11 7.25 11H12.75C13.1642 11 13.5 11.3358 13.5 11.75C13.5 12.1642 13.1642 12.5 12.75 12.5H7.25C6.83579 12.5 6.5 12.1642 6.5 11.75ZM7.25 15C6.83579 15 6.5 15.3358 6.5 15.75C6.5 16.1642 6.83579 16.5 7.25 16.5H10.25C10.6642 16.5 11 16.1642 11 15.75C11 15.3358 10.6642 15 10.25 15H7.25Z"
-                                  Foreground="{ThemeResource SecondaryBrush}" />
-                    </Viewbox>
-                    <TextBlock Text="No orders yet"
-                               FontSize="20"
-                               FontWeight="Bold"
-                               Foreground="{ThemeResource OnSurfaceBrush}"
-                               HorizontalAlignment="Center" />
-                    <TextBlock Text="Your order history will appear here once you place your first order."
-                               FontSize="13"
-                               Foreground="{ThemeResource OnSurfaceVariantBrush}"
-                               HorizontalAlignment="Center"
-                               TextAlignment="Center"
-                               TextWrapping="Wrap"
-                               MaxWidth="240" />
-                </StackPanel>
-            </Border>
+            <!-- The order book is a FeedView over the shared list STATE: the app edits it (Place
+                 Order prepends), but its initial contents load from ICatalogService, so the history
+                 genuinely has a loading state, a failure state, and a first-run empty state. All
+                 three are templates keyed in DataTemplates.xaml — no bool feed, no converter. -->
+            <mvux:FeedView Grid.Row="1"
+                           Source="{Binding Orders}"
+                           ValueTemplate="{StaticResource OrderListTemplate}"
+                           NoneTemplate="{StaticResource OrdersEmptyTemplate}"
+                           ErrorTemplate="{StaticResource CatalogErrorTemplate}" />
 
         </Grid>
     </utu:SafeArea>

@@ -2,6 +2,7 @@
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:utu="using:Uno.Toolkit.UI"
+      xmlns:mvux="using:Uno.Extensions.Reactive.UI"
       Background="{ThemeResource BackgroundBrush}">
 
     <utu:SafeArea Insets="VisibleBounds">
@@ -48,53 +49,17 @@
                 </ItemsControl>
             </ScrollViewer>
 
-            <!-- Product grid: 1 column on phones, reflows to 2-3 on wide screens (no breakpoints) -->
-            <ScrollViewer Grid.Row="2"
-                          VerticalScrollBarVisibility="Hidden"
-                          Padding="16,4,16,16">
-                <ItemsRepeater ItemsSource="{Binding FilteredProducts}"
-                               ItemTemplate="{StaticResource ProductCardTemplate}">
-                    <ItemsRepeater.Layout>
-                        <UniformGridLayout MinItemWidth="360"
-                                           MinColumnSpacing="12"
-                                           MinRowSpacing="12"
-                                           ItemsStretch="Fill" />
-                    </ItemsRepeater.Layout>
-                </ItemsRepeater>
-            </ScrollViewer>
+            <!-- The product grid is a FeedView over the Model's IListFeed, so every state the
+                 catalogue request can be in is a designed template rather than a hand-rolled
+                 branch: results (the grid), no matches (the search legitimately returning nothing),
+                 a failed request, and the loading ring in between. The templates are keyed in
+                 DataTemplates.xaml like every other template in the app. -->
+            <mvux:FeedView Grid.Row="2"
+                           Source="{Binding FilteredProducts}"
+                           ValueTemplate="{StaticResource MenuGridTemplate}"
+                           NoneTemplate="{StaticResource MenuNoResultsTemplate}"
+                           ErrorTemplate="{StaticResource CatalogErrorTemplate}" />
 
-            <!-- No results: shown over the (empty) grid when the category/search filter matches
-                 nothing. Driven by a plain bool feed rather than a FeedView NoneTemplate — the grid
-                 must render populated from the page's plain design-time mock, which a FeedView
-                 cannot subscribe to (see MenuModel.HasNoResults). -->
-            <Border Grid.Row="2"
-                    VerticalAlignment="Top"
-                    Margin="16,12,16,16"
-                    Background="{ThemeResource SurfaceBrush}"
-                    CornerRadius="16"
-                    Padding="32,40"
-                    BorderBrush="{ThemeResource BrewCardBorderBrush}"
-                    BorderThickness="1"
-                    Visibility="{Binding HasNoResults, Converter={StaticResource BoolToVisibility}}">
-                <StackPanel HorizontalAlignment="Center" Spacing="12">
-                    <Viewbox Width="44" Height="44" HorizontalAlignment="Center">
-                        <PathIcon Data="F1 M16.1017 17.1624C14.717 18.3101 12.9391 19 11 19C6.58172 19 3 15.4183 3 11C3 6.58172 6.58172 3 11 3C15.4183 3 19 6.58172 19 11C19 12.9391 18.3101 14.717 17.1624 16.1018L21.7803 20.7197C22.0732 21.0126 22.0732 21.4874 21.7803 21.7803C21.4874 22.0732 21.0125 22.0732 20.7196 21.7803L16.1017 17.1624ZM17.5 11C17.5 7.41015 14.5899 4.5 11 4.5C7.41015 4.5 4.5 7.41015 4.5 11C4.5 14.5899 7.41015 17.5 11 17.5C14.5899 17.5 17.5 14.5899 17.5 11Z"
-                                  Foreground="{ThemeResource SecondaryBrush}" />
-                    </Viewbox>
-                    <TextBlock Text="No matches found"
-                               FontSize="20"
-                               FontWeight="Bold"
-                               Foreground="{ThemeResource OnSurfaceBrush}"
-                               HorizontalAlignment="Center" />
-                    <TextBlock Text="Try a different category or search term."
-                               FontSize="13"
-                               Foreground="{ThemeResource OnSurfaceVariantBrush}"
-                               HorizontalAlignment="Center"
-                               TextAlignment="Center"
-                               TextWrapping="Wrap"
-                               MaxWidth="240" />
-                </StackPanel>
-            </Border>
         </Grid>
     </utu:SafeArea>
 </Page>

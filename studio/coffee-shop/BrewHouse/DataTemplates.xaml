@@ -13,11 +13,14 @@
     Merged into App.xaml AFTER Styles.xaml, so these templates consume that file's styles, tokens,
     brushes and converters by key. A template that depends on another key here is declared after it.
 
-    Item templates reach their page Model through the Toolkit ancestor-binding extensions —
-    {utu:ItemsControlBinding} for an ItemsControl/FlipView host, {utu:AncestorBinding
-    AncestorType=ItemsRepeater} for an ItemsRepeater — never through ElementName, whose page
-    namescope is not reachable from a dictionary. In an isolated preview those lookups find no
-    host and the commands are simply inert.
+    Item templates reach their page Model with {utu:AncestorBinding AncestorType=Page,
+    Path=DataContext.X} — never through ElementName, whose page namescope a dictionary template
+    cannot see, and deliberately NOT through the item host (ItemsControlBinding / AncestorType=
+    ItemsRepeater). Several of these templates are inflated inside a FeedView, where the host's
+    DataContext is the FeedViewState wrapper rather than the page Model, so a host-relative lookup
+    would silently resolve to nothing. The Page is the one ancestor whose DataContext is the Model
+    in every case. In an isolated component preview there is no Page above the template, so the
+    commands are simply inert — expected.
   -->
 
   <!-- ══════════════════════ Shared across pages ══════════════════════ -->
@@ -25,8 +28,8 @@
   <!-- Product card, bound to a ProductItem. Used by the Menu grid (MenuPage) and by the Hot Design
        product-card previews. The whole card is a focusable button that opens the product detail
        page; the inner "+ Add to Cart" is a nested button. Both commands reach the page Model via
-       {utu:AncestorBinding AncestorType=ItemsRepeater} at runtime; in an isolated preview those
-       ancestor lookups find no ItemsRepeater and the buttons are simply inert. -->
+       the Page ancestor (see the file header) — this template is inflated inside the Menu's
+       FeedView, where the ItemsRepeater's own DataContext is the FeedViewState. -->
   <DataTemplate x:Key="ProductCardTemplate">
     <Button Style="{StaticResource FlatButtonStyle}"
             CornerRadius="16"
@@ -34,7 +37,7 @@
             HorizontalContentAlignment="Stretch"
             VerticalContentAlignment="Stretch"
             AutomationProperties.Name="{Binding Name}"
-            Command="{utu:AncestorBinding AncestorType=ItemsRepeater, Path=DataContext.ViewProduct}"
+            Command="{utu:AncestorBinding AncestorType=Page, Path=DataContext.ViewProduct}"
             CommandParameter="{Binding}">
       <Border Background="{ThemeResource SurfaceBrush}"
               CornerRadius="16"
@@ -111,7 +114,7 @@
                       FontSize="11"
                       HorizontalAlignment="Right"
                       VerticalAlignment="Center"
-                      Command="{utu:AncestorBinding AncestorType=ItemsRepeater, Path=DataContext.AddToCart}"
+                      Command="{utu:AncestorBinding AncestorType=Page, Path=DataContext.AddToCart}"
                       CommandParameter="{Binding}" />
             </Grid>
           </StackPanel>
@@ -201,7 +204,7 @@
                     FontSize="14"
                     HorizontalAlignment="Left"
                     Margin="0,6,0,0"
-                    Command="{utu:ItemsControlBinding Path=DataContext.OrderNow}" />
+                    Command="{utu:AncestorBinding AncestorType=Page, Path=DataContext.OrderNow}" />
         </StackPanel>
     </Grid>
   </DataTemplate>
@@ -213,7 +216,7 @@
     <Button Style="{StaticResource FlatButtonStyle}"
             CornerRadius="16"
             AutomationProperties.Name="{Binding Name}"
-            Command="{utu:ItemsControlBinding Path=DataContext.ViewProduct}"
+            Command="{utu:AncestorBinding AncestorType=Page, Path=DataContext.ViewProduct}"
             CommandParameter="{Binding}">
         <Border Width="158"
                 Background="{ThemeResource SurfaceBrush}"
@@ -249,7 +252,7 @@
                             FontSize="11"
                             HorizontalAlignment="Stretch"
                             Margin="0,4,0,0"
-                            Command="{utu:ItemsControlBinding Path=DataContext.AddToCart}"
+                            Command="{utu:AncestorBinding AncestorType=Page, Path=DataContext.AddToCart}"
                             CommandParameter="{Binding}" />
                 </StackPanel>
             </StackPanel>
@@ -264,7 +267,7 @@
     <Button Style="{StaticResource FlatButtonStyle}"
             CornerRadius="12"
             AutomationProperties.Name="{Binding Name}"
-            Command="{utu:ItemsControlBinding Path=DataContext.GoToMenu}">
+            Command="{utu:AncestorBinding AncestorType=Page, Path=DataContext.GoToMenu}">
         <Border Background="{ThemeResource SurfaceVariantBrush}"
                 CornerRadius="12"
                 Padding="16,8">
@@ -289,7 +292,7 @@
             HorizontalContentAlignment="Stretch"
             VerticalContentAlignment="Stretch"
             AutomationProperties.Name="{Binding Name}"
-            Command="{utu:AncestorBinding AncestorType=ItemsRepeater, Path=DataContext.ViewProduct}"
+            Command="{utu:AncestorBinding AncestorType=Page, Path=DataContext.ViewProduct}"
             CommandParameter="{Binding}">
         <Border Background="{ThemeResource SurfaceBrush}"
                 CornerRadius="16"
@@ -340,7 +343,7 @@
                                 FontSize="11"
                                 HorizontalAlignment="Right"
                                 VerticalAlignment="Center"
-                                Command="{utu:AncestorBinding AncestorType=ItemsRepeater, Path=DataContext.AddToCart}"
+                                Command="{utu:AncestorBinding AncestorType=Page, Path=DataContext.AddToCart}"
                                 CommandParameter="{Binding}" />
                     </Grid>
                 </StackPanel>
@@ -357,7 +360,7 @@
     <Button Style="{StaticResource FlatButtonStyle}"
             CornerRadius="12"
             AutomationProperties.Name="{Binding Name}"
-            Command="{utu:ItemsControlBinding Path=DataContext.FilterByCategory}"
+            Command="{utu:AncestorBinding AncestorType=Page, Path=DataContext.FilterByCategory}"
             CommandParameter="{Binding Id}">
         <Grid>
             <!-- unselected pill -->
@@ -442,7 +445,7 @@
                 <Button Style="{StaticResource BrewButtonStyle}"
                         AutomationProperties.Name="Increase quantity"
                         Width="28" Height="28" MinWidth="0" MinHeight="0" Padding="0" CornerRadius="6"
-                        Command="{utu:ItemsControlBinding Path=DataContext.Increment}"
+                        Command="{utu:AncestorBinding AncestorType=Page, Path=DataContext.Increment}"
                         CommandParameter="{Binding}">
                     <Grid>
                         <Rectangle Width="12" Height="2" RadiusX="1" RadiusY="1" Fill="{ThemeResource OnPrimaryBrush}"
@@ -458,7 +461,7 @@
                         Background="{ThemeResource SurfaceVariantBrush}"
                         Foreground="{ThemeResource OnSurfaceVariantBrush}"
                         Width="28" Height="28" MinWidth="0" MinHeight="0" Padding="0" CornerRadius="6"
-                        Command="{utu:ItemsControlBinding Path=DataContext.Decrement}"
+                        Command="{utu:AncestorBinding AncestorType=Page, Path=DataContext.Decrement}"
                         CommandParameter="{Binding}">
                     <Rectangle Width="12" Height="2" RadiusX="1" RadiusY="1" Fill="{ThemeResource OnSurfaceVariantBrush}"
                                HorizontalAlignment="Center" VerticalAlignment="Center" />
@@ -474,7 +477,7 @@
     <Button Style="{StaticResource FlatButtonStyle}"
             CornerRadius="12"
             AutomationProperties.Name="{Binding}"
-            Command="{utu:ItemsControlBinding Path=DataContext.GoToMenu}">
+            Command="{utu:AncestorBinding AncestorType=Page, Path=DataContext.GoToMenu}">
         <Border Background="{ThemeResource SurfaceBrush}" CornerRadius="12" Padding="12,6">
             <TextBlock Text="{Binding}" FontSize="13" Foreground="{ThemeResource OnSurfaceBrush}" />
         </Border>
@@ -562,6 +565,179 @@
 
         </StackPanel>
     </Border>
+  </DataTemplate>
+
+  <!-- ══════════════════════ FeedView surfaces ══════════════════════ -->
+
+  <!-- Shared failure state. Every page that reads the catalogue over ICatalogService uses this as
+       its FeedView ErrorTemplate, so an unreachable backend looks the same everywhere. The
+       FeedViewState's Refresh command re-runs the underlying request — no Model command needed. -->
+  <DataTemplate x:Key="CatalogErrorTemplate">
+    <Border Background="{ThemeResource SurfaceBrush}"
+            CornerRadius="16"
+            Padding="32,40"
+            Margin="16,12,16,16"
+            VerticalAlignment="Top"
+            BorderBrush="{ThemeResource BrewCardBorderBrush}"
+            BorderThickness="1">
+      <StackPanel HorizontalAlignment="Center" Spacing="12">
+        <Viewbox Width="44" Height="44" HorizontalAlignment="Center">
+          <PathIcon Data="F1 M12 16C12.5523 16 13 16.4477 13 17C13 17.5523 12.5523 18 12 18C11.4477 18 11 17.5523 11 17C11 16.4477 11.4477 16 12 16ZM12 6.5C12.4142 6.5 12.75 6.83579 12.75 7.25V14.25C12.75 14.6642 12.4142 15 12 15C11.5858 15 11.25 14.6642 11.25 14.25V7.25C11.25 6.83579 11.5858 6.5 12 6.5ZM12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2ZM12 3.5C7.30558 3.5 3.5 7.30558 3.5 12C3.5 16.6944 7.30558 20.5 12 20.5C16.6944 20.5 20.5 16.6944 20.5 12C20.5 7.30558 16.6944 3.5 12 3.5Z"
+                    Foreground="{ThemeResource SecondaryBrush}" />
+        </Viewbox>
+        <TextBlock Text="Couldn't reach the kitchen"
+                   FontSize="20"
+                   FontWeight="Bold"
+                   Foreground="{ThemeResource OnSurfaceBrush}"
+                   HorizontalAlignment="Center" />
+        <TextBlock Text="Check your connection and try again."
+                   FontSize="13"
+                   Foreground="{ThemeResource OnSurfaceVariantBrush}"
+                   HorizontalAlignment="Center"
+                   TextAlignment="Center"
+                   TextWrapping="Wrap"
+                   MaxWidth="240" />
+        <Button Style="{StaticResource BrewButtonStyle}"
+                Content="Try again"
+                AutomationProperties.Name="Try again"
+                CornerRadius="12"
+                Padding="24,10"
+                FontSize="14"
+                HorizontalAlignment="Center"
+                Margin="0,4,0,0"
+                Command="{Binding Refresh}" />
+      </StackPanel>
+    </Border>
+  </DataTemplate>
+
+  <!-- MenuPage: the product grid, and the empty result the search can legitimately produce. -->
+  <DataTemplate x:Key="MenuGridTemplate">
+    <ScrollViewer VerticalScrollBarVisibility="Hidden"
+                  Padding="16,4,16,16">
+      <ItemsRepeater ItemsSource="{Binding Data}"
+                     ItemTemplate="{StaticResource ProductCardTemplate}">
+        <ItemsRepeater.Layout>
+          <UniformGridLayout MinItemWidth="360"
+                             MinColumnSpacing="12"
+                             MinRowSpacing="12"
+                             ItemsStretch="Fill" />
+        </ItemsRepeater.Layout>
+      </ItemsRepeater>
+    </ScrollViewer>
+  </DataTemplate>
+
+  <DataTemplate x:Key="MenuNoResultsTemplate">
+    <Border Background="{ThemeResource SurfaceBrush}"
+            CornerRadius="16"
+            Padding="32,40"
+            Margin="16,12,16,16"
+            VerticalAlignment="Top"
+            BorderBrush="{ThemeResource BrewCardBorderBrush}"
+            BorderThickness="1">
+      <StackPanel HorizontalAlignment="Center" Spacing="12">
+        <Viewbox Width="44" Height="44" HorizontalAlignment="Center">
+          <PathIcon Data="F1 M16.1017 17.1624C14.717 18.3101 12.9391 19 11 19C6.58172 19 3 15.4183 3 11C3 6.58172 6.58172 3 11 3C15.4183 3 19 6.58172 19 11C19 12.9391 18.3101 14.717 17.1624 16.1018L21.7803 20.7197C22.0732 21.0126 22.0732 21.4874 21.7803 21.7803C21.4874 22.0732 21.0125 22.0732 20.7196 21.7803L16.1017 17.1624ZM17.5 11C17.5 7.41015 14.5899 4.5 11 4.5C7.41015 4.5 4.5 7.41015 4.5 11C4.5 14.5899 7.41015 17.5 11 17.5C14.5899 17.5 17.5 14.5899 17.5 11Z"
+                    Foreground="{ThemeResource SecondaryBrush}" />
+        </Viewbox>
+        <TextBlock Text="No matches found"
+                   FontSize="20"
+                   FontWeight="Bold"
+                   Foreground="{ThemeResource OnSurfaceBrush}"
+                   HorizontalAlignment="Center" />
+        <TextBlock Text="Try a different category or search term."
+                   FontSize="13"
+                   Foreground="{ThemeResource OnSurfaceVariantBrush}"
+                   HorizontalAlignment="Center"
+                   TextAlignment="Center"
+                   TextWrapping="Wrap"
+                   MaxWidth="240" />
+      </StackPanel>
+    </Border>
+  </DataTemplate>
+
+  <!-- OrdersPage: the history list, and the first-run "nothing here yet" state. -->
+  <DataTemplate x:Key="OrderListTemplate">
+    <ScrollViewer VerticalScrollBarVisibility="Hidden"
+                  Padding="20,0,20,16">
+      <ItemsRepeater ItemsSource="{Binding Data}"
+                     ItemTemplate="{StaticResource OrderCardTemplate}">
+        <ItemsRepeater.Layout>
+          <UniformGridLayout MinItemWidth="360"
+                             MinColumnSpacing="12"
+                             MinRowSpacing="12"
+                             ItemsStretch="Fill" />
+        </ItemsRepeater.Layout>
+      </ItemsRepeater>
+    </ScrollViewer>
+  </DataTemplate>
+
+  <DataTemplate x:Key="OrdersEmptyTemplate">
+    <Border Background="{ThemeResource SurfaceBrush}"
+            CornerRadius="16"
+            Padding="32,40"
+            Margin="20,0,20,16"
+            VerticalAlignment="Top"
+            BorderBrush="{ThemeResource BrewCardBorderBrush}"
+            BorderThickness="1">
+      <StackPanel HorizontalAlignment="Center" Spacing="12">
+        <Viewbox Width="44" Height="44" HorizontalAlignment="Center">
+          <PathIcon Data="F1 M3 5.25C3 4.00736 4.00736 3 5.25 3H14.75C15.9926 3 17 4.00736 17 5.25V14H21V17.75C21 19.5449 19.5449 21 17.75 21H6.25C4.45507 21 3 19.5449 3 17.75V5.25ZM17 19.5H17.75C18.7165 19.5 19.5 18.7165 19.5 17.75V15.5H17V19.5ZM5.25 4.5C4.83579 4.5 4.5 4.83579 4.5 5.25V17.75C4.5 18.7165 5.2835 19.5 6.25 19.5H15.5V5.25C15.5 4.83579 15.1642 4.5 14.75 4.5H5.25ZM7.25 7C6.83579 7 6.5 7.33579 6.5 7.75C6.5 8.16421 6.83579 8.5 7.25 8.5H12.75C13.1642 8.5 13.5 8.16421 13.5 7.75C13.5 7.33579 13.1642 7 12.75 7H7.25ZM6.5 11.75C6.5 11.3358 6.83579 11 7.25 11H12.75C13.1642 11 13.5 11.3358 13.5 11.75C13.5 12.1642 13.1642 12.5 12.75 12.5H7.25C6.83579 12.5 6.5 12.1642 6.5 11.75ZM7.25 15C6.83579 15 6.5 15.3358 6.5 15.75C6.5 16.1642 6.83579 16.5 7.25 16.5H10.25C10.6642 16.5 11 16.1642 11 15.75C11 15.3358 10.6642 15 10.25 15H7.25Z"
+                    Foreground="{ThemeResource SecondaryBrush}" />
+        </Viewbox>
+        <TextBlock Text="No orders yet"
+                   FontSize="20"
+                   FontWeight="Bold"
+                   Foreground="{ThemeResource OnSurfaceBrush}"
+                   HorizontalAlignment="Center" />
+        <TextBlock Text="Your order history will appear here once you place your first order."
+                   FontSize="13"
+                   Foreground="{ThemeResource OnSurfaceVariantBrush}"
+                   HorizontalAlignment="Center"
+                   TextAlignment="Center"
+                   TextWrapping="Wrap"
+                   MaxWidth="240" />
+      </StackPanel>
+    </Border>
+  </DataTemplate>
+
+  <!-- HomePage sections. Each is its own request, so each gets its own FeedView; the value
+       templates just place the shared card template in the right layout. -->
+  <DataTemplate x:Key="HomeSpecialsTemplate">
+    <ScrollViewer HorizontalScrollBarVisibility="Hidden"
+                  VerticalScrollBarVisibility="Disabled"
+                  HorizontalScrollMode="Enabled"
+                  Padding="20,0,20,4">
+      <ItemsControl ItemsSource="{Binding Data}"
+                    ItemTemplate="{StaticResource SpecialProductCardTemplate}">
+        <ItemsControl.ItemsPanel>
+          <ItemsPanelTemplate>
+            <StackPanel Orientation="Horizontal" Spacing="14" />
+          </ItemsPanelTemplate>
+        </ItemsControl.ItemsPanel>
+      </ItemsControl>
+    </ScrollViewer>
+  </DataTemplate>
+
+  <DataTemplate x:Key="HomeFeaturedTemplate">
+    <ItemsRepeater ItemsSource="{Binding Data}"
+                   ItemTemplate="{StaticResource FeaturedProductCardTemplate}">
+      <ItemsRepeater.Layout>
+        <UniformGridLayout MinItemWidth="360"
+                           MinColumnSpacing="12"
+                           MinRowSpacing="12"
+                           ItemsStretch="Fill" />
+      </ItemsRepeater.Layout>
+    </ItemsRepeater>
+  </DataTemplate>
+
+  <!-- A section that came back empty. Deliberately quiet: a missing promo row on the landing page
+       is not an error, so it states the fact and stays out of the way. -->
+  <DataTemplate x:Key="HomeSectionEmptyTemplate">
+    <TextBlock Text="Nothing here today — check back soon."
+               FontSize="13"
+               Foreground="{ThemeResource OnSurfaceVariantBrush}"
+               Margin="20,4,20,4"
+               TextWrapping="Wrap" />
   </DataTemplate>
 
 </ResourceDictionary>

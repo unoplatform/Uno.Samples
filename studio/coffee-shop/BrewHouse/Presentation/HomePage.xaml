@@ -2,6 +2,7 @@
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:utu="using:Uno.Toolkit.UI"
+      xmlns:mvux="using:Uno.Extensions.Reactive.UI"
       Background="{ThemeResource BackgroundBrush}">
 
     <utu:SafeArea Insets="VisibleBounds">
@@ -102,20 +103,13 @@
                                        Foreground="{ThemeResource OnSurfaceVariantBrush}" />
                         </StackPanel>
 
-                        <!-- Specials Horizontal Scroll -->
-                        <ScrollViewer HorizontalScrollBarVisibility="Hidden"
-                                      VerticalScrollBarVisibility="Disabled"
-                                      HorizontalScrollMode="Enabled"
-                                      Padding="20,0,20,4">
-                            <ItemsControl ItemsSource="{Binding Specials}"
-                                          ItemTemplate="{StaticResource SpecialProductCardTemplate}">
-                                <ItemsControl.ItemsPanel>
-                                    <ItemsPanelTemplate>
-                                        <StackPanel Orientation="Horizontal" Spacing="14" />
-                                    </ItemsPanelTemplate>
-                                </ItemsControl.ItemsPanel>
-                            </ItemsControl>
-                        </ScrollViewer>
+                        <!-- Specials: its own catalogue request, so its own FeedView — the row
+                             shows a loading ring, the cards, "nothing today", or the shared failure
+                             card, without the page branching on anything itself. -->
+                        <mvux:FeedView Source="{Binding Specials}"
+                                       ValueTemplate="{StaticResource HomeSpecialsTemplate}"
+                                       NoneTemplate="{StaticResource HomeSectionEmptyTemplate}"
+                                       ErrorTemplate="{StaticResource CatalogErrorTemplate}" />
 
                         <!-- Category Chips -->
                         <StackPanel Padding="20,20,20,8" Spacing="10">
@@ -144,15 +138,11 @@
                                        FontWeight="Bold"
                                        Foreground="{ThemeResource OnBackgroundBrush}" />
 
-                            <ItemsRepeater ItemsSource="{Binding FeaturedProducts}"
-                                           ItemTemplate="{StaticResource FeaturedProductCardTemplate}">
-                                <ItemsRepeater.Layout>
-                                    <UniformGridLayout MinItemWidth="360"
-                                                       MinColumnSpacing="12"
-                                                       MinRowSpacing="12"
-                                                       ItemsStretch="Fill" />
-                                </ItemsRepeater.Layout>
-                            </ItemsRepeater>
+                            <!-- Featured: a second, independent catalogue request. -->
+                            <mvux:FeedView Source="{Binding FeaturedProducts}"
+                                           ValueTemplate="{StaticResource HomeFeaturedTemplate}"
+                                           NoneTemplate="{StaticResource HomeSectionEmptyTemplate}"
+                                           ErrorTemplate="{StaticResource CatalogErrorTemplate}" />
                         </StackPanel>
 
                         <!-- Cart summary strip: shown when the cart has items. Binds directly to the
