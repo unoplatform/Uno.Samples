@@ -8,11 +8,13 @@ public sealed partial class ProfilePage : Page
     {
         this.InitializeComponent();
 
-        // Set the DataContext so Hot Design Previews — which construct the page directly,
-        // without running Navigation — render with the model's data. At runtime
-        // Uno.Extensions.Navigation resolves the model from the ViewMap<TPage, TModel>
-        // and assigns its own instance; replacing this one is expected and harmless.
+        // Hot Design renders this page without running Navigation, so seed a design-time DataContext
+        // for the preview. Set it on the *page* (this.DataContext), never on a child element: at
+        // runtime Navigation injects the ProfileModel as the page's DataContext, and a child carrying its
+        // own explicit DataContext would shadow it, leaving every binding stuck on the inert seed.
         this.DataContext = new ProfileModel();
+        // (A plain [ReactiveBindable(false)] Model IS the design-time data here — it projects fixed
+        //  values, so no separate mock is needed and the auto-Default preview renders populated.)
 
         Loaded += (_, _) =>
         {

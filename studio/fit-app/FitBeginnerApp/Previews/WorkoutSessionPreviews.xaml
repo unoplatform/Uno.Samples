@@ -1,0 +1,22 @@
+<hd:PreviewGroup x:Class="FitBeginnerApp.Previews.WorkoutSessionPreviews"
+                 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                 xmlns:local="using:FitBeginnerApp.Presentation"
+                 xmlns:mock="using:FitBeginnerApp.Presentation.MockData"
+                 xmlns:hd="using:Uno.UI.HotDesign"
+                 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                 mc:Ignorable="d">
+
+    <!-- The guided session before and after Begin — the app's only page-level data branch. Each
+         child overrides the ctor's design-time DataContext with a plain mock, because the live
+         Model surfaces IsStarted as an IState<bool> that a design surface has no context to pump.
+         No size on the <hd:Preview>: a page fills the canvas / device frame. -->
+    <hd:Preview PreviewName="Ready to Begin" Visibility="Collapsed">
+        <local:WorkoutSessionPage DataContext="{x:Bind mock:WorkoutSessionPageMockData.Data}" />
+    </hd:Preview>
+
+    <hd:Preview PreviewName="In Progress" Visibility="Collapsed">
+        <local:WorkoutSessionPage DataContext="{x:Bind mock:WorkoutSessionPageMockData.InProgress}" />
+    </hd:Preview>
+</hd:PreviewGroup>
