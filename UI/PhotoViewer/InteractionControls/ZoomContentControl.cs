@@ -7,12 +7,22 @@ using Windows.Foundation;
 
 namespace InteractionControls;
 
-[TemplatePart(Name = "PART_Grid", Type = typeof(Grid))]
-[TemplatePart(Name = "PART_Presenter", Type = typeof(ContentPresenter))]
-[TemplatePart(Name = "PART_scrollV", Type = typeof(ScrollBar))]
-[TemplatePart(Name = "PART_scrollH", Type = typeof(ScrollBar))]
+[TemplatePart(Name = Parts.RootGrid, Type = typeof(Grid))]
+[TemplatePart(Name = Parts.Presenter, Type = typeof(ContentPresenter))]
+[TemplatePart(Name = Parts.VerticalScrollBar, Type = typeof(ScrollBar))]
+[TemplatePart(Name = Parts.HorizontalScrollBar, Type = typeof(ScrollBar))]
 public partial class ZoomContentControl : ContentControl
 {
+    private static class Parts
+    {
+        public const string RootGrid = "PART_RootGrid";
+
+        public const string Presenter = "PART_Presenter";
+
+        public const string HorizontalScrollBar = "PART_ScrollH";
+        public const string VerticalScrollBar = "PART_ScrollV";
+    }
+
     private Grid? _grid;
     private ContentPresenter? _presenter;
     private ScrollBar? _scrollV;
@@ -301,10 +311,10 @@ public partial class ZoomContentControl : ContentControl
 
     protected override void OnApplyTemplate()
     {
-        _grid = GetTemplateChild("PART_Grid") as Grid;
-        _presenter = GetTemplateChild("PART_Presenter") as ContentPresenter;
-        _scrollV = GetTemplateChild("PART_scrollV") as ScrollBar;
-        _scrollH = GetTemplateChild("PART_scrollH") as ScrollBar;
+        _grid = GetTemplateChild(Parts.RootGrid) as Grid;
+        _presenter = GetTemplateChild(Parts.Presenter) as ContentPresenter;
+        _scrollV = GetTemplateChild(Parts.VerticalScrollBar) as ScrollBar;
+        _scrollH = GetTemplateChild(Parts.HorizontalScrollBar) as ScrollBar;
 
         RegisterToControlEvents();
 
