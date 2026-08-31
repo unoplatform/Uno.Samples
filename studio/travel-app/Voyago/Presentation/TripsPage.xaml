@@ -4,6 +4,7 @@
       xmlns:local="using:Voyago.Presentation"
       xmlns:uen="using:Uno.Extensions.Navigation.UI"
       xmlns:utu="using:Uno.Toolkit.UI"
+      xmlns:mvux="using:Uno.Extensions.Reactive.UI"
       Background="{ThemeResource BackgroundBrush}">
 
     <Grid>
@@ -30,50 +31,13 @@
                         <TextBlock Text="Upcoming" Style="{StaticResource TitleMedium}" Foreground="{ThemeResource OnBackgroundBrush}" VerticalAlignment="Center" />
                     </StackPanel>
 
-                    <ItemsRepeater ItemsSource="{Binding UpcomingTrips}">
-                        <ItemsRepeater.Layout>
-                            <StackLayout Orientation="Vertical" Spacing="12" />
-                        </ItemsRepeater.Layout>
-                        <ItemsRepeater.ItemTemplate>
-                            <DataTemplate>
-                                <utu:CardContentControl Style="{StaticResource ElevatedCardContentControlStyle}"
-                                                        HorizontalAlignment="Stretch" IsClickable="True"
-                                                        uen:Navigation.Request="{utu:Responsive Layout={StaticResource DesktopModalBreakpoint}, Narrow=DestinationDetail, Wide=DestinationDetail, Widest='!DestinationDetailModal'}"
-                                                        uen:Navigation.Data="{Binding Place}"
-                                                        AutomationProperties.Name="{Binding Destination}">
-                                    <Grid Height="108">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="104" />
-                                            <ColumnDefinition Width="*" />
-                                        </Grid.ColumnDefinitions>
-                                        <Border Grid.Column="0">
-                                            <Border.Background>
-                                                <ImageBrush ImageSource="{Binding ImageUrl}" Stretch="UniformToFill" />
-                                            </Border.Background>
-                                        </Border>
-                                        <StackPanel Grid.Column="1" Padding="14,12" Spacing="4" VerticalAlignment="Center">
-                                            <TextBlock Text="{Binding Destination}" Style="{StaticResource TitleMedium}" Foreground="{ThemeResource OnSurfaceBrush}" />
-                                            <StackPanel Orientation="Horizontal" Spacing="5" VerticalAlignment="Center">
-                                                <Viewbox Width="12" Height="12" VerticalAlignment="Center">
-                                                    <Path Data="{Binding Converter={StaticResource Icon}, ConverterParameter=location}" Fill="{ThemeResource OnSurfaceVariantBrush}" Stretch="Uniform" />
-                                                </Viewbox>
-                                                <TextBlock Text="{Binding Country}" Style="{StaticResource BodySmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" VerticalAlignment="Center" />
-                                                <TextBlock Style="{StaticResource BodySmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" VerticalAlignment="Center" Margin="6,0,0,0">
-                                                    <Run Text="·" />
-                                                    <Run Text="{Binding DepartureLabel}" />
-                                                </TextBlock>
-                                            </StackPanel>
-                                            <ContentControl Content="{Binding Status}"
-                                                            ContentTemplateSelector="{StaticResource TripStatusSelector}"
-                                                            IsTabStop="False"
-                                                            HorizontalAlignment="Left"
-                                                            Margin="0,4,0,0" />
-                                        </StackPanel>
-                                    </Grid>
-                                </utu:CardContentControl>
-                            </DataTemplate>
-                        </ItemsRepeater.ItemTemplate>
-                    </ItemsRepeater>
+                    <!-- The trip book is a list STATE (booking prepends to it) whose initial
+                         contents load from the service, so it genuinely has Progress, Value, a
+                         first-run empty state and Error. -->
+                    <mvux:FeedView Source="{Binding UpcomingTrips}"
+                                   ValueTemplate="{StaticResource UpcomingTripListTemplate}"
+                                   NoneTemplate="{StaticResource NoUpcomingTripsTemplate}"
+                                   ErrorTemplate="{StaticResource DiscoveryErrorTemplate}" />
                 </StackPanel>
 
                 <StackPanel Spacing="12" Margin="0,28,0,0">
@@ -84,40 +48,11 @@
                         <TextBlock Text="Past trips" Style="{StaticResource TitleMedium}" Foreground="{ThemeResource OnBackgroundBrush}" VerticalAlignment="Center" />
                     </StackPanel>
 
-                    <ItemsRepeater ItemsSource="{Binding PastTrips}">
-                        <ItemsRepeater.Layout>
-                            <StackLayout Orientation="Vertical" Spacing="12" />
-                        </ItemsRepeater.Layout>
-                        <ItemsRepeater.ItemTemplate>
-                            <DataTemplate>
-                                <utu:CardContentControl Style="{StaticResource FilledCardContentControlStyle}"
-                                                        HorizontalAlignment="Stretch" IsClickable="True"
-                                                        uen:Navigation.Request="{utu:Responsive Layout={StaticResource DesktopModalBreakpoint}, Narrow=DestinationDetail, Wide=DestinationDetail, Widest='!DestinationDetailModal'}"
-                                                        uen:Navigation.Data="{Binding Place}"
-                                                        AutomationProperties.Name="{Binding Destination}">
-                                    <Grid Height="86">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="84" />
-                                            <ColumnDefinition Width="*" />
-                                        </Grid.ColumnDefinitions>
-                                        <Border Grid.Column="0">
-                                            <Border.Background>
-                                                <ImageBrush ImageSource="{Binding ImageUrl}" Stretch="UniformToFill" />
-                                            </Border.Background>
-                                        </Border>
-                                        <StackPanel Grid.Column="1" Padding="14,10" Spacing="2" VerticalAlignment="Center">
-                                            <TextBlock Text="{Binding Destination}" Style="{StaticResource TitleSmall}" Foreground="{ThemeResource OnSurfaceBrush}" />
-                                            <TextBlock Text="{Binding Country}" Style="{StaticResource BodySmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" />
-                                            <TextBlock Style="{StaticResource LabelSmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" Margin="0,2,0,0">
-                                                <Run Text="Ref:" />
-                                                <Run Text="{Binding BookingRef}" />
-                                            </TextBlock>
-                                        </StackPanel>
-                                    </Grid>
-                                </utu:CardContentControl>
-                            </DataTemplate>
-                        </ItemsRepeater.ItemTemplate>
-                    </ItemsRepeater>
+                    <!-- Read-only history pulled from the service — a list feed, per the docs. -->
+                    <mvux:FeedView Source="{Binding PastTrips}"
+                                   ValueTemplate="{StaticResource PastTripListTemplate}"
+                                   NoneTemplate="{StaticResource NoPastTripsTemplate}"
+                                   ErrorTemplate="{StaticResource DiscoveryErrorTemplate}" />
                 </StackPanel>
 
             </StackPanel>

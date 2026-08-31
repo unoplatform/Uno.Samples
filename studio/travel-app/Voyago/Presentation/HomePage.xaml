@@ -4,6 +4,7 @@
       xmlns:local="using:Voyago.Presentation"
       xmlns:uen="using:Uno.Extensions.Navigation.UI"
       xmlns:utu="using:Uno.Toolkit.UI"
+      xmlns:mvux="using:Uno.Extensions.Reactive.UI"
       Background="{ThemeResource BackgroundBrush}">
 
     <Grid>
@@ -68,41 +69,8 @@
                               VerticalAlignment="Stretch"
                               CornerRadius="{utu:Responsive Narrow=0, Wide=18}"
                               SelectionChanged="OnHeroSelectionChanged"
-                              AutomationProperties.Name="Featured destinations carousel">
-                        <FlipView.ItemTemplate>
-                            <DataTemplate>
-                                <Grid>
-                                    <Border>
-                                        <Border.Background>
-                                            <ImageBrush ImageSource="{Binding ImageUrl}" Stretch="UniformToFill" />
-                                        </Border.Background>
-                                    </Border>
-                                    <!-- 3-stop scrim keeps the white caption legible over any photo -->
-                                    <Rectangle>
-                                        <Rectangle.Fill>
-                                            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-                                                <GradientStop Color="#00000000" Offset="0" />
-                                                <GradientStop Color="#40000000" Offset="0.45" />
-                                                <GradientStop Color="#E6000000" Offset="1" />
-                                            </LinearGradientBrush>
-                                        </Rectangle.Fill>
-                                    </Rectangle>
-                                    <StackPanel VerticalAlignment="Bottom" Padding="24,0,24,30" Spacing="6">
-                                        <TextBlock Text="{Binding Name}" Style="{StaticResource DisplayMedium}" Foreground="White" />
-                                        <TextBlock Text="{Binding Tagline}" Style="{StaticResource BodyMedium}" Foreground="#E6FFFFFF" TextWrapping="Wrap" />
-                                        <Button Style="{StaticResource PrimaryButtonStyle}"
-                                                Content="Explore"
-                                                Padding="20,10"
-                                                FontSize="14"
-                                                HorizontalAlignment="Left"
-                                                Margin="0,8,0,0"
-                                                uen:Navigation.Request="{utu:Responsive Layout={StaticResource DesktopModalBreakpoint}, Narrow=DestinationDetail, Wide=DestinationDetail, Widest='!DestinationDetailModal'}"
-                                                uen:Navigation.Data="{Binding}"
-                                                AutomationProperties.Name="{Binding Name}" />
-                                    </StackPanel>
-                                </Grid>
-                            </DataTemplate>
-                        </FlipView.ItemTemplate>
+                              AutomationProperties.Name="Featured destinations carousel"
+                              ItemTemplate="{StaticResource HeroDestinationTemplate}">
                     </FlipView>
 
                     <!-- Display-only position indicator: never clickable, so it can't fall out of sync
@@ -143,25 +111,11 @@
                 <!-- Quick actions -->
                 <StackPanel Padding="16,24,16,0" Spacing="12">
                     <TextBlock Text="Plan your trip" Style="{StaticResource TitleMedium}" Foreground="{ThemeResource OnBackgroundBrush}" />
-                    <ItemsRepeater ItemsSource="{Binding QuickActions}" MinWidth="88">
+                    <ItemsRepeater ItemsSource="{Binding QuickActions}" MinWidth="88"
+                                   ItemTemplate="{StaticResource QuickActionTemplate}">
                         <ItemsRepeater.Layout>
                             <UniformGridLayout MinItemWidth="88" MinItemHeight="88" MinColumnSpacing="12" MinRowSpacing="12" MaximumRowsOrColumns="6" ItemsStretch="Fill" Orientation="Horizontal" />
                         </ItemsRepeater.Layout>
-                        <ItemsRepeater.ItemTemplate>
-                            <DataTemplate>
-                                <utu:CardContentControl Style="{StaticResource FilledCardContentControlStyle}"
-                                                        HorizontalAlignment="Stretch" IsClickable="True"
-                                                        uen:Navigation.Request="Search"
-                                                        AutomationProperties.Name="{Binding Label}">
-                                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="7" Padding="8,12">
-                                        <Viewbox Width="24" Height="24" HorizontalAlignment="Center">
-                                            <Path Data="{Binding Label, Converter={StaticResource Icon}}" Fill="{ThemeResource PrimaryBrush}" Stretch="Uniform" />
-                                        </Viewbox>
-                                        <TextBlock Text="{Binding Label}" Style="{StaticResource LabelSmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" HorizontalAlignment="Center" TextAlignment="Center" />
-                                    </StackPanel>
-                                </utu:CardContentControl>
-                            </DataTemplate>
-                        </ItemsRepeater.ItemTemplate>
                     </ItemsRepeater>
                 </StackPanel>
 
@@ -171,43 +125,13 @@
                      card's image row has a fixed height, so cells never collapse. -->
                 <StackPanel Padding="16,24,16,0" Spacing="12">
                     <TextBlock Text="Recommended for you" Style="{StaticResource TitleMedium}" Foreground="{ThemeResource OnBackgroundBrush}" />
-                    <ItemsRepeater ItemsSource="{Binding RecommendedTrips}" MinWidth="164">
-                        <ItemsRepeater.Layout>
-                            <UniformGridLayout MinItemWidth="{utu:Responsive Narrow=164, Wide=240}" MinItemHeight="196" MinColumnSpacing="12" MinRowSpacing="12" ItemsStretch="Fill" Orientation="Horizontal" />
-                        </ItemsRepeater.Layout>
-                        <ItemsRepeater.ItemTemplate>
-                            <DataTemplate>
-                                <utu:CardContentControl Style="{StaticResource ElevatedCardContentControlStyle}"
-                                                        HorizontalAlignment="Stretch" IsClickable="True"
-                                                        uen:Navigation.Request="{utu:Responsive Layout={StaticResource DesktopModalBreakpoint}, Narrow=DestinationDetail, Wide=DestinationDetail, Widest='!DestinationDetailModal'}"
-                                                        uen:Navigation.Data="{Binding}"
-                                                        AutomationProperties.Name="{Binding Name}">
-                                    <Grid>
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="118" />
-                                            <RowDefinition Height="Auto" />
-                                        </Grid.RowDefinitions>
-                                        <Border Grid.Row="0">
-                                            <Border.Background>
-                                                <ImageBrush ImageSource="{Binding ImageUrl}" Stretch="UniformToFill" />
-                                            </Border.Background>
-                                        </Border>
-                                        <StackPanel Grid.Row="1" Padding="12,10,12,12" Spacing="3">
-                                            <TextBlock Text="{Binding Name}" Style="{StaticResource TitleSmall}" Foreground="{ThemeResource OnSurfaceBrush}" TextTrimming="CharacterEllipsis" MaxLines="1" />
-                                            <TextBlock Text="{Binding Country}" Style="{StaticResource BodySmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" />
-                                            <StackPanel Orientation="Horizontal" Spacing="4" Margin="0,2,0,0" VerticalAlignment="Center">
-                                                <Viewbox Width="12" Height="12" VerticalAlignment="Center">
-                                                    <Path Data="{Binding Converter={StaticResource Icon}, ConverterParameter=star_filled}" Fill="{ThemeResource SecondaryBrush}" Stretch="Uniform" />
-                                                </Viewbox>
-                                                <TextBlock Text="{Binding Rating}" Style="{StaticResource LabelSmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" VerticalAlignment="Center" />
-                                                <TextBlock Text="{Binding PriceFrom}" Style="{StaticResource LabelSmall}" Foreground="{ThemeResource SecondaryBrush}" Margin="8,0,0,0" VerticalAlignment="Center" />
-                                            </StackPanel>
-                                        </StackPanel>
-                                    </Grid>
-                                </utu:CardContentControl>
-                            </DataTemplate>
-                        </ItemsRepeater.ItemTemplate>
-                    </ItemsRepeater>
+                    <!-- The page's primary content section, so it goes through a FeedView: the grid,
+                         a quiet "nothing to recommend" line, the shared failure card, and the loading
+                         ring in between. -->
+                    <mvux:FeedView Source="{Binding RecommendedTrips}"
+                                   ValueTemplate="{StaticResource RecommendedGridTemplate}"
+                                   NoneTemplate="{StaticResource NoSearchResultsTemplate}"
+                                   ErrorTemplate="{StaticResource DiscoveryErrorTemplate}" />
                 </StackPanel>
 
                 <!-- Explore categories: a 2-up grid of fixed-height image tiles (each tile carries an
@@ -215,39 +139,11 @@
                      measured height on its own, unlike the fixed image rows on the cards above). -->
                 <StackPanel Padding="16,24,16,24" Spacing="12">
                     <TextBlock Text="Explore by style" Style="{StaticResource TitleMedium}" Foreground="{ThemeResource OnBackgroundBrush}" />
-                    <ItemsRepeater ItemsSource="{Binding ExploreCategories}" MinWidth="150">
+                    <ItemsRepeater ItemsSource="{Binding ExploreCategories}" MinWidth="150"
+                                   ItemTemplate="{StaticResource ExploreCategoryTileTemplate}">
                         <ItemsRepeater.Layout>
                             <UniformGridLayout MinItemWidth="{utu:Responsive Narrow=150, Wide=300}" MinItemHeight="132" MinColumnSpacing="12" MinRowSpacing="12" ItemsStretch="Fill" Orientation="Horizontal" />
                         </ItemsRepeater.Layout>
-                        <ItemsRepeater.ItemTemplate>
-                            <DataTemplate>
-                                <utu:CardContentControl Style="{StaticResource ElevatedCardContentControlStyle}"
-                                                        Height="132"
-                                                        HorizontalAlignment="Stretch"
-                                                        VerticalAlignment="Stretch"
-                                                        IsClickable="True"
-                                                        uen:Navigation.Request="{utu:Responsive Layout={StaticResource DesktopModalBreakpoint}, Narrow=DestinationDetail, Wide=DestinationDetail, Widest='!DestinationDetailModal'}"
-                                                        uen:Navigation.Data="{Binding Featured}"
-                                                        AutomationProperties.Name="{Binding Label}">
-                                    <Grid>
-                                        <Border>
-                                            <Border.Background>
-                                                <ImageBrush ImageSource="{Binding ImageUrl}" Stretch="UniformToFill" />
-                                            </Border.Background>
-                                        </Border>
-                                        <Rectangle>
-                                            <Rectangle.Fill>
-                                                <LinearGradientBrush StartPoint="0.5,0.1" EndPoint="0.5,1">
-                                                    <GradientStop Color="#1A000000" Offset="0" />
-                                                    <GradientStop Color="#CC000000" Offset="1" />
-                                                </LinearGradientBrush>
-                                            </Rectangle.Fill>
-                                        </Rectangle>
-                                        <TextBlock Text="{Binding Label}" Style="{StaticResource TitleSmall}" Foreground="White" VerticalAlignment="Bottom" Padding="14,0,14,12" TextWrapping="Wrap" />
-                                    </Grid>
-                                </utu:CardContentControl>
-                            </DataTemplate>
-                        </ItemsRepeater.ItemTemplate>
                     </ItemsRepeater>
                 </StackPanel>
 

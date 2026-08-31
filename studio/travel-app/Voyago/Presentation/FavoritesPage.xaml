@@ -4,6 +4,7 @@
       xmlns:local="using:Voyago.Presentation"
       xmlns:uen="using:Uno.Extensions.Navigation.UI"
       xmlns:utu="using:Uno.Toolkit.UI"
+      xmlns:mvux="using:Uno.Extensions.Reactive.UI"
       Background="{ThemeResource BackgroundBrush}">
 
     <Grid>
@@ -37,52 +38,12 @@
 
                 <TextBlock Text="Your saved destinations" Style="{StaticResource BodyMedium}" Foreground="{ThemeResource OnSurfaceVariantBrush}" />
 
-                <ItemsRepeater ItemsSource="{Binding SavedDestinations}" MinWidth="164">
-                    <ItemsRepeater.Layout>
-                        <UniformGridLayout MinItemWidth="{utu:Responsive Narrow=164, Wide=240}" MinItemHeight="228" MinColumnSpacing="12" MinRowSpacing="12" ItemsStretch="Fill" Orientation="Horizontal" />
-                    </ItemsRepeater.Layout>
-                    <ItemsRepeater.ItemTemplate>
-                        <DataTemplate>
-                            <utu:CardContentControl Style="{StaticResource ElevatedCardContentControlStyle}"
-                                                    HorizontalAlignment="Stretch" IsClickable="True"
-                                                    uen:Navigation.Request="{utu:Responsive Layout={StaticResource DesktopModalBreakpoint}, Narrow=DestinationDetail, Wide=DestinationDetail, Widest='!DestinationDetailModal'}"
-                                                    uen:Navigation.Data="{Binding}"
-                                                    AutomationProperties.Name="{Binding Name}">
-                                <Grid>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="138" />
-                                        <RowDefinition Height="Auto" />
-                                    </Grid.RowDefinitions>
-
-                                    <Grid Grid.Row="0">
-                                        <Border>
-                                            <Border.Background>
-                                                <ImageBrush ImageSource="{Binding ImageUrl}" Stretch="UniformToFill" />
-                                            </Border.Background>
-                                        </Border>
-                                        <Border Background="{ThemeResource SurfaceBrush}" CornerRadius="15" Width="30" Height="30" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,8,8,0">
-                                            <Viewbox Width="15" Height="15" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                                <Path Data="{Binding Converter={StaticResource Icon}, ConverterParameter=heart_filled}" Fill="{ThemeResource PrimaryBrush}" Stretch="Uniform" />
-                                            </Viewbox>
-                                        </Border>
-                                    </Grid>
-
-                                    <StackPanel Grid.Row="1" Padding="12,9,12,11" Spacing="3">
-                                        <TextBlock Text="{Binding Name}" Style="{StaticResource TitleSmall}" Foreground="{ThemeResource OnSurfaceBrush}" TextTrimming="CharacterEllipsis" MaxLines="1" />
-                                        <TextBlock Text="{Binding Country}" Style="{StaticResource BodySmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" />
-                                        <StackPanel Orientation="Horizontal" Spacing="4" VerticalAlignment="Center" Margin="0,2,0,0">
-                                            <Viewbox Width="12" Height="12" VerticalAlignment="Center">
-                                                <Path Data="{Binding Converter={StaticResource Icon}, ConverterParameter=star_filled}" Fill="{ThemeResource SecondaryBrush}" Stretch="Uniform" />
-                                            </Viewbox>
-                                            <TextBlock Text="{Binding Rating}" Style="{StaticResource LabelSmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" VerticalAlignment="Center" />
-                                            <TextBlock Text="{Binding PriceFrom}" Style="{StaticResource LabelSmall}" Foreground="{ThemeResource SecondaryBrush}" Margin="8,0,0,0" VerticalAlignment="Center" />
-                                        </StackPanel>
-                                    </StackPanel>
-                                </Grid>
-                            </utu:CardContentControl>
-                        </DataTemplate>
-                    </ItemsRepeater.ItemTemplate>
-                </ItemsRepeater>
+                <!-- An empty saved list is a real state for a new traveller, so the grid is a
+                     FeedView and "nothing saved yet" is a designed template. -->
+                <mvux:FeedView Source="{Binding SavedDestinations}"
+                               ValueTemplate="{StaticResource FavoritesGridTemplate}"
+                               NoneTemplate="{StaticResource NoFavoritesTemplate}"
+                               ErrorTemplate="{StaticResource DiscoveryErrorTemplate}" />
 
             </StackPanel>
         </ScrollViewer>

@@ -71,66 +71,22 @@
                 <!-- Account -->
                 <TextBlock Text="ACCOUNT" Style="{StaticResource SectionLabel}" Margin="4,24,0,8" />
                 <Border Background="{ThemeResource SurfaceBrush}" BorderBrush="{ThemeResource CardBorderBrush}" BorderThickness="1" CornerRadius="{StaticResource CardCornerRadius}">
-                    <ItemsRepeater ItemsSource="{Binding AccountSettings}">
+                    <ItemsRepeater ItemsSource="{Binding AccountSettings}"
+                                   ItemTemplate="{StaticResource AccountSettingTemplate}">
                         <ItemsRepeater.Layout>
                             <StackLayout Orientation="Vertical" Spacing="0" />
                         </ItemsRepeater.Layout>
-                        <ItemsRepeater.ItemTemplate>
-                            <DataTemplate>
-                                <Grid Padding="14,13" MinHeight="58">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto" />
-                                        <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="Auto" />
-                                    </Grid.ColumnDefinitions>
-                                    <Border Grid.Column="0" Width="38" Height="38" CornerRadius="11" Background="{ThemeResource PrimaryContainerBrush}" Margin="0,0,12,0">
-                                        <Viewbox Width="18" Height="18" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                            <Path Data="{Binding Label, Converter={StaticResource Icon}}" Fill="{ThemeResource OnPrimaryContainerBrush}" Stretch="Uniform" />
-                                        </Viewbox>
-                                    </Border>
-                                    <StackPanel Grid.Column="1" VerticalAlignment="Center" Spacing="1">
-                                        <TextBlock Text="{Binding Label}" Style="{StaticResource BodyLarge}" Foreground="{ThemeResource OnSurfaceBrush}" />
-                                        <TextBlock Text="{Binding Subtitle}" Style="{StaticResource BodySmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" />
-                                    </StackPanel>
-                                    <Viewbox Grid.Column="2" Width="16" Height="16" VerticalAlignment="Center">
-                                        <Path Data="{Binding Converter={StaticResource Icon}, ConverterParameter=chevron_right}" Fill="{ThemeResource OutlineBrush}" Stretch="Uniform" />
-                                    </Viewbox>
-                                </Grid>
-                            </DataTemplate>
-                        </ItemsRepeater.ItemTemplate>
                     </ItemsRepeater>
                 </Border>
 
                 <!-- Preferences -->
                 <TextBlock Text="PREFERENCES" Style="{StaticResource SectionLabel}" Margin="4,20,0,8" />
                 <Border Background="{ThemeResource SurfaceBrush}" BorderBrush="{ThemeResource CardBorderBrush}" BorderThickness="1" CornerRadius="{StaticResource CardCornerRadius}">
-                    <ItemsRepeater ItemsSource="{Binding AppSettings}">
+                    <ItemsRepeater ItemsSource="{Binding AppSettings}"
+                                   ItemTemplate="{StaticResource AppSettingTemplate}">
                         <ItemsRepeater.Layout>
                             <StackLayout Orientation="Vertical" Spacing="0" />
                         </ItemsRepeater.Layout>
-                        <ItemsRepeater.ItemTemplate>
-                            <DataTemplate>
-                                <Grid Padding="14,13" MinHeight="58">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto" />
-                                        <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="Auto" />
-                                    </Grid.ColumnDefinitions>
-                                    <Border Grid.Column="0" Width="38" Height="38" CornerRadius="11" Background="{ThemeResource SurfaceVariantBrush}" Margin="0,0,12,0">
-                                        <Viewbox Width="18" Height="18" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                            <Path Data="{Binding Label, Converter={StaticResource Icon}}" Fill="{ThemeResource OnSurfaceVariantBrush}" Stretch="Uniform" />
-                                        </Viewbox>
-                                    </Border>
-                                    <StackPanel Grid.Column="1" VerticalAlignment="Center" Spacing="1">
-                                        <TextBlock Text="{Binding Label}" Style="{StaticResource BodyLarge}" Foreground="{ThemeResource OnSurfaceBrush}" />
-                                        <TextBlock Text="{Binding Subtitle}" Style="{StaticResource BodySmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" />
-                                    </StackPanel>
-                                    <Viewbox Grid.Column="2" Width="16" Height="16" VerticalAlignment="Center">
-                                        <Path Data="{Binding Converter={StaticResource Icon}, ConverterParameter=chevron_right}" Fill="{ThemeResource OutlineBrush}" Stretch="Uniform" />
-                                    </Viewbox>
-                                </Grid>
-                            </DataTemplate>
-                        </ItemsRepeater.ItemTemplate>
                     </ItemsRepeater>
                 </Border>
 
