@@ -1,37 +1,26 @@
 namespace FitBeginnerApp.Presentation;
 
-[Uno.Extensions.Reactive.ReactiveBindable(false)]
-public partial record ProgressModel
+// All-time stats, milestones and workout history — all read from IFitnessService. Both lists are
+// rendered by a FeedView, so a brand-new account (no history, nothing unlocked) has real UI instead
+// of an empty page.
+public partial record ProgressModel(IFitnessService Fitness)
 {
-    public int TotalWorkouts { get; } = 12;
-    public int TotalMinutes { get; } = 245;
-    public int TotalCalories { get; } = 1840;
-    public int CurrentStreak { get; } = 5;
-    public int LongestStreak { get; } = 7;
+    private IFeed<ProgressStats>? _stats;
+    private IFeed<ProgressStats> Stats => _stats ??= Feed.Async(Fitness.GetProgressStatsAsync);
 
-    public IReadOnlyList<WorkoutResult> WorkoutHistory { get; } = new[]
-    {
-        new WorkoutResult("r-001", "Morning Energizer", new DateOnly(2026, 5, 31), 20, 160, "Great"),
-        new WorkoutResult("r-002", "Flexibility Flow", new DateOnly(2026, 5, 29), 15, 90, "Good"),
-        new WorkoutResult("r-003", "Beginner Cardio Blast", new DateOnly(2026, 5, 27), 25, 200, "Tough"),
-        new WorkoutResult("r-004", "Core Intro", new DateOnly(2026, 5, 25), 20, 150, "Good"),
-        new WorkoutResult("r-005", "Morning Energizer", new DateOnly(2026, 5, 23), 20, 155, "Great"),
-        new WorkoutResult("r-006", "Full Body Starter", new DateOnly(2026, 5, 20), 30, 230, "Tough"),
-        new WorkoutResult("r-007", "Flexibility Flow", new DateOnly(2026, 5, 18), 15, 85, "Easy"),
-    };
+    public IFeed<int> TotalWorkouts => Stats.Select(s => s.TotalWorkouts);
+    public IFeed<int> TotalMinutes => Stats.Select(s => s.TotalMinutes);
+    public IFeed<int> TotalCalories => Stats.Select(s => s.TotalCalories);
+    public IFeed<int> CurrentStreak => Stats.Select(s => s.CurrentStreak);
+    public IFeed<int> LongestStreak => Stats.Select(s => s.LongestStreak);
 
-    public IReadOnlyList<MilestoneBadge> Milestones { get; } = new[]
-    {
-        new MilestoneBadge("First Workout!", "You completed your very first session.", true),
-        new MilestoneBadge("3-Day Streak", "Worked out 3 days in a row.", true),
-        new MilestoneBadge("5 Workouts Done", "You have completed 5 workouts.", true),
-        // Unlocked flags follow the stats above: 12 total workouts, 245 minutes, longest streak 7.
-        new MilestoneBadge("7-Day Streak", "Worked out every day for a week.", true),
-        new MilestoneBadge("10 Workouts", "Reached 10 total sessions.", true),
-        new MilestoneBadge("100 Minutes Active", "Clocked 100 minutes of exercise.", true),
-        new MilestoneBadge("20 Workouts", "Reached 20 total sessions.", false),
-        new MilestoneBadge("30-Day Streak", "A full month, every day.", false),
-    };
+    private IListFeed<WorkoutResult>? _history;
+    public IListFeed<WorkoutResult> WorkoutHistory =>
+        _history ??= ListFeed.Async(Fitness.GetWorkoutHistoryAsync);
+
+    private IListFeed<MilestoneBadge>? _milestones;
+    public IListFeed<MilestoneBadge> Milestones =>
+        _milestones ??= ListFeed.Async(Fitness.GetMilestonesAsync);
 }
 
 public partial record MilestoneBadge(

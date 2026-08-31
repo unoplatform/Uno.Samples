@@ -48,6 +48,12 @@ public partial class App : Application
                 )
                 // Enable localization (see appsettings.json for supported languages)
                 .UseLocalization()
+                .ConfigureServices((context, services) =>
+                {
+                    // The app's "backend": async and cancellable, in-memory behind the interface.
+                    // Every page Model takes it by constructor injection.
+                    services.AddSingleton<IFitnessService, FitnessService>();
+                })
                 .UseNavigation(ReactiveViewModelMappings.ViewModelMappings, RegisterRoutes)
             );
         MainWindow = builder.Window;

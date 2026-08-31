@@ -38,3 +38,32 @@ public partial record UserProfile(
     int WeeklyGoalDays,
     int CurrentStreakDays,
     int TotalWorkouts);
+
+/// <summary>The Home page's header and weekly-stats payload, fetched as one request.</summary>
+public partial record HomeSummary(
+    string Greeting,
+    string Motivation,
+    WorkoutEntry TodayWorkout,
+    int WeeklyCompletedDays,
+    int WeeklyGoalDays,
+    int TotalMinutesThisWeek,
+    int CaloriesBurnedThisWeek);
+
+/// <summary>The Plan page's header counters.</summary>
+public partial record PlanSummary(string WeekLabel, int ScheduledCount, int CompletedCount);
+
+/// <summary>The Progress page's all-time stats strip.</summary>
+public partial record ProgressStats(
+    int TotalWorkouts,
+    int TotalMinutes,
+    int TotalCalories,
+    int CurrentStreak,
+    int LongestStreak);
+
+/// <summary>The Profile page's preference rows, beside the shared <see cref="UserProfile"/>.</summary>
+public partial record ProfileDetails(
+    string AvatarInitials,
+    string JoinedDate,
+    string PreferredTime,
+    string EquipmentAvailable,
+    int SessionLengthMinutes);

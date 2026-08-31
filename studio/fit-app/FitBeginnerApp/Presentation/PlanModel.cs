@@ -1,28 +1,24 @@
 namespace FitBeginnerApp.Presentation;
 
-[Uno.Extensions.Reactive.ReactiveBindable(false)]
-public partial record PlanModel
+// The weekly training plan. The header counters and both lists come from IFitnessService, so each
+// list is a feed the page renders through a FeedView — an empty week and a failed request are
+// designed states rather than a blank gap.
+public partial record PlanModel(IFitnessService Fitness)
 {
-    public string WeekLabel { get; } = "Week of Jun 1 – 7, 2026";
-    public int ScheduledCount { get; } = 4;
-    public int CompletedCount { get; } = 1;
+    private IFeed<PlanSummary>? _summary;
+    private IFeed<PlanSummary> Summary => _summary ??= Feed.Async(Fitness.GetPlanSummaryAsync);
 
-    public IReadOnlyList<WorkoutEntry> WeeklyPlan { get; } = new[]
-    {
-        new WorkoutEntry("w-001", "Morning Energizer", "Full Body", new DateOnly(2026, 6, 1), 20, false, "Beginner"),
-        new WorkoutEntry("w-004", "Rest Day", "Recovery", new DateOnly(2026, 6, 2), 0, true, "Rest"),
-        new WorkoutEntry("w-002", "Flexibility Flow", "Stretching", new DateOnly(2026, 6, 3), 15, false, "Beginner"),
-        new WorkoutEntry("w-003", "Beginner Cardio Blast", "Cardio", new DateOnly(2026, 6, 5), 25, false, "Beginner"),
-        new WorkoutEntry("w-005", "Core Intro", "Core", new DateOnly(2026, 6, 7), 20, false, "Beginner"),
-    };
+    public IFeed<string> WeekLabel => Summary.Select(s => s.WeekLabel);
+    public IFeed<int> ScheduledCount => Summary.Select(s => s.ScheduledCount);
+    public IFeed<int> CompletedCount => Summary.Select(s => s.CompletedCount);
 
-    public IReadOnlyList<SuggestedPlan> SuggestedPlans { get; } = new[]
-    {
-        new SuggestedPlan("3-Day Starter", "Perfect for total beginners. Three 20-min sessions per week.", 3, 20, "Full Body"),
-        new SuggestedPlan("Morning Mover", "Energizing routines to start your day right. Low impact.", 4, 15, "Cardio"),
-        new SuggestedPlan("Flex & Stretch", "Improve flexibility and reduce muscle tension.", 3, 25, "Flexibility"),
-        new SuggestedPlan("Strength Basics", "Learn foundational movements with no equipment needed.", 3, 30, "Strength"),
-    };
+    private IListFeed<WorkoutEntry>? _weeklyPlan;
+    public IListFeed<WorkoutEntry> WeeklyPlan =>
+        _weeklyPlan ??= ListFeed.Async(Fitness.GetWeeklyPlanAsync);
+
+    private IListFeed<SuggestedPlan>? _suggestedPlans;
+    public IListFeed<SuggestedPlan> SuggestedPlans =>
+        _suggestedPlans ??= ListFeed.Async(Fitness.GetSuggestedPlansAsync);
 }
 
 public partial record SuggestedPlan(
