@@ -1,4 +1,4 @@
-<hd:PreviewGroup x:Class="FitBeginnerApp.Previews.WorkoutSessionPreviews"
+<hd:PreviewGroup x:Class="FitBeginnerApp.Previews.ProgressPreviews"
                  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                  xmlns:local="using:FitBeginnerApp.Presentation"
@@ -8,17 +8,16 @@
                  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                  mc:Ignorable="d">
 
-    <!-- The guided session before and after Begin — the page's one interaction branch, driven by MVUX
-         state a design surface cannot pump, which is why it needs an explicit mock.
+    <!-- ProgressPage for an established member, and on day one — both FeedViews on their empty state.
          Each child supplies the page's design-time DataContext in XAML — the only safe place for the
          generated-ViewModel mock, which must never be seeded from the page constructor. No size on
          the <hd:Preview>: a page fills the canvas / device frame. -->
-    <hd:Preview PreviewName="Ready to Begin" Visibility="Collapsed">
-        <local:WorkoutSessionPage DataContext="{x:Bind mock:WorkoutSessionPageMockData.Data}" />
+    <hd:Preview PreviewName="Full History" Visibility="Collapsed">
+        <local:ProgressPage DataContext="{x:Bind mock:ProgressPageMockData.Data}" />
     </hd:Preview>
 
-    <hd:Preview PreviewName="In Progress" Visibility="Collapsed">
-        <local:WorkoutSessionPage DataContext="{x:Bind mock:WorkoutSessionPageMockData.InProgress}" />
+    <hd:Preview PreviewName="Just Started" Visibility="Collapsed">
+        <local:ProgressPage DataContext="{x:Bind mock:ProgressPageMockData.JustStarted}" />
     </hd:Preview>
 
 </hd:PreviewGroup>

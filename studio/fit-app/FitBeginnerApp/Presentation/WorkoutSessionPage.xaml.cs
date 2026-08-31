@@ -1,4 +1,3 @@
-using FitBeginnerApp.Presentation.MockData;
 using Microsoft.UI.Xaml;
 
 namespace FitBeginnerApp.Presentation;
@@ -9,16 +8,14 @@ public sealed partial class WorkoutSessionPage : Page
     {
         this.InitializeComponent();
 
-        // Hot Design renders this page without running Navigation, so seed a design-time DataContext
-        // for the preview. Set it on the *page* (this.DataContext), never on a child element: at
-        // runtime the DataViewMap injects the tapped workout's generated VM as the page's
-        // DataContext, and a child carrying its own would shadow it.
+        // No design-time DataContext here. This page's data comes from IFitnessService and is
+        // rendered through FeedViews, so its design-time data must be the feed-shaped mock that
+        // returns the generated ViewModel (see Presentation/MockData) — and a hand-built generated
+        // VM must never be seeded from a page constructor: it has no live SourceContext, so its
+        // feeds never pump, and it would shadow the VM Navigation injects at runtime.
         //
-        // Seed the PLAIN mock, not the live Model: WorkoutSessionModel surfaces IsStarted as an
-        // IState<bool>, and a design surface has no context to pump it — the converter then sees an
-        // object rather than a bool and falls through to false, so the Begin/in-progress branch is
-        // only right by accident and the started state is unreachable in any preview.
-        this.DataContext = WorkoutSessionPageMockData.Data;
+        // The named previews supply it in XAML instead, which is the only safe place for it. The
+        // page's automatic "Default" preview therefore shows the FeedViews' empty state.
 
         Loaded += (_, _) =>
         {
