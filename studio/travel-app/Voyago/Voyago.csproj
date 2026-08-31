@@ -35,12 +35,20 @@
       Logging;
       MVUX;
       Configuration;
-      HttpKiota;
-      Serialization;
       Localization;
       Navigation;
       SkiaRenderer;
     </UnoFeatures>
+  </PropertyGroup>
+
+  <!--
+    Hot Design Previews live in Previews/. Hot Design locates them at runtime via the
+    ApplicationPreviewsFolder assembly-metadata the SDK generates from this property, so it MUST
+    point at our folder or no previews are listed. (The SDK's default is HotDesignStories/, so
+    without this the Previews/ folder is invisible in the tool even though it compiles fine.)
+  -->
+  <PropertyGroup>
+    <HotDesignPreviewsFolder>Previews</HotDesignPreviewsFolder>
   </PropertyGroup>
 
 </Project>
