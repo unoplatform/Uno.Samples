@@ -1,13 +1,19 @@
+using Voyago.Presentation.Services;
+
 namespace Voyago.Presentation;
 
-[Uno.Extensions.Reactive.ReactiveBindable(false)]
-public partial record FavoritesModel
+// The traveller's saved destinations, read from IDiscoveryService and rendered through a FeedView —
+// so "nothing saved yet" is a designed state rather than a blank page.
+public partial record FavoritesModel(IDiscoveryService Discovery)
 {
-    public int TotalFavorites { get; } = 7;
+    private IListFeed<Destination>? _saved;
+    public IListFeed<Destination> SavedDestinations =>
+        _saved ??= ListFeed.Async(Discovery.GetSavedDestinationsAsync);
 
-    public IReadOnlyList<Destination> SavedDestinations { get; } = new[]
-    {
-        Catalog.Santorini, Catalog.Dolomites, Catalog.Maldives, Catalog.MachuPicchu,
-        Catalog.Kyoto, Catalog.Bali, Catalog.Paris,
-    };
+    // The header count. SelectData, not Select: an empty list feed emits None and Select skips None,
+    // so a plain projection would render the count BLANK on an empty list instead of "0".
+    public IFeed<int> TotalFavorites =>
+        SavedDestinations
+            .AsFeed()
+            .SelectData<IImmutableList<Destination>, int>(items => items.SomeOrDefault()?.Count ?? 0);
 }

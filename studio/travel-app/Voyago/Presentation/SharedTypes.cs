@@ -40,3 +40,18 @@ public partial record ExploreCategory(
     string ImageUrl,
     string Description,
     Destination Featured);
+
+// The Home page's greeting payload, fetched as one request.
+public partial record HomeGreeting(string GreetingText, string UserInitials);
+
+// The Profile page's identity + travel stats, fetched as one request.
+public partial record TravellerProfile(
+    string FullName,
+    string Email,
+    string UserInitials,
+    string MemberSince,
+    string MemberTier,
+    int TripsCompleted,
+    int CountriesVisited,
+    int SavedDestinations,
+    int ReviewsWritten);
