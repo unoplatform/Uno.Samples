@@ -140,6 +140,31 @@
     </utu:CardContentControl>
   </DataTemplate>
 
+  <!-- ══════════════════════ Trip-status pills (shared) ══════════════════════ -->
+
+  <!-- ===== Trip-status pills: value → semantic role, colour resolved in XAML via {ThemeResource}
+             (ALC-safe under Studio Live / Hot Design; lessons 48/58). Rendered through a
+             ContentControl so {Binding} inside the template is the status string. ===== -->
+  <DataTemplate x:Key="TripStatusConfirmedTemplate">
+    <Border Background="{ThemeResource PrimaryContainerBrush}" CornerRadius="{StaticResource PillCornerRadius}" Padding="10,4">
+      <TextBlock Text="{Binding}" Style="{StaticResource LabelSmall}" Foreground="{ThemeResource OnPrimaryContainerBrush}" />
+    </Border>
+  </DataTemplate>
+  <DataTemplate x:Key="TripStatusPendingTemplate">
+    <Border Background="{ThemeResource SecondaryContainerBrush}" CornerRadius="{StaticResource PillCornerRadius}" Padding="10,4">
+      <TextBlock Text="{Binding}" Style="{StaticResource LabelSmall}" Foreground="{ThemeResource OnSecondaryContainerBrush}" />
+    </Border>
+  </DataTemplate>
+  <DataTemplate x:Key="TripStatusCompletedTemplate">
+    <Border Background="{ThemeResource SurfaceVariantBrush}" CornerRadius="{StaticResource PillCornerRadius}" Padding="10,4">
+      <TextBlock Text="{Binding}" Style="{StaticResource LabelSmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" />
+    </Border>
+  </DataTemplate>
+  <local:TripStatusTemplateSelector x:Key="TripStatusSelector"
+                                    Confirmed="{StaticResource TripStatusConfirmedTemplate}"
+                                    Pending="{StaticResource TripStatusPendingTemplate}"
+                                    Completed="{StaticResource TripStatusCompletedTemplate}" />
+
   <!-- ══════════════════════ TripsPage ══════════════════════ -->
 
   <!-- A booked trip: photo, destination, dates, status pill and booking reference. -->
@@ -492,29 +517,5 @@
     </ItemsRepeater>
   </DataTemplate>
 
-  <!-- ══════════════════════ Trip-status pills (shared) ══════════════════════ -->
-
-  <!-- ===== Trip-status pills: value → semantic role, colour resolved in XAML via {ThemeResource}
-             (ALC-safe under Studio Live / Hot Design; lessons 48/58). Rendered through a
-             ContentControl so {Binding} inside the template is the status string. ===== -->
-  <DataTemplate x:Key="TripStatusConfirmedTemplate">
-    <Border Background="{ThemeResource PrimaryContainerBrush}" CornerRadius="{StaticResource PillCornerRadius}" Padding="10,4">
-      <TextBlock Text="{Binding}" Style="{StaticResource LabelSmall}" Foreground="{ThemeResource OnPrimaryContainerBrush}" />
-    </Border>
-  </DataTemplate>
-  <DataTemplate x:Key="TripStatusPendingTemplate">
-    <Border Background="{ThemeResource SecondaryContainerBrush}" CornerRadius="{StaticResource PillCornerRadius}" Padding="10,4">
-      <TextBlock Text="{Binding}" Style="{StaticResource LabelSmall}" Foreground="{ThemeResource OnSecondaryContainerBrush}" />
-    </Border>
-  </DataTemplate>
-  <DataTemplate x:Key="TripStatusCompletedTemplate">
-    <Border Background="{ThemeResource SurfaceVariantBrush}" CornerRadius="{StaticResource PillCornerRadius}" Padding="10,4">
-      <TextBlock Text="{Binding}" Style="{StaticResource LabelSmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" />
-    </Border>
-  </DataTemplate>
-  <local:TripStatusTemplateSelector x:Key="TripStatusSelector"
-                                    Confirmed="{StaticResource TripStatusConfirmedTemplate}"
-                                    Pending="{StaticResource TripStatusPendingTemplate}"
-                                    Completed="{StaticResource TripStatusCompletedTemplate}" />
 
 </ResourceDictionary>

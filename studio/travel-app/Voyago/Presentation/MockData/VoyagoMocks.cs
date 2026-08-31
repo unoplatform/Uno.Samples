@@ -83,7 +83,7 @@ public partial record SearchPageMockData
     public IListFeed<ExploreCategory> ExploreCategories { get; init; } =
         MockFeeds.Of(Catalog.Categories.ToArray());
 
-    public void ApplySearch(string term) { }
+    public async ValueTask ApplySearch(string term, CancellationToken ct) => await ValueTask.CompletedTask;
 }
 
 public partial class SearchPageMockDataViewModel
@@ -204,7 +204,10 @@ public partial record DestinationDetailMockData
 
     public bool IsBooked { get; init; }
 
-    public void Book() { }
+    // Mirrors the Model's signature, not a void stub: MVUX generates a command from an
+    // `async ValueTask` method, so a `void Book()` here would leave the preview's "Book this trip"
+    // CTA bound to nothing and rendered disabled.
+    public async ValueTask Book(CancellationToken ct) => await ValueTask.CompletedTask;
 }
 
 public partial class DestinationDetailMockDataViewModel
