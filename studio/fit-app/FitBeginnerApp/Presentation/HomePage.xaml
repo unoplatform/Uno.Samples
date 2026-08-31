@@ -4,6 +4,7 @@
       xmlns:local="using:FitBeginnerApp.Presentation"
       xmlns:uen="using:Uno.Extensions.Navigation.UI"
       xmlns:utu="using:Uno.Toolkit.UI"
+      xmlns:mvux="using:Uno.Extensions.Reactive.UI"
       Background="{ThemeResource BackgroundBrush}">
 
     <Grid utu:SafeArea.Insets="Top,Left,Right">
@@ -129,12 +130,14 @@
 
                 <!-- 4. Recent results -->
                 <TextBlock Text="RECENT RESULTS" Style="{StaticResource SectionLabelStyle}" />
-                <ItemsRepeater x:Name="ResultsSection" ItemsSource="{Binding RecentResults}" Margin="0,0,0,26"
-                               ItemTemplate="{StaticResource WorkoutResultTemplate}">
-                    <ItemsRepeater.Layout>
-                        <StackLayout Spacing="8" />
-                    </ItemsRepeater.Layout>
-                </ItemsRepeater>
+                <!-- A brand-new member has no results yet, so the section is a FeedView: the strip, the
+                     empty state, the failure card, and the ring in between. x:Name stays on the FeedView so
+                     the page's entrance animation still finds it. -->
+                <mvux:FeedView x:Name="ResultsSection" Margin="0,0,0,26"
+                               Source="{Binding RecentResults}"
+                               ValueTemplate="{StaticResource ResultListTemplate}"
+                               NoneTemplate="{StaticResource NoResultsYetTemplate}"
+                               ErrorTemplate="{StaticResource ServiceErrorTemplate}" />
 
                 <!-- 5. Quick tips -->
                 <TextBlock Text="QUICK TIPS" Style="{StaticResource SectionLabelStyle}" />

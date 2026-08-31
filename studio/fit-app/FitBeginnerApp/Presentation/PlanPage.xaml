@@ -3,6 +3,7 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:uen="using:Uno.Extensions.Navigation.UI"
       xmlns:utu="using:Uno.Toolkit.UI"
+      xmlns:mvux="using:Uno.Extensions.Reactive.UI"
       Background="{ThemeResource BackgroundBrush}">
 
     <Grid utu:SafeArea.Insets="Top,Left,Right">
@@ -55,21 +56,20 @@
 
                 <!-- This week's schedule — each row opens the guided session -->
                 <TextBlock Text="THIS WEEK" Style="{StaticResource SectionLabelStyle}" />
-                <ItemsRepeater x:Name="WeekListSection" ItemsSource="{Binding WeeklyPlan}" Margin="0,0,0,26"
-                               ItemTemplate="{StaticResource PlannedWorkoutTemplate}">
-                    <ItemsRepeater.Layout>
-                        <StackLayout Spacing="8" />
-                    </ItemsRepeater.Layout>
-                </ItemsRepeater>
+                <!-- An empty week is a real state for a member who hasn't picked a plan yet. -->
+                <mvux:FeedView x:Name="WeekListSection" Margin="0,0,0,26"
+                               Source="{Binding WeeklyPlan}"
+                               ValueTemplate="{StaticResource PlannedWorkoutListTemplate}"
+                               NoneTemplate="{StaticResource NoPlanYetTemplate}"
+                               ErrorTemplate="{StaticResource ServiceErrorTemplate}" />
 
                 <!-- Suggested plans -->
                 <TextBlock Text="SUGGESTED PLANS" Style="{StaticResource SectionLabelStyle}" />
-                <ItemsRepeater x:Name="SuggestedSection" ItemsSource="{Binding SuggestedPlans}"
-                               ItemTemplate="{StaticResource SuggestedPlanTemplate}">
-                    <ItemsRepeater.Layout>
-                        <StackLayout Spacing="10" />
-                    </ItemsRepeater.Layout>
-                </ItemsRepeater>
+                <!-- A second, independent request. -->
+                <mvux:FeedView x:Name="SuggestedSection" Source="{Binding SuggestedPlans}"
+                               ValueTemplate="{StaticResource SuggestedPlanListTemplate}"
+                               NoneTemplate="{StaticResource NoResultsYetTemplate}"
+                               ErrorTemplate="{StaticResource ServiceErrorTemplate}" />
 
             </StackPanel>
         </ScrollViewer>

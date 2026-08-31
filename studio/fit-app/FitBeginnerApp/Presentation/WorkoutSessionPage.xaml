@@ -3,6 +3,7 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:uen="using:Uno.Extensions.Navigation.UI"
       xmlns:utu="using:Uno.Toolkit.UI"
+      xmlns:mvux="using:Uno.Extensions.Reactive.UI"
       Background="{ThemeResource BackgroundBrush}">
 
     <!-- Full-screen guided session: a shell sibling of the tab shell, so it replaces the chrome
@@ -132,14 +133,12 @@
                     <!-- Exercises List -->
                     <TextBlock Text="EXERCISES" Style="{StaticResource SectionLabelStyle}" />
 
-                    <ItemsRepeater x:Name="ExercisesSection"
-                                   ItemsSource="{Binding Exercises}"
-                                   Margin="0,0,0,20"
-                                   ItemTemplate="{StaticResource ExerciseTemplate}">
-                        <ItemsRepeater.Layout>
-                            <StackLayout Spacing="10" />
-                        </ItemsRepeater.Layout>
-                    </ItemsRepeater>
+                    <!-- The routine's exercises, fetched for the workout Navigation passed in. -->
+                    <mvux:FeedView x:Name="ExercisesSection" Margin="0,0,0,20"
+                                   Source="{Binding Exercises}"
+                                   ValueTemplate="{StaticResource ExerciseListTemplate}"
+                                   NoneTemplate="{StaticResource NoResultsYetTemplate}"
+                                   ErrorTemplate="{StaticResource ServiceErrorTemplate}" />
 
                     <!-- Session Tips -->
                     <TextBlock Text="SESSION TIPS" Style="{StaticResource SectionLabelStyle}" />

@@ -431,4 +431,123 @@
     </Grid>
   </DataTemplate>
 
+  <!-- ══════════════════════ FeedView surfaces ══════════════════════ -->
+
+  <!-- Shared failure state. Every list read over IFitnessService uses this as its ErrorTemplate, so
+       an unreachable backend looks the same everywhere. The FeedViewState's Refresh command re-runs
+       the underlying request, so no Model command is needed. -->
+  <DataTemplate x:Key="ServiceErrorTemplate">
+    <Border Style="{StaticResource CardBorderStyle}" Margin="0,0,0,12">
+      <StackPanel Padding="20,18" Spacing="8" HorizontalAlignment="Center">
+        <TextBlock Text="Couldn't load this"
+                   FontSize="{StaticResource FontSizeSubtitle}"
+                   Foreground="{ThemeResource OnSurfaceBrush}"
+                   HorizontalAlignment="Center" />
+        <TextBlock Text="Check your connection and try again."
+                   FontSize="{StaticResource FontSizeCaption}"
+                   Foreground="{ThemeResource OnSurfaceVariantBrush}"
+                   HorizontalAlignment="Center"
+                   TextAlignment="Center"
+                   TextWrapping="Wrap" />
+        <Button Content="Try again"
+                Style="{StaticResource PrimaryButtonStyle}"
+                AutomationProperties.Name="Try again"
+                HorizontalAlignment="Center"
+                Margin="0,4,0,0"
+                Command="{Binding Refresh}" />
+      </StackPanel>
+    </Border>
+  </DataTemplate>
+
+  <!-- A section that came back with nothing. These are the empty states the list pages previously
+       had no answer for at all — an empty collection used to render as a blank gap. -->
+  <DataTemplate x:Key="NoResultsYetTemplate">
+    <Border Style="{StaticResource CardBorderStyle}" Margin="0,0,0,12">
+      <StackPanel Padding="20,18" Spacing="4">
+        <TextBlock Text="Nothing here yet"
+                   FontSize="{StaticResource FontSizeSubtitle}"
+                   Foreground="{ThemeResource OnSurfaceBrush}" />
+        <TextBlock Text="Finish a workout and it will show up here."
+                   FontSize="{StaticResource FontSizeCaption}"
+                   Foreground="{ThemeResource OnSurfaceVariantBrush}"
+                   TextWrapping="Wrap" />
+      </StackPanel>
+    </Border>
+  </DataTemplate>
+
+  <DataTemplate x:Key="NoPlanYetTemplate">
+    <Border Style="{StaticResource CardBorderStyle}" Margin="0,0,0,12">
+      <StackPanel Padding="20,18" Spacing="4">
+        <TextBlock Text="No sessions scheduled"
+                   FontSize="{StaticResource FontSizeSubtitle}"
+                   Foreground="{ThemeResource OnSurfaceBrush}" />
+        <TextBlock Text="Pick one of the suggested plans below to fill your week."
+                   FontSize="{StaticResource FontSizeCaption}"
+                   Foreground="{ThemeResource OnSurfaceVariantBrush}"
+                   TextWrapping="Wrap" />
+      </StackPanel>
+    </Border>
+  </DataTemplate>
+
+  <DataTemplate x:Key="NoMilestonesYetTemplate">
+    <Border Style="{StaticResource CardBorderStyle}" Margin="0,0,0,12">
+      <StackPanel Padding="20,18" Spacing="4">
+        <TextBlock Text="No badges yet"
+                   FontSize="{StaticResource FontSizeSubtitle}"
+                   Foreground="{ThemeResource OnSurfaceBrush}" />
+        <TextBlock Text="Your first workout unlocks the first one."
+                   FontSize="{StaticResource FontSizeCaption}"
+                   Foreground="{ThemeResource OnSurfaceVariantBrush}"
+                   TextWrapping="Wrap" />
+      </StackPanel>
+    </Border>
+  </DataTemplate>
+
+  <!-- The value templates: each just places the shared item template in that section's layout, over
+       the FeedViewState's materialized Data. -->
+  <DataTemplate x:Key="ResultListTemplate">
+    <ItemsRepeater ItemsSource="{Binding Data}"
+                   ItemTemplate="{StaticResource WorkoutResultTemplate}">
+      <ItemsRepeater.Layout>
+        <StackLayout Spacing="8" />
+      </ItemsRepeater.Layout>
+    </ItemsRepeater>
+  </DataTemplate>
+
+  <DataTemplate x:Key="PlannedWorkoutListTemplate">
+    <ItemsRepeater ItemsSource="{Binding Data}"
+                   ItemTemplate="{StaticResource PlannedWorkoutTemplate}">
+      <ItemsRepeater.Layout>
+        <StackLayout Spacing="8" />
+      </ItemsRepeater.Layout>
+    </ItemsRepeater>
+  </DataTemplate>
+
+  <DataTemplate x:Key="SuggestedPlanListTemplate">
+    <ItemsRepeater ItemsSource="{Binding Data}"
+                   ItemTemplate="{StaticResource SuggestedPlanTemplate}">
+      <ItemsRepeater.Layout>
+        <StackLayout Spacing="10" />
+      </ItemsRepeater.Layout>
+    </ItemsRepeater>
+  </DataTemplate>
+
+  <DataTemplate x:Key="MilestoneListTemplate">
+    <ItemsRepeater ItemsSource="{Binding Data}"
+                   ItemTemplate="{StaticResource MilestoneBadgeTemplate}">
+      <ItemsRepeater.Layout>
+        <StackLayout Spacing="8" />
+      </ItemsRepeater.Layout>
+    </ItemsRepeater>
+  </DataTemplate>
+
+  <DataTemplate x:Key="ExerciseListTemplate">
+    <ItemsRepeater ItemsSource="{Binding Data}"
+                   ItemTemplate="{StaticResource ExerciseTemplate}">
+      <ItemsRepeater.Layout>
+        <StackLayout Spacing="10" />
+      </ItemsRepeater.Layout>
+    </ItemsRepeater>
+  </DataTemplate>
+
 </ResourceDictionary>
