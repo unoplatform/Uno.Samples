@@ -148,10 +148,13 @@
                      result via the NoneTemplate (a list feed emits None when it has no items) — so
                      no separate HasNoResults overlay is needed here. Both templates are keyed in
                      DataTemplates.xaml. -->
+                <!-- All four states are now reachable: the filter query goes to ICrmService, so the
+                     control shows Progress while it runs and Error if it fails, not just Value/None. -->
                 <mvux:FeedView Grid.Row="1"
                                Source="{Binding FilteredContacts}"
                                ValueTemplate="{StaticResource DesktopContactListTemplate}"
-                               NoneTemplate="{StaticResource DesktopContactsEmptyTemplate}" />
+                               NoneTemplate="{StaticResource DesktopContactsEmptyTemplate}"
+                               ErrorTemplate="{StaticResource CrmErrorTemplate}" />
               </Grid>
             </Border>
           </Grid>
@@ -252,7 +255,8 @@
               -->
               <mvux:FeedView Source="{Binding FilteredContacts}"
                              ValueTemplate="{StaticResource MobileContactListTemplate}"
-                             NoneTemplate="{StaticResource MobileContactsEmptyTemplate}" />
+                             NoneTemplate="{StaticResource MobileContactsEmptyTemplate}"
+                             ErrorTemplate="{StaticResource CrmErrorTemplate}" />
             </StackPanel>
           </Border>
         </Grid>

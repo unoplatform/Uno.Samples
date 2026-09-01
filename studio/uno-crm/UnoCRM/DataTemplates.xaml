@@ -215,4 +215,29 @@
     </StackPanel>
   </DataTemplate>
 
+  <!-- ══════════════════════ FeedView failure state (shared) ══════════════════════ -->
+
+  <!-- Every list read over ICrmService uses this as its ErrorTemplate, so an unreachable backend
+       looks the same on every page. The FeedViewState's Refresh command re-runs the underlying
+       request, so no Model command is needed. -->
+  <DataTemplate x:Key="CrmErrorTemplate">
+    <Border Style="{StaticResource DashboardKanbanCardStyle}" Margin="0,8,0,0">
+      <StackPanel Spacing="8" Padding="4,8" HorizontalAlignment="Center">
+        <TextBlock Text="Couldn't load this"
+                   Style="{StaticResource DashboardBodyTextStyle}"
+                   HorizontalAlignment="Center" />
+        <TextBlock Text="Check your connection and try again."
+                   Style="{StaticResource DashboardSubtleTextStyle}"
+                   HorizontalAlignment="Center"
+                   TextAlignment="Center"
+                   TextWrapping="Wrap" />
+        <Button Content="Try again"
+                AutomationProperties.Name="Try again"
+                HorizontalAlignment="Center"
+                Margin="0,4,0,0"
+                Command="{Binding Refresh}" />
+      </StackPanel>
+    </Border>
+  </DataTemplate>
+
 </ResourceDictionary>

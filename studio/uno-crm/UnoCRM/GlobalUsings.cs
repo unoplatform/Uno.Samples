@@ -6,6 +6,7 @@ global using Uno.Extensions.Navigation;
 global using Uno.Extensions.Reactive;
 global using UnoCRM.Presentation;
 global using UnoCRM.Presentation.Data;
+global using UnoCRM.Presentation.Services;
 global using ApplicationExecutionState = Windows.ApplicationModel.Activation.ApplicationExecutionState;
 
 [assembly: Uno.Extensions.Reactive.Config.BindableGenerationTool(3)]
