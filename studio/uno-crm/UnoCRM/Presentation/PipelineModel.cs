@@ -22,12 +22,18 @@ public partial record PipelineModel(ICrmService Crm)
     /// <summary>The whole board as a list, for the mobile arrangement's FeedView.</summary>
     public IListFeed<PipelineStage> Stages => AllStages.AsListFeed();
 
-    public IFeed<PipelineStage?> NewLead => Column(0);
-    public IFeed<PipelineStage?> Qualified => Column(1);
-    public IFeed<PipelineStage?> Proposal => Column(2);
-    public IFeed<PipelineStage?> Negotiation => Column(3);
-    public IFeed<PipelineStage?> ClosedWon => Column(4);
+    public IFeed<PipelineStage> NewLead => Column(0);
+    public IFeed<PipelineStage> Qualified => Column(1);
+    public IFeed<PipelineStage> Proposal => Column(2);
+    public IFeed<PipelineStage> Negotiation => Column(3);
+    public IFeed<PipelineStage> ClosedWon => Column(4);
 
-    private IFeed<PipelineStage?> Column(int index) =>
-        AllStages.Select(stages => stages.ElementAtOrDefault(index));
+    // Feed.Select constrains TResult to notnull, and its nullable overload takes a Nullable<T> —
+    // value types only — so a reference-typed column cannot be projected as null. A defensive empty
+    // stage stands in instead: it renders a blank column rather than throwing, and the real service
+    // always returns all five.
+    private static readonly PipelineStage MissingColumn = new();
+
+    private IFeed<PipelineStage> Column(int index) =>
+        AllStages.Select(stages => stages.Count > index ? stages[index] : MissingColumn);
 }

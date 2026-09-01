@@ -80,19 +80,19 @@ public partial record Deal(
 /// <summary>A pipeline column: a stage plus the deals currently in it, with its palette keys.
 /// <see cref="AccentKey"/> fills the stage dot; <see cref="DeepKey"/> is the darker (light theme)
 /// / lighter (dark theme) text variant for the small count set on the <see cref="SoftKey"/> tint.</summary>
-// NOTE — no `required` on this record, unlike its siblings below. It is used as a FEED VALUE type
-// (see the Model that exposes it), and the MVUX generator emits a bindable proxy for every feed value
-// type which it constructs with an object initializer. `required` members reject that, so the build
-// fails inside the generated code. Every call site in CrmData already sets all members; the guard is
-// traded for being bindable.
+// NOTE — this record is a FEED VALUE type (see the Model that exposes it), and the MVUX generator
+// emits a bindable proxy for every feed value type which it constructs with an object initializer.
+// `required` members reject that, so the build fails inside the generated code. The members therefore
+// carry defaults instead of `required`: the record stays default-constructible for the generator and
+// non-null for the compiler, and every call site in CrmData still sets all of them explicitly.
 public partial record PipelineStage
 {
-    public string Name { get; init; }
+    public string Name { get; init; } = string.Empty;
     public DealStage Stage { get; init; }
-    public string AccentKey { get; init; }
-    public string DeepKey { get; init; }
-    public string SoftKey { get; init; }
-    public IReadOnlyList<Deal> Deals { get; init; }
+    public string AccentKey { get; init; } = string.Empty;
+    public string DeepKey { get; init; } = string.Empty;
+    public string SoftKey { get; init; } = string.Empty;
+    public IReadOnlyList<Deal> Deals { get; init; } = [];
 
     public int Count => Deals.Count;
 }
@@ -131,23 +131,23 @@ public partial record ContactLocation(
     double Longitude);
 
 /// <summary>Everything the Dashboard page shows, derived once from <see cref="CrmData.Deals"/>.</summary>
-// NOTE — no `required` on this record, unlike its siblings below. It is used as a FEED VALUE type
-// (see the Model that exposes it), and the MVUX generator emits a bindable proxy for every feed value
-// type which it constructs with an object initializer. `required` members reject that, so the build
-// fails inside the generated code. Every call site in CrmData already sets all members; the guard is
-// traded for being bindable.
+// NOTE — this record is a FEED VALUE type (see the Model that exposes it), and the MVUX generator
+// emits a bindable proxy for every feed value type which it constructs with an object initializer.
+// `required` members reject that, so the build fails inside the generated code. The members therefore
+// carry defaults instead of `required`: the record stays default-constructible for the generator and
+// non-null for the compiler, and every call site in CrmData still sets all of them explicitly.
 public partial record DashboardData
 {
-    public string TotalLeadsText { get; init; }
-    public string TotalLeadsDelta { get; init; }
-    public string ActiveDealsText { get; init; }
-    public string ActiveDealsDelta { get; init; }
-    public string RevenueText { get; init; }
-    public string RevenueDelta { get; init; }
-    public string ConversionRateText { get; init; }
-    public string ConversionRateDelta { get; init; }
-    public IReadOnlyList<FunnelStage> Funnel { get; init; }
-    public IReadOnlyList<ActivityItem> Activities { get; init; }
+    public string TotalLeadsText { get; init; } = string.Empty;
+    public string TotalLeadsDelta { get; init; } = string.Empty;
+    public string ActiveDealsText { get; init; } = string.Empty;
+    public string ActiveDealsDelta { get; init; } = string.Empty;
+    public string RevenueText { get; init; } = string.Empty;
+    public string RevenueDelta { get; init; } = string.Empty;
+    public string ConversionRateText { get; init; } = string.Empty;
+    public string ConversionRateDelta { get; init; } = string.Empty;
+    public IReadOnlyList<FunnelStage> Funnel { get; init; } = [];
+    public IReadOnlyList<ActivityItem> Activities { get; init; } = [];
 }
 
 /// <summary>

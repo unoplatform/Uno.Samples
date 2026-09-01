@@ -6,9 +6,9 @@ public sealed partial class LeadsPage : Page
     {
         this.InitializeComponent();
 
-        // Design-time DataContext for Hot Design / Studio. At runtime Uno.Extensions
-        // Navigation injects the mapped LeadsModel (which builds the LiveCharts series from the
-        // shared dataset), overriding this.
-        this.DataContext = new LeadsModel();
+        // No design-time DataContext here. This page's data comes from ICrmService and is rendered
+        // through feeds (including the LiveCharts series), so its design-time data must be the
+        // feed-shaped mock that returns the generated ViewModel — and a hand-built generated VM must
+        // never be seeded from a page constructor. The named previews supply it in XAML instead.
     }
 }

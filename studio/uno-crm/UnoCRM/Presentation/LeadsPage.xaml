@@ -3,6 +3,7 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:lvc="using:LiveChartsCore.SkiaSharpView.WinUI"
       xmlns:utu="using:Uno.Toolkit.UI"
+      xmlns:mvux="using:Uno.Extensions.Reactive.UI"
       Background="{ThemeResource DashboardPageBackgroundBrush}">
 
   <!--
@@ -249,8 +250,11 @@
               <TextBlock Text="Top Open Leads"
                          Style="{StaticResource DashboardSectionTitleStyle}" />
 
-              <ItemsControl ItemsSource="{Binding TopOpenLeads}"
-                            ItemTemplate="{StaticResource TopLeadTemplate}" />
+              <!-- Its own request, so an account with no open leads is a designed state. -->
+              <mvux:FeedView Source="{Binding TopOpenLeads}"
+                             ValueTemplate="{StaticResource TopLeadListTemplate}"
+                             NoneTemplate="{StaticResource NoOpenLeadsTemplate}"
+                             ErrorTemplate="{StaticResource CrmErrorTemplate}" />
             </StackPanel>
           </Border>
         </Grid>

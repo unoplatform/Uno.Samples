@@ -275,4 +275,17 @@
                TextWrapping="Wrap" />
   </DataTemplate>
 
+  <!-- The Leads page's top-open-leads list (desktop rail). -->
+  <DataTemplate x:Key="TopLeadListTemplate">
+    <ItemsControl ItemsSource="{Binding Data}"
+                  ItemTemplate="{StaticResource TopLeadTemplate}" />
+  </DataTemplate>
+
+  <DataTemplate x:Key="NoOpenLeadsTemplate">
+    <TextBlock Text="No open leads right now."
+               Style="{StaticResource DashboardSubtleTextStyle}"
+               Margin="0,8,0,4"
+               TextWrapping="Wrap" />
+  </DataTemplate>
+
 </ResourceDictionary>
