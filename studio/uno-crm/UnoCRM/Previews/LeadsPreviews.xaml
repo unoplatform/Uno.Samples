@@ -1,0 +1,26 @@
+<hd:PreviewGroup x:Class="UnoCRM.Previews.LeadsPreviews"
+                 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                 xmlns:local="using:UnoCRM.Presentation"
+                 xmlns:mock="using:UnoCRM.Presentation.MockData"
+                 xmlns:hd="using:Uno.UI.HotDesign"
+                 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                 mc:Ignorable="d">
+
+    <!-- The leads analytics, and the same page with no open leads. The mock supplies the LiveCharts
+         series and axes as plain arrays via LeadsChartFactory — a chart needs them fully built at
+         first measure, so they are the one surface here that is not a feed.
+         Each child supplies the page's design-time DataContext in XAML — the only safe place for the
+         generated-ViewModel mock, which must never be seeded from a page constructor. No size on the
+         <hd:Preview>: a page fills the canvas, and switching the device frame is what flips the
+         desktop and mobile arrangements. -->
+    <hd:Preview PreviewName="Analytics" Visibility="Collapsed">
+        <local:LeadsPage DataContext="{x:Bind mock:LeadsPageMockData.Data}" />
+    </hd:Preview>
+
+    <hd:Preview PreviewName="No Open Leads" Visibility="Collapsed">
+        <local:LeadsPage DataContext="{x:Bind mock:LeadsPageMockData.NoOpenLeads}" />
+    </hd:Preview>
+
+</hd:PreviewGroup>
