@@ -65,39 +65,27 @@
           <StackPanel Grid.Row="1"
                       Orientation="Horizontal"
                       Spacing="12">
-            <Button Style="{StaticResource DashboardFilterButtonStyle}">
-              <StackPanel Orientation="Horizontal" Spacing="8">
-                <TextBlock Text="All Pipelines"
-                           FontSize="13"
-                           Foreground="{ThemeResource DashboardPrimaryTextBrush}" />
-                <Path Width="12" Height="12"
-                      Data="F1 M4.21967 8.46967C4.51256 8.17678 4.98744 8.17678 5.28033 8.46967L12 15.1893L18.7197 8.46967C19.0126 8.17678 19.4874 8.17678 19.7803 8.46967C20.0732 8.76256 20.0732 9.23744 19.7803 9.53033L12.5303 16.7803C12.2374 17.0732 11.7626 17.0732 11.4697 16.7803L4.21967 9.53033C3.92678 9.23744 3.92678 8.76256 4.21967 8.46967Z"
-                      Stretch="Uniform"
-                      Fill="{ThemeResource DashboardMutedTextBrush}" />
-              </StackPanel>
-            </Button>
-            <Button Style="{StaticResource DashboardFilterButtonStyle}">
-              <StackPanel Orientation="Horizontal" Spacing="8">
-                <TextBlock Text="This Quarter"
-                           FontSize="13"
-                           Foreground="{ThemeResource DashboardPrimaryTextBrush}" />
-                <Path Width="12" Height="12"
-                      Data="F1 M4.21967 8.46967C4.51256 8.17678 4.98744 8.17678 5.28033 8.46967L12 15.1893L18.7197 8.46967C19.0126 8.17678 19.4874 8.17678 19.7803 8.46967C20.0732 8.76256 20.0732 9.23744 19.7803 9.53033L12.5303 16.7803C12.2374 17.0732 11.7626 17.0732 11.4697 16.7803L4.21967 9.53033C3.92678 9.23744 3.92678 8.76256 4.21967 8.46967Z"
-                      Stretch="Uniform"
-                      Fill="{ThemeResource DashboardMutedTextBrush}" />
-              </StackPanel>
-            </Button>
-            <Button Style="{StaticResource DashboardFilterButtonStyle}">
-              <StackPanel Orientation="Horizontal" Spacing="8">
-                <TextBlock Text="All Reps"
-                           FontSize="13"
-                           Foreground="{ThemeResource DashboardPrimaryTextBrush}" />
-                <Path Width="12" Height="12"
-                      Data="F1 M4.21967 8.46967C4.51256 8.17678 4.98744 8.17678 5.28033 8.46967L12 15.1893L18.7197 8.46967C19.0126 8.17678 19.4874 8.17678 19.7803 8.46967C20.0732 8.76256 20.0732 9.23744 19.7803 9.53033L12.5303 16.7803C12.2374 17.0732 11.7626 17.0732 11.4697 16.7803L4.21967 9.53033C3.92678 9.23744 3.92678 8.76256 4.21967 8.46967Z"
-                      Stretch="Uniform"
-                      Fill="{ThemeResource DashboardMutedTextBrush}" />
-              </StackPanel>
-            </Button>
+            <ComboBox MinWidth="150"
+                      Height="44"
+                      CornerRadius="12"
+                      FontSize="14"
+                      VerticalContentAlignment="Center"
+                      ItemsSource="{Binding Sources}"
+                      SelectedItem="{Binding SourceFilter, Mode=TwoWay}" />
+            <ComboBox MinWidth="150"
+                      Height="44"
+                      CornerRadius="12"
+                      FontSize="14"
+                      VerticalContentAlignment="Center"
+                      ItemsSource="{Binding Periods}"
+                      SelectedItem="{Binding PeriodFilter, Mode=TwoWay}" />
+            <ComboBox MinWidth="150"
+                      Height="44"
+                      CornerRadius="12"
+                      FontSize="14"
+                      VerticalContentAlignment="Center"
+                      ItemsSource="{Binding Reps}"
+                      SelectedItem="{Binding RepFilter, Mode=TwoWay}" />
           </StackPanel>
 
           <!-- Kanban board: each column is a stage from the shared dataset, so the counts and cards
@@ -174,33 +162,27 @@
                         HorizontalScrollBarVisibility="Auto"
                         VerticalScrollBarVisibility="Disabled">
             <StackPanel Orientation="Horizontal" Spacing="10">
-              <Button Style="{StaticResource DashboardFilterButtonStyle}">
-                <StackPanel Orientation="Horizontal" Spacing="8">
-                  <TextBlock Text="All Pipelines" FontSize="13" Foreground="{ThemeResource DashboardPrimaryTextBrush}" />
-                  <Path Width="12" Height="12"
-                        Data="F1 M4.21967 8.46967C4.51256 8.17678 4.98744 8.17678 5.28033 8.46967L12 15.1893L18.7197 8.46967C19.0126 8.17678 19.4874 8.17678 19.7803 8.46967C20.0732 8.76256 20.0732 9.23744 19.7803 9.53033L12.5303 16.7803C12.2374 17.0732 11.7626 17.0732 11.4697 16.7803L4.21967 9.53033C3.92678 9.23744 3.92678 8.76256 4.21967 8.46967Z"
-                        Stretch="Uniform"
-                        Fill="{ThemeResource DashboardMutedTextBrush}" />
-                </StackPanel>
-              </Button>
-              <Button Style="{StaticResource DashboardFilterButtonStyle}">
-                <StackPanel Orientation="Horizontal" Spacing="8">
-                  <TextBlock Text="This Quarter" FontSize="13" Foreground="{ThemeResource DashboardPrimaryTextBrush}" />
-                  <Path Width="12" Height="12"
-                        Data="F1 M4.21967 8.46967C4.51256 8.17678 4.98744 8.17678 5.28033 8.46967L12 15.1893L18.7197 8.46967C19.0126 8.17678 19.4874 8.17678 19.7803 8.46967C20.0732 8.76256 20.0732 9.23744 19.7803 9.53033L12.5303 16.7803C12.2374 17.0732 11.7626 17.0732 11.4697 16.7803L4.21967 9.53033C3.92678 9.23744 3.92678 8.76256 4.21967 8.46967Z"
-                        Stretch="Uniform"
-                        Fill="{ThemeResource DashboardMutedTextBrush}" />
-                </StackPanel>
-              </Button>
-              <Button Style="{StaticResource DashboardFilterButtonStyle}">
-                <StackPanel Orientation="Horizontal" Spacing="8">
-                  <TextBlock Text="All Reps" FontSize="13" Foreground="{ThemeResource DashboardPrimaryTextBrush}" />
-                  <Path Width="12" Height="12"
-                        Data="F1 M4.21967 8.46967C4.51256 8.17678 4.98744 8.17678 5.28033 8.46967L12 15.1893L18.7197 8.46967C19.0126 8.17678 19.4874 8.17678 19.7803 8.46967C20.0732 8.76256 20.0732 9.23744 19.7803 9.53033L12.5303 16.7803C12.2374 17.0732 11.7626 17.0732 11.4697 16.7803L4.21967 9.53033C3.92678 9.23744 3.92678 8.76256 4.21967 8.46967Z"
-                        Stretch="Uniform"
-                        Fill="{ThemeResource DashboardMutedTextBrush}" />
-                </StackPanel>
-              </Button>
+              <ComboBox MinWidth="150"
+                        Height="44"
+                        CornerRadius="12"
+                        FontSize="14"
+                        VerticalContentAlignment="Center"
+                        ItemsSource="{Binding Sources}"
+                        SelectedItem="{Binding SourceFilter, Mode=TwoWay}" />
+              <ComboBox MinWidth="150"
+                        Height="44"
+                        CornerRadius="12"
+                        FontSize="14"
+                        VerticalContentAlignment="Center"
+                        ItemsSource="{Binding Periods}"
+                        SelectedItem="{Binding PeriodFilter, Mode=TwoWay}" />
+              <ComboBox MinWidth="150"
+                        Height="44"
+                        CornerRadius="12"
+                        FontSize="14"
+                        VerticalContentAlignment="Center"
+                        ItemsSource="{Binding Reps}"
+                        SelectedItem="{Binding RepFilter, Mode=TwoWay}" />
             </StackPanel>
           </ScrollViewer>
 

@@ -86,6 +86,25 @@ public partial record PipelinePageMockData
     public IFeed<IImmutableList<PipelineStage>> Board { get; init; } = MockFeeds.Scalar(SeedStages);
 
     public IListFeed<PipelineStage> Stages { get; init; } = MockFeeds.Of(SeedStages.ToArray());
+
+    // The filter bar. Settable strings rather than states: a preview only has to RENDER a selection,
+    // and the vocabularies must be materialized or the ComboBoxes would drop it.
+    public string SourceFilter { get; set; } = PipelineModel.AllSources;
+    public string PeriodFilter { get; set; } = PipelineModel.ThisQuarter;
+    public string RepFilter { get; set; } = PipelineModel.AllReps;
+
+    public IReadOnlyList<string> Sources { get; } =
+        new[] { PipelineModel.AllSources }
+            .Concat(CrmData.Deals.Select(d => d.Source).Distinct(StringComparer.OrdinalIgnoreCase))
+            .ToArray();
+
+    public IReadOnlyList<string> Periods { get; } =
+        [PipelineModel.ThisWeek, PipelineModel.ThisMonth, PipelineModel.ThisQuarter];
+
+    public IReadOnlyList<string> Reps { get; } =
+        new[] { PipelineModel.AllReps }
+            .Concat(CrmData.Deals.Select(d => d.Owner).Distinct(StringComparer.OrdinalIgnoreCase))
+            .ToArray();
 }
 
 public partial class PipelinePageMockDataViewModel

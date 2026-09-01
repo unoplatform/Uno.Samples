@@ -18,7 +18,11 @@ public interface ICrmService
     ValueTask<LeadsAnalytics> GetLeadsAnalyticsAsync(CancellationToken ct = default);
     ValueTask<IImmutableList<TopLead>> GetTopOpenLeadsAsync(CancellationToken ct = default);
 
-    ValueTask<IImmutableList<PipelineStage>> GetPipelineStagesAsync(CancellationToken ct = default);
+    ValueTask<IImmutableList<PipelineStage>> GetPipelineStagesAsync(
+        string? source,
+        string? period,
+        string? rep,
+        CancellationToken ct = default);
 
     ValueTask<IImmutableList<ContactLocation>> SearchContactsAsync(
         string? search,
@@ -55,8 +59,34 @@ public sealed class CrmService : ICrmService
     public ValueTask<IImmutableList<TopLead>> GetTopOpenLeadsAsync(CancellationToken ct = default)
         => Fetch(CrmData.Leads.TopOpenLeads.ToImmutableList() as IImmutableList<TopLead>, ct);
 
-    public ValueTask<IImmutableList<PipelineStage>> GetPipelineStagesAsync(CancellationToken ct = default)
-        => Fetch(CrmData.Stages.ToImmutableList() as IImmutableList<PipelineStage>, ct);
+    // Criteria in, board out. The five columns always come back — a stage the filter empties is a
+    // column with a zero count, not a missing column.
+    public async ValueTask<IImmutableList<PipelineStage>> GetPipelineStagesAsync(
+        string? source,
+        string? period,
+        string? rep,
+        CancellationToken ct = default)
+    {
+        await Task.Delay(Latency, ct);
+
+        var src = source ?? PipelineModel.AllSources;
+        var owner = rep ?? PipelineModel.AllReps;
+        var maxAgeDays = period switch
+        {
+            PipelineModel.ThisWeek => 7,
+            PipelineModel.ThisMonth => 30,
+            _ => 90,
+        };
+
+        var matching = CrmData.Deals
+            .Where(d => src == PipelineModel.AllSources
+                        || d.Source.Equals(src, StringComparison.OrdinalIgnoreCase))
+            .Where(d => owner == PipelineModel.AllReps
+                        || d.Owner.Equals(owner, StringComparison.OrdinalIgnoreCase))
+            .Where(d => d.AgeDays <= maxAgeDays);
+
+        return CrmData.StagesFrom(matching).ToImmutableList();
+    }
 
     // Criteria in, matching set out — the shape a real contacts endpoint has.
     public async ValueTask<IImmutableList<ContactLocation>> SearchContactsAsync(
