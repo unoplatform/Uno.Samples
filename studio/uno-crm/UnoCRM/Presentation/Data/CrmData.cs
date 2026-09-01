@@ -77,13 +77,13 @@ public static class CrmData
         new("d-07", "Pinnacle Group", 52_300m, "Mike Johnson", DealStage.Qualified, DealHealth.Watch, 6, "Event"),
 
         // Proposal
-        new("d-08", "Meridian Health", 124_000m, "Kevin Zhang", DealStage.Proposal, DealHealth.AtRisk, 15, "Email"),
+        new("d-08", "Meridian Health", 124_000m, "Kevin Zhang", DealStage.Proposal, DealHealth.AtRisk, 33, "Email"),
         new("d-09", "UrbanEdge", 56_800m, "Nina Brooks", DealStage.Proposal, DealHealth.Watch, 9, "Web"),
         new("d-10", "BluePeak Inc", 41_500m, "Paul Martinez", DealStage.Proposal, DealHealth.Healthy, 4, "Ads"),
 
         // Negotiation
-        new("d-11", "Vertex Labs", 210_000m, "Sarah Chen", DealStage.Negotiation, DealHealth.AtRisk, 22, "Referral"),
-        new("d-12", "Orion Systems", 73_400m, "Mike Johnson", DealStage.Negotiation, DealHealth.Watch, 18, "Event"),
+        new("d-11", "Vertex Labs", 210_000m, "Sarah Chen", DealStage.Negotiation, DealHealth.AtRisk, 47, "Referral"),
+        new("d-12", "Orion Systems", 73_400m, "Mike Johnson", DealStage.Negotiation, DealHealth.Watch, 38, "Event"),
         new("d-13", "Atlas Financial", 95_600m, "Kevin Zhang", DealStage.Negotiation, DealHealth.Healthy, 11, "Web"),
 
         // Closed Won
@@ -153,14 +153,25 @@ public static class CrmData
         };
     }
 
-    private static IReadOnlyList<ActivityItem> BuildActivities() =>
-    [
-        new("Deal won — Summit Retail", "$156,000  •  Closed Won", "2h ago"),
-        new("New lead assigned — Acme Corp", "Sarah Chen  •  Web", "15m ago"),
-        new("Proposal sent — Meridian Health", "$124,000  •  Proposal", "1h ago"),
-        new("Lead qualified — NovaTech", "David Kim  •  Referral", "2h ago"),
-        new("Negotiation started — Vertex Labs", "$210,000  •  Negotiation", "3h ago"),
-    ];
+    private static IReadOnlyList<ActivityItem> BuildActivities()
+    {
+        // Every row reads the deal it describes rather than repeating its details, so the feed cannot
+        // drift from the dataset when a deal changes hands or is re-priced.
+        static Deal Of(string company) => Deals.First(d => d.Company == company);
+
+        static string Rep(string company) => $"{Of(company).Owner}  •  {Of(company).Source}";
+
+        static string Value(string company) => $"{Of(company).AmountDisplay}  •  {Of(company).StageDisplay}";
+
+        return
+        [
+            new("Deal won — Summit Retail", Value("Summit Retail"), "2h ago"),
+            new("New lead assigned — Acme Corp", Rep("Acme Corp"), "15m ago"),
+            new("Proposal sent — Meridian Health", Value("Meridian Health"), "1h ago"),
+            new("Lead qualified — NovaTech", Rep("NovaTech"), "2h ago"),
+            new("Negotiation started — Vertex Labs", Value("Vertex Labs"), "3h ago"),
+        ];
+    }
 
     private static LeadsAnalytics BuildLeads()
     {

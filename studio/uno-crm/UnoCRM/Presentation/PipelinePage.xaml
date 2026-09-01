@@ -88,10 +88,11 @@
                       SelectedItem="{Binding RepFilter, Mode=TwoWay}" />
           </StackPanel>
 
-          <!-- Kanban board: each column is a stage from the shared dataset, so the counts and cards
-               always agree with the Dashboard and Leads pages. Behind the FeedView because the board is
-               the page's primary surface: until the stages load it must show nothing, never a "0" badge
-               that reads like a genuinely empty stage. -->
+          <!-- Kanban board: five columns of the deals matching the filters above, so unlike the
+               Dashboard and Leads pages this shows a SUBSET and its counts are expected to differ.
+               The columns are structural — a filter that empties one leaves it in place reading zero.
+               Behind the FeedView because the board is the page's primary surface: until the filtered
+               query returns it must show nothing, never a "0" that reads like an empty stage. -->
           <mvux:FeedView Grid.Row="2"
                          Source="{Binding Board}"
                          ValueTemplate="{StaticResource DesktopStageBoardTemplate}"
