@@ -288,4 +288,109 @@
                TextWrapping="Wrap" />
   </DataTemplate>
 
+  <!-- The desktop kanban board, hosted by a FeedView so the five columns cannot render a count until
+       the stages have actually loaded. Columns are addressed by index into the loaded list; the label
+       and accent above each one are fixed, so the index is unambiguous in place. -->
+  <DataTemplate x:Key="DesktopStageBoardTemplate">
+      <Grid ColumnSpacing="14">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <StackPanel Grid.Column="0" Spacing="12">
+          <Grid ColumnSpacing="8">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="Auto" />
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Ellipse Grid.Column="0" Width="10" Height="10" VerticalAlignment="Center" Fill="{ThemeResource DashboardBlueBrush}" />
+            <TextBlock Grid.Column="1" Text="NEW LEAD" Style="{StaticResource DashboardSectionLabelStyle}" VerticalAlignment="Center" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" />
+            <Border Grid.Column="2" VerticalAlignment="Center" Background="{ThemeResource DashboardBlueSoftBrush}" CornerRadius="8" Padding="6,1">
+              <TextBlock Text="{Binding Data[0].Count}" Foreground="{ThemeResource DashboardBlueDeepBrush}" FontSize="11" />
+            </Border>
+          </Grid>
+          <ItemsControl ItemsSource="{Binding Data[0].Deals}"
+                        ItemTemplate="{StaticResource DealCardTemplate}"
+                        ItemsPanel="{StaticResource DealStackPanel}" />
+        </StackPanel>
+
+        <StackPanel Grid.Column="1" Spacing="12">
+          <Grid ColumnSpacing="8">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="Auto" />
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Ellipse Grid.Column="0" Width="10" Height="10" VerticalAlignment="Center" Fill="{ThemeResource DashboardPurpleBrush}" />
+            <TextBlock Grid.Column="1" Text="QUALIFIED" Style="{StaticResource DashboardSectionLabelStyle}" VerticalAlignment="Center" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" />
+            <Border Grid.Column="2" VerticalAlignment="Center" Background="{ThemeResource DashboardPurpleSoftBrush}" CornerRadius="8" Padding="6,1">
+              <TextBlock Text="{Binding Data[1].Count}" Foreground="{ThemeResource DashboardPurpleDeepBrush}" FontSize="11" />
+            </Border>
+          </Grid>
+          <ItemsControl ItemsSource="{Binding Data[1].Deals}"
+                        ItemTemplate="{StaticResource DealCardTemplate}"
+                        ItemsPanel="{StaticResource DealStackPanel}" />
+        </StackPanel>
+
+        <StackPanel Grid.Column="2" Spacing="12">
+          <Grid ColumnSpacing="8">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="Auto" />
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Ellipse Grid.Column="0" Width="10" Height="10" VerticalAlignment="Center" Fill="{ThemeResource DashboardAmberBrush}" />
+            <TextBlock Grid.Column="1" Text="PROPOSAL" Style="{StaticResource DashboardSectionLabelStyle}" VerticalAlignment="Center" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" />
+            <Border Grid.Column="2" VerticalAlignment="Center" Background="{ThemeResource DashboardAmberSoftBrush}" CornerRadius="8" Padding="6,1">
+              <TextBlock Text="{Binding Data[2].Count}" Foreground="{ThemeResource DashboardAmberDeepBrush}" FontSize="11" />
+            </Border>
+          </Grid>
+          <ItemsControl ItemsSource="{Binding Data[2].Deals}"
+                        ItemTemplate="{StaticResource DealCardTemplate}"
+                        ItemsPanel="{StaticResource DealStackPanel}" />
+        </StackPanel>
+
+        <StackPanel Grid.Column="3" Spacing="12">
+          <Grid ColumnSpacing="8">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="Auto" />
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Ellipse Grid.Column="0" Width="10" Height="10" VerticalAlignment="Center" Fill="{ThemeResource DashboardRedBrush}" />
+            <TextBlock Grid.Column="1" Text="NEGOTIATION" Style="{StaticResource DashboardSectionLabelStyle}" VerticalAlignment="Center" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" />
+            <Border Grid.Column="2" VerticalAlignment="Center" Background="{ThemeResource DashboardRedSoftBrush}" CornerRadius="8" Padding="6,1">
+              <TextBlock Text="{Binding Data[3].Count}" Foreground="{ThemeResource DashboardRedDeepBrush}" FontSize="11" />
+            </Border>
+          </Grid>
+          <ItemsControl ItemsSource="{Binding Data[3].Deals}"
+                        ItemTemplate="{StaticResource DealCardTemplate}"
+                        ItemsPanel="{StaticResource DealStackPanel}" />
+        </StackPanel>
+
+        <StackPanel Grid.Column="4" Spacing="12">
+          <Grid ColumnSpacing="8">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="Auto" />
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Ellipse Grid.Column="0" Width="10" Height="10" VerticalAlignment="Center" Fill="{ThemeResource DashboardGreenBrush}" />
+            <TextBlock Grid.Column="1" Text="CLOSED WON" Style="{StaticResource DashboardSectionLabelStyle}" VerticalAlignment="Center" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" />
+            <Border Grid.Column="2" VerticalAlignment="Center" Background="{ThemeResource DashboardGreenSoftBrush}" CornerRadius="8" Padding="6,1">
+              <TextBlock Text="{Binding Data[4].Count}" Foreground="{ThemeResource DashboardGreenDeepBrush}" FontSize="11" />
+            </Border>
+          </Grid>
+          <ItemsControl ItemsSource="{Binding Data[4].Deals}"
+                        ItemTemplate="{StaticResource DealCardTemplate}"
+                        ItemsPanel="{StaticResource DealStackPanel}" />
+        </StackPanel>
+      </Grid>
+  </DataTemplate>
+
 </ResourceDictionary>

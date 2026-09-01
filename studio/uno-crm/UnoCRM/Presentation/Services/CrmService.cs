@@ -13,7 +13,6 @@ namespace UnoCRM.Presentation.Services;
 public interface ICrmService
 {
     ValueTask<DashboardData> GetDashboardAsync(CancellationToken ct = default);
-    ValueTask<IImmutableList<FunnelStage>> GetFunnelAsync(CancellationToken ct = default);
     ValueTask<IImmutableList<ActivityItem>> GetActivitiesAsync(CancellationToken ct = default);
 
     ValueTask<LeadsAnalytics> GetLeadsAnalyticsAsync(CancellationToken ct = default);
@@ -46,8 +45,6 @@ public sealed class CrmService : ICrmService
     public ValueTask<DashboardData> GetDashboardAsync(CancellationToken ct = default)
         => Fetch(CrmData.Dashboard, ct);
 
-    public ValueTask<IImmutableList<FunnelStage>> GetFunnelAsync(CancellationToken ct = default)
-        => Fetch(CrmData.Dashboard.Funnel.ToImmutableList() as IImmutableList<FunnelStage>, ct);
 
     public ValueTask<IImmutableList<ActivityItem>> GetActivitiesAsync(CancellationToken ct = default)
         => Fetch(CrmData.Dashboard.Activities.ToImmutableList() as IImmutableList<ActivityItem>, ct);

@@ -104,9 +104,7 @@ public partial record PipelineStage
 /// </summary>
 public partial record FunnelStage
 {
-    public required string Name { get; init; }
     public required int Count { get; init; }
-    public required string FillKey { get; init; }
     public required double FillFraction { get; init; }
 }
 

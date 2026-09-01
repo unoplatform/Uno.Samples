@@ -124,14 +124,10 @@ public static class CrmData
         var conversion = (double)wonDeals.Count / Deals.Count;
         var maxStageCount = Stages.Max(s => s.Count);
 
-        string[] funnelNames = ["New Lead", "Qualified", "Proposal", "Negotiation", "Closed Won"];
-
         var funnel = Stages
-            .Select((stage, i) => new FunnelStage
+            .Select(stage => new FunnelStage
             {
-                Name = funnelNames[i],
                 Count = stage.Count,
-                FillKey = stage.AccentKey,
                 FillFraction = maxStageCount == 0 ? 0d : (double)stage.Count / maxStageCount,
             })
             .ToList();

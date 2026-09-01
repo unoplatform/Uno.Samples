@@ -25,6 +25,9 @@ internal static class MockFeeds
 
     public static IListFeed<T> Empty<T>() =>
         ListFeed.Async(_ => ValueTask.FromResult<IImmutableList<T>>(ImmutableList<T>.Empty));
+
+    public static IFeed<IImmutableList<T>> Scalar<T>(IReadOnlyList<T> items) =>
+        Feed.Async(_ => ValueTask.FromResult<IImmutableList<T>>(items.ToImmutableList()));
 }
 
 [Uno.Extensions.Reactive.ReactiveBindable]
@@ -72,17 +75,17 @@ public partial record PipelinePageMockData
 
     /// <summary>An empty board — the mobile list's NoneTemplate.</summary>
     public static PipelinePageMockDataViewModel EmptyBoard =>
-        PipelinePageMockDataViewModel.ForModel(new() { Stages = MockFeeds.Empty<PipelineStage>() });
+        PipelinePageMockDataViewModel.ForModel(new()
+        {
+            Board = MockFeeds.Scalar<PipelineStage>([]),
+            Stages = MockFeeds.Empty<PipelineStage>(),
+        });
 
-    public IListFeed<PipelineStage> Stages { get; init; } = MockFeeds.Of(CrmData.Stages.ToArray());
+    // Both arrangements' sources, mirroring the Model: the desktop board indexes the scalar feed,
+    // the mobile list takes the list form.
+    public IFeed<IImmutableList<PipelineStage>> Board { get; init; } = MockFeeds.Scalar(SeedStages);
 
-    // The desktop board's five columns, mirroring the Model's scalar accessors so
-    // {Binding NewLead.Deals} resolves at design time too.
-    public PipelineStage NewLead { get; init; } = SeedStages[0];
-    public PipelineStage Qualified { get; init; } = SeedStages[1];
-    public PipelineStage Proposal { get; init; } = SeedStages[2];
-    public PipelineStage Negotiation { get; init; } = SeedStages[3];
-    public PipelineStage ClosedWon { get; init; } = SeedStages[4];
+    public IListFeed<PipelineStage> Stages { get; init; } = MockFeeds.Of(SeedStages.ToArray());
 }
 
 public partial class PipelinePageMockDataViewModel
