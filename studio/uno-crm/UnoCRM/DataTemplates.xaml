@@ -240,4 +240,39 @@
     </Border>
   </DataTemplate>
 
+  <!-- ══════════════════════ FeedView surfaces ══════════════════════ -->
+
+  <!-- Recent activity, in the desktop and mobile treatments. Both render the SAME Activities feed,
+       so the two arrangements stay in step by construction. -->
+  <DataTemplate x:Key="DesktopActivityListTemplate">
+    <ItemsControl ItemsSource="{Binding Data}"
+                  ItemTemplate="{StaticResource DesktopActivityTemplate}" />
+  </DataTemplate>
+
+  <DataTemplate x:Key="MobileActivityListTemplate">
+    <ItemsControl ItemsSource="{Binding Data}"
+                  ItemTemplate="{StaticResource MobileActivityTemplate}" />
+  </DataTemplate>
+
+  <DataTemplate x:Key="NoActivityTemplate">
+    <TextBlock Text="No recent activity."
+               Style="{StaticResource DashboardSubtleTextStyle}"
+               Margin="0,8,0,4"
+               TextWrapping="Wrap" />
+  </DataTemplate>
+
+  <!-- The mobile pipeline board's stage list. -->
+  <DataTemplate x:Key="MobileStageListTemplate">
+    <ItemsControl ItemsSource="{Binding Data}"
+                  ItemTemplate="{StaticResource MobileStageTemplate}"
+                  ItemsPanel="{StaticResource StageStackPanel}" />
+  </DataTemplate>
+
+  <DataTemplate x:Key="NoStagesTemplate">
+    <TextBlock Text="No pipeline stages to show."
+               Style="{StaticResource DashboardSubtleTextStyle}"
+               Margin="0,8,0,4"
+               TextWrapping="Wrap" />
+  </DataTemplate>
+
 </ResourceDictionary>
