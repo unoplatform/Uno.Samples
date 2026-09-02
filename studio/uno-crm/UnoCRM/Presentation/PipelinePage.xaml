@@ -188,7 +188,7 @@
           </ScrollViewer>
 
           <!-- All stages, stacked, bound to the same dataset the desktop board uses. -->
-          <Grid>
+          <Grid Grid.Row="3">
             <!-- The loading shape sits OUTSIDE the FeedView, behind it. Inside, whether you can SEE a
                  template depends on which of the control's states is showing, and two of those states
                  live under a root the control can drop to zero opacity — so an inflated template is not
@@ -200,7 +200,7 @@
                             HorizontalContentAlignment="Stretch"
                             IsTabStop="False"
                             AutomationProperties.AccessibilityView="Raw" />
-            <mvux:FeedView Grid.Row="3"
+            <mvux:FeedView
                            Source="{Binding Stages}"
                            ValueTemplate="{StaticResource MobileStageListTemplate}"
                            NoneTemplate="{StaticResource NoStagesTemplate}"
