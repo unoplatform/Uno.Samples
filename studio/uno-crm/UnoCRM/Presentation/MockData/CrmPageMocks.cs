@@ -191,11 +191,47 @@ public partial record LeadsPageMockData
 {
     private static readonly LeadsAnalytics Seed = CrmData.Leads;
 
-    /// <summary>The analytics as shipped.</summary>
+    // A tenant that has worked its pipeline out: every deal closed, nothing open left to chase. Told
+    // consistently across the whole page rather than only in the list — an empty open-leads list with
+    // a rising trend line and a healthy five-way stage mix beside it would contradict itself.
+    // Volumes are a tenth of the busy tenant's, the year declines instead of climbing, the pipeline is
+    // worth nothing because none of it is open, and every deal sits in Closed Won.
+    private static readonly LeadsAnalytics ClearedSeed = new()
+    {
+        NewLeadsText = "213",
+        QualificationRateText = "31%",
+        PipelineValueText = "$0",
+        AverageDealSizeText = "$12K",
+        MonthLabels = Seed.MonthLabels,
+        MonthlyLeads = [38, 34, 29, 25, 22, 18, 15, 12, 9, 6, 4, 1],
+        SourceLabels = Seed.SourceLabels,
+        SourceCounts = [3, 2, 2, 1, 1],
+        StageLabels = Seed.StageLabels,
+        StageCounts = [0, 0, 0, 0, 9],
+        TopOpenLeads = [],
+    };
+
+    /// <summary>The analytics as shipped: a busy year, a climbing trend, all five stages in play.</summary>
     public static LeadsPageMockData Data => new();
 
-    /// <summary>No open leads — that list's NoneTemplate, charts unaffected.</summary>
-    public static LeadsPageMockData NoOpenLeads => new() { TopOpenLeads = MockFeeds.Empty<TopLead>() };
+    /// <summary>
+    /// A pipeline worked to nothing: the open-leads list on its empty state, and every other surface
+    /// agreeing with it — a tenth of the volume, a declining year, no pipeline value, and a stage mix
+    /// that is entirely Closed Won.
+    /// </summary>
+    public static LeadsPageMockData PipelineCleared => new()
+    {
+        NewLeadsText = ClearedSeed.NewLeadsText,
+        QualificationRateText = ClearedSeed.QualificationRateText,
+        PipelineValueText = ClearedSeed.PipelineValueText,
+        AverageDealSizeText = ClearedSeed.AverageDealSizeText,
+        TopOpenLeads = MockFeeds.Empty<TopLead>(),
+        LeadTrendSeries = LeadsChartFactory.LeadTrendSeries(ClearedSeed),
+        LeadsBySourceSeries = LeadsChartFactory.LeadsBySourceSeries(ClearedSeed),
+        StageDistributionSeries = LeadsChartFactory.StageDistributionSeries(ClearedSeed),
+        MonthXAxis = LeadsChartFactory.MonthXAxis(ClearedSeed),
+        SourceXAxis = LeadsChartFactory.SourceXAxis(ClearedSeed),
+    };
 
     public string NewLeadsText { get; init; } = Seed.NewLeadsText;
     public string QualificationRateText { get; init; } = Seed.QualificationRateText;
