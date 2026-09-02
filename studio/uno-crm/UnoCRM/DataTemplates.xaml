@@ -636,7 +636,7 @@
          empty-state template — so it can only be a collection that has not filled yet, and the honest
          thing to show is the shape of what is coming. Without this the card has no content and
          collapses to its own padding. -->
-    <Grid>
+    <Grid Background="{ThemeResource DashboardSurfaceBrush}">
       <ContentControl ContentTemplate="{StaticResource ActivityLoadingTemplate}"
                       HorizontalAlignment="Stretch"
                       HorizontalContentAlignment="Stretch"
@@ -654,7 +654,7 @@
          empty-state template — so it can only be a collection that has not filled yet, and the honest
          thing to show is the shape of what is coming. Without this the card has no content and
          collapses to its own padding. -->
-    <Grid>
+    <Grid Background="{ThemeResource DashboardSurfaceBrush}">
       <ContentControl ContentTemplate="{StaticResource ActivityLoadingTemplate}"
                       HorizontalAlignment="Stretch"
                       HorizontalContentAlignment="Stretch"
@@ -671,6 +671,7 @@
        empty state, so the app answers "nothing here" the same way everywhere. -->
   <DataTemplate x:Key="NoActivityTemplate">
     <StackPanel Spacing="14" Margin="16,18,16,18">
+                Background="{ThemeResource DashboardSurfaceBrush}"
       <Grid ColumnSpacing="14" Opacity="0.4">
         <Grid.ColumnDefinitions>
           <ColumnDefinition Width="*" />
@@ -754,7 +755,7 @@
 
   <!-- The mobile pipeline board's stage list. -->
   <DataTemplate x:Key="MobileStageListTemplate">
-    <Grid>
+    <Grid Background="{ThemeResource DashboardPageBackgroundBrush}">
       <ContentControl ContentTemplate="{StaticResource StageListLoadingTemplate}"
                       HorizontalAlignment="Stretch"
                       HorizontalContentAlignment="Stretch"
@@ -779,6 +780,7 @@
        same button twice. -->
   <DataTemplate x:Key="NoStagesTemplate">
     <StackPanel HorizontalAlignment="Center"
+                Background="{ThemeResource DashboardPageBackgroundBrush}"
                 MaxWidth="300"
                 Spacing="16"
                 Margin="0,48,0,32">
