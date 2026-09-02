@@ -91,16 +91,6 @@ public partial record Deal(
         _ => Stage.ToString(),
     };
 
-    /// <summary>Resource key for the card's accent dot / check — green when won, else by health.</summary>
-    public string AccentKey => IsWon
-        ? "DashboardGreenBrush"
-        : Health switch
-        {
-            DealHealth.AtRisk => "DashboardRedBrush",
-            DealHealth.Watch => "DashboardAmberBrush",
-            _ => "DashboardGreenBrush",
-        };
-
     /// <summary>Human-readable health label for a detail view.</summary>
     public string HealthDisplay => Health switch
     {
