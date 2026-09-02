@@ -1,7 +1,8 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:uen="using:Uno.Extensions.Navigation.UI"
-                    xmlns:controls="using:UnoCRM.Controls">
+                    xmlns:controls="using:UnoCRM.Controls"
+                    xmlns:sel="using:UnoCRM.Selectors">
 
   <!--
     Every item/content template in the app, keyed and shared rather than declared inline in a
@@ -214,6 +215,289 @@
                     ItemsPanel="{StaticResource DealStackPanel}" />
     </StackPanel>
   </DataTemplate>
+
+  <!-- ══════════ DealDetailPage ══════════ -->
+
+  <!--
+    Stage, health and dwell time each get ONE KEYED TEMPLATE PER STATE, chosen by a
+    DataTemplateSelector over the deal (see UnoCRM.Selectors). Two reasons.
+
+    Correctness: every color a state needs is a literal {ThemeResource} written in XAML, so it
+    resolves against the element's own theme in light and dark, and against this app's resources
+    inside a design-time preview host. Carrying a palette-key string on the deal and converting it
+    to a Brush resolves app-wide instead, which is how the old health dot ended up invisible in the
+    previews and the wrong gray in dark mode.
+
+    Legibility: the states are told apart by FORM before color. The stage raises a different step
+    on a five-step track; health changes silhouette, size and weight; dwell fills a gauge past two
+    threshold notches. Read the page in grayscale and all three still answer their question.
+  -->
+
+  <!-- The five-step pipeline track, one template per stage. Steps already cleared are solid and
+       mid-weight, steps still ahead are hairlines, and the step the deal is IN is the tallest bar
+       and the only colored thing in the card - in the hue the Pipeline board gives that column. -->
+  <DataTemplate x:Key="DealStageTrackNewLeadTemplate">
+    <Grid ColumnSpacing="6" Height="8">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="*" />
+      </Grid.ColumnDefinitions>
+      <Border Grid.Column="0" Style="{StaticResource StageTrackCurrentStyle}" Background="{ThemeResource DashboardBlueBrush}" />
+      <Border Grid.Column="1" Style="{StaticResource StageTrackFutureStyle}" />
+      <Border Grid.Column="2" Style="{StaticResource StageTrackFutureStyle}" />
+      <Border Grid.Column="3" Style="{StaticResource StageTrackFutureStyle}" />
+      <Border Grid.Column="4" Style="{StaticResource StageTrackFutureStyle}" />
+    </Grid>
+  </DataTemplate>
+
+  <DataTemplate x:Key="DealStageTrackQualifiedTemplate">
+    <Grid ColumnSpacing="6" Height="8">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="*" />
+      </Grid.ColumnDefinitions>
+      <Border Grid.Column="0" Style="{StaticResource StageTrackDoneStyle}" />
+      <Border Grid.Column="1" Style="{StaticResource StageTrackCurrentStyle}" Background="{ThemeResource DashboardPurpleBrush}" />
+      <Border Grid.Column="2" Style="{StaticResource StageTrackFutureStyle}" />
+      <Border Grid.Column="3" Style="{StaticResource StageTrackFutureStyle}" />
+      <Border Grid.Column="4" Style="{StaticResource StageTrackFutureStyle}" />
+    </Grid>
+  </DataTemplate>
+
+  <DataTemplate x:Key="DealStageTrackProposalTemplate">
+    <Grid ColumnSpacing="6" Height="8">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="*" />
+      </Grid.ColumnDefinitions>
+      <Border Grid.Column="0" Style="{StaticResource StageTrackDoneStyle}" />
+      <Border Grid.Column="1" Style="{StaticResource StageTrackDoneStyle}" />
+      <Border Grid.Column="2" Style="{StaticResource StageTrackCurrentStyle}" Background="{ThemeResource DashboardAmberBrush}" />
+      <Border Grid.Column="3" Style="{StaticResource StageTrackFutureStyle}" />
+      <Border Grid.Column="4" Style="{StaticResource StageTrackFutureStyle}" />
+    </Grid>
+  </DataTemplate>
+
+  <DataTemplate x:Key="DealStageTrackNegotiationTemplate">
+    <Grid ColumnSpacing="6" Height="8">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="*" />
+      </Grid.ColumnDefinitions>
+      <Border Grid.Column="0" Style="{StaticResource StageTrackDoneStyle}" />
+      <Border Grid.Column="1" Style="{StaticResource StageTrackDoneStyle}" />
+      <Border Grid.Column="2" Style="{StaticResource StageTrackDoneStyle}" />
+      <Border Grid.Column="3" Style="{StaticResource StageTrackCurrentStyle}" Background="{ThemeResource DashboardRedBrush}" />
+      <Border Grid.Column="4" Style="{StaticResource StageTrackFutureStyle}" />
+    </Grid>
+  </DataTemplate>
+
+  <DataTemplate x:Key="DealStageTrackClosedWonTemplate">
+    <Grid ColumnSpacing="6" Height="8">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="*" />
+      </Grid.ColumnDefinitions>
+      <Border Grid.Column="0" Style="{StaticResource StageTrackDoneStyle}" />
+      <Border Grid.Column="1" Style="{StaticResource StageTrackDoneStyle}" />
+      <Border Grid.Column="2" Style="{StaticResource StageTrackDoneStyle}" />
+      <Border Grid.Column="3" Style="{StaticResource StageTrackDoneStyle}" />
+      <Border Grid.Column="4" Style="{StaticResource StageTrackCurrentStyle}" Background="{ThemeResource DashboardGreenBrush}" />
+    </Grid>
+  </DataTemplate>
+
+  <!-- Health, as an escalating mark. The silhouette carries it: a calm round dot (the same dot the
+       Pipeline board puts on an open card), then a caution diamond, then an alarm triangle - each
+       larger than the last, in a container that goes bare -> outlined -> filled, with a label that
+       goes Regular -> SemiBold -> Bold. Color is the last layer, never the only one. -->
+  <DataTemplate x:Key="DealHealthHealthyTemplate">
+    <Border Style="{StaticResource HealthMarkBorderStyle}">
+      <StackPanel Orientation="Horizontal" Spacing="10">
+        <Ellipse Width="10" Height="10"
+                 VerticalAlignment="Center"
+                 Fill="{ThemeResource DashboardGreenBrush}" />
+        <TextBlock Text="{Binding HealthDisplay}"
+                   Style="{StaticResource DashboardBodyTextStyle}"
+                   VerticalAlignment="Center" />
+      </StackPanel>
+    </Border>
+  </DataTemplate>
+
+  <DataTemplate x:Key="DealHealthWatchTemplate">
+    <Border Style="{StaticResource HealthMarkBorderStyle}"
+            BorderBrush="{ThemeResource DashboardAmberBrush}">
+      <StackPanel Orientation="Horizontal" Spacing="10">
+        <!-- Caution diamond with the mark punched out (EvenOdd), sized as a Path with
+             Stretch="Uniform" so the ink centres on its own tight bounds. -->
+        <Path Width="14" Height="14"
+              VerticalAlignment="Center"
+              Stretch="Uniform"
+              Data="F0 M12 2 L22 12 L12 22 L2 12 Z M10.9 8.4 L13.1 8.4 L13.1 14.4 L10.9 14.4 Z M10.9 16.1 L13.1 16.1 L13.1 18.3 L10.9 18.3 Z"
+              Fill="{ThemeResource DashboardAmberDeepBrush}" />
+        <TextBlock Text="{Binding HealthDisplay}"
+                   Style="{StaticResource DashboardBodyTextStyle}"
+                   FontWeight="SemiBold"
+                   VerticalAlignment="Center" />
+      </StackPanel>
+    </Border>
+  </DataTemplate>
+
+  <DataTemplate x:Key="DealHealthAtRiskTemplate">
+    <Border Style="{StaticResource HealthMarkBorderStyle}"
+            Background="{ThemeResource DashboardRedSoftBrush}"
+            BorderBrush="{ThemeResource DashboardRedBrush}"
+            BorderThickness="2">
+      <StackPanel Orientation="Horizontal" Spacing="10">
+        <!-- Alarm triangle, the largest and only filled-container mark on the page. -->
+        <Path Width="16" Height="16"
+              VerticalAlignment="Center"
+              Stretch="Uniform"
+              Data="F0 M12 2.5 L22.6 21 L1.4 21 Z M10.9 9.6 L13.1 9.6 L13.1 15 L10.9 15 Z M10.9 16.7 L13.1 16.7 L13.1 18.9 L10.9 18.9 Z"
+              Fill="{ThemeResource DashboardRedDeepBrush}" />
+        <TextBlock Text="{Binding HealthDisplay}"
+                   Style="{StaticResource DashboardBodyTextStyle}"
+                   FontWeight="Bold"
+                   Foreground="{ThemeResource DashboardRedDeepBrush}"
+                   VerticalAlignment="Center" />
+      </StackPanel>
+    </Border>
+  </DataTemplate>
+
+  <!-- Dwell time. The gauge spans 30 days and is notched at day 8 and day 21 - the same two
+       thresholds the band word names - so "how long has this sat" is answered by WHERE the fill
+       stops, not by its color. Fresh and Stalling share this neutral treatment; only the stale
+       band (below) spends color on it. -->
+  <DataTemplate x:Key="DealDwellTrackedTemplate">
+    <StackPanel Spacing="8">
+      <Grid ColumnSpacing="12">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <TextBlock Text="TIME IN STAGE"
+                   Style="{StaticResource DashboardSectionLabelStyle}"
+                   VerticalAlignment="Center" />
+        <TextBlock Grid.Column="1"
+                   Text="{Binding AgeBandDisplay}"
+                   Style="{StaticResource DashboardSubtleTextStyle}"
+                   HorizontalAlignment="Right"
+                   VerticalAlignment="Center" />
+      </Grid>
+      <TextBlock Text="{Binding AgeInStageDisplay}"
+                 Style="{StaticResource DashboardMetricValueStyle}"
+                 FontSize="20" />
+      <Grid Height="10" AutomationProperties.AccessibilityView="Raw">
+        <Border Style="{StaticResource DwellGaugeTrackStyle}" />
+        <Grid VerticalAlignment="Center">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="{Binding AgeProgress, Converter={StaticResource DoubleToGridLength}}" />
+            <ColumnDefinition Width="{Binding AgeProgress, Converter={StaticResource DoubleToGridLength}, ConverterParameter=Remainder}" />
+          </Grid.ColumnDefinitions>
+          <Border Style="{StaticResource DwellGaugeFillStyle}"
+                  Background="{ThemeResource DashboardMutedTextBrush}" />
+        </Grid>
+        <!-- 8 / 13 / 9 = the 30-day span split at day 8 and day 21. -->
+        <Grid>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="8*" />
+            <ColumnDefinition Width="13*" />
+            <ColumnDefinition Width="9*" />
+          </Grid.ColumnDefinitions>
+          <Border Grid.Column="1" Style="{StaticResource DwellGaugeThresholdStyle}" />
+          <Border Grid.Column="2" Style="{StaticResource DwellGaugeThresholdStyle}" />
+        </Grid>
+      </Grid>
+    </StackPanel>
+  </DataTemplate>
+
+  <!-- Past three weeks in one stage: the gauge is over its last notch, and this is the one band
+       that earns color, with the band word set Bold to match. -->
+  <DataTemplate x:Key="DealDwellStaleTemplate">
+    <StackPanel Spacing="8">
+      <Grid ColumnSpacing="12">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <TextBlock Text="TIME IN STAGE"
+                   Style="{StaticResource DashboardSectionLabelStyle}"
+                   VerticalAlignment="Center" />
+        <TextBlock Grid.Column="1"
+                   Text="{Binding AgeBandDisplay}"
+                   Style="{StaticResource DashboardSubtleTextStyle}"
+                   FontWeight="Bold"
+                   Foreground="{ThemeResource DashboardRedDeepBrush}"
+                   HorizontalAlignment="Right"
+                   VerticalAlignment="Center" />
+      </Grid>
+      <TextBlock Text="{Binding AgeInStageDisplay}"
+                 Style="{StaticResource DashboardMetricValueStyle}"
+                 FontSize="20" />
+      <Grid Height="10" AutomationProperties.AccessibilityView="Raw">
+        <Border Style="{StaticResource DwellGaugeTrackStyle}" />
+        <Grid VerticalAlignment="Center">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="{Binding AgeProgress, Converter={StaticResource DoubleToGridLength}}" />
+            <ColumnDefinition Width="{Binding AgeProgress, Converter={StaticResource DoubleToGridLength}, ConverterParameter=Remainder}" />
+          </Grid.ColumnDefinitions>
+          <Border Style="{StaticResource DwellGaugeFillStyle}"
+                  Background="{ThemeResource DashboardRedBrush}" />
+        </Grid>
+        <Grid>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="8*" />
+            <ColumnDefinition Width="13*" />
+            <ColumnDefinition Width="9*" />
+          </Grid.ColumnDefinitions>
+          <Border Grid.Column="1" Style="{StaticResource DwellGaugeThresholdStyle}" />
+          <Border Grid.Column="2" Style="{StaticResource DwellGaugeThresholdStyle}" />
+        </Grid>
+      </Grid>
+    </StackPanel>
+  </DataTemplate>
+
+  <!-- A closed deal is not sitting in a stage, so there is no dwell time to show - and a day count
+       or the card's "Won" badge in this slot would just be wrong. Say so instead. -->
+  <DataTemplate x:Key="DealDwellClosedTemplate">
+    <StackPanel Spacing="4">
+      <TextBlock Text="TIME IN STAGE" Style="{StaticResource DashboardSectionLabelStyle}" />
+      <TextBlock Text="Not tracked once a deal is closed."
+                 Style="{StaticResource DashboardSubtleTextStyle}" />
+    </StackPanel>
+  </DataTemplate>
+
+  <!-- The selectors, declared after the templates they point at. -->
+  <sel:DealStageTrackTemplateSelector x:Key="DealStageTrackSelector"
+                                      NewLead="{StaticResource DealStageTrackNewLeadTemplate}"
+                                      Qualified="{StaticResource DealStageTrackQualifiedTemplate}"
+                                      Proposal="{StaticResource DealStageTrackProposalTemplate}"
+                                      Negotiation="{StaticResource DealStageTrackNegotiationTemplate}"
+                                      ClosedWon="{StaticResource DealStageTrackClosedWonTemplate}" />
+
+  <sel:DealHealthMarkTemplateSelector x:Key="DealHealthMarkSelector"
+                                      Healthy="{StaticResource DealHealthHealthyTemplate}"
+                                      Watch="{StaticResource DealHealthWatchTemplate}"
+                                      AtRisk="{StaticResource DealHealthAtRiskTemplate}" />
+
+  <sel:DealDwellTemplateSelector x:Key="DealDwellSelector"
+                                 Tracked="{StaticResource DealDwellTrackedTemplate}"
+                                 Stale="{StaticResource DealDwellStaleTemplate}"
+                                 Closed="{StaticResource DealDwellClosedTemplate}" />
 
   <!-- ══════════════════════ FeedView failure state (shared) ══════════════════════ -->
 

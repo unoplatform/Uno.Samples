@@ -24,6 +24,19 @@ public enum DealHealth
 }
 
 /// <summary>
+/// How long a deal has sat in its current stage, banded for display: inside its first week,
+/// past it, or past three weeks. A closed deal is <see cref="NotTracked"/> — it is not sitting in
+/// a stage at all any more, so a day count would be meaningless.
+/// </summary>
+public enum DealAgeBand
+{
+    Fresh,
+    Stalling,
+    Stale,
+    NotTracked,
+}
+
+/// <summary>
 /// A single sales deal — the atomic record the whole sample is built from. A stable <see cref="Id"/>
 /// carries key equality so MVUX list feeds and navigation match the right deal.
 /// </summary>
@@ -39,12 +52,32 @@ public partial record Deal(
 {
     private static readonly CultureInfo Usd = CultureInfo.GetCultureInfo("en-US");
 
+    // The pipeline is a fixed sequence, so a stage is a POSITION in it. Reading the length off the
+    // enum keeps the "STEP n OF m" read-out in step with the board if a stage is ever added.
+    private static readonly int StageCount = Enum.GetValues<DealStage>().Length;
+
+    // Dwell-time bands, in days: a deal is Fresh through its first week, Stalling after it, and
+    // Stale once it has sat for three weeks. AgeScaleDays is the full span of the dwell gauge, so
+    // the two thresholds land at 8/30 and 21/30 of its width.
+    private const int StallingFromDays = 8;
+    private const int StaleFromDays = 21;
+    private const int AgeScaleDays = 30;
+
+    // A deal on its first day is 1/30th of the gauge — a sliver that reads as an empty track rather
+    // than as a small amount of time. The fill starts at a visible minimum instead, still well short
+    // of the first threshold notch at 8/30, so a fresh deal cannot be mistaken for a stalling one.
+    private const double MinGaugeFill = 0.07;
+
     public bool IsWon => Stage == DealStage.ClosedWon;
 
     /// <summary>e.g. <c>$45,000</c>.</summary>
     public string AmountDisplay => Amount.ToString("C0", Usd);
 
-    /// <summary>Right-aligned meta on a card: the age in days, or "Won" for closed deals.</summary>
+    /// <summary>
+    /// Right-aligned meta on a pipeline card: the age in days, or "Won" for closed deals. It reads
+    /// as a card badge, not as a value for an "age" field — a detail view wants
+    /// <see cref="AgeInStageDisplay"/> and <see cref="AgeBand"/> instead.
+    /// </summary>
     public string MetaDisplay => IsWon ? "Won" : $"{AgeDays}d";
 
     /// <summary>Human-readable stage label, e.g. "Closed Won".</summary>
@@ -75,6 +108,42 @@ public partial record Deal(
         DealHealth.Watch => "Watch",
         _ => "Healthy",
     };
+
+    /// <summary>1-based position of <see cref="Stage"/> in the pipeline, e.g. 4 for Negotiation.</summary>
+    public int StageNumber => (int)Stage + 1;
+
+    /// <summary>
+    /// The stage stated as a position rather than a color, e.g. <c>STEP 4 OF 5</c> — so the stage
+    /// still reads when the hue does not.
+    /// </summary>
+    public string StagePositionDisplay => $"STEP {StageNumber} OF {StageCount}";
+
+    /// <summary>Dwell time in the current stage, e.g. <c>47 days</c>. Not used for closed deals.</summary>
+    public string AgeInStageDisplay => AgeDays == 1 ? "1 day" : $"{AgeDays} days";
+
+    /// <summary>Which staleness band <see cref="AgeDays"/> falls in; a closed deal is not tracked.</summary>
+    public DealAgeBand AgeBand => IsWon
+        ? DealAgeBand.NotTracked
+        : AgeDays >= StaleFromDays
+            ? DealAgeBand.Stale
+            : AgeDays >= StallingFromDays
+                ? DealAgeBand.Stalling
+                : DealAgeBand.Fresh;
+
+    /// <summary>Human-readable staleness band, e.g. "Stalling"; empty for a closed deal.</summary>
+    public string AgeBandDisplay => AgeBand switch
+    {
+        DealAgeBand.Fresh => "Fresh",
+        DealAgeBand.Stalling => "Stalling",
+        DealAgeBand.Stale => "Stale",
+        _ => string.Empty,
+    };
+
+    /// <summary>
+    /// How full the dwell gauge is (0..1) across its <see cref="AgeScaleDays"/>-day span. A deal
+    /// older than the span pins the gauge full — the day count next to it carries the real number.
+    /// </summary>
+    public double AgeProgress => Math.Clamp(AgeDays / (double)AgeScaleDays, MinGaugeFill, 1d);
 }
 
 /// <summary>A pipeline column: a stage plus the deals currently in it, with its palette keys.

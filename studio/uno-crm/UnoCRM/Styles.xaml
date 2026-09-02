@@ -191,6 +191,74 @@
   </Style>
 
   <!--
+    Deal-state read-outs on the deal detail page. Each of these is a shape primitive, sized so the
+    state is legible with no color at all; the per-state DataTemplates in DataTemplates.xaml set the
+    one brush that varies. Heights are deliberate: on the pipeline track the step a deal is IN is
+    twice a completed step and four times a future one, which is the whole signal in grayscale.
+  -->
+
+  <!-- Pipeline track, step not yet reached: a hairline. -->
+  <Style x:Key="StageTrackFutureStyle" TargetType="Border">
+    <Setter Property="Height" Value="2" />
+    <Setter Property="CornerRadius" Value="1" />
+    <Setter Property="VerticalAlignment" Value="Center" />
+    <Setter Property="Background" Value="{ThemeResource DashboardBorderBrush}" />
+  </Style>
+
+  <!-- Pipeline track, step already cleared: solid, mid-weight, no hue. -->
+  <Style x:Key="StageTrackDoneStyle"
+         BasedOn="{StaticResource StageTrackFutureStyle}"
+         TargetType="Border">
+    <Setter Property="Height" Value="4" />
+    <Setter Property="CornerRadius" Value="2" />
+    <Setter Property="Background" Value="{ThemeResource DashboardMutedTextBrush}" />
+  </Style>
+
+  <!-- Pipeline track, the step the deal is in: the tallest bar. Each stage template supplies the
+       Background so the step carries the same hue the Pipeline board gives that column. -->
+  <Style x:Key="StageTrackCurrentStyle"
+         BasedOn="{StaticResource StageTrackFutureStyle}"
+         TargetType="Border">
+    <Setter Property="Height" Value="8" />
+    <Setter Property="CornerRadius" Value="4" />
+  </Style>
+
+  <!-- Health mark container. All three health states share this geometry so the row never shifts
+       height; the state escalates by what it fills in — nothing (healthy), a border (watch), a
+       border plus a tinted fill (at risk). -->
+  <Style x:Key="HealthMarkBorderStyle" TargetType="Border">
+    <Setter Property="CornerRadius" Value="{StaticResource RadiusSm}" />
+    <Setter Property="Padding" Value="10,5" />
+    <Setter Property="BorderThickness" Value="1" />
+    <Setter Property="BorderBrush" Value="Transparent" />
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="VerticalAlignment" Value="Center" />
+  </Style>
+
+  <!-- Dwell gauge: an unfilled 30-day track, its fill, and the two threshold notches punched
+       through it in the card's own surface color (so they cut the fill as well as the track). -->
+  <Style x:Key="DwellGaugeTrackStyle" TargetType="Border">
+    <Setter Property="Height" Value="6" />
+    <Setter Property="CornerRadius" Value="3" />
+    <Setter Property="VerticalAlignment" Value="Center" />
+    <Setter Property="Background" Value="{ThemeResource DashboardBorderBrush}" />
+  </Style>
+
+  <Style x:Key="DwellGaugeFillStyle" TargetType="Border">
+    <Setter Property="Height" Value="6" />
+    <Setter Property="CornerRadius" Value="3" />
+    <Setter Property="VerticalAlignment" Value="Center" />
+  </Style>
+
+  <Style x:Key="DwellGaugeThresholdStyle" TargetType="Border">
+    <Setter Property="Width" Value="2" />
+    <Setter Property="Height" Value="10" />
+    <Setter Property="HorizontalAlignment" Value="Left" />
+    <Setter Property="VerticalAlignment" Value="Center" />
+    <Setter Property="Background" Value="{ThemeResource DashboardSurfaceBrush}" />
+  </Style>
+
+  <!--
     Bottom-tab item that shows the FILLED icon variant when a tab is selected (outline otherwise) and
     tints both the icon and the label with the accent on selection. The filled glyph is supplied per
     item via Tag; Foreground is not inherited in WinUI/Uno, so the accent is applied per state to each.
