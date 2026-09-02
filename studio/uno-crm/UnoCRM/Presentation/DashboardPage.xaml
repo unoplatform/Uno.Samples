@@ -312,6 +312,8 @@
                 <mvux:FeedView Source="{Binding Activities}"
                                ValueTemplate="{StaticResource DesktopActivityListTemplate}"
                                NoneTemplate="{StaticResource NoActivityTemplate}"
+                               ProgressTemplate="{StaticResource ActivityLoadingTemplate}"
+                               UndefinedTemplate="{StaticResource ActivityLoadingTemplate}"
                                ErrorTemplate="{StaticResource CrmErrorTemplate}" />
               </StackPanel>
             </Border>
@@ -554,6 +556,8 @@
               <mvux:FeedView Source="{Binding Activities}"
                              ValueTemplate="{StaticResource MobileActivityListTemplate}"
                              NoneTemplate="{StaticResource NoActivityTemplate}"
+                             ProgressTemplate="{StaticResource ActivityLoadingTemplate}"
+                             UndefinedTemplate="{StaticResource ActivityLoadingTemplate}"
                              ErrorTemplate="{StaticResource CrmErrorTemplate}" />
             </Border>
           </StackPanel>
