@@ -184,6 +184,14 @@ public partial record ContactLocation(
     double Latitude,
     double Longitude);
 
+/// <summary>Which way a KPI moved over the comparison period.</summary>
+public enum KpiTrend
+{
+    Up,
+    Down,
+    Flat,
+}
+
 /// <summary>Everything the Dashboard page shows, derived once from <see cref="CrmData.Deals"/>.</summary>
 // NOTE — this record is a FEED VALUE type (see the Model that exposes it), and the MVUX generator
 // emits a bindable proxy for every feed value type which it constructs with an object initializer.
@@ -194,12 +202,16 @@ public partial record DashboardData
 {
     public string TotalLeadsText { get; init; } = string.Empty;
     public string TotalLeadsDelta { get; init; } = string.Empty;
+    public KpiTrend TotalLeadsTrend { get; init; }
     public string ActiveDealsText { get; init; } = string.Empty;
     public string ActiveDealsDelta { get; init; } = string.Empty;
+    public KpiTrend ActiveDealsTrend { get; init; }
     public string RevenueText { get; init; } = string.Empty;
     public string RevenueDelta { get; init; } = string.Empty;
+    public KpiTrend RevenueTrend { get; init; }
     public string ConversionRateText { get; init; } = string.Empty;
     public string ConversionRateDelta { get; init; } = string.Empty;
+    public KpiTrend ConversionRateTrend { get; init; }
     public IReadOnlyList<FunnelStage> Funnel { get; init; } = [];
     public IReadOnlyList<ActivityItem> Activities { get; init; } = [];
 }

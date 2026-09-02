@@ -36,25 +36,60 @@ public partial record DashboardPageMockData
     // Declared first: the statics below construct instances that read these.
     private static readonly DashboardData Seed = CrmData.Dashboard;
 
-    /// <summary>A healthy tenant: KPIs, the funnel and a busy activity feed.</summary>
+    // A tenant a fortnight into a trial: two-figure volumes, a pipeline that thins out to nothing past
+    // the middle, and revenue and conversion both slipping. Every number here differs from the busy
+    // tenant's, because two previews that share their figures only prove the page renders twice.
+    private static readonly DashboardData QuietSeed = new()
+    {
+        TotalLeadsText = "128",
+        TotalLeadsDelta = "+0.4%",
+        TotalLeadsTrend = KpiTrend.Up,
+        ActiveDealsText = "3",
+        ActiveDealsDelta = "0.0%",
+        ActiveDealsTrend = KpiTrend.Flat,
+        RevenueText = "$18K",
+        RevenueDelta = "-6.2%",
+        RevenueTrend = KpiTrend.Down,
+        ConversionRateText = "2.4%",
+        ConversionRateDelta = "-1.8%",
+        ConversionRateTrend = KpiTrend.Down,
+        Funnel =
+        [
+            new() { Count = 3, FillFraction = 1d },
+            new() { Count = 2, FillFraction = 0.66d },
+            new() { Count = 1, FillFraction = 0.33d },
+            new() { Count = 0, FillFraction = 0d },
+            new() { Count = 0, FillFraction = 0d },
+        ],
+    };
+
+    /// <summary>A busy tenant: four-figure volumes, every KPI rising, a full funnel and a live feed.</summary>
     public static DashboardPageMockDataViewModel Data => new();
 
-    /// <summary>A quiet account — the activity FeedView on its NoneTemplate.</summary>
-    public static DashboardPageMockDataViewModel NoActivity =>
-        DashboardPageMockDataViewModel.ForModel(new() { Activities = MockFeeds.Empty<ActivityItem>() });
+    /// <summary>
+    /// A quiet account: small volumes, two KPIs falling and one flat, a funnel that empties out past
+    /// Proposal, and the activity FeedView on its empty state. Laid beside the busy tenant it exercises
+    /// all three delta directions and both ends of the funnel's range.
+    /// </summary>
+    public static DashboardPageMockDataViewModel QuietAccount =>
+        DashboardPageMockDataViewModel.ForModel(new()
+        {
+            Overview = QuietSeed,
+            TotalLeadsText = QuietSeed.TotalLeadsText,
+            ActiveDealsText = QuietSeed.ActiveDealsText,
+            RevenueText = QuietSeed.RevenueText,
+            ConversionRateText = QuietSeed.ConversionRateText,
+            Activities = MockFeeds.Empty<ActivityItem>(),
+        });
 
-    // The Overview payload, so the page's 30 Overview.Funnel[i] indexers resolve against a
-    // materialized list exactly as they do at runtime.
+    // The Overview payload: the page's funnel indexers and its four delta read-outs are all paths off
+    // it, so it must be a materialized DashboardData exactly as at runtime.
     public DashboardData Overview { get; init; } = Seed;
 
     public string TotalLeadsText { get; init; } = Seed.TotalLeadsText;
-    public string TotalLeadsDelta { get; init; } = Seed.TotalLeadsDelta;
     public string ActiveDealsText { get; init; } = Seed.ActiveDealsText;
-    public string ActiveDealsDelta { get; init; } = Seed.ActiveDealsDelta;
     public string RevenueText { get; init; } = Seed.RevenueText;
-    public string RevenueDelta { get; init; } = Seed.RevenueDelta;
     public string ConversionRateText { get; init; } = Seed.ConversionRateText;
-    public string ConversionRateDelta { get; init; } = Seed.ConversionRateDelta;
 
     public IListFeed<ActivityItem> Activities { get; init; } =
         MockFeeds.Of(CrmData.Dashboard.Activities.ToArray());

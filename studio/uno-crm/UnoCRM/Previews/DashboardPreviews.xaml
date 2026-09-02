@@ -8,8 +8,9 @@
                  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                  mc:Ignorable="d">
 
-    <!-- The dashboard with a busy tenant, and with a quiet one where the activity FeedView sits on its
-         empty state. The KPI tiles and the funnel bars come from the same Overview payload.
+    <!-- The dashboard for a busy tenant and for a quiet account. The two differ on every axis the page
+         draws: volumes, all three delta directions (rising, flat, falling), how far the funnel bars
+         reach, and whether the activity FeedView has anything to show.
          Each child supplies the page's design-time DataContext in XAML — the only safe place for the
          generated-ViewModel mock, which must never be seeded from a page constructor. No size on the
          <hd:Preview>: a page fills the canvas, and switching the device frame is what flips the
@@ -18,8 +19,8 @@
         <local:DashboardPage DataContext="{x:Bind mock:DashboardPageMockData.Data}" />
     </hd:Preview>
 
-    <hd:Preview PreviewName="No Activity" Visibility="Collapsed">
-        <local:DashboardPage DataContext="{x:Bind mock:DashboardPageMockData.NoActivity}" />
+    <hd:Preview PreviewName="Quiet Account" Visibility="Collapsed">
+        <local:DashboardPage DataContext="{x:Bind mock:DashboardPageMockData.QuietAccount}" />
     </hd:Preview>
 
 </hd:PreviewGroup>

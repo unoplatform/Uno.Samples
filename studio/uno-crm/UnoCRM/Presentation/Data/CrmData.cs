@@ -141,12 +141,16 @@ public static class CrmData
         {
             TotalLeadsText = monthlyTotal.ToString("N0", Usd),
             TotalLeadsDelta = "+12.5%",
+            TotalLeadsTrend = KpiTrend.Up,
             ActiveDealsText = openDeals.Count.ToString("N0", Usd),
             ActiveDealsDelta = "+8.3%",
+            ActiveDealsTrend = KpiTrend.Up,
             RevenueText = ToShortMoney(wonDeals.Sum(d => d.Amount)),
             RevenueDelta = "+18.2%",
+            RevenueTrend = KpiTrend.Up,
             ConversionRateText = conversion.ToString("P1", Usd),
             ConversionRateDelta = "+3.1%",
+            ConversionRateTrend = KpiTrend.Up,
             Funnel = funnel,
             Activities = BuildActivities(),
         };

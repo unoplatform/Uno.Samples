@@ -28,13 +28,16 @@ public partial record DashboardModel(ICrmService Crm)
     public IFeed<DashboardData> Overview => _overview ??= Feed.Async(Crm.GetDashboardAsync);
 
     public IFeed<string> TotalLeadsText => Overview.Select(d => d.TotalLeadsText);
-    public IFeed<string> TotalLeadsDelta => Overview.Select(d => d.TotalLeadsDelta);
     public IFeed<string> ActiveDealsText => Overview.Select(d => d.ActiveDealsText);
-    public IFeed<string> ActiveDealsDelta => Overview.Select(d => d.ActiveDealsDelta);
     public IFeed<string> RevenueText => Overview.Select(d => d.RevenueText);
-    public IFeed<string> RevenueDelta => Overview.Select(d => d.RevenueDelta);
     public IFeed<string> ConversionRateText => Overview.Select(d => d.ConversionRateText);
-    public IFeed<string> ConversionRateDelta => Overview.Select(d => d.ConversionRateDelta);
+
+    // The four deltas are deliberately NOT projected into feeds of their own: the page reads them as
+    // Overview.XxxDelta, the same way it indexes Overview.Funnel. A KpiDelta exposed as a public
+    // scalar feed would get its own generated bindable proxy, and the read-out that picks a template
+    // per direction would then be handed the proxy instead of the record and render nothing. Reached
+    // through the payload it stays the record, because the generator does not recurse into the types
+    // nested inside a feed's value.
 
     // Its own request, rendered by a FeedView: "no recent activity" is a real state for a quiet
     // account, and a failed feed is worth showing rather than leaving a blank panel.
