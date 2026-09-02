@@ -254,7 +254,9 @@
               <mvux:FeedView Source="{Binding TopOpenLeads}"
                              ValueTemplate="{StaticResource TopLeadListTemplate}"
                              NoneTemplate="{StaticResource NoOpenLeadsTemplate}"
-                             ErrorTemplate="{StaticResource CrmErrorTemplate}" />
+                             ErrorTemplate="{StaticResource CrmErrorTemplate}"
+                             ProgressTemplate="{StaticResource TopLeadLoadingTemplate}"
+                             UndefinedTemplate="{StaticResource TopLeadLoadingTemplate}" />
             </StackPanel>
           </Border>
         </Grid>

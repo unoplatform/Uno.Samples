@@ -54,12 +54,20 @@
   <!-- The desktop FeedView's populated state: the materialized feed value in a ListView. The item
        container style is in Styles.xaml with the rest of the named styles. -->
   <DataTemplate x:Key="DesktopContactListTemplate">
-    <ListView ItemsSource="{Binding Data}"
-              BorderThickness="0"
-              Background="Transparent"
-              SelectionMode="None"
-              ItemContainerStyle="{StaticResource ContactListItemStyle}"
-              ItemTemplate="{StaticResource DesktopContactCardTemplate}" />
+    <Grid>
+      <ContentControl ContentTemplate="{StaticResource ContactListLoadingTemplate}"
+                      HorizontalAlignment="Stretch"
+                      HorizontalContentAlignment="Stretch"
+                      IsTabStop="False"
+                      AutomationProperties.AccessibilityView="Raw"
+                      Visibility="{Binding Data.Count, Converter={StaticResource EmptyToVisibility}}" />
+      <ListView ItemsSource="{Binding Data}"
+                BorderThickness="0"
+                Background="Transparent"
+                SelectionMode="None"
+                ItemContainerStyle="{StaticResource ContactListItemStyle}"
+                ItemTemplate="{StaticResource DesktopContactCardTemplate}" />
+    </Grid>
   </DataTemplate>
 
   <!-- The desktop FeedView's None state (a list feed emits None when it has no items). -->
@@ -94,8 +102,16 @@
        scroll and the whole page scrolls as one — a nested ListView scroll would trap the gesture
        and never move the page offset. -->
   <DataTemplate x:Key="MobileContactListTemplate">
-    <ItemsControl ItemsSource="{Binding Data}"
-                  ItemTemplate="{StaticResource MobileContactCardTemplate}" />
+    <Grid>
+      <ContentControl ContentTemplate="{StaticResource ContactListLoadingTemplate}"
+                      HorizontalAlignment="Stretch"
+                      HorizontalContentAlignment="Stretch"
+                      IsTabStop="False"
+                      AutomationProperties.AccessibilityView="Raw"
+                      Visibility="{Binding Data.Count, Converter={StaticResource EmptyToVisibility}}" />
+      <ItemsControl ItemsSource="{Binding Data}"
+                    ItemTemplate="{StaticResource MobileContactCardTemplate}" />
+    </Grid>
   </DataTemplate>
 
   <!-- The mobile FeedView's None state. -->
@@ -738,9 +754,17 @@
 
   <!-- The mobile pipeline board's stage list. -->
   <DataTemplate x:Key="MobileStageListTemplate">
-    <ItemsControl ItemsSource="{Binding Data}"
-                  ItemTemplate="{StaticResource MobileStageTemplate}"
-                  ItemsPanel="{StaticResource StageStackPanel}" />
+    <Grid>
+      <ContentControl ContentTemplate="{StaticResource StageListLoadingTemplate}"
+                      HorizontalAlignment="Stretch"
+                      HorizontalContentAlignment="Stretch"
+                      IsTabStop="False"
+                      AutomationProperties.AccessibilityView="Raw"
+                      Visibility="{Binding Data.Count, Converter={StaticResource EmptyToVisibility}}" />
+      <ItemsControl ItemsSource="{Binding Data}"
+                    ItemTemplate="{StaticResource MobileStageTemplate}"
+                    ItemsPanel="{StaticResource StageStackPanel}" />
+    </Grid>
   </DataTemplate>
 
   <!-- The board's empty state. It owns a whole page region rather than a slot inside a card, so it
@@ -796,8 +820,16 @@
 
   <!-- The Leads page's top-open-leads list (desktop rail). -->
   <DataTemplate x:Key="TopLeadListTemplate">
-    <ItemsControl ItemsSource="{Binding Data}"
-                  ItemTemplate="{StaticResource TopLeadTemplate}" />
+    <Grid>
+      <ContentControl ContentTemplate="{StaticResource TopLeadLoadingTemplate}"
+                      HorizontalAlignment="Stretch"
+                      HorizontalContentAlignment="Stretch"
+                      IsTabStop="False"
+                      AutomationProperties.AccessibilityView="Raw"
+                      Visibility="{Binding Data.Count, Converter={StaticResource EmptyToVisibility}}" />
+      <ItemsControl ItemsSource="{Binding Data}"
+                    ItemTemplate="{StaticResource TopLeadTemplate}" />
+    </Grid>
   </DataTemplate>
 
   <DataTemplate x:Key="NoOpenLeadsTemplate">
@@ -910,6 +942,112 @@
                         ItemsPanel="{StaticResource DealStackPanel}" />
         </StackPanel>
       </Grid>
+  </DataTemplate>
+
+  <!-- The shape of each list while its collection is still filling. Each mirrors its own row so the
+       panel holds the height and rhythm of what is coming, rather than collapsing and then shoving the
+       layout when the real rows land. -->
+  <DataTemplate x:Key="StageListLoadingTemplate">
+    <StackPanel Spacing="18" Opacity="0.35">
+      <StackPanel Spacing="10">
+        <StackPanel Orientation="Horizontal" Spacing="8">
+          <Ellipse Width="10" Height="10" VerticalAlignment="Center"
+                   Fill="{ThemeResource DashboardMutedTextBrush}" />
+          <Border Width="96" Style="{StaticResource GhostBarStyle}" Height="8" />
+        </StackPanel>
+        <Border Height="52" CornerRadius="{StaticResource RadiusMd}" BorderThickness="1"
+                BorderBrush="{ThemeResource DashboardBorderBrush}" />
+        <Border Height="52" CornerRadius="{StaticResource RadiusMd}" BorderThickness="1"
+                BorderBrush="{ThemeResource DashboardBorderBrush}" />
+      </StackPanel>
+      <StackPanel Spacing="10">
+        <StackPanel Orientation="Horizontal" Spacing="8">
+          <Ellipse Width="10" Height="10" VerticalAlignment="Center"
+                   Fill="{ThemeResource DashboardMutedTextBrush}" />
+          <Border Width="76" Style="{StaticResource GhostBarStyle}" Height="8" />
+        </StackPanel>
+        <Border Height="52" CornerRadius="{StaticResource RadiusMd}" BorderThickness="1"
+                BorderBrush="{ThemeResource DashboardBorderBrush}" />
+        <Border Height="52" CornerRadius="{StaticResource RadiusMd}" BorderThickness="1"
+                BorderBrush="{ThemeResource DashboardBorderBrush}" />
+      </StackPanel>
+    </StackPanel>
+  </DataTemplate>
+
+  <DataTemplate x:Key="TopLeadLoadingTemplate">
+    <StackPanel Opacity="0.35">
+      <Grid Padding="0,0,0,10" Margin="0,0,0,10">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <Border Width="132" Style="{StaticResource GhostBarStyle}" />
+        <Border Grid.Column="1" Width="62" Style="{StaticResource GhostBarFaintStyle}" />
+      </Grid>
+      <Grid Padding="0,0,0,10" Margin="0,0,0,10">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <Border Width="108" Style="{StaticResource GhostBarStyle}" />
+        <Border Grid.Column="1" Width="56" Style="{StaticResource GhostBarFaintStyle}" />
+      </Grid>
+      <Grid Padding="0,0,0,10" Margin="0,0,0,10">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <Border Width="146" Style="{StaticResource GhostBarStyle}" />
+        <Border Grid.Column="1" Width="66" Style="{StaticResource GhostBarFaintStyle}" />
+      </Grid>
+    </StackPanel>
+  </DataTemplate>
+
+  <DataTemplate x:Key="ContactListLoadingTemplate">
+    <StackPanel Opacity="0.35">
+      <Border Style="{StaticResource DashboardKanbanCardStyle}" Margin="0,0,0,10">
+        <StackPanel Spacing="9">
+          <Border Width="126" Style="{StaticResource GhostBarStyle}" />
+          <Border Width="96" Style="{StaticResource GhostBarFaintStyle}" />
+          <Grid>
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Border Width="74" Style="{StaticResource GhostBarFaintStyle}" />
+            <Border Grid.Column="1" Width="44" Style="{StaticResource GhostBarFaintStyle}" />
+          </Grid>
+        </StackPanel>
+      </Border>
+      <Border Style="{StaticResource DashboardKanbanCardStyle}" Margin="0,0,0,10">
+        <StackPanel Spacing="9">
+          <Border Width="104" Style="{StaticResource GhostBarStyle}" />
+          <Border Width="118" Style="{StaticResource GhostBarFaintStyle}" />
+          <Grid>
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Border Width="66" Style="{StaticResource GhostBarFaintStyle}" />
+            <Border Grid.Column="1" Width="44" Style="{StaticResource GhostBarFaintStyle}" />
+          </Grid>
+        </StackPanel>
+      </Border>
+      <Border Style="{StaticResource DashboardKanbanCardStyle}" Margin="0,0,0,10">
+        <StackPanel Spacing="9">
+          <Border Width="140" Style="{StaticResource GhostBarStyle}" />
+          <Border Width="88" Style="{StaticResource GhostBarFaintStyle}" />
+          <Grid>
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Border Width="82" Style="{StaticResource GhostBarFaintStyle}" />
+            <Border Grid.Column="1" Width="44" Style="{StaticResource GhostBarFaintStyle}" />
+          </Grid>
+        </StackPanel>
+      </Border>
+    </StackPanel>
   </DataTemplate>
 
 </ResourceDictionary>

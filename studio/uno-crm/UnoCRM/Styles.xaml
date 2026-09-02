@@ -191,6 +191,28 @@
   </Style>
 
   <!--
+    Ghost bars, for the loading and empty shapes. Every "shape of what is coming" in the app is drawn
+    from these two so they read as one device: the solid one stands in for a line of primary text, the
+    faint one for secondary text or a meta value. Put them inside a parent with a low Opacity rather
+    than tinting them individually — that keeps one knob for how far back the whole shape sits.
+  -->
+  <Style x:Key="GhostBarStyle" TargetType="Border">
+    <Setter Property="Height" Value="9" />
+    <Setter Property="CornerRadius" Value="4" />
+    <Setter Property="HorizontalAlignment" Value="Left" />
+    <Setter Property="VerticalAlignment" Value="Center" />
+    <Setter Property="Background" Value="{ThemeResource DashboardMutedTextBrush}" />
+  </Style>
+
+  <Style x:Key="GhostBarFaintStyle"
+         BasedOn="{StaticResource GhostBarStyle}"
+         TargetType="Border">
+    <Setter Property="Height" Value="7" />
+    <Setter Property="CornerRadius" Value="3" />
+    <Setter Property="Background" Value="{ThemeResource DashboardBorderBrush}" />
+  </Style>
+
+  <!--
     Deal-state read-outs on the deal detail page. Each of these is a shape primitive, sized so the
     state is legible with no color at all; the per-state DataTemplates in DataTemplates.xaml set the
     one brush that varies. Heights are deliberate: on the pipeline track the step a deal is IN is
