@@ -192,24 +192,110 @@
   </ItemsPanelTemplate>
 
   <!-- A full mobile stage section: colored header with live count, then its deal cards. -->
+  <!-- The mobile stage header, one template per column. The dot and the count badge carry their
+       stage's palette as literal {ThemeResource} values, exactly as the desktop board writes them
+       inline, so both arrangements resolve the same brushes against the element's own theme. The
+       label and the count stay bound: colour is presentation, text is data. -->
+  <DataTemplate x:Key="MobileStageHeaderNewLeadTemplate">
+    <Grid ColumnSpacing="8">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="*" />
+      </Grid.ColumnDefinitions>
+      <Ellipse Width="10" Height="10" VerticalAlignment="Center" Fill="{ThemeResource DashboardBlueBrush}" />
+      <TextBlock Grid.Column="1" Text="{Binding Name}" Style="{StaticResource DashboardSectionLabelStyle}" VerticalAlignment="Center"
+                 TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" />
+      <Border Grid.Column="2" HorizontalAlignment="Left" CornerRadius="8" Padding="6,1" VerticalAlignment="Center"
+              Background="{ThemeResource DashboardBlueSoftBrush}">
+        <TextBlock Text="{Binding Count}" FontSize="11" Foreground="{ThemeResource DashboardBlueDeepBrush}" />
+      </Border>
+    </Grid>
+  </DataTemplate>
+
+  <DataTemplate x:Key="MobileStageHeaderQualifiedTemplate">
+    <Grid ColumnSpacing="8">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="*" />
+      </Grid.ColumnDefinitions>
+      <Ellipse Width="10" Height="10" VerticalAlignment="Center" Fill="{ThemeResource DashboardPurpleBrush}" />
+      <TextBlock Grid.Column="1" Text="{Binding Name}" Style="{StaticResource DashboardSectionLabelStyle}" VerticalAlignment="Center"
+                 TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" />
+      <Border Grid.Column="2" HorizontalAlignment="Left" CornerRadius="8" Padding="6,1" VerticalAlignment="Center"
+              Background="{ThemeResource DashboardPurpleSoftBrush}">
+        <TextBlock Text="{Binding Count}" FontSize="11" Foreground="{ThemeResource DashboardPurpleDeepBrush}" />
+      </Border>
+    </Grid>
+  </DataTemplate>
+
+  <DataTemplate x:Key="MobileStageHeaderProposalTemplate">
+    <Grid ColumnSpacing="8">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="*" />
+      </Grid.ColumnDefinitions>
+      <Ellipse Width="10" Height="10" VerticalAlignment="Center" Fill="{ThemeResource DashboardAmberBrush}" />
+      <TextBlock Grid.Column="1" Text="{Binding Name}" Style="{StaticResource DashboardSectionLabelStyle}" VerticalAlignment="Center"
+                 TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" />
+      <Border Grid.Column="2" HorizontalAlignment="Left" CornerRadius="8" Padding="6,1" VerticalAlignment="Center"
+              Background="{ThemeResource DashboardAmberSoftBrush}">
+        <TextBlock Text="{Binding Count}" FontSize="11" Foreground="{ThemeResource DashboardAmberDeepBrush}" />
+      </Border>
+    </Grid>
+  </DataTemplate>
+
+  <DataTemplate x:Key="MobileStageHeaderNegotiationTemplate">
+    <Grid ColumnSpacing="8">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="*" />
+      </Grid.ColumnDefinitions>
+      <Ellipse Width="10" Height="10" VerticalAlignment="Center" Fill="{ThemeResource DashboardRedBrush}" />
+      <TextBlock Grid.Column="1" Text="{Binding Name}" Style="{StaticResource DashboardSectionLabelStyle}" VerticalAlignment="Center"
+                 TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" />
+      <Border Grid.Column="2" HorizontalAlignment="Left" CornerRadius="8" Padding="6,1" VerticalAlignment="Center"
+              Background="{ThemeResource DashboardRedSoftBrush}">
+        <TextBlock Text="{Binding Count}" FontSize="11" Foreground="{ThemeResource DashboardRedDeepBrush}" />
+      </Border>
+    </Grid>
+  </DataTemplate>
+
+  <DataTemplate x:Key="MobileStageHeaderClosedWonTemplate">
+    <Grid ColumnSpacing="8">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="*" />
+      </Grid.ColumnDefinitions>
+      <Ellipse Width="10" Height="10" VerticalAlignment="Center" Fill="{ThemeResource DashboardGreenBrush}" />
+      <TextBlock Grid.Column="1" Text="{Binding Name}" Style="{StaticResource DashboardSectionLabelStyle}" VerticalAlignment="Center"
+                 TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" />
+      <Border Grid.Column="2" HorizontalAlignment="Left" CornerRadius="8" Padding="6,1" VerticalAlignment="Center"
+              Background="{ThemeResource DashboardGreenSoftBrush}">
+        <TextBlock Text="{Binding Count}" FontSize="11" Foreground="{ThemeResource DashboardGreenDeepBrush}" />
+      </Border>
+    </Grid>
+  </DataTemplate>
+
+  <!-- Declared after the templates it points at, and before the template that uses it. -->
+  <sel:PipelineStageHeaderTemplateSelector x:Key="MobileStageHeaderSelector"
+                                           NewLead="{StaticResource MobileStageHeaderNewLeadTemplate}"
+                                           Qualified="{StaticResource MobileStageHeaderQualifiedTemplate}"
+                                           Proposal="{StaticResource MobileStageHeaderProposalTemplate}"
+                                           Negotiation="{StaticResource MobileStageHeaderNegotiationTemplate}"
+                                           ClosedWon="{StaticResource MobileStageHeaderClosedWonTemplate}" />
+
   <DataTemplate x:Key="MobileStageTemplate">
     <StackPanel Spacing="12" Margin="0,0,0,6">
-      <Grid ColumnSpacing="8">
-        <Grid.ColumnDefinitions>
-          <ColumnDefinition Width="Auto" />
-          <ColumnDefinition Width="Auto" />
-          <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
-        <Ellipse Width="10" Height="10" VerticalAlignment="Center"
-                 Fill="{Binding AccentKey, Converter={StaticResource ResourceKeyToBrush}}" />
-        <TextBlock Grid.Column="1" Text="{Binding Name}" Style="{StaticResource DashboardSectionLabelStyle}" VerticalAlignment="Center"
-                   TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" />
-        <Border Grid.Column="2" HorizontalAlignment="Left" CornerRadius="8" Padding="6,1" VerticalAlignment="Center"
-                Background="{Binding SoftKey, Converter={StaticResource ResourceKeyToBrush}}">
-          <TextBlock Text="{Binding Count}" FontSize="11"
-                     Foreground="{Binding DeepKey, Converter={StaticResource ResourceKeyToBrush}}" />
-        </Border>
-      </Grid>
+      <ContentControl Content="{Binding}"
+                      ContentTemplateSelector="{StaticResource MobileStageHeaderSelector}"
+                      HorizontalAlignment="Stretch"
+                      HorizontalContentAlignment="Stretch"
+                      IsTabStop="False" />
       <ItemsControl ItemsSource="{Binding Deals}"
                     ItemTemplate="{StaticResource DealCardTemplate}"
                     ItemsPanel="{StaticResource DealStackPanel}" />

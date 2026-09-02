@@ -136,9 +136,9 @@ public partial record Deal(
     public double AgeProgress => Math.Clamp(AgeDays / (double)AgeScaleDays, MinGaugeFill, 1d);
 }
 
-/// <summary>A pipeline column: a stage plus the deals currently in it, with its palette keys.
-/// <see cref="AccentKey"/> fills the stage dot; <see cref="DeepKey"/> is the darker (light theme)
-/// / lighter (dark theme) text variant for the small count set on the <see cref="SoftKey"/> tint.</summary>
+/// <summary>A pipeline column: a stage plus the deals currently in it. Carries no presentation — each
+/// column's dot and count-badge palette lives in that stage's own keyed header template, so the
+/// brushes resolve against the element's theme rather than travelling as strings.</summary>
 // NOTE — this record is a FEED VALUE type (see the Model that exposes it), and the MVUX generator
 // emits a bindable proxy for every feed value type which it constructs with an object initializer.
 // `required` members reject that, so the build fails inside the generated code. The members therefore
@@ -148,9 +148,6 @@ public partial record PipelineStage
 {
     public string Name { get; init; } = string.Empty;
     public DealStage Stage { get; init; }
-    public string AccentKey { get; init; } = string.Empty;
-    public string DeepKey { get; init; } = string.Empty;
-    public string SoftKey { get; init; } = string.Empty;
     public IReadOnlyList<Deal> Deals { get; init; } = [];
 
     public int Count => Deals.Count;

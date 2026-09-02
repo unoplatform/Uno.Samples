@@ -100,13 +100,15 @@ public static class CrmData
     public static IReadOnlyList<PipelineStage> StagesFrom(IEnumerable<Deal> deals)
     {
         var matching = deals as IReadOnlyList<Deal> ?? deals.ToList();
-        (DealStage Stage, string Name, string Accent, string Deep, string Soft)[] defs =
+        // Label only — each column's palette lives in its own keyed header template, so a stage
+        // carries no presentation with it.
+        (DealStage Stage, string Name)[] defs =
         [
-            (DealStage.NewLead, "NEW LEAD", "DashboardBlueBrush", "DashboardBlueDeepBrush", "DashboardBlueSoftBrush"),
-            (DealStage.Qualified, "QUALIFIED", "DashboardPurpleBrush", "DashboardPurpleDeepBrush", "DashboardPurpleSoftBrush"),
-            (DealStage.Proposal, "PROPOSAL", "DashboardAmberBrush", "DashboardAmberDeepBrush", "DashboardAmberSoftBrush"),
-            (DealStage.Negotiation, "NEGOTIATION", "DashboardRedBrush", "DashboardRedDeepBrush", "DashboardRedSoftBrush"),
-            (DealStage.ClosedWon, "CLOSED WON", "DashboardGreenBrush", "DashboardGreenDeepBrush", "DashboardGreenSoftBrush"),
+            (DealStage.NewLead, "NEW LEAD"),
+            (DealStage.Qualified, "QUALIFIED"),
+            (DealStage.Proposal, "PROPOSAL"),
+            (DealStage.Negotiation, "NEGOTIATION"),
+            (DealStage.ClosedWon, "CLOSED WON"),
         ];
 
         return defs
@@ -114,9 +116,6 @@ public static class CrmData
             {
                 Name = d.Name,
                 Stage = d.Stage,
-                AccentKey = d.Accent,
-                DeepKey = d.Deep,
-                SoftKey = d.Soft,
                 Deals = matching.Where(deal => deal.Stage == d.Stage).ToList(),
             })
             .ToList();
