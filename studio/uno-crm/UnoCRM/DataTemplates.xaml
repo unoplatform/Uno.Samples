@@ -615,13 +615,39 @@
   <!-- Recent activity, in the desktop and mobile treatments. Both render the SAME Activities feed,
        so the two arrangements stay in step by construction. -->
   <DataTemplate x:Key="DesktopActivityListTemplate">
-    <ItemsControl ItemsSource="{Binding Data}"
-                  ItemTemplate="{StaticResource DesktopActivityTemplate}" />
+    <!-- The loading shape sits under the rows and hides as soon as there are any. A value state whose
+         collection is still empty is not an empty result — an empty result reports "none" and picks the
+         empty-state template — so it can only be a collection that has not filled yet, and the honest
+         thing to show is the shape of what is coming. Without this the card has no content and
+         collapses to its own padding. -->
+    <Grid>
+      <ContentControl ContentTemplate="{StaticResource ActivityLoadingTemplate}"
+                      HorizontalAlignment="Stretch"
+                      HorizontalContentAlignment="Stretch"
+                      IsTabStop="False"
+                      AutomationProperties.AccessibilityView="Raw"
+                      Visibility="{Binding Data.Count, Converter={StaticResource EmptyToVisibility}}" />
+      <ItemsControl ItemsSource="{Binding Data}"
+                    ItemTemplate="{StaticResource DesktopActivityTemplate}" />
+    </Grid>
   </DataTemplate>
 
   <DataTemplate x:Key="MobileActivityListTemplate">
-    <ItemsControl ItemsSource="{Binding Data}"
-                  ItemTemplate="{StaticResource MobileActivityTemplate}" />
+    <!-- The loading shape sits under the rows and hides as soon as there are any. A value state whose
+         collection is still empty is not an empty result — an empty result reports "none" and picks the
+         empty-state template — so it can only be a collection that has not filled yet, and the honest
+         thing to show is the shape of what is coming. Without this the card has no content and
+         collapses to its own padding. -->
+    <Grid>
+      <ContentControl ContentTemplate="{StaticResource ActivityLoadingTemplate}"
+                      HorizontalAlignment="Stretch"
+                      HorizontalContentAlignment="Stretch"
+                      IsTabStop="False"
+                      AutomationProperties.AccessibilityView="Raw"
+                      Visibility="{Binding Data.Count, Converter={StaticResource EmptyToVisibility}}" />
+      <ItemsControl ItemsSource="{Binding Data}"
+                    ItemTemplate="{StaticResource MobileActivityTemplate}" />
+    </Grid>
   </DataTemplate>
 
   <!-- The activity feed with nothing in it. A ghosted row of the real thing — a title bar over a
