@@ -6,52 +6,37 @@ namespace UnoCRM.Presentation.MockData;
 
 // Design-time DataContexts for Hot Design / Studio, one per page.
 //
-// Each page renders at least one FeedView, and a FeedView can only subscribe to a FEED — a plain
-// list would never reach it. So every list surface below is a real MVUX feed, exposed on a PLAIN
-// record.
+// Each page renders at least one FeedView, and a FeedView can only subscribe to a FEED — a plain list
+// would never reach it. So each mock is [ReactiveBindable] and its statics return the GENERATED
+// ViewModel, whose constructor creates the SourceContext that makes the feeds pump.
 //
-// Plain — deliberately NOT [ReactiveBindable] — and that distinction is the whole point of this
-// file. Marking a mock [ReactiveBindable] generates a ViewModel for it, and the generator replaces
-// every feed-shaped member with a bindable-collection proxy: an observable collection view that a
-// background pump fills by posting to the UI dispatcher. That proxy is right for a Model, because it
-// is what lets a live list re-emit into a bound control. It is wrong for a design-time mock: the
-// proxy's contents arrive one dispatcher hop after the feed's message does, so on a design surface a
-// POPULATED list can hand the template an empty collection view and render as a zero-height panel —
-// while the same mock's EMPTY variant renders correctly, because a list feed with no items reports
-// "none" and the empty path never touches the proxy at all. That asymmetry is exactly what makes it
-// easy to miss.
+// A populated list does not always appear on a design surface, and the evidence says it is not the
+// mock's shape that decides it. ContactsPage's list renders; this page's activity list does not, from
+// mocks that are identical in shape — same feed type, same FeedView states, byte-identical item
+// template. The one structural difference is that ContactsPage also binds its list to a page-level
+// property whose code-behind ENUMERATES it while loading, which materializes the collection the
+// FeedView is showing. Nothing touches the activity collection but its own ItemsControl.
 //
-// FeedView.Source is typed `object` and takes any MVUX feed directly, so handing it the RAW feed
-// skips the proxy: the feed's own value — the immutable list itself — is what the ValueTemplate's
-// ItemsSource binds to, with no collection view and no dispatcher hop in between. Nothing about the
-// runtime path changes; at runtime the DataContext is the navigation-injected Model ViewModel, whose
-// feeds keep their proxies and their live re-emission.
+// Handing the FeedView the raw feed instead of the generated ViewModel was tried and did not help, so
+// that idea is gone: one recipe again, matching the page that provably works. What actually keeps
+// these panels legible is that their FeedViews now template the UNRESOLVED state as well as the empty
+// one, so a panel with nothing yet to show has the shape of what is coming rather than no height at
+// all. Design the states and the preview cannot come out blank, whatever the host does.
 //
-// Two more rules these all follow: statics are expression-bodied (a fresh instance per access, so
-// two previews of the same page never share one feed's cached subscription); and every static input
-// is declared ABOVE the statics that construct instances, because static members initialize in
-// textual order and an instance initializer reading a not-yet-assigned field gets null with no
-// exception.
-//
-// ContactsPageMockData deliberately does NOT follow this file, and the difference is worth knowing.
-// That page hands its filtered list to the map as well as to its FeedViews, and the map reads the
-// value as an IEnumerable and listens to it as an INotifyCollectionChanged so it can re-pin when a
-// filter changes. A raw feed is neither of those, so the map would draw an empty basemap. The
-// bindable-collection proxy supplies both, so that mock keeps its generated ViewModel and accepts the
-// list-rendering caveat above in exchange for pins. Making the map consume the feed directly would let
-// it move here too.
+// Two rules these all follow: statics are expression-bodied (a fresh instance per access, never a
+// cached singleton, because a generated ViewModel has a view-scoped lifecycle); and every static input
+// is declared ABOVE the statics that construct instances, because static members initialize in textual
+// order and an instance initializer reading a not-yet-assigned field gets null with no exception.
 //
 // None of these is ever seeded from a page constructor — see those constructors for why.
 
 internal static class MockFeeds
 {
-    // Each factory hoists its payload into a local before the lambda closes over it, which is load
-    // bearing: a feed factory caches the feed it builds against the delegate instance it is handed,
-    // and a lambda that captures nothing is cached by the compiler in a static field — so a
-    // no-capture version would hand every caller in the process the same feed. Capturing a local
-    // gives each call its own delegate, and so its own feed.
+    // Each factory hoists its payload into a local before the lambda closes over it, and that is load
+    // bearing: a feed factory caches the feed against the delegate instance it is handed, and a lambda
+    // capturing nothing is cached by the compiler in a static field — so a no-capture version hands
+    // every caller in the process the same feed. Capturing a local gives each call its own.
 
-    /// <summary>A list feed carrying <paramref name="items"/>.</summary>
     public static IListFeed<T> Of<T>(params T[] items)
     {
         var value = items.ToImmutableList();
@@ -59,17 +44,8 @@ internal static class MockFeeds
         return ListFeed.Async(_ => ValueTask.FromResult<IImmutableList<T>>(value));
     }
 
-    /// <summary>
-    /// A list feed with nothing in it. A list feed reports <c>none</c> when it has no items, and
-    /// <c>none</c> is what selects a FeedView's empty-state template.
-    /// </summary>
     public static IListFeed<T> Empty<T>() => Of<T>();
 
-    /// <summary>
-    /// The scalar form, for a surface that indexes the loaded list (<c>Data[0]</c>) instead of
-    /// binding it as an ItemsSource. A scalar feed is never <c>none</c>, so it survives an empty
-    /// payload and the indexed surface keeps rendering.
-    /// </summary>
     public static IFeed<IImmutableList<T>> Scalar<T>(IReadOnlyList<T> items)
     {
         var value = items.ToImmutableList();
@@ -78,6 +54,7 @@ internal static class MockFeeds
     }
 }
 
+[Uno.Extensions.Reactive.ReactiveBindable]
 public partial record DashboardPageMockData
 {
     // Declared first: the statics below construct instances that read these.
@@ -111,22 +88,23 @@ public partial record DashboardPageMockData
     };
 
     /// <summary>A busy tenant: four-figure volumes, every KPI rising, a full funnel and a live feed.</summary>
-    public static DashboardPageMockData Data => new();
+    public static DashboardPageMockDataViewModel Data => new();
 
     /// <summary>
     /// A quiet account: small volumes, two KPIs falling and one flat, a funnel that empties out past
     /// Proposal, and the activity FeedView on its empty state. Laid beside the busy tenant it exercises
     /// all three delta directions and both ends of the funnel's range.
     /// </summary>
-    public static DashboardPageMockData QuietAccount => new()
-    {
-        Overview = QuietSeed,
-        TotalLeadsText = QuietSeed.TotalLeadsText,
-        ActiveDealsText = QuietSeed.ActiveDealsText,
-        RevenueText = QuietSeed.RevenueText,
-        ConversionRateText = QuietSeed.ConversionRateText,
-        Activities = MockFeeds.Empty<ActivityItem>(),
-    };
+    public static DashboardPageMockDataViewModel QuietAccount =>
+        DashboardPageMockDataViewModel.ForModel(new()
+        {
+            Overview = QuietSeed,
+            TotalLeadsText = QuietSeed.TotalLeadsText,
+            ActiveDealsText = QuietSeed.ActiveDealsText,
+            RevenueText = QuietSeed.RevenueText,
+            ConversionRateText = QuietSeed.ConversionRateText,
+            Activities = MockFeeds.Empty<ActivityItem>(),
+        });
 
     // The Overview payload: the page's funnel indexers and its four delta read-outs are all paths off
     // it, so it must be a materialized DashboardData exactly as at runtime.
@@ -137,24 +115,30 @@ public partial record DashboardPageMockData
     public string RevenueText { get; init; } = Seed.RevenueText;
     public string ConversionRateText { get; init; } = Seed.ConversionRateText;
 
-    // What both arrangements' activity FeedViews subscribe to: one feed, so the desktop panel and the
-    // mobile panel cannot disagree. Init-settable so a variant can supply an empty set.
-    public IListFeed<ActivityItem> Activities { get; init; } = MockFeeds.Of(Seed.Activities.ToArray());
+    public IListFeed<ActivityItem> Activities { get; init; } =
+        MockFeeds.Of(CrmData.Dashboard.Activities.ToArray());
 }
 
+public partial class DashboardPageMockDataViewModel
+{
+    internal static DashboardPageMockDataViewModel ForModel(DashboardPageMockData model) => new(model);
+}
+
+[Uno.Extensions.Reactive.ReactiveBindable]
 public partial record PipelinePageMockData
 {
     private static readonly IReadOnlyList<PipelineStage> SeedStages = CrmData.Stages;
 
     /// <summary>The full board.</summary>
-    public static PipelinePageMockData Data => new();
+    public static PipelinePageMockDataViewModel Data => new();
 
     /// <summary>An empty board — the mobile list's NoneTemplate.</summary>
-    public static PipelinePageMockData EmptyBoard => new()
-    {
-        Board = MockFeeds.Scalar<PipelineStage>([]),
-        Stages = MockFeeds.Empty<PipelineStage>(),
-    };
+    public static PipelinePageMockDataViewModel EmptyBoard =>
+        PipelinePageMockDataViewModel.ForModel(new()
+        {
+            Board = MockFeeds.Scalar<PipelineStage>([]),
+            Stages = MockFeeds.Empty<PipelineStage>(),
+        });
 
     // Both arrangements' sources, mirroring the Model: the desktop board indexes the scalar feed,
     // the mobile list takes the list form.
@@ -182,11 +166,17 @@ public partial record PipelinePageMockData
             .ToArray();
 }
 
+public partial class PipelinePageMockDataViewModel
+{
+    internal static PipelinePageMockDataViewModel ForModel(PipelinePageMockData model) => new(model);
+}
+
 // The Leads mock is the one with no precedent in the other samples: it must supply the LiveCharts
 // series and axes as PLAIN arrays, because that is what the page binds and what a chart needs at
 // first measure (see LeadsModel's remarks). LeadsChartFactory exists so this mock builds the same
 // charts as the runtime Model instead of duplicating them — and because the factory hands out a fresh
 // instance per call, the mock's arrays are its own and never shared with the Model's.
+[Uno.Extensions.Reactive.ReactiveBindable]
 public partial record LeadsPageMockData
 {
     private static readonly LeadsAnalytics Seed = CrmData.Leads;
@@ -212,33 +202,35 @@ public partial record LeadsPageMockData
     };
 
     /// <summary>The analytics as shipped: a busy year, a climbing trend, all five stages in play.</summary>
-    public static LeadsPageMockData Data => new();
+    public static LeadsPageMockDataViewModel Data => new();
 
     /// <summary>
     /// A pipeline worked to nothing: the open-leads list on its empty state, and every other surface
     /// agreeing with it — a tenth of the volume, a declining year, no pipeline value, and a stage mix
     /// that is entirely Closed Won.
     /// </summary>
-    public static LeadsPageMockData PipelineCleared => new()
-    {
-        NewLeadsText = ClearedSeed.NewLeadsText,
-        QualificationRateText = ClearedSeed.QualificationRateText,
-        PipelineValueText = ClearedSeed.PipelineValueText,
-        AverageDealSizeText = ClearedSeed.AverageDealSizeText,
-        TopOpenLeads = MockFeeds.Empty<TopLead>(),
-        LeadTrendSeries = LeadsChartFactory.LeadTrendSeries(ClearedSeed),
-        LeadsBySourceSeries = LeadsChartFactory.LeadsBySourceSeries(ClearedSeed),
-        StageDistributionSeries = LeadsChartFactory.StageDistributionSeries(ClearedSeed),
-        MonthXAxis = LeadsChartFactory.MonthXAxis(ClearedSeed),
-        SourceXAxis = LeadsChartFactory.SourceXAxis(ClearedSeed),
-    };
+    public static LeadsPageMockDataViewModel PipelineCleared =>
+        LeadsPageMockDataViewModel.ForModel(new()
+        {
+            NewLeadsText = ClearedSeed.NewLeadsText,
+            QualificationRateText = ClearedSeed.QualificationRateText,
+            PipelineValueText = ClearedSeed.PipelineValueText,
+            AverageDealSizeText = ClearedSeed.AverageDealSizeText,
+            TopOpenLeads = MockFeeds.Empty<TopLead>(),
+            LeadTrendSeries = LeadsChartFactory.LeadTrendSeries(ClearedSeed),
+            LeadsBySourceSeries = LeadsChartFactory.LeadsBySourceSeries(ClearedSeed),
+            StageDistributionSeries = LeadsChartFactory.StageDistributionSeries(ClearedSeed),
+            MonthXAxis = LeadsChartFactory.MonthXAxis(ClearedSeed),
+            SourceXAxis = LeadsChartFactory.SourceXAxis(ClearedSeed),
+        });
 
     public string NewLeadsText { get; init; } = Seed.NewLeadsText;
     public string QualificationRateText { get; init; } = Seed.QualificationRateText;
     public string PipelineValueText { get; init; } = Seed.PipelineValueText;
     public string AverageDealSizeText { get; init; } = Seed.AverageDealSizeText;
 
-    public IListFeed<TopLead> TopOpenLeads { get; init; } = MockFeeds.Of(Seed.TopOpenLeads.ToArray());
+    public IListFeed<TopLead> TopOpenLeads { get; init; } =
+        MockFeeds.Of(CrmData.Leads.TopOpenLeads.ToArray());
 
     public ISeries[] LeadTrendSeries { get; init; } = LeadsChartFactory.LeadTrendSeries(Seed);
     public ISeries[] LeadsBySourceSeries { get; init; } = LeadsChartFactory.LeadsBySourceSeries(Seed);
@@ -251,4 +243,9 @@ public partial record LeadsPageMockData
     public SolidColorPaint LegendTextPaint { get; init; } = LeadsChartFactory.LegendTextPaint();
     public SolidColorPaint TooltipTextPaint { get; init; } = LeadsChartFactory.TooltipTextPaint();
     public SolidColorPaint TooltipBackgroundPaint { get; init; } = LeadsChartFactory.TooltipBackgroundPaint();
+}
+
+public partial class LeadsPageMockDataViewModel
+{
+    internal static LeadsPageMockDataViewModel ForModel(LeadsPageMockData model) => new(model);
 }
