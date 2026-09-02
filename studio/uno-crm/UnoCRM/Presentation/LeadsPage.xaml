@@ -252,12 +252,9 @@
 
               <!-- Its own request, so an account with no open leads is a designed state. -->
               <mvux:FeedView Source="{Binding TopOpenLeads}"
-                             RefreshingState="None"
                              ValueTemplate="{StaticResource TopLeadListTemplate}"
                              NoneTemplate="{StaticResource NoOpenLeadsTemplate}"
-                             ErrorTemplate="{StaticResource CrmErrorTemplate}"
-                             ProgressTemplate="{StaticResource TopLeadLoadingTemplate}"
-                             UndefinedTemplate="{StaticResource TopLeadLoadingTemplate}" />
+                             ErrorTemplate="{StaticResource CrmErrorTemplate}" />
             </StackPanel>
           </Border>
         </Grid>

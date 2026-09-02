@@ -309,24 +309,10 @@
 
                 <!-- Its own request: "no recent activity" is a real state for a quiet account, and
                      a failed feed is worth showing rather than leaving a blank panel. -->
-                <Grid>
-                  <!-- The loading shape sits OUTSIDE the FeedView, behind it. Inside, whether you can SEE a
-                       template depends on which of the control's states is showing, and two of those states
-                       live under a root the control can drop to zero opacity — so an inflated template is not
-                       necessarily a visible one. Out here it shows whenever the FeedView draws nothing, and
-                       the value and empty templates carry the surface colour so they cover it when they do
-                       draw. No state machine to reason about. -->
-                  <ContentControl ContentTemplate="{StaticResource ActivityLoadingTemplate}"
-                                  HorizontalAlignment="Stretch"
-                                  HorizontalContentAlignment="Stretch"
-                                  IsTabStop="False"
-                                  AutomationProperties.AccessibilityView="Raw" />
-                  <mvux:FeedView Source="{Binding Activities}"
-                                 RefreshingState="None"
-                                 ValueTemplate="{StaticResource DesktopActivityListTemplate}"
-                                 NoneTemplate="{StaticResource NoActivityTemplate}"
-                                 ErrorTemplate="{StaticResource CrmErrorTemplate}" />
-                </Grid>
+                <mvux:FeedView Source="{Binding Activities}"
+                               ValueTemplate="{StaticResource DesktopActivityListTemplate}"
+                               NoneTemplate="{StaticResource NoActivityTemplate}"
+                               ErrorTemplate="{StaticResource CrmErrorTemplate}" />
               </StackPanel>
             </Border>
           </Grid>
@@ -565,24 +551,10 @@
 
             <Border Style="{StaticResource DashboardPanelBorderStyle}"
                     Padding="0,6,0,6">
-              <Grid>
-                <!-- The loading shape sits OUTSIDE the FeedView, behind it. Inside, whether you can SEE a
-                     template depends on which of the control's states is showing, and two of those states
-                     live under a root the control can drop to zero opacity — so an inflated template is not
-                     necessarily a visible one. Out here it shows whenever the FeedView draws nothing, and
-                     the value and empty templates carry the surface colour so they cover it when they do
-                     draw. No state machine to reason about. -->
-                <ContentControl ContentTemplate="{StaticResource ActivityLoadingTemplate}"
-                                HorizontalAlignment="Stretch"
-                                HorizontalContentAlignment="Stretch"
-                                IsTabStop="False"
-                                AutomationProperties.AccessibilityView="Raw" />
-                <mvux:FeedView Source="{Binding Activities}"
-                               RefreshingState="None"
-                               ValueTemplate="{StaticResource MobileActivityListTemplate}"
-                               NoneTemplate="{StaticResource NoActivityTemplate}"
-                               ErrorTemplate="{StaticResource CrmErrorTemplate}" />
-              </Grid>
+              <mvux:FeedView Source="{Binding Activities}"
+                             ValueTemplate="{StaticResource MobileActivityListTemplate}"
+                             NoneTemplate="{StaticResource NoActivityTemplate}"
+                             ErrorTemplate="{StaticResource CrmErrorTemplate}" />
             </Border>
           </StackPanel>
         </Grid>

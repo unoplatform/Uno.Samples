@@ -188,25 +188,11 @@
           </ScrollViewer>
 
           <!-- All stages, stacked, bound to the same dataset the desktop board uses. -->
-          <Grid Grid.Row="3">
-            <!-- The loading shape sits OUTSIDE the FeedView, behind it. Inside, whether you can SEE a
-                 template depends on which of the control's states is showing, and two of those states
-                 live under a root the control can drop to zero opacity — so an inflated template is not
-                 necessarily a visible one. Out here it shows whenever the FeedView draws nothing, and
-                 the value and empty templates carry the surface colour so they cover it when they do
-                 draw. No state machine to reason about. -->
-            <ContentControl ContentTemplate="{StaticResource StageListLoadingTemplate}"
-                            HorizontalAlignment="Stretch"
-                            HorizontalContentAlignment="Stretch"
-                            IsTabStop="False"
-                            AutomationProperties.AccessibilityView="Raw" />
-            <mvux:FeedView
-                           Source="{Binding Stages}"
-                           RefreshingState="None"
-                           ValueTemplate="{StaticResource MobileStageListTemplate}"
-                           NoneTemplate="{StaticResource NoStagesTemplate}"
-                           ErrorTemplate="{StaticResource CrmErrorTemplate}" />
-          </Grid>
+          <mvux:FeedView Grid.Row="3"
+                         Source="{Binding Stages}"
+                         ValueTemplate="{StaticResource MobileStageListTemplate}"
+                         NoneTemplate="{StaticResource NoStagesTemplate}"
+                         ErrorTemplate="{StaticResource CrmErrorTemplate}" />
         </Grid>
       </ScrollViewer>
     </Grid>
