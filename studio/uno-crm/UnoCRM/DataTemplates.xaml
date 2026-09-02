@@ -638,11 +638,55 @@
                   ItemsPanel="{StaticResource StageStackPanel}" />
   </DataTemplate>
 
+  <!-- The board's empty state. It owns a whole page region rather than a slot inside a card, so it
+       says what the board is FOR instead of only reporting that it is empty.
+
+       The mark is a picture of the thing that is missing: one stage section, ghosted — the dot and
+       label of a stage header over the two deal cards that would sit under it, in the same shapes and
+       radius the live board uses. Deliberately not an icon above a heading: that stack is the
+       fingerprint of a templated empty state, and it would say nothing about a pipeline.
+
+       No call to action here — "Add Deal" sits a few pixels above, and repeating it would just be the
+       same button twice. -->
   <DataTemplate x:Key="NoStagesTemplate">
-    <TextBlock Text="No pipeline stages to show."
-               Style="{StaticResource DashboardSubtleTextStyle}"
-               Margin="0,8,0,4"
-               TextWrapping="Wrap" />
+    <StackPanel HorizontalAlignment="Center"
+                MaxWidth="300"
+                Spacing="16"
+                Margin="0,48,0,32">
+      <!-- A stage section with nothing in it, drawn at low opacity: the dot and label a real stage
+           header carries, over the two deal cards that would sit beneath it. Same shapes and the same
+           radius the live board uses, so the ghost is recognisably this screen rather than a generic
+           placeholder. -->
+      <StackPanel Spacing="10" Opacity="0.4" MaxWidth="240" HorizontalAlignment="Center">
+        <StackPanel Orientation="Horizontal" Spacing="8">
+          <Ellipse Width="10" Height="10" VerticalAlignment="Center"
+                   Fill="{ThemeResource DashboardMutedTextBrush}" />
+          <Border Width="88" Height="8" CornerRadius="4" VerticalAlignment="Center"
+                  Background="{ThemeResource DashboardMutedTextBrush}" />
+        </StackPanel>
+        <Border Height="52"
+                CornerRadius="{StaticResource RadiusMd}"
+                BorderThickness="1"
+                BorderBrush="{ThemeResource DashboardBorderBrush}" />
+        <Border Height="52"
+                CornerRadius="{StaticResource RadiusMd}"
+                BorderThickness="1"
+                BorderBrush="{ThemeResource DashboardBorderBrush}" />
+      </StackPanel>
+
+      <StackPanel Spacing="6">
+        <TextBlock Text="Nothing in the pipeline yet"
+                   Style="{StaticResource DashboardSectionTitleStyle}"
+                   HorizontalAlignment="Center"
+                   TextAlignment="Center"
+                   TextWrapping="Wrap" />
+        <TextBlock Text="Deals appear here grouped by the stage they have reached, from first contact through to closed won."
+                   Style="{StaticResource DashboardSubtleTextStyle}"
+                   HorizontalAlignment="Center"
+                   TextAlignment="Center"
+                   TextWrapping="Wrap" />
+      </StackPanel>
+    </StackPanel>
   </DataTemplate>
 
   <!-- The Leads page's top-open-leads list (desktop rail). -->
