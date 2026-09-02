@@ -28,31 +28,16 @@ namespace UnoCRM.Presentation.MockData;
 // is declared ABOVE the statics that construct instances, because static members initialize in textual
 // order and an instance initializer reading a not-yet-assigned field gets null with no exception.
 //
+// One more rule, and it is the load-bearing one, copied from ContactsPageMockData — the mock whose
+// populated preview provably renders in Hot Design: every feed below is built by an INLINE lambda
+// that CAPTURES NOTHING (it reads static seed data directly). A no-capture lambda's delegate is
+// cached by the compiler, and the feed factories cache the feed they build against that delegate
+// instance — so every mock instance shares ONE feed, created once, exactly as the Contacts mock does.
+// Routing these through a helper that hoisted the payload into a local minted a fresh delegate, and
+// so a fresh feed, per mock instance — and those previews rendered their lists empty. Do not
+// "deduplicate" these lambdas into a helper again.
+//
 // None of these is ever seeded from a page constructor — see those constructors for why.
-
-internal static class MockFeeds
-{
-    // Each factory hoists its payload into a local before the lambda closes over it, and that is load
-    // bearing: a feed factory caches the feed against the delegate instance it is handed, and a lambda
-    // capturing nothing is cached by the compiler in a static field — so a no-capture version hands
-    // every caller in the process the same feed. Capturing a local gives each call its own.
-
-    public static IListFeed<T> Of<T>(params T[] items)
-    {
-        var value = items.ToImmutableList();
-
-        return ListFeed.Async(_ => ValueTask.FromResult<IImmutableList<T>>(value));
-    }
-
-    public static IListFeed<T> Empty<T>() => Of<T>();
-
-    public static IFeed<IImmutableList<T>> Scalar<T>(IReadOnlyList<T> items)
-    {
-        var value = items.ToImmutableList();
-
-        return Feed.Async(_ => ValueTask.FromResult<IImmutableList<T>>(value));
-    }
-}
 
 [Uno.Extensions.Reactive.ReactiveBindable]
 public partial record DashboardPageMockData
@@ -103,7 +88,7 @@ public partial record DashboardPageMockData
             ActiveDealsText = QuietSeed.ActiveDealsText,
             RevenueText = QuietSeed.RevenueText,
             ConversionRateText = QuietSeed.ConversionRateText,
-            Activities = MockFeeds.Empty<ActivityItem>(),
+            Activities = ListFeed.Async(_ => ValueTask.FromResult<IImmutableList<ActivityItem>>(ImmutableList<ActivityItem>.Empty)),
         });
 
     // The Overview payload: the page's funnel indexers and its four delta read-outs are all paths off
@@ -116,7 +101,7 @@ public partial record DashboardPageMockData
     public string ConversionRateText { get; init; } = Seed.ConversionRateText;
 
     public IListFeed<ActivityItem> Activities { get; init; } =
-        MockFeeds.Of(CrmData.Dashboard.Activities.ToArray());
+        ListFeed.Async(_ => ValueTask.FromResult<IImmutableList<ActivityItem>>(CrmData.Dashboard.Activities.ToImmutableList()));
 }
 
 public partial class DashboardPageMockDataViewModel
@@ -127,8 +112,6 @@ public partial class DashboardPageMockDataViewModel
 [Uno.Extensions.Reactive.ReactiveBindable]
 public partial record PipelinePageMockData
 {
-    private static readonly IReadOnlyList<PipelineStage> SeedStages = CrmData.Stages;
-
     /// <summary>The full board.</summary>
     public static PipelinePageMockDataViewModel Data => new();
 
@@ -136,15 +119,17 @@ public partial record PipelinePageMockData
     public static PipelinePageMockDataViewModel EmptyBoard =>
         PipelinePageMockDataViewModel.ForModel(new()
         {
-            Board = MockFeeds.Scalar<PipelineStage>([]),
-            Stages = MockFeeds.Empty<PipelineStage>(),
+            Board = Feed.Async(_ => ValueTask.FromResult<IImmutableList<PipelineStage>>(ImmutableList<PipelineStage>.Empty)),
+            Stages = ListFeed.Async(_ => ValueTask.FromResult<IImmutableList<PipelineStage>>(ImmutableList<PipelineStage>.Empty)),
         });
 
     // Both arrangements' sources, mirroring the Model: the desktop board indexes the scalar feed,
     // the mobile list takes the list form.
-    public IFeed<IImmutableList<PipelineStage>> Board { get; init; } = MockFeeds.Scalar(SeedStages);
+    public IFeed<IImmutableList<PipelineStage>> Board { get; init; } =
+        Feed.Async(_ => ValueTask.FromResult<IImmutableList<PipelineStage>>(CrmData.Stages.ToImmutableList()));
 
-    public IListFeed<PipelineStage> Stages { get; init; } = MockFeeds.Of(SeedStages.ToArray());
+    public IListFeed<PipelineStage> Stages { get; init; } =
+        ListFeed.Async(_ => ValueTask.FromResult<IImmutableList<PipelineStage>>(CrmData.Stages.ToImmutableList()));
 
     // The filter bar. Settable strings rather than states: a preview only has to RENDER a selection,
     // and the vocabularies must be materialized or the ComboBoxes would drop it.
@@ -216,7 +201,7 @@ public partial record LeadsPageMockData
             QualificationRateText = ClearedSeed.QualificationRateText,
             PipelineValueText = ClearedSeed.PipelineValueText,
             AverageDealSizeText = ClearedSeed.AverageDealSizeText,
-            TopOpenLeads = MockFeeds.Empty<TopLead>(),
+            TopOpenLeads = ListFeed.Async(_ => ValueTask.FromResult<IImmutableList<TopLead>>(ImmutableList<TopLead>.Empty)),
             LeadTrendSeries = LeadsChartFactory.LeadTrendSeries(ClearedSeed),
             LeadsBySourceSeries = LeadsChartFactory.LeadsBySourceSeries(ClearedSeed),
             StageDistributionSeries = LeadsChartFactory.StageDistributionSeries(ClearedSeed),
@@ -230,7 +215,7 @@ public partial record LeadsPageMockData
     public string AverageDealSizeText { get; init; } = Seed.AverageDealSizeText;
 
     public IListFeed<TopLead> TopOpenLeads { get; init; } =
-        MockFeeds.Of(CrmData.Leads.TopOpenLeads.ToArray());
+        ListFeed.Async(_ => ValueTask.FromResult<IImmutableList<TopLead>>(CrmData.Leads.TopOpenLeads.ToImmutableList()));
 
     public ISeries[] LeadTrendSeries { get; init; } = LeadsChartFactory.LeadTrendSeries(Seed);
     public ISeries[] LeadsBySourceSeries { get; init; } = LeadsChartFactory.LeadsBySourceSeries(Seed);
