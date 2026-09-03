@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Project Sdk="Uno.Sdk.Private">
+<Project Sdk="Uno.Sdk">
   <PropertyGroup>
     <TargetFrameworks>net10.0-android;net10.0-ios;net10.0-browserwasm;net10.0-desktop</TargetFrameworks>
 
@@ -38,8 +38,11 @@
   <!--
     Hot Design Previews live in Previews/. Hot Design locates them at runtime via the
     ApplicationPreviewsFolder assembly-metadata the SDK generates from this property, so it MUST
-    point at our folder or no previews are listed. (The SDK's default is HotDesignStories/, so
-    without this the Previews/ folder is invisible in the tool even though it compiles fine.)
+    point at our folder or no previews are listed. (The SDK's default is HotDesignPreviews/, so
+    without this the Previews/ folder is invisible in the tool even though it compiles fine. The
+    legacy HotDesignStoriesFolder name is no longer bridged, so setting that one instead resolves
+    nothing.) The SDK also drops this folder from the Release compile, which it has to: the
+    Uno.UI.HotDesign package contributes no assets there, so the hd: types do not exist.
   -->
   <PropertyGroup>
     <HotDesignPreviewsFolder>Previews</HotDesignPreviewsFolder>
