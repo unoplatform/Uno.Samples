@@ -5,8 +5,6 @@ namespace BrewHouse.Presentation.MockData;
 // navigation-injected generated CartModel VM overrides this.
 public partial record CartPageMockData
 {
-    public static CartPageMockData Data { get; } = new();
-
     private static readonly IImmutableList<CartItem> SampleCart =
     [
         new("p-001", "Classic Latte",
@@ -17,18 +15,27 @@ public partial record CartPageMockData
             3.25, 1),
     ];
 
-    // Plain, materialized values (not feeds) so the items list, order summary and header subtitle
-    // render directly in Hot Design; the live CartModel surfaces feeds at runtime.
-    public IReadOnlyList<CartItem> CartItems => SampleCart;
+    // Default design-time state: a small non-empty cart.
+    public static CartPageMockData Data { get; } = new();
 
-    public CartSummary Summary => new(SampleCart);
+    // A second design-time state: an empty cart, so the "empty cart" hero shows instead of the
+    // items list and order summary. The "Cart — Empty" preview uses this.
+    public static CartPageMockData Empty { get; } = new() { Cart = [] };
+
+    // Plain, materialized values (not feeds) so the items list, order summary and header subtitle
+    // render directly in Hot Design; the live CartModel surfaces feeds at runtime. Init-settable so
+    // a variant (see Empty) can supply no items; defaults to the sample cart above.
+    public IImmutableList<CartItem> Cart { get; init; } = SampleCart;
+
+    public IReadOnlyList<CartItem> CartItems => Cart;
+
+    public CartSummary Summary => new(Cart);
     public string ItemCountText => Summary.ItemCountText;
     public bool CartHasItems => Summary.HasItems;
     public IReadOnlyList<string> PopularChoices { get; } = ["Latte", "Croissant", "Matcha"];
 
     public void Increment(CartItem item) { }
     public void Decrement(CartItem item) { }
-    public void RemoveItem(CartItem item) { }
     public void PlaceOrder() { }
     public void GoToMenu() { }
 }

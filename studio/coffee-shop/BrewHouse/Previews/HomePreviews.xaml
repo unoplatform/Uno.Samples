@@ -1,0 +1,27 @@
+<hd:PreviewGroup x:Class="BrewHouse.Previews.HomePreviews"
+                 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                 xmlns:local="using:BrewHouse.Presentation"
+                 xmlns:mock="using:BrewHouse.Presentation.MockData"
+                 xmlns:hd="using:Uno.UI.HotDesign"
+                 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                 mc:Ignorable="d">
+
+    <!-- HomePage with a stocked cart vs. an empty one — the page's data branches — the cart summary
+         strip vs. the "Your cart is empty" card, and the catalogue sections' FeedView states. Each child sets the page's
+         DataContext in XAML. No size on the <hd:Preview>: a page fills the canvas / device frame. -->
+    <hd:Preview PreviewName="With Cart" Visibility="Collapsed">
+        <local:HomePage DataContext="{x:Bind mock:HomePageMockData.Data}" />
+    </hd:Preview>
+
+    <hd:Preview PreviewName="Empty Cart" Visibility="Collapsed">
+        <local:HomePage DataContext="{x:Bind mock:HomePageMockData.EmptyCart}" />
+    </hd:Preview>
+
+    <!-- The catalogue came back with nothing: both content FeedViews fall through to their
+         NoneTemplate. Unreachable against the in-memory service, so only a preview shows it. -->
+    <hd:Preview PreviewName="Empty Catalog" Visibility="Collapsed">
+        <local:HomePage DataContext="{x:Bind mock:HomePageMockData.EmptyCatalog}" />
+    </hd:Preview>
+</hd:PreviewGroup>
