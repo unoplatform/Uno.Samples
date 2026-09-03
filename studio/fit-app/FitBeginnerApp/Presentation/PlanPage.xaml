@@ -3,6 +3,7 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:uen="using:Uno.Extensions.Navigation.UI"
       xmlns:utu="using:Uno.Toolkit.UI"
+      xmlns:mvux="using:Uno.Extensions.Reactive.UI"
       Background="{ThemeResource BackgroundBrush}">
 
     <Grid utu:SafeArea.Insets="Top,Left,Right">
@@ -55,109 +56,20 @@
 
                 <!-- This week's schedule — each row opens the guided session -->
                 <TextBlock Text="THIS WEEK" Style="{StaticResource SectionLabelStyle}" />
-                <ItemsRepeater x:Name="WeekListSection" ItemsSource="{Binding WeeklyPlan}" Margin="0,0,0,26">
-                    <ItemsRepeater.Layout>
-                        <StackLayout Spacing="8" />
-                    </ItemsRepeater.Layout>
-                    <ItemsRepeater.ItemTemplate>
-                        <DataTemplate>
-                            <!-- A real Button (focus + Invoke + 0.98 press) wrapping the hairline card. -->
-                            <Button Style="{StaticResource FlatButtonStyle}"
-                                    CornerRadius="14"
-                                    HorizontalAlignment="Stretch"
-                                    HorizontalContentAlignment="Stretch"
-                                    AutomationProperties.Name="Open workout session"
-                                    uen:Navigation.Request="WorkoutSession"
-                                    uen:Navigation.Data="{Binding}">
-                                <Border Style="{StaticResource CardBorderStyle}" CornerRadius="14">
-                                    <Grid Padding="16,13">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="Auto" />
-                                            <ColumnDefinition Width="14" />
-                                            <ColumnDefinition Width="*" />
-                                            <ColumnDefinition Width="Auto" />
-                                        </Grid.ColumnDefinitions>
-                                        <Border Grid.Column="0" Width="44" Height="44" CornerRadius="12" Background="{ThemeResource PrimaryContainerBrush}">
-                                            <Viewbox Width="22" Height="22" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                                <Path Data="{Binding Type, Converter={StaticResource WorkoutIcon}}"
-                                                      Fill="{ThemeResource OnPrimaryContainerBrush}"
-                                                      Stretch="Uniform" />
-                                            </Viewbox>
-                                        </Border>
-                                        <StackPanel Grid.Column="2" Spacing="3" VerticalAlignment="Center">
-                                            <TextBlock Text="{Binding Title}"
-                                                       FontSize="{StaticResource FontSizeSubtitle}"
-                                                       TextTrimming="CharacterEllipsis"
-                                                       MaxLines="1"
-                                                       Foreground="{ThemeResource OnSurfaceBrush}" />
-                                            <StackPanel Orientation="Horizontal" Spacing="7">
-                                                <TextBlock Text="{Binding Type}" FontSize="{StaticResource FontSizeCaption}" Foreground="{ThemeResource OnSurfaceVariantBrush}" />
-                                                <TextBlock Text="&#x2022;" FontSize="{StaticResource FontSizeCaption}" Foreground="{ThemeResource OutlineVariantBrush}" />
-                                                <TextBlock Text="{Binding DurationMinutes}" FontSize="{StaticResource FontSizeCaption}" Foreground="{ThemeResource OnSurfaceVariantBrush}" />
-                                                <TextBlock Text="min" FontSize="{StaticResource FontSizeCaption}" Foreground="{ThemeResource OnSurfaceVariantBrush}" />
-                                            </StackPanel>
-                                        </StackPanel>
-                                        <Border Grid.Column="3" Background="{ThemeResource TertiaryContainerBrush}" CornerRadius="8" Padding="10,5" VerticalAlignment="Center">
-                                            <TextBlock Text="{Binding Difficulty}"
-                                                       FontSize="{StaticResource FontSizeLabel}"
-                                                       CharacterSpacing="140"
-                                                       Foreground="{ThemeResource OnTertiaryContainerBrush}" />
-                                        </Border>
-                                    </Grid>
-                                </Border>
-                            </Button>
-                        </DataTemplate>
-                    </ItemsRepeater.ItemTemplate>
-                </ItemsRepeater>
+                <!-- An empty week is a real state for a member who hasn't picked a plan yet. -->
+                <mvux:FeedView x:Name="WeekListSection" Margin="0,0,0,26"
+                               Source="{Binding WeeklyPlan}"
+                               ValueTemplate="{StaticResource PlannedWorkoutListTemplate}"
+                               NoneTemplate="{StaticResource NoPlanYetTemplate}"
+                               ErrorTemplate="{StaticResource ServiceErrorTemplate}" />
 
                 <!-- Suggested plans -->
                 <TextBlock Text="SUGGESTED PLANS" Style="{StaticResource SectionLabelStyle}" />
-                <ItemsRepeater x:Name="SuggestedSection" ItemsSource="{Binding SuggestedPlans}">
-                    <ItemsRepeater.Layout>
-                        <StackLayout Spacing="10" />
-                    </ItemsRepeater.Layout>
-                    <ItemsRepeater.ItemTemplate>
-                        <DataTemplate>
-                            <Border Style="{StaticResource CardBorderStyle}">
-                                <Grid Padding="18,16">
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto" />
-                                        <RowDefinition Height="Auto" />
-                                        <RowDefinition Height="Auto" />
-                                    </Grid.RowDefinitions>
-                                    <StackPanel Grid.Row="0" Orientation="Horizontal" Spacing="8">
-                                        <TextBlock Text="{Binding Name}"
-                                                   FontSize="{StaticResource FontSizeTitle}"
-                                                   Foreground="{ThemeResource OnSurfaceBrush}"
-                                                   VerticalAlignment="Center" />
-                                        <Border Background="{ThemeResource SecondaryContainerBrush}" CornerRadius="8" Padding="9,4" VerticalAlignment="Center">
-                                            <TextBlock Text="{Binding Focus}"
-                                                       FontSize="{StaticResource FontSizeLabel}"
-                                                       CharacterSpacing="140"
-                                                       Foreground="{ThemeResource OnSecondaryContainerBrush}" />
-                                        </Border>
-                                    </StackPanel>
-                                    <TextBlock Grid.Row="1"
-                                               Text="{Binding Description}"
-                                               FontSize="{StaticResource FontSizeCaption}"
-                                               Foreground="{ThemeResource OnSurfaceVariantBrush}"
-                                               TextWrapping="Wrap"
-                                               Margin="0,7,0,10" />
-                                    <StackPanel Grid.Row="2" Orientation="Horizontal" Spacing="24">
-                                        <StackPanel Spacing="1">
-                                            <TextBlock Text="{Binding DaysPerWeek}" FontSize="{StaticResource FontSizeTitle}" Foreground="{ThemeResource PrimaryBrush}" />
-                                            <TextBlock Text="DAYS/WEEK" FontSize="{StaticResource FontSizeLabel}" CharacterSpacing="140" Foreground="{ThemeResource OnSurfaceVariantBrush}" />
-                                        </StackPanel>
-                                        <StackPanel Spacing="1">
-                                            <TextBlock Text="{Binding MinutesPerSession}" FontSize="{StaticResource FontSizeTitle}" Foreground="{ThemeResource PrimaryBrush}" />
-                                            <TextBlock Text="MIN/SESSION" FontSize="{StaticResource FontSizeLabel}" CharacterSpacing="140" Foreground="{ThemeResource OnSurfaceVariantBrush}" />
-                                        </StackPanel>
-                                    </StackPanel>
-                                </Grid>
-                            </Border>
-                        </DataTemplate>
-                    </ItemsRepeater.ItemTemplate>
-                </ItemsRepeater>
+                <!-- A second, independent request. -->
+                <mvux:FeedView x:Name="SuggestedSection" Source="{Binding SuggestedPlans}"
+                               ValueTemplate="{StaticResource SuggestedPlanListTemplate}"
+                               NoneTemplate="{StaticResource NoResultsYetTemplate}"
+                               ErrorTemplate="{StaticResource ServiceErrorTemplate}" />
 
             </StackPanel>
         </ScrollViewer>

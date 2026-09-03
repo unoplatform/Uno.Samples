@@ -3,6 +3,7 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:uen="using:Uno.Extensions.Navigation.UI"
       xmlns:utu="using:Uno.Toolkit.UI"
+      xmlns:mvux="using:Uno.Extensions.Reactive.UI"
       Background="{ThemeResource BackgroundBrush}">
 
     <!-- Full-screen guided session: a shell sibling of the tab shell, so it replaces the chrome
@@ -132,88 +133,12 @@
                     <!-- Exercises List -->
                     <TextBlock Text="EXERCISES" Style="{StaticResource SectionLabelStyle}" />
 
-                    <ItemsRepeater x:Name="ExercisesSection"
-                                   ItemsSource="{Binding Exercises}"
-                                   Margin="0,0,0,20">
-                        <ItemsRepeater.Layout>
-                            <StackLayout Spacing="10" />
-                        </ItemsRepeater.Layout>
-                        <ItemsRepeater.ItemTemplate>
-                            <DataTemplate>
-                                <Border Style="{StaticResource CardBorderStyle}">
-                                    <StackPanel Padding="16,14"
-                                                Spacing="10">
-                                        <StackPanel Orientation="Horizontal"
-                                                    Spacing="12">
-                                            <Border Width="44" Height="44"
-                                                    CornerRadius="12"
-                                                    Background="{ThemeResource PrimaryContainerBrush}">
-                                                <Viewbox Width="20" Height="20"
-                                                         HorizontalAlignment="Center"
-                                                         VerticalAlignment="Center">
-                                                    <Path Data="{Binding Category, Converter={StaticResource WorkoutIcon}}"
-                                                          Fill="{ThemeResource OnPrimaryContainerBrush}"
-                                                          Stretch="Uniform" />
-                                                </Viewbox>
-                                            </Border>
-                                            <StackPanel Spacing="2"
-                                                        VerticalAlignment="Center">
-                                                <TextBlock Text="{Binding Name}"
-                                                           FontSize="{StaticResource FontSizeSubtitle}"
-                                                           Foreground="{ThemeResource OnSurfaceBrush}" />
-                                                <TextBlock Text="{Binding Category}"
-                                                           FontSize="{StaticResource FontSizeCaption}"
-                                                           Foreground="{ThemeResource OnSurfaceVariantBrush}" />
-                                            </StackPanel>
-                                        </StackPanel>
-                                        <TextBlock Text="{Binding Description}"
-                                                   FontSize="{StaticResource FontSizeCaption}"
-                                                   Foreground="{ThemeResource OnSurfaceVariantBrush}"
-                                                   TextWrapping="Wrap" />
-                                        <StackPanel Orientation="Horizontal"
-                                                    Spacing="12">
-                                            <Border Background="{ThemeResource TertiaryContainerBrush}"
-                                                    CornerRadius="8"
-                                                    Padding="10,4">
-                                                <StackPanel Orientation="Horizontal"
-                                                            Spacing="4"
-                                                            HorizontalAlignment="Center"
-                                                            VerticalAlignment="Center">
-                                                    <TextBlock Text="{Binding Sets}"
-                                                               FontSize="{StaticResource FontSizeCaption}"
-                                                               Foreground="{ThemeResource OnTertiaryContainerBrush}"
-                                                               HorizontalTextAlignment="Center" />
-                                                    <TextBlock Text="SETS"
-                                                               FontSize="{StaticResource FontSizeLabel}"
-                                                               CharacterSpacing="140"
-                                                               Foreground="{ThemeResource OnTertiaryContainerBrush}"
-                                                               HorizontalTextAlignment="Center" />
-                                                </StackPanel>
-                                            </Border>
-                                            <Border Background="{ThemeResource SecondaryContainerBrush}"
-                                                    CornerRadius="8"
-                                                    Padding="10,4">
-                                                <StackPanel Orientation="Horizontal"
-                                                            Spacing="4"
-                                                            HorizontalAlignment="Center"
-                                                            VerticalAlignment="Center">
-                                                    <TextBlock Text="{Binding DurationSeconds}"
-                                                               FontSize="{StaticResource FontSizeCaption}"
-                                                               Foreground="{ThemeResource OnSecondaryContainerBrush}"
-                                                               HorizontalTextAlignment="Center" />
-                                                    <TextBlock Text="SEC"
-                                                               FontSize="{StaticResource FontSizeLabel}"
-                                                               CharacterSpacing="140"
-                                                               Foreground="{ThemeResource OnSecondaryContainerBrush}"
-                                                               HorizontalTextAlignment="Center" />
-                                                </StackPanel>
-                                            </Border>
-                                        </StackPanel>
-                                    </StackPanel>
-                                </Border>
-                            </DataTemplate>
-                        </ItemsRepeater.ItemTemplate>
-                    </ItemsRepeater>
+                    <!-- The routine's exercises, fetched for the workout Navigation passed in. -->
+                    <mvux:FeedView x:Name="ExercisesSection" Margin="0,0,0,20"
+                                   Source="{Binding Exercises}"
+                                   ValueTemplate="{StaticResource ExerciseListTemplate}"
+                                   NoneTemplate="{StaticResource NoResultsYetTemplate}"
+                                   ErrorTemplate="{StaticResource ServiceErrorTemplate}" />
 
                     <!-- Session Tips -->
                     <TextBlock Text="SESSION TIPS" Style="{StaticResource SectionLabelStyle}" />
@@ -222,23 +147,8 @@
                             Style="{StaticResource CardBorderStyle}"
                             Margin="0,0,0,16">
                         <StackPanel Padding="16,12">
-                            <ItemsRepeater ItemsSource="{Binding WarmUpNotes}">
-                                <ItemsRepeater.ItemTemplate>
-                                    <DataTemplate>
-                                        <StackPanel Orientation="Horizontal"
-                                                    Spacing="8"
-                                                    Margin="0,4">
-                                            <TextBlock Text="&#x2022;"
-                                                       FontSize="{StaticResource FontSizeBody}"
-                                                       Foreground="{ThemeResource PrimaryBrush}"
-                                                       VerticalAlignment="Top" />
-                                            <TextBlock Text="{Binding Note}"
-                                                       FontSize="{StaticResource FontSizeCaption}"
-                                                       Foreground="{ThemeResource OnSurfaceBrush}"
-                                                       TextWrapping="Wrap" />
-                                        </StackPanel>
-                                    </DataTemplate>
-                                </ItemsRepeater.ItemTemplate>
+                            <ItemsRepeater ItemsSource="{Binding WarmUpNotes}"
+                                           ItemTemplate="{StaticResource SessionTipTemplate}">
                             </ItemsRepeater>
                         </StackPanel>
                     </Border>

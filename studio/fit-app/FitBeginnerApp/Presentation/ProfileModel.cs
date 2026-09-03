@@ -1,39 +1,28 @@
 namespace FitBeginnerApp.Presentation;
 
-[Uno.Extensions.Reactive.ReactiveBindable(false)]
-public partial record ProfileModel
+// The member's profile, preferences, goals and app settings, read from IFitnessService.
+public partial record ProfileModel(IFitnessService Fitness)
 {
-    public UserProfile Profile { get; } = new(
-        "Alex Rivera",
-        "Beginner",
-        "Build a healthy habit",
-        3,
-        5,
-        12);
+    private IFeed<UserProfile>? _profile;
+    public IFeed<UserProfile> Profile => _profile ??= Feed.Async(Fitness.GetProfileAsync);
 
-    public string AvatarInitials { get; } = "AR";
-    public string JoinedDate { get; } = "Joined April 2026";
-    public int Age { get; } = 28;
-    public string PreferredTime { get; } = "Morning";
-    public string EquipmentAvailable { get; } = "No equipment";
-    public int SessionLengthMinutes { get; } = 20;
+    private IFeed<ProfileDetails>? _details;
+    private IFeed<ProfileDetails> Details => _details ??= Feed.Async(Fitness.GetProfileDetailsAsync);
 
-    public IReadOnlyList<SettingRow> Settings { get; } = new[]
-    {
-        new SettingRow("Workout Reminders", "Daily at 7:00 AM"),
-        new SettingRow("Rest Day Alerts", "Notify me on over-training"),
-        new SettingRow("Weekly Summary", "Every Sunday evening"),
-        new SettingRow("Language", "English"),
-        new SettingRow("Help & FAQ", "Tips for beginners"),
-    };
+    public IFeed<string> AvatarInitials => Details.Select(d => d.AvatarInitials);
+    public IFeed<string> JoinedDate => Details.Select(d => d.JoinedDate);
+    public IFeed<string> PreferredTime => Details.Select(d => d.PreferredTime);
+    public IFeed<string> EquipmentAvailable => Details.Select(d => d.EquipmentAvailable);
+    public IFeed<int> SessionLengthMinutes => Details.Select(d => d.SessionLengthMinutes);
 
-    public IReadOnlyList<FitnessGoalItem> Goals { get; } = new[]
-    {
-        new FitnessGoalItem("Build a healthy habit", true),
-        new FitnessGoalItem("Lose weight gradually", false),
-        new FitnessGoalItem("Improve flexibility", false),
-        new FitnessGoalItem("Increase stamina", false),
-    };
+    // Both lists bind directly rather than through a FeedView. They are short, fixed-shape parts of
+    // a card — a goals picker and an app-settings menu — and neither "no goals" nor "settings
+    // failed" is a state with UI worth designing.
+    private IListFeed<FitnessGoalItem>? _goals;
+    public IListFeed<FitnessGoalItem> Goals => _goals ??= ListFeed.Async(Fitness.GetGoalsAsync);
+
+    private IListFeed<SettingRow>? _settings;
+    public IListFeed<SettingRow> Settings => _settings ??= ListFeed.Async(Fitness.GetSettingsAsync);
 }
 
 public partial record SettingRow(string Label, string Value);

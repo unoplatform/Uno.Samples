@@ -1,0 +1,24 @@
+<hd:PreviewGroup x:Class="FitBeginnerApp.Previews.PlanPreviews"
+                 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                 xmlns:local="using:FitBeginnerApp.Presentation"
+                 xmlns:mock="using:FitBeginnerApp.Presentation.MockData"
+                 xmlns:hd="using:Uno.UI.HotDesign"
+                 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                 mc:Ignorable="d">
+
+    <!-- PlanPage with a full training week, and with none scheduled — where the week list falls to its
+         empty state while the suggestions below stay populated.
+         Each child supplies the page's design-time DataContext in XAML — the only safe place for the
+         generated-ViewModel mock, which must never be seeded from the page constructor. No size on
+         the <hd:Preview>: a page fills the canvas / device frame. -->
+    <hd:Preview PreviewName="Full Week" Visibility="Collapsed">
+        <local:PlanPage DataContext="{x:Bind mock:PlanPageMockData.Data}" />
+    </hd:Preview>
+
+    <hd:Preview PreviewName="Empty Week" Visibility="Collapsed">
+        <local:PlanPage DataContext="{x:Bind mock:PlanPageMockData.EmptyWeek}" />
+    </hd:Preview>
+
+</hd:PreviewGroup>

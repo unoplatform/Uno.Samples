@@ -5,10 +5,10 @@
                     xmlns:presentation="using:FitBeginnerApp.Presentation">
 
   <!--
-    FitStart styling vocabulary: converters, the Feeling-pill templates + selector, the type scale,
-    the card/label styles, the corner-radius tokens, the responsive breakpoint, and the button
-    control templates. Merged into App.xaml AFTER the Simple theme + MotionTokens so the well-known
-    corner-radius overrides (ControlCornerRadius*, OverlayCornerRadius) win over the theme defaults.
+    FitStart styling vocabulary: converters, the type scale, the card/label styles, the corner-radius tokens, the responsive breakpoint, and the button
+    control templates. Every item/content template lives in DataTemplates.xaml, merged after this
+    file. Merged into App.xaml AFTER the Simple theme + MotionTokens so the well-known corner-radius
+    overrides (ControlCornerRadius*, OverlayCornerRadius) win over the theme defaults.
     Pages CONSUME these keys via {StaticResource}/{ThemeResource}; they never re-declare the look.
   -->
 
@@ -18,34 +18,6 @@
   <!-- Maps a workout Type / exercise Category to a distinct PathIcon geometry (dumbbell / flame /
        target / moon / sparkle) so lists don't repeat one glyph. -->
   <presentation:WorkoutIconConverter x:Key="WorkoutIcon" />
-  <!-- Feeling pills: one {ThemeResource}-based template per value, chosen by a DataTemplateSelector.
-       Colour lives in XAML (theme-reactive, and resolved against the correct app under Studio Live's
-       ALC) rather than a brush-returning converter reading Application.Current.Resources. -->
-  <DataTemplate x:Key="FeelingPillGreatTemplate">
-    <Border Background="{ThemeResource PrimaryContainerBrush}" CornerRadius="8" Padding="10,5" VerticalAlignment="Center">
-      <TextBlock Text="{Binding}" FontSize="{StaticResource FontSizeLabel}" CharacterSpacing="140" Foreground="{ThemeResource OnPrimaryContainerBrush}" VerticalAlignment="Center" HorizontalTextAlignment="Center" />
-    </Border>
-  </DataTemplate>
-  <DataTemplate x:Key="FeelingPillGoodTemplate">
-    <Border Background="{ThemeResource TertiaryContainerBrush}" CornerRadius="8" Padding="10,5" VerticalAlignment="Center">
-      <TextBlock Text="{Binding}" FontSize="{StaticResource FontSizeLabel}" CharacterSpacing="140" Foreground="{ThemeResource OnTertiaryContainerBrush}" VerticalAlignment="Center" HorizontalTextAlignment="Center" />
-    </Border>
-  </DataTemplate>
-  <DataTemplate x:Key="FeelingPillToughTemplate">
-    <Border Background="{ThemeResource SecondaryContainerBrush}" CornerRadius="8" Padding="10,5" VerticalAlignment="Center">
-      <TextBlock Text="{Binding}" FontSize="{StaticResource FontSizeLabel}" CharacterSpacing="140" Foreground="{ThemeResource OnSecondaryContainerBrush}" VerticalAlignment="Center" HorizontalTextAlignment="Center" />
-    </Border>
-  </DataTemplate>
-  <DataTemplate x:Key="FeelingPillEasyTemplate">
-    <Border Background="{ThemeResource SurfaceVariantBrush}" CornerRadius="8" Padding="10,5" VerticalAlignment="Center">
-      <TextBlock Text="{Binding}" FontSize="{StaticResource FontSizeLabel}" CharacterSpacing="140" Foreground="{ThemeResource OnSurfaceVariantBrush}" VerticalAlignment="Center" HorizontalTextAlignment="Center" />
-    </Border>
-  </DataTemplate>
-  <presentation:FeelingPillTemplateSelector x:Key="FeelingPillSelector"
-                                            Great="{StaticResource FeelingPillGreatTemplate}"
-                                            Good="{StaticResource FeelingPillGoodTemplate}"
-                                            Tough="{StaticResource FeelingPillToughTemplate}"
-                                            Easy="{StaticResource FeelingPillEasyTemplate}" />
 
   <!-- Type scale: a deliberate ramp so sizes are composed, not eyeballed. Every text element
        references one of these instead of a raw literal, so hierarchy stays consistent app-wide. -->

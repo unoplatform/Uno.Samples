@@ -6,36 +6,32 @@ namespace FitBeginnerApp.Presentation;
 // Bound to a single workout via DataViewMap<WorkoutSessionPage, WorkoutSessionModel, WorkoutEntry>:
 // Navigation passes the tapped WorkoutEntry as the record's parameter, so the header reflects the
 // chosen workout. The exercise list is mock (shared for the demo).
-public partial record WorkoutSessionModel(WorkoutEntry Workout)
+public partial record WorkoutSessionModel(WorkoutEntry Workout, IFitnessService Fitness)
 {
     public string WorkoutTitle => Workout.Title;
     public string WorkoutType => Workout.Type;
     public int TotalDurationMinutes => Workout.DurationMinutes;
     public string Difficulty => Workout.Difficulty;
-    public int TotalExercises => Exercises.Count;
+    // Exercises is now a list FEED, so this is exactly the trap the comment here used to warn
+    // about: an empty list feed emits None and Select() skips None, which would render the count
+    // BLANK rather than "0". SelectData is handed the Option itself, so it can turn None into 0.
+    public IFeed<int> TotalExercises =>
+        Exercises
+            .AsFeed()
+            .SelectData<IImmutableList<ExerciseItem>, int>(items => items.SomeOrDefault()?.Count ?? 0);
 
     public string MotivationQuote { get; } = "Every rep counts. You've got this!";
 
-    public IReadOnlyList<ExerciseItem> Exercises { get; } = new[]
-    {
-        new ExerciseItem("e-001", "Jumping Jacks", "Warm-up", 60, 3, 0, "Beginner",
-            "Stand with feet together, jump while raising arms overhead and spreading legs."),
-        new ExerciseItem("e-002", "Bodyweight Squats", "Lower Body", 45, 3, 12, "Beginner",
-            "Stand shoulder-width apart, lower hips as if sitting, keep back straight."),
-        new ExerciseItem("e-003", "Push-Ups (Knee)", "Upper Body", 40, 3, 10, "Beginner",
-            "On all fours, lower chest toward the ground keeping core engaged. Knees stay down."),
-        new ExerciseItem("e-004", "Plank Hold", "Core", 30, 3, 0, "Beginner",
-            "Hold a flat body position on forearms and toes for 30 seconds."),
-        new ExerciseItem("e-005", "Cool-Down Walk", "Cool-down", 120, 1, 0, "Beginner",
-            "Walk slowly in place and take deep breaths to lower heart rate."),
-    };
+    // The routine's exercises and form notes come from the service, keyed by the workout that
+    // Navigation passed in. The exercise list is the page's primary content, so it is rendered by a
+    // FeedView; the short notes card binds directly.
+    private IListFeed<ExerciseItem>? _exercises;
+    public IListFeed<ExerciseItem> Exercises =>
+        _exercises ??= ListFeed.Async(ct => Fitness.GetExercisesAsync(Workout.Id, ct));
 
-    public IReadOnlyList<SessionTip> WarmUpNotes { get; } = new[]
-    {
-        new SessionTip("Rest 30–60s between sets."),
-        new SessionTip("Breathe out on the effort, in on the recovery."),
-        new SessionTip("Stop if you feel sharp pain — discomfort is normal, pain is not."),
-    };
+    private IListFeed<SessionTip>? _warmUpNotes;
+    public IListFeed<SessionTip> WarmUpNotes =>
+        _warmUpNotes ??= ListFeed.Async(Fitness.GetSessionTipsAsync);
 
     // Whether the guided session has been started. MVUX state; the Begin command flips it and the
     // page swaps the "Begin workout" CTA for an in-progress confirmation.

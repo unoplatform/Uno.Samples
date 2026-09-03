@@ -5,7 +5,8 @@
 
   <!-- App.xaml is a thin manifest: it only merges the dedicated dictionaries, each with one
        concern. The palette lives in ThemeColors.xaml, the motion/feel tokens in MotionTokens.xaml,
-       and the app's styling vocabulary (converters, templates, styles, tokens) in Styles.xaml. -->
+       the app's styling vocabulary (converters, styles, tokens) in Styles.xaml, and every keyed
+       item/content template in DataTemplates.xaml. -->
   <Application.Resources>
     <ResourceDictionary>
       <ResourceDictionary.MergedDictionaries>
@@ -16,9 +17,13 @@
         <utus:SimpleToolkitTheme ColorOverrideSource="ms-appx:///ThemeColors.xaml" />
         <!-- House motion/feel tokens (easing, duration, radius, press) — give numbers, not adjectives. -->
         <ResourceDictionary Source="ms-appx:///MotionTokens.xaml" />
-        <!-- App styling vocabulary. Merged LAST so its well-known-key overrides
+        <!-- App styling vocabulary. Merged after the theme so its well-known-key overrides
              (ControlCornerRadius*, OverlayCornerRadius) beat the theme defaults. -->
         <ResourceDictionary Source="ms-appx:///Styles.xaml" />
+        <!-- Every shared item/content template, keyed. Merged LAST: the templates consume the type
+             scale, styles and converters above by key, and being app-merged is what makes each one
+             a standalone design-time surface. -->
+        <ResourceDictionary Source="ms-appx:///DataTemplates.xaml" />
       </ResourceDictionary.MergedDictionaries>
     </ResourceDictionary>
   </Application.Resources>

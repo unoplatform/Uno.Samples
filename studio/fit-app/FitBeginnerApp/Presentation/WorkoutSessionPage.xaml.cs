@@ -8,11 +8,14 @@ public sealed partial class WorkoutSessionPage : Page
     {
         this.InitializeComponent();
 
-        // Hot Design fallback (the preview bypasses Navigation, so no workout is injected). At
-        // runtime the DataViewMap injects the tapped WorkoutEntry and overrides this. Set on the
-        // *page* DataContext so Navigation can override it.
-        this.DataContext = new WorkoutSessionModel(
-            new WorkoutEntry("w-001", "Morning Energizer", "Full Body", new DateOnly(2026, 6, 1), 20, false, "Beginner"));
+        // No design-time DataContext here. This page's data comes from IFitnessService and is
+        // rendered through FeedViews, so its design-time data must be the feed-shaped mock that
+        // returns the generated ViewModel (see Presentation/MockData) — and a hand-built generated
+        // VM must never be seeded from a page constructor: it has no live SourceContext, so its
+        // feeds never pump, and it would shadow the VM Navigation injects at runtime.
+        //
+        // The named previews supply it in XAML instead, which is the only safe place for it. The
+        // page's automatic "Default" preview therefore shows the FeedViews' empty state.
 
         Loaded += (_, _) =>
         {
