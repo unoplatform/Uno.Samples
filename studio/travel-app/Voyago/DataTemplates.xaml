@@ -1,0 +1,521 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:uen="using:Uno.Extensions.Navigation.UI"
+                    xmlns:utu="using:Uno.Toolkit.UI"
+                    xmlns:local="using:Voyago.Presentation">
+
+  <!--
+    Every item template in Voyago, keyed and shared here rather than declared inline in the page that
+    happens to use it. Two reasons: a keyed template in an app-merged dictionary is a standalone
+    design-time surface (it can be previewed and edited on its own instead of only as part of its
+    page), and a template inflated outside its page — by a preview, or inside a FeedView — can still
+    resolve its {StaticResource}s, which an inline page resource cannot. SearchPage's two templates
+    were already keyed but lived in its <Page.Resources>, which is app-invisible: same problem.
+
+    Merged into App.xaml AFTER Styles.xaml, so these templates consume that file's styles, tokens and
+    converters by key.
+
+    Every card here opens a destination through uen:Navigation.Request / Navigation.Data. Those are
+    attached properties the navigator resolves by walking up to the nearest region, so they are
+    namescope-independent: they survive both the move into this file and being nested one level
+    deeper inside a FeedView's ValueTemplate. Nothing here reached the page namescope through
+    ElementName, and no template carries a Command, so the move needed no binding rewrites. In an
+    isolated component preview there is no region above the template and the card is simply inert.
+  -->
+
+  <!-- ══════════════════════ HomePage ══════════════════════ -->
+
+  <!-- One hero slide in the landing carousel: full-bleed photo, scrim and the destination's name. -->
+  <DataTemplate x:Key="HeroDestinationTemplate">
+    <Grid>
+        <Border>
+            <Border.Background>
+                <ImageBrush ImageSource="{Binding ImageUrl}" Stretch="UniformToFill" />
+            </Border.Background>
+        </Border>
+        <!-- 3-stop scrim keeps the white caption legible over any photo -->
+        <Rectangle>
+            <Rectangle.Fill>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                    <GradientStop Color="#00000000" Offset="0" />
+                    <GradientStop Color="#40000000" Offset="0.45" />
+                    <GradientStop Color="#E6000000" Offset="1" />
+                </LinearGradientBrush>
+            </Rectangle.Fill>
+        </Rectangle>
+        <StackPanel VerticalAlignment="Bottom" Padding="24,0,24,30" Spacing="6">
+            <TextBlock Text="{Binding Name}" Style="{StaticResource DisplayMedium}" Foreground="White" />
+            <TextBlock Text="{Binding Tagline}" Style="{StaticResource BodyMedium}" Foreground="#E6FFFFFF" TextWrapping="Wrap" />
+            <Button Style="{StaticResource PrimaryButtonStyle}"
+                    Content="Explore"
+                    Padding="20,10"
+                    FontSize="14"
+                    HorizontalAlignment="Left"
+                    Margin="0,8,0,0"
+                    uen:Navigation.Request="{utu:Responsive Layout={StaticResource DesktopModalBreakpoint}, Narrow=DestinationDetail, Wide=DestinationDetail, Widest='!DestinationDetailModal'}"
+                    uen:Navigation.Data="{Binding}"
+                    AutomationProperties.Name="{Binding Name}" />
+        </StackPanel>
+    </Grid>
+  </DataTemplate>
+
+  <!-- A quick-action shortcut chip on the landing page. -->
+  <DataTemplate x:Key="QuickActionTemplate">
+    <utu:CardContentControl Style="{StaticResource FilledCardContentControlStyle}"
+                            HorizontalAlignment="Stretch" IsClickable="True"
+                            uen:Navigation.Request="Search"
+                            AutomationProperties.Name="{Binding Label}">
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="7" Padding="8,12">
+            <Viewbox Width="24" Height="24" HorizontalAlignment="Center">
+                <Path Data="{Binding Label, Converter={StaticResource Icon}}" Fill="{ThemeResource PrimaryBrush}" Stretch="Uniform" />
+            </Viewbox>
+            <TextBlock Text="{Binding Label}" Style="{StaticResource LabelSmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" HorizontalAlignment="Center" TextAlignment="Center" />
+        </StackPanel>
+    </utu:CardContentControl>
+  </DataTemplate>
+
+  <!-- A recommended destination as a portrait card: 118px photo, name, country and the
+       "from" price. Deliberately distinct from SearchDestinationCardTemplate (a taller 138px photo
+       and tighter padding) and from FavoriteDestinationTemplate (which adds the saved heart and
+       drops the price) — they read differently on purpose. -->
+  <DataTemplate x:Key="RecommendedDestinationTemplate">
+    <utu:CardContentControl Style="{StaticResource ElevatedCardContentControlStyle}"
+                            HorizontalAlignment="Stretch" IsClickable="True"
+                            uen:Navigation.Request="{utu:Responsive Layout={StaticResource DesktopModalBreakpoint}, Narrow=DestinationDetail, Wide=DestinationDetail, Widest='!DestinationDetailModal'}"
+                            uen:Navigation.Data="{Binding}"
+                            AutomationProperties.Name="{Binding Name}">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="118" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Border Grid.Row="0">
+                <Border.Background>
+                    <ImageBrush ImageSource="{Binding ImageUrl}" Stretch="UniformToFill" />
+                </Border.Background>
+            </Border>
+            <StackPanel Grid.Row="1" Padding="12,10,12,12" Spacing="3">
+                <TextBlock Text="{Binding Name}" Style="{StaticResource TitleSmall}" Foreground="{ThemeResource OnSurfaceBrush}" TextTrimming="CharacterEllipsis" MaxLines="1" />
+                <TextBlock Text="{Binding Country}" Style="{StaticResource BodySmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" />
+                <StackPanel Orientation="Horizontal" Spacing="4" Margin="0,2,0,0" VerticalAlignment="Center">
+                    <Viewbox Width="12" Height="12" VerticalAlignment="Center">
+                        <Path Data="{Binding Converter={StaticResource Icon}, ConverterParameter=star_filled}" Fill="{ThemeResource SecondaryBrush}" Stretch="Uniform" />
+                    </Viewbox>
+                    <TextBlock Text="{Binding Rating}" Style="{StaticResource LabelSmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" VerticalAlignment="Center" />
+                    <TextBlock Text="{Binding PriceFrom}" Style="{StaticResource LabelSmall}" Foreground="{ThemeResource SecondaryBrush}" Margin="8,0,0,0" VerticalAlignment="Center" />
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+    </utu:CardContentControl>
+  </DataTemplate>
+
+  <!-- A travel-style tile on the landing page: photo, scrim and the category label. The Search
+       page's tile is a richer variant (see SearchCategoryTileTemplate). -->
+  <DataTemplate x:Key="ExploreCategoryTileTemplate">
+    <utu:CardContentControl Style="{StaticResource ElevatedCardContentControlStyle}"
+                            Height="132"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"
+                            IsClickable="True"
+                            uen:Navigation.Request="{utu:Responsive Layout={StaticResource DesktopModalBreakpoint}, Narrow=DestinationDetail, Wide=DestinationDetail, Widest='!DestinationDetailModal'}"
+                            uen:Navigation.Data="{Binding Featured}"
+                            AutomationProperties.Name="{Binding Label}">
+        <Grid>
+            <Border>
+                <Border.Background>
+                    <ImageBrush ImageSource="{Binding ImageUrl}" Stretch="UniformToFill" />
+                </Border.Background>
+            </Border>
+            <Rectangle>
+                <Rectangle.Fill>
+                    <LinearGradientBrush StartPoint="0.5,0.1" EndPoint="0.5,1">
+                        <GradientStop Color="#1A000000" Offset="0" />
+                        <GradientStop Color="#CC000000" Offset="1" />
+                    </LinearGradientBrush>
+                </Rectangle.Fill>
+            </Rectangle>
+            <TextBlock Text="{Binding Label}" Style="{StaticResource TitleSmall}" Foreground="White" VerticalAlignment="Bottom" Padding="14,0,14,12" TextWrapping="Wrap" />
+        </Grid>
+    </utu:CardContentControl>
+  </DataTemplate>
+
+  <!-- ══════════════════════ Trip-status pills (shared) ══════════════════════ -->
+
+  <!-- ===== Trip-status pills: value → semantic role, colour resolved in XAML via {ThemeResource}
+             (ALC-safe under Studio Live / Hot Design; lessons 48/58). Rendered through a
+             ContentControl so {Binding} inside the template is the status string. ===== -->
+  <DataTemplate x:Key="TripStatusConfirmedTemplate">
+    <Border Background="{ThemeResource PrimaryContainerBrush}" CornerRadius="{StaticResource PillCornerRadius}" Padding="10,4">
+      <TextBlock Text="{Binding}" Style="{StaticResource LabelSmall}" Foreground="{ThemeResource OnPrimaryContainerBrush}" />
+    </Border>
+  </DataTemplate>
+  <DataTemplate x:Key="TripStatusPendingTemplate">
+    <Border Background="{ThemeResource SecondaryContainerBrush}" CornerRadius="{StaticResource PillCornerRadius}" Padding="10,4">
+      <TextBlock Text="{Binding}" Style="{StaticResource LabelSmall}" Foreground="{ThemeResource OnSecondaryContainerBrush}" />
+    </Border>
+  </DataTemplate>
+  <DataTemplate x:Key="TripStatusCompletedTemplate">
+    <Border Background="{ThemeResource SurfaceVariantBrush}" CornerRadius="{StaticResource PillCornerRadius}" Padding="10,4">
+      <TextBlock Text="{Binding}" Style="{StaticResource LabelSmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" />
+    </Border>
+  </DataTemplate>
+  <local:TripStatusTemplateSelector x:Key="TripStatusSelector"
+                                    Confirmed="{StaticResource TripStatusConfirmedTemplate}"
+                                    Pending="{StaticResource TripStatusPendingTemplate}"
+                                    Completed="{StaticResource TripStatusCompletedTemplate}" />
+
+  <!-- ══════════════════════ TripsPage ══════════════════════ -->
+
+  <!-- A booked trip: photo, destination, dates, status pill and booking reference. -->
+  <DataTemplate x:Key="UpcomingTripTemplate">
+    <utu:CardContentControl Style="{StaticResource ElevatedCardContentControlStyle}"
+                            HorizontalAlignment="Stretch" IsClickable="True"
+                            uen:Navigation.Request="{utu:Responsive Layout={StaticResource DesktopModalBreakpoint}, Narrow=DestinationDetail, Wide=DestinationDetail, Widest='!DestinationDetailModal'}"
+                            uen:Navigation.Data="{Binding Place}"
+                            AutomationProperties.Name="{Binding Destination}">
+        <Grid Height="108">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="104" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Border Grid.Column="0">
+                <Border.Background>
+                    <ImageBrush ImageSource="{Binding ImageUrl}" Stretch="UniformToFill" />
+                </Border.Background>
+            </Border>
+            <StackPanel Grid.Column="1" Padding="14,12" Spacing="4" VerticalAlignment="Center">
+                <TextBlock Text="{Binding Destination}" Style="{StaticResource TitleMedium}" Foreground="{ThemeResource OnSurfaceBrush}" />
+                <StackPanel Orientation="Horizontal" Spacing="5" VerticalAlignment="Center">
+                    <Viewbox Width="12" Height="12" VerticalAlignment="Center">
+                        <Path Data="{Binding Converter={StaticResource Icon}, ConverterParameter=location}" Fill="{ThemeResource OnSurfaceVariantBrush}" Stretch="Uniform" />
+                    </Viewbox>
+                    <TextBlock Text="{Binding Country}" Style="{StaticResource BodySmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" VerticalAlignment="Center" />
+                    <TextBlock Style="{StaticResource BodySmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" VerticalAlignment="Center" Margin="6,0,0,0">
+                        <Run Text="·" />
+                        <Run Text="{Binding DepartureLabel}" />
+                    </TextBlock>
+                </StackPanel>
+                <ContentControl Content="{Binding Status}"
+                                ContentTemplateSelector="{StaticResource TripStatusSelector}"
+                                IsTabStop="False"
+                                HorizontalAlignment="Left"
+                                Margin="0,4,0,0" />
+            </StackPanel>
+        </Grid>
+    </utu:CardContentControl>
+  </DataTemplate>
+
+  <!-- A completed trip — the same information in a quieter, history treatment. -->
+  <DataTemplate x:Key="PastTripTemplate">
+    <utu:CardContentControl Style="{StaticResource FilledCardContentControlStyle}"
+                            HorizontalAlignment="Stretch" IsClickable="True"
+                            uen:Navigation.Request="{utu:Responsive Layout={StaticResource DesktopModalBreakpoint}, Narrow=DestinationDetail, Wide=DestinationDetail, Widest='!DestinationDetailModal'}"
+                            uen:Navigation.Data="{Binding Place}"
+                            AutomationProperties.Name="{Binding Destination}">
+        <Grid Height="86">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="84" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Border Grid.Column="0">
+                <Border.Background>
+                    <ImageBrush ImageSource="{Binding ImageUrl}" Stretch="UniformToFill" />
+                </Border.Background>
+            </Border>
+            <StackPanel Grid.Column="1" Padding="14,10" Spacing="2" VerticalAlignment="Center">
+                <TextBlock Text="{Binding Destination}" Style="{StaticResource TitleSmall}" Foreground="{ThemeResource OnSurfaceBrush}" />
+                <TextBlock Text="{Binding Country}" Style="{StaticResource BodySmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" />
+                <TextBlock Style="{StaticResource LabelSmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" Margin="0,2,0,0">
+                    <Run Text="Ref:" />
+                    <Run Text="{Binding BookingRef}" />
+                </TextBlock>
+            </StackPanel>
+        </Grid>
+    </utu:CardContentControl>
+  </DataTemplate>
+
+  <!-- ══════════════════════ FavoritesPage ══════════════════════ -->
+
+  <!-- A saved destination: the recommendation card plus the filled heart badge, minus the price. -->
+  <DataTemplate x:Key="FavoriteDestinationTemplate">
+    <utu:CardContentControl Style="{StaticResource ElevatedCardContentControlStyle}"
+                            HorizontalAlignment="Stretch" IsClickable="True"
+                            uen:Navigation.Request="{utu:Responsive Layout={StaticResource DesktopModalBreakpoint}, Narrow=DestinationDetail, Wide=DestinationDetail, Widest='!DestinationDetailModal'}"
+                            uen:Navigation.Data="{Binding}"
+                            AutomationProperties.Name="{Binding Name}">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="138" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0">
+                <Border>
+                    <Border.Background>
+                        <ImageBrush ImageSource="{Binding ImageUrl}" Stretch="UniformToFill" />
+                    </Border.Background>
+                </Border>
+                <Border Background="{ThemeResource SurfaceBrush}" CornerRadius="15" Width="30" Height="30" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,8,8,0">
+                    <Viewbox Width="15" Height="15" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Path Data="{Binding Converter={StaticResource Icon}, ConverterParameter=heart_filled}" Fill="{ThemeResource PrimaryBrush}" Stretch="Uniform" />
+                    </Viewbox>
+                </Border>
+            </Grid>
+
+            <StackPanel Grid.Row="1" Padding="12,9,12,11" Spacing="3">
+                <TextBlock Text="{Binding Name}" Style="{StaticResource TitleSmall}" Foreground="{ThemeResource OnSurfaceBrush}" TextTrimming="CharacterEllipsis" MaxLines="1" />
+                <TextBlock Text="{Binding Country}" Style="{StaticResource BodySmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" />
+                <StackPanel Orientation="Horizontal" Spacing="4" VerticalAlignment="Center" Margin="0,2,0,0">
+                    <Viewbox Width="12" Height="12" VerticalAlignment="Center">
+                        <Path Data="{Binding Converter={StaticResource Icon}, ConverterParameter=star_filled}" Fill="{ThemeResource SecondaryBrush}" Stretch="Uniform" />
+                    </Viewbox>
+                    <TextBlock Text="{Binding Rating}" Style="{StaticResource LabelSmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" VerticalAlignment="Center" />
+                    <TextBlock Text="{Binding PriceFrom}" Style="{StaticResource LabelSmall}" Foreground="{ThemeResource SecondaryBrush}" Margin="8,0,0,0" VerticalAlignment="Center" />
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+    </utu:CardContentControl>
+  </DataTemplate>
+
+  <!-- ══════════════════════ ProfilePage ══════════════════════ -->
+
+  <!-- An account settings row — accented icon chip (primary container). -->
+  <DataTemplate x:Key="AccountSettingTemplate">
+    <Grid Padding="14,13" MinHeight="58">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <Border Grid.Column="0" Width="38" Height="38" CornerRadius="11" Background="{ThemeResource PrimaryContainerBrush}" Margin="0,0,12,0">
+            <Viewbox Width="18" Height="18" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Path Data="{Binding Label, Converter={StaticResource Icon}}" Fill="{ThemeResource OnPrimaryContainerBrush}" Stretch="Uniform" />
+            </Viewbox>
+        </Border>
+        <StackPanel Grid.Column="1" VerticalAlignment="Center" Spacing="1">
+            <TextBlock Text="{Binding Label}" Style="{StaticResource BodyLarge}" Foreground="{ThemeResource OnSurfaceBrush}" />
+            <TextBlock Text="{Binding Subtitle}" Style="{StaticResource BodySmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" />
+        </StackPanel>
+        <Viewbox Grid.Column="2" Width="16" Height="16" VerticalAlignment="Center">
+            <Path Data="{Binding Converter={StaticResource Icon}, ConverterParameter=chevron_right}" Fill="{ThemeResource OutlineBrush}" Stretch="Uniform" />
+        </Viewbox>
+    </Grid>
+  </DataTemplate>
+
+  <!-- An app settings row — the same row in the quieter surface-variant treatment. -->
+  <DataTemplate x:Key="AppSettingTemplate">
+    <Grid Padding="14,13" MinHeight="58">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <Border Grid.Column="0" Width="38" Height="38" CornerRadius="11" Background="{ThemeResource SurfaceVariantBrush}" Margin="0,0,12,0">
+            <Viewbox Width="18" Height="18" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Path Data="{Binding Label, Converter={StaticResource Icon}}" Fill="{ThemeResource OnSurfaceVariantBrush}" Stretch="Uniform" />
+            </Viewbox>
+        </Border>
+        <StackPanel Grid.Column="1" VerticalAlignment="Center" Spacing="1">
+            <TextBlock Text="{Binding Label}" Style="{StaticResource BodyLarge}" Foreground="{ThemeResource OnSurfaceBrush}" />
+            <TextBlock Text="{Binding Subtitle}" Style="{StaticResource BodySmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" />
+        </StackPanel>
+        <Viewbox Grid.Column="2" Width="16" Height="16" VerticalAlignment="Center">
+            <Path Data="{Binding Converter={StaticResource Icon}, ConverterParameter=chevron_right}" Fill="{ThemeResource OutlineBrush}" Stretch="Uniform" />
+        </Viewbox>
+    </Grid>
+  </DataTemplate>
+
+  <!-- ══════════════════════ SearchPage ══════════════════════ -->
+
+  <!-- A popular-search suggestion chip. -->
+  <DataTemplate x:Key="PopularSearchChipTemplate">
+    <Border Background="{ThemeResource PrimaryContainerBrush}" CornerRadius="{StaticResource PillCornerRadius}" Padding="14,7">
+        <TextBlock Text="{Binding}" Style="{StaticResource LabelMedium}" Foreground="{ThemeResource OnPrimaryContainerBrush}" />
+    </Border>
+  </DataTemplate>
+
+  <!-- A destination in the search results and the popular list: 138px photo, name, country, price. -->
+  <DataTemplate x:Key="SearchDestinationCardTemplate">
+    <utu:CardContentControl Style="{StaticResource ElevatedCardContentControlStyle}"
+                            HorizontalAlignment="Stretch" IsClickable="True"
+                            uen:Navigation.Request="{utu:Responsive Layout={StaticResource DesktopModalBreakpoint}, Narrow=DestinationDetail, Wide=DestinationDetail, Widest='!DestinationDetailModal'}"
+                            uen:Navigation.Data="{Binding}"
+                            AutomationProperties.Name="{Binding Name}">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="138" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Border Grid.Row="0">
+                <Border.Background>
+                    <ImageBrush ImageSource="{Binding ImageUrl}" Stretch="UniformToFill" />
+                </Border.Background>
+            </Border>
+            <StackPanel Grid.Row="1" Padding="12,9,12,11" Spacing="3">
+                <TextBlock Text="{Binding Name}" Style="{StaticResource TitleSmall}" Foreground="{ThemeResource OnSurfaceBrush}" TextTrimming="CharacterEllipsis" MaxLines="1" />
+                <TextBlock Text="{Binding Country}" Style="{StaticResource BodySmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" />
+                <StackPanel Orientation="Horizontal" Spacing="4" VerticalAlignment="Center" Margin="0,2,0,0">
+                    <Viewbox Width="12" Height="12" VerticalAlignment="Center">
+                        <Path Data="{Binding Converter={StaticResource Icon}, ConverterParameter=star_filled}" Fill="{ThemeResource SecondaryBrush}" Stretch="Uniform" />
+                    </Viewbox>
+                    <TextBlock Text="{Binding Rating}" Style="{StaticResource LabelSmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" VerticalAlignment="Center" />
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+    </utu:CardContentControl>
+  </DataTemplate>
+
+  <!-- A travel-style tile with a description line and a stronger scrim than the landing tile. -->
+  <DataTemplate x:Key="SearchCategoryTileTemplate">
+    <utu:CardContentControl Style="{StaticResource ElevatedCardContentControlStyle}"
+                            Height="132"
+                            HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                            IsClickable="True"
+                            uen:Navigation.Request="{utu:Responsive Layout={StaticResource DesktopModalBreakpoint}, Narrow=DestinationDetail, Wide=DestinationDetail, Widest='!DestinationDetailModal'}"
+                            uen:Navigation.Data="{Binding Featured}"
+                            AutomationProperties.Name="{Binding Label}">
+        <Grid>
+            <Border>
+                <Border.Background>
+                    <ImageBrush ImageSource="{Binding ImageUrl}" Stretch="UniformToFill" />
+                </Border.Background>
+            </Border>
+            <!-- Bottom-anchored scrim keeps the label + description legible over bright photos. -->
+            <Rectangle>
+                <Rectangle.Fill>
+                    <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                        <GradientStop Color="#26000000" Offset="0" />
+                        <GradientStop Color="#D9000000" Offset="1" />
+                    </LinearGradientBrush>
+                </Rectangle.Fill>
+            </Rectangle>
+            <StackPanel VerticalAlignment="Bottom" Padding="16,0,16,12" Spacing="2">
+                <TextBlock Text="{Binding Label}" Style="{StaticResource TitleMedium}" Foreground="White" />
+                <TextBlock Text="{Binding Description}" Style="{StaticResource BodySmall}" Foreground="#E6FFFFFF" TextWrapping="Wrap" />
+            </StackPanel>
+        </Grid>
+    </utu:CardContentControl>
+  </DataTemplate>
+
+  <!-- ══════════════════════ FeedView surfaces ══════════════════════ -->
+
+  <!-- Shared failure state. Every section read over IDiscoveryService / ITripsService uses this as
+       its ErrorTemplate, so an unreachable backend looks the same everywhere. The FeedViewState's
+       Refresh command re-runs the underlying request, so no Model command is needed. -->
+  <DataTemplate x:Key="DiscoveryErrorTemplate">
+    <Border Background="{ThemeResource SurfaceVariantBrush}" CornerRadius="{StaticResource ControlCornerRadius}" Padding="20,18">
+      <StackPanel Spacing="8" HorizontalAlignment="Center">
+        <TextBlock Text="Couldn't load this" Style="{StaticResource TitleSmall}"
+                   Foreground="{ThemeResource OnSurfaceBrush}" HorizontalAlignment="Center" />
+        <TextBlock Text="Check your connection and try again." Style="{StaticResource BodySmall}"
+                   Foreground="{ThemeResource OnSurfaceVariantBrush}"
+                   HorizontalAlignment="Center" TextAlignment="Center" TextWrapping="Wrap" />
+        <Button Content="Try again" AutomationProperties.Name="Try again"
+                HorizontalAlignment="Center" Margin="0,4,0,0" Command="{Binding Refresh}" />
+      </StackPanel>
+    </Border>
+  </DataTemplate>
+
+  <!-- Empty states. These are the UI the pages previously had no answer for — an empty collection
+       used to render as a blank gap. -->
+  <DataTemplate x:Key="NoSearchResultsTemplate">
+    <Border Background="{ThemeResource SurfaceVariantBrush}" CornerRadius="{StaticResource ControlCornerRadius}" Padding="20,24">
+      <StackPanel Spacing="6" HorizontalAlignment="Center">
+        <TextBlock Text="No destinations found" Style="{StaticResource TitleSmall}"
+                   Foreground="{ThemeResource OnSurfaceBrush}" HorizontalAlignment="Center" />
+        <TextBlock Text="Try a different place, country or travel style." Style="{StaticResource BodySmall}"
+                   Foreground="{ThemeResource OnSurfaceVariantBrush}"
+                   HorizontalAlignment="Center" TextAlignment="Center" TextWrapping="Wrap" />
+      </StackPanel>
+    </Border>
+  </DataTemplate>
+
+  <DataTemplate x:Key="NoFavoritesTemplate">
+    <Border Background="{ThemeResource SurfaceVariantBrush}" CornerRadius="{StaticResource ControlCornerRadius}" Padding="20,24">
+      <StackPanel Spacing="6" HorizontalAlignment="Center">
+        <TextBlock Text="Nothing saved yet" Style="{StaticResource TitleSmall}"
+                   Foreground="{ThemeResource OnSurfaceBrush}" HorizontalAlignment="Center" />
+        <TextBlock Text="Tap the heart on a destination to keep it here." Style="{StaticResource BodySmall}"
+                   Foreground="{ThemeResource OnSurfaceVariantBrush}"
+                   HorizontalAlignment="Center" TextAlignment="Center" TextWrapping="Wrap" />
+      </StackPanel>
+    </Border>
+  </DataTemplate>
+
+  <DataTemplate x:Key="NoUpcomingTripsTemplate">
+    <Border Background="{ThemeResource SurfaceVariantBrush}" CornerRadius="{StaticResource ControlCornerRadius}" Padding="20,24">
+      <StackPanel Spacing="6">
+        <TextBlock Text="No trips booked" Style="{StaticResource TitleSmall}" Foreground="{ThemeResource OnSurfaceBrush}" />
+        <TextBlock Text="Find a destination you love and book it — it will show up here." Style="{StaticResource BodySmall}"
+                   Foreground="{ThemeResource OnSurfaceVariantBrush}" TextWrapping="Wrap" />
+      </StackPanel>
+    </Border>
+  </DataTemplate>
+
+  <DataTemplate x:Key="NoPastTripsTemplate">
+    <Border Background="{ThemeResource SurfaceVariantBrush}" CornerRadius="{StaticResource ControlCornerRadius}" Padding="20,24">
+      <StackPanel Spacing="6">
+        <TextBlock Text="No trips yet" Style="{StaticResource TitleSmall}" Foreground="{ThemeResource OnSurfaceBrush}" />
+        <TextBlock Text="Your travel history will appear here after your first trip." Style="{StaticResource BodySmall}"
+                   Foreground="{ThemeResource OnSurfaceVariantBrush}" TextWrapping="Wrap" />
+      </StackPanel>
+    </Border>
+  </DataTemplate>
+
+  <!-- The value templates: each places the shared card template in that section's layout, over the
+       FeedViewState's materialized Data. -->
+  <DataTemplate x:Key="RecommendedGridTemplate">
+    <ItemsRepeater ItemsSource="{Binding Data}" MinWidth="164"
+                   ItemTemplate="{StaticResource RecommendedDestinationTemplate}">
+      <ItemsRepeater.Layout>
+        <UniformGridLayout MinItemWidth="{utu:Responsive Narrow=164, Wide=240}" MinItemHeight="196" MinColumnSpacing="12" MinRowSpacing="12" ItemsStretch="Fill" Orientation="Horizontal" />
+      </ItemsRepeater.Layout>
+    </ItemsRepeater>
+  </DataTemplate>
+
+  <DataTemplate x:Key="FavoritesGridTemplate">
+    <ItemsRepeater ItemsSource="{Binding Data}" MinWidth="164"
+                   ItemTemplate="{StaticResource FavoriteDestinationTemplate}">
+      <ItemsRepeater.Layout>
+        <UniformGridLayout MinItemWidth="{utu:Responsive Narrow=164, Wide=240}" MinItemHeight="228" MinColumnSpacing="12" MinRowSpacing="12" ItemsStretch="Fill" Orientation="Horizontal" />
+      </ItemsRepeater.Layout>
+    </ItemsRepeater>
+  </DataTemplate>
+
+  <DataTemplate x:Key="UpcomingTripListTemplate">
+    <ItemsRepeater ItemsSource="{Binding Data}" ItemTemplate="{StaticResource UpcomingTripTemplate}">
+      <ItemsRepeater.Layout>
+        <StackLayout Orientation="Vertical" Spacing="12" />
+      </ItemsRepeater.Layout>
+    </ItemsRepeater>
+  </DataTemplate>
+
+  <DataTemplate x:Key="PastTripListTemplate">
+    <ItemsRepeater ItemsSource="{Binding Data}" ItemTemplate="{StaticResource PastTripTemplate}">
+      <ItemsRepeater.Layout>
+        <StackLayout Orientation="Vertical" Spacing="12" />
+      </ItemsRepeater.Layout>
+    </ItemsRepeater>
+  </DataTemplate>
+
+  <!-- Search results, in the two arrangements the page uses. Both render the SAME Results feed, so
+       the narrow and widest layouts stay in step by construction. -->
+  <DataTemplate x:Key="SearchResultsNarrowTemplate">
+    <ItemsRepeater ItemsSource="{Binding Data}" ItemTemplate="{StaticResource SearchDestinationCardTemplate}">
+      <ItemsRepeater.Layout>
+        <UniformGridLayout MinItemWidth="{utu:Responsive Narrow=164, Wide=240}" MinItemHeight="228" MinColumnSpacing="12" MinRowSpacing="12" ItemsStretch="Fill" Orientation="Horizontal" />
+      </ItemsRepeater.Layout>
+    </ItemsRepeater>
+  </DataTemplate>
+
+  <DataTemplate x:Key="SearchResultsWideTemplate">
+    <ItemsRepeater ItemsSource="{Binding Data}" ItemTemplate="{StaticResource SearchDestinationCardTemplate}">
+      <ItemsRepeater.Layout>
+        <UniformGridLayout MinItemWidth="360" MinItemHeight="228" MinColumnSpacing="16" MinRowSpacing="16" ItemsStretch="Fill" Orientation="Horizontal" />
+      </ItemsRepeater.Layout>
+    </ItemsRepeater>
+  </DataTemplate>
+
+
+</ResourceDictionary>

@@ -1,36 +1,34 @@
+using Voyago.Presentation.Services;
+
 namespace Voyago.Presentation;
 
-[Uno.Extensions.Reactive.ReactiveBindable(false)]
-public partial record ProfileModel
+// The traveller's identity, stats and settings, read from IDiscoveryService.
+public partial record ProfileModel(IDiscoveryService Discovery)
 {
-    public string FullName { get; } = "Alex Jordan";
-    public string Email { get; } = "alex.jordan@voyago.com";
-    public string UserInitials { get; } = "AJ";
-    public string MemberSince { get; } = "Member since 2022";
-    public string MemberTier { get; } = "Gold Explorer";
+    private IFeed<TravellerProfile>? _profile;
+    private IFeed<TravellerProfile> Profile => _profile ??= Feed.Async(Discovery.GetProfileAsync);
 
-    // Travel stats
-    public int TripsCompleted { get; } = 14;
-    public int CountriesVisited { get; } = 11;
-    public int SavedDestinations { get; } = 7;
-    public int ReviewsWritten { get; } = 23;
+    public IFeed<string> FullName => Profile.Select(p => p.FullName);
+    public IFeed<string> Email => Profile.Select(p => p.Email);
+    public IFeed<string> UserInitials => Profile.Select(p => p.UserInitials);
+    public IFeed<string> MemberSince => Profile.Select(p => p.MemberSince);
+    public IFeed<string> MemberTier => Profile.Select(p => p.MemberTier);
 
-    // Settings sections (icon derived from the label in the view — no glyph stored here)
-    public IReadOnlyList<ProfileSettingItem> AccountSettings { get; } = new[]
-    {
-        new ProfileSettingItem("ps-01", "Personal Information", "Update your details"),
-        new ProfileSettingItem("ps-02", "Payment Methods", "Manage cards and billing"),
-        new ProfileSettingItem("ps-03", "Notifications", "Alerts and preferences"),
-        new ProfileSettingItem("ps-04", "Privacy & Security", "Account security settings"),
-    };
+    public IFeed<int> TripsCompleted => Profile.Select(p => p.TripsCompleted);
+    public IFeed<int> CountriesVisited => Profile.Select(p => p.CountriesVisited);
+    public IFeed<int> SavedDestinations => Profile.Select(p => p.SavedDestinations);
+    public IFeed<int> ReviewsWritten => Profile.Select(p => p.ReviewsWritten);
 
-    public IReadOnlyList<ProfileSettingItem> AppSettings { get; } = new[]
-    {
-        new ProfileSettingItem("ps-05", "Language", "English (UK)"),
-        new ProfileSettingItem("ps-06", "Currency", "EUR — Euro"),
-        new ProfileSettingItem("ps-07", "Help & Support", "FAQs and contact us"),
-        new ProfileSettingItem("ps-08", "About Voyago", "Version 2.4.1"),
-    };
+    // Both settings lists bind directly rather than through a FeedView: they are fixed-shape menu
+    // sections inside a card, and neither "no settings" nor "settings failed" is a state with UI
+    // worth designing.
+    private IListFeed<ProfileSettingItem>? _account;
+    public IListFeed<ProfileSettingItem> AccountSettings =>
+        _account ??= ListFeed.Async(Discovery.GetAccountSettingsAsync);
+
+    private IListFeed<ProfileSettingItem>? _app;
+    public IListFeed<ProfileSettingItem> AppSettings =>
+        _app ??= ListFeed.Async(Discovery.GetAppSettingsAsync);
 }
 
 // Page-local record — only used on ProfilePage

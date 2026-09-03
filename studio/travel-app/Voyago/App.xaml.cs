@@ -65,17 +65,12 @@ public partial class App : Application
                 )
                 // Enable localization (see appsettings.json for supported languages)
                 .UseLocalization()
-                .UseHttp((context, services) => {
-#if DEBUG
-                // DelegatingHandler will be automatically injected
-                services.AddTransient<DelegatingHandler, DebugHttpHandler>();
-#endif
-
-})
                 .ConfigureServices((context, services) =>
                 {
                     // One shared trip book for the whole app: DestinationDetailModel books into it
                     // and TripsModel lists it — shared mutable state as a singleton IListState.
+                    // The discovery "backend" (async, cancellable) and the app's own trip book.
+                    services.AddSingleton<Presentation.Services.IDiscoveryService, Presentation.Services.DiscoveryService>();
                     services.AddSingleton<Presentation.Services.ITripsService, Presentation.Services.TripsService>();
                 })
                 .UseNavigation(ReactiveViewModelMappings.ViewModelMappings, RegisterRoutes)

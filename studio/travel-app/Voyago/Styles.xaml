@@ -4,7 +4,7 @@
                     xmlns:utu="using:Uno.Toolkit.UI">
 
   <!-- =========================================================================
-       Voyago design system. Merged LAST in App.xaml so its well-known token
+       Voyago design system. Merged after the theme dictionaries in App.xaml so its well-known token
        overrides (ControlCornerRadius*, OverlayCornerRadius) win over the theme
        defaults (lesson 56). App.xaml defines no keys of its own.
        ========================================================================= -->
@@ -369,27 +369,5 @@
     <Setter Property="VerticalAlignment" Value="Center" />
   </Style>
 
-  <!-- ===== Trip-status pills: value → semantic role, colour resolved in XAML via {ThemeResource}
-             (ALC-safe under Studio Live / Hot Design; lessons 48/58). Rendered through a
-             ContentControl so {Binding} inside the template is the status string. ===== -->
-  <DataTemplate x:Key="TripStatusConfirmedTemplate">
-    <Border Background="{ThemeResource PrimaryContainerBrush}" CornerRadius="{StaticResource PillCornerRadius}" Padding="10,4">
-      <TextBlock Text="{Binding}" Style="{StaticResource LabelSmall}" Foreground="{ThemeResource OnPrimaryContainerBrush}" />
-    </Border>
-  </DataTemplate>
-  <DataTemplate x:Key="TripStatusPendingTemplate">
-    <Border Background="{ThemeResource SecondaryContainerBrush}" CornerRadius="{StaticResource PillCornerRadius}" Padding="10,4">
-      <TextBlock Text="{Binding}" Style="{StaticResource LabelSmall}" Foreground="{ThemeResource OnSecondaryContainerBrush}" />
-    </Border>
-  </DataTemplate>
-  <DataTemplate x:Key="TripStatusCompletedTemplate">
-    <Border Background="{ThemeResource SurfaceVariantBrush}" CornerRadius="{StaticResource PillCornerRadius}" Padding="10,4">
-      <TextBlock Text="{Binding}" Style="{StaticResource LabelSmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" />
-    </Border>
-  </DataTemplate>
-  <local:TripStatusTemplateSelector x:Key="TripStatusSelector"
-                                    Confirmed="{StaticResource TripStatusConfirmedTemplate}"
-                                    Pending="{StaticResource TripStatusPendingTemplate}"
-                                    Completed="{StaticResource TripStatusCompletedTemplate}" />
 
 </ResourceDictionary>

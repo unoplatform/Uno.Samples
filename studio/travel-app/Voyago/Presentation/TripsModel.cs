@@ -9,5 +9,5 @@ public partial record TripsModel(ITripsService Trips)
 {
     public IListState<TripItem> UpcomingTrips => Trips.Upcoming;
 
-    public IReadOnlyList<TripItem> PastTrips => Trips.Past;
+    public IListFeed<TripItem> PastTrips => Trips.Past;
 }

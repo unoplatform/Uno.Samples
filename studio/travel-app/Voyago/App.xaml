@@ -4,7 +4,7 @@
        xmlns:utus="using:Uno.Toolkit.UI.Simple">
 
   <!-- Thin manifest: only merges, defines no keys of its own (lesson 56).
-       Styles.xaml is merged LAST so its well-known token overrides
+       Styles.xaml is merged after the theme dictionaries so its well-known token overrides
        (ControlCornerRadius*, OverlayCornerRadius) win over the theme defaults. -->
   <Application.Resources>
     <ResourceDictionary>
@@ -24,6 +24,10 @@
         </utus:SimpleToolkitTheme>
         <ResourceDictionary Source="ms-appx:///ControlThemeOverrides.xaml" />
         <ResourceDictionary Source="ms-appx:///Styles.xaml" />
+        <!-- Every shared item template, keyed. Merged LAST: the templates consume the styles,
+             tokens and converters above by key, and being app-merged is what makes each one a
+             standalone design-time surface. -->
+        <ResourceDictionary Source="ms-appx:///DataTemplates.xaml" />
       </ResourceDictionary.MergedDictionaries>
     </ResourceDictionary>
   </Application.Resources>

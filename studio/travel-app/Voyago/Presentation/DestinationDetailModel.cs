@@ -21,9 +21,14 @@ public partial record DestinationDetailModel(Destination Destination, ITripsServ
     // Whether this destination is already an upcoming trip — derived from the shared trip book, so
     // it flips to "Booked" the moment Book() adds it (and shows "Booked" up front for a destination
     // that was already on the Trips tab). The page swaps the CTA for a confirmation on this.
+    // SelectData, not Select: the upcoming trip book now LOADS from the service, so it can be empty
+    // (a traveller with nothing booked) — and an empty list state emits None, which Select skips.
+    // The CTA would then bind to null rather than false: right by accident today, wrong the moment
+    // anything downstream distinguishes the two.
     public IFeed<bool> IsBooked => Trips.Upcoming
         .AsFeed()
-        .Select(trips => trips.Any(t => t.Destination == Destination.Name));
+        .SelectData<IImmutableList<TripItem>, bool>(trips =>
+            trips.SomeOrDefault()?.Any(t => t.Destination == Destination.Name) ?? false);
 
     // Add this destination to the shared upcoming-trips list; the Trips tab and the CTA update
     // reactively. Booking the same destination twice is a no-op (guarded in the service).
