@@ -1,50 +1,11 @@
 namespace BrewHouse.Presentation.MockData;
 
-// All entities are immutable records (MVUX requirement). Records used inside an IListState<T>
-// declare a [property: Key] so add/update/remove operations and selection match the right item
-// by identity rather than by reference (key equality is auto-generated for partial records).
-
-public partial record HeroBanner(
-    string ImageUrl,
-    string Title,
-    string Subtitle);
-
-public partial record ProductItem(
-    [property: global::Uno.Extensions.Equality.Key] string Id,
-    string Name,
-    string Description,
-    string Category,
-    string CategoryId,
-    string Price,
-    double PriceValue,
-    string ImageUrl,
-    bool IsFeatured,
-    bool IsSpecial);
-
-public partial record CategoryItem(
-    string Id,
-    string Name,
-    // Drives the filter chip's selected look in XAML (theme brushes), not a hardcoded colour.
-    bool IsSelected = false);
-
-public partial record CartItem(
-    [property: global::Uno.Extensions.Equality.Key] string ProductId,
-    string Name,
-    string ImageUrl,
-    double Price,
-    int Quantity)
-{
-    public double LineTotal => Price * Quantity;
-    public string LineTotalFormatted => LineTotal.ToString("F2");
-    public string PriceFormatted => Price.ToString("F2");
-}
-
-public partial record OrderLineItem(
-    string Name,
-    int Quantity,
-    double Price,
-    string ImageUrl = "");
-
+/// <summary>
+/// A placed order, with the lines it was placed for. Carries <c>[property: Key]</c> on
+/// <see cref="Id"/> because it lives in the shared CartService's <c>IListState&lt;OrderRecord&gt;</c>,
+/// where an order is appended at checkout and its status updated afterwards — see
+/// <see cref="ProductItem"/> for the convention.
+/// </summary>
 public partial record OrderRecord(
     [property: global::Uno.Extensions.Equality.Key] string Id,
     string PlacedAt,
