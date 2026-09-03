@@ -1,0 +1,56 @@
+<hd:PreviewGroup x:Class="UnoCRM.Previews.PipelineCardPreviews"
+                 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                 xmlns:controls="using:UnoCRM.Controls"
+                 xmlns:hd="using:Uno.UI.HotDesign"
+                 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                 mc:Ignorable="d">
+
+    <!-- The PipelineCard deal tile in its four states. Data is set on the control's dependency
+         properties; any size (the card's board width) goes on the control itself, never the
+         <hd:Preview>. -->
+    <hd:Preview PreviewName="Healthy" Visibility="Collapsed">
+        <controls:PipelineCard Width="260"
+                               Company="Atlas Financial"
+                               Amount="$95,600"
+                               Owner="Kevin Zhang"
+                               Meta="11d"
+                               IsWon="False"
+                               Health="Healthy"
+                               VerticalAlignment="Center" />
+    </hd:Preview>
+
+    <hd:Preview PreviewName="Watch" Visibility="Collapsed">
+        <controls:PipelineCard Width="260"
+                               Company="TechVision Inc"
+                               Amount="$28,500"
+                               Owner="Mike Johnson"
+                               Meta="5d"
+                               IsWon="False"
+                               Health="Watch"
+                               VerticalAlignment="Center" />
+    </hd:Preview>
+
+    <hd:Preview PreviewName="At Risk" Visibility="Collapsed">
+        <controls:PipelineCard Width="260"
+                               Company="Vertex Labs"
+                               Amount="$210,000"
+                               Owner="Sarah Chen"
+                               Meta="47d"
+                               IsWon="False"
+                               Health="AtRisk"
+                               VerticalAlignment="Center" />
+    </hd:Preview>
+
+    <hd:Preview PreviewName="Won" Visibility="Collapsed">
+        <controls:PipelineCard Width="260"
+                               Company="Summit Retail"
+                               Amount="$156,000"
+                               Owner="Nina Brooks"
+                               Meta="Won"
+                               IsWon="True"
+                               Health="Healthy"
+                               VerticalAlignment="Center" />
+    </hd:Preview>
+</hd:PreviewGroup>

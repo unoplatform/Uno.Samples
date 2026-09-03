@@ -33,6 +33,12 @@ public partial class App : Application
                 // Switch to Development environment when running in DEBUG
                 .UseEnvironment(Environments.Development)
 #endif
+                .ConfigureServices((context, services) =>
+                {
+                    // The CRM "backend": async and cancellable, in-memory behind the interface.
+                    // Every page Model takes it by constructor injection.
+                    services.AddSingleton<ICrmService, CrmService>();
+                })
                 .UseNavigation(ReactiveViewModelMappings.ViewModelMappings, RegisterRoutes)
             );
         MainWindow = builder.Window;
