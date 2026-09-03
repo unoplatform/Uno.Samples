@@ -8,6 +8,11 @@ namespace UnoCRM.Presentation.MockData;
 /// Each variant selects on the states the page actually draws — health AND dwell band — so laying
 /// the previews side by side exercises the whole range: four of the five stages, all three health
 /// values, and each dwell band including "no longer tracked".
+///
+/// This is the one mock in the folder that sits outside the recipe on
+/// <see cref="ContactsPageMockData"/>: with no feed to pump there is nothing for a SourceContext to
+/// do, so it stays a plain record and the previews bind it directly rather than through a generated
+/// ViewModel.
 /// </summary>
 public partial record DealDetailPageMockData
 {
