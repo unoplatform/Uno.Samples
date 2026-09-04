@@ -1,0 +1,24 @@
+<hd:PreviewGroup x:Class="ClaudeCodeTracker.Previews.UsagePreviews"
+                 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                 xmlns:local="using:ClaudeCodeTracker.Presentation"
+                 xmlns:mock="using:ClaudeCodeTracker.Presentation.MockData"
+                 xmlns:hd="using:Uno.UI.HotDesign"
+                 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                 mc:Ignorable="d">
+
+    <!-- UsagePage for an account with real usage and for a brand-new one, where all three tables
+         are empty and the totals above them read zero.
+         Each child supplies the page's design-time DataContext in XAML — the only place the
+         generated-ViewModel mock may be built, since the page Models now take ITrackerService
+         by constructor injection. No size on the <hd:Preview>: a page fills the canvas. -->
+    <hd:Preview PreviewName="Pro Account" Visibility="Collapsed">
+        <local:UsagePage DataContext="{x:Bind mock:UsagePageMockData.Data}" />
+    </hd:Preview>
+
+    <hd:Preview PreviewName="Fresh Account" Visibility="Collapsed">
+        <local:UsagePage DataContext="{x:Bind mock:UsagePageMockData.FreshAccount}" />
+    </hd:Preview>
+
+</hd:PreviewGroup>

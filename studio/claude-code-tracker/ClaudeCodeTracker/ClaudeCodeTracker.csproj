@@ -60,6 +60,18 @@
   </ItemGroup>
 
   <!--
+    Hot Design previews live in Previews/. Hot Design locates them at runtime via the
+    ApplicationPreviewsFolder assembly metadata the Uno.UI.HotDesign package computes from this
+    property, so it MUST point at our folder or none are listed — the default is HotDesignPreviews/,
+    and the legacy HotDesignStoriesFolder name is no longer bridged, so setting that one instead
+    resolves nothing. The SDK also drops this folder from the Release compile, which it has to: the
+    HotDesign package contributes no assets there, so the hd: types do not exist.
+  -->
+  <PropertyGroup>
+    <HotDesignPreviewsFolder>Previews</HotDesignPreviewsFolder>
+  </PropertyGroup>
+
+  <!--
     Desktop (Skia) window/taskbar icon. MainWindow.SetWindowIcon() loads "images/icon.png" from
     the app output at runtime; this is the composed app icon (logo + ring on #151515). Without it
     the slot is empty (and previously the LiveCharts package's own logo landed here — see above).
