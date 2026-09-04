@@ -225,21 +225,11 @@
                                            Style="{StaticResource TitleSmall}"
                                            Foreground="{ThemeResource OnSurfaceBrush}"
                                            Text="Topics" />
-                                <ItemsRepeater ItemsSource="{Binding TopicTags}">
+                                <ItemsRepeater ItemsSource="{Binding TopicTags}"
+                                               ItemTemplate="{StaticResource TopicTagTemplate}">
                                     <ItemsRepeater.Layout>
                                         <StackLayout Orientation="Horizontal" Spacing="8" />
                                     </ItemsRepeater.Layout>
-                                    <ItemsRepeater.ItemTemplate>
-                                        <DataTemplate>
-                                            <Border Background="{ThemeResource SurfaceVariantBrush}"
-                                                    CornerRadius="6"
-                                                    Padding="10,4">
-                                                <TextBlock Style="{StaticResource LabelSmall}"
-                                                           Foreground="{ThemeResource OnSurfaceVariantBrush}"
-                                                           Text="{Binding}" />
-                                            </Border>
-                                        </DataTemplate>
-                                    </ItemsRepeater.ItemTemplate>
                                 </ItemsRepeater>
                             </StackPanel>
                         </DataTemplate>

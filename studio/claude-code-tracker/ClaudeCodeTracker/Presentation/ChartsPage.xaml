@@ -120,19 +120,11 @@
                                                   Height="200"
                                                   Margin="0,8,0,0"
                                                   AutomationProperties.Name="Token type breakdown chart" />
-                                    <ItemsRepeater ItemsSource="{Binding TokenTypeLegend}" Margin="0,12,0,0">
+                                    <ItemsRepeater ItemsSource="{Binding TokenTypeLegend}" Margin="0,12,0,0"
+                                                   ItemTemplate="{StaticResource ChartLegendRowTemplate}">
                                         <ItemsRepeater.Layout>
                                             <UniformGridLayout MinItemWidth="130" MinColumnSpacing="8" MinRowSpacing="6" />
                                         </ItemsRepeater.Layout>
-                                        <ItemsRepeater.ItemTemplate>
-                                            <DataTemplate>
-                                                <StackPanel Orientation="Horizontal" Spacing="6">
-                                                    <Ellipse Width="10" Height="10" VerticalAlignment="Center" Fill="{Binding Swatch, Converter={StaticResource ColorToBrush}}" />
-                                                    <TextBlock Style="{StaticResource LabelSmall}" VerticalAlignment="Center" Foreground="{ThemeResource OnSurfaceVariantBrush}" Text="{Binding Label}" />
-                                                    <TextBlock Style="{StaticResource LabelSmall}" VerticalAlignment="Center" Foreground="{ThemeResource OnSurfaceBrush}" Text="{Binding ValueDisplay}" />
-                                                </StackPanel>
-                                            </DataTemplate>
-                                        </ItemsRepeater.ItemTemplate>
                                     </ItemsRepeater>
                                 </StackPanel>
                             </DataTemplate>
@@ -163,19 +155,11 @@
                                                   Height="200"
                                                   Margin="0,8,0,0"
                                                   AutomationProperties.Name="Model token share chart" />
-                                    <ItemsRepeater ItemsSource="{Binding ModelShareLegend}" Margin="0,12,0,0">
+                                    <ItemsRepeater ItemsSource="{Binding ModelShareLegend}" Margin="0,12,0,0"
+                                                   ItemTemplate="{StaticResource ChartLegendRowTemplate}">
                                         <ItemsRepeater.Layout>
                                             <UniformGridLayout MinItemWidth="130" MinColumnSpacing="8" MinRowSpacing="6" />
                                         </ItemsRepeater.Layout>
-                                        <ItemsRepeater.ItemTemplate>
-                                            <DataTemplate>
-                                                <StackPanel Orientation="Horizontal" Spacing="6">
-                                                    <Ellipse Width="10" Height="10" VerticalAlignment="Center" Fill="{Binding Swatch, Converter={StaticResource ColorToBrush}}" />
-                                                    <TextBlock Style="{StaticResource LabelSmall}" VerticalAlignment="Center" Foreground="{ThemeResource OnSurfaceVariantBrush}" Text="{Binding Label}" />
-                                                    <TextBlock Style="{StaticResource LabelSmall}" VerticalAlignment="Center" Foreground="{ThemeResource OnSurfaceBrush}" Text="{Binding ValueDisplay}" />
-                                                </StackPanel>
-                                            </DataTemplate>
-                                        </ItemsRepeater.ItemTemplate>
                                     </ItemsRepeater>
                                 </StackPanel>
                             </DataTemplate>

@@ -73,66 +73,11 @@
                         <ItemsRepeater ItemsSource="{Binding Data}"
                                        MaxWidth="1100"
                            HorizontalAlignment="Stretch"
-                           Margin="20,12,20,24">
+                           Margin="20,12,20,24"
+                                       ItemTemplate="{StaticResource SessionRowTemplate}">
                 <ItemsRepeater.Layout>
                     <StackLayout Spacing="8" Orientation="Vertical" />
                 </ItemsRepeater.Layout>
-                <ItemsRepeater.ItemTemplate>
-                    <DataTemplate>
-                        <utu:CardContentControl Content="{Binding}"
-                                                Style="{StaticResource ElevatedCardContentControlStyle}"
-                                                HorizontalAlignment="Stretch"
-                                                IsClickable="True"
-                                                AutomationProperties.Name="Session entry"
-                                                uen:Navigation.Request="SessionDetail"
-                                                uen:Navigation.Data="{Binding}">
-                            <utu:CardContentControl.ContentTemplate>
-                                <DataTemplate>
-                                    <Grid Padding="14,12">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="*" />
-                                            <ColumnDefinition Width="Auto" />
-                                        </Grid.ColumnDefinitions>
-                                        <StackPanel Grid.Column="0" Spacing="6">
-                                            <TextBlock Style="{StaticResource LabelMedium}"
-                                                       Foreground="{ThemeResource OnSurfaceBrush}"
-                                                       TextTrimming="CharacterEllipsis"
-                                                       Text="{Binding ProjectName}" />
-                                            <StackPanel Orientation="Horizontal" Spacing="6">
-                                                <Border Background="{ThemeResource SecondaryContainerBrush}"
-                                                        CornerRadius="4"
-                                                        Padding="6,2">
-                                                    <TextBlock Style="{StaticResource LabelSmall}"
-                                                               Foreground="{ThemeResource OnSecondaryContainerBrush}"
-                                                               Text="{Binding ModelDisplayName}" />
-                                                </Border>
-                                                <TextBlock Style="{StaticResource LabelSmall}"
-                                                           VerticalAlignment="Center"
-                                                           Foreground="{ThemeResource OnSurfaceVariantBrush}"
-                                                           Text="&#xB7;" />
-                                                <TextBlock Style="{StaticResource LabelSmall}"
-                                                           VerticalAlignment="Center"
-                                                           Foreground="{ThemeResource OnSurfaceVariantBrush}">
-                                                    <Run Text="{Binding DurationMinutes}" /><Run Text=" min" />
-                                                </TextBlock>
-                                            </StackPanel>
-                                        </StackPanel>
-                                        <StackPanel Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center" Spacing="2">
-                                            <TextBlock Style="{StaticResource LabelMedium}"
-                                                       HorizontalAlignment="Right"
-                                                       Foreground="{ThemeResource PrimaryBrush}"
-                                                       Text="{Binding CostDisplay}" />
-                                            <TextBlock Style="{StaticResource LabelSmall}"
-                                                       HorizontalAlignment="Right"
-                                                       Foreground="{ThemeResource OnSurfaceVariantBrush}"
-                                                       Text="{Binding StartedAtDisplay}" />
-                                        </StackPanel>
-                                    </Grid>
-                                </DataTemplate>
-                            </utu:CardContentControl.ContentTemplate>
-                        </utu:CardContentControl>
-                    </DataTemplate>
-                </ItemsRepeater.ItemTemplate>
                         </ItemsRepeater>
                     </ScrollViewer>
                 </DataTemplate>
