@@ -63,6 +63,12 @@ public partial class App : Application
                         .EmbeddedSource<App>()
                         .Section<AppConfig>()
                 )
+                .ConfigureServices((context, services) =>
+                {
+                    // The app's only data dependency. Registered against the interface so a real
+                    // endpoint can replace the in-memory implementation without touching a Model.
+                    services.AddSingleton<ITrackerService, TrackerService>();
+                })
                 .UseNavigation(ReactiveViewModelMappings.ViewModelMappings, RegisterRoutes)
             );
         MainWindow = builder.Window;

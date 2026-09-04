@@ -1,7 +1,13 @@
 namespace ClaudeCodeTracker.Presentation;
 
-[Uno.Extensions.Reactive.ReactiveBindable(false)]
-public partial record DashboardModel
+// The at-a-glance page. Its two collections come from ITrackerService as list feeds, so the page
+// renders them through FeedViews with real loading, empty and failure states.
+//
+// The headline figures stay plain computed properties rather than feeds. They are compile-time
+// constants of the seed reduced to display strings, and a scalar that can never be absent or fail
+// binds straight to TextBlock.Text — wrapping a stat label in a four-template control would be pure
+// ceremony (and a formatted total is exactly the case the guidance calls out).
+public partial record DashboardModel(ITrackerService Tracker)
 {
     public string PeriodLabel => SampleData.PeriodLabel;
 
@@ -22,8 +28,13 @@ public partial record DashboardModel
     public string ResetWindowLabel => SampleData.ResetWindowLabel;
     public string ResetCountdown => SampleData.ResetCountdown;
 
-    public IReadOnlyList<SessionEntry> RecentSessions => SampleData.Sessions.Take(5).ToList();
-    public IReadOnlyList<ModelUsageBreakdown> ModelBreakdown => SampleData.ModelBreakdown;
+    /// <summary>The newest five sessions, rendered through a FeedView.</summary>
+    public IListFeed<SessionEntry> RecentSessions =>
+        ListFeed.Async(ct => Tracker.GetRecentSessionsAsync(RecentSessionCount, ct));
+
+    /// <summary>Per-model spend and token share, rendered through a FeedView.</summary>
+    public IListFeed<ModelUsageBreakdown> ModelBreakdown =>
+        ListFeed.Async(Tracker.GetModelBreakdownAsync);
 
     // Budget-vs-last-month trend flag. "Up" means spend rose vs last month (the unwanted direction
     // for a cost tracker): XAML shows the error-tinted up-arrow variant and hides the down one (and
@@ -33,4 +44,6 @@ public partial record DashboardModel
     public bool BudgetVsLastMonthUp => SampleData.BudgetVsLastMonthUp;
     public string TrendDeltaDisplay =>
         $"{(BudgetVsLastMonthUp ? "+" : "−")}{Fmt.Percent(SampleData.BudgetVsLastMonth)}% vs last month";
+
+    private const int RecentSessionCount = 5;
 }

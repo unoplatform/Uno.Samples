@@ -6,5 +6,6 @@ global using Microsoft.Extensions.Options;
 global using ClaudeCodeTracker.Models;
 global using ClaudeCodeTracker.Presentation;
 global using ClaudeCodeTracker.Presentation.Data;
+global using ClaudeCodeTracker.Presentation.Services;
 global using ApplicationExecutionState = Windows.ApplicationModel.Activation.ApplicationExecutionState;
 [assembly: Uno.Extensions.Reactive.Config.BindableGenerationTool(3)]

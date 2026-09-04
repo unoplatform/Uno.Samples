@@ -1,0 +1,32 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!--
+        Templates shared by the FeedViews across the app.
+
+        Each list on Dashboard, Sessions and Usage is an IListFeed<T> fed by ITrackerService, so it
+        can be in four states. The Value and None templates live next to the list they belong to,
+        because their layout and their wording are specific to it. The failure state is not: a request
+        that failed reads the same wherever it happened, so it is defined once here and every FeedView
+        points its ErrorTemplate at it.
+
+        The retry button binds the FeedView's own Refresh command, which re-issues the request that
+        failed — no code-behind, and nothing for a page to remember to wire up.
+    -->
+    <DataTemplate x:Key="TrackerErrorTemplate">
+        <StackPanel HorizontalAlignment="Center"
+                    VerticalAlignment="Top"
+                    Margin="20,48,20,24"
+                    Spacing="12">
+            <TextBlock HorizontalAlignment="Center"
+                       Style="{StaticResource BodyMedium}"
+                       Foreground="{ThemeResource OnSurfaceVariantBrush}"
+                       TextAlignment="Center"
+                       Text="Couldn't load this from the tracker." />
+            <Button HorizontalAlignment="Center"
+                    Content="Try again"
+                    Command="{Binding Refresh}" />
+        </StackPanel>
+    </DataTemplate>
+
+</ResourceDictionary>

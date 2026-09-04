@@ -3,6 +3,7 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:utu="using:Uno.Toolkit.UI"
       xmlns:conv="using:ClaudeCodeTracker.Converters"
+      xmlns:mvux="using:Uno.Extensions.Reactive.UI"
       Background="{ThemeResource BackgroundBrush}">
 
     <Page.Resources>
@@ -246,7 +247,11 @@
                                            Style="{StaticResource TitleSmall}"
                                            Foreground="{ThemeResource OnSurfaceBrush}"
                                            Text="Model Usage" />
-                                <ItemsRepeater ItemsSource="{Binding ModelBreakdown}">
+                                <mvux:FeedView Source="{Binding ModelBreakdown}"
+                                               ErrorTemplate="{StaticResource TrackerErrorTemplate}">
+                                    <mvux:FeedView.ValueTemplate>
+                                        <DataTemplate>
+                                <ItemsRepeater ItemsSource="{Binding Data}">
                                     <ItemsRepeater.Layout>
                                         <StackLayout Spacing="10" Orientation="Vertical" />
                                     </ItemsRepeater.Layout>
@@ -281,6 +286,17 @@
                                         </DataTemplate>
                                     </ItemsRepeater.ItemTemplate>
                                 </ItemsRepeater>
+                                        </DataTemplate>
+                                    </mvux:FeedView.ValueTemplate>
+                                    <mvux:FeedView.NoneTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Margin="0,8"
+                                                       Foreground="{ThemeResource OnSurfaceVariantBrush}"
+                                                       Style="{StaticResource BodySmall}"
+                                                       Text="No model usage recorded this period." />
+                                        </DataTemplate>
+                                    </mvux:FeedView.NoneTemplate>
+                                </mvux:FeedView>
                             </StackPanel>
                         </DataTemplate>
                     </utu:CardContentControl.ContentTemplate>
@@ -292,7 +308,11 @@
                                Style="{StaticResource TitleSmall}"
                                Foreground="{ThemeResource OnBackgroundBrush}"
                                Text="Recent Sessions" />
-                    <ItemsRepeater ItemsSource="{Binding RecentSessions}">
+                    <mvux:FeedView Source="{Binding RecentSessions}"
+                                   ErrorTemplate="{StaticResource TrackerErrorTemplate}">
+                        <mvux:FeedView.ValueTemplate>
+                            <DataTemplate>
+                    <ItemsRepeater ItemsSource="{Binding Data}">
                         <ItemsRepeater.Layout>
                             <StackLayout Spacing="8" Orientation="Vertical" />
                         </ItemsRepeater.Layout>
@@ -344,6 +364,17 @@
                             </DataTemplate>
                         </ItemsRepeater.ItemTemplate>
                     </ItemsRepeater>
+                            </DataTemplate>
+                        </mvux:FeedView.ValueTemplate>
+                        <mvux:FeedView.NoneTemplate>
+                            <DataTemplate>
+                                <TextBlock Margin="0,8"
+                                           Foreground="{ThemeResource OnSurfaceVariantBrush}"
+                                           Style="{StaticResource BodySmall}"
+                                           Text="No sessions yet this period." />
+                            </DataTemplate>
+                        </mvux:FeedView.NoneTemplate>
+                    </mvux:FeedView>
                 </StackPanel>
 
             </StackPanel>

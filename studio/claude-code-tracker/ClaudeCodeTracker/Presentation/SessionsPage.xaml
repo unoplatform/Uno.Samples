@@ -3,6 +3,7 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:utu="using:Uno.Toolkit.UI"
       xmlns:uen="using:Uno.Extensions.Navigation.UI"
+      xmlns:mvux="using:Uno.Extensions.Reactive.UI"
       Background="{ThemeResource BackgroundBrush}">
 
     <Grid x:Name="Root" utu:SafeArea.Insets="Top,SoftInput">
@@ -45,23 +46,32 @@
                     </Viewbox>
                 </Grid>
 
-                <TextBox x:Name="SearchBox"
-                         PlaceholderText="Search sessions by name…"
+                <TextBox PlaceholderText="Search sessions by name…"
                          HorizontalAlignment="Stretch"
-                         TextChanged="SearchBox_TextChanged" />
+                         Text="{Binding Query, Mode=TwoWay}" />
 
-                <utu:ChipGroup x:Name="ModelFilter"
-                               SelectionMode="Single"
+                <utu:ChipGroup SelectionMode="Single"
                                ItemsSource="{Binding FilterOptions}"
-                               Style="{StaticResource FilterChipGroupStyle}"
-                               ItemChecked="ModelFilter_ItemChecked" />
+                               SelectedItem="{Binding ModelFilter, Mode=TwoWay}"
+                               Style="{StaticResource FilterChipGroupStyle}" />
             </StackPanel>
         </StackPanel>
 
-        <!-- Session list: centred column capped at the same 1100 max-width as the header + pages -->
-        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
-            <ItemsRepeater x:Name="SessionList"
-                           MaxWidth="1100"
+        <!--
+            Session list. The Model asks ITrackerService for the sessions matching the search text and
+            the model chip, so this is a feed with four states: the rows, the "nothing matched" message
+            below, a progress ring while the request is in flight, and the shared failure template.
+            The empty state used to be a TextBlock whose Visibility the code-behind toggled after
+            filtering the list itself.
+        -->
+        <mvux:FeedView Grid.Row="1"
+                       Source="{Binding Sessions}"
+                       ErrorTemplate="{StaticResource TrackerErrorTemplate}">
+            <mvux:FeedView.ValueTemplate>
+                <DataTemplate>
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                        <ItemsRepeater ItemsSource="{Binding Data}"
+                                       MaxWidth="1100"
                            HorizontalAlignment="Stretch"
                            Margin="20,12,20,24">
                 <ItemsRepeater.Layout>
@@ -123,17 +133,22 @@
                         </utu:CardContentControl>
                     </DataTemplate>
                 </ItemsRepeater.ItemTemplate>
-            </ItemsRepeater>
-        </ScrollViewer>
+                        </ItemsRepeater>
+                    </ScrollViewer>
+                </DataTemplate>
+            </mvux:FeedView.ValueTemplate>
 
-        <!-- Empty state when search/filter excludes every session -->
-        <TextBlock x:Name="EmptyState"
-                   Grid.Row="1"
-                   Visibility="Collapsed"
-                   HorizontalAlignment="Center"
-                   Margin="0,48,0,0"
-                   Foreground="{ThemeResource OnSurfaceVariantBrush}"
-                   Style="{StaticResource BodyMedium}"
-                   Text="No sessions match your search" />
+            <mvux:FeedView.NoneTemplate>
+                <DataTemplate>
+                    <TextBlock HorizontalAlignment="Center"
+                               VerticalAlignment="Top"
+                               Margin="20,48,20,24"
+                               Foreground="{ThemeResource OnSurfaceVariantBrush}"
+                               Style="{StaticResource BodyMedium}"
+                               TextAlignment="Center"
+                               Text="No sessions match your search" />
+                </DataTemplate>
+            </mvux:FeedView.NoneTemplate>
+        </mvux:FeedView>
     </Grid>
 </Page>
