@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Project Sdk="Uno.Sdk.Private">
+<Project Sdk="Uno.Sdk">
   <PropertyGroup>
     <TargetFrameworks>net10.0-android;net10.0-ios;net10.0-browserwasm;net10.0-desktop</TargetFrameworks>
 
@@ -65,8 +65,10 @@
     the slot is empty (and previously the LiveCharts package's own logo landed here — see above).
   -->
   <ItemGroup Condition="$(TargetFramework.Contains('-desktop'))">
-    <!-- icon.png: square window/taskbar icon (Windows/Linux). icon-macos.png: rounded squircle
-         with the macOS icon-grid margin, set as the Dock icon at runtime on macOS. -->
-    <Content Include="images\*.png" CopyToOutputDirectory="PreserveNewest" />
+    <!-- icon.png: the square window/taskbar icon SetWindowIcon() loads. The macOS Dock is branded
+         by the packaged .app icon Uno.Resizetizer generates from UnoIconForegroundFile above, not at
+         runtime: an unbundled `dotnet run` shows the generic Dock placeholder, and that is accepted
+         rather than reached for through native interop. -->
+    <Content Include="images\icon.png" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 </Project>
