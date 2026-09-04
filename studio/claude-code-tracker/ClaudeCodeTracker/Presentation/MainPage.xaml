@@ -16,9 +16,12 @@
     <Grid uen:Region.Attached="True">
         <!--
             Responsive shell pane: an expanded, labeled NavigationView pane on wide, hidden in
-            favor of the bottom TabBar on narrow — switched by {utu:Responsive} against the
-            app-wide DefaultResponsiveLayout breakpoint declared in App.xaml, which keeps every
-            {utu:Responsive} usage on one consistent breakpoint. Wide=Left (not Auto) keeps the
+            favor of the bottom TabBar on narrow — switched by {utu:Responsive} on the Toolkit's
+            default breakpoints, so the split lands at 800px like the other samples. Every usage
+            here names Narrow/Wide, which is what keeps the split consistent; the breakpoint
+            VALUES are the Toolkit's, not ours. Note the extension resolves against the WINDOW
+            width, not this element's — a design surface sized to a phone will not narrow the
+            shell unless the window narrows with it. Wide=Left (not Auto) keeps the
             pane expanded with labels rather than dropping to the icon-only compact band on
             mid-width desktops. Labels come from the literal Content below (not x:Uid), so they
             render in Studio Web / Hot Design too.
