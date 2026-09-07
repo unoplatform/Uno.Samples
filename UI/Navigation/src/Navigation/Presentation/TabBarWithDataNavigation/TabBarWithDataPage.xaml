@@ -36,9 +36,11 @@
 					VerticalAlignment="Bottom"
 					uen:Region.Attached="True">
 			<utu:TabBar.Items>
-				<utu:TabBarItem Command="{Binding GoToFirstTabCommand}"
+				<utu:TabBarItem uen:Region.Name="TBDataOne"
+								uen:Navigation.Data="{Binding Entity}"
 								Content="One" />
-				<utu:TabBarItem Command="{Binding GoToSecondTabCommand}"
+				<utu:TabBarItem uen:Region.Name="TBDataTwo"
+								uen:Navigation.Data="{Binding Entity}"
 								Content="Two" />
 			</utu:TabBar.Items>
 		</utu:TabBar>
