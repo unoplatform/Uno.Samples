@@ -18,15 +18,10 @@
         <!-- Load WinUI resources -->
         <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
         <!-- Uno Simple theme, with the CRM brand palette mapped to semantic roles + Roboto text -->
-        <utus:SimpleToolkitTheme>
-                    <utus:SimpleToolkitTheme.Colors>
-                        <ut:ThemeColors PrimarySeed="#0D6E6E" SecondarySeed="#3B82F6" TertiarySeed="#F59E0B" />
-                    </utus:SimpleToolkitTheme.Colors>
-          <utus:SimpleToolkitTheme.FontOverrideDictionary>
-            <ResourceDictionary>
-              <FontFamily x:Key="DefaultFontFamily">ms-appx:///Uno.Fonts.Roboto/Fonts/Roboto-Regular.ttf#Roboto</FontFamily>
-            </ResourceDictionary>
-          </utus:SimpleToolkitTheme.FontOverrideDictionary>
+        <utus:SimpleToolkitTheme DefaultFontFamily="ms-appx:///Uno.Fonts.Roboto/Fonts/Roboto-Regular.ttf#Roboto">
+          <utus:SimpleToolkitTheme.Colors>
+            <ut:ThemeColors PrimarySeed="#0D6E6E" SecondarySeed="#3B82F6" TertiarySeed="#F59E0B" />
+          </utus:SimpleToolkitTheme.Colors>
         </utus:SimpleToolkitTheme>
         <!-- Theme-aware CRM palette (Dashboard* brushes, chart palette, ComboBox lightweight keys) -->
         <ResourceDictionary Source="ms-appx:///ThemeColors.xaml" />

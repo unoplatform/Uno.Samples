@@ -11,10 +11,10 @@
     <ResourceDictionary>
       <ResourceDictionary.MergedDictionaries>
         <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
-        <utus:SimpleToolkitTheme>
-                    <utus:SimpleToolkitTheme.Colors>
-                        <ut:ThemeColors PrimarySeed="#6541C6" SecondarySeed="#8A5A12" TertiarySeed="#A8436A" />
-                    </utus:SimpleToolkitTheme.Colors>
+        <utus:SimpleToolkitTheme DefaultFontFamily="ms-appx:///Uno.Fonts.Roboto/Fonts/Roboto-Regular.ttf#Roboto">
+          <utus:SimpleToolkitTheme.Colors>
+            <ut:ThemeColors PrimarySeed="#6541C6" SecondarySeed="#8A5A12" TertiarySeed="#A8436A" />
+          </utus:SimpleToolkitTheme.Colors>
           <utus:SimpleToolkitTheme.FontOverrideDictionary>
             <ResourceDictionary>
               <!-- Base font = Roboto, from Uno's own font package (NOT a bundled custom font — those
@@ -22,7 +22,7 @@
                    Regular-weight text to a monospace fallback here (the OpenSans package has no
                    Regular face); Roboto ships Regular/Medium/Bold, so body + weighted text all render
                    as a proper proportional sans and it loads on every head including Studio Live. -->
-              <FontFamily x:Key="DefaultFontFamily">ms-appx:///Uno.Fonts.Roboto/Fonts/Roboto-Regular.ttf#Roboto</FontFamily>
+
             </ResourceDictionary>
           </utus:SimpleToolkitTheme.FontOverrideDictionary>
         </utus:SimpleToolkitTheme>
