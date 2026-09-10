@@ -6,6 +6,14 @@
     <OutputType>Exe</OutputType>
     <UnoSingleProject>true</UnoSingleProject>
 
+    <!--
+      Design tokens (seed colours, DefaultCornerRadius/Spacing/FontFamily) need Uno.Themes 8.0, and
+      the runtime-token fixes land in 8.0.0-dev.15. The Toolkit's SimpleToolkitTheme only surfaces
+      the Colors property from 8.5.0-dev.54. Both are ahead of the SDK's implicit versions.
+    -->
+    <UnoThemesVersion>8.0.0-dev.15</UnoThemesVersion>
+    <UnoToolkitVersion>8.5.0-dev.54</UnoToolkitVersion>
+
     <!-- Display name -->
     <ApplicationTitle>ClaudeCodeTracker</ApplicationTitle>
     <!-- App Identifier -->
