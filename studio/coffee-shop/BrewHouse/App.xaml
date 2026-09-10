@@ -1,25 +1,38 @@
 <Application x:Class="BrewHouse.App"
        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-       xmlns:utus="using:Uno.Toolkit.UI.Simple">
+       xmlns:utus="using:Uno.Toolkit.UI.Simple"
+       xmlns:ut="using:Uno.Themes">
 
   <!-- App.xaml is a thin manifest: it only merges the dedicated dictionaries, each with one
-       concern. The visual vocabulary (styles, templates, brushes, tokens) lives in Styles.xaml;
-       the palette in ThemeColors.xaml; built-in control key overrides in ControlThemeOverrides.xaml.
-       See lesson 56. -->
+       concern. The visual vocabulary (styles, templates) lives in Styles.xaml; built-in control
+       key overrides in ControlThemeOverrides.xaml. The palette is not hand-authored: three seed
+       colours below generate every semantic role for both light and dark. See lesson 56. -->
   <Application.Resources>
     <ResourceDictionary>
       <ResourceDictionary.MergedDictionaries>
         <!-- Load WinUI resources -->
         <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
-        <!-- Warm BrewHouse palette (light + dark) layered onto the Simple theme -->
-        <utus:SimpleToolkitTheme ColorOverrideSource="ms-appx:///ThemeColors.xaml" />
+        <!--
+          The warm BrewHouse palette, generated from three seeds. SeedColorMode defaults to
+          Fidelity, so PrimaryColor in light mode is the espresso below verbatim and dark mode
+          brightens it. DefaultCornerRadius and DefaultSpacing are left at their defaults (4):
+          that already yields the radius ramp 8/12/16 and the spacing rhythm 4/8/12/16/24 this
+          app was hand-authoring.
+        -->
+        <utus:SimpleToolkitTheme>
+          <utus:SimpleToolkitTheme.Colors>
+            <ut:ThemeColors PrimarySeed="#4A2810"
+                            SecondarySeed="#8C5A28"
+                            TertiarySeed="#6F4A2A" />
+          </utus:SimpleToolkitTheme.Colors>
+        </utus:SimpleToolkitTheme>
         <!-- Merged after the Simple theme so its ThemeDictionaries win: pins the wide NavigationView
              pane's selection indicator to the warm palette (the bottom TabBar deliberately uses the
              Simple defaults — see ControlThemeOverrides.xaml). -->
         <ResourceDictionary Source="ms-appx:///ControlThemeOverrides.xaml" />
-        <!-- App styling vocabulary. Merged LAST so its well-known-key overrides
-             (ControlCornerRadius*, OverlayCornerRadius) beat the theme defaults. -->
+        <!-- App styling vocabulary. Merged after the theme so its WinUI-key aliases
+             (ControlCornerRadius*, OverlayCornerRadius) resolve against the generated Radius scale. -->
         <ResourceDictionary Source="ms-appx:///Styles.xaml" />
       </ResourceDictionary.MergedDictionaries>
     </ResourceDictionary>
