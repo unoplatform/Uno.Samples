@@ -16,7 +16,7 @@
 
             <!-- Header (shared style: consistent position/background/type across every page) -->
             <Border Grid.Row="0" Style="{StaticResource PageHeaderStyle}">
-                <StackPanel Spacing="12">
+                <StackPanel Spacing="{ThemeResource Space300}">
                     <StackPanel>
                         <TextBlock Text="Our Menu" Style="{StaticResource PageTitleStyle}" />
                         <TextBlock Text="Find your perfect brew" Style="{StaticResource PageSubtitleStyle}" />
@@ -47,14 +47,14 @@
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <Button Style="{StaticResource FlatButtonStyle}"
-                                    CornerRadius="12"
+                                    CornerRadius="{ThemeResource Radius300CornerRadius}"
                                     AutomationProperties.Name="{Binding Name}"
                                     Command="{utu:ItemsControlBinding Path=DataContext.FilterByCategory}"
                                     CommandParameter="{Binding Id}">
                                 <Grid>
                                     <!-- unselected pill -->
                                     <Border Background="{ThemeResource SurfaceVariantBrush}"
-                                            CornerRadius="12"
+                                            CornerRadius="{ThemeResource Radius300CornerRadius}"
                                             Padding="16,8">
                                         <TextBlock Text="{Binding Name}"
                                                    FontSize="13"
@@ -63,7 +63,7 @@
                                     </Border>
                                     <!-- selected pill overlays when this category is active -->
                                     <Border Background="{ThemeResource PrimaryBrush}"
-                                            CornerRadius="12"
+                                            CornerRadius="{ThemeResource Radius300CornerRadius}"
                                             Padding="16,8"
                                             Visibility="{Binding IsSelected, Converter={StaticResource BoolToVisibility}}">
                                         <TextBlock Text="{Binding Name}"
@@ -94,7 +94,7 @@
                             <!-- The whole card is a focusable button that opens the product detail page;
                                  the inner "+ Add to Cart" is a nested button with its own command -->
                             <Button Style="{StaticResource FlatButtonStyle}"
-                                    CornerRadius="16"
+                                    CornerRadius="{ThemeResource Radius400CornerRadius}"
                                     HorizontalAlignment="Stretch"
                                     HorizontalContentAlignment="Stretch"
                                     VerticalContentAlignment="Stretch"
@@ -102,7 +102,7 @@
                                     Command="{utu:AncestorBinding AncestorType=ItemsRepeater, Path=DataContext.ViewProduct}"
                                     CommandParameter="{Binding}">
                                 <Border Background="{ThemeResource SurfaceBrush}"
-                                        CornerRadius="16"
+                                        CornerRadius="{ThemeResource Radius400CornerRadius}"
                                         BorderBrush="{ThemeResource BrewCardBorderBrush}"
                                         BorderThickness="1"
                                         VerticalAlignment="Stretch">
@@ -124,7 +124,7 @@
                                         <!-- Product Info -->
                                         <StackPanel Grid.Column="1"
                                                     Padding="12,8"
-                                                    Spacing="2"
+                                                    Spacing="{ThemeResource Space050}"
                                                     VerticalAlignment="Center">
 
                                             <!-- Name + right-aligned "Today's Special" badge on one row, so the
@@ -144,9 +144,9 @@
                                                            VerticalAlignment="Center" />
                                                 <Border Grid.Column="1"
                                                         Background="{ThemeResource SurfaceVariantBrush}"
-                                                        CornerRadius="6"
+                                                        CornerRadius="{ThemeResource Radius200CornerRadius}"
                                                         Padding="6,2"
-                                                        Margin="8,0,0,0"
+                                                        Margin="{ThemeResource Space200LeftThickness}"
                                                         VerticalAlignment="Center"
                                                         Visibility="{Binding IsSpecial, Converter={StaticResource BoolToVisibility}}">
                                                     <TextBlock Text="Today's Special"
@@ -163,7 +163,7 @@
                                                        MaxLines="1"
                                                        TextTrimming="CharacterEllipsis" />
 
-                                            <Grid Margin="0,4,0,0" VerticalAlignment="Center">
+                                            <Grid Margin="{ThemeResource Space100TopThickness}" VerticalAlignment="Center">
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="*" />
                                                     <ColumnDefinition Width="Auto" />
@@ -176,7 +176,7 @@
                                                         Style="{StaticResource BrewButtonStyle}"
                                                         Content="+ Add to Cart"
                                                         AutomationProperties.Name="Add to cart"
-                                                        CornerRadius="8"
+                                                        CornerRadius="{ThemeResource Radius200CornerRadius}"
                                                         Padding="10,4"
                                                         FontSize="11"
                                                         HorizontalAlignment="Right"
@@ -199,12 +199,12 @@
                     VerticalAlignment="Top"
                     Margin="16,12,16,16"
                     Background="{ThemeResource SurfaceBrush}"
-                    CornerRadius="16"
+                    CornerRadius="{ThemeResource Radius400CornerRadius}"
                     Padding="32,40"
                     BorderBrush="{ThemeResource BrewCardBorderBrush}"
                     BorderThickness="1"
                     Visibility="{Binding HasNoResults, Converter={StaticResource BoolToVisibility}}">
-                <StackPanel HorizontalAlignment="Center" Spacing="12">
+                <StackPanel HorizontalAlignment="Center" Spacing="{ThemeResource Space300}">
                     <Viewbox Width="44" Height="44" HorizontalAlignment="Center">
                         <PathIcon Data="F1 M16.1017 17.1624C14.717 18.3101 12.9391 19 11 19C6.58172 19 3 15.4183 3 11C3 6.58172 6.58172 3 11 3C15.4183 3 19 6.58172 19 11C19 12.9391 18.3101 14.717 17.1624 16.1018L21.7803 20.7197C22.0732 21.0126 22.0732 21.4874 21.7803 21.7803C21.4874 22.0732 21.0125 22.0732 20.7196 21.7803L16.1017 17.1624ZM17.5 11C17.5 7.41015 14.5899 4.5 11 4.5C7.41015 4.5 4.5 7.41015 4.5 11C4.5 14.5899 7.41015 17.5 11 17.5C14.5899 17.5 17.5 14.5899 17.5 11Z"
                                   Foreground="{ThemeResource SecondaryBrush}" />
