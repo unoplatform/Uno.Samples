@@ -61,9 +61,14 @@
                         Wide="600"
                         Widest="1400" />
 
-  <!-- Corner-radius scale (well-known Simple/WinUI token overrides) -->
-  <CornerRadius x:Key="ControlCornerRadius">14</CornerRadius>
-  <CornerRadius x:Key="OverlayCornerRadius">24</CornerRadius>
+  <!--
+    Corner-radius scale, aliased onto the theme's generated shape scale so it follows
+    DefaultCornerRadius rather than pinning literals. Simple's own styles never read these; stock
+    WinUI templates do, and would otherwise sit at WinUI's 4/8. At the default DefaultCornerRadius
+    of 4 they resolve to 16/28; the authored 14/24 sat exactly between ramp steps and rounds up.
+  -->
+  <StaticResource x:Key="ControlCornerRadius" ResourceKey="Radius400CornerRadius" />
+  <StaticResource x:Key="OverlayCornerRadius" ResourceKey="Radius700CornerRadius" />
 
   <!-- Tactile press scale (design-polish house value) -->
   <x:Double x:Key="PressScale">0.98</x:Double>

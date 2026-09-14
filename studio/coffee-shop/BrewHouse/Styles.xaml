@@ -211,13 +211,15 @@
   </Style>
 
   <!--
-    The three WinUI corner-radius keys, aliased onto the theme's generated shape scale rather than
-    given literals. Simple's own control styles never read these — they are what stock WinUI
-    templates use — so without the aliases those controls would sit at WinUI's 4/8 instead of the
-    app's rounder language. At the default DefaultCornerRadius of 4 the ramp is 8/12/16, which is
-    what this app previously hard-coded.
+    The WinUI corner-radius keys, aliased onto the theme's generated shape scale rather than given
+    literals, so they follow DefaultCornerRadius instead of pinning the app to one ramp. Simple's own
+    control styles never read these — they are what stock WinUI templates use — so without the
+    aliases those controls would sit at WinUI's 4/8 instead of the app's rounder language. At the
+    default DefaultCornerRadius of 4 they resolve to 12/16, which is what this app hard-coded.
+
+    ControlCornerRadiusSmall is deliberately absent: it is not a WinUI key, and nothing in Uno.UI,
+    Uno.Themes or this app reads it.
   -->
-  <StaticResource x:Key="ControlCornerRadiusSmall" ResourceKey="Radius200CornerRadius" />
   <StaticResource x:Key="ControlCornerRadius" ResourceKey="Radius300CornerRadius" />
   <StaticResource x:Key="OverlayCornerRadius" ResourceKey="Radius400CornerRadius" />
 

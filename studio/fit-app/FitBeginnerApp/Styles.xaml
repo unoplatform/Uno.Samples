@@ -51,10 +51,16 @@
     <Setter Property="Margin" Value="2,0,0,12" />
   </Style>
 
-  <!-- Rounder controls to match the card language -->
-  <CornerRadius x:Key="ControlCornerRadiusSmall">12</CornerRadius>
-  <CornerRadius x:Key="ControlCornerRadius">20</CornerRadius>
-  <CornerRadius x:Key="OverlayCornerRadius">32</CornerRadius>
+  <!--
+    Rounder controls to match the card language, aliased onto the theme's generated shape scale so
+    they follow DefaultCornerRadius rather than pinning literals. Simple's own styles never read
+    these; stock WinUI templates do, and would otherwise sit at WinUI's 4/8. At the default
+    DefaultCornerRadius of 4 they resolve to 20/28 — the overlay was 32, the nearest ramp step below
+    RadiusFull is 28. ControlCornerRadiusSmall is dropped: not a WinUI key, and read by nothing in
+    Uno.UI, Uno.Themes or this app.
+  -->
+  <StaticResource x:Key="ControlCornerRadius" ResourceKey="Radius500CornerRadius" />
+  <StaticResource x:Key="OverlayCornerRadius" ResourceKey="Radius700CornerRadius" />
 
   <!-- Window-width breakpoint shared by the shell + page layouts: phone below 900px
        (bottom TabBar), desktop/web at or above (NavigationView pane). -->

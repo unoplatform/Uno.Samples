@@ -38,10 +38,16 @@
                 <ResourceDictionary Source="ms-appx:///ControlThemeOverrides.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
-            <!-- Slightly rounder corners than the Simple defaults, app-wide -->
-            <CornerRadius x:Key="ControlCornerRadiusSmall">6</CornerRadius>
-            <CornerRadius x:Key="ControlCornerRadius">12</CornerRadius>
-            <CornerRadius x:Key="OverlayCornerRadius">20</CornerRadius>
+            <!--
+              Slightly rounder corners than the Simple defaults, app-wide — aliased onto the theme's
+              generated shape scale so they follow DefaultCornerRadius rather than pinning literals.
+              Simple's own styles never read these; stock WinUI templates do, and would otherwise sit
+              at WinUI's 4/8. At the default DefaultCornerRadius of 4 they resolve to 12/20, the
+              values this app hard-coded. ControlCornerRadiusSmall is dropped: not a WinUI key, and
+              read by nothing in Uno.UI, Uno.Themes or this app.
+            -->
+            <StaticResource x:Key="ControlCornerRadius" ResourceKey="Radius300CornerRadius" />
+            <StaticResource x:Key="OverlayCornerRadius" ResourceKey="Radius500CornerRadius" />
 
             <!--
                 App-wide responsive breakpoint: mobile below 900px, desktop at/above. The Toolkit
