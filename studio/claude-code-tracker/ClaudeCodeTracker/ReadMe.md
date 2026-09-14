@@ -22,7 +22,8 @@ backend — swap that one file for a real service to go live.
 - **Charts** — daily-cost line, sessions-per-day bars, and token-type / model-share donuts
   (LiveCharts2), themed to the active light/dark palette.
 - **Theming** — the Uno **Simple** theme with a warm terracotta/coral palette (teal secondary,
-  amber tertiary) and a distinct dark theme (`ThemeColors.xaml`), referenced via `{ThemeResource}`.
+  amber tertiary) generated from three seed colours in `App.xaml`, referenced via `{ThemeResource}`.
+  `ColorOverrides.xaml` pins the dark-mode accents, which the tonal recipe would otherwise lighten.
 
 ## Architecture
 
