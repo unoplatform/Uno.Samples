@@ -13,7 +13,7 @@
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="Auto" />
           </Grid.ColumnDefinitions>
-          <StackPanel Spacing="4">
+          <StackPanel Spacing="{ThemeResource Space100}">
             <TextBlock Text="{Binding Title}" Style="{StaticResource DashboardBodyTextStyle}" />
             <TextBlock Text="{Binding Detail}" Style="{StaticResource DashboardSubtleTextStyle}" />
           </StackPanel>
@@ -30,7 +30,7 @@
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="Auto" />
           </Grid.ColumnDefinitions>
-          <StackPanel Spacing="4" VerticalAlignment="Center">
+          <StackPanel Spacing="{ThemeResource Space100}" VerticalAlignment="Center">
             <TextBlock Text="{Binding Title}" Style="{StaticResource DashboardBodyTextStyle}" />
             <TextBlock Text="{Binding Detail}" Style="{StaticResource DashboardSubtleTextStyle}" />
           </StackPanel>
@@ -64,7 +64,7 @@
 
             <StackPanel Grid.Column="1"
                         Orientation="Horizontal"
-                        Spacing="16"
+                        Spacing="{ThemeResource Space400}"
                         VerticalAlignment="Center">
               <Grid Width="280"
                     VerticalAlignment="Center">
@@ -91,7 +91,7 @@
 
               <Border Width="32"
                       Height="32"
-                      CornerRadius="16"
+                      CornerRadius="{ThemeResource RadiusFullCornerRadius}"
                       Background="{ThemeResource DashboardAccentBrush}" />
             </StackPanel>
           </Grid>
@@ -117,7 +117,7 @@
                 </Grid.RowDefinitions>
                 <TextBlock Text="TOTAL LEADS"
                            Style="{StaticResource DashboardSectionLabelStyle}" />
-                <StackPanel Grid.Row="2" Spacing="2">
+                <StackPanel Grid.Row="2" Spacing="{ThemeResource Space050}">
                   <TextBlock Text="{Binding TotalLeadsText}"
                              Style="{StaticResource DashboardMetricValueStyle}" />
                   <TextBlock Text="{Binding TotalLeadsDelta}"
@@ -139,7 +139,7 @@
                 </Grid.RowDefinitions>
                 <TextBlock Text="ACTIVE DEALS"
                            Style="{StaticResource DashboardSectionLabelStyle}" />
-                <StackPanel Grid.Row="2" Spacing="2">
+                <StackPanel Grid.Row="2" Spacing="{ThemeResource Space050}">
                   <TextBlock Text="{Binding ActiveDealsText}"
                              Style="{StaticResource DashboardMetricValueStyle}" />
                   <TextBlock Text="{Binding ActiveDealsDelta}"
@@ -161,7 +161,7 @@
                 </Grid.RowDefinitions>
                 <TextBlock Text="REVENUE THIS MONTH"
                            Style="{StaticResource DashboardSectionLabelStyle}" />
-                <StackPanel Grid.Row="2" Spacing="2">
+                <StackPanel Grid.Row="2" Spacing="{ThemeResource Space050}">
                   <TextBlock Text="{Binding RevenueText}"
                              Style="{StaticResource DashboardMetricValueStyle}" />
                   <TextBlock Text="{Binding RevenueDelta}"
@@ -183,7 +183,7 @@
                 </Grid.RowDefinitions>
                 <TextBlock Text="CONVERSION RATE"
                            Style="{StaticResource DashboardSectionLabelStyle}" />
-                <StackPanel Grid.Row="2" Spacing="2">
+                <StackPanel Grid.Row="2" Spacing="{ThemeResource Space050}">
                   <TextBlock Text="{Binding ConversionRateText}"
                              Style="{StaticResource DashboardMetricValueStyle}" />
                   <TextBlock Text="{Binding ConversionRateDelta}"
@@ -205,12 +205,12 @@
                     Style="{StaticResource DashboardPanelBorderStyle}"
                     Padding="20,14,20,18"
                     MinHeight="520">
-              <StackPanel Spacing="24">
+              <StackPanel Spacing="{ThemeResource Space600}">
                 <TextBlock Text="Pipeline Summary"
                            Style="{StaticResource DashboardSectionTitleStyle}" />
 
                 <StackPanel Spacing="14">
-                  <StackPanel Spacing="8">
+                  <StackPanel Spacing="{ThemeResource Space200}">
                     <Grid>
                       <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
@@ -229,13 +229,13 @@
                       </Grid.ColumnDefinitions>
                       <Border Grid.ColumnSpan="2"
                               Background="{ThemeResource DashboardBorderBrush}"
-                              CornerRadius="4" />
+                              CornerRadius="{ThemeResource Radius100CornerRadius}" />
                       <Border Background="{ThemeResource DashboardBlueBrush}"
-                              CornerRadius="4" />
+                              CornerRadius="{ThemeResource Radius100CornerRadius}" />
                     </Grid>
                   </StackPanel>
 
-                  <StackPanel Spacing="8">
+                  <StackPanel Spacing="{ThemeResource Space200}">
                     <Grid>
                       <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
@@ -254,13 +254,13 @@
                       </Grid.ColumnDefinitions>
                       <Border Grid.ColumnSpan="2"
                               Background="{ThemeResource DashboardBorderBrush}"
-                              CornerRadius="4" />
+                              CornerRadius="{ThemeResource Radius100CornerRadius}" />
                       <Border Background="{ThemeResource DashboardPurpleBrush}"
-                              CornerRadius="4" />
+                              CornerRadius="{ThemeResource Radius100CornerRadius}" />
                     </Grid>
                   </StackPanel>
 
-                  <StackPanel Spacing="8">
+                  <StackPanel Spacing="{ThemeResource Space200}">
                     <Grid>
                       <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
@@ -279,13 +279,13 @@
                       </Grid.ColumnDefinitions>
                       <Border Grid.ColumnSpan="2"
                               Background="{ThemeResource DashboardBorderBrush}"
-                              CornerRadius="4" />
+                              CornerRadius="{ThemeResource Radius100CornerRadius}" />
                       <Border Background="{ThemeResource DashboardAmberBrush}"
-                              CornerRadius="4" />
+                              CornerRadius="{ThemeResource Radius100CornerRadius}" />
                     </Grid>
                   </StackPanel>
 
-                  <StackPanel Spacing="8">
+                  <StackPanel Spacing="{ThemeResource Space200}">
                     <Grid>
                       <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
@@ -304,13 +304,13 @@
                       </Grid.ColumnDefinitions>
                       <Border Grid.ColumnSpan="2"
                               Background="{ThemeResource DashboardBorderBrush}"
-                              CornerRadius="4" />
+                              CornerRadius="{ThemeResource Radius100CornerRadius}" />
                       <Border Background="{ThemeResource DashboardRedBrush}"
-                              CornerRadius="4" />
+                              CornerRadius="{ThemeResource Radius100CornerRadius}" />
                     </Grid>
                   </StackPanel>
 
-                  <StackPanel Spacing="8">
+                  <StackPanel Spacing="{ThemeResource Space200}">
                     <Grid>
                       <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
@@ -329,9 +329,9 @@
                       </Grid.ColumnDefinitions>
                       <Border Grid.ColumnSpan="2"
                               Background="{ThemeResource DashboardBorderBrush}"
-                              CornerRadius="4" />
+                              CornerRadius="{ThemeResource Radius100CornerRadius}" />
                       <Border Background="{ThemeResource DashboardGreenBrush}"
-                              CornerRadius="4" />
+                              CornerRadius="{ThemeResource Radius100CornerRadius}" />
                     </Grid>
                   </StackPanel>
                 </StackPanel>
@@ -375,7 +375,7 @@
               <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
 
-            <StackPanel Spacing="4">
+            <StackPanel Spacing="{ThemeResource Space100}">
               <TextBlock Text="Good morning, Alex"
                          Style="{StaticResource DashboardCardTitleStyle}"
                          FontSize="32" />
@@ -461,9 +461,9 @@
                     </Grid.ColumnDefinitions>
                     <Border Grid.ColumnSpan="2"
                             Background="{ThemeResource DashboardBorderBrush}"
-                            CornerRadius="5" />
+                            CornerRadius="{ThemeResource Radius100CornerRadius}" />
                     <Border Background="{ThemeResource DashboardBlueBrush}"
-                            CornerRadius="5" />
+                            CornerRadius="{ThemeResource Radius100CornerRadius}" />
                   </Grid>
                   <TextBlock Grid.Column="2"
                              Text="{Binding Funnel[0].Count}"
@@ -488,9 +488,9 @@
                     </Grid.ColumnDefinitions>
                     <Border Grid.ColumnSpan="2"
                             Background="{ThemeResource DashboardBorderBrush}"
-                            CornerRadius="5" />
+                            CornerRadius="{ThemeResource Radius100CornerRadius}" />
                     <Border Background="{ThemeResource DashboardPurpleBrush}"
-                            CornerRadius="5" />
+                            CornerRadius="{ThemeResource Radius100CornerRadius}" />
                   </Grid>
                   <TextBlock Grid.Column="2"
                              Text="{Binding Funnel[1].Count}"
@@ -515,9 +515,9 @@
                     </Grid.ColumnDefinitions>
                     <Border Grid.ColumnSpan="2"
                             Background="{ThemeResource DashboardBorderBrush}"
-                            CornerRadius="5" />
+                            CornerRadius="{ThemeResource Radius100CornerRadius}" />
                     <Border Background="{ThemeResource DashboardAmberBrush}"
-                            CornerRadius="5" />
+                            CornerRadius="{ThemeResource Radius100CornerRadius}" />
                   </Grid>
                   <TextBlock Grid.Column="2"
                              Text="{Binding Funnel[2].Count}"
@@ -542,9 +542,9 @@
                     </Grid.ColumnDefinitions>
                     <Border Grid.ColumnSpan="2"
                             Background="{ThemeResource DashboardBorderBrush}"
-                            CornerRadius="5" />
+                            CornerRadius="{ThemeResource Radius100CornerRadius}" />
                     <Border Background="{ThemeResource DashboardRedBrush}"
-                            CornerRadius="5" />
+                            CornerRadius="{ThemeResource Radius100CornerRadius}" />
                   </Grid>
                   <TextBlock Grid.Column="2"
                              Text="{Binding Funnel[3].Count}"
@@ -569,9 +569,9 @@
                     </Grid.ColumnDefinitions>
                     <Border Grid.ColumnSpan="2"
                             Background="{ThemeResource DashboardBorderBrush}"
-                            CornerRadius="5" />
+                            CornerRadius="{ThemeResource Radius100CornerRadius}" />
                     <Border Background="{ThemeResource DashboardGreenBrush}"
-                            CornerRadius="5" />
+                            CornerRadius="{ThemeResource Radius100CornerRadius}" />
                   </Grid>
                   <TextBlock Grid.Column="2"
                              Text="{Binding Funnel[4].Count}"

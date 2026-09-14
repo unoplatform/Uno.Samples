@@ -19,14 +19,14 @@
                     Background="{ThemeResource SurfaceVariantBrush}">
             <StackPanel MaxWidth="1100"
                         HorizontalAlignment="Stretch"
-                        Padding="20,0"
-                        Spacing="12">
+                        Padding="{ThemeResource Space500HorizontalThickness}"
+                        Spacing="{ThemeResource Space300}">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
-                    <StackPanel Grid.Column="0" Spacing="2">
+                    <StackPanel Grid.Column="0" Spacing="{ThemeResource Space050}">
                         <TextBlock
                                    Style="{StaticResource TitleLarge}"
                                    Foreground="{ThemeResource OnSurfaceBrush}"
@@ -65,7 +65,7 @@
                            HorizontalAlignment="Stretch"
                            Margin="20,12,20,24">
                 <ItemsRepeater.Layout>
-                    <StackLayout Spacing="8" Orientation="Vertical" />
+                    <StackLayout Spacing="{ThemeResource Space200}" Orientation="Vertical" />
                 </ItemsRepeater.Layout>
                 <ItemsRepeater.ItemTemplate>
                     <DataTemplate>
@@ -83,14 +83,14 @@
                                             <ColumnDefinition Width="*" />
                                             <ColumnDefinition Width="Auto" />
                                         </Grid.ColumnDefinitions>
-                                        <StackPanel Grid.Column="0" Spacing="6">
+                                        <StackPanel Grid.Column="0" Spacing="{ThemeResource Space150}">
                                             <TextBlock Style="{StaticResource LabelMedium}"
                                                        Foreground="{ThemeResource OnSurfaceBrush}"
                                                        TextTrimming="CharacterEllipsis"
                                                        Text="{Binding ProjectName}" />
-                                            <StackPanel Orientation="Horizontal" Spacing="6">
+                                            <StackPanel Orientation="Horizontal" Spacing="{ThemeResource Space150}">
                                                 <Border Background="{ThemeResource SecondaryContainerBrush}"
-                                                        CornerRadius="4"
+                                                        CornerRadius="{ThemeResource Radius100CornerRadius}"
                                                         Padding="6,2">
                                                     <TextBlock Style="{StaticResource LabelSmall}"
                                                                Foreground="{ThemeResource OnSecondaryContainerBrush}"
@@ -107,7 +107,7 @@
                                                 </TextBlock>
                                             </StackPanel>
                                         </StackPanel>
-                                        <StackPanel Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center" Spacing="2">
+                                        <StackPanel Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center" Spacing="{ThemeResource Space050}">
                                             <TextBlock Style="{StaticResource LabelMedium}"
                                                        HorizontalAlignment="Right"
                                                        Foreground="{ThemeResource PrimaryBrush}"
@@ -131,7 +131,7 @@
                    Grid.Row="1"
                    Visibility="Collapsed"
                    HorizontalAlignment="Center"
-                   Margin="0,48,0,0"
+                   Margin="{ThemeResource Space1200TopThickness}"
                    Foreground="{ThemeResource OnSurfaceVariantBrush}"
                    Style="{StaticResource BodyMedium}"
                    Text="No sessions match your search" />

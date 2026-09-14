@@ -41,10 +41,10 @@
   <Style x:Key="RailArrowScrimStyle" TargetType="Border">
     <Setter Property="Width" Value="40" />
     <Setter Property="Height" Value="40" />
-    <Setter Property="CornerRadius" Value="20" />
+    <Setter Property="CornerRadius" Value="{ThemeResource Radius500CornerRadius}" />
     <Setter Property="Background" Value="#99000000" />
     <Setter Property="VerticalAlignment" Value="Center" />
-    <Setter Property="Margin" Value="2,0" />
+    <Setter Property="Margin" Value="{ThemeResource Space050HorizontalThickness}" />
   </Style>
 
   <!-- Converters -->
@@ -88,7 +88,7 @@
          on-color (e.g. White / OnPrimary) and the highlight follows. A hardcoded OnSurface layer
          instead reads as a muddy dark wash over a bright Play button in light mode. -->
     <Setter Property="Foreground" Value="{ThemeResource OnSurfaceBrush}" />
-    <Setter Property="Padding" Value="8" />
+    <Setter Property="Padding" Value="{ThemeResource Space200Thickness}" />
     <Setter Property="MinWidth" Value="0" />
     <Setter Property="MinHeight" Value="0" />
     <Setter Property="UseSystemFocusVisuals" Value="True" />
@@ -99,13 +99,13 @@
         <ControlTemplate TargetType="Button">
           <Grid x:Name="Root"
                 Background="{TemplateBinding Background}"
-                CornerRadius="999"
+                CornerRadius="{ThemeResource RadiusFullCornerRadius}"
                 RenderTransformOrigin="0.5,0.5">
             <Grid.RenderTransform>
               <ScaleTransform x:Name="PressScale" ScaleX="1" ScaleY="1" />
             </Grid.RenderTransform>
             <Border x:Name="StateLayer"
-                    CornerRadius="999"
+                    CornerRadius="{ThemeResource RadiusFullCornerRadius}"
                     Background="{TemplateBinding Foreground}"
                     Opacity="0" />
             <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
@@ -230,7 +230,7 @@
             </Border>
             <StackPanel Padding="10,8" Spacing="3">
               <TextBlock Text="{Binding Title}" Style="{StaticResource LabelLarge}" Foreground="{ThemeResource OnSurfaceBrush}" TextTrimming="CharacterEllipsis" MaxLines="1" />
-              <StackPanel Orientation="Horizontal" Spacing="4" VerticalAlignment="Center">
+              <StackPanel Orientation="Horizontal" Spacing="{ThemeResource Space100}" VerticalAlignment="Center">
                 <Viewbox Width="12" Height="12">
                   <Path Data="{Binding Source=star, Converter={StaticResource Icon}, ConverterParameter=filled}" Fill="{ThemeResource TertiaryBrush}" Stretch="Uniform" />
                 </Viewbox>

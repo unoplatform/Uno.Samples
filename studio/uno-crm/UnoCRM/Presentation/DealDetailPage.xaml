@@ -21,7 +21,7 @@
           </Grid.RowDefinitions>
 
           <!-- Header: back button + breadcrumb -->
-          <StackPanel Orientation="Horizontal" Spacing="12" VerticalAlignment="Center">
+          <StackPanel Orientation="Horizontal" Spacing="{ThemeResource Space300}" VerticalAlignment="Center">
             <Button uen:Navigation.Request="-"
                     AutomationProperties.Name="Back"
                     Style="{StaticResource DashboardIconButtonStyle}">
@@ -40,7 +40,7 @@
           <Border Grid.Row="1"
                   Style="{StaticResource DashboardPanelBorderStyle}"
                   Padding="28,26">
-            <StackPanel Spacing="16">
+            <StackPanel Spacing="{ThemeResource Space400}">
               <Grid>
                 <Grid.ColumnDefinitions>
                   <ColumnDefinition Width="*" />
@@ -61,7 +61,7 @@
                 </Border>
               </Grid>
 
-              <StackPanel Spacing="2">
+              <StackPanel Spacing="{ThemeResource Space050}">
                 <TextBlock Text="DEAL VALUE"
                            Style="{StaticResource DashboardSectionLabelStyle}" />
                 <TextBlock Text="{Binding Deal.AmountDisplay}"
@@ -82,12 +82,12 @@
                   <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
-                <StackPanel Spacing="4">
+                <StackPanel Spacing="{ThemeResource Space100}">
                   <TextBlock Text="OWNER" Style="{StaticResource DashboardSectionLabelStyle}" />
                   <TextBlock Text="{Binding Deal.Owner}" Style="{StaticResource DashboardBodyTextStyle}" />
                 </StackPanel>
 
-                <StackPanel Grid.Column="1" Spacing="4">
+                <StackPanel Grid.Column="1" Spacing="{ThemeResource Space100}">
                   <TextBlock Text="LEAD SOURCE" Style="{StaticResource DashboardSectionLabelStyle}" />
                   <TextBlock Text="{Binding Deal.Source}" Style="{StaticResource DashboardBodyTextStyle}" />
                 </StackPanel>
@@ -101,9 +101,9 @@
                   <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
-                <StackPanel Spacing="4">
+                <StackPanel Spacing="{ThemeResource Space100}">
                   <TextBlock Text="HEALTH" Style="{StaticResource DashboardSectionLabelStyle}" />
-                  <StackPanel Orientation="Horizontal" Spacing="8">
+                  <StackPanel Orientation="Horizontal" Spacing="{ThemeResource Space200}">
                     <Ellipse Width="10" Height="10" VerticalAlignment="Center"
                              Fill="{Binding Deal.AccentKey, Converter={StaticResource ResourceKeyToBrush}}" />
                     <TextBlock Text="{Binding Deal.HealthDisplay}"
@@ -112,7 +112,7 @@
                   </StackPanel>
                 </StackPanel>
 
-                <StackPanel Grid.Column="1" Spacing="4">
+                <StackPanel Grid.Column="1" Spacing="{ThemeResource Space100}">
                   <TextBlock Text="AGE IN STAGE" Style="{StaticResource DashboardSectionLabelStyle}" />
                   <TextBlock Text="{Binding Deal.MetaDisplay}" Style="{StaticResource DashboardBodyTextStyle}" />
                 </StackPanel>

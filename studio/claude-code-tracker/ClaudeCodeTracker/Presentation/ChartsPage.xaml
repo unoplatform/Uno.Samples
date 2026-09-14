@@ -12,13 +12,13 @@
 
     <Grid x:Name="Root" utu:SafeArea.Insets="Top">
         <ScrollViewer VerticalScrollBarVisibility="Auto">
-            <StackPanel Spacing="20"
+            <StackPanel Spacing="{ThemeResource Space500}"
                         Padding="20,16,20,24"
                         MaxWidth="1100"
                         HorizontalAlignment="Stretch">
 
                 <!-- Header -->
-                <StackPanel Spacing="2">
+                <StackPanel Spacing="{ThemeResource Space050}">
                     <TextBlock
                                Style="{StaticResource TitleLarge}"
                                Foreground="{ThemeResource OnBackgroundBrush}"
@@ -34,8 +34,8 @@
                                         HorizontalAlignment="Stretch">
                     <utu:CardContentControl.ContentTemplate>
                         <DataTemplate>
-                            <StackPanel Padding="16" Spacing="12">
-                                <StackPanel Spacing="2">
+                            <StackPanel Padding="{ThemeResource Space400Thickness}" Spacing="{ThemeResource Space300}">
+                                <StackPanel Spacing="{ThemeResource Space050}">
                                     <TextBlock
                                                Style="{StaticResource TitleSmall}"
                                                Foreground="{ThemeResource OnSurfaceBrush}"
@@ -62,8 +62,8 @@
                                         HorizontalAlignment="Stretch">
                     <utu:CardContentControl.ContentTemplate>
                         <DataTemplate>
-                            <StackPanel Padding="16" Spacing="12">
-                                <StackPanel Spacing="2">
+                            <StackPanel Padding="{ThemeResource Space400Thickness}" Spacing="{ThemeResource Space300}">
+                                <StackPanel Spacing="{ThemeResource Space050}">
                                     <TextBlock
                                                Style="{StaticResource TitleSmall}"
                                                Foreground="{ThemeResource OnSurfaceBrush}"
@@ -105,7 +105,7 @@
                                             HorizontalAlignment="Stretch">
                         <utu:CardContentControl.ContentTemplate>
                             <DataTemplate>
-                                <StackPanel Margin="16" Spacing="2">
+                                <StackPanel Margin="{ThemeResource Space400Thickness}" Spacing="{ThemeResource Space050}">
                                     <TextBlock
                                                Style="{StaticResource TitleSmall}"
                                                Foreground="{ThemeResource OnSurfaceBrush}"
@@ -118,15 +118,15 @@
                                                   LegendPosition="Hidden"
                                                   InitialRotation="-90"
                                                   Height="200"
-                                                  Margin="0,8,0,0"
+                                                  Margin="{ThemeResource Space200TopThickness}"
                                                   AutomationProperties.Name="Token type breakdown chart" />
-                                    <ItemsRepeater ItemsSource="{Binding TokenTypeLegend}" Margin="0,12,0,0">
+                                    <ItemsRepeater ItemsSource="{Binding TokenTypeLegend}" Margin="{ThemeResource Space300TopThickness}">
                                         <ItemsRepeater.Layout>
                                             <UniformGridLayout MinItemWidth="130" MinColumnSpacing="8" MinRowSpacing="6" />
                                         </ItemsRepeater.Layout>
                                         <ItemsRepeater.ItemTemplate>
                                             <DataTemplate>
-                                                <StackPanel Orientation="Horizontal" Spacing="6">
+                                                <StackPanel Orientation="Horizontal" Spacing="{ThemeResource Space150}">
                                                     <Ellipse Width="10" Height="10" VerticalAlignment="Center" Fill="{Binding Swatch, Converter={StaticResource ColorToBrush}}" />
                                                     <TextBlock Style="{StaticResource LabelSmall}" VerticalAlignment="Center" Foreground="{ThemeResource OnSurfaceVariantBrush}" Text="{Binding Label}" />
                                                     <TextBlock Style="{StaticResource LabelSmall}" VerticalAlignment="Center" Foreground="{ThemeResource OnSurfaceBrush}" Text="{Binding ValueDisplay}" />
@@ -149,7 +149,7 @@
                                             HorizontalAlignment="Stretch">
                         <utu:CardContentControl.ContentTemplate>
                             <DataTemplate>
-                                <StackPanel Margin="16" Spacing="2">
+                                <StackPanel Margin="{ThemeResource Space400Thickness}" Spacing="{ThemeResource Space050}">
                                     <TextBlock
                                                Style="{StaticResource TitleSmall}"
                                                Foreground="{ThemeResource OnSurfaceBrush}"
@@ -161,15 +161,15 @@
                                                   LegendPosition="Hidden"
                                                   InitialRotation="-90"
                                                   Height="200"
-                                                  Margin="0,8,0,0"
+                                                  Margin="{ThemeResource Space200TopThickness}"
                                                   AutomationProperties.Name="Model token share chart" />
-                                    <ItemsRepeater ItemsSource="{Binding ModelShareLegend}" Margin="0,12,0,0">
+                                    <ItemsRepeater ItemsSource="{Binding ModelShareLegend}" Margin="{ThemeResource Space300TopThickness}">
                                         <ItemsRepeater.Layout>
                                             <UniformGridLayout MinItemWidth="130" MinColumnSpacing="8" MinRowSpacing="6" />
                                         </ItemsRepeater.Layout>
                                         <ItemsRepeater.ItemTemplate>
                                             <DataTemplate>
-                                                <StackPanel Orientation="Horizontal" Spacing="6">
+                                                <StackPanel Orientation="Horizontal" Spacing="{ThemeResource Space150}">
                                                     <Ellipse Width="10" Height="10" VerticalAlignment="Center" Fill="{Binding Swatch, Converter={StaticResource ColorToBrush}}" />
                                                     <TextBlock Style="{StaticResource LabelSmall}" VerticalAlignment="Center" Foreground="{ThemeResource OnSurfaceVariantBrush}" Text="{Binding Label}" />
                                                     <TextBlock Style="{StaticResource LabelSmall}" VerticalAlignment="Center" Foreground="{ThemeResource OnSurfaceBrush}" Text="{Binding ValueDisplay}" />

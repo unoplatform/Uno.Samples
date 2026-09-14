@@ -13,8 +13,8 @@
     -->
     <Style x:Key="ContactListItemStyle" TargetType="ListViewItem">
       <Setter Property="Background" Value="Transparent" />
-      <Setter Property="Padding" Value="0" />
-      <Setter Property="Margin" Value="0" />
+      <Setter Property="Padding" Value="{ThemeResource Space0Thickness}" />
+      <Setter Property="Margin" Value="{ThemeResource Space0Thickness}" />
       <Setter Property="MinHeight" Value="0" />
       <Setter Property="HorizontalContentAlignment" Value="Stretch" />
       <Setter Property="Template">
@@ -44,7 +44,7 @@
                                 ContentTransitions="{TemplateBinding ContentTransitions}" />
               <Border x:Name="HoverRing"
                       Margin="0,0,0,10"
-                      CornerRadius="12"
+                      CornerRadius="{ThemeResource Radius300CornerRadius}"
                       BorderThickness="1.5"
                       BorderBrush="Transparent"
                       IsHitTestVisible="False" />
@@ -76,7 +76,7 @@
               <ColumnDefinition Width="*" />
               <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
-            <StackPanel Spacing="4">
+            <StackPanel Spacing="{ThemeResource Space100}">
               <TextBlock Text="Contacts Atlas"
                          Style="{StaticResource DashboardCardTitleStyle}" />
               <TextBlock Text="Discover and segment contacts by geography, region, and segment"
@@ -91,7 +91,7 @@
                         VerticalAlignment="Center">
               <Button Style="{StaticResource DashboardPrimaryButtonStyle}"
                       Click="ResetView_Click">
-                <StackPanel Orientation="Horizontal" Spacing="8">
+                <StackPanel Orientation="Horizontal" Spacing="{ThemeResource Space200}">
                   <Path Width="14" Height="14"
                         Data="F1 M7.93413 16.0659C8.22703 16.3588 8.22703 16.8336 7.93413 17.1265C7.64124 17.4194 7.16637 17.4194 6.87347 17.1265C4.04217 14.2952 4.04217 9.70478 6.87347 6.87348C8.71833 5.02862 11.3099 4.38674 13.6723 4.94459C14.0755 5.03978 14.3251 5.44375 14.2299 5.84687C14.1347 6.25 13.7308 6.49963 13.3276 6.40444C11.45 5.96106 9.39622 6.47205 7.93413 7.93414C5.68862 10.1797 5.68862 13.8203 7.93413 16.0659ZM17.8879 9.1415C18.2789 9.00477 18.7067 9.21089 18.8435 9.60189C19.7333 12.1463 19.1624 15.0907 17.1265 17.1265C16.8336 17.4194 16.3588 17.4194 16.0659 17.1265C15.773 16.8336 15.773 16.3588 16.0659 16.0659C17.6791 14.4526 18.1344 12.1183 17.4276 10.097C17.2908 9.70604 17.4969 9.27824 17.8879 9.1415ZM15.8791 6.66732C16.1062 6.47297 16.439 6.46653 16.6734 6.65195C16.9078 6.83738 16.9781 7.16278 16.8412 7.42842L16.7119 7.67862C16.6295 7.83801 16.5113 8.06624 16.3681 8.34179C16.0818 8.89278 15.6954 9.63339 15.2955 10.3912C14.8959 11.1485 14.4815 11.9253 14.1395 12.5479C13.9686 12.8589 13.8142 13.1344 13.6879 13.3509C13.5703 13.5524 13.4548 13.7421 13.3688 13.8508C12.7263 14.6629 11.5471 14.8004 10.735 14.1579C9.92288 13.5154 9.78538 12.3362 10.4279 11.5241C10.5139 11.4154 10.672 11.2593 10.8409 11.0986C11.0226 10.9258 11.2552 10.7121 11.5185 10.4744C12.0457 9.9983 12.7063 9.41631 13.3514 8.85315C13.9969 8.28961 14.6288 7.74321 15.0991 7.33783C15.3343 7.1351 15.5292 6.96755 15.6654 6.85065L15.8791 6.66732Z"
                         Stretch="Uniform"
@@ -127,7 +127,7 @@
             <ComboBox Grid.Column="1"
                       HorizontalAlignment="Stretch"
                       Height="44"
-                      CornerRadius="12"
+                      CornerRadius="{ThemeResource Radius300CornerRadius}"
                       FontSize="14"
                       VerticalContentAlignment="Center"
                       ItemsSource="{Binding Regions}"
@@ -136,7 +136,7 @@
             <ComboBox Grid.Column="2"
                       HorizontalAlignment="Stretch"
                       Height="44"
-                      CornerRadius="12"
+                      CornerRadius="{ThemeResource Radius300CornerRadius}"
                       FontSize="14"
                       VerticalContentAlignment="Center"
                       ItemsSource="{Binding Segments}"
@@ -162,12 +162,12 @@
 <!-- Title on its own line (full card width so it never clips), stats in a row beneath it —
                      a stat row sharing the title's row squeezes the title into a mid-word wrap at
                      tablet widths. -->
-                <StackPanel Spacing="4">
+                <StackPanel Spacing="{ThemeResource Space100}">
                   <TextBlock Text="Live Contact Geography"
                              Style="{StaticResource DashboardSectionTitleStyle}"
                              TextWrapping="NoWrap"
                              TextTrimming="CharacterEllipsis" />
-                  <StackPanel Orientation="Horizontal" Spacing="16">
+                  <StackPanel Orientation="Horizontal" Spacing="{ThemeResource Space400}">
                     <TextBlock Text="{Binding TotalFilteredLabel}"
                                Style="{StaticResource DashboardSubtleTextStyle}" />
                     <TextBlock Text="{Binding RegionsLabel}"
@@ -208,7 +208,7 @@
                     <DataTemplate>
                       <Border Style="{StaticResource DashboardKanbanCardStyle}"
                               Margin="0,0,0,10">
-                        <StackPanel Spacing="6">
+                        <StackPanel Spacing="{ThemeResource Space150}">
                           <Grid>
                             <Grid.ColumnDefinitions>
                               <ColumnDefinition Width="*" />
@@ -246,7 +246,7 @@
                            Style="{StaticResource DashboardSubtleTextStyle}"
                            HorizontalAlignment="Center"
                            VerticalAlignment="Top"
-                           Margin="0,24,0,0"
+                           Margin="{ThemeResource Space600TopThickness}"
                            Visibility="{Binding HasNoResults, Converter={StaticResource BoolToVisibility}}" />
               </Grid>
             </Border>
@@ -266,7 +266,7 @@
             <RowDefinition Height="Auto" />
           </Grid.RowDefinitions>
 
-          <StackPanel Spacing="6">
+          <StackPanel Spacing="{ThemeResource Space150}">
             <TextBlock Text="Contacts"
                        Style="{StaticResource DashboardCardTitleStyle}"
                        FontSize="32" />
@@ -296,13 +296,13 @@
                 <ColumnDefinition Width="*" />
               </Grid.ColumnDefinitions>
               <ComboBox Grid.Column="0"
-                        CornerRadius="12"
+                        CornerRadius="{ThemeResource Radius300CornerRadius}"
                         FontSize="14"
                         HorizontalAlignment="Stretch"
                         ItemsSource="{Binding Regions}"
                         SelectedItem="{Binding RegionFilter, Mode=TwoWay}" />
               <ComboBox Grid.Column="1"
-                        CornerRadius="12"
+                        CornerRadius="{ThemeResource Radius300CornerRadius}"
                         FontSize="14"
                         HorizontalAlignment="Stretch"
                         ItemsSource="{Binding Segments}"
@@ -349,7 +349,7 @@
                   <DataTemplate>
                     <Border Style="{StaticResource DashboardKanbanCardStyle}"
                             Margin="0,0,0,10">
-                      <StackPanel Spacing="6">
+                      <StackPanel Spacing="{ThemeResource Space150}">
                         <TextBlock Text="{Binding Name}" Style="{StaticResource DashboardBodyTextStyle}" />
                         <TextBlock Text="{Binding Company}" Style="{StaticResource DashboardSubtleTextStyle}" />
                         <Grid>

@@ -39,7 +39,7 @@
     <Setter Property="Background" Value="{ThemeResource SurfaceBrush}" />
     <Setter Property="BorderBrush" Value="{ThemeResource OutlineVariantBrush}" />
     <Setter Property="BorderThickness" Value="1" />
-    <Setter Property="CornerRadius" Value="20" />
+    <Setter Property="CornerRadius" Value="{ThemeResource Radius500CornerRadius}" />
   </Style>
 
   <!-- Section micro-label: uppercase, wide tracking — reads like an
@@ -75,7 +75,7 @@
   <Style x:Key="FlatButtonStyle" TargetType="Button">
     <Setter Property="Background" Value="Transparent" />
     <Setter Property="BorderThickness" Value="0" />
-    <Setter Property="Padding" Value="0" />
+    <Setter Property="Padding" Value="{ThemeResource Space0Thickness}" />
     <Setter Property="UseSystemFocusVisuals" Value="True" />
     <Setter Property="Template">
       <Setter.Value>
@@ -164,7 +164,7 @@
                 </VisualState>
               </VisualStateGroup>
             </VisualStateManager.VisualStateGroups>
-            <Border x:Name="PrimRoot" Background="{TemplateBinding Background}" CornerRadius="14">
+            <Border x:Name="PrimRoot" Background="{TemplateBinding Background}" CornerRadius="{ThemeResource Radius400CornerRadius}">
               <Grid>
                 <ContentPresenter x:Name="PrimContent"
                                   Content="{TemplateBinding Content}"
@@ -176,7 +176,7 @@
                                   HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                   VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
                 <Border x:Name="PrimOverlay"
-                        CornerRadius="14"
+                        CornerRadius="{ThemeResource Radius400CornerRadius}"
                         Background="{ThemeResource OnPrimaryBrush}"
                         Opacity="0"
                         IsHitTestVisible="False" />
