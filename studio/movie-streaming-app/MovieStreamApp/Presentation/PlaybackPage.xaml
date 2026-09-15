@@ -23,7 +23,7 @@
   -->
   <Grid>
     <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
-      <StackPanel HorizontalAlignment="Stretch" MaxWidth="1100" Spacing="0">
+      <StackPanel HorizontalAlignment="Stretch" MaxWidth="1100" Spacing="{ThemeResource Space0}">
 
         <!-- Player: 16:9 backdrop, dark overlay, centred play/pause, notch-clearing Back -->
         <Grid>
@@ -79,7 +79,7 @@
                     Background="#66000000"
                     Foreground="White"
                     Width="44" Height="44"
-                    Margin="12"
+                    Margin="{ThemeResource Space300Thickness}"
                     uen:Navigation.Request="-"
                     AutomationProperties.Name="Back">
               <Viewbox Width="22" Height="22">
@@ -149,17 +149,17 @@
         </StackPanel>
 
         <!-- Now-playing meta + Cast + More Like This -->
-        <StackPanel Padding="20,8,20,28" Spacing="20">
+        <StackPanel Padding="20,8,20,28" Spacing="{ThemeResource Space500}">
 
           <!-- Title, genre / year / rating -->
-          <StackPanel Spacing="8">
+          <StackPanel Spacing="{ThemeResource Space200}">
             <TextBlock Text="{Binding NowPlaying.Title}" Style="{StaticResource TitleLarge}" Foreground="{ThemeResource OnBackgroundBrush}" FontWeight="Bold" TextWrapping="Wrap" />
             <StackPanel Orientation="Horizontal" Spacing="10" VerticalAlignment="Center">
               <TextBlock Text="{Binding NowPlaying.Genre}" Style="{StaticResource BodySmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" VerticalAlignment="Center" />
               <TextBlock Text="•" Style="{StaticResource BodySmall}" Foreground="{ThemeResource OutlineBrush}" VerticalAlignment="Center" />
               <TextBlock Text="{Binding NowPlaying.Year}" Style="{StaticResource BodySmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" VerticalAlignment="Center" />
               <TextBlock Text="•" Style="{StaticResource BodySmall}" Foreground="{ThemeResource OutlineBrush}" VerticalAlignment="Center" />
-              <StackPanel Orientation="Horizontal" Spacing="4" VerticalAlignment="Center">
+              <StackPanel Orientation="Horizontal" Spacing="{ThemeResource Space100}" VerticalAlignment="Center">
                 <Viewbox Width="15" Height="15">
                   <Path Data="{Binding Source=star, Converter={StaticResource Icon}, ConverterParameter=filled}" Fill="{ThemeResource TertiaryBrush}" Stretch="Uniform" />
                 </Viewbox>
@@ -170,22 +170,22 @@
 
           <!-- Director / Released / Audience score -->
           <StackPanel Orientation="Horizontal" Spacing="28">
-            <StackPanel Spacing="2">
+            <StackPanel Spacing="{ThemeResource Space050}">
               <TextBlock Text="{Binding Director}" Style="{StaticResource TitleSmall}" Foreground="{ThemeResource OnBackgroundBrush}" />
               <TextBlock Text="Director" Style="{StaticResource LabelSmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" />
             </StackPanel>
-            <StackPanel Spacing="2">
+            <StackPanel Spacing="{ThemeResource Space050}">
               <TextBlock Text="{Binding ReleaseDate}" Style="{StaticResource TitleSmall}" Foreground="{ThemeResource OnBackgroundBrush}" />
               <TextBlock Text="Released" Style="{StaticResource LabelSmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" />
             </StackPanel>
-            <StackPanel Spacing="2">
+            <StackPanel Spacing="{ThemeResource Space050}">
               <TextBlock Text="{Binding AudienceScore}" Style="{StaticResource TitleSmall}" Foreground="{ThemeResource TertiaryBrush}" />
               <TextBlock Text="Audience" Style="{StaticResource LabelSmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" />
             </StackPanel>
           </StackPanel>
 
           <!-- Synopsis -->
-          <StackPanel Spacing="6">
+          <StackPanel Spacing="{ThemeResource Space150}">
             <TextBlock Text="Synopsis" Style="{StaticResource TitleMedium}" Foreground="{ThemeResource OnBackgroundBrush}" />
             <TextBlock Text="{Binding NowPlaying.Description}" Style="{StaticResource BodyMedium}" Foreground="{ThemeResource OnSurfaceVariantBrush}" TextWrapping="Wrap" />
           </StackPanel>
@@ -199,8 +199,8 @@
               </ItemsRepeater.Layout>
               <ItemsRepeater.ItemTemplate>
                 <DataTemplate>
-                  <Border Background="{ThemeResource SurfaceVariantBrush}" CornerRadius="12" Padding="14,12">
-                    <StackPanel Spacing="2">
+                  <Border Background="{ThemeResource SurfaceVariantBrush}" CornerRadius="{ThemeResource Radius300CornerRadius}" Padding="14,12">
+                    <StackPanel Spacing="{ThemeResource Space050}">
                       <TextBlock Text="{Binding Name}" Style="{StaticResource LabelLarge}" Foreground="{ThemeResource OnSurfaceBrush}" TextTrimming="CharacterEllipsis" MaxLines="1" />
                       <TextBlock Text="{Binding Role}" Style="{StaticResource LabelSmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" TextTrimming="CharacterEllipsis" MaxLines="1" />
                     </StackPanel>
