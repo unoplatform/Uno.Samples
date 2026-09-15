@@ -11,7 +11,7 @@
     converter; every image tile is a Border+ImageBrush so it clips to the corner radius.
   -->
   <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
-    <StackPanel Spacing="0">
+    <StackPanel Spacing="{ThemeResource Space0}">
 
       <!-- Hero backdrop with poster + title overlaid -->
       <Grid Height="300">
@@ -34,18 +34,18 @@
             <ColumnDefinition Width="110" />
             <ColumnDefinition Width="*" />
           </Grid.ColumnDefinitions>
-          <Border Grid.Column="0" Height="160" CornerRadius="12">
+          <Border Grid.Column="0" Height="160" CornerRadius="{ThemeResource Radius300CornerRadius}">
             <Border.Background>
               <ImageBrush ImageSource="{Binding PosterImageUrl}" Stretch="UniformToFill" />
             </Border.Background>
           </Border>
-          <StackPanel Grid.Column="1" VerticalAlignment="Bottom" Spacing="6">
+          <StackPanel Grid.Column="1" VerticalAlignment="Bottom" Spacing="{ThemeResource Space150}">
             <TextBlock Text="{Binding Movie.Title}" Style="{StaticResource HeadlineSmall}" Foreground="White" FontWeight="Bold" TextWrapping="Wrap" />
             <TextBlock Text="{Binding Tagline}" Style="{StaticResource BodySmall}" Foreground="#CCFFFFFF" FontStyle="Italic" TextWrapping="Wrap" MaxLines="2" TextTrimming="CharacterEllipsis" />
             <StackPanel Orientation="Horizontal" Spacing="10">
               <TextBlock Text="{Binding Movie.Year}" Style="{StaticResource BodySmall}" Foreground="#CCFFFFFF" />
               <TextBlock Text="{Binding Movie.Duration}" Style="{StaticResource BodySmall}" Foreground="#CCFFFFFF" />
-              <Border Background="#33FFFFFF" CornerRadius="4" Padding="6,1" VerticalAlignment="Center">
+              <Border Background="#33FFFFFF" CornerRadius="{ThemeResource Radius100CornerRadius}" Padding="6,1" VerticalAlignment="Center">
                 <TextBlock Text="{Binding AgeRating}" Style="{StaticResource LabelSmall}" Foreground="White" />
               </Border>
             </StackPanel>
@@ -53,10 +53,10 @@
         </Grid>
       </Grid>
 
-      <StackPanel Padding="20,16,20,28" Spacing="20">
+      <StackPanel Padding="20,16,20,28" Spacing="{ThemeResource Space500}">
 
         <!-- Rating stars + score -->
-        <StackPanel Orientation="Horizontal" Spacing="12" VerticalAlignment="Center">
+        <StackPanel Orientation="Horizontal" Spacing="{ThemeResource Space300}" VerticalAlignment="Center">
           <ItemsControl ItemsSource="{Binding Stars}">
             <ItemsControl.ItemsPanel>
               <ItemsPanelTemplate>
@@ -79,12 +79,12 @@
         </StackPanel>
 
         <!-- Actions: Play + Watchlist toggle + Share -->
-        <StackPanel Orientation="Horizontal" Spacing="12">
+        <StackPanel Orientation="Horizontal" Spacing="{ThemeResource Space300}">
           <Button Style="{StaticResource FilledButtonStyle}"
                   uen:Navigation.Request="Playback"
                   uen:Navigation.Data="{Binding Movie}"
                   AutomationProperties.Name="Play movie">
-            <StackPanel Orientation="Horizontal" Spacing="8">
+            <StackPanel Orientation="Horizontal" Spacing="{ThemeResource Space200}">
               <Viewbox Width="18" Height="18">
                 <Path Data="{Binding Source=play, Converter={StaticResource Icon}}" Fill="{ThemeResource OnPrimaryBrush}" Stretch="Uniform" />
               </Viewbox>
@@ -130,10 +130,10 @@
         </StackPanel>
 
         <!-- Synopsis -->
-        <StackPanel Spacing="6">
+        <StackPanel Spacing="{ThemeResource Space150}">
           <TextBlock Text="Synopsis" Style="{StaticResource TitleMedium}" Foreground="{ThemeResource OnBackgroundBrush}" />
           <TextBlock Text="{Binding Movie.Description}" Style="{StaticResource BodyMedium}" Foreground="{ThemeResource OnSurfaceVariantBrush}" TextWrapping="Wrap" />
-          <TextBlock Style="{StaticResource BodySmall}" Foreground="{ThemeResource OutlineBrush}" Margin="0,4,0,0">
+          <TextBlock Style="{StaticResource BodySmall}" Foreground="{ThemeResource OutlineBrush}" Margin="{ThemeResource Space100TopThickness}">
             <Run Text="Director:" />
             <Run Text="{Binding Director}" Foreground="{ThemeResource OnSurfaceVariantBrush}" />
           </TextBlock>
@@ -148,8 +148,8 @@
             </ItemsRepeater.Layout>
             <ItemsRepeater.ItemTemplate>
               <DataTemplate>
-                <StackPanel Spacing="6" HorizontalAlignment="Center">
-                  <Border Width="72" Height="72" CornerRadius="36">
+                <StackPanel Spacing="{ThemeResource Space150}" HorizontalAlignment="Center">
+                  <Border Width="72" Height="72" CornerRadius="{ThemeResource RadiusFullCornerRadius}">
                     <Border.Background>
                       <ImageBrush ImageSource="{Binding ImageUrl}" Stretch="UniformToFill" />
                     </Border.Background>
@@ -163,23 +163,23 @@
         </StackPanel>
 
         <!-- Reviews -->
-        <StackPanel Spacing="12">
+        <StackPanel Spacing="{ThemeResource Space300}">
           <TextBlock Text="Reviews" Style="{StaticResource TitleMedium}" Foreground="{ThemeResource OnBackgroundBrush}" />
           <ItemsRepeater ItemsSource="{Binding Reviews}">
             <ItemsRepeater.Layout>
-              <StackLayout Spacing="12" />
+              <StackLayout Spacing="{ThemeResource Space300}" />
             </ItemsRepeater.Layout>
             <ItemsRepeater.ItemTemplate>
               <DataTemplate>
-                <Border Background="{ThemeResource SurfaceVariantBrush}" CornerRadius="14" Padding="14">
-                  <StackPanel Spacing="8">
+                <Border Background="{ThemeResource SurfaceVariantBrush}" CornerRadius="{ThemeResource Radius400CornerRadius}" Padding="14">
+                  <StackPanel Spacing="{ThemeResource Space200}">
                     <Grid ColumnSpacing="10">
                       <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="Auto" />
                       </Grid.ColumnDefinitions>
-                      <Border Grid.Column="0" Width="36" Height="36" CornerRadius="18">
+                      <Border Grid.Column="0" Width="36" Height="36" CornerRadius="{ThemeResource RadiusFullCornerRadius}">
                         <Border.Background>
                           <ImageBrush ImageSource="{Binding AvatarUrl}" Stretch="UniformToFill" />
                         </Border.Background>
@@ -228,7 +228,7 @@
                             <ImageBrush ImageSource="{Binding ImageUrl}" Stretch="UniformToFill" />
                           </Border.Background>
                         </Border>
-                        <StackPanel Padding="10,8" Spacing="2">
+                        <StackPanel Padding="10,8" Spacing="{ThemeResource Space050}">
                           <TextBlock Text="{Binding Title}" Style="{StaticResource LabelLarge}" Foreground="{ThemeResource OnSurfaceBrush}" TextTrimming="CharacterEllipsis" MaxLines="1" />
                           <TextBlock Text="{Binding Genre}" Style="{StaticResource BodySmall}" Foreground="{ThemeResource OutlineBrush}" />
                         </StackPanel>
