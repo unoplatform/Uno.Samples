@@ -96,6 +96,10 @@ A polished travel-discovery app built with MVUX and Uno.Extensions Navigation. A
 
 ## Other Samples
 
+### Text Features Showcase
+
+A single page touring the Uno Platform 6.6 text wave: TextBox spell-checking, TextBlock TextHighlighters, TextTrimming modes, sophisticated font fallback (Latin + emoji + CJK), and the RenderWhiteSpace toggle. [Browse source](UI/TextFeaturesShowcase)
+
 ### Advanced XBind
 
 The {x:Bind} markup extension (new for Windows 10) is an alternative to {Binding}. {x:Bind} runs in less time and less memory than {Binding} and supports better debugging.
