@@ -21,7 +21,7 @@
 
     <Border HorizontalAlignment="Center" VerticalAlignment="Center"
             Background="{ThemeResource BackgroundBrush}"
-            CornerRadius="{ThemeResource Radius700CornerRadius}">
+            CornerRadius="24">
         <Grid Width="1040" Height="560">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="440" />
@@ -42,9 +42,9 @@
                             </LinearGradientBrush>
                         </Rectangle.Fill>
                     </Rectangle>
-                    <StackPanel VerticalAlignment="Bottom" Padding="24,0,24,28" Spacing="{ThemeResource Space150}">
+                    <StackPanel VerticalAlignment="Bottom" Padding="24,0,24,28" Spacing="6">
                         <TextBlock Text="{Binding Name}" Style="{StaticResource DisplayMedium}" Foreground="White" />
-                        <StackPanel Orientation="Horizontal" Spacing="{ThemeResource Space150}">
+                        <StackPanel Orientation="Horizontal" Spacing="6">
                             <Viewbox Width="16" Height="16" VerticalAlignment="Center">
                                 <Path Data="{Binding Converter={StaticResource Icon}, ConverterParameter=location}" Fill="White" Stretch="Uniform" />
                             </Viewbox>

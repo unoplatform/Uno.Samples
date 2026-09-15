@@ -116,17 +116,10 @@
        Referenced via {utu:Responsive Layout=...} so it doesn't disturb the default breakpoints. -->
   <utu:ResponsiveLayout x:Key="DesktopModalBreakpoint" Narrowest="150" Narrow="300" Normal="600" Wide="800" Widest="1400" />
 
-  <!--
-    ===== Corner radius tokens =====
-    The well-known WinUI keys are aliased onto the theme's generated shape scale so they follow
-    DefaultCornerRadius rather than pinning literals. Simple's own styles never read them; stock
-    WinUI templates do, and would otherwise sit at WinUI's 4/8. At the default DefaultCornerRadius
-    of 4 they resolve to 16/28; the authored 14/24 sat exactly between ramp steps and rounds up.
-    ControlCornerRadiusSmall is dropped: not a WinUI key, and read by nothing in Uno.UI, Uno.Themes
-    or this app. Card/Pill below are app-named tokens, not framework keys, and stay literal.
-  -->
-  <StaticResource x:Key="ControlCornerRadius" ResourceKey="Radius400CornerRadius" />
-  <StaticResource x:Key="OverlayCornerRadius" ResourceKey="Radius700CornerRadius" />
+  <!-- ===== Corner radius tokens (override the well-known WinUI/Simple keys; win by last-merge) ===== -->
+  <CornerRadius x:Key="ControlCornerRadiusSmall">8</CornerRadius>
+  <CornerRadius x:Key="ControlCornerRadius">14</CornerRadius>
+  <CornerRadius x:Key="OverlayCornerRadius">24</CornerRadius>
   <CornerRadius x:Key="CardCornerRadius">18</CornerRadius>
   <CornerRadius x:Key="PillCornerRadius">10</CornerRadius>
 
@@ -227,7 +220,7 @@
     <Setter Property="Foreground" Value="{ThemeResource OnSurfaceVariantBrush}" />
     <Setter Property="Width" Value="40" />
     <Setter Property="Height" Value="40" />
-    <Setter Property="CornerRadius" Value="{ThemeResource Radius500CornerRadius}" />
+    <Setter Property="CornerRadius" Value="20" />
     <Setter Property="UseSystemFocusVisuals" Value="True" />
     <Setter Property="Template">
       <Setter.Value>
@@ -275,7 +268,7 @@
        while the inner content defines the look; adds a press 0.98 and a subtle hover state layer. -->
   <Style x:Key="CardButtonStyle" TargetType="Button">
     <Setter Property="Background" Value="Transparent" />
-    <Setter Property="Padding" Value="{ThemeResource Space0Thickness}" />
+    <Setter Property="Padding" Value="0" />
     <Setter Property="HorizontalContentAlignment" Value="Stretch" />
     <Setter Property="VerticalContentAlignment" Value="Stretch" />
     <Setter Property="HorizontalAlignment" Value="Stretch" />
@@ -370,7 +363,7 @@
   <Style x:Key="HeroNavButtonStyle" TargetType="Button" BasedOn="{StaticResource IconButtonStyle}">
     <Setter Property="Width" Value="40" />
     <Setter Property="Height" Value="40" />
-    <Setter Property="CornerRadius" Value="{ThemeResource Radius500CornerRadius}" />
+    <Setter Property="CornerRadius" Value="20" />
     <Setter Property="Background" Value="#59000000" />
     <Setter Property="Foreground" Value="#FFFFFF" />
     <Setter Property="VerticalAlignment" Value="Center" />
