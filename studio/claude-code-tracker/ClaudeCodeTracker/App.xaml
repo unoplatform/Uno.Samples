@@ -2,7 +2,8 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:utu="using:Uno.Toolkit.UI"
-             xmlns:utus="using:Uno.Toolkit.UI.Simple">
+             xmlns:utus="using:Uno.Toolkit.UI.Simple"
+             xmlns:ut="using:Uno.Themes">
 
     <Application.Resources>
         <ResourceDictionary>
@@ -10,9 +11,13 @@
                 <!-- Load WinUI resources -->
                 <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
 
-                <!-- Simple theme: palette comes from ThemeColors.xaml; typography tuned below -->
-                <utus:SimpleToolkitTheme ColorOverrideSource="ms-appx:///ThemeColors.xaml">
-                    <utus:SimpleToolkitTheme.FontOverrideDictionary>
+                <!-- Simple theme: the palette is generated from the three seeds below; typography tuned after -->
+                <utus:SimpleToolkitTheme>
+                  <utus:SimpleToolkitTheme.Colors>
+                    <ut:ThemeColors PrimarySeed="#B23A0A" SecondarySeed="#0F766E" TertiarySeed="#B45309"
+                                    OverrideSource="ms-appx:///ColorOverrides.xaml" />
+                  </utus:SimpleToolkitTheme.Colors>
+                  <utus:SimpleToolkitTheme.FontOverrideDictionary>
                         <ResourceDictionary>
                             <!--
                                 Base face. The Simple theme's default is Uno's OpenSans, which has no
@@ -34,7 +39,7 @@
                             <x:Double x:Key="LabelSmallFontSize">12</x:Double>
                             <FontWeight x:Key="LabelMediumFontWeight">500</FontWeight>
                         </ResourceDictionary>
-                    </utus:SimpleToolkitTheme.FontOverrideDictionary>
+                  </utus:SimpleToolkitTheme.FontOverrideDictionary>
                 </utus:SimpleToolkitTheme>
 
                 <!-- Merged last so its ThemeDictionaries win over the Simple theme: pulls the Chip
@@ -45,10 +50,16 @@
                 <ResourceDictionary Source="ms-appx:///DataTemplates.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
-            <!-- Slightly rounder corners than the Simple defaults, app-wide -->
-            <CornerRadius x:Key="ControlCornerRadiusSmall">6</CornerRadius>
-            <CornerRadius x:Key="ControlCornerRadius">12</CornerRadius>
-            <CornerRadius x:Key="OverlayCornerRadius">20</CornerRadius>
+            <!--
+              Slightly rounder corners than the Simple defaults, app-wide — aliased onto the theme's
+              generated shape scale so they follow DefaultCornerRadius rather than pinning literals.
+              Simple's own styles never read these; stock WinUI templates do, and would otherwise sit
+              at WinUI's 4/8. At the default DefaultCornerRadius of 4 they resolve to 12/20, the
+              values this app hard-coded. ControlCornerRadiusSmall is dropped: not a WinUI key, and
+              read by nothing in Uno.UI, Uno.Themes or this app.
+            -->
+            <StaticResource x:Key="ControlCornerRadius" ResourceKey="Radius300CornerRadius" />
+            <StaticResource x:Key="OverlayCornerRadius" ResourceKey="Radius500CornerRadius" />
 
 
         </ResourceDictionary>
