@@ -46,7 +46,7 @@
                     <!-- Label + live count badge; the badge shows only when the cart has items
                          (visibility = CartHasItems bool via BoolToVisibility) -->
                     <StackPanel Orientation="Horizontal"
-                                Spacing="8"
+                                Spacing="{ThemeResource Space200}"
                                 VerticalAlignment="Center">
                         <!-- Foreground is NOT inherited in WinUI/Uno, so this custom label won't pick
                              up the item's selection-driven colour on its own — bind it to the ancestor
@@ -54,7 +54,7 @@
                         <TextBlock Text="Cart" VerticalAlignment="Center"
                                    Foreground="{utu:AncestorBinding AncestorType=NavigationViewItem, Path=Foreground}" />
                         <Border Background="{ThemeResource PrimaryBrush}"
-                                CornerRadius="9"
+                                CornerRadius="{ThemeResource RadiusFullCornerRadius}"
                                 MinWidth="18"
                                 Height="18"
                                 Padding="5,0"
@@ -142,7 +142,7 @@
                                 <Border Background="{ThemeResource PrimaryBrush}"
                                         BorderBrush="{ThemeResource BackgroundBrush}"
                                         BorderThickness="1.5"
-                                        CornerRadius="8"
+                                        CornerRadius="{ThemeResource Radius200CornerRadius}"
                                         MinWidth="16"
                                         Height="16"
                                         Padding="3,0"

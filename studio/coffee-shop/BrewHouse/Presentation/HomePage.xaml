@@ -24,7 +24,7 @@
             <ScrollViewer Grid.Row="1"
                           VerticalScrollBarVisibility="Hidden"
                           VerticalScrollMode="Enabled">
-                <StackPanel Spacing="0">
+                <StackPanel Spacing="{ThemeResource Space0}">
 
                     <!-- Hero Carousel: full-bleed on phone (no corner clipping where the image meets
                          the screen edge), a taller rounded banner on desktop/web where it's inset from
@@ -60,7 +60,7 @@
                         <Button x:Name="HeroPrev"
                                 Style="{StaticResource HeroNavButtonStyle}"
                                 HorizontalAlignment="Left"
-                                Margin="12,0,0,0"
+                                Margin="{ThemeResource Space300LeftThickness}"
                                 Click="HeroPrev_Click"
                                 AutomationProperties.Name="Previous banner">
                             <!-- Path + Stretch="Uniform" (not PathIcon in a Viewbox): a PathIcon keeps
@@ -77,7 +77,7 @@
                         <Button x:Name="HeroNext"
                                 Style="{StaticResource HeroNavButtonStyle}"
                                 HorizontalAlignment="Right"
-                                Margin="0,0,12,0"
+                                Margin="{ThemeResource Space300RightThickness}"
                                 Click="HeroNext_Click"
                                 AutomationProperties.Name="Next banner">
                             <Path Data="M8.46967 4.21967C8.76256 3.92678 9.23744 3.92678 9.53033 4.21967L16.7803 11.4697C17.0732 11.7626 17.0732 12.2374 16.7803 12.5303L9.53033 19.7803C9.23744 20.0732 8.76256 20.0732 8.46967 19.7803C8.17678 19.4874 8.17678 19.0126 8.46967 18.7197L15.1893 12L8.46967 5.28033C8.17678 4.98744 8.17678 4.51256 8.46967 4.21967Z"
@@ -91,9 +91,9 @@
                     </Grid>
 
                     <!-- Today's Specials Section -->
-                    <StackPanel Spacing="0">
+                    <StackPanel Spacing="{ThemeResource Space0}">
 
-                        <StackPanel Padding="20,20,20,10" Spacing="4">
+                        <StackPanel Padding="20,20,20,10" Spacing="{ThemeResource Space100}">
                             <TextBlock Text="Today's Specials"
                                        FontSize="20"
                                        FontWeight="Bold"
@@ -124,7 +124,7 @@
                                               ItemTemplate="{StaticResource CategoryShortcutTemplate}">
                                     <ItemsControl.ItemsPanel>
                                         <ItemsPanelTemplate>
-                                            <StackPanel Orientation="Horizontal" Spacing="8" />
+                                            <StackPanel Orientation="Horizontal" Spacing="{ThemeResource Space200}" />
                                         </ItemsPanelTemplate>
                                     </ItemsControl.ItemsPanel>
                                 </ItemsControl>
@@ -150,7 +150,7 @@
                              page; visibility = CartHasItems bool (BoolToVisibility).
                              Buttons reach the page VM via Root. -->
                         <Border Background="{ThemeResource PrimaryBrush}"
-                                CornerRadius="16"
+                                CornerRadius="{ThemeResource Radius400CornerRadius}"
                                 Margin="20,20,20,4"
                                 Padding="18,14"
                                 Visibility="{Binding CartHasItems, Converter={StaticResource BoolToVisibility}}">
@@ -159,7 +159,7 @@
                                     <ColumnDefinition />
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
-                                <StackPanel Grid.Column="0" Spacing="2" VerticalAlignment="Center">
+                                <StackPanel Grid.Column="0" Spacing="{ThemeResource Space050}" VerticalAlignment="Center">
                                     <!-- ItemCountText, not ItemCount + a literal "items": the
                                          summary already pluralizes ("1 item" / "2 items"). -->
                                     <TextBlock FontSize="12"
@@ -181,7 +181,7 @@
                                         AutomationProperties.Name="View cart"
                                         Background="{ThemeResource SurfaceBrush}"
                                         Foreground="{ThemeResource PrimaryBrush}"
-                                        CornerRadius="10"
+                                        CornerRadius="{ThemeResource Radius300CornerRadius}"
                                         Padding="16,9"
                                         FontSize="13"
                                         Command="{Binding DataContext.GoToCart, ElementName=Root}" />
@@ -190,7 +190,7 @@
 
                         <!-- Empty-cup card: shown when the cart is empty (CartHasItems inverted). -->
                         <Border Background="{ThemeResource SurfaceBrush}"
-                                CornerRadius="16"
+                                CornerRadius="{ThemeResource Radius400CornerRadius}"
                                 Margin="20,20,20,4"
                                 Padding="24,28"
                                 BorderBrush="{ThemeResource BrewCardBorderBrush}"
@@ -219,11 +219,11 @@
                                 <Button Style="{StaticResource BrewButtonStyle}"
                                         Content="Browse Full Menu"
                                         AutomationProperties.Name="Browse full menu"
-                                        CornerRadius="12"
+                                        CornerRadius="{ThemeResource Radius300CornerRadius}"
                                         Padding="28,11"
                                         FontSize="14"
                                         HorizontalAlignment="Center"
-                                        Margin="0,6,0,0"
+                                        Margin="{ThemeResource Space150TopThickness}"
                                         Command="{Binding DataContext.GoToMenu, ElementName=Root}" />
                             </StackPanel>
                         </Border>

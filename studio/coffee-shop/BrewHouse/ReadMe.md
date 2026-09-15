@@ -29,9 +29,10 @@ desktop (Windows / macOS / Linux).
 - **Shared state** — `Presentation/MockData/AppState.cs` (a DI singleton) owns the cart and order
   history, so the screens stay in sync. `Models.cs` holds the entities; `RelayCommand.cs` the command
   helper.
-- **Theming** — `ThemeColors.xaml` defines the cream/espresso (light) and dark-roast (dark) palettes as
-  `ThemeDictionaries`, merged onto the Simple theme via `SimpleToolkitTheme ColorOverrideSource` and
-  referenced with `{ThemeResource}` throughout. The app icon and splash are generated from the SVGs in
+- **Theming** — the whole cream/espresso (light) and dark-roast (dark) palette is generated from three
+  seed colours on `SimpleToolkitTheme.Colors` in `App.xaml`, and referenced with `{ThemeResource}`
+  throughout. `ColorOverrides.xaml` pins back only the few roles the tonal recipe cannot reach — the
+  warm page background, the card surface and the tinted outline — via `Colors.OverrideSource`. The app icon and splash are generated from the SVGs in
   `Assets/` by [Uno.Resizetizer](https://aka.platform.uno/resizetizer).
 
 ## Running
