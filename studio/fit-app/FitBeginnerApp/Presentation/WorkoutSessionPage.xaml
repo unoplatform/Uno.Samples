@@ -20,13 +20,13 @@
                  navigation ("-" qualifier) — no view-model command needed for a static page. -->
             <Button Grid.Row="0"
                     Style="{StaticResource FlatButtonStyle}"
-                    CornerRadius="10"
+                    CornerRadius="{ThemeResource Radius300CornerRadius}"
                     Padding="12,10"
                     Margin="4,4,0,0"
                     HorizontalAlignment="Left"
                     AutomationProperties.Name="Back"
                     uen:Navigation.Request="-">
-                <StackPanel Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
+                <StackPanel Orientation="Horizontal" Spacing="{ThemeResource Space200}" VerticalAlignment="Center">
                     <Viewbox Width="16" Height="16" VerticalAlignment="Center">
                         <Path Data="F1 M15.5303 4.21967C15.8232 4.51256 15.8232 4.98744 15.5303 5.28033L8.81066 12L15.5303 18.7197C15.8232 19.0126 15.8232 19.4874 15.5303 19.7803C15.2374 20.0732 14.7626 20.0732 14.4697 19.7803L7.21967 12.5303C6.92678 12.2374 6.92678 11.7626 7.21967 11.4697L14.4697 4.21967C14.7626 3.92678 15.2374 3.92678 15.5303 4.21967Z"
                               Fill="{ThemeResource OnBackgroundBrush}"
@@ -40,7 +40,7 @@
 
             <ScrollViewer Grid.Row="1"
                           VerticalScrollBarVisibility="Auto">
-                <StackPanel Spacing="0"
+                <StackPanel Spacing="{ThemeResource Space0}"
                             Padding="16,8,16,32">
 
                     <TextBlock x:Name="TitleSection"
@@ -48,12 +48,12 @@
                                FontSize="{StaticResource FontSizeH1}"
                                Foreground="{ThemeResource OnBackgroundBrush}"
                                TextWrapping="Wrap"
-                               Margin="0,0,0,16" />
+                               Margin="{ThemeResource Space400BottomThickness}" />
 
                     <!-- Workout Summary Card -->
                     <Border x:Name="SummarySection"
                             Style="{StaticResource CardBorderStyle}"
-                            Margin="0,0,0,20">
+                            Margin="{ThemeResource Space500BottomThickness}">
                         <Grid Padding="20,16">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto" />
@@ -61,10 +61,10 @@
                             </Grid.RowDefinitions>
                             <StackPanel Grid.Row="0"
                                         Orientation="Horizontal"
-                                        Spacing="12"
+                                        Spacing="{ThemeResource Space300}"
                                         Margin="0,0,0,14">
                                 <Border Width="56" Height="56"
-                                        CornerRadius="16"
+                                        CornerRadius="{ThemeResource Radius400CornerRadius}"
                                         Background="{ThemeResource PrimaryBrush}">
                                     <Viewbox Width="26" Height="26"
                                              HorizontalAlignment="Center"
@@ -74,7 +74,7 @@
                                               Stretch="Uniform" />
                                     </Viewbox>
                                 </Border>
-                                <StackPanel Spacing="2"
+                                <StackPanel Spacing="{ThemeResource Space050}"
                                             VerticalAlignment="Center">
                                     <TextBlock Text="{Binding WorkoutType}"
                                                FontSize="{StaticResource FontSizeBody}"
@@ -86,7 +86,7 @@
                             </StackPanel>
                             <StackPanel Grid.Row="1"
                                         Orientation="Horizontal"
-                                        Spacing="24">
+                                        Spacing="{ThemeResource Space600}">
                                 <StackPanel Spacing="1">
                                     <TextBlock Text="{Binding TotalDurationMinutes}"
                                                FontSize="{StaticResource FontSizeStatSmall}"
@@ -112,7 +112,7 @@
                     <!-- Motivation Quote -->
                     <Border x:Name="MotivationSection"
                             Style="{StaticResource CardBorderStyle}"
-                            Margin="0,0,0,20">
+                            Margin="{ThemeResource Space500BottomThickness}">
                         <StackPanel Padding="16,14"
                                     Spacing="10"
                                     Orientation="Horizontal">
@@ -134,7 +134,7 @@
                     <TextBlock Text="EXERCISES" Style="{StaticResource SectionLabelStyle}" />
 
                     <!-- The routine's exercises, fetched for the workout Navigation passed in. -->
-                    <mvux:FeedView x:Name="ExercisesSection" Margin="0,0,0,20"
+                    <mvux:FeedView x:Name="ExercisesSection" Margin="{ThemeResource Space500BottomThickness}"
                                    Source="{Binding Exercises}"
                                    ValueTemplate="{StaticResource ExerciseListTemplate}"
                                    NoneTemplate="{StaticResource NoResultsYetTemplate}"
@@ -145,7 +145,7 @@
 
                     <Border x:Name="TipsSection"
                             Style="{StaticResource CardBorderStyle}"
-                            Margin="0,0,0,16">
+                            Margin="{ThemeResource Space400BottomThickness}">
                         <StackPanel Padding="16,12">
                             <ItemsRepeater ItemsSource="{Binding WarmUpNotes}"
                                            ItemTemplate="{StaticResource SessionTipTemplate}">
@@ -162,7 +162,7 @@
                                 Command="{Binding Begin}"
                                 Visibility="{Binding IsStarted, Converter={StaticResource BoolToVisibility}, ConverterParameter=Invert}" />
                         <Border Background="{ThemeResource PrimaryContainerBrush}"
-                                CornerRadius="14"
+                                CornerRadius="{ThemeResource Radius400CornerRadius}"
                                 Visibility="{Binding IsStarted, Converter={StaticResource BoolToVisibility}}">
                             <StackPanel Orientation="Horizontal"
                                         Spacing="10"
