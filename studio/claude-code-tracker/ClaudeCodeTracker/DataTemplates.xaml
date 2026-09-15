@@ -19,7 +19,7 @@
         <StackPanel HorizontalAlignment="Center"
                     VerticalAlignment="Top"
                     Margin="20,48,20,24"
-                    Spacing="12">
+                    Spacing="{ThemeResource Space300}">
             <TextBlock HorizontalAlignment="Center"
                        Style="{StaticResource BodyMedium}"
                        Foreground="{ThemeResource OnSurfaceVariantBrush}"
@@ -47,14 +47,14 @@
                                                 <ColumnDefinition Width="*" />
                                                 <ColumnDefinition Width="Auto" />
                                             </Grid.ColumnDefinitions>
-                                            <StackPanel Grid.Column="0" Spacing="6">
+                                            <StackPanel Grid.Column="0" Spacing="{ThemeResource Space150}">
                                                 <TextBlock Style="{StaticResource LabelMedium}"
                                                            Foreground="{ThemeResource OnSurfaceBrush}"
                                                            TextTrimming="CharacterEllipsis"
                                                            Text="{Binding ProjectName}" />
-                                                <StackPanel Orientation="Horizontal" Spacing="6">
+                                                <StackPanel Orientation="Horizontal" Spacing="{ThemeResource Space150}">
                                                     <Border Background="{ThemeResource SecondaryContainerBrush}"
-                                                            CornerRadius="4"
+                                                            CornerRadius="{ThemeResource Radius100CornerRadius}"
                                                             Padding="6,2">
                                                         <TextBlock Style="{StaticResource LabelSmall}"
                                                                    Foreground="{ThemeResource OnSecondaryContainerBrush}"
@@ -71,7 +71,7 @@
                                                     </TextBlock>
                                                 </StackPanel>
                                             </StackPanel>
-                                            <StackPanel Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center" Spacing="2">
+                                            <StackPanel Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center" Spacing="{ThemeResource Space050}">
                                                 <TextBlock Style="{StaticResource LabelMedium}"
                                                            HorizontalAlignment="Right"
                                                            Foreground="{ThemeResource PrimaryBrush}"
@@ -105,7 +105,7 @@
                                                                    Foreground="{ThemeResource OnSurfaceBrush}"
                                                                    TextTrimming="CharacterEllipsis"
                                                                    Text="{Binding ProjectName}" />
-                                                        <StackPanel Orientation="Horizontal" Spacing="6">
+                                                        <StackPanel Orientation="Horizontal" Spacing="{ThemeResource Space150}">
                                                             <TextBlock Style="{StaticResource LabelSmall}"
                                                                        Foreground="{ThemeResource SecondaryBrush}"
                                                                        Text="{Binding ModelDisplayName}" />
@@ -118,7 +118,7 @@
                                                             </TextBlock>
                                                         </StackPanel>
                                                     </StackPanel>
-                                                    <StackPanel Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center" Spacing="2">
+                                                    <StackPanel Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center" Spacing="{ThemeResource Space050}">
                                                         <TextBlock Style="{StaticResource LabelMedium}"
                                                                    HorizontalAlignment="Right"
                                                                    Foreground="{ThemeResource PrimaryBrush}"
@@ -136,7 +136,7 @@
     <!-- A model's spend and token share. Shared by the Dashboard's Model Usage panel and
          the Usage page's Model Usage & Cost table, which held byte-identical copies of it. -->
     <DataTemplate x:Key="ModelUsageRowTemplate">
-                                                <StackPanel Spacing="4">
+                                                <StackPanel Spacing="{ThemeResource Space100}">
                                                     <Grid>
                                                         <Grid.ColumnDefinitions>
                                                             <ColumnDefinition Width="Auto" />
@@ -168,19 +168,19 @@
                                     <utu:CardContentControl Content="{Binding}" Style="{StaticResource ElevatedCardContentControlStyle}" IsClickable="False" HorizontalAlignment="Stretch">
                                         <utu:CardContentControl.ContentTemplate>
                                             <DataTemplate>
-                                                <StackPanel Padding="14,12" Spacing="8">
+                                                <StackPanel Padding="14,12" Spacing="{ThemeResource Space200}">
                                                     <Grid>
                                                         <Grid.ColumnDefinitions>
                                                             <ColumnDefinition Width="*" />
                                                             <ColumnDefinition Width="Auto" />
                                                         </Grid.ColumnDefinitions>
-                                                        <StackPanel Grid.Column="0" Spacing="2">
+                                                        <StackPanel Grid.Column="0" Spacing="{ThemeResource Space050}">
                                                             <TextBlock Style="{StaticResource LabelMedium}" Foreground="{ThemeResource OnSurfaceBrush}" Text="{Binding LimitType}" />
                                                             <TextBlock Style="{StaticResource LabelSmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" Text="{Binding Description}" />
                                                         </StackPanel>
                                                         <!-- 12px gutter so the right-hand percent/reset never collide with a
                                                              wrapped left-column description on narrow widths -->
-                                                        <StackPanel Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center" Spacing="1" Margin="12,0,0,0">
+                                                        <StackPanel Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center" Spacing="1" Margin="{ThemeResource Space300LeftThickness}">
                                                             <TextBlock Style="{StaticResource LabelMedium}" HorizontalAlignment="Right" Foreground="{ThemeResource OnSurfaceBrush}">
                                                                 <Run Text="{Binding UsedPercent}" /><Run Text="%" />
                                                             </TextBlock>
@@ -195,7 +195,7 @@
                                 </DataTemplate>
     <!-- A row of the model price list. -->
     <DataTemplate x:Key="ModelPricingRowTemplate">
-                                                <StackPanel Spacing="2">
+                                                <StackPanel Spacing="{ThemeResource Space050}">
                                                     <Grid>
                                                         <Grid.ColumnDefinitions>
                                                             <ColumnDefinition Width="*" />
@@ -214,7 +214,7 @@
     <!-- A swatch-and-label legend row. Shared by both Charts legends, which held
          byte-identical copies of it. -->
     <DataTemplate x:Key="ChartLegendRowTemplate">
-                                                    <StackPanel Orientation="Horizontal" Spacing="6">
+                                                    <StackPanel Orientation="Horizontal" Spacing="{ThemeResource Space150}">
                                                         <Ellipse Width="10" Height="10" VerticalAlignment="Center" Fill="{Binding Swatch, Converter={StaticResource ColorToBrush}}" />
                                                         <TextBlock Style="{StaticResource LabelSmall}" VerticalAlignment="Center" Foreground="{ThemeResource OnSurfaceVariantBrush}" Text="{Binding Label}" />
                                                         <TextBlock Style="{StaticResource LabelSmall}" VerticalAlignment="Center" Foreground="{ThemeResource OnSurfaceBrush}" Text="{Binding ValueDisplay}" />
@@ -223,7 +223,7 @@
     <!-- A topic tag chip on the session detail page. -->
     <DataTemplate x:Key="TopicTagTemplate">
                                                 <Border Background="{ThemeResource SurfaceVariantBrush}"
-                                                        CornerRadius="6"
+                                                        CornerRadius="{ThemeResource Radius200CornerRadius}"
                                                         Padding="10,4">
                                                     <TextBlock Style="{StaticResource LabelSmall}"
                                                                Foreground="{ThemeResource OnSurfaceVariantBrush}"

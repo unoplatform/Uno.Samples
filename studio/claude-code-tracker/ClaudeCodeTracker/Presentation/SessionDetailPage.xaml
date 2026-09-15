@@ -16,7 +16,7 @@
         <ScrollViewer Grid.Row="1"
                       VerticalScrollBarVisibility="Auto"
                       utu:SafeArea.Insets="Bottom">
-            <StackPanel Spacing="20"
+            <StackPanel Spacing="{ThemeResource Space500}"
                         Padding="20,16,20,24"
                         MaxWidth="1100"
                         HorizontalAlignment="Stretch">
@@ -27,21 +27,21 @@
                                         HorizontalAlignment="Stretch">
                     <utu:CardContentControl.ContentTemplate>
                         <DataTemplate>
-                            <StackPanel Padding="16" Spacing="12">
-                                <StackPanel Spacing="4">
+                            <StackPanel Padding="{ThemeResource Space400Thickness}" Spacing="{ThemeResource Space300}">
+                                <StackPanel Spacing="{ThemeResource Space100}">
                                     <TextBlock Style="{StaticResource TitleMedium}"
                                                Foreground="{ThemeResource OnSurfaceBrush}"
                                                Text="{Binding Session.ProjectName}" />
-                                    <StackPanel Orientation="Horizontal" Spacing="8">
+                                    <StackPanel Orientation="Horizontal" Spacing="{ThemeResource Space200}">
                                         <Border Background="{ThemeResource SecondaryContainerBrush}"
-                                                CornerRadius="4"
+                                                CornerRadius="{ThemeResource Radius100CornerRadius}"
                                                 Padding="8,3">
                                             <TextBlock Style="{StaticResource LabelSmall}"
                                                        Foreground="{ThemeResource OnSecondaryContainerBrush}"
                                                        Text="{Binding Session.ModelDisplayName}" />
                                         </Border>
                                         <Border Background="{ThemeResource PrimaryContainerBrush}"
-                                                CornerRadius="4"
+                                                CornerRadius="{ThemeResource Radius100CornerRadius}"
                                                 Padding="8,3">
                                             <TextBlock Style="{StaticResource LabelSmall}"
                                                        Foreground="{ThemeResource OnPrimaryContainerBrush}"
@@ -59,7 +59,7 @@
                                         <ColumnDefinition Width="*" />
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
-                                    <StackPanel Grid.Column="0" Spacing="2">
+                                    <StackPanel Grid.Column="0" Spacing="{ThemeResource Space050}">
                                         <TextBlock Style="{StaticResource LabelSmall}"
                                                    Foreground="{ThemeResource OnSurfaceVariantBrush}"
                                                    Text="Duration" />
@@ -68,7 +68,7 @@
                                             <Run Text="{Binding Session.DurationMinutes}" /><Run Text=" min" />
                                         </TextBlock>
                                     </StackPanel>
-                                    <StackPanel Grid.Column="1" Spacing="2">
+                                    <StackPanel Grid.Column="1" Spacing="{ThemeResource Space050}">
                                         <TextBlock Style="{StaticResource LabelSmall}"
                                                    Foreground="{ThemeResource OnSurfaceVariantBrush}"
                                                    Text="Messages" />
@@ -76,7 +76,7 @@
                                                    Foreground="{ThemeResource OnSurfaceBrush}"
                                                    Text="{Binding Session.MessageCount}" />
                                     </StackPanel>
-                                    <StackPanel Grid.Column="2" Spacing="2">
+                                    <StackPanel Grid.Column="2" Spacing="{ThemeResource Space050}">
                                         <TextBlock Style="{StaticResource LabelSmall}"
                                                    Foreground="{ThemeResource OnSurfaceVariantBrush}"
                                                    Text="Total Cost" />
@@ -96,7 +96,7 @@
                                         HorizontalAlignment="Stretch">
                     <utu:CardContentControl.ContentTemplate>
                         <DataTemplate>
-                            <StackPanel Padding="16" Spacing="12">
+                            <StackPanel Padding="{ThemeResource Space400Thickness}" Spacing="{ThemeResource Space300}">
                                 <TextBlock
                                            Style="{StaticResource TitleSmall}"
                                            Foreground="{ThemeResource OnSurfaceBrush}"
@@ -173,7 +173,7 @@
                                         HorizontalAlignment="Stretch">
                     <utu:CardContentControl.ContentTemplate>
                         <DataTemplate>
-                            <StackPanel Padding="16" Spacing="12">
+                            <StackPanel Padding="{ThemeResource Space400Thickness}" Spacing="{ThemeResource Space300}">
                                 <TextBlock
                                            Style="{StaticResource TitleSmall}"
                                            Foreground="{ThemeResource OnSurfaceBrush}"
@@ -183,7 +183,7 @@
                                         <ColumnDefinition Width="*" />
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
-                                    <StackPanel Grid.Column="0" Spacing="4">
+                                    <StackPanel Grid.Column="0" Spacing="{ThemeResource Space100}">
                                         <TextBlock Style="{StaticResource LabelSmall}"
                                                    Foreground="{ThemeResource OnSurfaceVariantBrush}"
                                                    Text="Cache hit rate" />
@@ -196,7 +196,7 @@
                                                      HorizontalAlignment="Stretch"
                                                      Height="6" />
                                     </StackPanel>
-                                    <StackPanel Grid.Column="1" Padding="16,0,0,0" Spacing="4">
+                                    <StackPanel Grid.Column="1" Padding="{ThemeResource Space400LeftThickness}" Spacing="{ThemeResource Space100}">
                                         <TextBlock Style="{StaticResource LabelSmall}"
                                                    Foreground="{ThemeResource OnSurfaceVariantBrush}"
                                                    Text="Est. savings" />
@@ -220,7 +220,7 @@
                                         HorizontalAlignment="Stretch">
                     <utu:CardContentControl.ContentTemplate>
                         <DataTemplate>
-                            <StackPanel Padding="16" Spacing="12">
+                            <StackPanel Padding="{ThemeResource Space400Thickness}" Spacing="{ThemeResource Space300}">
                                 <TextBlock
                                            Style="{StaticResource TitleSmall}"
                                            Foreground="{ThemeResource OnSurfaceBrush}"
@@ -228,7 +228,7 @@
                                 <ItemsRepeater ItemsSource="{Binding TopicTags}"
                                                ItemTemplate="{StaticResource TopicTagTemplate}">
                                     <ItemsRepeater.Layout>
-                                        <StackLayout Orientation="Horizontal" Spacing="8" />
+                                        <StackLayout Orientation="Horizontal" Spacing="{ThemeResource Space200}" />
                                     </ItemsRepeater.Layout>
                                 </ItemsRepeater>
                             </StackPanel>
