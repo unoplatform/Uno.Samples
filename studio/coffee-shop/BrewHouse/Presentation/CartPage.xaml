@@ -65,11 +65,11 @@
                                 Grid.ColumnSpan="{utu:Responsive Narrow=2, Wide=1}"
                                 VerticalAlignment="{utu:Responsive Narrow=Stretch, Wide=Top}"
                                 Background="{ThemeResource SurfaceBrush}"
-                                CornerRadius="16"
-                                Padding="20"
+                                CornerRadius="{ThemeResource Radius400CornerRadius}"
+                                Padding="{ThemeResource Space500Thickness}"
                                 BorderBrush="{ThemeResource BrewCardBorderBrush}"
                                 BorderThickness="1">
-                            <StackPanel Spacing="0">
+                            <StackPanel Spacing="{ThemeResource Space0}">
 
                                 <!-- Summary Title -->
                                 <TextBlock Text="Order Summary"
@@ -79,7 +79,7 @@
                                            Margin="0,0,0,14" />
 
                                 <!-- Subtotal Row -->
-                                <Grid Margin="0,0,0,8">
+                                <Grid Margin="{ThemeResource Space200BottomThickness}">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition />
                                         <ColumnDefinition Width="Auto" />
@@ -98,7 +98,7 @@
                                 </Grid>
 
                                 <!-- Tax Row -->
-                                <Grid Margin="0,0,0,12">
+                                <Grid Margin="{ThemeResource Space300BottomThickness}">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition />
                                         <ColumnDefinition Width="Auto" />
@@ -119,7 +119,7 @@
                                 <!-- Divider -->
                                 <Border Height="1"
                                         Background="{ThemeResource OutlineVariantBrush}"
-                                        Margin="0,0,0,12" />
+                                        Margin="{ThemeResource Space300BottomThickness}" />
 
                                 <!-- Total Row -->
                                 <Grid Margin="0,0,0,18">
@@ -147,8 +147,8 @@
                                         Content="Place Order"
                                         AutomationProperties.Name="Place order"
                                         HorizontalAlignment="Stretch"
-                                        CornerRadius="12"
-                                        Padding="0,16"
+                                        CornerRadius="{ThemeResource Radius300CornerRadius}"
+                                        Padding="{ThemeResource Space400VerticalThickness}"
                                         FontSize="16"
                                         FontWeight="Bold"
                                         Click="OnPlaceOrder"
@@ -169,7 +169,7 @@
                 <Grid MinHeight="{Binding ViewportHeight, ElementName=EmptyCartScroller}">
                             <StackPanel HorizontalAlignment="Center"
                                         VerticalAlignment="Center"
-                                        Spacing="16"
+                                        Spacing="{ThemeResource Space400}"
                                         Padding="40,40,40,40">
                                 <Viewbox Width="56" Height="56"
                                          HorizontalAlignment="Center"
@@ -189,9 +189,9 @@
                                            TextAlignment="Center"
                                            TextWrapping="Wrap" />
                                 <Border Background="{ThemeResource SurfaceVariantBrush}"
-                                        CornerRadius="16"
+                                        CornerRadius="{ThemeResource Radius400CornerRadius}"
                                         Padding="20,16"
-                                        Margin="0,8,0,0">
+                                        Margin="{ThemeResource Space200TopThickness}">
                                     <StackPanel Spacing="10">
                                         <TextBlock Text="Popular choices:"
                                                    FontSize="13"
@@ -203,7 +203,7 @@
                                                       ItemTemplate="{StaticResource PopularChoiceTemplate}">
                                             <ItemsControl.ItemsPanel>
                                                 <ItemsPanelTemplate>
-                                                    <StackPanel Orientation="Horizontal" Spacing="8" />
+                                                    <StackPanel Orientation="Horizontal" Spacing="{ThemeResource Space200}" />
                                                 </ItemsPanelTemplate>
                                             </ItemsControl.ItemsPanel>
                                         </ItemsControl>
@@ -212,11 +212,11 @@
                                 <Button Style="{StaticResource BrewButtonStyle}"
                                         Content="Browse Menu"
                                         AutomationProperties.Name="Browse menu"
-                                        CornerRadius="12"
+                                        CornerRadius="{ThemeResource Radius300CornerRadius}"
                                         Padding="32,14"
                                         FontSize="15"
                                         HorizontalAlignment="Center"
-                                        Margin="0,8,0,0"
+                                        Margin="{ThemeResource Space200TopThickness}"
                                         Command="{Binding DataContext.GoToMenu, ElementName=Root}" />
                             </StackPanel>
                 </Grid>
@@ -231,7 +231,7 @@
                     Margin="16,12,16,0"
                     Visibility="Collapsed"
                     Background="{ThemeResource SurfaceVariantBrush}"
-                    CornerRadius="12"
+                    CornerRadius="{ThemeResource Radius300CornerRadius}"
                     Padding="16,12">
                 <StackPanel Orientation="Horizontal" Spacing="10">
                     <Viewbox Width="18" Height="18" VerticalAlignment="Center">
