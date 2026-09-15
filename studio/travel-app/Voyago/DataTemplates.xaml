@@ -44,7 +44,7 @@
                 </LinearGradientBrush>
             </Rectangle.Fill>
         </Rectangle>
-        <StackPanel VerticalAlignment="Bottom" Padding="24,0,24,30" Spacing="{ThemeResource Space150}">
+        <StackPanel VerticalAlignment="Bottom" Padding="24,0,24,30" Spacing="6">
             <TextBlock Text="{Binding Name}" Style="{StaticResource DisplayMedium}" Foreground="White" />
             <TextBlock Text="{Binding Tagline}" Style="{StaticResource BodyMedium}" Foreground="#E6FFFFFF" TextWrapping="Wrap" />
             <Button Style="{StaticResource PrimaryButtonStyle}"
@@ -52,7 +52,7 @@
                     Padding="20,10"
                     FontSize="14"
                     HorizontalAlignment="Left"
-                    Margin="{ThemeResource Space200TopThickness}"
+                    Margin="0,8,0,0"
                     uen:Navigation.Request="{utu:Responsive Layout={StaticResource DesktopModalBreakpoint}, Narrow=DestinationDetail, Wide=DestinationDetail, Widest='!DestinationDetailModal'}"
                     uen:Navigation.Data="{Binding}"
                     AutomationProperties.Name="{Binding Name}" />
@@ -98,12 +98,12 @@
             <StackPanel Grid.Row="1" Padding="12,10,12,12" Spacing="3">
                 <TextBlock Text="{Binding Name}" Style="{StaticResource TitleSmall}" Foreground="{ThemeResource OnSurfaceBrush}" TextTrimming="CharacterEllipsis" MaxLines="1" />
                 <TextBlock Text="{Binding Country}" Style="{StaticResource BodySmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" />
-                <StackPanel Orientation="Horizontal" Spacing="{ThemeResource Space100}" Margin="{ThemeResource Space050TopThickness}" VerticalAlignment="Center">
+                <StackPanel Orientation="Horizontal" Spacing="4" Margin="0,2,0,0" VerticalAlignment="Center">
                     <Viewbox Width="12" Height="12" VerticalAlignment="Center">
                         <Path Data="{Binding Converter={StaticResource Icon}, ConverterParameter=star_filled}" Fill="{ThemeResource SecondaryBrush}" Stretch="Uniform" />
                     </Viewbox>
                     <TextBlock Text="{Binding Rating}" Style="{StaticResource LabelSmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" VerticalAlignment="Center" />
-                    <TextBlock Text="{Binding PriceFrom}" Style="{StaticResource LabelSmall}" Foreground="{ThemeResource SecondaryBrush}" Margin="{ThemeResource Space200LeftThickness}" VerticalAlignment="Center" />
+                    <TextBlock Text="{Binding PriceFrom}" Style="{StaticResource LabelSmall}" Foreground="{ThemeResource SecondaryBrush}" Margin="8,0,0,0" VerticalAlignment="Center" />
                 </StackPanel>
             </StackPanel>
         </Grid>
@@ -184,14 +184,14 @@
                     <ImageBrush ImageSource="{Binding ImageUrl}" Stretch="UniformToFill" />
                 </Border.Background>
             </Border>
-            <StackPanel Grid.Column="1" Padding="14,12" Spacing="{ThemeResource Space100}" VerticalAlignment="Center">
+            <StackPanel Grid.Column="1" Padding="14,12" Spacing="4" VerticalAlignment="Center">
                 <TextBlock Text="{Binding Destination}" Style="{StaticResource TitleMedium}" Foreground="{ThemeResource OnSurfaceBrush}" />
                 <StackPanel Orientation="Horizontal" Spacing="5" VerticalAlignment="Center">
                     <Viewbox Width="12" Height="12" VerticalAlignment="Center">
                         <Path Data="{Binding Converter={StaticResource Icon}, ConverterParameter=location}" Fill="{ThemeResource OnSurfaceVariantBrush}" Stretch="Uniform" />
                     </Viewbox>
                     <TextBlock Text="{Binding Country}" Style="{StaticResource BodySmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" VerticalAlignment="Center" />
-                    <TextBlock Style="{StaticResource BodySmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" VerticalAlignment="Center" Margin="{ThemeResource Space150LeftThickness}">
+                    <TextBlock Style="{StaticResource BodySmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" VerticalAlignment="Center" Margin="6,0,0,0">
                         <Run Text="·" />
                         <Run Text="{Binding DepartureLabel}" />
                     </TextBlock>
@@ -200,7 +200,7 @@
                                 ContentTemplateSelector="{StaticResource TripStatusSelector}"
                                 IsTabStop="False"
                                 HorizontalAlignment="Left"
-                                Margin="{ThemeResource Space100TopThickness}" />
+                                Margin="0,4,0,0" />
             </StackPanel>
         </Grid>
     </utu:CardContentControl>
@@ -223,10 +223,10 @@
                     <ImageBrush ImageSource="{Binding ImageUrl}" Stretch="UniformToFill" />
                 </Border.Background>
             </Border>
-            <StackPanel Grid.Column="1" Padding="14,10" Spacing="{ThemeResource Space050}" VerticalAlignment="Center">
+            <StackPanel Grid.Column="1" Padding="14,10" Spacing="2" VerticalAlignment="Center">
                 <TextBlock Text="{Binding Destination}" Style="{StaticResource TitleSmall}" Foreground="{ThemeResource OnSurfaceBrush}" />
                 <TextBlock Text="{Binding Country}" Style="{StaticResource BodySmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" />
-                <TextBlock Style="{StaticResource LabelSmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" Margin="{ThemeResource Space050TopThickness}">
+                <TextBlock Style="{StaticResource LabelSmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" Margin="0,2,0,0">
                     <Run Text="Ref:" />
                     <Run Text="{Binding BookingRef}" />
                 </TextBlock>
@@ -256,7 +256,7 @@
                         <ImageBrush ImageSource="{Binding ImageUrl}" Stretch="UniformToFill" />
                     </Border.Background>
                 </Border>
-                <Border Background="{ThemeResource SurfaceBrush}" CornerRadius="{ThemeResource RadiusFullCornerRadius}" Width="30" Height="30" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,8,8,0">
+                <Border Background="{ThemeResource SurfaceBrush}" CornerRadius="15" Width="30" Height="30" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,8,8,0">
                     <Viewbox Width="15" Height="15" HorizontalAlignment="Center" VerticalAlignment="Center">
                         <Path Data="{Binding Converter={StaticResource Icon}, ConverterParameter=heart_filled}" Fill="{ThemeResource PrimaryBrush}" Stretch="Uniform" />
                     </Viewbox>
@@ -266,12 +266,12 @@
             <StackPanel Grid.Row="1" Padding="12,9,12,11" Spacing="3">
                 <TextBlock Text="{Binding Name}" Style="{StaticResource TitleSmall}" Foreground="{ThemeResource OnSurfaceBrush}" TextTrimming="CharacterEllipsis" MaxLines="1" />
                 <TextBlock Text="{Binding Country}" Style="{StaticResource BodySmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" />
-                <StackPanel Orientation="Horizontal" Spacing="{ThemeResource Space100}" VerticalAlignment="Center" Margin="{ThemeResource Space050TopThickness}">
+                <StackPanel Orientation="Horizontal" Spacing="4" VerticalAlignment="Center" Margin="0,2,0,0">
                     <Viewbox Width="12" Height="12" VerticalAlignment="Center">
                         <Path Data="{Binding Converter={StaticResource Icon}, ConverterParameter=star_filled}" Fill="{ThemeResource SecondaryBrush}" Stretch="Uniform" />
                     </Viewbox>
                     <TextBlock Text="{Binding Rating}" Style="{StaticResource LabelSmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" VerticalAlignment="Center" />
-                    <TextBlock Text="{Binding PriceFrom}" Style="{StaticResource LabelSmall}" Foreground="{ThemeResource SecondaryBrush}" Margin="{ThemeResource Space200LeftThickness}" VerticalAlignment="Center" />
+                    <TextBlock Text="{Binding PriceFrom}" Style="{StaticResource LabelSmall}" Foreground="{ThemeResource SecondaryBrush}" Margin="8,0,0,0" VerticalAlignment="Center" />
                 </StackPanel>
             </StackPanel>
         </Grid>
@@ -288,7 +288,7 @@
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
-        <Border Grid.Column="0" Width="38" Height="38" CornerRadius="{ThemeResource Radius300CornerRadius}" Background="{ThemeResource PrimaryContainerBrush}" Margin="{ThemeResource Space300RightThickness}">
+        <Border Grid.Column="0" Width="38" Height="38" CornerRadius="11" Background="{ThemeResource PrimaryContainerBrush}" Margin="0,0,12,0">
             <Viewbox Width="18" Height="18" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <Path Data="{Binding Label, Converter={StaticResource Icon}}" Fill="{ThemeResource OnPrimaryContainerBrush}" Stretch="Uniform" />
             </Viewbox>
@@ -311,7 +311,7 @@
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
-        <Border Grid.Column="0" Width="38" Height="38" CornerRadius="{ThemeResource Radius300CornerRadius}" Background="{ThemeResource SurfaceVariantBrush}" Margin="{ThemeResource Space300RightThickness}">
+        <Border Grid.Column="0" Width="38" Height="38" CornerRadius="11" Background="{ThemeResource SurfaceVariantBrush}" Margin="0,0,12,0">
             <Viewbox Width="18" Height="18" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <Path Data="{Binding Label, Converter={StaticResource Icon}}" Fill="{ThemeResource OnSurfaceVariantBrush}" Stretch="Uniform" />
             </Viewbox>
@@ -355,7 +355,7 @@
             <StackPanel Grid.Row="1" Padding="12,9,12,11" Spacing="3">
                 <TextBlock Text="{Binding Name}" Style="{StaticResource TitleSmall}" Foreground="{ThemeResource OnSurfaceBrush}" TextTrimming="CharacterEllipsis" MaxLines="1" />
                 <TextBlock Text="{Binding Country}" Style="{StaticResource BodySmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" />
-                <StackPanel Orientation="Horizontal" Spacing="{ThemeResource Space100}" VerticalAlignment="Center" Margin="{ThemeResource Space050TopThickness}">
+                <StackPanel Orientation="Horizontal" Spacing="4" VerticalAlignment="Center" Margin="0,2,0,0">
                     <Viewbox Width="12" Height="12" VerticalAlignment="Center">
                         <Path Data="{Binding Converter={StaticResource Icon}, ConverterParameter=star_filled}" Fill="{ThemeResource SecondaryBrush}" Stretch="Uniform" />
                     </Viewbox>
@@ -390,7 +390,7 @@
                     </LinearGradientBrush>
                 </Rectangle.Fill>
             </Rectangle>
-            <StackPanel VerticalAlignment="Bottom" Padding="16,0,16,12" Spacing="{ThemeResource Space050}">
+            <StackPanel VerticalAlignment="Bottom" Padding="16,0,16,12" Spacing="2">
                 <TextBlock Text="{Binding Label}" Style="{StaticResource TitleMedium}" Foreground="White" />
                 <TextBlock Text="{Binding Description}" Style="{StaticResource BodySmall}" Foreground="#E6FFFFFF" TextWrapping="Wrap" />
             </StackPanel>
@@ -405,14 +405,14 @@
        Refresh command re-runs the underlying request, so no Model command is needed. -->
   <DataTemplate x:Key="DiscoveryErrorTemplate">
     <Border Background="{ThemeResource SurfaceVariantBrush}" CornerRadius="{StaticResource ControlCornerRadius}" Padding="20,18">
-      <StackPanel Spacing="{ThemeResource Space200}" HorizontalAlignment="Center">
+      <StackPanel Spacing="8" HorizontalAlignment="Center">
         <TextBlock Text="Couldn't load this" Style="{StaticResource TitleSmall}"
                    Foreground="{ThemeResource OnSurfaceBrush}" HorizontalAlignment="Center" />
         <TextBlock Text="Check your connection and try again." Style="{StaticResource BodySmall}"
                    Foreground="{ThemeResource OnSurfaceVariantBrush}"
                    HorizontalAlignment="Center" TextAlignment="Center" TextWrapping="Wrap" />
         <Button Content="Try again" AutomationProperties.Name="Try again"
-                HorizontalAlignment="Center" Margin="{ThemeResource Space100TopThickness}" Command="{Binding Refresh}" />
+                HorizontalAlignment="Center" Margin="0,4,0,0" Command="{Binding Refresh}" />
       </StackPanel>
     </Border>
   </DataTemplate>
@@ -421,7 +421,7 @@
        used to render as a blank gap. -->
   <DataTemplate x:Key="NoSearchResultsTemplate">
     <Border Background="{ThemeResource SurfaceVariantBrush}" CornerRadius="{StaticResource ControlCornerRadius}" Padding="20,24">
-      <StackPanel Spacing="{ThemeResource Space150}" HorizontalAlignment="Center">
+      <StackPanel Spacing="6" HorizontalAlignment="Center">
         <TextBlock Text="No destinations found" Style="{StaticResource TitleSmall}"
                    Foreground="{ThemeResource OnSurfaceBrush}" HorizontalAlignment="Center" />
         <TextBlock Text="Try a different place, country or travel style." Style="{StaticResource BodySmall}"
@@ -433,7 +433,7 @@
 
   <DataTemplate x:Key="NoFavoritesTemplate">
     <Border Background="{ThemeResource SurfaceVariantBrush}" CornerRadius="{StaticResource ControlCornerRadius}" Padding="20,24">
-      <StackPanel Spacing="{ThemeResource Space150}" HorizontalAlignment="Center">
+      <StackPanel Spacing="6" HorizontalAlignment="Center">
         <TextBlock Text="Nothing saved yet" Style="{StaticResource TitleSmall}"
                    Foreground="{ThemeResource OnSurfaceBrush}" HorizontalAlignment="Center" />
         <TextBlock Text="Tap the heart on a destination to keep it here." Style="{StaticResource BodySmall}"
@@ -445,7 +445,7 @@
 
   <DataTemplate x:Key="NoUpcomingTripsTemplate">
     <Border Background="{ThemeResource SurfaceVariantBrush}" CornerRadius="{StaticResource ControlCornerRadius}" Padding="20,24">
-      <StackPanel Spacing="{ThemeResource Space150}">
+      <StackPanel Spacing="6">
         <TextBlock Text="No trips booked" Style="{StaticResource TitleSmall}" Foreground="{ThemeResource OnSurfaceBrush}" />
         <TextBlock Text="Find a destination you love and book it — it will show up here." Style="{StaticResource BodySmall}"
                    Foreground="{ThemeResource OnSurfaceVariantBrush}" TextWrapping="Wrap" />
@@ -455,7 +455,7 @@
 
   <DataTemplate x:Key="NoPastTripsTemplate">
     <Border Background="{ThemeResource SurfaceVariantBrush}" CornerRadius="{StaticResource ControlCornerRadius}" Padding="20,24">
-      <StackPanel Spacing="{ThemeResource Space150}">
+      <StackPanel Spacing="6">
         <TextBlock Text="No trips yet" Style="{StaticResource TitleSmall}" Foreground="{ThemeResource OnSurfaceBrush}" />
         <TextBlock Text="Your travel history will appear here after your first trip." Style="{StaticResource BodySmall}"
                    Foreground="{ThemeResource OnSurfaceVariantBrush}" TextWrapping="Wrap" />
@@ -486,7 +486,7 @@
   <DataTemplate x:Key="UpcomingTripListTemplate">
     <ItemsRepeater ItemsSource="{Binding Data}" ItemTemplate="{StaticResource UpcomingTripTemplate}">
       <ItemsRepeater.Layout>
-        <StackLayout Orientation="Vertical" Spacing="{ThemeResource Space300}" />
+        <StackLayout Orientation="Vertical" Spacing="12" />
       </ItemsRepeater.Layout>
     </ItemsRepeater>
   </DataTemplate>
@@ -494,7 +494,7 @@
   <DataTemplate x:Key="PastTripListTemplate">
     <ItemsRepeater ItemsSource="{Binding Data}" ItemTemplate="{StaticResource PastTripTemplate}">
       <ItemsRepeater.Layout>
-        <StackLayout Orientation="Vertical" Spacing="{ThemeResource Space300}" />
+        <StackLayout Orientation="Vertical" Spacing="12" />
       </ItemsRepeater.Layout>
     </ItemsRepeater>
   </DataTemplate>

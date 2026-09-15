@@ -16,12 +16,12 @@
         </Grid>
 
         <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
-            <StackPanel Spacing="{ThemeResource Space0}" Padding="16,20,16,28" MaxWidth="{StaticResource ContentMaxWidth}" HorizontalAlignment="Stretch" local:Motion.Stagger="True">
+            <StackPanel Spacing="0" Padding="16,20,16,28" MaxWidth="{StaticResource ContentMaxWidth}" HorizontalAlignment="Stretch" local:Motion.Stagger="True">
 
                 <!-- Profile hero card -->
                 <Border Background="{ThemeResource SurfaceBrush}" BorderBrush="{ThemeResource CardBorderBrush}" BorderThickness="1" CornerRadius="{StaticResource CardCornerRadius}" Padding="20,22">
-                    <StackPanel Spacing="{ThemeResource Space300}" HorizontalAlignment="Center">
-                        <Border Width="76" Height="76" CornerRadius="{ThemeResource RadiusFullCornerRadius}" Background="{ThemeResource PrimaryBrush}" HorizontalAlignment="Center">
+                    <StackPanel Spacing="12" HorizontalAlignment="Center">
+                        <Border Width="76" Height="76" CornerRadius="38" Background="{ThemeResource PrimaryBrush}" HorizontalAlignment="Center">
                             <TextBlock Text="{Binding UserInitials}" Style="{StaticResource TitleLarge}" FontSize="28" Foreground="{ThemeResource OnPrimaryBrush}" HorizontalAlignment="Center" VerticalAlignment="Center" />
                         </Border>
                         <StackPanel Spacing="3" HorizontalAlignment="Center">
@@ -29,7 +29,7 @@
                             <TextBlock Text="{Binding Email}" Style="{StaticResource BodyMedium}" Foreground="{ThemeResource OnSurfaceVariantBrush}" HorizontalAlignment="Center" />
                         </StackPanel>
                         <Border Background="{ThemeResource SecondaryContainerBrush}" CornerRadius="{StaticResource PillCornerRadius}" Padding="14,6" HorizontalAlignment="Center">
-                            <StackPanel Orientation="Horizontal" Spacing="{ThemeResource Space150}" VerticalAlignment="Center">
+                            <StackPanel Orientation="Horizontal" Spacing="6" VerticalAlignment="Center">
                                 <Viewbox Width="13" Height="13" VerticalAlignment="Center">
                                     <Path Data="{Binding Converter={StaticResource Icon}, ConverterParameter=star_filled}" Fill="{ThemeResource OnSecondaryContainerBrush}" Stretch="Uniform" />
                                 </Viewbox>
@@ -74,7 +74,7 @@
                     <ItemsRepeater ItemsSource="{Binding AccountSettings}"
                                    ItemTemplate="{StaticResource AccountSettingTemplate}">
                         <ItemsRepeater.Layout>
-                            <StackLayout Orientation="Vertical" Spacing="{ThemeResource Space0}" />
+                            <StackLayout Orientation="Vertical" Spacing="0" />
                         </ItemsRepeater.Layout>
                     </ItemsRepeater>
                 </Border>
@@ -85,12 +85,12 @@
                     <ItemsRepeater ItemsSource="{Binding AppSettings}"
                                    ItemTemplate="{StaticResource AppSettingTemplate}">
                         <ItemsRepeater.Layout>
-                            <StackLayout Orientation="Vertical" Spacing="{ThemeResource Space0}" />
+                            <StackLayout Orientation="Vertical" Spacing="0" />
                         </ItemsRepeater.Layout>
                     </ItemsRepeater>
                 </Border>
 
-                <Button Style="{StaticResource TonalButtonStyle}" Content="Sign out" HorizontalAlignment="Stretch" Margin="{ThemeResource Space600TopThickness}" AutomationProperties.Name="Sign out of account" />
+                <Button Style="{StaticResource TonalButtonStyle}" Content="Sign out" HorizontalAlignment="Stretch" Margin="0,24,0,0" AutomationProperties.Name="Sign out of account" />
 
             </StackPanel>
         </ScrollViewer>
