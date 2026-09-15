@@ -43,4 +43,10 @@ public sealed partial class MainPage : Page
     public void WindowTitleSample() => new WindowTitleWindow().Activate();
 
     public void StayOnTopSample() => new StayOnTopWindow().Activate();
+
+    public void ExtendContentIntoTitleBarSample() => new ExtendContentIntoTitleBarWindow().Activate();
+
+    public void CustomTitleBarSample() => new CustomTitleBarWindow().Activate();
+
+    public void DraggableRegionSample() => new DraggableRegionWindow().Activate();
 }
