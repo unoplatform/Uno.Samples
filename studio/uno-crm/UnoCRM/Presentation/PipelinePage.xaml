@@ -22,7 +22,7 @@
               <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
 
-            <StackPanel Spacing="4">
+            <StackPanel Spacing="{ThemeResource Space100}">
               <TextBlock Text="Sales Pipeline"
                          Style="{StaticResource DashboardCardTitleStyle}" />
               <TextBlock Text="Manage and track your deals across stages"
@@ -49,7 +49,7 @@
                       MinWidth="92">
                 <StackPanel Orientation="Horizontal"
                             HorizontalAlignment="Center"
-                            Spacing="8">
+                            Spacing="{ThemeResource Space200}">
                   <Path Width="13" Height="13"
                         Data="F1 M11.25 4.75 H12.75 V11.25 H19.25 V12.75 H12.75 V19.25 H11.25 V12.75 H4.75 V11.25 H11.25 Z"
                         Stretch="Uniform"
@@ -64,24 +64,24 @@
 
           <StackPanel Grid.Row="1"
                       Orientation="Horizontal"
-                      Spacing="12">
+                      Spacing="{ThemeResource Space300}">
             <ComboBox MinWidth="150"
                       Height="44"
-                      CornerRadius="12"
+                      CornerRadius="{ThemeResource Radius300CornerRadius}"
                       FontSize="14"
                       VerticalContentAlignment="Center"
                       ItemsSource="{Binding Sources}"
                       SelectedItem="{Binding SourceFilter, Mode=TwoWay}" />
             <ComboBox MinWidth="150"
                       Height="44"
-                      CornerRadius="12"
+                      CornerRadius="{ThemeResource Radius300CornerRadius}"
                       FontSize="14"
                       VerticalContentAlignment="Center"
                       ItemsSource="{Binding Periods}"
                       SelectedItem="{Binding PeriodFilter, Mode=TwoWay}" />
             <ComboBox MinWidth="150"
                       Height="44"
-                      CornerRadius="12"
+                      CornerRadius="{ThemeResource Radius300CornerRadius}"
                       FontSize="14"
                       VerticalContentAlignment="Center"
                       ItemsSource="{Binding Reps}"
@@ -118,7 +118,7 @@
               <ColumnDefinition Width="*" />
               <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
-            <StackPanel Spacing="4">
+            <StackPanel Spacing="{ThemeResource Space100}">
               <TextBlock Text="Sales Pipeline"
                          Style="{StaticResource DashboardCardTitleStyle}"
                          FontSize="32" />
@@ -127,7 +127,7 @@
             </StackPanel>
             <StackPanel Grid.Column="1"
                         Orientation="Horizontal"
-                        Spacing="8"
+                        Spacing="{ThemeResource Space200}"
                         VerticalAlignment="Top">
               <Button Style="{StaticResource DashboardIconButtonStyle}">
                 <Path Width="16" Height="16"
@@ -148,7 +148,7 @@
                   Style="{StaticResource DashboardPrimaryButtonStyle}">
             <StackPanel Orientation="Horizontal"
                         HorizontalAlignment="Center"
-                        Spacing="8">
+                        Spacing="{ThemeResource Space200}">
               <Path Width="13" Height="13"
                     Data="F1 M11.25 4.75 H12.75 V11.25 H19.25 V12.75 H12.75 V19.25 H11.25 V12.75 H4.75 V11.25 H11.25 Z"
                     Stretch="Uniform"
@@ -165,21 +165,21 @@
             <StackPanel Orientation="Horizontal" Spacing="10">
               <ComboBox MinWidth="150"
                         Height="44"
-                        CornerRadius="12"
+                        CornerRadius="{ThemeResource Radius300CornerRadius}"
                         FontSize="14"
                         VerticalContentAlignment="Center"
                         ItemsSource="{Binding Sources}"
                         SelectedItem="{Binding SourceFilter, Mode=TwoWay}" />
               <ComboBox MinWidth="150"
                         Height="44"
-                        CornerRadius="12"
+                        CornerRadius="{ThemeResource Radius300CornerRadius}"
                         FontSize="14"
                         VerticalContentAlignment="Center"
                         ItemsSource="{Binding Periods}"
                         SelectedItem="{Binding PeriodFilter, Mode=TwoWay}" />
               <ComboBox MinWidth="150"
                         Height="44"
-                        CornerRadius="12"
+                        CornerRadius="{ThemeResource Radius300CornerRadius}"
                         FontSize="14"
                         VerticalContentAlignment="Center"
                         ItemsSource="{Binding Reps}"
