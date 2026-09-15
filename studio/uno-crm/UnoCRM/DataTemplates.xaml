@@ -21,7 +21,7 @@
   <DataTemplate x:Key="DesktopContactCardTemplate">
     <Border Style="{StaticResource DashboardKanbanCardStyle}"
             Margin="0,0,0,10">
-      <StackPanel Spacing="6">
+      <StackPanel Spacing="{ThemeResource Space150}">
         <Grid>
           <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
@@ -68,14 +68,14 @@
                Style="{StaticResource DashboardSubtleTextStyle}"
                HorizontalAlignment="Center"
                VerticalAlignment="Top"
-               Margin="0,24,0,0" />
+               Margin="{ThemeResource Space600TopThickness}" />
   </DataTemplate>
 
   <!-- The same contact card, without the segment label the narrow layout has no room for. -->
   <DataTemplate x:Key="MobileContactCardTemplate">
     <Border Style="{StaticResource DashboardKanbanCardStyle}"
             Margin="0,0,0,10">
-      <StackPanel Spacing="6">
+      <StackPanel Spacing="{ThemeResource Space150}">
         <TextBlock Text="{Binding Name}" Style="{StaticResource DashboardBodyTextStyle}" />
         <TextBlock Text="{Binding Company}" Style="{StaticResource DashboardSubtleTextStyle}" />
         <Grid>
@@ -117,7 +117,7 @@
           <ColumnDefinition Width="*" />
           <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
-        <StackPanel Spacing="4">
+        <StackPanel Spacing="{ThemeResource Space100}">
           <TextBlock Text="{Binding Title}" Style="{StaticResource DashboardBodyTextStyle}" />
           <TextBlock Text="{Binding Detail}" Style="{StaticResource DashboardSubtleTextStyle}" />
         </StackPanel>
@@ -134,7 +134,7 @@
           <ColumnDefinition Width="*" />
           <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
-        <StackPanel Spacing="4" VerticalAlignment="Center">
+        <StackPanel Spacing="{ThemeResource Space100}" VerticalAlignment="Center">
           <TextBlock Text="{Binding Title}" Style="{StaticResource DashboardBodyTextStyle}" />
           <TextBlock Text="{Binding Detail}" Style="{StaticResource DashboardSubtleTextStyle}" />
         </StackPanel>
@@ -183,7 +183,7 @@
   </DataTemplate>
 
   <ItemsPanelTemplate x:Key="DealStackPanel">
-    <StackPanel Spacing="12" />
+    <StackPanel Spacing="{ThemeResource Space300}" />
   </ItemsPanelTemplate>
 
   <!-- Panel for the mobile list of stage sections (wider gap than between cards within a stage). -->
@@ -206,7 +206,7 @@
       <Ellipse Width="10" Height="10" VerticalAlignment="Center" Fill="{ThemeResource DashboardBlueBrush}" />
       <TextBlock Grid.Column="1" Text="{Binding Name}" Style="{StaticResource DashboardSectionLabelStyle}" VerticalAlignment="Center"
                  TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" />
-      <Border Grid.Column="2" HorizontalAlignment="Left" CornerRadius="8" Padding="6,1" VerticalAlignment="Center"
+      <Border Grid.Column="2" HorizontalAlignment="Left" CornerRadius="{ThemeResource Radius200CornerRadius}" Padding="6,1" VerticalAlignment="Center"
               Background="{ThemeResource DashboardBlueSoftBrush}">
         <TextBlock Text="{Binding Count}" FontSize="11" Foreground="{ThemeResource DashboardBlueDeepBrush}" />
       </Border>
@@ -223,7 +223,7 @@
       <Ellipse Width="10" Height="10" VerticalAlignment="Center" Fill="{ThemeResource DashboardPurpleBrush}" />
       <TextBlock Grid.Column="1" Text="{Binding Name}" Style="{StaticResource DashboardSectionLabelStyle}" VerticalAlignment="Center"
                  TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" />
-      <Border Grid.Column="2" HorizontalAlignment="Left" CornerRadius="8" Padding="6,1" VerticalAlignment="Center"
+      <Border Grid.Column="2" HorizontalAlignment="Left" CornerRadius="{ThemeResource Radius200CornerRadius}" Padding="6,1" VerticalAlignment="Center"
               Background="{ThemeResource DashboardPurpleSoftBrush}">
         <TextBlock Text="{Binding Count}" FontSize="11" Foreground="{ThemeResource DashboardPurpleDeepBrush}" />
       </Border>
@@ -240,7 +240,7 @@
       <Ellipse Width="10" Height="10" VerticalAlignment="Center" Fill="{ThemeResource DashboardAmberBrush}" />
       <TextBlock Grid.Column="1" Text="{Binding Name}" Style="{StaticResource DashboardSectionLabelStyle}" VerticalAlignment="Center"
                  TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" />
-      <Border Grid.Column="2" HorizontalAlignment="Left" CornerRadius="8" Padding="6,1" VerticalAlignment="Center"
+      <Border Grid.Column="2" HorizontalAlignment="Left" CornerRadius="{ThemeResource Radius200CornerRadius}" Padding="6,1" VerticalAlignment="Center"
               Background="{ThemeResource DashboardAmberSoftBrush}">
         <TextBlock Text="{Binding Count}" FontSize="11" Foreground="{ThemeResource DashboardAmberDeepBrush}" />
       </Border>
@@ -257,7 +257,7 @@
       <Ellipse Width="10" Height="10" VerticalAlignment="Center" Fill="{ThemeResource DashboardRedBrush}" />
       <TextBlock Grid.Column="1" Text="{Binding Name}" Style="{StaticResource DashboardSectionLabelStyle}" VerticalAlignment="Center"
                  TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" />
-      <Border Grid.Column="2" HorizontalAlignment="Left" CornerRadius="8" Padding="6,1" VerticalAlignment="Center"
+      <Border Grid.Column="2" HorizontalAlignment="Left" CornerRadius="{ThemeResource Radius200CornerRadius}" Padding="6,1" VerticalAlignment="Center"
               Background="{ThemeResource DashboardRedSoftBrush}">
         <TextBlock Text="{Binding Count}" FontSize="11" Foreground="{ThemeResource DashboardRedDeepBrush}" />
       </Border>
@@ -274,7 +274,7 @@
       <Ellipse Width="10" Height="10" VerticalAlignment="Center" Fill="{ThemeResource DashboardGreenBrush}" />
       <TextBlock Grid.Column="1" Text="{Binding Name}" Style="{StaticResource DashboardSectionLabelStyle}" VerticalAlignment="Center"
                  TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" />
-      <Border Grid.Column="2" HorizontalAlignment="Left" CornerRadius="8" Padding="6,1" VerticalAlignment="Center"
+      <Border Grid.Column="2" HorizontalAlignment="Left" CornerRadius="{ThemeResource Radius200CornerRadius}" Padding="6,1" VerticalAlignment="Center"
               Background="{ThemeResource DashboardGreenSoftBrush}">
         <TextBlock Text="{Binding Count}" FontSize="11" Foreground="{ThemeResource DashboardGreenDeepBrush}" />
       </Border>
@@ -290,7 +290,7 @@
                                            ClosedWon="{StaticResource MobileStageHeaderClosedWonTemplate}" />
 
   <DataTemplate x:Key="MobileStageTemplate">
-    <StackPanel Spacing="12" Margin="0,0,0,6">
+    <StackPanel Spacing="{ThemeResource Space300}" Margin="{ThemeResource Space150BottomThickness}">
       <ContentControl Content="{Binding}"
                       ContentTemplateSelector="{StaticResource MobileStageHeaderSelector}"
                       HorizontalAlignment="Stretch"
@@ -469,7 +469,7 @@
        stops, not by its color. Fresh and Stalling share this neutral treatment; only the stale
        band (below) spends color on it. -->
   <DataTemplate x:Key="DealDwellTrackedTemplate">
-    <StackPanel Spacing="8">
+    <StackPanel Spacing="{ThemeResource Space200}">
       <Grid ColumnSpacing="12">
         <Grid.ColumnDefinitions>
           <ColumnDefinition Width="Auto" />
@@ -514,7 +514,7 @@
   <!-- Past three weeks in one stage: the gauge is over its last notch, and this is the one band
        that earns color, with the band word set Bold to match. -->
   <DataTemplate x:Key="DealDwellStaleTemplate">
-    <StackPanel Spacing="8">
+    <StackPanel Spacing="{ThemeResource Space200}">
       <Grid ColumnSpacing="12">
         <Grid.ColumnDefinitions>
           <ColumnDefinition Width="Auto" />
@@ -560,7 +560,7 @@
   <!-- A closed deal is not sitting in a stage, so there is no dwell time to show - and a day count
        or the card's "Won" badge in this slot would just be wrong. Say so instead. -->
   <DataTemplate x:Key="DealDwellClosedTemplate">
-    <StackPanel Spacing="4">
+    <StackPanel Spacing="{ThemeResource Space100}">
       <TextBlock Text="TIME IN STAGE" Style="{StaticResource DashboardSectionLabelStyle}" />
       <TextBlock Text="Not tracked once a deal is closed."
                  Style="{StaticResource DashboardSubtleTextStyle}" />
@@ -591,8 +591,8 @@
        looks the same on every page. The FeedViewState's Refresh command re-runs the underlying
        request, so no Model command is needed. -->
   <DataTemplate x:Key="CrmErrorTemplate">
-    <Border Style="{StaticResource DashboardKanbanCardStyle}" Margin="0,8,0,0">
-      <StackPanel Spacing="8" Padding="4,8" HorizontalAlignment="Center">
+    <Border Style="{StaticResource DashboardKanbanCardStyle}" Margin="{ThemeResource Space200TopThickness}">
+      <StackPanel Spacing="{ThemeResource Space200}" Padding="4,8" HorizontalAlignment="Center">
         <TextBlock Text="Couldn't load this"
                    Style="{StaticResource DashboardBodyTextStyle}"
                    HorizontalAlignment="Center" />
@@ -604,7 +604,7 @@
         <Button Content="Try again"
                 AutomationProperties.Name="Try again"
                 HorizontalAlignment="Center"
-                Margin="0,4,0,0"
+                Margin="{ThemeResource Space100TopThickness}"
                 Command="{Binding Refresh}" />
       </StackPanel>
     </Border>
@@ -635,12 +635,12 @@
           <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
         <StackPanel Spacing="7" VerticalAlignment="Center">
-          <Border Height="9" Width="150" CornerRadius="4" HorizontalAlignment="Left"
+          <Border Height="9" Width="150" CornerRadius="{ThemeResource Radius100CornerRadius}" HorizontalAlignment="Left"
                   Background="{ThemeResource DashboardMutedTextBrush}" />
-          <Border Height="7" Width="96" CornerRadius="3" HorizontalAlignment="Left"
+          <Border Height="7" Width="96" CornerRadius="{ThemeResource Radius100CornerRadius}" HorizontalAlignment="Left"
                   Background="{ThemeResource DashboardBorderBrush}" />
         </StackPanel>
-        <Border Grid.Column="1" Height="7" Width="34" CornerRadius="3" VerticalAlignment="Center"
+        <Border Grid.Column="1" Height="7" Width="34" CornerRadius="{ThemeResource Radius100CornerRadius}" VerticalAlignment="Center"
                 Background="{ThemeResource DashboardBorderBrush}" />
       </Grid>
 
@@ -675,17 +675,17 @@
   <DataTemplate x:Key="NoStagesTemplate">
     <StackPanel HorizontalAlignment="Center"
                 MaxWidth="300"
-                Spacing="16"
+                Spacing="{ThemeResource Space400}"
                 Margin="0,48,0,32">
       <!-- A stage section with nothing in it, drawn at low opacity: the dot and label a real stage
            header carries, over the two deal cards that would sit beneath it. Same shapes and the same
            radius the live board uses, so the ghost is recognisably this screen rather than a generic
            placeholder. -->
       <StackPanel Spacing="10" Opacity="0.4" MaxWidth="240" HorizontalAlignment="Center">
-        <StackPanel Orientation="Horizontal" Spacing="8">
+        <StackPanel Orientation="Horizontal" Spacing="{ThemeResource Space200}">
           <Ellipse Width="10" Height="10" VerticalAlignment="Center"
                    Fill="{ThemeResource DashboardMutedTextBrush}" />
-          <Border Width="88" Height="8" CornerRadius="4" VerticalAlignment="Center"
+          <Border Width="88" Height="8" CornerRadius="{ThemeResource RadiusFullCornerRadius}" VerticalAlignment="Center"
                   Background="{ThemeResource DashboardMutedTextBrush}" />
         </StackPanel>
         <Border Height="52"
@@ -698,7 +698,7 @@
                 BorderBrush="{ThemeResource DashboardBorderBrush}" />
       </StackPanel>
 
-      <StackPanel Spacing="6">
+      <StackPanel Spacing="{ThemeResource Space150}">
         <TextBlock Text="Nothing in the pipeline yet"
                    Style="{StaticResource DashboardSectionTitleStyle}"
                    HorizontalAlignment="Center"
@@ -739,7 +739,7 @@
           <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <StackPanel Grid.Column="0" Spacing="12">
+        <StackPanel Grid.Column="0" Spacing="{ThemeResource Space300}">
           <Grid ColumnSpacing="8">
             <Grid.ColumnDefinitions>
               <ColumnDefinition Width="Auto" />
@@ -748,7 +748,7 @@
             </Grid.ColumnDefinitions>
             <Ellipse Grid.Column="0" Width="10" Height="10" VerticalAlignment="Center" Fill="{ThemeResource DashboardBlueBrush}" />
             <TextBlock Grid.Column="1" Text="NEW LEAD" Style="{StaticResource DashboardSectionLabelStyle}" VerticalAlignment="Center" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" />
-            <Border Grid.Column="2" VerticalAlignment="Center" Background="{ThemeResource DashboardBlueSoftBrush}" CornerRadius="8" Padding="6,1">
+            <Border Grid.Column="2" VerticalAlignment="Center" Background="{ThemeResource DashboardBlueSoftBrush}" CornerRadius="{ThemeResource Radius200CornerRadius}" Padding="6,1">
               <TextBlock Text="{Binding Data[0].Count}" Foreground="{ThemeResource DashboardBlueDeepBrush}" FontSize="11" />
             </Border>
           </Grid>
@@ -757,7 +757,7 @@
                         ItemsPanel="{StaticResource DealStackPanel}" />
         </StackPanel>
 
-        <StackPanel Grid.Column="1" Spacing="12">
+        <StackPanel Grid.Column="1" Spacing="{ThemeResource Space300}">
           <Grid ColumnSpacing="8">
             <Grid.ColumnDefinitions>
               <ColumnDefinition Width="Auto" />
@@ -766,7 +766,7 @@
             </Grid.ColumnDefinitions>
             <Ellipse Grid.Column="0" Width="10" Height="10" VerticalAlignment="Center" Fill="{ThemeResource DashboardPurpleBrush}" />
             <TextBlock Grid.Column="1" Text="QUALIFIED" Style="{StaticResource DashboardSectionLabelStyle}" VerticalAlignment="Center" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" />
-            <Border Grid.Column="2" VerticalAlignment="Center" Background="{ThemeResource DashboardPurpleSoftBrush}" CornerRadius="8" Padding="6,1">
+            <Border Grid.Column="2" VerticalAlignment="Center" Background="{ThemeResource DashboardPurpleSoftBrush}" CornerRadius="{ThemeResource Radius200CornerRadius}" Padding="6,1">
               <TextBlock Text="{Binding Data[1].Count}" Foreground="{ThemeResource DashboardPurpleDeepBrush}" FontSize="11" />
             </Border>
           </Grid>
@@ -775,7 +775,7 @@
                         ItemsPanel="{StaticResource DealStackPanel}" />
         </StackPanel>
 
-        <StackPanel Grid.Column="2" Spacing="12">
+        <StackPanel Grid.Column="2" Spacing="{ThemeResource Space300}">
           <Grid ColumnSpacing="8">
             <Grid.ColumnDefinitions>
               <ColumnDefinition Width="Auto" />
@@ -784,7 +784,7 @@
             </Grid.ColumnDefinitions>
             <Ellipse Grid.Column="0" Width="10" Height="10" VerticalAlignment="Center" Fill="{ThemeResource DashboardAmberBrush}" />
             <TextBlock Grid.Column="1" Text="PROPOSAL" Style="{StaticResource DashboardSectionLabelStyle}" VerticalAlignment="Center" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" />
-            <Border Grid.Column="2" VerticalAlignment="Center" Background="{ThemeResource DashboardAmberSoftBrush}" CornerRadius="8" Padding="6,1">
+            <Border Grid.Column="2" VerticalAlignment="Center" Background="{ThemeResource DashboardAmberSoftBrush}" CornerRadius="{ThemeResource Radius200CornerRadius}" Padding="6,1">
               <TextBlock Text="{Binding Data[2].Count}" Foreground="{ThemeResource DashboardAmberDeepBrush}" FontSize="11" />
             </Border>
           </Grid>
@@ -793,7 +793,7 @@
                         ItemsPanel="{StaticResource DealStackPanel}" />
         </StackPanel>
 
-        <StackPanel Grid.Column="3" Spacing="12">
+        <StackPanel Grid.Column="3" Spacing="{ThemeResource Space300}">
           <Grid ColumnSpacing="8">
             <Grid.ColumnDefinitions>
               <ColumnDefinition Width="Auto" />
@@ -802,7 +802,7 @@
             </Grid.ColumnDefinitions>
             <Ellipse Grid.Column="0" Width="10" Height="10" VerticalAlignment="Center" Fill="{ThemeResource DashboardRedBrush}" />
             <TextBlock Grid.Column="1" Text="NEGOTIATION" Style="{StaticResource DashboardSectionLabelStyle}" VerticalAlignment="Center" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" />
-            <Border Grid.Column="2" VerticalAlignment="Center" Background="{ThemeResource DashboardRedSoftBrush}" CornerRadius="8" Padding="6,1">
+            <Border Grid.Column="2" VerticalAlignment="Center" Background="{ThemeResource DashboardRedSoftBrush}" CornerRadius="{ThemeResource Radius200CornerRadius}" Padding="6,1">
               <TextBlock Text="{Binding Data[3].Count}" Foreground="{ThemeResource DashboardRedDeepBrush}" FontSize="11" />
             </Border>
           </Grid>
@@ -811,7 +811,7 @@
                         ItemsPanel="{StaticResource DealStackPanel}" />
         </StackPanel>
 
-        <StackPanel Grid.Column="4" Spacing="12">
+        <StackPanel Grid.Column="4" Spacing="{ThemeResource Space300}">
           <Grid ColumnSpacing="8">
             <Grid.ColumnDefinitions>
               <ColumnDefinition Width="Auto" />
@@ -820,7 +820,7 @@
             </Grid.ColumnDefinitions>
             <Ellipse Grid.Column="0" Width="10" Height="10" VerticalAlignment="Center" Fill="{ThemeResource DashboardGreenBrush}" />
             <TextBlock Grid.Column="1" Text="CLOSED WON" Style="{StaticResource DashboardSectionLabelStyle}" VerticalAlignment="Center" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" />
-            <Border Grid.Column="2" VerticalAlignment="Center" Background="{ThemeResource DashboardGreenSoftBrush}" CornerRadius="8" Padding="6,1">
+            <Border Grid.Column="2" VerticalAlignment="Center" Background="{ThemeResource DashboardGreenSoftBrush}" CornerRadius="{ThemeResource Radius200CornerRadius}" Padding="6,1">
               <TextBlock Text="{Binding Data[4].Count}" Foreground="{ThemeResource DashboardGreenDeepBrush}" FontSize="11" />
             </Border>
           </Grid>
