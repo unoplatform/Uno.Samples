@@ -39,7 +39,7 @@
     <Setter Property="Background" Value="{ThemeResource SurfaceBrush}" />
     <Setter Property="BorderBrush" Value="{ThemeResource OutlineVariantBrush}" />
     <Setter Property="BorderThickness" Value="1" />
-    <Setter Property="CornerRadius" Value="20" />
+    <Setter Property="CornerRadius" Value="{ThemeResource Radius500CornerRadius}" />
   </Style>
 
   <!-- Section micro-label: uppercase, wide tracking — reads like an
@@ -51,10 +51,16 @@
     <Setter Property="Margin" Value="2,0,0,12" />
   </Style>
 
-  <!-- Rounder controls to match the card language -->
-  <CornerRadius x:Key="ControlCornerRadiusSmall">12</CornerRadius>
-  <CornerRadius x:Key="ControlCornerRadius">20</CornerRadius>
-  <CornerRadius x:Key="OverlayCornerRadius">32</CornerRadius>
+  <!--
+    Rounder controls to match the card language, aliased onto the theme's generated shape scale so
+    they follow DefaultCornerRadius rather than pinning literals. Simple's own styles never read
+    these; stock WinUI templates do, and would otherwise sit at WinUI's 4/8. At the default
+    DefaultCornerRadius of 4 they resolve to 20/28 — the overlay was 32, the nearest ramp step below
+    RadiusFull is 28. ControlCornerRadiusSmall is dropped: not a WinUI key, and read by nothing in
+    Uno.UI, Uno.Themes or this app.
+  -->
+  <StaticResource x:Key="ControlCornerRadius" ResourceKey="Radius500CornerRadius" />
+  <StaticResource x:Key="OverlayCornerRadius" ResourceKey="Radius700CornerRadius" />
 
   <!-- Window-width breakpoint shared by the shell + page layouts: phone below 900px
        (bottom TabBar), desktop/web at or above (NavigationView pane). -->
@@ -69,7 +75,7 @@
   <Style x:Key="FlatButtonStyle" TargetType="Button">
     <Setter Property="Background" Value="Transparent" />
     <Setter Property="BorderThickness" Value="0" />
-    <Setter Property="Padding" Value="0" />
+    <Setter Property="Padding" Value="{ThemeResource Space0Thickness}" />
     <Setter Property="UseSystemFocusVisuals" Value="True" />
     <Setter Property="Template">
       <Setter.Value>
@@ -158,7 +164,7 @@
                 </VisualState>
               </VisualStateGroup>
             </VisualStateManager.VisualStateGroups>
-            <Border x:Name="PrimRoot" Background="{TemplateBinding Background}" CornerRadius="14">
+            <Border x:Name="PrimRoot" Background="{TemplateBinding Background}" CornerRadius="{ThemeResource Radius400CornerRadius}">
               <Grid>
                 <ContentPresenter x:Name="PrimContent"
                                   Content="{TemplateBinding Content}"
@@ -170,7 +176,7 @@
                                   HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                   VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
                 <Border x:Name="PrimOverlay"
-                        CornerRadius="14"
+                        CornerRadius="{ThemeResource Radius400CornerRadius}"
                         Background="{ThemeResource OnPrimaryBrush}"
                         Opacity="0"
                         IsHitTestVisible="False" />
