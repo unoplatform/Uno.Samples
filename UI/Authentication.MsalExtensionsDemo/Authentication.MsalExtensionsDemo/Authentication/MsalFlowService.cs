@@ -139,9 +139,9 @@ public sealed class MsalFlowService
                     "Nothing to refresh",
                     """
                     No usable account in MSAL's cache, so interaction is required. This is normal
-                    on first run - and on WebAssembly on every run, since the cache is in memory
-                    only there. On desktop the cache persists (DPAPI / keychain / keyring), so a
-                    restart after a sign-in lands on the success path instead.
+                    on first run - and on WebAssembly in every new tab, since this sample keeps the
+                    cache in sessionStorage. On desktop the cache persists (DPAPI / keychain /
+                    keyring), so a restart after a sign-in lands on the success path instead.
                     """);
             }
 

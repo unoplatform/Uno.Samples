@@ -165,9 +165,14 @@ dotnet run --project Authentication.MsalExtensionsDemo/Authentication.MsalExtens
 # serves http://localhost:5000
 ```
 
-**While testing:** the token cache is **in memory** — MSAL's cache persistence relies on APIs the
-browser does not have. A page reload signs you out and the next run needs an interactive sign-in.
-That is expected, and the app logs one Information message saying so.
+**While testing:** the token cache is **persisted in browser storage**. MSAL's own cache helpers
+have no browser backend, so the provider serializes the MSAL cache through Uno.Extensions' default
+`IKeyValueStorage` — the same store `ITokenCache` uses. Which browser store that is comes from
+`KeyValueStorageConfiguration:BrowserCacheLocation`: `appsettings.development.json` sets
+`SessionStorage`, so a page reload signs back in silently and closing the tab signs you out.
+`LocalStorage` (the default when the setting is absent) also survives a browser restart, and
+`MemoryStorage` keeps nothing. Browser storage is readable by any script on the origin and the
+cache includes the refresh token, so the provider logs one Warning saying so.
 
 Sign-in happens in a popup whose URL Uno polls, so the popup must not be blocked and the serving
 origin must not set `Cross-Origin-Opener-Policy` (leave it unset, or `unsafe-none`) — otherwise the
@@ -281,7 +286,8 @@ unaffected.
 2. **Sign out**, then **Silent only** — expect it to fail, which is what the silent path does with
    an empty cache.
 3. Restart the app on Desktop, Android or iOS: the startup silent refresh should sign you back in
-   with no prompt. On WebAssembly it will not, by design.
+   with no prompt. On WebAssembly, reload the page for the same result; closing the tab ends the
+   session, because the sample keeps the cache in `sessionStorage`.
 4. **Microsoft Graph** page → `GET /v1.0/me` with the token in an `Authorization: Bearer` header,
    proving a real API accepts it.
 
@@ -306,7 +312,7 @@ masked.
 | **iOS:** browser closes and nothing happens | `CFBundleURLSchemes` missing or not `msauth.{BundleId}` | Fix `Info.plist`, then **clean-build** the iOS head |
 | **iOS:** `missing_entitlements` / `cannot_access_publisher_keychain` | The keychain access group did not reach the app | It is already in `Entitlements.plist` — this is almost always the incremental-build caveat above |
 | **WebAssembly:** popup opens and never closes | `Cross-Origin-Opener-Policy` on the serving origin | Leave COOP unset, or `unsafe-none` |
-| **WebAssembly:** signed out after a reload | The browser cache is in memory | Expected — MSAL cache persistence is not available in the browser |
+| **WebAssembly:** signed out after closing the tab | The sample keeps the cache in `sessionStorage` | Expected — set `KeyValueStorageConfiguration:BrowserCacheLocation` to `LocalStorage` to survive a browser restart |
 | **Desktop:** browser completes, app keeps waiting | `http://localhost` not registered | Tick it under *Mobile and desktop applications* |
 | `authentication_canceled` on desktop with no cancel | The 5-minute `InteractiveTimeout` elapsed | Finish the sign-in sooner, or raise `InteractiveTimeout` in the `MsalAuthentication` section |
 | Graph returns `403` | Scope not granted | Add **Microsoft Graph → Delegated → `User.Read`** |
@@ -321,7 +327,8 @@ you write are handled for you:
 - **The redirect URI per platform** — derived, and shown on screen for you to register.
 - **`WithUnoHelpers()`** — applied by the provider, including the WebAssembly popup web UI and the
   parent activity/view controller on mobile.
-- **Token cache persistence** — wired up on desktop (DPAPI / keychain / keyring), Android and iOS.
+- **Token cache persistence** — wired up on desktop (DPAPI / keychain / keyring), Android and iOS,
+  and on WebAssembly through browser storage.
 - **Silent-then-interactive acquisition** — one `LoginAsync` call; `RefreshAsync` is the silent path.
 
 ## Relevant documentation

@@ -187,12 +187,16 @@ public static class PlatformGuide
                         """),
 
                     new(SetupArea.Runtime,
-                        "The token cache is in memory",
+                        "The token cache lives in browser storage",
                         """
-                        MSAL's cache persistence relies on APIs that do not exist in the browser,
-                        so the provider keeps tokens in memory on WebAssembly (and logs one
-                        Information message saying so). A page reload signs out and the next run
-                        starts with an interactive sign-in. Not a bug.
+                        MSAL's own cache helpers have no browser backend, so the provider
+                        serializes the MSAL cache through Uno.Extensions' default IKeyValueStorage.
+                        KeyValueStorageConfiguration:BrowserCacheLocation picks the store: this
+                        sample's development settings use SessionStorage, so a page reload signs
+                        back in silently and closing the tab signs out. LocalStorage (the default)
+                        also survives a browser restart; MemoryStorage keeps nothing. Browser
+                        storage is readable by scripts on the origin, so the provider logs one
+                        Warning about it.
                         """),
 
                     new(SetupArea.Runtime,
