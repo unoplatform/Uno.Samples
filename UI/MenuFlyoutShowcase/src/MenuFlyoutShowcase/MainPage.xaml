@@ -1,0 +1,263 @@
+<Page x:Class="MenuFlyoutShowcase.MainPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+      mc:Ignorable="d">
+
+    <Grid Padding="24" RowSpacing="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!--  Header  -->
+        <StackPanel Grid.Row="0" Spacing="6">
+            <TextBlock Style="{ThemeResource TitleLargeTextBlockStyle}"
+                       Text="MenuFlyout Showcase" />
+            <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                       Style="{ThemeResource BodyTextBlockStyle}"
+                       Text="Uno Platform 6.6 refreshes MenuFlyout with nested submenus, SplitMenuFlyoutItem, keyboard-accelerator hints and Flyout accelerators, plus the new ContextRequested / ContextCanceled routed events."
+                       TextWrapping="Wrap" />
+        </StackPanel>
+
+        <!--  Menus row  -->
+        <StackPanel Grid.Row="1" Orientation="Horizontal" Spacing="16">
+
+            <!--  Menu bar with submenus, accelerators, toggles, split item  -->
+            <Border Padding="16"
+                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                    BorderThickness="1"
+                    CornerRadius="8">
+                <StackPanel Spacing="10" Width="320">
+                    <TextBlock FontWeight="SemiBold" Text="MenuBar with submenus &amp; accelerators" />
+                    <MenuBar>
+                        <MenuBarItem Title="File">
+                            <MenuFlyoutSubItem Text="New">
+                                <MenuFlyoutItem Click="OnMenuItemClick" Text="Document" />
+                                <MenuFlyoutItem Click="OnMenuItemClick" Text="Spreadsheet" />
+                                <MenuFlyoutItem Click="OnMenuItemClick" Text="Presentation" />
+                            </MenuFlyoutSubItem>
+                            <MenuFlyoutItem Click="OnMenuItemClick" Text="Open...">
+                                <MenuFlyoutItem.Icon>
+                                    <SymbolIcon Symbol="OpenFile" />
+                                </MenuFlyoutItem.Icon>
+                                <MenuFlyoutItem.KeyboardAccelerators>
+                                    <KeyboardAccelerator Key="O" Modifiers="Control" />
+                                </MenuFlyoutItem.KeyboardAccelerators>
+                            </MenuFlyoutItem>
+
+                            <!--  SplitMenuFlyoutItem: primary action on the left, submenu via the chevron  -->
+                            <SplitMenuFlyoutItem Click="OnSplitPrimaryClick" Text="Save">
+                                <SplitMenuFlyoutItem.Icon>
+                                    <SymbolIcon Symbol="Save" />
+                                </SplitMenuFlyoutItem.Icon>
+                                <SplitMenuFlyoutItem.Items>
+                                    <MenuFlyoutItem Click="OnMenuItemClick" Text="Save As..." />
+                                    <MenuFlyoutItem Click="OnMenuItemClick" Text="Save a Copy..." />
+                                    <MenuFlyoutSeparator />
+                                    <MenuFlyoutItem Click="OnMenuItemClick" Text="Export as PDF..." />
+                                </SplitMenuFlyoutItem.Items>
+                            </SplitMenuFlyoutItem>
+
+                            <MenuFlyoutSeparator />
+                            <MenuFlyoutItem Click="OnMenuItemClick" Text="Print...">
+                                <MenuFlyoutItem.KeyboardAccelerators>
+                                    <KeyboardAccelerator Key="P" Modifiers="Control" />
+                                </MenuFlyoutItem.KeyboardAccelerators>
+                            </MenuFlyoutItem>
+                        </MenuBarItem>
+
+                        <MenuBarItem Title="Edit">
+                            <MenuFlyoutItem Click="OnMenuItemClick" Text="Undo">
+                                <MenuFlyoutItem.Icon>
+                                    <SymbolIcon Symbol="Undo" />
+                                </MenuFlyoutItem.Icon>
+                                <MenuFlyoutItem.KeyboardAccelerators>
+                                    <KeyboardAccelerator Key="Z" Modifiers="Control" />
+                                </MenuFlyoutItem.KeyboardAccelerators>
+                            </MenuFlyoutItem>
+                            <MenuFlyoutItem Click="OnMenuItemClick" Text="Redo">
+                                <MenuFlyoutItem.KeyboardAccelerators>
+                                    <KeyboardAccelerator Key="Y" Modifiers="Control" />
+                                </MenuFlyoutItem.KeyboardAccelerators>
+                            </MenuFlyoutItem>
+                            <MenuFlyoutSeparator />
+                            <ToggleMenuFlyoutItem Click="OnToggleClick" IsChecked="True" Text="Word Wrap" />
+                            <ToggleMenuFlyoutItem Click="OnToggleClick" Text="Show Whitespace" />
+                        </MenuBarItem>
+
+                        <MenuBarItem Title="View">
+                            <MenuFlyoutSubItem Text="Zoom">
+                                <MenuFlyoutItem Click="OnMenuItemClick" Text="Zoom In">
+                                    <MenuFlyoutItem.KeyboardAccelerators>
+                                        <KeyboardAccelerator Key="Add" Modifiers="Control" />
+                                    </MenuFlyoutItem.KeyboardAccelerators>
+                                </MenuFlyoutItem>
+                                <MenuFlyoutItem Click="OnMenuItemClick" Text="Zoom Out">
+                                    <MenuFlyoutItem.KeyboardAccelerators>
+                                        <KeyboardAccelerator Key="Subtract" Modifiers="Control" />
+                                    </MenuFlyoutItem.KeyboardAccelerators>
+                                </MenuFlyoutItem>
+                                <MenuFlyoutItem Click="OnMenuItemClick" Text="Reset Zoom" />
+                            </MenuFlyoutSubItem>
+                            <ToggleMenuFlyoutItem Click="OnToggleClick" Text="Full Screen">
+                                <ToggleMenuFlyoutItem.KeyboardAccelerators>
+                                    <KeyboardAccelerator Key="F11" />
+                                </ToggleMenuFlyoutItem.KeyboardAccelerators>
+                            </ToggleMenuFlyoutItem>
+                        </MenuBarItem>
+                    </MenuBar>
+                    <TextBlock x:Name="MenuStatus"
+                               Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                               Style="{ThemeResource CaptionTextBlockStyle}"
+                               Text="Pick a menu item, or press its shortcut (e.g. Ctrl+S, Ctrl+O)."
+                               TextWrapping="Wrap" />
+                </StackPanel>
+            </Border>
+
+            <!--  Button with a MenuFlyout (same features, triggered from a button)  -->
+            <Border Padding="16"
+                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                    BorderThickness="1"
+                    CornerRadius="8">
+                <StackPanel Spacing="10" Width="280">
+                    <TextBlock FontWeight="SemiBold" Text="Button MenuFlyout with SplitMenuFlyoutItem" />
+                    <Button Content="Share ▾" HorizontalAlignment="Left">
+                        <Button.Flyout>
+                            <MenuFlyout>
+                                <SplitMenuFlyoutItem Click="OnSplitPrimaryClick" Text="Send to Mail">
+                                    <SplitMenuFlyoutItem.Icon>
+                                        <SymbolIcon Symbol="Mail" />
+                                    </SplitMenuFlyoutItem.Icon>
+                                    <SplitMenuFlyoutItem.Items>
+                                        <MenuFlyoutItem Click="OnMenuItemClick" Text="Outlook" />
+                                        <MenuFlyoutItem Click="OnMenuItemClick" Text="Gmail" />
+                                        <MenuFlyoutItem Click="OnMenuItemClick" Text="Default mail app" />
+                                    </SplitMenuFlyoutItem.Items>
+                                </SplitMenuFlyoutItem>
+                                <MenuFlyoutItem Click="OnMenuItemClick" Text="Copy link">
+                                    <MenuFlyoutItem.Icon>
+                                        <SymbolIcon Symbol="Link" />
+                                    </MenuFlyoutItem.Icon>
+                                    <MenuFlyoutItem.KeyboardAccelerators>
+                                        <KeyboardAccelerator Key="C" Modifiers="Control,Shift" />
+                                    </MenuFlyoutItem.KeyboardAccelerators>
+                                </MenuFlyoutItem>
+                                <MenuFlyoutSeparator />
+                                <MenuFlyoutSubItem Text="More apps">
+                                    <MenuFlyoutItem Click="OnMenuItemClick" Text="Teams" />
+                                    <MenuFlyoutItem Click="OnMenuItemClick" Text="Slack" />
+                                </MenuFlyoutSubItem>
+                            </MenuFlyout>
+                        </Button.Flyout>
+                    </Button>
+                    <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                               Style="{ThemeResource CaptionTextBlockStyle}"
+                               Text="Click the left of a split item for the primary action, or its chevron for the submenu."
+                               TextWrapping="Wrap" />
+                </StackPanel>
+            </Border>
+        </StackPanel>
+
+        <!--  ContextRequested / ContextCanceled demo  -->
+        <Grid Grid.Row="2" ColumnSpacing="16">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="1.2*" />
+            </Grid.ColumnDefinitions>
+
+            <!--  Interactive surface with a ContextFlyout  -->
+            <Border Grid.Column="0"
+                    Padding="16"
+                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                    BorderThickness="1"
+                    CornerRadius="8">
+                <StackPanel Spacing="10">
+                    <TextBlock FontWeight="SemiBold" Text="ContextRequested &amp; ContextCanceled" />
+                    <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                               Style="{ThemeResource CaptionTextBlockStyle}"
+                               Text="Right-click (mouse), long-press (touch), or press Shift+F10 on the tile below. Long-press then drag away to fire ContextCanceled."
+                               TextWrapping="Wrap" />
+
+                    <Border x:Name="ContextTarget"
+                            Height="180"
+                            Background="{ThemeResource AccentFillColorDefaultBrush}"
+                            ContextCanceled="OnContextCanceled"
+                            ContextRequested="OnContextRequested"
+                            CornerRadius="8">
+                        <Border.ContextFlyout>
+                            <MenuFlyout>
+                                <MenuFlyoutItem Click="OnMenuItemClick" Text="Cut">
+                                    <MenuFlyoutItem.Icon>
+                                        <SymbolIcon Symbol="Cut" />
+                                    </MenuFlyoutItem.Icon>
+                                    <MenuFlyoutItem.KeyboardAccelerators>
+                                        <KeyboardAccelerator Key="X" Modifiers="Control" />
+                                    </MenuFlyoutItem.KeyboardAccelerators>
+                                </MenuFlyoutItem>
+                                <MenuFlyoutItem Click="OnMenuItemClick" Text="Copy">
+                                    <MenuFlyoutItem.Icon>
+                                        <SymbolIcon Symbol="Copy" />
+                                    </MenuFlyoutItem.Icon>
+                                    <MenuFlyoutItem.KeyboardAccelerators>
+                                        <KeyboardAccelerator Key="C" Modifiers="Control" />
+                                    </MenuFlyoutItem.KeyboardAccelerators>
+                                </MenuFlyoutItem>
+                                <MenuFlyoutSeparator />
+                                <ToggleMenuFlyoutItem Click="OnToggleClick" Text="Pin to top" />
+                            </MenuFlyout>
+                        </Border.ContextFlyout>
+                        <StackPanel HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Spacing="4">
+                            <TextBlock HorizontalAlignment="Center"
+                                       FontWeight="SemiBold"
+                                       Foreground="{ThemeResource TextOnAccentFillColorPrimaryBrush}"
+                                       Text="Right-click / long-press me" />
+                            <TextBlock x:Name="PositionText"
+                                       HorizontalAlignment="Center"
+                                       Foreground="{ThemeResource TextOnAccentFillColorSecondaryBrush}"
+                                       Style="{ThemeResource CaptionTextBlockStyle}"
+                                       Text="Position: (waiting...)" />
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </Border>
+
+            <!--  Event log  -->
+            <Border Grid.Column="1"
+                    Padding="16"
+                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                    BorderThickness="1"
+                    CornerRadius="8">
+                <Grid RowSpacing="8">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0">
+                        <TextBlock VerticalAlignment="Center" FontWeight="SemiBold" Text="Event log" />
+                        <Button HorizontalAlignment="Right"
+                                Click="OnClearLogClick"
+                                Content="Clear" />
+                    </Grid>
+                    <ScrollViewer x:Name="LogScrollViewer" Grid.Row="1">
+                        <TextBlock x:Name="EventLogText"
+                                   FontFamily="Consolas"
+                                   Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                   Style="{ThemeResource CaptionTextBlockStyle}"
+                                   Text="Events will be logged here..."
+                                   TextWrapping="Wrap" />
+                    </ScrollViewer>
+                </Grid>
+            </Border>
+        </Grid>
+    </Grid>
+</Page>
