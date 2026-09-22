@@ -63,6 +63,12 @@ public partial class App : Application
                         .EmbeddedSource<App>()
                         .Section<AppConfig>()
                 )
+                .ConfigureServices((context, services) =>
+                {
+                    // The app's only data dependency. Registered against the interface so a real
+                    // endpoint can replace the in-memory implementation without touching a Model.
+                    services.AddSingleton<ITrackerService, TrackerService>();
+                })
                 .UseNavigation(ReactiveViewModelMappings.ViewModelMappings, RegisterRoutes)
             );
         MainWindow = builder.Window;
@@ -72,18 +78,12 @@ public partial class App : Application
         MainWindow.UseStudio();
 #endif
         MainWindow.SetWindowIcon();
-        // Show the app icon in the macOS Dock when launched unbundled (Windows/Linux use the
-        // window icon above). No-op on other platforms — see Platforms/Desktop/AppDockIcon.cs.
-        SetMacOSDockIcon();
 
         Host = await MainWindow.InitializeNavigationAsync(
             () => Task.FromResult(builder.Build()),
             initialRoute: "Main"
         );
     }
-
-    /// <summary>macOS Dock icon hook, implemented for the desktop head only; no-op elsewhere.</summary>
-    partial void SetMacOSDockIcon();
 
     private static void RegisterRoutes(IViewRegistry views, IRouteRegistry routes)
     {

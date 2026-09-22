@@ -47,7 +47,10 @@ public static class SampleData
         new SessionEntry("s-012", "claude-opus-4-5", "Claude Opus 4.5", DateTimeOffset.Parse("2025-06-13T16:30:00Z"), 58, 109_200, 25_400, 51_600, 19_100, 1.96m, "Completed", "search-indexing-service", 49),
     };
 
-    public static IReadOnlyList<string> ModelFilters { get; } = new[] { "All", "Opus", "Sonnet", "Haiku" };
+    /// <summary>The "no model filter" sentinel; the first entry of <see cref="ModelFilters"/>.</summary>
+    public const string AllModels = "All";
+
+    public static IReadOnlyList<string> ModelFilters { get; } = new[] { AllModels, "Opus", "Sonnet", "Haiku" };
 
     // ── Per-model breakdown (share of tokens) ─────────────────────────────
     public static IReadOnlyList<ModelUsageBreakdown> ModelBreakdown { get; } = new[]

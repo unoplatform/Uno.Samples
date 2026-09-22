@@ -2,22 +2,23 @@
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:utu="using:Uno.Toolkit.UI"
+      xmlns:mvux="using:Uno.Extensions.Reactive.UI"
       Background="{ThemeResource BackgroundBrush}">
 
     <Grid x:Name="Root" utu:SafeArea.Insets="Top">
         <ScrollViewer VerticalScrollBarVisibility="Auto">
-            <StackPanel Spacing="20"
+            <StackPanel Spacing="{ThemeResource Space500}"
                         Padding="20,16,20,24"
                         MaxWidth="1100"
                         HorizontalAlignment="Stretch">
 
                 <!-- Header -->
-                <StackPanel Spacing="2">
+                <StackPanel Spacing="{ThemeResource Space050}">
                     <TextBlock
                                Style="{StaticResource TitleLarge}"
                                Foreground="{ThemeResource OnBackgroundBrush}"
                                Text="Usage &amp; Limits" />
-                    <StackPanel Orientation="Horizontal" Spacing="8">
+                    <StackPanel Orientation="Horizontal" Spacing="{ThemeResource Space200}">
                         <TextBlock Style="{StaticResource BodyMedium}" Foreground="{ThemeResource OnSurfaceVariantBrush}">
                             <Run Text="Plan: " /><Run Text="{Binding CurrentPlan}" />
                         </TextBlock>
@@ -46,7 +47,7 @@
                                             Style="{StaticResource FilledCardContentControlStyle}" IsClickable="False" HorizontalAlignment="Stretch">
                         <utu:CardContentControl.ContentTemplate>
                             <DataTemplate>
-                                <StackPanel Padding="12,10" Spacing="4">
+                                <StackPanel Padding="12,10" Spacing="{ThemeResource Space100}">
                                     <TextBlock Style="{StaticResource LabelSmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" Text="Month-to-date" />
                                     <TextBlock Style="{StaticResource TitleMedium}" Foreground="{ThemeResource PrimaryBrush}" Text="{Binding TotalCostDisplay}" />
                                 </StackPanel>
@@ -59,7 +60,7 @@
                                             Style="{StaticResource FilledCardContentControlStyle}" IsClickable="False" HorizontalAlignment="Stretch">
                         <utu:CardContentControl.ContentTemplate>
                             <DataTemplate>
-                                <StackPanel Padding="12,10" Spacing="4">
+                                <StackPanel Padding="12,10" Spacing="{ThemeResource Space100}">
                                     <TextBlock Style="{StaticResource LabelSmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" Text="Daily avg" />
                                     <TextBlock Style="{StaticResource TitleMedium}" Foreground="{ThemeResource PrimaryBrush}" Text="{Binding DailyCostAvgDisplay}" />
                                 </StackPanel>
@@ -72,7 +73,7 @@
                                             Style="{StaticResource FilledCardContentControlStyle}" IsClickable="False" HorizontalAlignment="Stretch">
                         <utu:CardContentControl.ContentTemplate>
                             <DataTemplate>
-                                <StackPanel Padding="12,10" Spacing="4">
+                                <StackPanel Padding="12,10" Spacing="{ThemeResource Space100}">
                                     <TextBlock Style="{StaticResource LabelSmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" Text="Projected" />
                                     <TextBlock Style="{StaticResource TitleMedium}" Foreground="{ThemeResource PrimaryBrush}" Text="{Binding ProjectedMonthlyDisplay}" />
                                 </StackPanel>
@@ -85,10 +86,10 @@
                 <utu:CardContentControl Style="{StaticResource ElevatedCardContentControlStyle}" IsClickable="False" HorizontalAlignment="Stretch">
                     <utu:CardContentControl.ContentTemplate>
                         <DataTemplate>
-                            <StackPanel Padding="16" Spacing="14">
+                            <StackPanel Padding="{ThemeResource Space400Thickness}" Spacing="14">
                                 <TextBlock Style="{StaticResource TitleSmall}" Foreground="{ThemeResource OnSurfaceBrush}" Text="Token Breakdown" />
 
-                                <StackPanel Spacing="4">
+                                <StackPanel Spacing="{ThemeResource Space100}">
                                     <Grid>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="*" />
@@ -101,7 +102,7 @@
                                     </Grid>
                                     <ProgressBar Value="{Binding Tokens.InputPercent}" Maximum="100" HorizontalAlignment="Stretch" Height="6" />
                                 </StackPanel>
-                                <StackPanel Spacing="4">
+                                <StackPanel Spacing="{ThemeResource Space100}">
                                     <Grid>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="*" />
@@ -114,7 +115,7 @@
                                     </Grid>
                                     <ProgressBar Value="{Binding Tokens.OutputPercent}" Maximum="100" HorizontalAlignment="Stretch" Height="6" />
                                 </StackPanel>
-                                <StackPanel Spacing="4">
+                                <StackPanel Spacing="{ThemeResource Space100}">
                                     <Grid>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="*" />
@@ -127,7 +128,7 @@
                                     </Grid>
                                     <ProgressBar Value="{Binding Tokens.CacheReadPercent}" Maximum="100" HorizontalAlignment="Stretch" Height="6" />
                                 </StackPanel>
-                                <StackPanel Spacing="4">
+                                <StackPanel Spacing="{ThemeResource Space100}">
                                     <Grid>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="*" />
@@ -146,76 +147,58 @@
                 </utu:CardContentControl>
 
                 <!-- Rate limits -->
-                <StackPanel Spacing="8">
+                <StackPanel Spacing="{ThemeResource Space200}">
                     <TextBlock Style="{StaticResource TitleSmall}" Foreground="{ThemeResource OnBackgroundBrush}" Text="Rate Limits" />
-                    <ItemsRepeater ItemsSource="{Binding RateLimits}">
-                        <ItemsRepeater.Layout>
-                            <StackLayout Spacing="8" Orientation="Vertical" />
-                        </ItemsRepeater.Layout>
-                        <ItemsRepeater.ItemTemplate>
+                    <mvux:FeedView Source="{Binding RateLimits}"
+                                   ErrorTemplate="{StaticResource TrackerErrorTemplate}">
+                        <mvux:FeedView.ValueTemplate>
                             <DataTemplate>
-                                <utu:CardContentControl Content="{Binding}" Style="{StaticResource ElevatedCardContentControlStyle}" IsClickable="False" HorizontalAlignment="Stretch">
-                                    <utu:CardContentControl.ContentTemplate>
-                                        <DataTemplate>
-                                            <StackPanel Padding="14,12" Spacing="8">
-                                                <Grid>
-                                                    <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="*" />
-                                                        <ColumnDefinition Width="Auto" />
-                                                    </Grid.ColumnDefinitions>
-                                                    <StackPanel Grid.Column="0" Spacing="2">
-                                                        <TextBlock Style="{StaticResource LabelMedium}" Foreground="{ThemeResource OnSurfaceBrush}" Text="{Binding LimitType}" />
-                                                        <TextBlock Style="{StaticResource LabelSmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" Text="{Binding Description}" />
-                                                    </StackPanel>
-                                                    <!-- 12px gutter so the right-hand percent/reset never collide with a
-                                                         wrapped left-column description on narrow widths -->
-                                                    <StackPanel Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center" Spacing="1" Margin="12,0,0,0">
-                                                        <TextBlock Style="{StaticResource LabelMedium}" HorizontalAlignment="Right" Foreground="{ThemeResource OnSurfaceBrush}">
-                                                            <Run Text="{Binding UsedPercent}" /><Run Text="%" />
-                                                        </TextBlock>
-                                                        <TextBlock Style="{StaticResource LabelSmall}" HorizontalAlignment="Right" Foreground="{ThemeResource OnSurfaceVariantBrush}" Text="{Binding ResetIn}" />
-                                                    </StackPanel>
-                                                </Grid>
-                                                <ProgressBar Value="{Binding UsedPercent}" Maximum="100" HorizontalAlignment="Stretch" Height="6" />
-                                            </StackPanel>
-                                        </DataTemplate>
-                                    </utu:CardContentControl.ContentTemplate>
-                                </utu:CardContentControl>
-                            </DataTemplate>
-                        </ItemsRepeater.ItemTemplate>
+                    <ItemsRepeater ItemsSource="{Binding Data}"
+                                   ItemTemplate="{StaticResource RateLimitCardTemplate}">
+                        <ItemsRepeater.Layout>
+                            <StackLayout Spacing="{ThemeResource Space200}" Orientation="Vertical" />
+                        </ItemsRepeater.Layout>
                     </ItemsRepeater>
+                            </DataTemplate>
+                        </mvux:FeedView.ValueTemplate>
+                        <mvux:FeedView.NoneTemplate>
+                            <DataTemplate>
+                                <TextBlock Margin="{ThemeResource Space200VerticalThickness}"
+                                           Foreground="{ThemeResource OnSurfaceVariantBrush}"
+                                           Style="{StaticResource BodySmall}"
+                                           Text="No rate limits reported for this plan." />
+                            </DataTemplate>
+                        </mvux:FeedView.NoneTemplate>
+                    </mvux:FeedView>
                 </StackPanel>
 
                 <!-- Per-model usage & cost -->
                 <utu:CardContentControl Style="{StaticResource ElevatedCardContentControlStyle}" IsClickable="False" HorizontalAlignment="Stretch">
                     <utu:CardContentControl.ContentTemplate>
                         <DataTemplate>
-                            <StackPanel Padding="16" Spacing="12">
+                            <StackPanel Padding="{ThemeResource Space400Thickness}" Spacing="{ThemeResource Space300}">
                                 <TextBlock Style="{StaticResource TitleSmall}" Foreground="{ThemeResource OnSurfaceBrush}" Text="Model Usage &amp; Cost" />
-                                <ItemsRepeater ItemsSource="{Binding ModelBreakdown}">
+                                <mvux:FeedView Source="{Binding ModelBreakdown}"
+                                               ErrorTemplate="{StaticResource TrackerErrorTemplate}">
+                                    <mvux:FeedView.ValueTemplate>
+                                        <DataTemplate>
+                                <ItemsRepeater ItemsSource="{Binding Data}"
+                                               ItemTemplate="{StaticResource ModelUsageRowTemplate}">
                                     <ItemsRepeater.Layout>
                                         <StackLayout Spacing="10" Orientation="Vertical" />
                                     </ItemsRepeater.Layout>
-                                    <ItemsRepeater.ItemTemplate>
-                                        <DataTemplate>
-                                            <StackPanel Spacing="4">
-                                                <Grid>
-                                                    <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="Auto" />
-                                                        <ColumnDefinition Width="*" />
-                                                        <ColumnDefinition Width="Auto" />
-                                                    </Grid.ColumnDefinitions>
-                                                    <TextBlock Grid.Column="0" Style="{StaticResource LabelMedium}" Foreground="{ThemeResource OnSurfaceBrush}" Text="{Binding ModelDisplayName}" Width="160" />
-                                                    <TextBlock Grid.Column="2" Style="{StaticResource LabelSmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" Text="{Binding TotalCostDisplay}" />
-                                                </Grid>
-                                                <ProgressBar Value="{Binding SharePercent}" Maximum="100" HorizontalAlignment="Stretch" Height="6" />
-                                                <TextBlock Style="{StaticResource LabelSmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}">
-                                                    <Run Text="{Binding SessionCount}" /><Run Text=" sessions · " /><Run Text="{Binding SharePercentDisplay}" /><Run Text="% of tokens" />
-                                                </TextBlock>
-                                            </StackPanel>
-                                        </DataTemplate>
-                                    </ItemsRepeater.ItemTemplate>
                                 </ItemsRepeater>
+                                        </DataTemplate>
+                                    </mvux:FeedView.ValueTemplate>
+                                    <mvux:FeedView.NoneTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Margin="{ThemeResource Space200VerticalThickness}"
+                                                       Foreground="{ThemeResource OnSurfaceVariantBrush}"
+                                                       Style="{StaticResource BodySmall}"
+                                                       Text="No model usage recorded this period." />
+                                        </DataTemplate>
+                                    </mvux:FeedView.NoneTemplate>
+                                </mvux:FeedView>
                             </StackPanel>
                         </DataTemplate>
                     </utu:CardContentControl.ContentTemplate>
@@ -225,9 +208,9 @@
                 <utu:CardContentControl Style="{StaticResource ElevatedCardContentControlStyle}" IsClickable="False" HorizontalAlignment="Stretch">
                     <utu:CardContentControl.ContentTemplate>
                         <DataTemplate>
-                            <StackPanel Padding="16" Spacing="12">
+                            <StackPanel Padding="{ThemeResource Space400Thickness}" Spacing="{ThemeResource Space300}">
                                 <TextBlock Style="{StaticResource TitleSmall}" Foreground="{ThemeResource OnSurfaceBrush}" Text="Model Pricing Reference" />
-                                <StackPanel Spacing="2">
+                                <StackPanel Spacing="{ThemeResource Space050}">
                                     <Grid>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="*" />
@@ -238,32 +221,29 @@
                                         <TextBlock Grid.Column="1" Style="{StaticResource LabelSmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" HorizontalAlignment="Right" Text="Input/1M" />
                                         <TextBlock Grid.Column="2" Style="{StaticResource LabelSmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" HorizontalAlignment="Right" Text="Output/1M" />
                                     </Grid>
-                                    <Border Height="1" Background="{ThemeResource OutlineVariantBrush}" Margin="0,4" />
+                                    <Border Height="1" Background="{ThemeResource OutlineVariantBrush}" Margin="{ThemeResource Space100VerticalThickness}" />
                                 </StackPanel>
-                                <ItemsRepeater ItemsSource="{Binding ModelPricing}">
+                                <mvux:FeedView Source="{Binding ModelPricing}"
+                                               ErrorTemplate="{StaticResource TrackerErrorTemplate}">
+                                    <mvux:FeedView.ValueTemplate>
+                                        <DataTemplate>
+                                <ItemsRepeater ItemsSource="{Binding Data}"
+                                               ItemTemplate="{StaticResource ModelPricingRowTemplate}">
                                     <ItemsRepeater.Layout>
                                         <StackLayout Spacing="10" Orientation="Vertical" />
                                     </ItemsRepeater.Layout>
-                                    <ItemsRepeater.ItemTemplate>
-                                        <DataTemplate>
-                                            <StackPanel Spacing="2">
-                                                <Grid>
-                                                    <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="*" />
-                                                        <ColumnDefinition Width="80" />
-                                                        <ColumnDefinition Width="80" />
-                                                    </Grid.ColumnDefinitions>
-                                                    <TextBlock Grid.Column="0" Style="{StaticResource LabelMedium}" Foreground="{ThemeResource OnSurfaceBrush}" TextTrimming="CharacterEllipsis" Text="{Binding DisplayName}" />
-                                                    <TextBlock Grid.Column="1" Style="{StaticResource LabelSmall}" Foreground="{ThemeResource PrimaryBrush}" HorizontalAlignment="Right" Text="{Binding InputPriceDisplay}" />
-                                                    <TextBlock Grid.Column="2" Style="{StaticResource LabelSmall}" Foreground="{ThemeResource SecondaryBrush}" HorizontalAlignment="Right" Text="{Binding OutputPriceDisplay}" />
-                                                </Grid>
-                                                <TextBlock Style="{StaticResource LabelSmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}">
-                                                    <Run Text="Cache " /><Run Text="{Binding CacheReadPriceDisplay}" /><Run Text=" read · " /><Run Text="{Binding CacheWritePriceDisplay}" /><Run Text=" write / 1M" />
-                                                </TextBlock>
-                                            </StackPanel>
-                                        </DataTemplate>
-                                    </ItemsRepeater.ItemTemplate>
                                 </ItemsRepeater>
+                                        </DataTemplate>
+                                    </mvux:FeedView.ValueTemplate>
+                                    <mvux:FeedView.NoneTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Margin="{ThemeResource Space200VerticalThickness}"
+                                                       Foreground="{ThemeResource OnSurfaceVariantBrush}"
+                                                       Style="{StaticResource BodySmall}"
+                                                       Text="Pricing is unavailable right now." />
+                                        </DataTemplate>
+                                    </mvux:FeedView.NoneTemplate>
+                                </mvux:FeedView>
                             </StackPanel>
                         </DataTemplate>
                     </utu:CardContentControl.ContentTemplate>

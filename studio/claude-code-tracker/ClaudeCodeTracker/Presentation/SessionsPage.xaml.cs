@@ -1,60 +1,15 @@
-using Uno.Toolkit.UI;
-
 namespace ClaudeCodeTracker.Presentation;
 
 public sealed partial class SessionsPage : Page
 {
-    private IReadOnlyList<SessionEntry> _allSessions = SampleData.Sessions;
-    private string _modelFilter = "All";
-
     public SessionsPage()
     {
         this.InitializeComponent();
 
-        // Hot Design fallback (unconditional): Hot Design renders the page without Navigation, so it
-        // needs a DataContext; at runtime Navigation injects + overrides this. (DesignMode.DesignModeEnabled
-        // is false in Hot Design, so gating on it would blank the preview.)
-        this.DataContext = new SessionsModel();
-        Loaded += OnLoaded;
-    }
-
-    private void OnLoaded(object sender, RoutedEventArgs e)
-    {
-        if (DataContext is SessionsModel model)
-        {
-            _allSessions = model.Sessions;
-        }
-
-        // Default to the "All" chip the first time the list renders.
-        ModelFilter.SelectedItem ??= _modelFilter;
-        ApplyFilter();
-    }
-
-    private void ModelFilter_ItemChecked(object sender, ChipItemEventArgs e)
-    {
-        _modelFilter = ModelFilter.SelectedItem as string ?? "All";
-        ApplyFilter();
-    }
-
-    private void SearchBox_TextChanged(object sender, TextChangedEventArgs e) => ApplyFilter();
-
-    // Search text and the model chip compose: both predicates must match.
-    private void ApplyFilter()
-    {
-        var query = SearchBox.Text?.Trim() ?? string.Empty;
-
-        IEnumerable<SessionEntry> result = _allSessions;
-        if (!string.Equals(_modelFilter, "All", StringComparison.OrdinalIgnoreCase))
-        {
-            result = result.Where(s => s.ModelDisplayName.Contains(_modelFilter, StringComparison.OrdinalIgnoreCase));
-        }
-        if (!string.IsNullOrEmpty(query))
-        {
-            result = result.Where(s => s.ProjectName.Contains(query, StringComparison.OrdinalIgnoreCase));
-        }
-
-        var list = result.ToList();
-        SessionList.ItemsSource = list;
-        EmptyState.Visibility = list.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
+        // Nothing else to do here. Search and the model chip are two-way bound to states on
+        // SessionsModel, which asks ITrackerService for the matching sessions; the FeedView renders
+        // the result, the empty message and the failure state. This page used to filter the list
+        // itself in code-behind — setting ItemsSource and toggling an empty-state Visibility — which
+        // put view state and query logic in the view.
     }
 }
