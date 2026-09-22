@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Project Sdk="Uno.Sdk.Private">
+<Project Sdk="Uno.Sdk">
   <PropertyGroup>
     <TargetFrameworks>net10.0-android;net10.0-ios;net10.0-browserwasm;net10.0-desktop</TargetFrameworks>
 
@@ -33,6 +33,15 @@
       Navigation;
       SkiaRenderer;
     </UnoFeatures>
+  </PropertyGroup>
+
+  <!--
+    Hot Design Previews live in Previews/. Hot Design locates them at runtime via the
+    ApplicationPreviewsFolder assembly-metadata the SDK generates from this property, so it MUST
+    point at our folder or no previews are listed.
+  -->
+  <PropertyGroup>
+    <HotDesignPreviewsFolder>Previews</HotDesignPreviewsFolder>
   </PropertyGroup>
 
   <!--

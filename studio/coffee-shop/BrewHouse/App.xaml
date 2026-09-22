@@ -5,7 +5,8 @@
 
   <!-- App.xaml is a thin manifest: it only merges the dedicated dictionaries, each with one
        concern. The visual vocabulary (styles, templates, brushes, tokens) lives in Styles.xaml;
-       the palette in ThemeColors.xaml; built-in control key overrides in ControlThemeOverrides.xaml.
+       the item/content templates in DataTemplates.xaml; the palette in ThemeColors.xaml; built-in
+       control key overrides in ControlThemeOverrides.xaml.
        See lesson 56. -->
   <Application.Resources>
     <ResourceDictionary>
@@ -18,9 +19,13 @@
              pane's selection indicator to the warm palette (the bottom TabBar deliberately uses the
              Simple defaults — see ControlThemeOverrides.xaml). -->
         <ResourceDictionary Source="ms-appx:///ControlThemeOverrides.xaml" />
-        <!-- App styling vocabulary. Merged LAST so its well-known-key overrides
+        <!-- App styling vocabulary. Merged after the theme so its well-known-key overrides
              (ControlCornerRadius*, OverlayCornerRadius) beat the theme defaults. -->
         <ResourceDictionary Source="ms-appx:///Styles.xaml" />
+        <!-- Every shared item/content template, keyed. Merged LAST: the templates consume the
+             styles, tokens and converters above by key, and being app-merged is what makes each
+             one a standalone design-time surface. -->
+        <ResourceDictionary Source="ms-appx:///DataTemplates.xaml" />
       </ResourceDictionary.MergedDictionaries>
     </ResourceDictionary>
   </Application.Resources>
