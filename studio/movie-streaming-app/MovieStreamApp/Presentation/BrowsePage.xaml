@@ -14,7 +14,7 @@
   -->
   <Grid utu:SafeArea.Insets="Top">
     <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
-      <StackPanel MaxWidth="1400" HorizontalAlignment="Stretch" Padding="{utu:Responsive Narrow='0,0,0,110', Wide='128,0,24,28'}" Spacing="0">
+      <StackPanel MaxWidth="1400" HorizontalAlignment="Stretch" Padding="{utu:Responsive Narrow='0,0,0,110', Wide='128,0,24,28'}" Spacing="{ThemeResource Space0}">
 
         <!-- Top bar: CineStream wordmark + notifications -->
         <Grid Padding="20,16,20,12">
@@ -22,7 +22,7 @@
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="Auto" />
           </Grid.ColumnDefinitions>
-          <StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
+          <StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="{ThemeResource Space200}" VerticalAlignment="Center">
             <Viewbox Width="22" Height="22">
               <Path Data="{Binding Source=play, Converter={StaticResource Icon}}" Fill="{ThemeResource PrimaryBrush}" Stretch="Uniform" />
             </Viewbox>
@@ -65,17 +65,17 @@
                   </Border.Background>
                 </Border>
                 <StackPanel VerticalAlignment="Bottom" Padding="20,0,20,20" Spacing="10">
-                  <StackPanel Orientation="Horizontal" Spacing="8">
-                    <Border Background="{ThemeResource PrimaryBrush}" CornerRadius="6" Padding="8,3">
+                  <StackPanel Orientation="Horizontal" Spacing="{ThemeResource Space200}">
+                    <Border Background="{ThemeResource PrimaryBrush}" CornerRadius="{ThemeResource Radius200CornerRadius}" Padding="8,3">
                       <TextBlock Text="FEATURED" Style="{StaticResource LabelSmall}" Foreground="{ThemeResource OnPrimaryBrush}" />
                     </Border>
-                    <Border Background="#33FFFFFF" CornerRadius="6" Padding="8,3">
+                    <Border Background="#33FFFFFF" CornerRadius="{ThemeResource Radius200CornerRadius}" Padding="8,3">
                       <TextBlock Text="{Binding Genre}" Style="{StaticResource LabelSmall}" Foreground="White" />
                     </Border>
                   </StackPanel>
                   <TextBlock Text="{Binding Title}" Style="{StaticResource HeadlineMedium}" Foreground="White" FontWeight="Bold" TextWrapping="Wrap" />
                   <StackPanel Orientation="Horizontal" Spacing="14">
-                    <StackPanel Orientation="Horizontal" Spacing="4" VerticalAlignment="Center">
+                    <StackPanel Orientation="Horizontal" Spacing="{ThemeResource Space100}" VerticalAlignment="Center">
                       <Viewbox Width="14" Height="14">
                         <Path Data="{Binding Source=star, Converter={StaticResource Icon}, ConverterParameter=filled}" Fill="{ThemeResource TertiaryBrush}" Stretch="Uniform" />
                       </Viewbox>
@@ -88,7 +88,7 @@
                           uen:Navigation.Request="Playback"
                           uen:Navigation.Data="{utu:AncestorBinding AncestorType=Page, Path=DataContext.FeaturedMovie}"
                           AutomationProperties.Name="Play featured movie">
-                    <StackPanel Orientation="Horizontal" Spacing="8">
+                    <StackPanel Orientation="Horizontal" Spacing="{ThemeResource Space200}">
                       <Viewbox Width="18" Height="18">
                         <Path Data="{Binding Source=play, Converter={StaticResource Icon}}" Fill="{ThemeResource OnPrimaryBrush}" Stretch="Uniform" />
                       </Viewbox>
@@ -107,7 +107,7 @@
         <!-- Category chips -->
         <ItemsRepeater ItemsSource="{Binding Categories}" Margin="20,16,20,0">
           <ItemsRepeater.Layout>
-            <StackLayout Orientation="Horizontal" Spacing="8" />
+            <StackLayout Orientation="Horizontal" Spacing="{ThemeResource Space200}" />
           </ItemsRepeater.Layout>
           <ItemsRepeater.ItemTemplate>
             <DataTemplate>
@@ -122,13 +122,13 @@
 
         <!-- Trending Now — horizontal rail (single row: no wrapping grid, so no partial-row cell seams) -->
         <TextBlock Text="Trending Now" Style="{StaticResource TitleMedium}" Foreground="{ThemeResource OnBackgroundBrush}" Margin="20,24,20,12" />
-        <Grid Margin="20,0">
+        <Grid Margin="{ThemeResource Space500HorizontalThickness}">
           <ScrollViewer x:Name="TrendingScroller"
                         HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Disabled"
                         HorizontalScrollMode="Enabled" VerticalScrollMode="Disabled">
             <ItemsRepeater ItemsSource="{Binding Trending}">
               <ItemsRepeater.Layout>
-                <StackLayout Orientation="Horizontal" Spacing="12" />
+                <StackLayout Orientation="Horizontal" Spacing="{ThemeResource Space300}" />
               </ItemsRepeater.Layout>
               <ItemsRepeater.ItemTemplate>
                 <DataTemplate>
@@ -163,15 +163,15 @@
                             <ImageBrush ImageSource="{Binding ImageUrl}" Stretch="UniformToFill" />
                           </Border.Background>
                         </Border>
-                        <Border Background="{ThemeResource PrimaryBrush}" CornerRadius="6" Padding="6,2"
-                                Margin="8" HorizontalAlignment="Left" VerticalAlignment="Top"
+                        <Border Background="{ThemeResource PrimaryBrush}" CornerRadius="{ThemeResource Radius200CornerRadius}" Padding="6,2"
+                                Margin="{ThemeResource Space200Thickness}" HorizontalAlignment="Left" VerticalAlignment="Top"
                                 Visibility="{Binding IsNew, Converter={StaticResource BoolToVisibility}}">
                           <TextBlock Text="NEW" Style="{StaticResource LabelSmall}" Foreground="{ThemeResource OnPrimaryBrush}" />
                         </Border>
                       </Grid>
                       <StackPanel Grid.Row="1" Padding="10,8" Spacing="3">
                         <TextBlock Text="{Binding Title}" Style="{StaticResource LabelLarge}" Foreground="{ThemeResource OnSurfaceBrush}" TextTrimming="CharacterEllipsis" MaxLines="1" />
-                        <StackPanel Orientation="Horizontal" Spacing="6">
+                        <StackPanel Orientation="Horizontal" Spacing="{ThemeResource Space150}">
                           <TextBlock Text="{Binding Genre}" Style="{StaticResource BodySmall}" Foreground="{ThemeResource OutlineBrush}" VerticalAlignment="Center" />
                           <TextBlock Text="•" Style="{StaticResource BodySmall}" Foreground="{ThemeResource OutlineBrush}" VerticalAlignment="Center" />
                           <Viewbox Width="12" Height="12">
@@ -189,7 +189,7 @@
             </ItemsRepeater>
           </ScrollViewer>
           <Border Style="{StaticResource RailArrowScrimStyle}" HorizontalAlignment="Left" Visibility="{utu:Responsive Narrow=Collapsed, Wide=Visible}">
-            <Button Style="{StaticResource IconGhostButtonStyle}" Foreground="White" Width="40" Height="40" Padding="0" Click="TrendingScrollLeft" AutomationProperties.Name="Scroll left">
+            <Button Style="{StaticResource IconGhostButtonStyle}" Foreground="White" Width="40" Height="40" Padding="{ThemeResource Space0Thickness}" Click="TrendingScrollLeft" AutomationProperties.Name="Scroll left">
               <Viewbox Width="16" Height="16" RenderTransformOrigin="0.5,0.5">
                 <Viewbox.RenderTransform><ScaleTransform ScaleX="-1" /></Viewbox.RenderTransform>
                 <Path Data="{Binding Source=chevron, Converter={StaticResource Icon}}" Fill="White" Stretch="Uniform" />
@@ -197,7 +197,7 @@
             </Button>
           </Border>
           <Border Style="{StaticResource RailArrowScrimStyle}" HorizontalAlignment="Right" Visibility="{utu:Responsive Narrow=Collapsed, Wide=Visible}">
-            <Button Style="{StaticResource IconGhostButtonStyle}" Foreground="White" Width="40" Height="40" Padding="0" Click="TrendingScrollRight" AutomationProperties.Name="Scroll right">
+            <Button Style="{StaticResource IconGhostButtonStyle}" Foreground="White" Width="40" Height="40" Padding="{ThemeResource Space0Thickness}" Click="TrendingScrollRight" AutomationProperties.Name="Scroll right">
               <Viewbox Width="16" Height="16">
                 <Path Data="{Binding Source=chevron, Converter={StaticResource Icon}}" Fill="White" Stretch="Uniform" />
               </Viewbox>
@@ -207,13 +207,13 @@
 
         <!-- New Arrivals -->
         <TextBlock Text="New Arrivals" Style="{StaticResource TitleMedium}" Foreground="{ThemeResource OnBackgroundBrush}" Margin="20,28,20,12" />
-        <Grid Margin="20,0">
+        <Grid Margin="{ThemeResource Space500HorizontalThickness}">
           <ScrollViewer x:Name="NewArrivalsScroller"
                         HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Disabled"
                         HorizontalScrollMode="Enabled" VerticalScrollMode="Disabled">
             <ItemsRepeater ItemsSource="{Binding NewArrivals}">
               <ItemsRepeater.Layout>
-                <StackLayout Orientation="Horizontal" Spacing="16" />
+                <StackLayout Orientation="Horizontal" Spacing="{ThemeResource Space400}" />
               </ItemsRepeater.Layout>
               <ItemsRepeater.ItemTemplate>
                 <DataTemplate>
@@ -241,9 +241,9 @@
                           <ImageBrush ImageSource="{Binding ImageUrl}" Stretch="UniformToFill" />
                         </Border.Background>
                       </Border>
-                      <StackPanel Grid.Column="1" VerticalAlignment="Center" Padding="0,12" Spacing="4">
+                      <StackPanel Grid.Column="1" VerticalAlignment="Center" Padding="{ThemeResource Space300VerticalThickness}" Spacing="{ThemeResource Space100}">
                         <TextBlock Text="{Binding Title}" Style="{StaticResource TitleSmall}" Foreground="{ThemeResource OnSurfaceBrush}" TextWrapping="Wrap" MaxLines="2" TextTrimming="CharacterEllipsis" />
-                        <StackPanel Orientation="Horizontal" Spacing="6">
+                        <StackPanel Orientation="Horizontal" Spacing="{ThemeResource Space150}">
                           <TextBlock Text="{Binding Genre}" Style="{StaticResource BodySmall}" Foreground="{ThemeResource OutlineBrush}" VerticalAlignment="Center" />
                           <TextBlock Text="•" Style="{StaticResource BodySmall}" Foreground="{ThemeResource OutlineBrush}" VerticalAlignment="Center" />
                           <TextBlock Text="{Binding Year}" Style="{StaticResource BodySmall}" Foreground="{ThemeResource OutlineBrush}" VerticalAlignment="Center" />
@@ -251,7 +251,7 @@
                         <TextBlock Text="{Binding Duration}" Style="{StaticResource BodySmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" />
                       </StackPanel>
                       <Button Grid.Column="2" Style="{StaticResource IconGhostButtonStyle}" Width="44" Height="44"
-                              Margin="0,0,8,0" VerticalAlignment="Center"
+                              Margin="{ThemeResource Space200RightThickness}" VerticalAlignment="Center"
                               Command="{utu:ItemsControlBinding Path=DataContext.ToggleWatchlist}"
                               CommandParameter="{Binding}"
                               AutomationProperties.Name="Add to watchlist">
@@ -268,7 +268,7 @@
             </ItemsRepeater>
           </ScrollViewer>
           <Border Style="{StaticResource RailArrowScrimStyle}" HorizontalAlignment="Left" Visibility="{utu:Responsive Narrow=Collapsed, Wide=Visible}">
-            <Button Style="{StaticResource IconGhostButtonStyle}" Foreground="White" Width="40" Height="40" Padding="0" Click="NewArrivalsScrollLeft" AutomationProperties.Name="Scroll left">
+            <Button Style="{StaticResource IconGhostButtonStyle}" Foreground="White" Width="40" Height="40" Padding="{ThemeResource Space0Thickness}" Click="NewArrivalsScrollLeft" AutomationProperties.Name="Scroll left">
               <Viewbox Width="16" Height="16" RenderTransformOrigin="0.5,0.5">
                 <Viewbox.RenderTransform><ScaleTransform ScaleX="-1" /></Viewbox.RenderTransform>
                 <Path Data="{Binding Source=chevron, Converter={StaticResource Icon}}" Fill="White" Stretch="Uniform" />
@@ -276,7 +276,7 @@
             </Button>
           </Border>
           <Border Style="{StaticResource RailArrowScrimStyle}" HorizontalAlignment="Right" Visibility="{utu:Responsive Narrow=Collapsed, Wide=Visible}">
-            <Button Style="{StaticResource IconGhostButtonStyle}" Foreground="White" Width="40" Height="40" Padding="0" Click="NewArrivalsScrollRight" AutomationProperties.Name="Scroll right">
+            <Button Style="{StaticResource IconGhostButtonStyle}" Foreground="White" Width="40" Height="40" Padding="{ThemeResource Space0Thickness}" Click="NewArrivalsScrollRight" AutomationProperties.Name="Scroll right">
               <Viewbox Width="16" Height="16">
                 <Path Data="{Binding Source=chevron, Converter={StaticResource Icon}}" Fill="White" Stretch="Uniform" />
               </Viewbox>
