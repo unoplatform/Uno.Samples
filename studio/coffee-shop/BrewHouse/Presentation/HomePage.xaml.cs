@@ -9,12 +9,11 @@ public sealed partial class HomePage : Page
     {
         this.InitializeComponent();
 
-        // Hot Design renders this page without running Navigation, so seed a design-time DataContext
-        // for the preview. Set it on the *page* (this.DataContext), never on a child element: at
-        // runtime Navigation injects the generated HomeModel VM as the page's DataContext, and a
-        // child carrying its own explicit DataContext would shadow it — leaving every binding (and
-        // every ElementName=Root command binding) stuck on the inert mock.
-        this.DataContext = HomePageMockData.Data;
+        // No design-time DataContext here: this page renders through a FeedView, whose
+        // design-time data must be the feed-shaped mock returning the generated ViewModel
+        // (see the MockData folder) — and a hand-built generated VM must never be seeded from
+        // a page constructor, because it has no live SourceContext and would shadow the VM
+        // Navigation injects. The named previews supply it in XAML instead.
 
         // Drive the (display-only) PipsPager from the FlipView so it always shows the current page.
         // A TwoWay XAML binding between PipsPager.SelectedPageIndex and FlipView.SelectedIndex is
