@@ -1,17 +1,19 @@
+using System.Collections;
+using System.Collections.Specialized;
 using Mapsui;
 using Mapsui.Layers;
 using Mapsui.Projections;
 using Mapsui.Styles;
 using Mapsui.Tiling;
-using UnoCRM.Presentation.MockData;
 
 namespace UnoCRM.Presentation;
 
 /// <summary>
 /// Backs the Contacts page. Filtering lives entirely in <see cref="ContactsModel"/> (states + a list
-/// feed); this code-behind is responsible only for the Mapsui side-effect that can't data-bind. A
-/// hidden probe list is bound to the model's <c>FilteredContacts</c> feed, so when the filters change
-/// the feed re-emits and we rebuild the map layers from the current set.
+/// feed); this code-behind is responsible only for the Mapsui side-effect that can't data-bind. The
+/// page binds the model's <c>FilteredContacts</c> straight to its own <see cref="ContactsSource"/>
+/// property, so when the filters change the feed re-emits and we rebuild the map layers from the
+/// current set.
 /// </summary>
 public sealed partial class ContactsPage : Page
 {
@@ -19,15 +21,12 @@ public sealed partial class ContactsPage : Page
     {
         this.InitializeComponent();
 
-        // Design-time DataContext for Hot Design / Studio (seed on the page, never a child).
-        // At runtime Uno.Extensions Navigation injects the generated ContactsModel VM.
-        this.DataContext = ContactsPageMockData.Data;
-
         Loaded += OnLoaded;
     }
 
     private bool _initialFitDone;
-    private bool _mapsWired;
+    private bool _isLoaded;
+    private INotifyCollectionChanged? _observedContacts;
 
     // OpenStreetMap's tile usage policy requires a descriptive User-Agent that identifies the app;
     // requests without a valid one are rejected. The framework-derived default is unreliable
@@ -35,24 +34,63 @@ public sealed partial class ContactsPage : Page
     // explicitly to make tiles load on every platform.
     private const string TileUserAgent = "UnoCRM/1.0 (Uno Platform sample; +https://platform.uno)";
 
-    private void OnLoaded(object sender, RoutedEventArgs e)
+    public static readonly DependencyProperty ContactsSourceProperty =
+        DependencyProperty.Register(
+            nameof(ContactsSource),
+            typeof(object),
+            typeof(ContactsPage),
+            new PropertyMetadata(null, static (page, args) => ((ContactsPage)page).OnContactsSourceChanged(args.NewValue)));
+
+    /// <summary>
+    /// The model's filtered contact list, bound on the page itself in XAML. The generated view-model
+    /// hands over a bindable list proxy — an observable collection view — so the page can read the
+    /// current contacts and be told when a filter change re-emits them, with no placeholder list
+    /// control in the visual tree. Typed as <see cref="object"/> (like <c>ItemsSource</c>) so the
+    /// binding resolves against whichever view-model is the current DataContext.
+    /// </summary>
+    public object? ContactsSource
     {
-        // Wire the map rebuild exactly once per page instance: Loaded can fire again if the page is
-        // detached and re-attached to the visual tree, and re-subscribing would stack duplicate
-        // VectorChanged handlers (and duplicate RefreshMaps calls). The subscription lives with the
-        // probe for the page's lifetime, so nothing needs unwiring.
-        if (_mapsWired)
+        get => GetValue(ContactsSourceProperty);
+        set => SetValue(ContactsSourceProperty, value);
+    }
+
+    // Fires when the bound proxy first resolves, and again if the DataContext is replaced — Uno
+    // Extensions Navigation swaps the design-time mock for the real view-model — so the subscription
+    // always follows the live source instead of stranding on a stale one. Swapping (rather than
+    // adding) is what keeps handlers from stacking; the proxy shares the view-model's per-navigation
+    // lifetime, so it dies with the page and needs no explicit unwiring.
+    private void OnContactsSourceChanged(object? source)
+    {
+        if (_observedContacts is not null)
         {
-            return;
+            _observedContacts.CollectionChanged -= OnContactsChanged;
         }
 
-        _mapsWired = true;
+        _observedContacts = source as INotifyCollectionChanged;
 
-        // Rebuild the maps whenever the bound filtered set changes. The list feed materializes
-        // asynchronously, so the viewport is fit on the first rebuild that actually has contacts
-        // (which may be a later VectorChanged, not this initial call); after that, filter changes
-        // keep the user's current pan/zoom.
-        ContactsProbe.Items.VectorChanged += (_, _) => RefreshMaps(fitViewport: TakeInitialFit());
+        if (_observedContacts is not null)
+        {
+            _observedContacts.CollectionChanged += OnContactsChanged;
+        }
+
+        // Before Loaded the map controls can't render yet; OnLoaded does the first rebuild.
+        if (_isLoaded)
+        {
+            RefreshMaps(fitViewport: TakeInitialFit());
+        }
+    }
+
+    // Rebuild the maps whenever the filtered set changes.
+    private void OnContactsChanged(object? sender, NotifyCollectionChangedEventArgs args)
+        => RefreshMaps(fitViewport: TakeInitialFit());
+
+    private void OnLoaded(object sender, RoutedEventArgs e)
+    {
+        _isLoaded = true;
+
+        // The list feed materializes asynchronously, so the viewport is fit on the first rebuild that
+        // actually has contacts (which may be a later collection change, not this initial call);
+        // after that, filter changes keep the user's current pan/zoom.
         RefreshMaps(fitViewport: TakeInitialFit());
     }
 
@@ -70,7 +108,9 @@ public sealed partial class ContactsPage : Page
     }
 
     private IReadOnlyList<ContactLocation> CurrentContacts()
-        => ContactsProbe.Items.OfType<ContactLocation>().ToList();
+        => ContactsSource is IEnumerable contacts
+            ? contacts.OfType<ContactLocation>().ToList()
+            : [];
 
     private void RefreshMaps(bool fitViewport)
     {

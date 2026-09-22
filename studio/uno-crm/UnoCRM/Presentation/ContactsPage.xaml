@@ -3,65 +3,10 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:maps="clr-namespace:Mapsui.UI.WinUI;assembly=Mapsui.UI.Uno.WinUI"
       xmlns:utu="using:Uno.Toolkit.UI"
-      Background="{ThemeResource DashboardPageBackgroundBrush}">
-  <Page.Resources>
-    <!--
-      Custom ListView item template: replaces the default WinUI item chrome (the square
-      gray hover/press rectangle) with a hover ring that exactly matches the contact
-      card's rounded shape and bottom margin. The ring sits above the card (hit-test
-      transparent) and turns accent on pointer-over / press.
-    -->
-    <Style x:Key="ContactListItemStyle" TargetType="ListViewItem">
-      <Setter Property="Background" Value="Transparent" />
-      <Setter Property="Padding" Value="0" />
-      <Setter Property="Margin" Value="0" />
-      <Setter Property="MinHeight" Value="0" />
-      <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-      <Setter Property="Template">
-        <Setter.Value>
-          <ControlTemplate TargetType="ListViewItem">
-            <Grid>
-              <VisualStateManager.VisualStateGroups>
-                <VisualStateGroup x:Name="CommonStates">
-                  <VisualState x:Name="Normal" />
-                  <VisualState x:Name="PointerOver">
-                    <VisualState.Setters>
-                      <Setter Target="HoverRing.BorderBrush" Value="{ThemeResource DashboardAccentBrush}" />
-                    </VisualState.Setters>
-                  </VisualState>
-                  <VisualState x:Name="Pressed">
-                    <VisualState.Setters>
-                      <Setter Target="HoverRing.BorderBrush" Value="{ThemeResource DashboardAccentBrush}" />
-                    </VisualState.Setters>
-                  </VisualState>
-                  <VisualState x:Name="Disabled" />
-                </VisualStateGroup>
-              </VisualStateManager.VisualStateGroups>
-              <ContentPresenter HorizontalAlignment="Stretch"
-                                HorizontalContentAlignment="Stretch"
-                                Content="{TemplateBinding Content}"
-                                ContentTemplate="{TemplateBinding ContentTemplate}"
-                                ContentTransitions="{TemplateBinding ContentTransitions}" />
-              <Border x:Name="HoverRing"
-                      Margin="0,0,0,10"
-                      CornerRadius="12"
-                      BorderThickness="1.5"
-                      BorderBrush="Transparent"
-                      IsHitTestVisible="False" />
-            </Grid>
-          </ControlTemplate>
-        </Setter.Value>
-      </Setter>
-    </Style>
-  </Page.Resources>
+      xmlns:mvux="using:Uno.Extensions.Reactive.UI"
+      Background="{ThemeResource DashboardPageBackgroundBrush}"
+      ContactsSource="{Binding FilteredContacts}">
   <Grid Background="{ThemeResource DashboardPageBackgroundBrush}">
-    <!-- Hidden probe: bound to the model's filtered feed so the code-behind can rebuild the
-         (non-bindable) Mapsui layers whenever the filters change. -->
-    <ListView x:Name="ContactsProbe"
-              ItemsSource="{Binding FilteredContacts}"
-              Visibility="Collapsed"
-              IsHitTestVisible="False" />
-
     <Grid x:Name="DesktopRoot" Visibility="{utu:Responsive Narrow=Collapsed, Wide=Visible}">
       <Grid Padding="28,22,28,28"
         RowSpacing="18">
@@ -198,56 +143,18 @@
                 <TextBlock Text="Filtered Contacts"
                            Style="{StaticResource DashboardSectionTitleStyle}" />
 
-                <ListView Grid.Row="1"
-                          ItemsSource="{Binding FilteredContacts}"
-                          BorderThickness="0"
-                          Background="Transparent"
-                          SelectionMode="None"
-                          ItemContainerStyle="{StaticResource ContactListItemStyle}">
-                  <ListView.ItemTemplate>
-                    <DataTemplate>
-                      <Border Style="{StaticResource DashboardKanbanCardStyle}"
-                              Margin="0,0,0,10">
-                        <StackPanel Spacing="6">
-                          <Grid>
-                            <Grid.ColumnDefinitions>
-                              <ColumnDefinition Width="*" />
-                              <ColumnDefinition Width="Auto" />
-                            </Grid.ColumnDefinitions>
-                            <TextBlock Text="{Binding Name}"
-                                       Style="{StaticResource DashboardBodyTextStyle}" />
-                            <TextBlock Grid.Column="1"
-                                       Text="{Binding Segment}"
-                                       Style="{StaticResource DashboardMicroTextStyle}" />
-                          </Grid>
-                          <TextBlock Text="{Binding Company}"
-                                     Style="{StaticResource DashboardSubtleTextStyle}" />
-                          <Grid>
-                            <Grid.ColumnDefinitions>
-                              <ColumnDefinition Width="*" />
-                              <ColumnDefinition Width="Auto" />
-                            </Grid.ColumnDefinitions>
-                            <TextBlock Text="{Binding City}"
-                                       Style="{StaticResource DashboardSubtleTextStyle}" />
-                            <TextBlock Grid.Column="1"
-                                       Text="{Binding Region}"
-                                       Foreground="{ThemeResource DashboardAccentBrush}"
-                                       FontSize="12" />
-                          </Grid>
-                        </StackPanel>
-                      </Border>
-                    </DataTemplate>
-                  </ListView.ItemTemplate>
-                </ListView>
-
-                <!-- Empty state when the filters match no contacts -->
-                <TextBlock Grid.Row="1"
-                           Text="No contacts match your filters."
-                           Style="{StaticResource DashboardSubtleTextStyle}"
-                           HorizontalAlignment="Center"
-                           VerticalAlignment="Top"
-                           Margin="0,24,0,0"
-                           Visibility="{Binding HasNoResults, Converter={StaticResource BoolToVisibility}}" />
+                <!-- FeedView renders the filtered list feed directly: the populated set via the
+                     ValueTemplate (a ListView over the feed's materialized Data) and the empty
+                     result via the NoneTemplate (a list feed emits None when it has no items) — so
+                     no separate HasNoResults overlay is needed here. Both templates are keyed in
+                     DataTemplates.xaml. -->
+                <!-- All four states are now reachable: the filter query goes to ICrmService, so the
+                     control shows Progress while it runs and Error if it fails, not just Value/None. -->
+                <mvux:FeedView Grid.Row="1"
+                               Source="{Binding FilteredContacts}"
+                               ValueTemplate="{StaticResource DesktopContactListTemplate}"
+                               NoneTemplate="{StaticResource DesktopContactsEmptyTemplate}"
+                               ErrorTemplate="{StaticResource CrmErrorTemplate}" />
               </Grid>
             </Border>
           </Grid>
@@ -340,38 +247,16 @@
                          Style="{StaticResource DashboardSectionTitleStyle}"
                          FontSize="20" />
               <!--
-                ItemsControl (not ListView) so the list has no inner scroll and the
-                whole page scrolls as one. A nested ListView scroll would trap the
-                gesture and never move the page offset.
+                Same FeedView pattern as desktop, over the same FilteredContacts feed — except the
+                mobile ValueTemplate uses an ItemsControl (not a ListView) so the list has no inner
+                scroll and the whole page scrolls as one; a nested ListView scroll would trap the
+                gesture and never move the page offset. Both templates are keyed in
+                DataTemplates.xaml.
               -->
-              <ItemsControl ItemsSource="{Binding FilteredContacts}">
-                <ItemsControl.ItemTemplate>
-                  <DataTemplate>
-                    <Border Style="{StaticResource DashboardKanbanCardStyle}"
-                            Margin="0,0,0,10">
-                      <StackPanel Spacing="6">
-                        <TextBlock Text="{Binding Name}" Style="{StaticResource DashboardBodyTextStyle}" />
-                        <TextBlock Text="{Binding Company}" Style="{StaticResource DashboardSubtleTextStyle}" />
-                        <Grid>
-                          <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="Auto" />
-                          </Grid.ColumnDefinitions>
-                          <TextBlock Text="{Binding City}" Style="{StaticResource DashboardSubtleTextStyle}" />
-                          <TextBlock Grid.Column="1" Text="{Binding Region}" Foreground="{ThemeResource DashboardAccentBrush}" FontSize="12" />
-                        </Grid>
-                      </StackPanel>
-                    </Border>
-                  </DataTemplate>
-                </ItemsControl.ItemTemplate>
-              </ItemsControl>
-
-              <!-- Empty state when the filters match no contacts -->
-              <TextBlock Text="No contacts match your filters."
-                         Style="{StaticResource DashboardSubtleTextStyle}"
-                         HorizontalAlignment="Center"
-                         Margin="0,8,0,4"
-                         Visibility="{Binding HasNoResults, Converter={StaticResource BoolToVisibility}}" />
+              <mvux:FeedView Source="{Binding FilteredContacts}"
+                             ValueTemplate="{StaticResource MobileContactListTemplate}"
+                             NoneTemplate="{StaticResource MobileContactsEmptyTemplate}"
+                             ErrorTemplate="{StaticResource CrmErrorTemplate}" />
             </StackPanel>
           </Border>
         </Grid>

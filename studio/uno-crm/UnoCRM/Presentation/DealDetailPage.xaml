@@ -5,6 +5,19 @@
       xmlns:utu="using:Uno.Toolkit.UI"
       Background="{ThemeResource DashboardPageBackgroundBrush}">
 
+  <!--
+    Three cards, ordered by how much the reader has to decide on:
+
+      1. IDENTITY    - who the deal is with, where it sits in the pipeline, what it is worth.
+      2. STATUS      - the two facts that ask for a decision: health, and how long it has sat.
+      3. ATTRIBUTION - the quiet reference facts: owner and lead source.
+
+    Stage, health and dwell time used to share a four-cell grid with owner and lead source, which
+    said that "at risk" mattered no more than "lead source". They are now the whole middle card
+    (and, for the stage, part of the deal's identity), each drawn by a keyed per-state template from
+    DataTemplates.xaml so the states differ in FORM first - a raised step on a five-step track, a
+    different silhouette, a gauge past a labelled threshold - and only then in color.
+  -->
   <Grid Background="{ThemeResource DashboardPageBackgroundBrush}"
         utu:SafeArea.Insets="Top,Bottom">
     <ScrollViewer VerticalScrollBarVisibility="Auto"
@@ -15,6 +28,7 @@
               HorizontalAlignment="Stretch"
               RowSpacing="20">
           <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
@@ -36,30 +50,40 @@
                        VerticalAlignment="Center" />
           </StackPanel>
 
-          <!-- Headline card: company, stage pill, amount -->
+          <!-- 1. Identity: company, position in the pipeline, deal value -->
           <Border Grid.Row="1"
                   Style="{StaticResource DashboardPanelBorderStyle}"
                   Padding="28,26">
-            <StackPanel Spacing="16">
-              <Grid>
-                <Grid.ColumnDefinitions>
-                  <ColumnDefinition Width="*" />
-                  <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
-                <TextBlock Text="{Binding Deal.Company}"
-                           Style="{StaticResource DashboardCardTitleStyle}"
-                           VerticalAlignment="Center" />
-                <Border Grid.Column="1"
-                        VerticalAlignment="Center"
-                        CornerRadius="{StaticResource RadiusMd}"
-                        Padding="12,6"
-                        Background="{ThemeResource DashboardAccentSoftBrush}">
+            <StackPanel Spacing="20">
+              <TextBlock Text="{Binding Deal.Company}"
+                         Style="{StaticResource DashboardCardTitleStyle}" />
+
+              <!--
+                Stage, stated three ways so none of them has to be the hue: the ordinal
+                ("STEP 4 OF 5"), the name at section-title size, and the track underneath, whose
+                raised step is the only colored mark in the card.
+              -->
+              <StackPanel Spacing="12">
+                <StackPanel Spacing="2">
+                  <TextBlock Text="{Binding Deal.StagePositionDisplay}"
+                             Style="{StaticResource DashboardSectionLabelStyle}" />
                   <TextBlock Text="{Binding Deal.StageDisplay}"
-                             Foreground="{ThemeResource DashboardAccentBrush}"
-                             FontSize="13"
-                             FontWeight="SemiBold" />
-                </Border>
-              </Grid>
+                             Style="{StaticResource DashboardSectionTitleStyle}" />
+                </StackPanel>
+                <!-- ContentControl (not ContentPresenter) so the selected template gets its own
+                     DataContext; Stretch on both axes or the track's star columns would size to
+                     their content and collapse. The stage alone selects the template, and the
+                     template draws five fixed bars, so nothing here binds. -->
+                <ContentControl Content="{Binding Deal.Stage}"
+                                ContentTemplateSelector="{StaticResource DealStageTrackSelector}"
+                                HorizontalAlignment="Stretch"
+                                HorizontalContentAlignment="Stretch"
+                                VerticalContentAlignment="Center"
+                                IsTabStop="False"
+                                AutomationProperties.AccessibilityView="Raw" />
+              </StackPanel>
+
+              <Border Height="1" Background="{ThemeResource DashboardDividerBrush}" />
 
               <StackPanel Spacing="2">
                 <TextBlock Text="DEAL VALUE"
@@ -71,53 +95,62 @@
             </StackPanel>
           </Border>
 
-          <!-- Facts grid -->
+          <!-- 2. Status: the two facts that ask for a decision -->
           <Border Grid.Row="2"
                   Style="{StaticResource DashboardPanelBorderStyle}"
                   Padding="28,24">
             <StackPanel Spacing="18">
-              <Grid ColumnSpacing="18">
+              <!-- Health reads as a definition row: label left, mark right, so the mark's own
+                   size and container weight are what changes at the edge of the card. -->
+              <Grid ColumnSpacing="12">
                 <Grid.ColumnDefinitions>
-                  <ColumnDefinition Width="*" />
+                  <ColumnDefinition Width="Auto" />
                   <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-
-                <StackPanel Spacing="4">
-                  <TextBlock Text="OWNER" Style="{StaticResource DashboardSectionLabelStyle}" />
-                  <TextBlock Text="{Binding Deal.Owner}" Style="{StaticResource DashboardBodyTextStyle}" />
-                </StackPanel>
-
-                <StackPanel Grid.Column="1" Spacing="4">
-                  <TextBlock Text="LEAD SOURCE" Style="{StaticResource DashboardSectionLabelStyle}" />
-                  <TextBlock Text="{Binding Deal.Source}" Style="{StaticResource DashboardBodyTextStyle}" />
-                </StackPanel>
+                <TextBlock Text="HEALTH"
+                           Style="{StaticResource DashboardSectionLabelStyle}"
+                           VerticalAlignment="Center" />
+                <ContentControl Grid.Column="1"
+                                Content="{Binding Deal}"
+                                ContentTemplateSelector="{StaticResource DealHealthMarkSelector}"
+                                HorizontalAlignment="Right"
+                                HorizontalContentAlignment="Right"
+                                VerticalAlignment="Center"
+                                IsTabStop="False" />
               </Grid>
 
               <Border Height="1" Background="{ThemeResource DashboardDividerBrush}" />
 
-              <Grid ColumnSpacing="18">
-                <Grid.ColumnDefinitions>
-                  <ColumnDefinition Width="*" />
-                  <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-
-                <StackPanel Spacing="4">
-                  <TextBlock Text="HEALTH" Style="{StaticResource DashboardSectionLabelStyle}" />
-                  <StackPanel Orientation="Horizontal" Spacing="8">
-                    <Ellipse Width="10" Height="10" VerticalAlignment="Center"
-                             Fill="{Binding Deal.AccentKey, Converter={StaticResource ResourceKeyToBrush}}" />
-                    <TextBlock Text="{Binding Deal.HealthDisplay}"
-                               Style="{StaticResource DashboardBodyTextStyle}"
-                               VerticalAlignment="Center" />
-                  </StackPanel>
-                </StackPanel>
-
-                <StackPanel Grid.Column="1" Spacing="4">
-                  <TextBlock Text="AGE IN STAGE" Style="{StaticResource DashboardSectionLabelStyle}" />
-                  <TextBlock Text="{Binding Deal.MetaDisplay}" Style="{StaticResource DashboardBodyTextStyle}" />
-                </StackPanel>
-              </Grid>
+              <!-- Dwell time: the day count, its band, and a 30-day gauge notched at the two
+                   thresholds. A closed deal swaps the whole read-out for a plain statement. -->
+              <ContentControl Content="{Binding Deal}"
+                              ContentTemplateSelector="{StaticResource DealDwellSelector}"
+                              HorizontalAlignment="Stretch"
+                              HorizontalContentAlignment="Stretch"
+                              IsTabStop="False" />
             </StackPanel>
+          </Border>
+
+          <!-- 3. Attribution: the quiet reference facts -->
+          <Border Grid.Row="3"
+                  Style="{StaticResource DashboardPanelBorderStyle}"
+                  Padding="28,24">
+            <Grid ColumnSpacing="18">
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+              </Grid.ColumnDefinitions>
+
+              <StackPanel Spacing="4">
+                <TextBlock Text="OWNER" Style="{StaticResource DashboardSectionLabelStyle}" />
+                <TextBlock Text="{Binding Deal.Owner}" Style="{StaticResource DashboardBodyTextStyle}" />
+              </StackPanel>
+
+              <StackPanel Grid.Column="1" Spacing="4">
+                <TextBlock Text="LEAD SOURCE" Style="{StaticResource DashboardSectionLabelStyle}" />
+                <TextBlock Text="{Binding Deal.Source}" Style="{StaticResource DashboardBodyTextStyle}" />
+              </StackPanel>
+            </Grid>
           </Border>
         </Grid>
       </Grid>

@@ -55,7 +55,7 @@ public static class CrmData
 
     public static IReadOnlyList<Deal> Deals { get; } = BuildDeals();
 
-    public static IReadOnlyList<PipelineStage> Stages { get; } = BuildStages();
+    public static IReadOnlyList<PipelineStage> Stages { get; } = StagesFrom(Deals);
 
     public static DashboardData Dashboard { get; } = BuildDashboard();
 
@@ -68,39 +68,47 @@ public static class CrmData
         // New Lead
         new("d-01", "Acme Corp", 45_000m, "Sarah Chen", DealStage.NewLead, DealHealth.AtRisk, 2, "Web"),
         new("d-02", "TechVision Inc", 28_500m, "Mike Johnson", DealStage.NewLead, DealHealth.Watch, 5, "Email"),
-        new("d-03", "Bright Solutions", 12_000m, "Lisa Park", DealStage.NewLead, DealHealth.Healthy, 1, "Referral"),
-        new("d-04", "DataFlow Ltd", 67_200m, "James Wright", DealStage.NewLead, DealHealth.Watch, 3, "Ads"),
+        new("d-03", "Bright Solutions", 12_000m, "Kevin Zhang", DealStage.NewLead, DealHealth.Healthy, 1, "Referral"),
+        new("d-04", "DataFlow Ltd", 67_200m, "Nina Brooks", DealStage.NewLead, DealHealth.Watch, 3, "Ads"),
 
         // Qualified
-        new("d-05", "NovaTech", 89_000m, "David Kim", DealStage.Qualified, DealHealth.AtRisk, 8, "Referral"),
-        new("d-06", "CloudSync", 34_750m, "Anna Lopez", DealStage.Qualified, DealHealth.Healthy, 12, "Web"),
-        new("d-07", "Pinnacle Group", 52_300m, "Tom Rivera", DealStage.Qualified, DealHealth.Watch, 6, "Event"),
+        new("d-05", "NovaTech", 89_000m, "Paul Martinez", DealStage.Qualified, DealHealth.AtRisk, 8, "Referral"),
+        new("d-06", "CloudSync", 34_750m, "Sarah Chen", DealStage.Qualified, DealHealth.Healthy, 12, "Web"),
+        new("d-07", "Pinnacle Group", 52_300m, "Mike Johnson", DealStage.Qualified, DealHealth.Watch, 6, "Event"),
 
         // Proposal
-        new("d-08", "Meridian Health", 124_000m, "Rachel Adams", DealStage.Proposal, DealHealth.AtRisk, 15, "Email"),
-        new("d-09", "UrbanEdge", 56_800m, "Chris Taylor", DealStage.Proposal, DealHealth.Watch, 9, "Web"),
-        new("d-10", "BluePeak Inc", 41_500m, "Maya Patel", DealStage.Proposal, DealHealth.Healthy, 4, "Ads"),
+        new("d-08", "Meridian Health", 124_000m, "Kevin Zhang", DealStage.Proposal, DealHealth.AtRisk, 33, "Email"),
+        new("d-09", "UrbanEdge", 56_800m, "Nina Brooks", DealStage.Proposal, DealHealth.Watch, 9, "Web"),
+        new("d-10", "BluePeak Inc", 41_500m, "Paul Martinez", DealStage.Proposal, DealHealth.Healthy, 4, "Ads"),
 
         // Negotiation
-        new("d-11", "Vertex Labs", 210_000m, "Kevin Zhang", DealStage.Negotiation, DealHealth.AtRisk, 22, "Referral"),
-        new("d-12", "Orion Systems", 73_400m, "Elena Ross", DealStage.Negotiation, DealHealth.Watch, 18, "Event"),
-        new("d-13", "Atlas Financial", 95_600m, "Nina Brooks", DealStage.Negotiation, DealHealth.Healthy, 11, "Web"),
+        new("d-11", "Vertex Labs", 210_000m, "Sarah Chen", DealStage.Negotiation, DealHealth.AtRisk, 47, "Referral"),
+        new("d-12", "Orion Systems", 73_400m, "Mike Johnson", DealStage.Negotiation, DealHealth.Watch, 38, "Event"),
+        new("d-13", "Atlas Financial", 95_600m, "Kevin Zhang", DealStage.Negotiation, DealHealth.Healthy, 11, "Web"),
 
         // Closed Won
-        new("d-14", "Summit Retail", 156_000m, "Paul Martinez", DealStage.ClosedWon, DealHealth.Healthy, 0, "Email"),
-        new("d-15", "Crest Dynamics", 82_500m, "Jenna Cole", DealStage.ClosedWon, DealHealth.Healthy, 0, "Web"),
-        new("d-16", "Forge Media", 47_200m, "Leo Harris", DealStage.ClosedWon, DealHealth.Healthy, 0, "Referral"),
+        new("d-14", "Summit Retail", 156_000m, "Nina Brooks", DealStage.ClosedWon, DealHealth.Healthy, 0, "Email"),
+        new("d-15", "Crest Dynamics", 82_500m, "Paul Martinez", DealStage.ClosedWon, DealHealth.Healthy, 0, "Web"),
+        new("d-16", "Forge Media", 47_200m, "Sarah Chen", DealStage.ClosedWon, DealHealth.Healthy, 0, "Referral"),
     ];
 
-    private static IReadOnlyList<PipelineStage> BuildStages()
+    /// <summary>
+    /// The five columns built over an arbitrary deal set, so a filtered query returns the same board
+    /// shape as the unfiltered one. The columns are STRUCTURAL — all five are always returned, and a
+    /// filter that excludes a stage entirely leaves that column present with a count of zero.
+    /// </summary>
+    public static IReadOnlyList<PipelineStage> StagesFrom(IEnumerable<Deal> deals)
     {
-        (DealStage Stage, string Name, string Accent, string Deep, string Soft)[] defs =
+        var matching = deals as IReadOnlyList<Deal> ?? deals.ToList();
+        // Label only — each column's palette lives in its own keyed header template, so a stage
+        // carries no presentation with it.
+        (DealStage Stage, string Name)[] defs =
         [
-            (DealStage.NewLead, "NEW LEAD", "DashboardBlueBrush", "DashboardBlueDeepBrush", "DashboardBlueSoftBrush"),
-            (DealStage.Qualified, "QUALIFIED", "DashboardPurpleBrush", "DashboardPurpleDeepBrush", "DashboardPurpleSoftBrush"),
-            (DealStage.Proposal, "PROPOSAL", "DashboardAmberBrush", "DashboardAmberDeepBrush", "DashboardAmberSoftBrush"),
-            (DealStage.Negotiation, "NEGOTIATION", "DashboardRedBrush", "DashboardRedDeepBrush", "DashboardRedSoftBrush"),
-            (DealStage.ClosedWon, "CLOSED WON", "DashboardGreenBrush", "DashboardGreenDeepBrush", "DashboardGreenSoftBrush"),
+            (DealStage.NewLead, "NEW LEAD"),
+            (DealStage.Qualified, "QUALIFIED"),
+            (DealStage.Proposal, "PROPOSAL"),
+            (DealStage.Negotiation, "NEGOTIATION"),
+            (DealStage.ClosedWon, "CLOSED WON"),
         ];
 
         return defs
@@ -108,10 +116,7 @@ public static class CrmData
             {
                 Name = d.Name,
                 Stage = d.Stage,
-                AccentKey = d.Accent,
-                DeepKey = d.Deep,
-                SoftKey = d.Soft,
-                Deals = Deals.Where(deal => deal.Stage == d.Stage).ToList(),
+                Deals = matching.Where(deal => deal.Stage == d.Stage).ToList(),
             })
             .ToList();
     }
@@ -124,14 +129,10 @@ public static class CrmData
         var conversion = (double)wonDeals.Count / Deals.Count;
         var maxStageCount = Stages.Max(s => s.Count);
 
-        string[] funnelNames = ["New Lead", "Qualified", "Proposal", "Negotiation", "Closed Won"];
-
         var funnel = Stages
-            .Select((stage, i) => new FunnelStage
+            .Select(stage => new FunnelStage
             {
-                Name = funnelNames[i],
                 Count = stage.Count,
-                FillKey = stage.AccentKey,
                 FillFraction = maxStageCount == 0 ? 0d : (double)stage.Count / maxStageCount,
             })
             .ToList();
@@ -140,25 +141,40 @@ public static class CrmData
         {
             TotalLeadsText = monthlyTotal.ToString("N0", Usd),
             TotalLeadsDelta = "+12.5%",
+            TotalLeadsTrend = KpiTrend.Up,
             ActiveDealsText = openDeals.Count.ToString("N0", Usd),
             ActiveDealsDelta = "+8.3%",
+            ActiveDealsTrend = KpiTrend.Up,
             RevenueText = ToShortMoney(wonDeals.Sum(d => d.Amount)),
             RevenueDelta = "+18.2%",
+            RevenueTrend = KpiTrend.Up,
             ConversionRateText = conversion.ToString("P1", Usd),
             ConversionRateDelta = "+3.1%",
+            ConversionRateTrend = KpiTrend.Up,
             Funnel = funnel,
             Activities = BuildActivities(),
         };
     }
 
-    private static IReadOnlyList<ActivityItem> BuildActivities() =>
-    [
-        new("Deal won — Summit Retail", "$156,000  •  Closed Won", "2h ago"),
-        new("New lead assigned — Acme Corp", "Sarah Chen  •  Web", "15m ago"),
-        new("Proposal sent — Meridian Health", "$124,000  •  Proposal", "1h ago"),
-        new("Lead qualified — NovaTech", "David Kim  •  Referral", "2h ago"),
-        new("Negotiation started — Vertex Labs", "$210,000  •  Negotiation", "3h ago"),
-    ];
+    private static IReadOnlyList<ActivityItem> BuildActivities()
+    {
+        // Every row reads the deal it describes rather than repeating its details, so the feed cannot
+        // drift from the dataset when a deal changes hands or is re-priced.
+        static Deal Of(string company) => Deals.First(d => d.Company == company);
+
+        static string Rep(string company) => $"{Of(company).Owner}  •  {Of(company).Source}";
+
+        static string Value(string company) => $"{Of(company).AmountDisplay}  •  {Of(company).StageDisplay}";
+
+        return
+        [
+            new("Deal won — Summit Retail", Value("Summit Retail"), "2h ago"),
+            new("New lead assigned — Acme Corp", Rep("Acme Corp"), "15m ago"),
+            new("Proposal sent — Meridian Health", Value("Meridian Health"), "1h ago"),
+            new("Lead qualified — NovaTech", Rep("NovaTech"), "2h ago"),
+            new("Negotiation started — Vertex Labs", Value("Vertex Labs"), "3h ago"),
+        ];
+    }
 
     private static LeadsAnalytics BuildLeads()
     {

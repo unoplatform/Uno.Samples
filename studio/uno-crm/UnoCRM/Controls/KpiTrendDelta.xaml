@@ -1,0 +1,54 @@
+<UserControl x:Class="UnoCRM.Controls.KpiTrendDelta"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             HorizontalAlignment="Left">
+  <!--
+    A KPI's change over the period: the figure, plus an arrow for the direction it moved.
+
+    A delta used to be a bare string coloured with the accent brush wherever it appeared, so every
+    change looked like good news — a fall arrived in the same green as a rise, with nothing but a minus
+    sign to say otherwise. Direction is now its own value, and it picks both the arrow and the colour,
+    so the two can never disagree with the number. The arrow carries the direction on its own, which is
+    what makes the read-out survive greyscale; the colour reinforces it.
+
+    Three pre-coloured rows switched by Visibility rather than one row whose brush is chosen at
+    runtime: a brush picked by a value converter is resolved app-wide and so cannot see this element's
+    ActualTheme. This is the same shape the pipeline card uses for its status marks.
+  -->
+  <Grid>
+    <StackPanel Orientation="Horizontal" Spacing="5"
+                Visibility="{x:Bind UpVisibility(Trend), Mode=OneWay}">
+      <Path Width="11" Height="11" VerticalAlignment="Center" Stretch="Uniform"
+            Data="F1 M12 5 L18.5 12.5 L13 12.5 L13 19 L11 19 L11 12.5 L5.5 12.5 Z"
+            Fill="{ThemeResource DashboardGreenDeepBrush}" />
+      <TextBlock Text="{x:Bind Text, Mode=OneWay}"
+                 Foreground="{ThemeResource DashboardGreenDeepBrush}"
+                 FontSize="{x:Bind FontSize, Mode=OneWay}"
+                 FontWeight="SemiBold"
+                 VerticalAlignment="Center" />
+    </StackPanel>
+
+    <StackPanel Orientation="Horizontal" Spacing="5"
+                Visibility="{x:Bind DownVisibility(Trend), Mode=OneWay}">
+      <Path Width="11" Height="11" VerticalAlignment="Center" Stretch="Uniform"
+            Data="F1 M12 19 L5.5 11.5 L11 11.5 L11 5 L13 5 L13 11.5 L18.5 11.5 Z"
+            Fill="{ThemeResource DashboardRedDeepBrush}" />
+      <TextBlock Text="{x:Bind Text, Mode=OneWay}"
+                 Foreground="{ThemeResource DashboardRedDeepBrush}"
+                 FontSize="{x:Bind FontSize, Mode=OneWay}"
+                 FontWeight="SemiBold"
+                 VerticalAlignment="Center" />
+    </StackPanel>
+
+    <StackPanel Orientation="Horizontal" Spacing="5"
+                Visibility="{x:Bind FlatVisibility(Trend), Mode=OneWay}">
+      <Path Width="11" Height="11" VerticalAlignment="Center" Stretch="Uniform"
+            Data="F1 M5 11 L19 11 L19 13 L5 13 Z"
+            Fill="{ThemeResource DashboardMutedTextBrush}" />
+      <TextBlock Text="{x:Bind Text, Mode=OneWay}"
+                 Foreground="{ThemeResource DashboardMutedTextBrush}"
+                 FontSize="{x:Bind FontSize, Mode=OneWay}"
+                 VerticalAlignment="Center" />
+    </StackPanel>
+  </Grid>
+</UserControl>

@@ -1,58 +1,9 @@
 <Page x:Class="UnoCRM.Presentation.PipelinePage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:uen="using:Uno.Extensions.Navigation.UI"
       xmlns:utu="using:Uno.Toolkit.UI"
-      xmlns:controls="using:UnoCRM.Controls"
+      xmlns:mvux="using:Uno.Extensions.Reactive.UI"
       Background="{ThemeResource DashboardPageBackgroundBrush}">
-  <Page.Resources>
-    <!-- One deal tile, bound to a Deal from the shared dataset. Reused by every stage column
-         (desktop) and by the stacked stage list (mobile). -->
-    <DataTemplate x:Key="DealCardTemplate">
-      <!-- The whole card is a real Button (accessible + tactile press) that opens the deal detail
-           via the navigation-data route. -->
-      <Button Style="{StaticResource ClickableCardButtonStyle}"
-              uen:Navigation.Request="DealDetail"
-              uen:Navigation.Data="{Binding}"
-              AutomationProperties.Name="{Binding Company}">
-        <controls:PipelineCard Company="{Binding Company}"
-                               Amount="{Binding AmountDisplay}"
-                               Owner="{Binding Owner}"
-                               Meta="{Binding MetaDisplay}"
-                               IsWon="{Binding IsWon}"
-                               Accent="{Binding AccentKey, Converter={StaticResource ResourceKeyToBrush}}" />
-      </Button>
-    </DataTemplate>
-
-    <ItemsPanelTemplate x:Key="DealStackPanel">
-      <StackPanel Spacing="12" />
-    </ItemsPanelTemplate>
-
-    <!-- A full mobile stage section: colored header with live count, then its deal cards. -->
-    <DataTemplate x:Key="MobileStageTemplate">
-      <StackPanel Spacing="12" Margin="0,0,0,6">
-        <Grid ColumnSpacing="8">
-          <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="*" />
-          </Grid.ColumnDefinitions>
-          <Ellipse Width="10" Height="10" VerticalAlignment="Center"
-                   Fill="{Binding AccentKey, Converter={StaticResource ResourceKeyToBrush}}" />
-          <TextBlock Grid.Column="1" Text="{Binding Name}" Style="{StaticResource DashboardSectionLabelStyle}" VerticalAlignment="Center"
-                     TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" />
-          <Border Grid.Column="2" HorizontalAlignment="Left" CornerRadius="8" Padding="6,1" VerticalAlignment="Center"
-                  Background="{Binding SoftKey, Converter={StaticResource ResourceKeyToBrush}}">
-            <TextBlock Text="{Binding Count}" FontSize="11"
-                       Foreground="{Binding DeepKey, Converter={StaticResource ResourceKeyToBrush}}" />
-          </Border>
-        </Grid>
-        <ItemsControl ItemsSource="{Binding Deals}"
-                      ItemTemplate="{StaticResource DealCardTemplate}"
-                      ItemsPanel="{StaticResource DealStackPanel}" />
-      </StackPanel>
-    </DataTemplate>
-  </Page.Resources>
   <Grid Background="{ThemeResource DashboardPageBackgroundBrush}">
     <Grid x:Name="DesktopRoot" Visibility="{utu:Responsive Narrow=Collapsed, Wide=Visible}">
       <ScrollViewer HorizontalScrollBarVisibility="Disabled"
@@ -114,142 +65,38 @@
           <StackPanel Grid.Row="1"
                       Orientation="Horizontal"
                       Spacing="12">
-            <Button Style="{StaticResource DashboardFilterButtonStyle}">
-              <StackPanel Orientation="Horizontal" Spacing="8">
-                <TextBlock Text="All Pipelines"
-                           FontSize="13"
-                           Foreground="{ThemeResource DashboardPrimaryTextBrush}" />
-                <Path Width="12" Height="12"
-                      Data="F1 M4.21967 8.46967C4.51256 8.17678 4.98744 8.17678 5.28033 8.46967L12 15.1893L18.7197 8.46967C19.0126 8.17678 19.4874 8.17678 19.7803 8.46967C20.0732 8.76256 20.0732 9.23744 19.7803 9.53033L12.5303 16.7803C12.2374 17.0732 11.7626 17.0732 11.4697 16.7803L4.21967 9.53033C3.92678 9.23744 3.92678 8.76256 4.21967 8.46967Z"
-                      Stretch="Uniform"
-                      Fill="{ThemeResource DashboardMutedTextBrush}" />
-              </StackPanel>
-            </Button>
-            <Button Style="{StaticResource DashboardFilterButtonStyle}">
-              <StackPanel Orientation="Horizontal" Spacing="8">
-                <TextBlock Text="This Quarter"
-                           FontSize="13"
-                           Foreground="{ThemeResource DashboardPrimaryTextBrush}" />
-                <Path Width="12" Height="12"
-                      Data="F1 M4.21967 8.46967C4.51256 8.17678 4.98744 8.17678 5.28033 8.46967L12 15.1893L18.7197 8.46967C19.0126 8.17678 19.4874 8.17678 19.7803 8.46967C20.0732 8.76256 20.0732 9.23744 19.7803 9.53033L12.5303 16.7803C12.2374 17.0732 11.7626 17.0732 11.4697 16.7803L4.21967 9.53033C3.92678 9.23744 3.92678 8.76256 4.21967 8.46967Z"
-                      Stretch="Uniform"
-                      Fill="{ThemeResource DashboardMutedTextBrush}" />
-              </StackPanel>
-            </Button>
-            <Button Style="{StaticResource DashboardFilterButtonStyle}">
-              <StackPanel Orientation="Horizontal" Spacing="8">
-                <TextBlock Text="All Reps"
-                           FontSize="13"
-                           Foreground="{ThemeResource DashboardPrimaryTextBrush}" />
-                <Path Width="12" Height="12"
-                      Data="F1 M4.21967 8.46967C4.51256 8.17678 4.98744 8.17678 5.28033 8.46967L12 15.1893L18.7197 8.46967C19.0126 8.17678 19.4874 8.17678 19.7803 8.46967C20.0732 8.76256 20.0732 9.23744 19.7803 9.53033L12.5303 16.7803C12.2374 17.0732 11.7626 17.0732 11.4697 16.7803L4.21967 9.53033C3.92678 9.23744 3.92678 8.76256 4.21967 8.46967Z"
-                      Stretch="Uniform"
-                      Fill="{ThemeResource DashboardMutedTextBrush}" />
-              </StackPanel>
-            </Button>
+            <ComboBox MinWidth="150"
+                      Height="44"
+                      CornerRadius="12"
+                      FontSize="14"
+                      VerticalContentAlignment="Center"
+                      ItemsSource="{Binding Sources}"
+                      SelectedItem="{Binding SourceFilter, Mode=TwoWay}" />
+            <ComboBox MinWidth="150"
+                      Height="44"
+                      CornerRadius="12"
+                      FontSize="14"
+                      VerticalContentAlignment="Center"
+                      ItemsSource="{Binding Periods}"
+                      SelectedItem="{Binding PeriodFilter, Mode=TwoWay}" />
+            <ComboBox MinWidth="150"
+                      Height="44"
+                      CornerRadius="12"
+                      FontSize="14"
+                      VerticalContentAlignment="Center"
+                      ItemsSource="{Binding Reps}"
+                      SelectedItem="{Binding RepFilter, Mode=TwoWay}" />
           </StackPanel>
 
-          <!-- Kanban board: each column is a stage from the shared dataset; the count badge and
-               the cards are bound, so they always agree with the Dashboard and Leads pages. -->
-          <Grid Grid.Row="2" ColumnSpacing="14">
-            <Grid.ColumnDefinitions>
-              <ColumnDefinition Width="*" />
-              <ColumnDefinition Width="*" />
-              <ColumnDefinition Width="*" />
-              <ColumnDefinition Width="*" />
-              <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-
-            <StackPanel Grid.Column="0" Spacing="12">
-              <Grid ColumnSpacing="8">
-                <Grid.ColumnDefinitions>
-                  <ColumnDefinition Width="Auto" />
-                  <ColumnDefinition Width="*" />
-                  <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
-                <Ellipse Grid.Column="0" Width="10" Height="10" VerticalAlignment="Center" Fill="{ThemeResource DashboardBlueBrush}" />
-                <TextBlock Grid.Column="1" Text="NEW LEAD" Style="{StaticResource DashboardSectionLabelStyle}" VerticalAlignment="Center" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" />
-                <Border Grid.Column="2" VerticalAlignment="Center" Background="{ThemeResource DashboardBlueSoftBrush}" CornerRadius="8" Padding="6,1">
-                  <TextBlock Text="{Binding NewLead.Count}" Foreground="{ThemeResource DashboardBlueDeepBrush}" FontSize="11" />
-                </Border>
-              </Grid>
-              <ItemsControl ItemsSource="{Binding NewLead.Deals}"
-                            ItemTemplate="{StaticResource DealCardTemplate}"
-                            ItemsPanel="{StaticResource DealStackPanel}" />
-            </StackPanel>
-
-            <StackPanel Grid.Column="1" Spacing="12">
-              <Grid ColumnSpacing="8">
-                <Grid.ColumnDefinitions>
-                  <ColumnDefinition Width="Auto" />
-                  <ColumnDefinition Width="*" />
-                  <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
-                <Ellipse Grid.Column="0" Width="10" Height="10" VerticalAlignment="Center" Fill="{ThemeResource DashboardPurpleBrush}" />
-                <TextBlock Grid.Column="1" Text="QUALIFIED" Style="{StaticResource DashboardSectionLabelStyle}" VerticalAlignment="Center" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" />
-                <Border Grid.Column="2" VerticalAlignment="Center" Background="{ThemeResource DashboardPurpleSoftBrush}" CornerRadius="8" Padding="6,1">
-                  <TextBlock Text="{Binding Qualified.Count}" Foreground="{ThemeResource DashboardPurpleDeepBrush}" FontSize="11" />
-                </Border>
-              </Grid>
-              <ItemsControl ItemsSource="{Binding Qualified.Deals}"
-                            ItemTemplate="{StaticResource DealCardTemplate}"
-                            ItemsPanel="{StaticResource DealStackPanel}" />
-            </StackPanel>
-
-            <StackPanel Grid.Column="2" Spacing="12">
-              <Grid ColumnSpacing="8">
-                <Grid.ColumnDefinitions>
-                  <ColumnDefinition Width="Auto" />
-                  <ColumnDefinition Width="*" />
-                  <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
-                <Ellipse Grid.Column="0" Width="10" Height="10" VerticalAlignment="Center" Fill="{ThemeResource DashboardAmberBrush}" />
-                <TextBlock Grid.Column="1" Text="PROPOSAL" Style="{StaticResource DashboardSectionLabelStyle}" VerticalAlignment="Center" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" />
-                <Border Grid.Column="2" VerticalAlignment="Center" Background="{ThemeResource DashboardAmberSoftBrush}" CornerRadius="8" Padding="6,1">
-                  <TextBlock Text="{Binding Proposal.Count}" Foreground="{ThemeResource DashboardAmberDeepBrush}" FontSize="11" />
-                </Border>
-              </Grid>
-              <ItemsControl ItemsSource="{Binding Proposal.Deals}"
-                            ItemTemplate="{StaticResource DealCardTemplate}"
-                            ItemsPanel="{StaticResource DealStackPanel}" />
-            </StackPanel>
-
-            <StackPanel Grid.Column="3" Spacing="12">
-              <Grid ColumnSpacing="8">
-                <Grid.ColumnDefinitions>
-                  <ColumnDefinition Width="Auto" />
-                  <ColumnDefinition Width="*" />
-                  <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
-                <Ellipse Grid.Column="0" Width="10" Height="10" VerticalAlignment="Center" Fill="{ThemeResource DashboardRedBrush}" />
-                <TextBlock Grid.Column="1" Text="NEGOTIATION" Style="{StaticResource DashboardSectionLabelStyle}" VerticalAlignment="Center" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" />
-                <Border Grid.Column="2" VerticalAlignment="Center" Background="{ThemeResource DashboardRedSoftBrush}" CornerRadius="8" Padding="6,1">
-                  <TextBlock Text="{Binding Negotiation.Count}" Foreground="{ThemeResource DashboardRedDeepBrush}" FontSize="11" />
-                </Border>
-              </Grid>
-              <ItemsControl ItemsSource="{Binding Negotiation.Deals}"
-                            ItemTemplate="{StaticResource DealCardTemplate}"
-                            ItemsPanel="{StaticResource DealStackPanel}" />
-            </StackPanel>
-
-            <StackPanel Grid.Column="4" Spacing="12">
-              <Grid ColumnSpacing="8">
-                <Grid.ColumnDefinitions>
-                  <ColumnDefinition Width="Auto" />
-                  <ColumnDefinition Width="*" />
-                  <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
-                <Ellipse Grid.Column="0" Width="10" Height="10" VerticalAlignment="Center" Fill="{ThemeResource DashboardGreenBrush}" />
-                <TextBlock Grid.Column="1" Text="CLOSED WON" Style="{StaticResource DashboardSectionLabelStyle}" VerticalAlignment="Center" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" />
-                <Border Grid.Column="2" VerticalAlignment="Center" Background="{ThemeResource DashboardGreenSoftBrush}" CornerRadius="8" Padding="6,1">
-                  <TextBlock Text="{Binding ClosedWon.Count}" Foreground="{ThemeResource DashboardGreenDeepBrush}" FontSize="11" />
-                </Border>
-              </Grid>
-              <ItemsControl ItemsSource="{Binding ClosedWon.Deals}"
-                            ItemTemplate="{StaticResource DealCardTemplate}"
-                            ItemsPanel="{StaticResource DealStackPanel}" />
-            </StackPanel>
-          </Grid>
+          <!-- Kanban board: five columns of the deals matching the filters above, so unlike the
+               Dashboard and Leads pages this shows a SUBSET and its counts are expected to differ.
+               The columns are structural — a filter that empties one leaves it in place reading zero.
+               Behind the FeedView because the board is the page's primary surface: until the filtered
+               query returns it must show nothing, never a "0" that reads like an empty stage. -->
+          <mvux:FeedView Grid.Row="2"
+                         Source="{Binding Board}"
+                         ValueTemplate="{StaticResource DesktopStageBoardTemplate}"
+                         ErrorTemplate="{StaticResource CrmErrorTemplate}" />
         </Grid>
       </ScrollViewer>
     </Grid>
@@ -316,46 +163,36 @@
                         HorizontalScrollBarVisibility="Auto"
                         VerticalScrollBarVisibility="Disabled">
             <StackPanel Orientation="Horizontal" Spacing="10">
-              <Button Style="{StaticResource DashboardFilterButtonStyle}">
-                <StackPanel Orientation="Horizontal" Spacing="8">
-                  <TextBlock Text="All Pipelines" FontSize="13" Foreground="{ThemeResource DashboardPrimaryTextBrush}" />
-                  <Path Width="12" Height="12"
-                        Data="F1 M4.21967 8.46967C4.51256 8.17678 4.98744 8.17678 5.28033 8.46967L12 15.1893L18.7197 8.46967C19.0126 8.17678 19.4874 8.17678 19.7803 8.46967C20.0732 8.76256 20.0732 9.23744 19.7803 9.53033L12.5303 16.7803C12.2374 17.0732 11.7626 17.0732 11.4697 16.7803L4.21967 9.53033C3.92678 9.23744 3.92678 8.76256 4.21967 8.46967Z"
-                        Stretch="Uniform"
-                        Fill="{ThemeResource DashboardMutedTextBrush}" />
-                </StackPanel>
-              </Button>
-              <Button Style="{StaticResource DashboardFilterButtonStyle}">
-                <StackPanel Orientation="Horizontal" Spacing="8">
-                  <TextBlock Text="This Quarter" FontSize="13" Foreground="{ThemeResource DashboardPrimaryTextBrush}" />
-                  <Path Width="12" Height="12"
-                        Data="F1 M4.21967 8.46967C4.51256 8.17678 4.98744 8.17678 5.28033 8.46967L12 15.1893L18.7197 8.46967C19.0126 8.17678 19.4874 8.17678 19.7803 8.46967C20.0732 8.76256 20.0732 9.23744 19.7803 9.53033L12.5303 16.7803C12.2374 17.0732 11.7626 17.0732 11.4697 16.7803L4.21967 9.53033C3.92678 9.23744 3.92678 8.76256 4.21967 8.46967Z"
-                        Stretch="Uniform"
-                        Fill="{ThemeResource DashboardMutedTextBrush}" />
-                </StackPanel>
-              </Button>
-              <Button Style="{StaticResource DashboardFilterButtonStyle}">
-                <StackPanel Orientation="Horizontal" Spacing="8">
-                  <TextBlock Text="All Reps" FontSize="13" Foreground="{ThemeResource DashboardPrimaryTextBrush}" />
-                  <Path Width="12" Height="12"
-                        Data="F1 M4.21967 8.46967C4.51256 8.17678 4.98744 8.17678 5.28033 8.46967L12 15.1893L18.7197 8.46967C19.0126 8.17678 19.4874 8.17678 19.7803 8.46967C20.0732 8.76256 20.0732 9.23744 19.7803 9.53033L12.5303 16.7803C12.2374 17.0732 11.7626 17.0732 11.4697 16.7803L4.21967 9.53033C3.92678 9.23744 3.92678 8.76256 4.21967 8.46967Z"
-                        Stretch="Uniform"
-                        Fill="{ThemeResource DashboardMutedTextBrush}" />
-                </StackPanel>
-              </Button>
+              <ComboBox MinWidth="150"
+                        Height="44"
+                        CornerRadius="12"
+                        FontSize="14"
+                        VerticalContentAlignment="Center"
+                        ItemsSource="{Binding Sources}"
+                        SelectedItem="{Binding SourceFilter, Mode=TwoWay}" />
+              <ComboBox MinWidth="150"
+                        Height="44"
+                        CornerRadius="12"
+                        FontSize="14"
+                        VerticalContentAlignment="Center"
+                        ItemsSource="{Binding Periods}"
+                        SelectedItem="{Binding PeriodFilter, Mode=TwoWay}" />
+              <ComboBox MinWidth="150"
+                        Height="44"
+                        CornerRadius="12"
+                        FontSize="14"
+                        VerticalContentAlignment="Center"
+                        ItemsSource="{Binding Reps}"
+                        SelectedItem="{Binding RepFilter, Mode=TwoWay}" />
             </StackPanel>
           </ScrollViewer>
 
           <!-- All stages, stacked, bound to the same dataset the desktop board uses. -->
-          <ItemsControl Grid.Row="3"
-                        ItemsSource="{Binding Stages}"
-                        ItemTemplate="{StaticResource MobileStageTemplate}">
-            <ItemsControl.ItemsPanel>
-              <ItemsPanelTemplate>
-                <StackPanel Spacing="18" />
-              </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
-          </ItemsControl>
+          <mvux:FeedView Grid.Row="3"
+                         Source="{Binding Stages}"
+                         ValueTemplate="{StaticResource MobileStageListTemplate}"
+                         NoneTemplate="{StaticResource NoStagesTemplate}"
+                         ErrorTemplate="{StaticResource CrmErrorTemplate}" />
         </Grid>
       </ScrollViewer>
     </Grid>
