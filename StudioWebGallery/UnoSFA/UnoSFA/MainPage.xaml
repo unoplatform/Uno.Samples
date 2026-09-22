@@ -1,0 +1,1105 @@
+﻿<Page x:Class="UnoSFA.MainPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:local="using:UnoSFA"
+      x:Uid="MainPage"
+      Background="{StaticResource DashboardPageBackgroundBrush}">
+  <Grid Background="{StaticResource DashboardPageBackgroundBrush}">
+    <VisualStateManager.VisualStateGroups>
+      <VisualStateGroup>
+        <VisualState x:Name="MobileState" />
+        <VisualState x:Name="DesktopState">
+          <VisualState.StateTriggers>
+            <AdaptiveTrigger MinWindowWidth="900" />
+          </VisualState.StateTriggers>
+          <VisualState.Setters>
+            <Setter Target="DesktopRoot.Visibility" Value="Visible" />
+            <Setter Target="MobileRoot.Visibility" Value="Collapsed" />
+          </VisualState.Setters>
+        </VisualState>
+      </VisualStateGroup>
+    </VisualStateManager.VisualStateGroups>
+
+    <Grid x:Name="DesktopRoot" Visibility="Collapsed">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="204" />
+        <ColumnDefinition Width="*" />
+      </Grid.ColumnDefinitions>
+
+      <Border Grid.Column="0"
+              Background="{StaticResource DashboardSurfaceBrush}"
+              BorderBrush="{StaticResource DashboardBorderBrush}"
+              BorderThickness="0,0,1,0">
+        <Grid Padding="20,48,20,24">
+          <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+          </Grid.RowDefinitions>
+
+          <StackPanel Spacing="30">
+            <StackPanel Orientation="Horizontal" Spacing="12">
+              <Border Width="28"
+                      Height="28"
+                      CornerRadius="8"
+                      Background="{StaticResource DashboardAccentBrush}" />
+              <TextBlock Text="SalesForce"
+                         VerticalAlignment="Center"
+                         Style="{StaticResource DashboardBodyTextStyle}"
+                         FontFamily="Georgia"
+                         FontSize="20" />
+            </StackPanel>
+
+            <StackPanel Spacing="8">
+              <Border Style="{StaticResource DashboardSidebarItemBorderStyle}"
+                      Background="{StaticResource DashboardAccentSoftBrush}">
+                <StackPanel Orientation="Horizontal" Spacing="12">
+                  <FontIcon Glyph="&#xE80F;"
+                            FontSize="16"
+                            Foreground="{StaticResource DashboardAccentBrush}" />
+                  <TextBlock Text="Dashboard"
+                             Foreground="{StaticResource DashboardAccentBrush}"
+                             Style="{StaticResource DashboardBodyTextStyle}" />
+                </StackPanel>
+              </Border>
+
+              <Button Click="NavigateToPipeline_Click"
+                      Style="{StaticResource DashboardNavButtonStyle}">
+                <Border Style="{StaticResource DashboardSidebarItemBorderStyle}">
+                  <StackPanel Orientation="Horizontal" Spacing="12">
+                    <FontIcon Glyph="&#xE8C8;"
+                              FontSize="16"
+                              Foreground="{StaticResource DashboardMutedTextBrush}" />
+                    <TextBlock Text="Pipeline"
+                               Style="{StaticResource DashboardSubtleTextStyle}" />
+                  </StackPanel>
+                </Border>
+              </Button>
+
+              <Button Click="NavigateToLeads_Click"
+                      Style="{StaticResource DashboardNavButtonStyle}">
+                <Border Style="{StaticResource DashboardSidebarItemBorderStyle}">
+                  <StackPanel Orientation="Horizontal" Spacing="12">
+                    <FontIcon Glyph="&#xE716;"
+                              FontSize="16"
+                              Foreground="{StaticResource DashboardMutedTextBrush}" />
+                    <TextBlock Text="Leads"
+                               Style="{StaticResource DashboardSubtleTextStyle}" />
+                  </StackPanel>
+                </Border>
+              </Button>
+
+              <Button Click="NavigateToContacts_Click"
+                      Style="{StaticResource DashboardNavButtonStyle}">
+                <Border Style="{StaticResource DashboardSidebarItemBorderStyle}">
+                  <StackPanel Orientation="Horizontal" Spacing="12">
+                    <FontIcon Glyph="&#xE77B;"
+                              FontSize="16"
+                              Foreground="{StaticResource DashboardMutedTextBrush}" />
+                    <TextBlock Text="Contacts"
+                               Style="{StaticResource DashboardSubtleTextStyle}" />
+                  </StackPanel>
+                </Border>
+              </Button>
+            </StackPanel>
+          </StackPanel>
+
+          <StackPanel Grid.Row="2"
+                      Orientation="Horizontal"
+                      Spacing="12"
+                      VerticalAlignment="Bottom">
+            <Border Width="32"
+                    Height="32"
+                    CornerRadius="16"
+                    Background="{StaticResource DashboardAccentBrush}" />
+            <StackPanel>
+              <TextBlock Text="Alex Morgan"
+                         Style="{StaticResource DashboardBodyTextStyle}" />
+              <TextBlock Text="Sales Manager"
+                         Style="{StaticResource DashboardSubtleTextStyle}"
+                         FontSize="12" />
+            </StackPanel>
+          </StackPanel>
+        </Grid>
+      </Border>
+
+      <ScrollViewer Grid.Column="1"
+                    VerticalScrollBarVisibility="Auto"
+                    HorizontalScrollBarVisibility="Disabled">
+          <Grid Padding="28,34,28,28"
+              RowSpacing="28">
+          <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+          </Grid.RowDefinitions>
+
+          <Grid>
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Text="Dashboard"
+                       Style="{StaticResource DashboardCardTitleStyle}"
+                       FontSize="28"
+                       VerticalAlignment="Center" />
+
+            <StackPanel Grid.Column="1"
+                        Orientation="Horizontal"
+                        Spacing="16"
+                        VerticalAlignment="Center">
+              <Grid Width="280"
+                    VerticalAlignment="Center">
+                <TextBox x:Uid="MainPage.DesktopSearch"
+                         AutomationProperties.Name="Search leads and deals"
+                         PlaceholderText="Search leads, deals..."
+                         Style="{StaticResource DashboardSearchBoxStyle}"
+                         Padding="36,10,14,10" />
+                <FontIcon Glyph="&#xE721;"
+                          FontSize="14"
+                          Foreground="{StaticResource DashboardMutedTextBrush}"
+                          Margin="14,0,0,0"
+                          VerticalAlignment="Center"
+                          HorizontalAlignment="Left" />
+              </Grid>
+
+              <Button x:Uid="MainPage.DesktopNotifications"
+                      AutomationProperties.Name="Notifications"
+                      Width="42"
+                      Height="42"
+                      Background="{StaticResource DashboardSurfaceBrush}"
+                      BorderBrush="{StaticResource DashboardBorderBrush}"
+                      BorderThickness="1"
+                      CornerRadius="12">
+                <FontIcon Glyph="&#xE7ED;"
+                          FontSize="15"
+                          Foreground="{StaticResource DashboardPrimaryTextBrush}" />
+              </Button>
+
+              <Border Width="32"
+                      Height="32"
+                      CornerRadius="16"
+                      Background="{StaticResource DashboardAccentBrush}" />
+            </StackPanel>
+          </Grid>
+
+          <Grid Grid.Row="1"
+                ColumnSpacing="18">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Border Grid.Column="0"
+                    Style="{StaticResource DashboardPanelBorderStyle}"
+                    Padding="20,16">
+              <StackPanel Spacing="10">
+                <TextBlock Text="TOTAL LEADS"
+                           Style="{StaticResource DashboardSectionLabelStyle}" />
+                <StackPanel Orientation="Horizontal"
+                            Spacing="10"
+                            VerticalAlignment="Bottom">
+                  <TextBlock Text="2,847"
+                             Style="{StaticResource DashboardMetricValueStyle}" />
+                  <TextBlock Text="+12.5%"
+                             Margin="0,10,0,0"
+                             Foreground="{StaticResource DashboardAccentBrush}"
+                             FontSize="13" />
+                </StackPanel>
+              </StackPanel>
+            </Border>
+
+            <Border Grid.Column="1"
+                    Style="{StaticResource DashboardPanelBorderStyle}"
+                    Padding="20,16">
+              <StackPanel Spacing="10">
+                <TextBlock Text="ACTIVE DEALS"
+                           Style="{StaticResource DashboardSectionLabelStyle}" />
+                <StackPanel Orientation="Horizontal"
+                            Spacing="10"
+                            VerticalAlignment="Bottom">
+                  <TextBlock Text="156"
+                             Style="{StaticResource DashboardMetricValueStyle}" />
+                  <TextBlock Text="+8.3%"
+                             Margin="0,10,0,0"
+                             Foreground="{StaticResource DashboardAccentBrush}"
+                             FontSize="13" />
+                </StackPanel>
+              </StackPanel>
+            </Border>
+
+            <Border Grid.Column="2"
+                    Style="{StaticResource DashboardPanelBorderStyle}"
+                    Padding="20,16">
+              <StackPanel Spacing="10">
+                <TextBlock Text="REVENUE THIS MONTH"
+                           Style="{StaticResource DashboardSectionLabelStyle}" />
+                <StackPanel Orientation="Horizontal"
+                            Spacing="10"
+                            VerticalAlignment="Bottom">
+                  <TextBlock Text="$284K"
+                             Style="{StaticResource DashboardMetricValueStyle}" />
+                  <TextBlock Text="+18.2%"
+                             Margin="0,10,0,0"
+                             Foreground="{StaticResource DashboardAccentBrush}"
+                             FontSize="13" />
+                </StackPanel>
+              </StackPanel>
+            </Border>
+
+            <Border Grid.Column="3"
+                    Style="{StaticResource DashboardPanelBorderStyle}"
+                    Padding="20,16">
+              <StackPanel Spacing="10">
+                <TextBlock Text="CONVERSION RATE"
+                           Style="{StaticResource DashboardSectionLabelStyle}" />
+                <StackPanel Orientation="Horizontal"
+                            Spacing="10"
+                            VerticalAlignment="Bottom">
+                  <TextBlock Text="23.4%"
+                             Style="{StaticResource DashboardMetricValueStyle}"
+                             FontSize="26" />
+                  <TextBlock Text="+3.1%"
+                             Margin="0,9,0,0"
+                             Foreground="{StaticResource DashboardAccentBrush}"
+                             FontSize="13" />
+                </StackPanel>
+              </StackPanel>
+            </Border>
+          </Grid>
+
+          <Grid Grid.Row="2"
+                ColumnSpacing="18">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="1.05*" />
+              <ColumnDefinition Width="1*" />
+            </Grid.ColumnDefinitions>
+
+            <Border Grid.Column="0"
+                    Style="{StaticResource DashboardPanelBorderStyle}"
+                    Padding="20,14,20,18"
+                    MinHeight="520">
+              <StackPanel Spacing="24">
+                <TextBlock Text="Pipeline Summary"
+                           Style="{StaticResource DashboardBodyTextStyle}"
+                           FontFamily="Georgia"
+                           FontSize="22" />
+
+                <StackPanel Spacing="14">
+                  <StackPanel Spacing="8">
+                    <Grid>
+                      <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                      </Grid.ColumnDefinitions>
+                      <TextBlock Text="New Lead"
+                                 Style="{StaticResource DashboardBodyTextStyle}" />
+                      <TextBlock Grid.Column="1"
+                                 Text="842"
+                                 Style="{StaticResource DashboardBodyTextStyle}" />
+                    </Grid>
+                    <Grid Height="8">
+                      <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="82*" />
+                        <ColumnDefinition Width="18*" />
+                      </Grid.ColumnDefinitions>
+                      <Border Grid.ColumnSpan="2"
+                              Background="{StaticResource DashboardBorderBrush}"
+                              CornerRadius="4" />
+                      <Border Background="{StaticResource DashboardBlueBrush}"
+                              CornerRadius="4" />
+                    </Grid>
+                  </StackPanel>
+
+                  <StackPanel Spacing="8">
+                    <Grid>
+                      <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                      </Grid.ColumnDefinitions>
+                      <TextBlock Text="Qualified"
+                                 Style="{StaticResource DashboardBodyTextStyle}" />
+                      <TextBlock Grid.Column="1"
+                                 Text="534"
+                                 Style="{StaticResource DashboardBodyTextStyle}" />
+                    </Grid>
+                    <Grid Height="8">
+                      <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="63*" />
+                        <ColumnDefinition Width="37*" />
+                      </Grid.ColumnDefinitions>
+                      <Border Grid.ColumnSpan="2"
+                              Background="{StaticResource DashboardBorderBrush}"
+                              CornerRadius="4" />
+                      <Border Background="{StaticResource DashboardPurpleBrush}"
+                              CornerRadius="4" />
+                    </Grid>
+                  </StackPanel>
+
+                  <StackPanel Spacing="8">
+                    <Grid>
+                      <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                      </Grid.ColumnDefinitions>
+                      <TextBlock Text="Proposal"
+                                 Style="{StaticResource DashboardBodyTextStyle}" />
+                      <TextBlock Grid.Column="1"
+                                 Text="287"
+                                 Style="{StaticResource DashboardBodyTextStyle}" />
+                    </Grid>
+                    <Grid Height="8">
+                      <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="41*" />
+                        <ColumnDefinition Width="59*" />
+                      </Grid.ColumnDefinitions>
+                      <Border Grid.ColumnSpan="2"
+                              Background="{StaticResource DashboardBorderBrush}"
+                              CornerRadius="4" />
+                      <Border Background="{StaticResource DashboardAmberBrush}"
+                              CornerRadius="4" />
+                    </Grid>
+                  </StackPanel>
+
+                  <StackPanel Spacing="8">
+                    <Grid>
+                      <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                      </Grid.ColumnDefinitions>
+                      <TextBlock Text="Negotiation"
+                                 Style="{StaticResource DashboardBodyTextStyle}" />
+                      <TextBlock Grid.Column="1"
+                                 Text="156"
+                                 Style="{StaticResource DashboardBodyTextStyle}" />
+                    </Grid>
+                    <Grid Height="8">
+                      <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="25*" />
+                        <ColumnDefinition Width="75*" />
+                      </Grid.ColumnDefinitions>
+                      <Border Grid.ColumnSpan="2"
+                              Background="{StaticResource DashboardBorderBrush}"
+                              CornerRadius="4" />
+                      <Border Background="{StaticResource DashboardRedBrush}"
+                              CornerRadius="4" />
+                    </Grid>
+                  </StackPanel>
+
+                  <StackPanel Spacing="8">
+                    <Grid>
+                      <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                      </Grid.ColumnDefinitions>
+                      <TextBlock Text="Closed Won"
+                                 Style="{StaticResource DashboardBodyTextStyle}" />
+                      <TextBlock Grid.Column="1"
+                                 Text="89"
+                                 Style="{StaticResource DashboardBodyTextStyle}" />
+                    </Grid>
+                    <Grid Height="8">
+                      <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="14*" />
+                        <ColumnDefinition Width="86*" />
+                      </Grid.ColumnDefinitions>
+                      <Border Grid.ColumnSpan="2"
+                              Background="{StaticResource DashboardBorderBrush}"
+                              CornerRadius="4" />
+                      <Border Background="{StaticResource DashboardGreenBrush}"
+                              CornerRadius="4" />
+                    </Grid>
+                  </StackPanel>
+                </StackPanel>
+              </StackPanel>
+            </Border>
+
+            <Border Grid.Column="1"
+                    Style="{StaticResource DashboardPanelBorderStyle}"
+                    Padding="20,14,20,18"
+                    MinHeight="520">
+              <StackPanel Spacing="14">
+                <TextBlock Text="Recent Activity"
+                           Style="{StaticResource DashboardBodyTextStyle}"
+                           FontFamily="Georgia"
+                           FontSize="22" />
+
+                <Border BorderBrush="{StaticResource DashboardBorderBrush}"
+                        BorderThickness="0,0,0,1"
+                        Padding="0,14,0,14">
+                  <Grid ColumnSpacing="12">
+                    <Grid.ColumnDefinitions>
+                      <ColumnDefinition Width="Auto" />
+                      <ColumnDefinition Width="*" />
+                      <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <Ellipse Width="8"
+                             Height="8"
+                             Fill="{StaticResource DashboardGreenBrush}"
+                             Margin="0,8,0,0" />
+                    <StackPanel Grid.Column="1"
+                                Spacing="4">
+                      <TextBlock Text="Deal closed — Acme Corp"
+                                 Style="{StaticResource DashboardBodyTextStyle}" />
+                      <TextBlock Text="$45,000  •  Enterprise Plan"
+                                 Style="{StaticResource DashboardSubtleTextStyle}" />
+                    </StackPanel>
+                    <TextBlock Grid.Column="2"
+                               Text="2h ago"
+                               Style="{StaticResource DashboardSubtleTextStyle}"
+                               FontSize="12" />
+                  </Grid>
+                </Border>
+
+                <Border BorderBrush="{StaticResource DashboardBorderBrush}"
+                        BorderThickness="0,0,0,1"
+                        Padding="0,0,0,14">
+                  <Grid ColumnSpacing="12">
+                    <Grid.ColumnDefinitions>
+                      <ColumnDefinition Width="Auto" />
+                      <ColumnDefinition Width="*" />
+                      <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <Ellipse Width="8"
+                             Height="8"
+                             Fill="{StaticResource DashboardBlueBrush}"
+                             Margin="0,8,0,0" />
+                    <StackPanel Grid.Column="1"
+                                Spacing="4">
+                      <TextBlock Text="New lead assigned — Sarah Chen"
+                                 Style="{StaticResource DashboardBodyTextStyle}" />
+                      <TextBlock Text="TechStart Inc  •  Inbound"
+                                 Style="{StaticResource DashboardSubtleTextStyle}" />
+                    </StackPanel>
+                    <TextBlock Grid.Column="2"
+                               Text="15m ago"
+                               Style="{StaticResource DashboardSubtleTextStyle}"
+                               FontSize="12" />
+                  </Grid>
+                </Border>
+
+                <Border BorderBrush="{StaticResource DashboardBorderBrush}"
+                        BorderThickness="0,0,0,1"
+                        Padding="0,0,0,14">
+                  <Grid ColumnSpacing="12">
+                    <Grid.ColumnDefinitions>
+                      <ColumnDefinition Width="Auto" />
+                      <ColumnDefinition Width="*" />
+                      <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <Ellipse Width="8"
+                             Height="8"
+                             Fill="{StaticResource DashboardAmberBrush}"
+                             Margin="0,8,0,0" />
+                    <StackPanel Grid.Column="1"
+                                Spacing="4">
+                      <TextBlock Text="Proposal sent — GlobalTech Ltd"
+                                 Style="{StaticResource DashboardBodyTextStyle}" />
+                      <TextBlock Text="$128,000  •  Annual License"
+                                 Style="{StaticResource DashboardSubtleTextStyle}" />
+                    </StackPanel>
+                    <TextBlock Grid.Column="2"
+                               Text="1h ago"
+                               Style="{StaticResource DashboardSubtleTextStyle}"
+                               FontSize="12" />
+                  </Grid>
+                </Border>
+
+                <Border BorderBrush="{StaticResource DashboardBorderBrush}"
+                        BorderThickness="0,0,0,1"
+                        Padding="0,0,0,14">
+                  <Grid ColumnSpacing="12">
+                    <Grid.ColumnDefinitions>
+                      <ColumnDefinition Width="Auto" />
+                      <ColumnDefinition Width="*" />
+                      <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <Ellipse Width="8"
+                             Height="8"
+                             Fill="{StaticResource DashboardPurpleBrush}"
+                             Margin="0,8,0,0" />
+                    <StackPanel Grid.Column="1"
+                                Spacing="4">
+                      <TextBlock Text="Lead qualified — Marcus Webb"
+                                 Style="{StaticResource DashboardBodyTextStyle}" />
+                      <TextBlock Text="DataFlow Systems  •  Referral"
+                                 Style="{StaticResource DashboardSubtleTextStyle}" />
+                    </StackPanel>
+                    <TextBlock Grid.Column="2"
+                               Text="2h ago"
+                               Style="{StaticResource DashboardSubtleTextStyle}"
+                               FontSize="12" />
+                  </Grid>
+                </Border>
+
+                <Grid ColumnSpacing="12">
+                  <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                  </Grid.ColumnDefinitions>
+                  <Ellipse Width="8"
+                           Height="8"
+                           Fill="{StaticResource DashboardRedBrush}"
+                           Margin="0,8,0,0" />
+                  <StackPanel Grid.Column="1"
+                              Spacing="4">
+                    <TextBlock Text="Meeting scheduled — Rivera Group"
+                               Style="{StaticResource DashboardBodyTextStyle}" />
+                    <TextBlock Text="Demo call  •  Tomorrow 2:00 PM"
+                               Style="{StaticResource DashboardSubtleTextStyle}" />
+                  </StackPanel>
+                  <TextBlock Grid.Column="2"
+                             Text="3h ago"
+                             Style="{StaticResource DashboardSubtleTextStyle}"
+                             FontSize="12" />
+                </Grid>
+              </StackPanel>
+            </Border>
+          </Grid>
+        </Grid>
+      </ScrollViewer>
+    </Grid>
+
+    <Grid x:Name="MobileRoot"
+          Visibility="Visible">
+      <ScrollViewer VerticalScrollBarVisibility="Auto"
+                    HorizontalScrollBarVisibility="Disabled">
+        <Grid Padding="20,14,20,132"
+              RowSpacing="22">
+          <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+          </Grid.RowDefinitions>
+
+          <Grid>
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="9:41"
+                       Style="{StaticResource DashboardBodyTextStyle}"
+                       FontSize="17"
+                       FontWeight="SemiBold" />
+            <StackPanel Grid.Column="1"
+                        Orientation="Horizontal"
+                        Spacing="10">
+              <FontIcon Glyph="&#xEC3A;"
+                        FontSize="14"
+                        Foreground="{StaticResource DashboardPrimaryTextBrush}" />
+              <FontIcon Glyph="&#xE701;"
+                        FontSize="14"
+                        Foreground="{StaticResource DashboardPrimaryTextBrush}" />
+              <FontIcon Glyph="&#xE850;"
+                        FontSize="14"
+                        Foreground="{StaticResource DashboardPrimaryTextBrush}" />
+            </StackPanel>
+          </Grid>
+
+          <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Spacing="8">
+              <TextBlock Text="DASHBOARD"
+                         Style="{StaticResource DashboardSectionLabelStyle}" />
+              <TextBlock Text="Good morning, Alex"
+                         Style="{StaticResource DashboardCardTitleStyle}"
+                         FontSize="34" />
+            </StackPanel>
+
+            <Button Grid.Column="1"
+                    x:Uid="MainPage.MobileNotifications"
+                    AutomationProperties.Name="Notifications"
+                    Width="64"
+                    Height="64"
+                    Background="{StaticResource DashboardSurfaceBrush}"
+                    BorderBrush="{StaticResource DashboardBorderBrush}"
+                    BorderThickness="1"
+                    CornerRadius="18"
+                    VerticalAlignment="Center">
+              <FontIcon Glyph="&#xE7ED;"
+                        FontSize="24"
+                        Foreground="{StaticResource DashboardMutedTextBrush}" />
+            </Button>
+          </Grid>
+
+          <Grid Grid.Row="2"
+                ColumnSpacing="16"
+                RowSpacing="16">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Border Grid.Column="0"
+                    Style="{StaticResource DashboardPanelBorderStyle}"
+                    Padding="18,18,18,20"
+                    MinHeight="160">
+              <StackPanel Spacing="10">
+                <TextBlock Text="TOTAL LEADS"
+                           Style="{StaticResource DashboardSectionLabelStyle}" />
+                <TextBlock Text="2,847"
+                           Style="{StaticResource DashboardMetricValueStyle}"
+                           FontSize="48" />
+                <TextBlock Text="+12% this month"
+                           Foreground="{StaticResource DashboardAccentBrush}"
+                           FontSize="16" />
+              </StackPanel>
+            </Border>
+
+            <Border Grid.Column="1"
+                    Style="{StaticResource DashboardPanelBorderStyle}"
+                    Padding="18,18,18,20"
+                    MinHeight="160">
+              <StackPanel Spacing="10">
+                <TextBlock Text="ACTIVE DEALS"
+                           Style="{StaticResource DashboardSectionLabelStyle}" />
+                <TextBlock Text="156"
+                           Style="{StaticResource DashboardMetricValueStyle}"
+                           FontSize="48" />
+                <TextBlock Text="+8% this month"
+                           Foreground="{StaticResource DashboardAccentBrush}"
+                           FontSize="16" />
+              </StackPanel>
+            </Border>
+          </Grid>
+
+          <StackPanel Grid.Row="3"
+                      Spacing="14">
+            <TextBlock Text="PIPELINE SUMMARY"
+                       Style="{StaticResource DashboardSectionLabelStyle}" />
+
+            <Border Style="{StaticResource DashboardPanelBorderStyle}"
+                    Padding="18,18,18,20">
+              <StackPanel Spacing="18">
+                <Grid ColumnSpacing="12">
+                  <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                  </Grid.ColumnDefinitions>
+                  <TextBlock Text="New"
+                             Style="{StaticResource DashboardBodyTextStyle}" />
+                  <Grid Grid.Column="1"
+                        Height="10"
+                        VerticalAlignment="Center"
+                        Margin="10,0,0,0">
+                    <Grid.ColumnDefinitions>
+                      <ColumnDefinition Width="64*" />
+                      <ColumnDefinition Width="36*" />
+                    </Grid.ColumnDefinitions>
+                    <Border Grid.ColumnSpan="2"
+                            Background="{StaticResource DashboardBorderBrush}"
+                            CornerRadius="5" />
+                    <Border Background="{StaticResource DashboardBlueBrush}"
+                            CornerRadius="5" />
+                  </Grid>
+                  <TextBlock Grid.Column="2"
+                             Text="84"
+                             Style="{StaticResource DashboardBodyTextStyle}" />
+                </Grid>
+
+                <Grid ColumnSpacing="12">
+                  <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                  </Grid.ColumnDefinitions>
+                  <TextBlock Text="Qualified"
+                             Style="{StaticResource DashboardBodyTextStyle}" />
+                  <Grid Grid.Column="1"
+                        Height="10"
+                        VerticalAlignment="Center"
+                        Margin="10,0,0,0">
+                    <Grid.ColumnDefinitions>
+                      <ColumnDefinition Width="52*" />
+                      <ColumnDefinition Width="48*" />
+                    </Grid.ColumnDefinitions>
+                    <Border Grid.ColumnSpan="2"
+                            Background="{StaticResource DashboardBorderBrush}"
+                            CornerRadius="5" />
+                    <Border Background="{StaticResource DashboardPurpleBrush}"
+                            CornerRadius="5" />
+                  </Grid>
+                  <TextBlock Grid.Column="2"
+                             Text="52"
+                             Style="{StaticResource DashboardBodyTextStyle}" />
+                </Grid>
+
+                <Grid ColumnSpacing="12">
+                  <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                  </Grid.ColumnDefinitions>
+                  <TextBlock Text="Proposal"
+                             Style="{StaticResource DashboardBodyTextStyle}" />
+                  <Grid Grid.Column="1"
+                        Height="10"
+                        VerticalAlignment="Center"
+                        Margin="10,0,0,0">
+                    <Grid.ColumnDefinitions>
+                      <ColumnDefinition Width="36*" />
+                      <ColumnDefinition Width="64*" />
+                    </Grid.ColumnDefinitions>
+                    <Border Grid.ColumnSpan="2"
+                            Background="{StaticResource DashboardBorderBrush}"
+                            CornerRadius="5" />
+                    <Border Background="{StaticResource DashboardAmberBrush}"
+                            CornerRadius="5" />
+                  </Grid>
+                  <TextBlock Grid.Column="2"
+                             Text="36"
+                             Style="{StaticResource DashboardBodyTextStyle}" />
+                </Grid>
+
+                <Grid ColumnSpacing="12">
+                  <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                  </Grid.ColumnDefinitions>
+                  <TextBlock Text="Negotiation"
+                             Style="{StaticResource DashboardBodyTextStyle}" />
+                  <Grid Grid.Column="1"
+                        Height="10"
+                        VerticalAlignment="Center"
+                        Margin="10,0,0,0">
+                    <Grid.ColumnDefinitions>
+                      <ColumnDefinition Width="18*" />
+                      <ColumnDefinition Width="82*" />
+                    </Grid.ColumnDefinitions>
+                    <Border Grid.ColumnSpan="2"
+                            Background="{StaticResource DashboardBorderBrush}"
+                            CornerRadius="5" />
+                    <Border Background="{StaticResource DashboardRedBrush}"
+                            CornerRadius="5" />
+                  </Grid>
+                  <TextBlock Grid.Column="2"
+                             Text="18"
+                             Style="{StaticResource DashboardBodyTextStyle}" />
+                </Grid>
+
+                <Grid ColumnSpacing="12">
+                  <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                  </Grid.ColumnDefinitions>
+                  <TextBlock Text="Won"
+                             Style="{StaticResource DashboardBodyTextStyle}" />
+                  <Grid Grid.Column="1"
+                        Height="10"
+                        VerticalAlignment="Center"
+                        Margin="10,0,0,0">
+                    <Grid.ColumnDefinitions>
+                      <ColumnDefinition Width="46*" />
+                      <ColumnDefinition Width="54*" />
+                    </Grid.ColumnDefinitions>
+                    <Border Grid.ColumnSpan="2"
+                            Background="{StaticResource DashboardBorderBrush}"
+                            CornerRadius="5" />
+                    <Border Background="{StaticResource DashboardGreenBrush}"
+                            CornerRadius="5" />
+                  </Grid>
+                  <TextBlock Grid.Column="2"
+                             Text="42"
+                             Style="{StaticResource DashboardBodyTextStyle}" />
+                </Grid>
+              </StackPanel>
+            </Border>
+          </StackPanel>
+
+          <StackPanel Grid.Row="4"
+                      Spacing="14">
+            <TextBlock Text="RECENT ACTIVITY"
+                       Style="{StaticResource DashboardSectionLabelStyle}" />
+
+            <Border Style="{StaticResource DashboardPanelBorderStyle}"
+                    Padding="0,6,0,6">
+              <StackPanel>
+                <Border BorderBrush="{StaticResource DashboardBorderBrush}"
+                        BorderThickness="0,0,0,1"
+                        Padding="16,16,16,16">
+                  <Grid ColumnSpacing="14">
+                    <Grid.ColumnDefinitions>
+                      <ColumnDefinition Width="Auto" />
+                      <ColumnDefinition Width="*" />
+                      <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <Border Width="54"
+                            Height="54"
+                            CornerRadius="27"
+                            Background="{StaticResource DashboardAccentSoftBrush}">
+                      <FontIcon Glyph="&#xE8FA;"
+                                FontSize="22"
+                                Foreground="{StaticResource DashboardAccentBrush}"
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Center" />
+                    </Border>
+                    <StackPanel Grid.Column="1"
+                                Spacing="4"
+                                VerticalAlignment="Center">
+                      <TextBlock Text="New lead assigned"
+                                 Style="{StaticResource DashboardBodyTextStyle}"
+                                 FontFamily="Georgia"
+                                 FontSize="22" />
+                      <TextBlock Text="Sarah Chen — Enterprise Plan"
+                                 Style="{StaticResource DashboardSubtleTextStyle}"
+                                 FontSize="16" />
+                    </StackPanel>
+                    <TextBlock Grid.Column="2"
+                               Text="2m"
+                               Style="{StaticResource DashboardSubtleTextStyle}"
+                               FontSize="14"
+                               VerticalAlignment="Center" />
+                  </Grid>
+                </Border>
+
+                <Border BorderBrush="{StaticResource DashboardBorderBrush}"
+                        BorderThickness="0,0,0,1"
+                        Padding="16,16,16,16">
+                  <Grid ColumnSpacing="14">
+                    <Grid.ColumnDefinitions>
+                      <ColumnDefinition Width="Auto" />
+                      <ColumnDefinition Width="*" />
+                      <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <Border Width="54"
+                            Height="54"
+                            CornerRadius="27"
+                          Background="{StaticResource DashboardActivitySoftBrush}">
+                      <FontIcon Glyph="&#xE8BD;"
+                                FontSize="20"
+                                Foreground="{StaticResource DashboardActivityOrangeBrush}"
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Center" />
+                    </Border>
+                    <StackPanel Grid.Column="1"
+                                Spacing="4"
+                                VerticalAlignment="Center">
+                      <TextBlock Text="Deal moved to Proposal"
+                                 Style="{StaticResource DashboardBodyTextStyle}"
+                                 FontFamily="Georgia"
+                                 FontSize="22" />
+                      <TextBlock Text="Acme Corp — $48,000"
+                                 Style="{StaticResource DashboardSubtleTextStyle}"
+                                 FontSize="16" />
+                    </StackPanel>
+                    <TextBlock Grid.Column="2"
+                               Text="15m"
+                               Style="{StaticResource DashboardSubtleTextStyle}"
+                               FontSize="14"
+                               VerticalAlignment="Center" />
+                  </Grid>
+                </Border>
+
+                <Border BorderBrush="{StaticResource DashboardBorderBrush}"
+                        BorderThickness="0,0,0,1"
+                        Padding="16,16,16,16">
+                  <Grid ColumnSpacing="14">
+                    <Grid.ColumnDefinitions>
+                      <ColumnDefinition Width="Auto" />
+                      <ColumnDefinition Width="*" />
+                      <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <Border Width="54"
+                            Height="54"
+                            CornerRadius="27"
+                            Background="{StaticResource DashboardAccentSoftBrush}">
+                      <FontIcon Glyph="&#xE73E;"
+                                FontSize="20"
+                                Foreground="{StaticResource DashboardAccentBrush}"
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Center" />
+                    </Border>
+                    <StackPanel Grid.Column="1"
+                                Spacing="4"
+                                VerticalAlignment="Center">
+                      <TextBlock Text="Deal won!"
+                                 Style="{StaticResource DashboardBodyTextStyle}"
+                                 FontFamily="Georgia"
+                                 FontSize="22" />
+                      <TextBlock Text="TechFlow Inc — $125,000"
+                                 Style="{StaticResource DashboardSubtleTextStyle}"
+                                 FontSize="16" />
+                    </StackPanel>
+                    <TextBlock Grid.Column="2"
+                               Text="1h"
+                               Style="{StaticResource DashboardSubtleTextStyle}"
+                               FontSize="14"
+                               VerticalAlignment="Center" />
+                  </Grid>
+                </Border>
+
+                <Border BorderBrush="{StaticResource DashboardBorderBrush}"
+                        BorderThickness="0,0,0,1"
+                        Padding="16,16,16,16">
+                  <Grid ColumnSpacing="14">
+                    <Grid.ColumnDefinitions>
+                      <ColumnDefinition Width="Auto" />
+                      <ColumnDefinition Width="*" />
+                      <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <Border Width="54"
+                            Height="54"
+                            CornerRadius="27"
+                          Background="{StaticResource DashboardActivitySoftBrush}">
+                      <FontIcon Glyph="&#xE823;"
+                                FontSize="20"
+                                Foreground="{StaticResource DashboardActivityOrangeBrush}"
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Center" />
+                    </Border>
+                    <StackPanel Grid.Column="1"
+                                Spacing="4"
+                                VerticalAlignment="Center">
+                      <TextBlock Text="Meeting scheduled"
+                                 Style="{StaticResource DashboardBodyTextStyle}"
+                                 FontFamily="Georgia"
+                                 FontSize="22" />
+                      <TextBlock Text="Rivera Group — Tomorrow 2:00 PM"
+                                 Style="{StaticResource DashboardSubtleTextStyle}"
+                                 FontSize="16" />
+                    </StackPanel>
+                    <TextBlock Grid.Column="2"
+                               Text="3h"
+                               Style="{StaticResource DashboardSubtleTextStyle}"
+                               FontSize="14"
+                               VerticalAlignment="Center" />
+                  </Grid>
+                </Border>
+
+                <Grid Padding="16,16,16,16"
+                      ColumnSpacing="14">
+                  <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                  </Grid.ColumnDefinitions>
+                  <Border Width="54"
+                          Height="54"
+                          CornerRadius="27"
+                          Background="{StaticResource DashboardAccentSoftBrush}">
+                    <FontIcon Glyph="&#xE715;"
+                              FontSize="20"
+                              Foreground="{StaticResource DashboardAccentBrush}"
+                              VerticalAlignment="Center"
+                              HorizontalAlignment="Center" />
+                  </Border>
+                  <StackPanel Grid.Column="1"
+                              Spacing="4"
+                              VerticalAlignment="Center">
+                    <TextBlock Text="Email opened by lead"
+                               Style="{StaticResource DashboardBodyTextStyle}"
+                               FontFamily="Georgia"
+                               FontSize="22" />
+                    <TextBlock Text="GlobalTech Ltd — Follow-up touchpoint"
+                               Style="{StaticResource DashboardSubtleTextStyle}"
+                               FontSize="16" />
+                  </StackPanel>
+                  <TextBlock Grid.Column="2"
+                             Text="5h"
+                             Style="{StaticResource DashboardSubtleTextStyle}"
+                             FontSize="14"
+                             VerticalAlignment="Center" />
+                </Grid>
+              </StackPanel>
+            </Border>
+          </StackPanel>
+        </Grid>
+      </ScrollViewer>
+
+      <Border VerticalAlignment="Bottom"
+              HorizontalAlignment="Center"
+              Margin="16,0,16,18"
+              Padding="10"
+              MinWidth="320"
+              MaxWidth="560"
+              CornerRadius="34"
+              Background="{StaticResource DashboardSurfaceBrush}"
+              BorderBrush="{StaticResource DashboardBorderBrush}"
+              BorderThickness="1">
+        <Grid ColumnSpacing="10">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+          </Grid.ColumnDefinitions>
+
+          <Border Grid.Column="0"
+                  Background="{StaticResource DashboardAccentBrush}"
+                  CornerRadius="28"
+                  Padding="20,14">
+            <StackPanel HorizontalAlignment="Center"
+                        Spacing="8">
+              <FontIcon Glyph="&#xE80F;"
+                        FontSize="20"
+                        Foreground="White" />
+              <TextBlock Text="HOME"
+                         HorizontalAlignment="Center"
+                         Foreground="White"
+                         FontSize="12"
+                         FontWeight="SemiBold" />
+            </StackPanel>
+          </Border>
+
+          <Button Grid.Column="1"
+                  Click="NavigateToPipeline_Click"
+                  Style="{StaticResource DashboardNavButtonStyle}">
+            <StackPanel HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Spacing="8">
+              <FontIcon Glyph="&#xE9D2;"
+                        FontSize="20"
+                        Foreground="{StaticResource DashboardSubtleTextBrush}" />
+              <TextBlock Text="PIPELINE"
+                         Foreground="{StaticResource DashboardSubtleTextBrush}"
+                         FontSize="12" />
+            </StackPanel>
+          </Button>
+
+          <Button Grid.Column="2"
+                  Click="NavigateToLeads_Click"
+                  Style="{StaticResource DashboardNavButtonStyle}">
+            <StackPanel HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Spacing="8">
+              <FontIcon Glyph="&#xE716;"
+                        FontSize="20"
+                        Foreground="{StaticResource DashboardSubtleTextBrush}" />
+              <TextBlock Text="LEADS"
+                         Foreground="{StaticResource DashboardSubtleTextBrush}"
+                         FontSize="12" />
+            </StackPanel>
+          </Button>
+
+          <Button Grid.Column="3"
+                  Click="NavigateToContacts_Click"
+                  Style="{StaticResource DashboardNavButtonStyle}">
+            <StackPanel HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Spacing="8">
+              <FontIcon Glyph="&#xE77B;"
+                        FontSize="20"
+                        Foreground="{StaticResource DashboardSubtleTextBrush}" />
+              <TextBlock Text="CONTACTS"
+                         Foreground="{StaticResource DashboardSubtleTextBrush}"
+                         FontSize="12" />
+            </StackPanel>
+          </Button>
+        </Grid>
+      </Border>
+    </Grid>
+  </Grid>
+</Page>
