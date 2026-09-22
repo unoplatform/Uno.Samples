@@ -1,22 +1,21 @@
-using Uno.UI.Runtime.Skia;
+using Uno.UI.Hosting;
 
 namespace ChatUI;
-
-public class Program
+internal class Program
 {
-    [STAThread]
-    public static void Main(string[] args)
-    {
-        App.InitializeLogging();
+	[STAThread]
+	public static void Main(string[] args)
+	{
+		App.InitializeLogging();
 
-        var host = SkiaHostBuilder.Create()
-            .App(() => new App())
-            .UseX11()
-            .UseLinuxFrameBuffer()
-            .UseMacOS()
-            .UseWindows()
-            .Build();
+		var host = UnoPlatformHostBuilder.Create()
+			.App(() => new App())
+			.UseX11()
+			.UseLinuxFrameBuffer()
+			.UseMacOS()
+			.UseWin32()
+			.Build();
 
-        host.Run();
-    }
+		host.Run();
+	}
 }
