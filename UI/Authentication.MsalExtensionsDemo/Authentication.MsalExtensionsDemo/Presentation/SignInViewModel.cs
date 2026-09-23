@@ -15,6 +15,7 @@ public sealed class SignInViewModel : ObservableObject
 
     private bool _isBusy;
     private string _tokensSummary = "";
+    private string? _claimsSummary;
 
     public SignInViewModel(MsalFlowService flow, IDispatcher dispatcher, SecretRedactor redactor)
     {
@@ -91,6 +92,12 @@ public sealed class SignInViewModel : ObservableObject
         private set => Set(ref _tokensSummary, value);
     }
 
+    /// <summary>The claims decoded from the cached ID token; every value is hidden while recording.</summary>
+    public string ClaimsSummary =>
+        _claimsSummary is { } json ? $"ID token claims{Environment.NewLine}{_redactor.ApplyToJson(json)}" : "";
+
+    public bool HasClaims => _claimsSummary is not null;
+
     /// <summary>Cache first, prompt only if MSAL says it is required - one provider call.</summary>
     public Task SignInAsync() => RunAsync(() => _flow.SignInAsync(_dispatcher));
 
@@ -109,8 +116,13 @@ public sealed class SignInViewModel : ObservableObject
         Log.Info("Log cleared", $"Ready on {PlatformSupport.PlatformName}.");
     }
 
-    public async Task RefreshTokensSummaryAsync() =>
+    public async Task RefreshTokensSummaryAsync()
+    {
         TokensSummary = await _flow.DescribeTokensAsync();
+        _claimsSummary = await _flow.DescribeClaimsAsync();
+        Raise(nameof(ClaimsSummary));
+        Raise(nameof(HasClaims));
+    }
 
     private async Task RunAsync(Func<Task<bool>> operation)
     {
@@ -146,6 +158,7 @@ public sealed class SignInViewModel : ObservableObject
         Raise(nameof(RedirectUri));
         Raise(nameof(ResultDetail));
         Raise(nameof(TokensSummary));
+        Raise(nameof(ClaimsSummary));
     }
 
     private string Redacted(string value) => _redactor.Apply(value) ?? value;

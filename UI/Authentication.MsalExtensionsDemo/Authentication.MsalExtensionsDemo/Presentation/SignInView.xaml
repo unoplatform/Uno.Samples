@@ -96,6 +96,10 @@
           <TextBlock Text="{Binding TokensSummary}"
                      Style="{StaticResource CodeTextStyle}"
                      Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
+          <TextBlock Text="{Binding ClaimsSummary}"
+                     Style="{StaticResource CodeTextStyle}"
+                     Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                     Visibility="{Binding HasClaims, Converter={StaticResource BoolToVisibility}}" />
           <ProgressBar IsIndeterminate="True"
                        Visibility="{Binding IsBusy, Converter={StaticResource BoolToVisibility}}" />
         </StackPanel>
