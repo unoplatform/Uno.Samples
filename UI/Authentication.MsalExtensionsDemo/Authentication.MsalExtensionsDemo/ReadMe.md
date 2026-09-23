@@ -18,7 +18,8 @@ are directly comparable — this one is the "let the provider do it" version:
 ## The three pages
 
 - **Sign in** — the configuration the provider was handed, the derived redirect URI, the
-  buttons (`Sign in`, `Silent only`, `Sign out`), the resulting token, and a timestamped flow log.
+  buttons (`Sign in`, `Silent only`, `Sign out`), the resulting tokens with the claims decoded
+  from the cached ID token, and a timestamped flow log.
 - **Microsoft Graph** — `GET /v1.0/me` with the access token in an `Authorization: Bearer`
   header, to prove a real API accepts the token.
 - **Platform setup** — what every head needs in Entra ID and in the project, with the head
