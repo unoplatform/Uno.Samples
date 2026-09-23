@@ -20,7 +20,7 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
-            <Border Grid.Column="0" Width="38" Height="38" CornerRadius="19" Background="{ThemeResource PrimaryBrush}">
+            <Border Grid.Column="0" Width="38" Height="38" CornerRadius="{ThemeResource RadiusFullCornerRadius}" Background="{ThemeResource PrimaryBrush}">
                 <TextBlock Text="{Binding UserInitials}" Style="{StaticResource LabelMedium}" Foreground="{ThemeResource OnPrimaryBrush}" HorizontalAlignment="Center" VerticalAlignment="Center" />
             </Border>
             <TextBlock Grid.Column="1" Text="Voyago" FontWeight="Bold" FontSize="22" Foreground="{ThemeResource PrimaryBrush}" HorizontalAlignment="Center" VerticalAlignment="Center" CharacterSpacing="20" />
@@ -32,11 +32,11 @@
         </Grid>
 
         <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
-            <StackPanel MaxWidth="{StaticResource ContentMaxWidthWide}" HorizontalAlignment="Stretch" Spacing="0" local:Motion.Stagger="True">
+            <StackPanel MaxWidth="{StaticResource ContentMaxWidthWide}" HorizontalAlignment="Stretch" Spacing="{ThemeResource Space0}" local:Motion.Stagger="True">
 
                 <!-- Greeting + search entry -->
                 <StackPanel Padding="16,24,16,0" Spacing="14">
-                    <StackPanel Spacing="6">
+                    <StackPanel Spacing="{ThemeResource Space150}">
                         <TextBlock Text="WELCOME BACK" Style="{StaticResource SectionLabel}" />
                         <TextBlock Text="{Binding GreetingText}" Style="{StaticResource HeadlineMedium}" Foreground="{ThemeResource OnBackgroundBrush}" TextWrapping="Wrap" />
                     </StackPanel>
@@ -89,7 +89,7 @@
                     <Button x:Name="HeroPrev"
                             Style="{StaticResource HeroNavButtonStyle}"
                             HorizontalAlignment="Left"
-                            Margin="12,0,0,0"
+                            Margin="{ThemeResource Space300LeftThickness}"
                             Click="HeroPrev_Click"
                             AutomationProperties.Name="Previous destination">
                         <Path Data="M15.5303 4.21967C15.8232 4.51256 15.8232 4.98744 15.5303 5.28033L8.81066 12L15.5303 18.7197C15.8232 19.0126 15.8232 19.4874 15.5303 19.7803C15.2374 20.0732 14.7626 20.0732 14.4697 19.7803L7.21967 12.5303C6.92678 12.2374 6.92678 11.7626 7.21967 11.4697L14.4697 4.21967C14.7626 3.92678 15.2374 3.92678 15.5303 4.21967Z"
@@ -99,7 +99,7 @@
                     <Button x:Name="HeroNext"
                             Style="{StaticResource HeroNavButtonStyle}"
                             HorizontalAlignment="Right"
-                            Margin="0,0,12,0"
+                            Margin="{ThemeResource Space300RightThickness}"
                             Click="HeroNext_Click"
                             AutomationProperties.Name="Next destination">
                         <Path Data="M8.46967 4.21967C8.76256 3.92678 9.23744 3.92678 9.53033 4.21967L16.7803 11.4697C17.0732 11.7626 17.0732 12.2374 16.7803 12.5303L9.53033 19.7803C9.23744 20.0732 8.76256 20.0732 8.46967 19.7803C8.17678 19.4874 8.17678 19.0126 8.46967 18.7197L15.1893 12L8.46967 5.28033C8.17678 4.98744 8.17678 4.51256 8.46967 4.21967Z"
@@ -109,7 +109,7 @@
                 </Grid>
 
                 <!-- Quick actions -->
-                <StackPanel Padding="16,24,16,0" Spacing="12">
+                <StackPanel Padding="16,24,16,0" Spacing="{ThemeResource Space300}">
                     <TextBlock Text="Plan your trip" Style="{StaticResource TitleMedium}" Foreground="{ThemeResource OnBackgroundBrush}" />
                     <ItemsRepeater ItemsSource="{Binding QuickActions}" MinWidth="88"
                                    ItemTemplate="{StaticResource QuickActionTemplate}">
@@ -123,7 +123,7 @@
                      pattern as the categories below; a horizontal ScrollViewer offsets its content
                      left of the title on this stack, so a grid keeps the section edge-aligned). Each
                      card's image row has a fixed height, so cells never collapse. -->
-                <StackPanel Padding="16,24,16,0" Spacing="12">
+                <StackPanel Padding="16,24,16,0" Spacing="{ThemeResource Space300}">
                     <TextBlock Text="Recommended for you" Style="{StaticResource TitleMedium}" Foreground="{ThemeResource OnBackgroundBrush}" />
                     <!-- The page's primary content section, so it goes through a FeedView: the grid,
                          a quiet "nothing to recommend" line, the shared failure card, and the loading
@@ -137,7 +137,7 @@
                 <!-- Explore categories: a 2-up grid of fixed-height image tiles (each tile carries an
                      explicit Height so it never collapses — an ImageBrush background contributes no
                      measured height on its own, unlike the fixed image rows on the cards above). -->
-                <StackPanel Padding="16,24,16,24" Spacing="12">
+                <StackPanel Padding="16,24,16,24" Spacing="{ThemeResource Space300}">
                     <TextBlock Text="Explore by style" Style="{StaticResource TitleMedium}" Foreground="{ThemeResource OnBackgroundBrush}" />
                     <ItemsRepeater ItemsSource="{Binding ExploreCategories}" MinWidth="150"
                                    ItemTemplate="{StaticResource ExploreCategoryTileTemplate}">

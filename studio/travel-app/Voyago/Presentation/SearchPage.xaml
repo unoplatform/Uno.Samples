@@ -26,7 +26,7 @@
         </Grid>
 
         <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
-            <StackPanel Spacing="0" MaxWidth="{StaticResource ContentMaxWidthWide}" HorizontalAlignment="Stretch" local:Motion.Stagger="True">
+            <StackPanel Spacing="{ThemeResource Space0}" MaxWidth="{StaticResource ContentMaxWidthWide}" HorizontalAlignment="Stretch" local:Motion.Stagger="True">
 
                 <!-- Search entry + popular searches (shared across both layouts) -->
                 <StackPanel Padding="16,20,16,0" Spacing="18">
@@ -40,7 +40,7 @@
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
-                            <Viewbox Grid.Column="0" Width="18" Height="18" VerticalAlignment="Center" Margin="0,0,12,0">
+                            <Viewbox Grid.Column="0" Width="18" Height="18" VerticalAlignment="Center" Margin="{ThemeResource Space300RightThickness}">
                                 <Path Data="{Binding Converter={StaticResource Icon}, ConverterParameter=search}" Fill="{ThemeResource PrimaryBrush}" Stretch="Uniform" />
                             </Viewbox>
                             <TextBox Grid.Column="1"
@@ -59,7 +59,7 @@
                             <ItemsRepeater ItemsSource="{Binding PopularSearches}"
                                            ItemTemplate="{StaticResource PopularSearchChipTemplate}">
                                 <ItemsRepeater.Layout>
-                                    <StackLayout Orientation="Horizontal" Spacing="8" />
+                                    <StackLayout Orientation="Horizontal" Spacing="{ThemeResource Space200}" />
                                 </ItemsRepeater.Layout>
                             </ItemsRepeater>
                         </ScrollViewer>
@@ -67,8 +67,8 @@
                 </StackPanel>
 
                 <!-- Narrow / medium: destinations grid then browse tiles, stacked full width -->
-                <StackPanel Spacing="0" Visibility="{utu:Responsive Narrow=Visible, Widest=Collapsed}">
-                    <StackPanel Padding="16,24,16,0" Spacing="12">
+                <StackPanel Spacing="{ThemeResource Space0}" Visibility="{utu:Responsive Narrow=Visible, Widest=Collapsed}">
+                    <StackPanel Padding="16,24,16,0" Spacing="{ThemeResource Space300}">
                         <TextBlock Text="Destinations" Style="{StaticResource TitleMedium}" Foreground="{ThemeResource OnBackgroundBrush}" />
                         <!-- Results come from the service for the current query, so an empty result
                              is a designed NoneTemplate and a failed request its own card. The empty
@@ -78,7 +78,7 @@
                                        NoneTemplate="{StaticResource NoSearchResultsTemplate}"
                                        ErrorTemplate="{StaticResource DiscoveryErrorTemplate}" />
                     </StackPanel>
-                    <StackPanel Padding="16,24,16,26" Spacing="12">
+                    <StackPanel Padding="16,24,16,26" Spacing="{ThemeResource Space300}">
                         <TextBlock Text="Browse by style" Style="{StaticResource TitleMedium}" Foreground="{ThemeResource OnBackgroundBrush}" />
                         <!-- One column on phones, two once there's room (tablet landscape+), so the
                              banners don't stretch to a thin full-width strip. -->
@@ -96,7 +96,7 @@
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="340" />
                     </Grid.ColumnDefinitions>
-                    <StackPanel Grid.Column="0" Spacing="12">
+                    <StackPanel Grid.Column="0" Spacing="{ThemeResource Space300}">
                         <TextBlock Text="Destinations" Style="{StaticResource TitleMedium}" Foreground="{ThemeResource OnBackgroundBrush}" />
                         <!-- The same Results feed as the narrow arrangement, in the wide layout, so
                              the two stay in step by construction. -->
@@ -105,7 +105,7 @@
                                        NoneTemplate="{StaticResource NoSearchResultsTemplate}"
                                        ErrorTemplate="{StaticResource DiscoveryErrorTemplate}" />
                     </StackPanel>
-                    <StackPanel Grid.Column="1" Spacing="12" VerticalAlignment="Top">
+                    <StackPanel Grid.Column="1" Spacing="{ThemeResource Space300}" VerticalAlignment="Top">
                         <TextBlock Text="Browse by style" Style="{StaticResource TitleMedium}" Foreground="{ThemeResource OnBackgroundBrush}" />
                         <!-- One column of fixed-height banners. UniformGridLayout + ItemsStretch=Fill
                              reliably sizes the tiles (a StackLayout here left them collapsed with gaps). -->
