@@ -24,7 +24,7 @@ public sealed partial class MainPage : Page
 		Loaded += OnLoaded;
 	}
 
-	// The window can only make its content transparent once that content is in the visual tree.
+	// The constructor can run before the page is in the window, so apply again once it is.
 	private void OnLoaded(object sender, RoutedEventArgs e) => ApplyBackdrop();
 
 	private void OnBackdropSelectionChanged(object sender, SelectionChangedEventArgs e) => ApplyBackdrop();
