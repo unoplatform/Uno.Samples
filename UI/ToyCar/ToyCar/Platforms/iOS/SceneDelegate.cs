@@ -13,8 +13,8 @@ namespace ToyCar.iOS;
 /// </summary>
 /// <remarks>
 /// Temporary, and specific to this sample. Uno gains a built-in UnoUISceneDelegate in 7.0
-/// (unoplatform/uno#19083), and the template will ship the manifest and delegate with it
-/// (unoplatform/uno.templates#2203). Once that support reaches the version this sample
+/// (unoplatform/uno#19083), and the app template adopts the scene lifecycle in
+/// unoplatform/uno.templates#2227. Once that support reaches the version this sample
 /// targets, this file and the Info.plist scene manifest can both be removed.
 /// </remarks>
 [Register(nameof(SceneDelegate))]
