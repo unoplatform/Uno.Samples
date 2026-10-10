@@ -9,7 +9,7 @@
 //           LottieGen -Language CSharp -Namespace LottieBuiltIn.AnimatedVisuals -Public -WinUIVersion 3.0 -InputFile sunrise.json
 //       
 //       Input file:
-//           sunrise.json (5952 bytes created 20:13+02:00 Oct 10 2026)
+//           sunrise.json (9774 bytes created 20:13+02:00 Oct 10 2026)
 //       
 //       LottieGen source:
 //           http://aka.ms/Lottie
@@ -21,7 +21,7 @@
 // ____________________________________
 // |       Object stats       | Count |
 // |__________________________|_______|
-// | All CompositionObjects   |    78 |
+// | All CompositionObjects   |   102 |
 // |--------------------------+-------|
 // | Expression animators     |     1 |
 // | KeyFrame animators       |    15 |
@@ -36,8 +36,8 @@
 // | ContainerVisuals         |     1 |
 // | ShapeVisuals             |     1 |
 // |--------------------------+-------|
-// | ContainerShapes          |     1 |
-// | CompositionSpriteShapes  |     5 |
+// | ContainerShapes          |     2 |
+// | CompositionSpriteShapes  |    16 |
 // |--------------------------+-------|
 // | Brushes                  |     5 |
 // | Gradient stops           |     3 |
@@ -51,7 +51,7 @@ using Windows.UI;
 
 namespace LottieBuiltIn.AnimatedVisuals
 {
-    // Name:        Sunrise
+    // Name:        safe
     // Frame rate:  60 fps
     // Frame count: 120
     // Duration:    2000.0 mS
@@ -142,10 +142,11 @@ namespace LottieBuiltIn.AnimatedVisuals
             CompositionColorGradientStop _animatedGradientStop_0_AlmostDarkSlateBlue_FF593F7F_to_AlmostDarkSlateBlue_FF593F7F;
             CompositionColorGradientStop _animatedGradientStop_0_AlmostMidnightBlue_FF191E4C_to_AlmostMidnightBlue_FF191E4C;
             CompositionColorGradientStop _animatedGradientStop_0_AlmostSalmon_FFF28C72_to_AlmostSalmon_FFF28C72;
-            CompositionContainerShape _containerShape;
+            CompositionContainerShape _containerShape_0;
+            CompositionContainerShape _containerShape_1;
             CompositionEllipseGeometry _ellipse_0;
             CompositionEllipseGeometry _ellipse_38;
-            CompositionSpriteShape _spriteShape_3;
+            CompositionRoundedRectangleGeometry _roundedRectangle_5x12;
             ContainerVisual _root;
             CubicBezierEasingFunction _cubicBezierEasingFunction_0;
             StepEasingFunction _holdThenStepEasingFunction;
@@ -289,8 +290,6 @@ namespace LottieBuiltIn.AnimatedVisuals
                 return result;
             }
 
-            // - - Layer aggregator
-            // - ShapeGroup: 
             // Color
             ColorKeyFrameAnimation ColorAnimation_TransparentAlmostKhaki_00FFEA99_to_TransparentAlmostKhaki_00FFEA99()
             {
@@ -323,8 +322,6 @@ namespace LottieBuiltIn.AnimatedVisuals
                 return result;
             }
 
-            // - Layer aggregator
-            // ShapeGroup:
             CompositionColorBrush AnimatedColorBrush_TransparentAlmostKhaki_00FFEA99_to_TransparentAlmostKhaki_00FFEA99()
             {
                 if (_animatedColorBrush_TransparentAlmostKhaki_00FFEA99_to_TransparentAlmostKhaki_00FFEA99 != null) { return _animatedColorBrush_TransparentAlmostKhaki_00FFEA99_to_TransparentAlmostKhaki_00FFEA99; }
@@ -370,15 +367,48 @@ namespace LottieBuiltIn.AnimatedVisuals
             }
 
             // Layer aggregator
-            CompositionContainerShape ContainerShape()
+            CompositionContainerShape ContainerShape_0()
             {
-                if (_containerShape != null) { return _containerShape; }
-                var result = _containerShape = _c.CreateContainerShape();
+                if (_containerShape_0 != null) { return _containerShape_0; }
+                var result = _containerShape_0 = _c.CreateContainerShape();
                 var shapes = result.Shapes;
                 // ShapeGroup:
-                shapes.Add(SpriteShape_1());
+                shapes.Add(SpriteShape_01());
                 // ShapeGroup:
-                shapes.Add(SpriteShape_2());
+                shapes.Add(SpriteShape_02());
+                return result;
+            }
+
+            // Layer aggregator
+            CompositionContainerShape ContainerShape_1()
+            {
+                if (_containerShape_1 != null) { return _containerShape_1; }
+                var result = _containerShape_1 = _c.CreateContainerShape();
+                var shapes = result.Shapes;
+                // ShapeGroup:  RotationDegrees:330
+                shapes.Add(SpriteShape_03());
+                // ShapeGroup:  RotationDegrees:300
+                shapes.Add(SpriteShape_04());
+                // ShapeGroup:  RotationDegrees:270
+                shapes.Add(SpriteShape_05());
+                // ShapeGroup:  RotationDegrees:240
+                shapes.Add(SpriteShape_06());
+                // ShapeGroup:  RotationDegrees:210
+                shapes.Add(SpriteShape_07());
+                // ShapeGroup:  RotationDegrees:180
+                shapes.Add(SpriteShape_08());
+                // ShapeGroup:  RotationDegrees:150
+                shapes.Add(SpriteShape_09());
+                // ShapeGroup:  RotationDegrees:120
+                shapes.Add(SpriteShape_10());
+                // ShapeGroup:  RotationDegrees:90
+                shapes.Add(SpriteShape_11());
+                // ShapeGroup:  RotationDegrees:60
+                shapes.Add(SpriteShape_12());
+                // ShapeGroup:  RotationDegrees:30
+                shapes.Add(SpriteShape_13());
+                // ShapeGroup:
+                shapes.Add(SpriteShape_14());
                 return result;
             }
 
@@ -416,16 +446,6 @@ namespace LottieBuiltIn.AnimatedVisuals
             }
 
             // - Layer aggregator
-            // ShapeGroup: 
-            // .EllipseGeometry
-            CompositionEllipseGeometry Ellipse_52()
-            {
-                var result = _c.CreateEllipseGeometry();
-                result.Radius = new Vector2(52F, 52F);
-                return result;
-            }
-
-            // - Layer aggregator
             // Offset:<100, 100>
             CompositionLinearGradientBrush LinearGradientBrush()
             {
@@ -451,9 +471,20 @@ namespace LottieBuiltIn.AnimatedVisuals
                 return result;
             }
 
+            // .RectangleGeometry
+            CompositionRoundedRectangleGeometry RoundedRectangle_5x12()
+            {
+                if (_roundedRectangle_5x12 != null) { return _roundedRectangle_5x12; }
+                var result = _roundedRectangle_5x12 = _c.CreateRoundedRectangleGeometry();
+                result.CornerRadius = new Vector2(2.5F, 2.5F);
+                result.Offset = new Vector2(-2.5F, -58F);
+                result.Size = new Vector2(5F, 12F);
+                return result;
+            }
+
             // Layer aggregator
             // ShapeGroup:
-            CompositionSpriteShape SpriteShape_0()
+            CompositionSpriteShape SpriteShape_00()
             {
                 // Offset:<100, 100>
                 var geometry = Rectangle_200();
@@ -463,7 +494,7 @@ namespace LottieBuiltIn.AnimatedVisuals
 
             // - Layer aggregator
             // ShapeGroup:
-            CompositionSpriteShape SpriteShape_1()
+            CompositionSpriteShape SpriteShape_01()
             {
                 var result = _c.CreateSpriteShape(Ellipse_38());
                 result.StrokeBrush = ColorBrush_SemiTransparentAlmostKhaki_B2FFE57F();
@@ -476,30 +507,135 @@ namespace LottieBuiltIn.AnimatedVisuals
 
             // - Layer aggregator
             // ShapeGroup:
-            CompositionSpriteShape SpriteShape_2()
+            CompositionSpriteShape SpriteShape_02()
             {
                 var result = _c.CreateSpriteShape(Ellipse_28());
                 result.FillBrush = AnimatedColorBrush_AlmostCoral_FFFF8C4C_to_AlmostCoral_FFFF8C4C();
                 return result;
             }
 
-            // Layer aggregator
-            // ShapeGroup:
-            CompositionSpriteShape SpriteShape_3()
+            // - Layer aggregator
+            // ShapeGroup:  RotationDegrees:330
+            CompositionSpriteShape SpriteShape_03()
             {
-                if (_spriteShape_3 != null) { return _spriteShape_3; }
-                var result = _spriteShape_3 = _c.CreateSpriteShape(Ellipse_52());
-                result.StrokeBrush = AnimatedColorBrush_TransparentAlmostKhaki_00FFEA99_to_TransparentAlmostKhaki_00FFEA99();
-                var strokeDashArray = result.StrokeDashArray;
-                strokeDashArray.Add(4F);
-                strokeDashArray.Add(14F);
-                result.StrokeThickness = 6F;
+                // Rotation:-30.0000193141719 degrees, Scale:<0.99999994, 0.99999994>
+                var geometry = RoundedRectangle_5x12();
+                var result = CreateSpriteShape(geometry, new Matrix3x2(0.866025209F, -0.500000298F, 0.500000298F, 0.866025209F, 0F, 0F), AnimatedColorBrush_TransparentAlmostKhaki_00FFEA99_to_TransparentAlmostKhaki_00FFEA99());;
+                return result;
+            }
+
+            // - Layer aggregator
+            // ShapeGroup:  RotationDegrees:300
+            CompositionSpriteShape SpriteShape_04()
+            {
+                // Rotation:-60.00001577364497 degrees
+                var geometry = RoundedRectangle_5x12();
+                var result = CreateSpriteShape(geometry, new Matrix3x2(0.499999762F, -0.866025567F, 0.866025567F, 0.499999762F, 0F, 0F), AnimatedColorBrush_TransparentAlmostKhaki_00FFEA99_to_TransparentAlmostKhaki_00FFEA99());;
+                return result;
+            }
+
+            // - Layer aggregator
+            // ShapeGroup:  RotationDegrees:270
+            CompositionSpriteShape SpriteShape_05()
+            {
+                // Rotation:-90 degrees
+                var geometry = RoundedRectangle_5x12();
+                var result = CreateSpriteShape(geometry, new Matrix3x2(0F, -1F, 1F, 0F, 0F, 0F), AnimatedColorBrush_TransparentAlmostKhaki_00FFEA99_to_TransparentAlmostKhaki_00FFEA99());;
+                return result;
+            }
+
+            // - Layer aggregator
+            // ShapeGroup:  RotationDegrees:240
+            CompositionSpriteShape SpriteShape_06()
+            {
+                // Rotation:-120.00000394341166 degrees
+                var geometry = RoundedRectangle_5x12();
+                var result = CreateSpriteShape(geometry, new Matrix3x2(-0.50000006F, -0.866025388F, 0.866025388F, -0.50000006F, 0F, 0F), AnimatedColorBrush_TransparentAlmostKhaki_00FFEA99_to_TransparentAlmostKhaki_00FFEA99());;
+                return result;
+            }
+
+            // - Layer aggregator
+            // ShapeGroup:  RotationDegrees:210
+            CompositionSpriteShape SpriteShape_07()
+            {
+                // Rotation:-150.00001187921234 degrees
+                var geometry = RoundedRectangle_5x12();
+                var result = CreateSpriteShape(geometry, new Matrix3x2(-0.866025507F, -0.499999821F, 0.499999821F, -0.866025507F, 0F, 0F), AnimatedColorBrush_TransparentAlmostKhaki_00FFEA99_to_TransparentAlmostKhaki_00FFEA99());;
+                return result;
+            }
+
+            // - Layer aggregator
+            // ShapeGroup:  RotationDegrees:180
+            CompositionSpriteShape SpriteShape_08()
+            {
+                // Rotation:-180 degrees
+                var geometry = RoundedRectangle_5x12();
+                var result = CreateSpriteShape(geometry, new Matrix3x2(-1F, 0F, -0F, -1F, 0F, 0F), AnimatedColorBrush_TransparentAlmostKhaki_00FFEA99_to_TransparentAlmostKhaki_00FFEA99());;
+                return result;
+            }
+
+            // - Layer aggregator
+            // ShapeGroup:  RotationDegrees:150
+            CompositionSpriteShape SpriteShape_09()
+            {
+                // Rotation:149.9999982188319 degrees
+                var geometry = RoundedRectangle_5x12();
+                var result = CreateSpriteShape(geometry, new Matrix3x2(-0.866025388F, 0.50000006F, -0.50000006F, -0.866025388F, 0F, 0F), AnimatedColorBrush_TransparentAlmostKhaki_00FFEA99_to_TransparentAlmostKhaki_00FFEA99());;
+                return result;
+            }
+
+            // - Layer aggregator
+            // ShapeGroup:  RotationDegrees:120
+            CompositionSpriteShape SpriteShape_10()
+            {
+                // Rotation:120.00000394341166 degrees
+                var geometry = RoundedRectangle_5x12();
+                var result = CreateSpriteShape(geometry, new Matrix3x2(-0.50000006F, 0.866025388F, -0.866025388F, -0.50000006F, 0F, 0F), AnimatedColorBrush_TransparentAlmostKhaki_00FFEA99_to_TransparentAlmostKhaki_00FFEA99());;
+                return result;
+            }
+
+            // - Layer aggregator
+            // ShapeGroup:  RotationDegrees:90
+            CompositionSpriteShape SpriteShape_11()
+            {
+                // Rotation:90 degrees
+                var geometry = RoundedRectangle_5x12();
+                var result = CreateSpriteShape(geometry, new Matrix3x2(0F, 1F, -1F, 0F, 0F, 0F), AnimatedColorBrush_TransparentAlmostKhaki_00FFEA99_to_TransparentAlmostKhaki_00FFEA99());;
+                return result;
+            }
+
+            // - Layer aggregator
+            // ShapeGroup:  RotationDegrees:60
+            CompositionSpriteShape SpriteShape_12()
+            {
+                // Rotation:60.000001971705764 degrees
+                var geometry = RoundedRectangle_5x12();
+                var result = CreateSpriteShape(geometry, new Matrix3x2(0.49999997F, 0.866025448F, -0.866025448F, 0.49999997F, 0F, 0F), AnimatedColorBrush_TransparentAlmostKhaki_00FFEA99_to_TransparentAlmostKhaki_00FFEA99());;
+                return result;
+            }
+
+            // - Layer aggregator
+            // ShapeGroup:  RotationDegrees:30
+            CompositionSpriteShape SpriteShape_13()
+            {
+                // Rotation:30.000001781168113 degrees
+                var geometry = RoundedRectangle_5x12();
+                var result = CreateSpriteShape(geometry, new Matrix3x2(0.866025388F, 0.5F, -0.5F, 0.866025388F, 0F, 0F), AnimatedColorBrush_TransparentAlmostKhaki_00FFEA99_to_TransparentAlmostKhaki_00FFEA99());;
+                return result;
+            }
+
+            // - Layer aggregator
+            // ShapeGroup:
+            CompositionSpriteShape SpriteShape_14()
+            {
+                var result = _c.CreateSpriteShape(RoundedRectangle_5x12());
+                result.FillBrush = AnimatedColorBrush_TransparentAlmostKhaki_00FFEA99_to_TransparentAlmostKhaki_00FFEA99();
                 return result;
             }
 
             // Layer aggregator
             // ShapeGroup:
-            CompositionSpriteShape SpriteShape_4()
+            CompositionSpriteShape SpriteShape_15()
             {
                 // Offset:<100, 150>
                 var geometry = Ellipse_0();
@@ -572,7 +708,6 @@ namespace LottieBuiltIn.AnimatedVisuals
             }
 
             // - Layer aggregator
-            // ShapeGroup: 
             // Rotation
             ScalarKeyFrameAnimation RotationAngleInDegreesScalarAnimation_0_to_90()
             {
@@ -587,14 +722,14 @@ namespace LottieBuiltIn.AnimatedVisuals
             // - ShapeGroup: 
             // .EllipseGeometry
             // TrimEnd
-            ScalarKeyFrameAnimation TrimEndScalarAnimation_0_to_0()
+            ScalarKeyFrameAnimation TrimEndScalarAnimation_0p005_to_0p005()
             {
                 // Frame 0.
-                var result = CreateScalarKeyFrameAnimation(0F, 0F, HoldThenStepEasingFunction());
+                var result = CreateScalarKeyFrameAnimation(0F, 0.00499999989F, HoldThenStepEasingFunction());
                 // Frame 60.
                 result.InsertKeyFrame(0.5F, 1F, CubicBezierEasingFunction_0());
                 // Frame 120.
-                result.InsertKeyFrame(1F, 0F, CubicBezierEasingFunction_0());
+                result.InsertKeyFrame(1F, 0.00499999989F, CubicBezierEasingFunction_0());
                 return result;
             }
 
@@ -605,12 +740,11 @@ namespace LottieBuiltIn.AnimatedVisuals
                 result.Size = new Vector2(200F, 200F);
                 var shapes = result.Shapes;
                 // Offset:<100, 100>
-                shapes.Add(SpriteShape_0());
-                shapes.Add(ContainerShape());
-                // ShapeGroup:
-                shapes.Add(SpriteShape_3());
+                shapes.Add(SpriteShape_00());
+                shapes.Add(ContainerShape_0());
+                shapes.Add(ContainerShape_1());
                 // Offset:<100, 150>
-                shapes.Add(SpriteShape_4());
+                shapes.Add(SpriteShape_15());
                 return result;
             }
 
@@ -688,12 +822,12 @@ namespace LottieBuiltIn.AnimatedVisuals
                 _animatedGradientStop_0_AlmostMidnightBlue_FF191E4C_to_AlmostMidnightBlue_FF191E4C.StartAnimation("Offset", OffsetScalarAnimation_0_to_0(), AnimationController_0());
                 _animatedGradientStop_0_AlmostSalmon_FFF28C72_to_AlmostSalmon_FFF28C72.StartAnimation("Color", ColorAnimation_AlmostSalmon_FFF28C72_to_AlmostSalmon_FFF28C72(), AnimationController_0());
                 _animatedGradientStop_0_AlmostSalmon_FFF28C72_to_AlmostSalmon_FFF28C72.StartAnimation("Offset", OffsetScalarAnimation_1_to_1(), AnimationController_0());
-                _containerShape.StartAnimation("Scale", ScaleVector2Animation(), AnimationController_0());
-                _containerShape.StartAnimation("Offset", OffsetVector2Animation(), AnimationController_0());
+                _containerShape_0.StartAnimation("Scale", ScaleVector2Animation(), AnimationController_0());
+                _containerShape_0.StartAnimation("Offset", OffsetVector2Animation(), AnimationController_0());
+                _containerShape_1.StartAnimation("RotationAngleInDegrees", RotationAngleInDegreesScalarAnimation_0_to_90(), AnimationController_0());
+                _containerShape_1.StartAnimation("Offset", OffsetVector2Animation(), AnimationController_0());
                 _ellipse_0.StartAnimation("Radius", RadiusVector2Animation(), AnimationController_0());
-                _ellipse_38.StartAnimation("TrimEnd", TrimEndScalarAnimation_0_to_0(), AnimationController_0());
-                _spriteShape_3.StartAnimation("RotationAngleInDegrees", RotationAngleInDegreesScalarAnimation_0_to_90(), AnimationController_0());
-                _spriteShape_3.StartAnimation("Offset", OffsetVector2Animation(), AnimationController_0());
+                _ellipse_38.StartAnimation("TrimEnd", TrimEndScalarAnimation_0p005_to_0p005(), AnimationController_0());
             }
 
             public void DestroyAnimations()
@@ -707,12 +841,12 @@ namespace LottieBuiltIn.AnimatedVisuals
                 _animatedGradientStop_0_AlmostMidnightBlue_FF191E4C_to_AlmostMidnightBlue_FF191E4C.StopAnimation("Offset");
                 _animatedGradientStop_0_AlmostSalmon_FFF28C72_to_AlmostSalmon_FFF28C72.StopAnimation("Color");
                 _animatedGradientStop_0_AlmostSalmon_FFF28C72_to_AlmostSalmon_FFF28C72.StopAnimation("Offset");
-                _containerShape.StopAnimation("Scale");
-                _containerShape.StopAnimation("Offset");
+                _containerShape_0.StopAnimation("Scale");
+                _containerShape_0.StopAnimation("Offset");
+                _containerShape_1.StopAnimation("RotationAngleInDegrees");
+                _containerShape_1.StopAnimation("Offset");
                 _ellipse_0.StopAnimation("Radius");
                 _ellipse_38.StopAnimation("TrimEnd");
-                _spriteShape_3.StopAnimation("RotationAngleInDegrees");
-                _spriteShape_3.StopAnimation("Offset");
             }
 
         }
