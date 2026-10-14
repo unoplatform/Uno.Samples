@@ -27,7 +27,7 @@ The samples added before this layout still carry `uno-sample.json` at the sample
 
 ## The info file: `.studiolive/sample.json`
 
-The file has two groups of fields. The top level is Studio's sample manifest, schema v1 (`https://schemas.platform.uno/sample/v1`). The `showcase` object holds the fields the samples page and the PR checks need. Studio does not read `showcase` (see [Why Studio ignores `showcase`](#why-studio-ignores-showcase)).
+The file has two groups of fields. The top level is Studio's sample manifest, schema v1 (`https://schemas.platform.uno/sample/v1`). The `showcase` object holds the fields the samples page and the PR checks need. Studio does not read `showcase`.
 
 Worked example, from Patina:
 
@@ -105,14 +105,6 @@ Studio's two optional companion files keep their current shape:
 - **Uno Platform version**: `global.json` already pins it. The PR checks read it from there and compare it with what Studio supports.
 - **Source link**: the repo plus the folder gives it; nothing to keep in sync.
 - **Prompt that generated the app**: `user-conversation.json`, when there is one.
-
-## Why Studio ignores `showcase`
-
-Studio loads `sample.json` into its `SampleManifest` record with System.Text.Json source generation (`GalleryJsonContext`). The record declares `$schema`, `displayName`, `description`, `platforms`, `sourcePath`, `userConversation` and `agentContext` only, and the context sets no `UnmappedMemberHandling`, so System.Text.Json keeps its default and skips members it does not know. The catalog service reads the same file through `GitHubManifestFetcher` into a four-field DTO (`displayName`, `description`, `iconUrl`, `screenshots`) with the same default.
-
-The v1 JSON schema has no `additionalProperties: false`, so a file with `showcase` also validates against it.
-
-Both facts were checked on 2026-10-14 against `unoplatform/studio.live` (`src/uno.studiolive/Services/Gallery/` and `src/ContentService/StudioLive.ContentService.Api/Services/Gallery/`). If Studio ever turns on strict member handling, nesting everything under one `showcase` key keeps the change to a single ignore attribute.
 
 ## Adding a sample
 
