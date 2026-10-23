@@ -184,6 +184,18 @@ Sample app to accompany "Adding Custom Sorting Logic" blog post.
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/CustomSorting)
 
+### Custom Title Bar
+
+A desktop app that extends its content into the title bar with `Window.ExtendsContentIntoTitleBar` and `SetTitleBar`, hosting back and pane buttons, a search box and a profile picture.
+
+[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/CustomTitleBar)
+
+### Drawing Backends
+
+The same animated Composition scene rendered by the Skia backend or the opt-in WebGPU backend introduced in Uno Platform 7.0, selected at startup.
+
+[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/DrawingBackends)
+
 ### Dual-Screen
 
 A simple example using the `TwoPaneView` control spanned across dual screens (such as Neo or Duo dual-screen devices for example).
@@ -242,6 +254,12 @@ A pair of samples related to localization:
 - RuntimeCultureSwitching: An example of changing app language while it is running.
 
   [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/LocalizationSamples/RuntimeCultureSwitching) | [Follow the tutorial](https://aka.platform.uno/how-to-hotswap-app-language)
+
+### Lottie Built In
+
+Lottie animations played by `AnimatedVisualPlayer` with no extra package, the same animation compiled with LottieGen and loaded from JSON, plus WinUI's ProgressRing and AnimatedIcon.
+
+[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/LottieBuiltIn)
 
 ### Map Control
 
@@ -376,6 +394,18 @@ An example that demonstrates the use of `PipsPager` with a `FlipView`, in an app
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/PetAdoptUI)
 
+### Photo Gallery
+
+A justified photo gallery built with `ItemsView` and `LinedFlowLayout`, with live controls for line height, spacing, justification and stretch.
+
+[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/PhotoGallery)
+
+### Rich Text Editor
+
+A `RichEditBox` with a formatting toolbar, and a `RichTextBlock` flowing through `RichTextBlockOverflow` columns with highlights and cross-column selection.
+
+[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/RichTextEditor)
+
 ### Uno PongWars
 
 Uno PongWars is a simple minigame that draws inspiration from the [PongWars HTML/JavaScript sample](https://github.com/vnglst/pong-wars), reimagined with the modern capabilities of [Uno Platform](https://platform.uno). Set in the backdrop of the eternal conflict between day and night, good and bad. This sample showcases Material design for a visually appealing experience. It demonstrates the use of [C# Markup](https://aka.platform.uno/csharp-markup) for UI development and [MVUX](https://aka.platform.uno/mvux) for state management, highlighting how Uno Platform enables building responsive games across Web (WebAssembly), Windows, Linux, Mac Catalyst, iOS, and Android from a single codebase. Explore interactive elements like a speed slider and adaptable theme colors, all running natively across platforms.
@@ -420,6 +450,12 @@ This sample shows the use of the SkiaSharp.Skottie component, which allows the p
 This component provides Lottie support for all available Uno Platform targets.
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/SkottieSample)
+
+### Smooth Scrolling
+
+A 1,000-item feed in `ScrollView` and `ListView` with a live readout of frames and fresh scroll positions per second.
+
+[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/SmoothScrolling)
 
 ### Splash Screen Sample
 
