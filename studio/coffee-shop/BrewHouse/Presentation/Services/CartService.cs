@@ -30,30 +30,49 @@ public interface ICartService
     IListState<CartItem> Cart { get; }
     IListState<OrderRecord> Orders { get; }
 
-    // The immutable product catalogue (Home/Menu/ProductDetail all read from this).
-    IReadOnlyList<ProductItem> AllProducts { get; }
+    // The live cart summary (counts + money), derived once from Cart and shared by every screen, so
+    // the totals, the "N items" subtitle and the shell badge all read one projection.
+    //
+    // It ALWAYS carries data. A list state with no items emits None, not an empty list, and Select()
+    // skips None entirely — so a scalar taken straight off Cart.AsFeed().Select(...) renders BLANK on
+    // an empty cart instead of "0 items". SelectData is handed the Option itself, so it can
+    // substitute an empty list and keep this feed (and everything derived from it) genuinely scalar.
+    IFeed<CartSummary> Summary { get; }
 
     ValueTask AddToCartAsync(ProductItem product, CancellationToken ct = default);
     ValueTask IncrementAsync(string productId, CancellationToken ct = default);
     ValueTask DecrementAsync(string productId, CancellationToken ct = default);
-    ValueTask RemoveAsync(string productId, CancellationToken ct = default);
     ValueTask PlaceOrderAsync(CancellationToken ct = default);
 }
 
 public sealed class CartService : ICartService
 {
+    private readonly ICatalogService _catalog;
+
     // CRITICAL: Cart/Orders are once-initialized (assigned in the ctor), NOT expression-bodied
     // getters — a `=>` getter would rebuild a fresh state on every access and break sharing. The
     // service itself is the reactive owner; as a singleton it lives for the app's lifetime.
     public IListState<CartItem> Cart { get; }
     public IListState<OrderRecord> Orders { get; }
+    public IFeed<CartSummary> Summary { get; }
 
-    public IReadOnlyList<ProductItem> AllProducts => CatalogData.AllProducts;
-
-    public CartService()
+    public CartService(ICatalogService catalog)
     {
+        _catalog = catalog;
+
         Cart = ListState<CartItem>.Empty(this);
-        Orders = ListState.Value(this, () => CatalogData.SeedOrders);
+
+        // The order book is a STATE, not a feed: the app edits it (Place Order prepends). But its
+        // initial contents come from the service, so it is seeded with ListState.Async — the history
+        // genuinely loads, and OrdersPage's FeedView shows Progress then Value (or Error) for it.
+        Orders = ListState.Async(this, _catalog.GetOrderHistoryAsync);
+
+        // Built once alongside the states so every screen shares one projection (see the interface
+        // for why this is SelectData and not Select).
+        Summary = Cart
+            .AsFeed()
+            .SelectData<IImmutableList<CartItem>, CartSummary>(items =>
+                new CartSummary(items.SomeOrDefault() ?? ImmutableList<CartItem>.Empty));
     }
 
     // Add a product: merge into the existing line (quantity++) if it's already in the cart (matched
@@ -85,9 +104,6 @@ public sealed class CartService : ICartService
             ct);
         await Cart.RemoveAllAsync(i => i.Quantity <= 0, ct);
     }
-
-    public async ValueTask RemoveAsync(string productId, CancellationToken ct = default)
-        => await Cart.RemoveAllAsync(i => i.ProductId == productId, ct);
 
     // Snapshot the cart into a new order, prepend it to the order book, then clear the cart.
     public async ValueTask PlaceOrderAsync(CancellationToken ct = default)

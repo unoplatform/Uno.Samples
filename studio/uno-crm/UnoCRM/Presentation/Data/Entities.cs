@@ -24,6 +24,19 @@ public enum DealHealth
 }
 
 /// <summary>
+/// How long a deal has sat in its current stage, banded for display: inside its first week,
+/// past it, or past three weeks. A closed deal is <see cref="NotTracked"/> — it is not sitting in
+/// a stage at all any more, so a day count would be meaningless.
+/// </summary>
+public enum DealAgeBand
+{
+    Fresh,
+    Stalling,
+    Stale,
+    NotTracked,
+}
+
+/// <summary>
 /// A single sales deal — the atomic record the whole sample is built from. A stable <see cref="Id"/>
 /// carries key equality so MVUX list feeds and navigation match the right deal.
 /// </summary>
@@ -39,12 +52,32 @@ public partial record Deal(
 {
     private static readonly CultureInfo Usd = CultureInfo.GetCultureInfo("en-US");
 
+    // The pipeline is a fixed sequence, so a stage is a POSITION in it. Reading the length off the
+    // enum keeps the "STEP n OF m" read-out in step with the board if a stage is ever added.
+    private static readonly int StageCount = Enum.GetValues<DealStage>().Length;
+
+    // Dwell-time bands, in days: a deal is Fresh through its first week, Stalling after it, and
+    // Stale once it has sat for three weeks. AgeScaleDays is the full span of the dwell gauge, so
+    // the two thresholds land at 8/30 and 21/30 of its width.
+    private const int StallingFromDays = 8;
+    private const int StaleFromDays = 21;
+    private const int AgeScaleDays = 30;
+
+    // A deal on its first day is 1/30th of the gauge — a sliver that reads as an empty track rather
+    // than as a small amount of time. The fill starts at a visible minimum instead, still well short
+    // of the first threshold notch at 8/30, so a fresh deal cannot be mistaken for a stalling one.
+    private const double MinGaugeFill = 0.07;
+
     public bool IsWon => Stage == DealStage.ClosedWon;
 
     /// <summary>e.g. <c>$45,000</c>.</summary>
     public string AmountDisplay => Amount.ToString("C0", Usd);
 
-    /// <summary>Right-aligned meta on a card: the age in days, or "Won" for closed deals.</summary>
+    /// <summary>
+    /// Right-aligned meta on a pipeline card: the age in days, or "Won" for closed deals. It reads
+    /// as a card badge, not as a value for an "age" field — a detail view wants
+    /// <see cref="AgeInStageDisplay"/> and <see cref="AgeBand"/> instead.
+    /// </summary>
     public string MetaDisplay => IsWon ? "Won" : $"{AgeDays}d";
 
     /// <summary>Human-readable stage label, e.g. "Closed Won".</summary>
@@ -58,16 +91,6 @@ public partial record Deal(
         _ => Stage.ToString(),
     };
 
-    /// <summary>Resource key for the card's accent dot / check — green when won, else by health.</summary>
-    public string AccentKey => IsWon
-        ? "DashboardGreenBrush"
-        : Health switch
-        {
-            DealHealth.AtRisk => "DashboardRedBrush",
-            DealHealth.Watch => "DashboardAmberBrush",
-            _ => "DashboardGreenBrush",
-        };
-
     /// <summary>Human-readable health label for a detail view.</summary>
     public string HealthDisplay => Health switch
     {
@@ -75,19 +98,57 @@ public partial record Deal(
         DealHealth.Watch => "Watch",
         _ => "Healthy",
     };
+
+    /// <summary>1-based position of <see cref="Stage"/> in the pipeline, e.g. 4 for Negotiation.</summary>
+    public int StageNumber => (int)Stage + 1;
+
+    /// <summary>
+    /// The stage stated as a position rather than a color, e.g. <c>STEP 4 OF 5</c> — so the stage
+    /// still reads when the hue does not.
+    /// </summary>
+    public string StagePositionDisplay => $"STEP {StageNumber} OF {StageCount}";
+
+    /// <summary>Dwell time in the current stage, e.g. <c>47 days</c>. Not used for closed deals.</summary>
+    public string AgeInStageDisplay => AgeDays == 1 ? "1 day" : $"{AgeDays} days";
+
+    /// <summary>Which staleness band <see cref="AgeDays"/> falls in; a closed deal is not tracked.</summary>
+    public DealAgeBand AgeBand => IsWon
+        ? DealAgeBand.NotTracked
+        : AgeDays >= StaleFromDays
+            ? DealAgeBand.Stale
+            : AgeDays >= StallingFromDays
+                ? DealAgeBand.Stalling
+                : DealAgeBand.Fresh;
+
+    /// <summary>Human-readable staleness band, e.g. "Stalling"; empty for a closed deal.</summary>
+    public string AgeBandDisplay => AgeBand switch
+    {
+        DealAgeBand.Fresh => "Fresh",
+        DealAgeBand.Stalling => "Stalling",
+        DealAgeBand.Stale => "Stale",
+        _ => string.Empty,
+    };
+
+    /// <summary>
+    /// How full the dwell gauge is (0..1) across its <see cref="AgeScaleDays"/>-day span. A deal
+    /// older than the span pins the gauge full — the day count next to it carries the real number.
+    /// </summary>
+    public double AgeProgress => Math.Clamp(AgeDays / (double)AgeScaleDays, MinGaugeFill, 1d);
 }
 
-/// <summary>A pipeline column: a stage plus the deals currently in it, with its palette keys.
-/// <see cref="AccentKey"/> fills the stage dot; <see cref="DeepKey"/> is the darker (light theme)
-/// / lighter (dark theme) text variant for the small count set on the <see cref="SoftKey"/> tint.</summary>
+/// <summary>A pipeline column: a stage plus the deals currently in it. Carries no presentation — each
+/// column's dot and count-badge palette lives in that stage's own keyed header template, so the
+/// brushes resolve against the element's theme rather than travelling as strings.</summary>
+// NOTE — this record is a FEED VALUE type (see the Model that exposes it), and the MVUX generator
+// emits a bindable proxy for every feed value type which it constructs with an object initializer.
+// `required` members reject that, so the build fails inside the generated code. The members therefore
+// carry defaults instead of `required`: the record stays default-constructible for the generator and
+// non-null for the compiler, and every call site in CrmData still sets all of them explicitly.
 public partial record PipelineStage
 {
-    public required string Name { get; init; }
-    public required DealStage Stage { get; init; }
-    public required string AccentKey { get; init; }
-    public required string DeepKey { get; init; }
-    public required string SoftKey { get; init; }
-    public required IReadOnlyList<Deal> Deals { get; init; }
+    public string Name { get; init; } = string.Empty;
+    public DealStage Stage { get; init; }
+    public IReadOnlyList<Deal> Deals { get; init; } = [];
 
     public int Count => Deals.Count;
 }
@@ -99,9 +160,7 @@ public partial record PipelineStage
 /// </summary>
 public partial record FunnelStage
 {
-    public required string Name { get; init; }
     public required int Count { get; init; }
-    public required string FillKey { get; init; }
     public required double FillFraction { get; init; }
 }
 
@@ -125,19 +184,36 @@ public partial record ContactLocation(
     double Latitude,
     double Longitude);
 
+/// <summary>Which way a KPI moved over the comparison period.</summary>
+public enum KpiTrend
+{
+    Up,
+    Down,
+    Flat,
+}
+
 /// <summary>Everything the Dashboard page shows, derived once from <see cref="CrmData.Deals"/>.</summary>
+// NOTE — this record is a FEED VALUE type (see the Model that exposes it), and the MVUX generator
+// emits a bindable proxy for every feed value type which it constructs with an object initializer.
+// `required` members reject that, so the build fails inside the generated code. The members therefore
+// carry defaults instead of `required`: the record stays default-constructible for the generator and
+// non-null for the compiler, and every call site in CrmData still sets all of them explicitly.
 public partial record DashboardData
 {
-    public required string TotalLeadsText { get; init; }
-    public required string TotalLeadsDelta { get; init; }
-    public required string ActiveDealsText { get; init; }
-    public required string ActiveDealsDelta { get; init; }
-    public required string RevenueText { get; init; }
-    public required string RevenueDelta { get; init; }
-    public required string ConversionRateText { get; init; }
-    public required string ConversionRateDelta { get; init; }
-    public required IReadOnlyList<FunnelStage> Funnel { get; init; }
-    public required IReadOnlyList<ActivityItem> Activities { get; init; }
+    public string TotalLeadsText { get; init; } = string.Empty;
+    public string TotalLeadsDelta { get; init; } = string.Empty;
+    public KpiTrend TotalLeadsTrend { get; init; }
+    public string ActiveDealsText { get; init; } = string.Empty;
+    public string ActiveDealsDelta { get; init; } = string.Empty;
+    public KpiTrend ActiveDealsTrend { get; init; }
+    public string RevenueText { get; init; } = string.Empty;
+    public string RevenueDelta { get; init; } = string.Empty;
+    public KpiTrend RevenueTrend { get; init; }
+    public string ConversionRateText { get; init; } = string.Empty;
+    public string ConversionRateDelta { get; init; } = string.Empty;
+    public KpiTrend ConversionRateTrend { get; init; }
+    public IReadOnlyList<FunnelStage> Funnel { get; init; } = [];
+    public IReadOnlyList<ActivityItem> Activities { get; init; } = [];
 }
 
 /// <summary>

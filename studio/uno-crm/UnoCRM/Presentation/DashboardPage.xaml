@@ -1,45 +1,10 @@
-﻿<Page x:Class="UnoCRM.Presentation.DashboardPage"
+<Page x:Class="UnoCRM.Presentation.DashboardPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:utu="using:Uno.Toolkit.UI"
+      xmlns:controls="using:UnoCRM.Controls"
+      xmlns:mvux="using:Uno.Extensions.Reactive.UI"
       Background="{ThemeResource DashboardPageBackgroundBrush}">
-  <Page.Resources>
-    <!-- Recent-activity rows, bound to the model's Activities: each shows a title, a detail line
-         and a relative timestamp. -->
-    <DataTemplate x:Key="DesktopActivityTemplate">
-      <Border BorderBrush="{ThemeResource DashboardBorderBrush}" BorderThickness="0,0,0,1" Padding="0,14">
-        <Grid ColumnSpacing="12">
-          <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="Auto" />
-          </Grid.ColumnDefinitions>
-          <StackPanel Spacing="4">
-            <TextBlock Text="{Binding Title}" Style="{StaticResource DashboardBodyTextStyle}" />
-            <TextBlock Text="{Binding Detail}" Style="{StaticResource DashboardSubtleTextStyle}" />
-          </StackPanel>
-          <TextBlock Grid.Column="1" Text="{Binding TimeAgo}"
-                     Style="{StaticResource DashboardSubtleTextStyle}" FontSize="12" />
-        </Grid>
-      </Border>
-    </DataTemplate>
-
-    <DataTemplate x:Key="MobileActivityTemplate">
-      <Border BorderBrush="{ThemeResource DashboardBorderBrush}" BorderThickness="0,0,0,1" Padding="16,16">
-        <Grid ColumnSpacing="14">
-          <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="Auto" />
-          </Grid.ColumnDefinitions>
-          <StackPanel Spacing="4" VerticalAlignment="Center">
-            <TextBlock Text="{Binding Title}" Style="{StaticResource DashboardBodyTextStyle}" />
-            <TextBlock Text="{Binding Detail}" Style="{StaticResource DashboardSubtleTextStyle}" />
-          </StackPanel>
-          <TextBlock Grid.Column="1" Text="{Binding TimeAgo}"
-                     Style="{StaticResource DashboardSubtleTextStyle}" FontSize="12" VerticalAlignment="Center" />
-        </Grid>
-      </Border>
-    </DataTemplate>
-  </Page.Resources>
   <Grid Background="{ThemeResource DashboardPageBackgroundBrush}">
     <Grid x:Name="DesktopRoot" Visibility="{utu:Responsive Narrow=Collapsed, Wide=Visible}">
       <ScrollViewer VerticalScrollBarVisibility="Auto"
@@ -64,7 +29,7 @@
 
             <StackPanel Grid.Column="1"
                         Orientation="Horizontal"
-                        Spacing="16"
+                        Spacing="{ThemeResource Space400}"
                         VerticalAlignment="Center">
               <Grid Width="280"
                     VerticalAlignment="Center">
@@ -91,7 +56,7 @@
 
               <Border Width="32"
                       Height="32"
-                      CornerRadius="16"
+                      CornerRadius="{ThemeResource RadiusFullCornerRadius}"
                       Background="{ThemeResource DashboardAccentBrush}" />
             </StackPanel>
           </Grid>
@@ -117,12 +82,11 @@
                 </Grid.RowDefinitions>
                 <TextBlock Text="TOTAL LEADS"
                            Style="{StaticResource DashboardSectionLabelStyle}" />
-                <StackPanel Grid.Row="2" Spacing="2">
+                <StackPanel Grid.Row="2" Spacing="{ThemeResource Space050}">
                   <TextBlock Text="{Binding TotalLeadsText}"
                              Style="{StaticResource DashboardMetricValueStyle}" />
-                  <TextBlock Text="{Binding TotalLeadsDelta}"
-                             Foreground="{ThemeResource DashboardAccentBrush}"
-                             FontSize="13" />
+                  <controls:KpiTrendDelta Text="{Binding Overview.TotalLeadsDelta}"
+                                          Trend="{Binding Overview.TotalLeadsTrend}" />
                 </StackPanel>
               </Grid>
             </Border>
@@ -139,12 +103,11 @@
                 </Grid.RowDefinitions>
                 <TextBlock Text="ACTIVE DEALS"
                            Style="{StaticResource DashboardSectionLabelStyle}" />
-                <StackPanel Grid.Row="2" Spacing="2">
+                <StackPanel Grid.Row="2" Spacing="{ThemeResource Space050}">
                   <TextBlock Text="{Binding ActiveDealsText}"
                              Style="{StaticResource DashboardMetricValueStyle}" />
-                  <TextBlock Text="{Binding ActiveDealsDelta}"
-                             Foreground="{ThemeResource DashboardAccentBrush}"
-                             FontSize="13" />
+                  <controls:KpiTrendDelta Text="{Binding Overview.ActiveDealsDelta}"
+                                          Trend="{Binding Overview.ActiveDealsTrend}" />
                 </StackPanel>
               </Grid>
             </Border>
@@ -161,12 +124,11 @@
                 </Grid.RowDefinitions>
                 <TextBlock Text="REVENUE THIS MONTH"
                            Style="{StaticResource DashboardSectionLabelStyle}" />
-                <StackPanel Grid.Row="2" Spacing="2">
+                <StackPanel Grid.Row="2" Spacing="{ThemeResource Space050}">
                   <TextBlock Text="{Binding RevenueText}"
                              Style="{StaticResource DashboardMetricValueStyle}" />
-                  <TextBlock Text="{Binding RevenueDelta}"
-                             Foreground="{ThemeResource DashboardAccentBrush}"
-                             FontSize="13" />
+                  <controls:KpiTrendDelta Text="{Binding Overview.RevenueDelta}"
+                                          Trend="{Binding Overview.RevenueTrend}" />
                 </StackPanel>
               </Grid>
             </Border>
@@ -183,12 +145,11 @@
                 </Grid.RowDefinitions>
                 <TextBlock Text="CONVERSION RATE"
                            Style="{StaticResource DashboardSectionLabelStyle}" />
-                <StackPanel Grid.Row="2" Spacing="2">
+                <StackPanel Grid.Row="2" Spacing="{ThemeResource Space050}">
                   <TextBlock Text="{Binding ConversionRateText}"
                              Style="{StaticResource DashboardMetricValueStyle}" />
-                  <TextBlock Text="{Binding ConversionRateDelta}"
-                             Foreground="{ThemeResource DashboardAccentBrush}"
-                             FontSize="13" />
+                  <controls:KpiTrendDelta Text="{Binding Overview.ConversionRateDelta}"
+                                          Trend="{Binding Overview.ConversionRateTrend}" />
                 </StackPanel>
               </Grid>
             </Border>
@@ -205,12 +166,12 @@
                     Style="{StaticResource DashboardPanelBorderStyle}"
                     Padding="20,14,20,18"
                     MinHeight="520">
-              <StackPanel Spacing="24">
+              <StackPanel Spacing="{ThemeResource Space600}">
                 <TextBlock Text="Pipeline Summary"
                            Style="{StaticResource DashboardSectionTitleStyle}" />
 
                 <StackPanel Spacing="14">
-                  <StackPanel Spacing="8">
+                  <StackPanel Spacing="{ThemeResource Space200}">
                     <Grid>
                       <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
@@ -219,23 +180,23 @@
                       <TextBlock Text="New Lead"
                                  Style="{StaticResource DashboardBodyTextStyle}" />
                       <TextBlock Grid.Column="1"
-                                 Text="{Binding Funnel[0].Count}"
+                                 Text="{Binding Overview.Funnel[0].Count}"
                                  Style="{StaticResource DashboardBodyTextStyle}" />
                     </Grid>
                     <Grid Height="8">
                       <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="{Binding Funnel[0].FillFraction, Converter={StaticResource DoubleToGridLength}}" />
-                        <ColumnDefinition Width="{Binding Funnel[0].FillFraction, Converter={StaticResource DoubleToGridLength}, ConverterParameter=Remainder}" />
+                        <ColumnDefinition Width="{Binding Overview.Funnel[0].FillFraction, Converter={StaticResource DoubleToGridLength}}" />
+                        <ColumnDefinition Width="{Binding Overview.Funnel[0].FillFraction, Converter={StaticResource DoubleToGridLength}, ConverterParameter=Remainder}" />
                       </Grid.ColumnDefinitions>
                       <Border Grid.ColumnSpan="2"
                               Background="{ThemeResource DashboardBorderBrush}"
-                              CornerRadius="4" />
+                              CornerRadius="{ThemeResource Radius100CornerRadius}" />
                       <Border Background="{ThemeResource DashboardBlueBrush}"
-                              CornerRadius="4" />
+                              CornerRadius="{ThemeResource Radius100CornerRadius}" />
                     </Grid>
                   </StackPanel>
 
-                  <StackPanel Spacing="8">
+                  <StackPanel Spacing="{ThemeResource Space200}">
                     <Grid>
                       <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
@@ -244,23 +205,23 @@
                       <TextBlock Text="Qualified"
                                  Style="{StaticResource DashboardBodyTextStyle}" />
                       <TextBlock Grid.Column="1"
-                                 Text="{Binding Funnel[1].Count}"
+                                 Text="{Binding Overview.Funnel[1].Count}"
                                  Style="{StaticResource DashboardBodyTextStyle}" />
                     </Grid>
                     <Grid Height="8">
                       <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="{Binding Funnel[1].FillFraction, Converter={StaticResource DoubleToGridLength}}" />
-                        <ColumnDefinition Width="{Binding Funnel[1].FillFraction, Converter={StaticResource DoubleToGridLength}, ConverterParameter=Remainder}" />
+                        <ColumnDefinition Width="{Binding Overview.Funnel[1].FillFraction, Converter={StaticResource DoubleToGridLength}}" />
+                        <ColumnDefinition Width="{Binding Overview.Funnel[1].FillFraction, Converter={StaticResource DoubleToGridLength}, ConverterParameter=Remainder}" />
                       </Grid.ColumnDefinitions>
                       <Border Grid.ColumnSpan="2"
                               Background="{ThemeResource DashboardBorderBrush}"
-                              CornerRadius="4" />
+                              CornerRadius="{ThemeResource Radius100CornerRadius}" />
                       <Border Background="{ThemeResource DashboardPurpleBrush}"
-                              CornerRadius="4" />
+                              CornerRadius="{ThemeResource Radius100CornerRadius}" />
                     </Grid>
                   </StackPanel>
 
-                  <StackPanel Spacing="8">
+                  <StackPanel Spacing="{ThemeResource Space200}">
                     <Grid>
                       <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
@@ -269,23 +230,23 @@
                       <TextBlock Text="Proposal"
                                  Style="{StaticResource DashboardBodyTextStyle}" />
                       <TextBlock Grid.Column="1"
-                                 Text="{Binding Funnel[2].Count}"
+                                 Text="{Binding Overview.Funnel[2].Count}"
                                  Style="{StaticResource DashboardBodyTextStyle}" />
                     </Grid>
                     <Grid Height="8">
                       <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="{Binding Funnel[2].FillFraction, Converter={StaticResource DoubleToGridLength}}" />
-                        <ColumnDefinition Width="{Binding Funnel[2].FillFraction, Converter={StaticResource DoubleToGridLength}, ConverterParameter=Remainder}" />
+                        <ColumnDefinition Width="{Binding Overview.Funnel[2].FillFraction, Converter={StaticResource DoubleToGridLength}}" />
+                        <ColumnDefinition Width="{Binding Overview.Funnel[2].FillFraction, Converter={StaticResource DoubleToGridLength}, ConverterParameter=Remainder}" />
                       </Grid.ColumnDefinitions>
                       <Border Grid.ColumnSpan="2"
                               Background="{ThemeResource DashboardBorderBrush}"
-                              CornerRadius="4" />
+                              CornerRadius="{ThemeResource Radius100CornerRadius}" />
                       <Border Background="{ThemeResource DashboardAmberBrush}"
-                              CornerRadius="4" />
+                              CornerRadius="{ThemeResource Radius100CornerRadius}" />
                     </Grid>
                   </StackPanel>
 
-                  <StackPanel Spacing="8">
+                  <StackPanel Spacing="{ThemeResource Space200}">
                     <Grid>
                       <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
@@ -294,23 +255,23 @@
                       <TextBlock Text="Negotiation"
                                  Style="{StaticResource DashboardBodyTextStyle}" />
                       <TextBlock Grid.Column="1"
-                                 Text="{Binding Funnel[3].Count}"
+                                 Text="{Binding Overview.Funnel[3].Count}"
                                  Style="{StaticResource DashboardBodyTextStyle}" />
                     </Grid>
                     <Grid Height="8">
                       <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="{Binding Funnel[3].FillFraction, Converter={StaticResource DoubleToGridLength}}" />
-                        <ColumnDefinition Width="{Binding Funnel[3].FillFraction, Converter={StaticResource DoubleToGridLength}, ConverterParameter=Remainder}" />
+                        <ColumnDefinition Width="{Binding Overview.Funnel[3].FillFraction, Converter={StaticResource DoubleToGridLength}}" />
+                        <ColumnDefinition Width="{Binding Overview.Funnel[3].FillFraction, Converter={StaticResource DoubleToGridLength}, ConverterParameter=Remainder}" />
                       </Grid.ColumnDefinitions>
                       <Border Grid.ColumnSpan="2"
                               Background="{ThemeResource DashboardBorderBrush}"
-                              CornerRadius="4" />
+                              CornerRadius="{ThemeResource Radius100CornerRadius}" />
                       <Border Background="{ThemeResource DashboardRedBrush}"
-                              CornerRadius="4" />
+                              CornerRadius="{ThemeResource Radius100CornerRadius}" />
                     </Grid>
                   </StackPanel>
 
-                  <StackPanel Spacing="8">
+                  <StackPanel Spacing="{ThemeResource Space200}">
                     <Grid>
                       <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
@@ -319,19 +280,19 @@
                       <TextBlock Text="Closed Won"
                                  Style="{StaticResource DashboardBodyTextStyle}" />
                       <TextBlock Grid.Column="1"
-                                 Text="{Binding Funnel[4].Count}"
+                                 Text="{Binding Overview.Funnel[4].Count}"
                                  Style="{StaticResource DashboardBodyTextStyle}" />
                     </Grid>
                     <Grid Height="8">
                       <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="{Binding Funnel[4].FillFraction, Converter={StaticResource DoubleToGridLength}}" />
-                        <ColumnDefinition Width="{Binding Funnel[4].FillFraction, Converter={StaticResource DoubleToGridLength}, ConverterParameter=Remainder}" />
+                        <ColumnDefinition Width="{Binding Overview.Funnel[4].FillFraction, Converter={StaticResource DoubleToGridLength}}" />
+                        <ColumnDefinition Width="{Binding Overview.Funnel[4].FillFraction, Converter={StaticResource DoubleToGridLength}, ConverterParameter=Remainder}" />
                       </Grid.ColumnDefinitions>
                       <Border Grid.ColumnSpan="2"
                               Background="{ThemeResource DashboardBorderBrush}"
-                              CornerRadius="4" />
+                              CornerRadius="{ThemeResource Radius100CornerRadius}" />
                       <Border Background="{ThemeResource DashboardGreenBrush}"
-                              CornerRadius="4" />
+                              CornerRadius="{ThemeResource Radius100CornerRadius}" />
                     </Grid>
                   </StackPanel>
                 </StackPanel>
@@ -346,8 +307,12 @@
                 <TextBlock Text="Recent Activity"
                            Style="{StaticResource DashboardSectionTitleStyle}" />
 
-                <ItemsControl ItemsSource="{Binding Activities}"
-                              ItemTemplate="{StaticResource DesktopActivityTemplate}" />
+                <!-- Its own request: "no recent activity" is a real state for a quiet account, and
+                     a failed feed is worth showing rather than leaving a blank panel. -->
+                <mvux:FeedView Source="{Binding Activities}"
+                               ValueTemplate="{StaticResource DesktopActivityListTemplate}"
+                               NoneTemplate="{StaticResource NoActivityTemplate}"
+                               ErrorTemplate="{StaticResource CrmErrorTemplate}" />
               </StackPanel>
             </Border>
           </Grid>
@@ -375,7 +340,7 @@
               <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
 
-            <StackPanel Spacing="4">
+            <StackPanel Spacing="{ThemeResource Space100}">
               <TextBlock Text="Good morning, Alex"
                          Style="{StaticResource DashboardCardTitleStyle}"
                          FontSize="32" />
@@ -412,9 +377,8 @@
                 <TextBlock Text="{Binding TotalLeadsText}"
                            Style="{StaticResource DashboardMetricValueStyle}"
                            FontSize="44" />
-                <TextBlock Text="{Binding TotalLeadsDelta}"
-                           Foreground="{ThemeResource DashboardAccentBrush}"
-                           FontSize="14" />
+                <controls:KpiTrendDelta Text="{Binding Overview.TotalLeadsDelta}"
+                                        Trend="{Binding Overview.TotalLeadsTrend}" />
               </StackPanel>
             </Border>
 
@@ -428,9 +392,8 @@
                 <TextBlock Text="{Binding ActiveDealsText}"
                            Style="{StaticResource DashboardMetricValueStyle}"
                            FontSize="44" />
-                <TextBlock Text="{Binding ActiveDealsDelta}"
-                           Foreground="{ThemeResource DashboardAccentBrush}"
-                           FontSize="14" />
+                <controls:KpiTrendDelta Text="{Binding Overview.ActiveDealsDelta}"
+                                        Trend="{Binding Overview.ActiveDealsTrend}" />
               </StackPanel>
             </Border>
           </Grid>
@@ -456,17 +419,17 @@
                         VerticalAlignment="Center"
                         Margin="10,0,0,0">
                     <Grid.ColumnDefinitions>
-                      <ColumnDefinition Width="{Binding Funnel[0].FillFraction, Converter={StaticResource DoubleToGridLength}}" />
-                      <ColumnDefinition Width="{Binding Funnel[0].FillFraction, Converter={StaticResource DoubleToGridLength}, ConverterParameter=Remainder}" />
+                      <ColumnDefinition Width="{Binding Overview.Funnel[0].FillFraction, Converter={StaticResource DoubleToGridLength}}" />
+                      <ColumnDefinition Width="{Binding Overview.Funnel[0].FillFraction, Converter={StaticResource DoubleToGridLength}, ConverterParameter=Remainder}" />
                     </Grid.ColumnDefinitions>
                     <Border Grid.ColumnSpan="2"
                             Background="{ThemeResource DashboardBorderBrush}"
-                            CornerRadius="5" />
+                            CornerRadius="{ThemeResource Radius100CornerRadius}" />
                     <Border Background="{ThemeResource DashboardBlueBrush}"
-                            CornerRadius="5" />
+                            CornerRadius="{ThemeResource Radius100CornerRadius}" />
                   </Grid>
                   <TextBlock Grid.Column="2"
-                             Text="{Binding Funnel[0].Count}"
+                             Text="{Binding Overview.Funnel[0].Count}"
                              Style="{StaticResource DashboardBodyTextStyle}" />
                 </Grid>
 
@@ -483,17 +446,17 @@
                         VerticalAlignment="Center"
                         Margin="10,0,0,0">
                     <Grid.ColumnDefinitions>
-                      <ColumnDefinition Width="{Binding Funnel[1].FillFraction, Converter={StaticResource DoubleToGridLength}}" />
-                      <ColumnDefinition Width="{Binding Funnel[1].FillFraction, Converter={StaticResource DoubleToGridLength}, ConverterParameter=Remainder}" />
+                      <ColumnDefinition Width="{Binding Overview.Funnel[1].FillFraction, Converter={StaticResource DoubleToGridLength}}" />
+                      <ColumnDefinition Width="{Binding Overview.Funnel[1].FillFraction, Converter={StaticResource DoubleToGridLength}, ConverterParameter=Remainder}" />
                     </Grid.ColumnDefinitions>
                     <Border Grid.ColumnSpan="2"
                             Background="{ThemeResource DashboardBorderBrush}"
-                            CornerRadius="5" />
+                            CornerRadius="{ThemeResource Radius100CornerRadius}" />
                     <Border Background="{ThemeResource DashboardPurpleBrush}"
-                            CornerRadius="5" />
+                            CornerRadius="{ThemeResource Radius100CornerRadius}" />
                   </Grid>
                   <TextBlock Grid.Column="2"
-                             Text="{Binding Funnel[1].Count}"
+                             Text="{Binding Overview.Funnel[1].Count}"
                              Style="{StaticResource DashboardBodyTextStyle}" />
                 </Grid>
 
@@ -510,17 +473,17 @@
                         VerticalAlignment="Center"
                         Margin="10,0,0,0">
                     <Grid.ColumnDefinitions>
-                      <ColumnDefinition Width="{Binding Funnel[2].FillFraction, Converter={StaticResource DoubleToGridLength}}" />
-                      <ColumnDefinition Width="{Binding Funnel[2].FillFraction, Converter={StaticResource DoubleToGridLength}, ConverterParameter=Remainder}" />
+                      <ColumnDefinition Width="{Binding Overview.Funnel[2].FillFraction, Converter={StaticResource DoubleToGridLength}}" />
+                      <ColumnDefinition Width="{Binding Overview.Funnel[2].FillFraction, Converter={StaticResource DoubleToGridLength}, ConverterParameter=Remainder}" />
                     </Grid.ColumnDefinitions>
                     <Border Grid.ColumnSpan="2"
                             Background="{ThemeResource DashboardBorderBrush}"
-                            CornerRadius="5" />
+                            CornerRadius="{ThemeResource Radius100CornerRadius}" />
                     <Border Background="{ThemeResource DashboardAmberBrush}"
-                            CornerRadius="5" />
+                            CornerRadius="{ThemeResource Radius100CornerRadius}" />
                   </Grid>
                   <TextBlock Grid.Column="2"
-                             Text="{Binding Funnel[2].Count}"
+                             Text="{Binding Overview.Funnel[2].Count}"
                              Style="{StaticResource DashboardBodyTextStyle}" />
                 </Grid>
 
@@ -537,17 +500,17 @@
                         VerticalAlignment="Center"
                         Margin="10,0,0,0">
                     <Grid.ColumnDefinitions>
-                      <ColumnDefinition Width="{Binding Funnel[3].FillFraction, Converter={StaticResource DoubleToGridLength}}" />
-                      <ColumnDefinition Width="{Binding Funnel[3].FillFraction, Converter={StaticResource DoubleToGridLength}, ConverterParameter=Remainder}" />
+                      <ColumnDefinition Width="{Binding Overview.Funnel[3].FillFraction, Converter={StaticResource DoubleToGridLength}}" />
+                      <ColumnDefinition Width="{Binding Overview.Funnel[3].FillFraction, Converter={StaticResource DoubleToGridLength}, ConverterParameter=Remainder}" />
                     </Grid.ColumnDefinitions>
                     <Border Grid.ColumnSpan="2"
                             Background="{ThemeResource DashboardBorderBrush}"
-                            CornerRadius="5" />
+                            CornerRadius="{ThemeResource Radius100CornerRadius}" />
                     <Border Background="{ThemeResource DashboardRedBrush}"
-                            CornerRadius="5" />
+                            CornerRadius="{ThemeResource Radius100CornerRadius}" />
                   </Grid>
                   <TextBlock Grid.Column="2"
-                             Text="{Binding Funnel[3].Count}"
+                             Text="{Binding Overview.Funnel[3].Count}"
                              Style="{StaticResource DashboardBodyTextStyle}" />
                 </Grid>
 
@@ -564,17 +527,17 @@
                         VerticalAlignment="Center"
                         Margin="10,0,0,0">
                     <Grid.ColumnDefinitions>
-                      <ColumnDefinition Width="{Binding Funnel[4].FillFraction, Converter={StaticResource DoubleToGridLength}}" />
-                      <ColumnDefinition Width="{Binding Funnel[4].FillFraction, Converter={StaticResource DoubleToGridLength}, ConverterParameter=Remainder}" />
+                      <ColumnDefinition Width="{Binding Overview.Funnel[4].FillFraction, Converter={StaticResource DoubleToGridLength}}" />
+                      <ColumnDefinition Width="{Binding Overview.Funnel[4].FillFraction, Converter={StaticResource DoubleToGridLength}, ConverterParameter=Remainder}" />
                     </Grid.ColumnDefinitions>
                     <Border Grid.ColumnSpan="2"
                             Background="{ThemeResource DashboardBorderBrush}"
-                            CornerRadius="5" />
+                            CornerRadius="{ThemeResource Radius100CornerRadius}" />
                     <Border Background="{ThemeResource DashboardGreenBrush}"
-                            CornerRadius="5" />
+                            CornerRadius="{ThemeResource Radius100CornerRadius}" />
                   </Grid>
                   <TextBlock Grid.Column="2"
-                             Text="{Binding Funnel[4].Count}"
+                             Text="{Binding Overview.Funnel[4].Count}"
                              Style="{StaticResource DashboardBodyTextStyle}" />
                 </Grid>
               </StackPanel>
@@ -588,8 +551,10 @@
 
             <Border Style="{StaticResource DashboardPanelBorderStyle}"
                     Padding="0,6,0,6">
-              <ItemsControl ItemsSource="{Binding Activities}"
-                            ItemTemplate="{StaticResource MobileActivityTemplate}" />
+              <mvux:FeedView Source="{Binding Activities}"
+                             ValueTemplate="{StaticResource MobileActivityListTemplate}"
+                             NoneTemplate="{StaticResource NoActivityTemplate}"
+                             ErrorTemplate="{StaticResource CrmErrorTemplate}" />
             </Border>
           </StackPanel>
         </Grid>

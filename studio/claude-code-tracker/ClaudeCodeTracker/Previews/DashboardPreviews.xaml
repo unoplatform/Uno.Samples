@@ -1,0 +1,25 @@
+<hd:PreviewGroup x:Class="ClaudeCodeTracker.Previews.DashboardPreviews"
+                 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                 xmlns:local="using:ClaudeCodeTracker.Presentation"
+                 xmlns:mock="using:ClaudeCodeTracker.Presentation.MockData"
+                 xmlns:hd="using:Uno.UI.HotDesign"
+                 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                 mc:Ignorable="d">
+
+    <!-- DashboardPage in the two situations its data can be in: a month of real usage, and one
+         that has barely started — where both strips fall through to their empty states and the
+         figures above them agree.
+         Each child supplies the page's design-time DataContext in XAML — the only place the
+         generated-ViewModel mock may be built, since the page Models now take ITrackerService
+         by constructor injection. No size on the <hd:Preview>: a page fills the canvas. -->
+    <hd:Preview PreviewName="Busy Month" Visibility="Collapsed">
+        <local:DashboardPage DataContext="{x:Bind mock:DashboardPageMockData.Data}" />
+    </hd:Preview>
+
+    <hd:Preview PreviewName="Quiet Month" Visibility="Collapsed">
+        <local:DashboardPage DataContext="{x:Bind mock:DashboardPageMockData.QuietMonth}" />
+    </hd:Preview>
+
+</hd:PreviewGroup>

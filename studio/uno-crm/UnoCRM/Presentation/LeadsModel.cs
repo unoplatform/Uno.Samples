@@ -1,34 +1,61 @@
 using LiveChartsCore;
 using LiveChartsCore.SkiaSharpView;
 using LiveChartsCore.SkiaSharpView.Painting;
-using SkiaSharp;
-using Windows.UI;
+using UnoCRM.Presentation.Services;
 
 namespace UnoCRM.Presentation;
 
 /// <summary>
-/// Backs <see cref="LeadsPage"/>. A pure projection of the shared, read-only CRM data — like
-/// <see cref="DashboardModel"/> everything is exposed through computed getters with no
-/// constructor-assigned state.
+/// Backs <see cref="LeadsPage"/>. The analytics are ONE cached request to <see cref="ICrmService"/>;
+/// the KPI texts are scalar projections of it and the top-open-leads list is a list feed the page
+/// renders through a FeedView.
 ///
-/// The LiveCharts <c>ISeries</c>/<c>Axis</c> objects need SkiaSharp paints, so they can't be pure
-/// XAML; each is built once on first bind and cached on an instance field, so the colours
-/// re-resolve from the theme whenever a fresh model is created after a light/dark switch. Because
-/// the cache hands out one shared object per property, each property must be bound to exactly one
-/// chart control: LiveCharts series/axes carry per-chart state and can't be attached to two charts
-/// at once, which is why <see cref="LeadsPage"/> keeps a single responsive tree instead of
-/// duplicated desktop/mobile copies.
+/// The LiveCharts objects need SkiaSharp paints, so they can't be pure XAML; each is built by
+/// <see cref="LeadsChartFactory"/> from the loaded analytics.
+///
+/// IMPORTANT — the charts are the one surface here that is deliberately NOT reactive, and this was
+/// established by trying the alternative and watching it fail. Typing the chart properties as
+/// <c>IFeed&lt;ISeries[]&gt;</c> / <c>IFeed&lt;Axis[]&gt;</c> and binding them exactly as before
+/// compiles cleanly and renders BLANK on device: the chart measures before the feed emits and never
+/// picks the series up, so "Monthly Lead Flow" draws an empty 0-10 grid and the pie draws nothing.
+/// (Putting a chart inside a FeedView's ValueTemplate is worse — re-inflation hands a fresh chart
+/// control an already-measured series, which is the wedge lesson 72 documents.)
+///
+/// So the series, axes and paints stay plain cached arrays built from a synchronously-available
+/// snapshot: a LiveCharts chart needs its series fully built at first measure. Each property is
+/// cached on an instance field, so the colours re-resolve from the theme whenever a fresh model is
+/// created after a light/dark switch, and each is bound to exactly one chart control — which is why
+/// <see cref="LeadsPage"/> keeps a single responsive tree rather than duplicated desktop/mobile copies.
+///
+/// Everything that CAN be reactive is: the KPI texts and the top-open-leads list come from the
+/// service. The chart numbers are the same dataset the service serves, read directly because a chart
+/// cannot wait for it.
 /// </summary>
-[Uno.Extensions.Reactive.ReactiveBindable(false)]
-public partial record LeadsModel
+public partial record LeadsModel(ICrmService Crm)
 {
-    private static LeadsAnalytics Data => CrmData.Leads;
+    // Cached: one request, shared by every projection below, so the service is asked once.
+    private IFeed<LeadsAnalytics>? _analytics;
 
-    public string NewLeadsText => Data.NewLeadsText;
-    public string QualificationRateText => Data.QualificationRateText;
-    public string PipelineValueText => Data.PipelineValueText;
-    public string AverageDealSizeText => Data.AverageDealSizeText;
-    public IReadOnlyList<TopLead> TopOpenLeads => Data.TopOpenLeads;
+    /// <summary>
+    /// The analytics payload. A SCALAR feed, so it is never None even when a collection inside it is
+    /// empty — which is what makes the plain <c>Select</c> projections below safe (lesson 94 bites the
+    /// list-feed form, not this one).
+    /// </summary>
+    private IFeed<LeadsAnalytics> Analytics => _analytics ??= Feed.Async(Crm.GetLeadsAnalyticsAsync);
+
+    public IFeed<string> NewLeadsText => Analytics.Select(d => d.NewLeadsText);
+    public IFeed<string> QualificationRateText => Analytics.Select(d => d.QualificationRateText);
+    public IFeed<string> PipelineValueText => Analytics.Select(d => d.PipelineValueText);
+    public IFeed<string> AverageDealSizeText => Analytics.Select(d => d.AverageDealSizeText);
+
+    // Its own request, rendered by a FeedView — an account with no open leads is a real state.
+    private IListFeed<TopLead>? _topOpenLeads;
+    public IListFeed<TopLead> TopOpenLeads =>
+        _topOpenLeads ??= ListFeed.Async(Crm.GetTopOpenLeadsAsync);
+
+    // Plain cached arrays, NOT feeds — see the class remarks. Built once on first bind from the
+    // snapshot, so one instance per property per model instance, each attached to one chart control.
+    private static LeadsAnalytics ChartData => CrmData.Leads;
 
     private ISeries[]? _leadTrendSeries;
     private ISeries[]? _leadsBySourceSeries;
@@ -41,142 +68,17 @@ public partial record LeadsModel
     private SolidColorPaint? _tooltipTextPaint;
     private SolidColorPaint? _tooltipBackgroundPaint;
 
-    public ISeries[] LeadTrendSeries => _leadTrendSeries ??= BuildLeadTrendSeries();
-    public ISeries[] LeadsBySourceSeries => _leadsBySourceSeries ??= BuildLeadsBySourceSeries();
-    public ISeries[] StageDistributionSeries => _stageDistributionSeries ??= BuildStageDistributionSeries();
-    public Axis[] MonthXAxis => _monthXAxis ??= BuildMonthXAxis();
-    public Axis[] CountYAxis => _countYAxis ??= BuildCountYAxis();
-    public Axis[] SourceXAxis => _sourceXAxis ??= BuildSourceXAxis();
-    public Axis[] SourceYAxis => _sourceYAxis ??= BuildSourceYAxis();
+    public ISeries[] LeadTrendSeries => _leadTrendSeries ??= LeadsChartFactory.LeadTrendSeries(ChartData);
+    public ISeries[] LeadsBySourceSeries => _leadsBySourceSeries ??= LeadsChartFactory.LeadsBySourceSeries(ChartData);
+    public ISeries[] StageDistributionSeries => _stageDistributionSeries ??= LeadsChartFactory.StageDistributionSeries(ChartData);
+    public Axis[] MonthXAxis => _monthXAxis ??= LeadsChartFactory.MonthXAxis(ChartData);
+    public Axis[] CountYAxis => _countYAxis ??= LeadsChartFactory.CountYAxis();
+    public Axis[] SourceXAxis => _sourceXAxis ??= LeadsChartFactory.SourceXAxis(ChartData);
+    public Axis[] SourceYAxis => _sourceYAxis ??= LeadsChartFactory.SourceYAxis();
 
-    // LiveCharts' default legend/tooltip text paints are not theme-aware, so the pie legend and
-    // the hover tooltips resolve the dashboard palette like the axes above do.
-    public SolidColorPaint LegendTextPaint => _legendTextPaint ??=
-        new SolidColorPaint(ResolveColor("DashboardMutedTextColor", new SKColor(110, 110, 110)));
-    public SolidColorPaint TooltipTextPaint => _tooltipTextPaint ??=
-        new SolidColorPaint(ResolveColor("DashboardPrimaryTextColor", new SKColor(26, 26, 26)));
-    public SolidColorPaint TooltipBackgroundPaint => _tooltipBackgroundPaint ??=
-        new SolidColorPaint(ResolveColor("DashboardControlColor", new SKColor(240, 240, 240)));
-
-    private static ISeries[] BuildLeadTrendSeries()
-    {
-        var accent = ResolveColor("DashboardAccentColor", new SKColor(13, 110, 110));
-        return
-        [
-            new LineSeries<int>
-            {
-                Name = "Leads",
-                Values = Data.MonthlyLeads,
-                Fill = null,
-                GeometrySize = 10,
-                LineSmoothness = 0.8,
-                Stroke = new SolidColorPaint(accent, 4),
-                GeometryFill = new SolidColorPaint(SKColors.White),
-                GeometryStroke = new SolidColorPaint(accent, 3),
-            }
-        ];
-    }
-
-    private static ISeries[] BuildLeadsBySourceSeries()
-    {
-        var blue = ResolveColor("DashboardBlueColor", new SKColor(59, 130, 246));
-        return
-        [
-            new ColumnSeries<int>
-            {
-                Name = "Leads",
-                Values = Data.SourceCounts,
-                Fill = new SolidColorPaint(blue),
-                Stroke = null,
-                MaxBarWidth = 28,
-                Rx = 4,
-                Ry = 4,
-            }
-        ];
-    }
-
-    private static ISeries[] BuildStageDistributionSeries()
-    {
-        // Dedicated categorical palette for the stage pie so adjacent slices stay distinct.
-        SKColor[] stageColors =
-        [
-            ResolveColor("Chart1Color", new SKColor(13, 110, 110)),
-            ResolveColor("Chart2Color", new SKColor(139, 92, 246)),
-            ResolveColor("Chart3Color", new SKColor(245, 158, 11)),
-            ResolveColor("Chart4Color", new SKColor(239, 68, 68)),
-            ResolveColor("Chart5Color", new SKColor(16, 185, 129)),
-        ];
-
-        return Data.StageCounts
-            .Select((count, i) => (ISeries)new PieSeries<int>
-            {
-                Name = Data.StageLabels[i],
-                Values = [count],
-                Fill = new SolidColorPaint(stageColors[i]),
-                // No MaxRadialColumnWidth: that caps the slice radius (fine for a thin donut ring, but
-                // it shrank this full pie to a tiny disc) — let it fill the chart area.
-            })
-            .ToArray();
-    }
-
-    private static Axis[] BuildMonthXAxis() =>
-    [
-        new Axis
-        {
-            Labels = Data.MonthLabels,
-            MinStep = 1,
-            LabelsRotation = 0,
-            TextSize = 12,
-            LabelsPaint = new SolidColorPaint(ResolveColor("DashboardSubtleTextColor", new SKColor(138, 138, 138))),
-            SeparatorsPaint = new SolidColorPaint(ResolveColor("DashboardBorderColor", new SKColor(229, 229, 229))) { StrokeThickness = 1 },
-        }
-    ];
-
-    private static Axis[] BuildCountYAxis() =>
-    [
-        new Axis
-        {
-            MinLimit = 0,
-            MinStep = 25,
-            TextSize = 12,
-            LabelsPaint = new SolidColorPaint(ResolveColor("DashboardSubtleTextColor", new SKColor(138, 138, 138))),
-            SeparatorsPaint = new SolidColorPaint(ResolveColor("DashboardBorderColor", new SKColor(229, 229, 229))) { StrokeThickness = 1 },
-        }
-    ];
-
-    private static Axis[] BuildSourceXAxis() =>
-    [
-        new Axis
-        {
-            Labels = Data.SourceLabels,
-            MinStep = 1,
-            LabelsRotation = 0,
-            TextSize = 12,
-            LabelsPaint = new SolidColorPaint(ResolveColor("DashboardSubtleTextColor", new SKColor(138, 138, 138))),
-            SeparatorsPaint = null,
-        }
-    ];
-
-    private static Axis[] BuildSourceYAxis() =>
-    [
-        new Axis
-        {
-            MinLimit = 0,
-            MinStep = 20,
-            TextSize = 12,
-            LabelsPaint = new SolidColorPaint(ResolveColor("DashboardSubtleTextColor", new SKColor(138, 138, 138))),
-            SeparatorsPaint = new SolidColorPaint(ResolveColor("DashboardBorderColor", new SKColor(229, 229, 229))) { StrokeThickness = 1 },
-        }
-    ];
-
-    private static SKColor ResolveColor(string resourceKey, SKColor fallback)
-    {
-        if (Application.Current?.Resources.TryGetValue(resourceKey, out var resource) is true
-            && resource is Color color)
-        {
-            return new SKColor(color.R, color.G, color.B, color.A);
-        }
-
-        return fallback;
-    }
+    // LiveCharts' default legend/tooltip text paints are not theme-aware, so the pie legend and the
+    // hover tooltips resolve the dashboard palette the way the axes do.
+    public SolidColorPaint LegendTextPaint => _legendTextPaint ??= LeadsChartFactory.LegendTextPaint();
+    public SolidColorPaint TooltipTextPaint => _tooltipTextPaint ??= LeadsChartFactory.TooltipTextPaint();
+    public SolidColorPaint TooltipBackgroundPaint => _tooltipBackgroundPaint ??= LeadsChartFactory.TooltipBackgroundPaint();
 }
