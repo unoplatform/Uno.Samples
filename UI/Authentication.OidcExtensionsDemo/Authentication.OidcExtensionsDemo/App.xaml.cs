@@ -87,6 +87,10 @@ public partial class App : Application
                 )
                 .ConfigureServices((context, services) =>
                 {
+                    // Serializer metadata for the API payload, so the Refit client deserializes
+                    // without reflection on the trimmed WebAssembly and mobile heads.
+                    services.AddJsonTypeInfo(DemoApiJsonContext.Default.DemoClaimArray);
+
                     // Hides identifiers on screen while a demo is being recorded. A singleton, so
                     // the switch in the header covers every section and the flow log at once.
                     services.AddSingleton<SecretRedactor>();

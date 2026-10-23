@@ -106,7 +106,9 @@ public sealed class SystemBrowser(ILogger<SystemBrowser> logger, Uno.Extensions.
     /// </summary>
     private async Task<string> WithIdTokenHintAsync(string startUrl, CancellationToken ct)
     {
-        if (!startUrl.Contains("/endsession", StringComparison.OrdinalIgnoreCase)
+        // An end-session request is the one that carries post_logout_redirect_uri; the endpoint's
+        // path differs per identity provider.
+        if (!startUrl.Contains("post_logout_redirect_uri=", StringComparison.OrdinalIgnoreCase)
             || startUrl.Contains("id_token_hint=", StringComparison.OrdinalIgnoreCase))
         {
             return startUrl;
