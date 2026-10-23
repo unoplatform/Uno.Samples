@@ -87,7 +87,7 @@
 				<Setter Property="HorizontalContentAlignment" Value="Stretch" />
 				<Setter Property="VerticalAlignment" Value="Stretch" />
 				<Setter Property="VerticalContentAlignment" Value="Stretch" />
-				<Setter Property="Padding" Value="0" />
+				<Setter Property="Padding" Value="{ThemeResource Space0Thickness}" />
 				<Setter Property="Background" Value="Transparent" />
 				<Setter Property="BorderThickness" Value="0" />
 				<Setter Property="UseSystemFocusVisuals" Value="True" />
@@ -134,7 +134,7 @@
 								HorizontalAlignment="Stretch"
 								IsClickable="False">
 			<StackPanel Padding="16,12"
-						Spacing="2">
+						Spacing="{ThemeResource Space050}">
 				<TextBlock Text="DENIM STUDIO"
 						   Style="{StaticResource LabelExtraSmall}"
 						   Foreground="{ThemeResource SecondaryBrush}"
@@ -167,8 +167,8 @@
 			<!-- LEFT — Overall Preview Panel (squeezes down as width shrinks) -->
 			<ScrollViewer Grid.Column="0"
 						  VerticalScrollBarVisibility="Auto">
-				<StackPanel Margin="16"
-							Spacing="16">
+				<StackPanel Margin="{ThemeResource Space400Thickness}"
+							Spacing="{ThemeResource Space400}">
 					<TextBlock Text="PREVIEW"
 							   Style="{StaticResource LabelExtraSmall}"
 							   CharacterSpacing="150"
@@ -176,11 +176,11 @@
 							   HorizontalAlignment="Center" />
 
 					<!-- Preview card — warm linen, faint motifs behind a single-coordinate "SVG" overall -->
-					<Border CornerRadius="18"
+					<Border CornerRadius="{ThemeResource Radius500CornerRadius}"
 							Background="{ThemeResource PreviewCardBrush}"
 							BorderBrush="{ThemeResource PreviewCardBorderBrush}"
 							BorderThickness="1"
-							Padding="8"
+							Padding="{ThemeResource Space200Thickness}"
 							HorizontalAlignment="Stretch">
 						<Grid MinHeight="578">
 
@@ -346,7 +346,7 @@
 											HorizontalAlignment="Center">
 						<StackPanel Padding="12,6"
 									Orientation="Horizontal"
-									Spacing="8">
+									Spacing="{ThemeResource Space200}">
 							<Ellipse Width="14"
 									 Height="14"
 									 Fill="{Binding SelectedColorHex, Converter={StaticResource HexToBrush}}"
@@ -359,7 +359,7 @@
 					</utu:CardContentControl>
 
 					<!-- Config summary pills -->
-					<StackPanel Spacing="6"
+					<StackPanel Spacing="{ThemeResource Space150}"
 								HorizontalAlignment="Center">
 						<utu:CardContentControl Style="{StaticResource OutlinedCardContentControlStyle}"
 												IsClickable="False">
@@ -389,13 +389,13 @@
 			<!-- RIGHT — Options Panel -->
 			<ScrollViewer Grid.Column="1"
 						  VerticalScrollBarVisibility="Auto">
-				<StackPanel Margin="16"
-							Spacing="20">
+				<StackPanel Margin="{ThemeResource Space400Thickness}"
+							Spacing="{ThemeResource Space500}">
 
 					<!-- ── Length ──────────────────────────────────────── -->
 					<StackPanel Spacing="10">
 						<StackPanel Orientation="Horizontal"
-									Spacing="8">
+									Spacing="{ThemeResource Space200}">
 							<FontIcon Glyph="&#xE8A5;"
 									  FontSize="16"
 									  Foreground="{ThemeResource SecondaryBrush}" />
@@ -429,7 +429,7 @@
 																	HorizontalAlignment="Stretch"
 																	VerticalAlignment="Stretch">
 												<StackPanel Padding="14,12"
-															Spacing="4">
+															Spacing="{ThemeResource Space100}">
 													<TextBlock Text="{Binding Option.Label}"
 															   Style="{StaticResource TitleSmall}"
 															   Foreground="{ThemeResource OnSurfaceBrush}" />
@@ -439,13 +439,13 @@
 															   TextWrapping="Wrap" />
 												</StackPanel>
 											</utu:CardContentControl>
-											<Border CornerRadius="8"
+											<Border CornerRadius="{ThemeResource Radius200CornerRadius}"
 													BorderBrush="{ThemeResource PrimaryBrush}"
 													BorderThickness="{Binding IsSelected, Converter={StaticResource SelThickness}}"
 													IsHitTestVisible="False" />
 											<Border Width="22"
 													Height="22"
-													CornerRadius="11"
+													CornerRadius="{ThemeResource RadiusFullCornerRadius}"
 													Background="{ThemeResource PrimaryBrush}"
 													HorizontalAlignment="Right"
 													VerticalAlignment="Top"
@@ -466,7 +466,7 @@
 					<!-- ── Bib Type ────────────────────────────────────── -->
 					<StackPanel Spacing="10">
 						<StackPanel Orientation="Horizontal"
-									Spacing="8">
+									Spacing="{ThemeResource Space200}">
 							<FontIcon Glyph="&#xE8FD;"
 									  FontSize="16"
 									  Foreground="{ThemeResource SecondaryBrush}" />
@@ -496,7 +496,7 @@
 																	HorizontalAlignment="Stretch"
 																	VerticalAlignment="Stretch">
 												<StackPanel Padding="14,12"
-															Spacing="4">
+															Spacing="{ThemeResource Space100}">
 													<TextBlock Text="{Binding Option.Label}"
 															   Style="{StaticResource TitleSmall}"
 															   Foreground="{ThemeResource OnSurfaceBrush}" />
@@ -506,13 +506,13 @@
 															   TextWrapping="Wrap" />
 												</StackPanel>
 											</utu:CardContentControl>
-											<Border CornerRadius="8"
+											<Border CornerRadius="{ThemeResource Radius200CornerRadius}"
 													BorderBrush="{ThemeResource PrimaryBrush}"
 													BorderThickness="{Binding IsSelected, Converter={StaticResource SelThickness}}"
 													IsHitTestVisible="False" />
 											<Border Width="22"
 													Height="22"
-													CornerRadius="11"
+													CornerRadius="{ThemeResource RadiusFullCornerRadius}"
 													Background="{ThemeResource PrimaryBrush}"
 													HorizontalAlignment="Right"
 													VerticalAlignment="Top"
@@ -533,7 +533,7 @@
 					<!-- ── Denim Color ────────────────────────────────── -->
 					<StackPanel Spacing="10">
 						<StackPanel Orientation="Horizontal"
-									Spacing="8">
+									Spacing="{ThemeResource Space200}">
 							<FontIcon Glyph="&#xE771;"
 									  FontSize="16"
 									  Foreground="{ThemeResource SecondaryBrush}" />
@@ -563,10 +563,10 @@
 																	HorizontalAlignment="Stretch"
 																	VerticalAlignment="Stretch">
 												<StackPanel Padding="12,10"
-															Spacing="6">
+															Spacing="{ThemeResource Space150}">
 													<Border Width="36"
 															Height="36"
-															CornerRadius="18"
+															CornerRadius="{ThemeResource RadiusFullCornerRadius}"
 															HorizontalAlignment="Left"
 															Background="{Binding Option.HexColor, Converter={StaticResource HexToBrush}}" />
 													<TextBlock Text="{Binding Option.Label}"
@@ -575,13 +575,13 @@
 															   TextWrapping="Wrap" />
 												</StackPanel>
 											</utu:CardContentControl>
-											<Border CornerRadius="8"
+											<Border CornerRadius="{ThemeResource Radius200CornerRadius}"
 													BorderBrush="{ThemeResource PrimaryBrush}"
 													BorderThickness="{Binding IsSelected, Converter={StaticResource SelThickness}}"
 													IsHitTestVisible="False" />
 											<Border Width="22"
 													Height="22"
-													CornerRadius="11"
+													CornerRadius="{ThemeResource RadiusFullCornerRadius}"
 													Background="{ThemeResource PrimaryBrush}"
 													HorizontalAlignment="Right"
 													VerticalAlignment="Top"
@@ -602,7 +602,7 @@
 					<!-- ── Custom Text ────────────────────────────────── -->
 					<StackPanel Spacing="10">
 						<StackPanel Orientation="Horizontal"
-									Spacing="8">
+									Spacing="{ThemeResource Space200}">
 							<FontIcon Glyph="&#xE70F;"
 									  FontSize="16"
 									  Foreground="{ThemeResource SecondaryBrush}" />
@@ -615,7 +615,7 @@
 												IsClickable="False"
 												HorizontalAlignment="Stretch">
 							<StackPanel Padding="16,12"
-										Spacing="8">
+										Spacing="{ThemeResource Space200}">
 								<TextBlock Text="Add your personal touch &#x2014; name, motto, or short phrase"
 										   Style="{StaticResource BodySmall}"
 										   Foreground="{ThemeResource OnSurfaceVariantBrush}"
@@ -637,7 +637,7 @@
 					<!-- ── Uno Logo ───────────────────────────────────── -->
 					<StackPanel Spacing="10">
 						<StackPanel Orientation="Horizontal"
-									Spacing="8">
+									Spacing="{ThemeResource Space200}">
 							<FontIcon Glyph="&#xE946;"
 									  FontSize="16"
 									  Foreground="{ThemeResource SecondaryBrush}" />
@@ -656,7 +656,7 @@
 								</Grid.ColumnDefinitions>
 								<StackPanel Grid.Column="0"
 											VerticalAlignment="Center"
-											Spacing="2">
+											Spacing="{ThemeResource Space050}">
 									<TextBlock Text="Show the Uno Platform logo"
 											   Style="{StaticResource BodyMedium}"
 											   Foreground="{ThemeResource OnSurfaceBrush}" />
@@ -675,7 +675,7 @@
 					<!-- ── Pocket Type ────────────────────────────────── -->
 					<StackPanel Spacing="10">
 						<StackPanel Orientation="Horizontal"
-									Spacing="8">
+									Spacing="{ThemeResource Space200}">
 							<FontIcon Glyph="&#xE8FD;"
 									  FontSize="16"
 									  Foreground="{ThemeResource SecondaryBrush}" />
@@ -705,7 +705,7 @@
 																	HorizontalAlignment="Stretch"
 																	VerticalAlignment="Stretch">
 												<StackPanel Padding="14,12"
-															Spacing="4">
+															Spacing="{ThemeResource Space100}">
 													<TextBlock Text="{Binding Option.Label}"
 															   Style="{StaticResource TitleSmall}"
 															   Foreground="{ThemeResource OnSurfaceBrush}" />
@@ -715,13 +715,13 @@
 															   TextWrapping="Wrap" />
 												</StackPanel>
 											</utu:CardContentControl>
-											<Border CornerRadius="8"
+											<Border CornerRadius="{ThemeResource Radius200CornerRadius}"
 													BorderBrush="{ThemeResource PrimaryBrush}"
 													BorderThickness="{Binding IsSelected, Converter={StaticResource SelThickness}}"
 													IsHitTestVisible="False" />
 											<Border Width="22"
 													Height="22"
-													CornerRadius="11"
+													CornerRadius="{ThemeResource RadiusFullCornerRadius}"
 													Background="{ThemeResource PrimaryBrush}"
 													HorizontalAlignment="Right"
 													VerticalAlignment="Top"
@@ -755,7 +755,7 @@
 					<ColumnDefinition Width="Auto" />
 				</Grid.ColumnDefinitions>
 				<StackPanel Grid.Column="0"
-							Spacing="2"
+							Spacing="{ThemeResource Space050}"
 							VerticalAlignment="Center">
 					<TextBlock Text="ESTIMATED PRICE"
 							   Style="{StaticResource LabelExtraSmall}"
