@@ -7,9 +7,9 @@ and calls a protected API with the resulting token, from a single Uno Platform p
 Tested on:
 
 - [x] Desktop (Skia)
-- [ ] WebAssembly
+- [x] WebAssembly
 - [x] Android
-- [ ] iOS
+- [ ] iOS (builds and starts the sign-in session; the login itself has not been exercised yet)
 
 This document is the **setup guide**: what each head needs before it can sign in. For what the
 sample *demonstrates* and how the code is arranged, see
@@ -122,7 +122,7 @@ dotnet run --project Authentication.OidcExtensionsDemo/Authentication.OidcExtens
 ```
 
 **While testing:** the popup must not be blocked, and the serving origin must not set
-`Cross-Origin-Opener-Policy`, or the flow opens a window and hangs. Tokens live in browser storage;
+`Cross-Origin-Opener-Policy`, or the flow opens a window and hangs. On **Sign out**, the identity provider's page may ask you to confirm the logout rather than return to the app (the provider sends no `id_token_hint`); confirm it or close the popup — the app signs out either way. Tokens live in browser storage;
 `appsettings.development.json` sets `KeyValueStorageConfiguration:BrowserCacheLocation` to
 `SessionStorage`, so a reload signs back in silently and closing the tab signs you out.
 
