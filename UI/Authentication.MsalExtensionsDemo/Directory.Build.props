@@ -12,7 +12,9 @@
     -->
     <NoWarn>$(NoWarn);NU1507;NETSDK1201;PRI257</NoWarn>
 
-    <!-- Uno.Extensions dev build, resolved from the uno dev feed in the repo root NuGet.config. -->
-    <UnoExtensionsVersion>7.4.0-dev.29</UnoExtensionsVersion>
+    <!-- Uno.Extensions dev build, resolved from the uno dev feed in the repo root NuGet.config.
+         7.4.0-dev.54 is the first build whose MSAL provider caches the ID token (unoplatform/uno.extensions#3188),
+         which the Sign in page decodes into the user's claims. -->
+    <UnoExtensionsVersion>7.4.0-dev.54</UnoExtensionsVersion>
   </PropertyGroup>
 </Project>

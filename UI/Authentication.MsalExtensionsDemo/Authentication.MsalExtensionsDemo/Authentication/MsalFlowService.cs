@@ -1,3 +1,5 @@
+using System.Buffers.Text;
+using System.Text.Json;
 using Authentication.MsalExtensionsDemo.Common;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Identity.Client;
@@ -253,6 +255,31 @@ public sealed class MsalFlowService
         catch (Exception ex)
         {
             return $"ITokenCache could not be read: {ex.GetType().Name}";
+        }
+    }
+
+    /// <summary>
+    /// The payload of the ID token held in <see cref="ITokenCache"/> as indented JSON - the
+    /// signed-in user's claims - or <c>null</c> when none is cached. Decoded, not validated: the
+    /// app may show these, only the API may trust them.
+    /// </summary>
+    public async Task<string?> DescribeClaimsAsync(CancellationToken ct = default)
+    {
+        try
+        {
+            var idToken = await _tokens.TokenAsync(TokenCacheExtensions.IdTokenKey, ct);
+            // TokenAsync yields null (despite its signature) when the key is absent, e.g. after sign-out.
+            if (idToken?.Split('.') is not [_, var payload, _])
+            {
+                return null;
+            }
+
+            using var claims = JsonDocument.Parse(Base64Url.DecodeFromChars(payload));
+            return JsonSerializer.Serialize(claims.RootElement, new JsonSerializerOptions { WriteIndented = true });
+        }
+        catch (Exception ex)
+        {
+            return $"ID token could not be decoded: {ex.GetType().Name}";
         }
     }
 

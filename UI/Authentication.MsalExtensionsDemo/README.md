@@ -282,7 +282,10 @@ unaffected.
 ## Checking that it worked
 
 1. **Sign in** page → **Sign in**. The flow log narrates every provider call; the resolved
-   configuration, the derived redirect URI and the resulting token are shown above it.
+   configuration, the derived redirect URI and the resulting tokens are shown above it. The
+   TOKEN card lists both cache entries (`AccessToken`, `IdToken`) and decodes the ID token's
+   payload, so the signed-in user's claims (`name`, `preferred_username`, `oid`, `tid`, ...)
+   are visible without leaving the app.
 2. **Sign out**, then **Silent only** — expect it to fail, which is what the silent path does with
    an empty cache.
 3. Restart the app on Desktop, Android or iOS: the startup silent refresh should sign you back in
@@ -330,6 +333,9 @@ you write are handled for you:
 - **Token cache persistence** — wired up on desktop (DPAPI / keychain / keyring), Android and iOS,
   and on WebAssembly through browser storage.
 - **Silent-then-interactive acquisition** — one `LoginAsync` call; `RefreshAsync` is the silent path.
+- **The ID token, for claims** — cached next to the access token under `TokenCacheExtensions.IdTokenKey`
+  (Uno.Extensions 7.4.0-dev.54 and later), so the app can read the user's claims for its own
+  authorization decisions. Decoding is not validation: only the API may trust the token it receives.
 
 ## Relevant documentation
 
