@@ -9,7 +9,7 @@ Tested on:
 - [x] Desktop (Skia) — Uno.Sdk 7.0.0-dev.89, Uno.Extensions 8.0.0-dev.135
 - [x] WebAssembly — Uno.Sdk 7.0.0-dev.89, Uno.Extensions 8.0.0-dev.135
 - [x] Android — last exercised on Uno.Sdk 7.0.0-dev.77, Uno.Extensions 8.0.0-dev.85
-- [ ] iOS (builds and starts the sign-in session; the login itself has not been exercised yet)
+- [x] iOS (simulator, iOS 18.5) — Uno.Sdk 7.0.0-dev.89, Uno.Extensions 8.0.0-dev.135
 
 This document is the **setup guide**: what each head needs before it can sign in. For what the
 sample *demonstrates* and how the code is arranged, see
