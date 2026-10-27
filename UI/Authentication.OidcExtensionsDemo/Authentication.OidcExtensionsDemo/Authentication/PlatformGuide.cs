@@ -144,10 +144,12 @@ public static class PlatformGuide
                         Platforms/Desktop/PlatformSupport.Desktop.cs overrides RedirectUri and
                         PostLogoutRedirectUri through configuration with {DesktopRedirectUri}:
                         a custom scheme is not routed back to a desktop app, and the broker
-                        listens on the redirect URI itself. The port is fixed so the value can
-                        be registered once; without an override, the broker's own callback URI
-                        (WebAuthenticationBroker.GetCurrentApplicationCallbackUri()) picks a
-                        free port per process.
+                        rejects anything but a loopback HTTP address, so the mobile heads'
+                        oidcdemo://callback cannot simply be reused here. The port is fixed so
+                        the value can be registered once. (The broker's own probed-port callback,
+                        WebAuthenticationBroker.GetCurrentApplicationCallbackUri(), is only used
+                        when AutoRedirectUriFromWebAuthenticationBroker() is on, which it is not
+                        on desktop by default.)
                         """),
 
                     new(SetupArea.IdentityProvider,
