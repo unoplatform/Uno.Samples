@@ -6,9 +6,9 @@ and calls a protected API with the resulting token, from a single Uno Platform p
 
 Tested on:
 
-- [x] Desktop (Skia)
-- [x] WebAssembly
-- [x] Android
+- [x] Desktop (Skia) — Uno.Sdk 7.0.0-dev.89, Uno.Extensions 8.0.0-dev.135
+- [x] WebAssembly — Uno.Sdk 7.0.0-dev.89, Uno.Extensions 8.0.0-dev.135
+- [x] Android — last exercised on Uno.Sdk 7.0.0-dev.77, Uno.Extensions 8.0.0-dev.85
 - [ ] iOS (builds and starts the sign-in session; the login itself has not been exercised yet)
 
 This document is the **setup guide**: what each head needs before it can sign in. For what the
@@ -52,6 +52,25 @@ Two things to know about which file wins:
 - **`appsettings*.json` are embedded resources**, not copied to the output directory. After editing
   them you must **rebuild** — restarting the app is not enough.
 
+### Versions
+
+Desktop (Skia) sign-in needs **Uno.Extensions 8.0.0-dev.135 or later**: that is the first version
+whose `AddOidc` registers a loopback `WebAuthenticationBroker` on Windows, macOS and Linux
+([unoplatform/uno.extensions#3261](https://github.com/unoplatform/uno.extensions/pull/3261)).
+No Uno.Sdk pins it yet, so this sample sets two things you will not find in a template app:
+
+- `Directory.Build.props` raises `UnoExtensionsVersion` to `8.0.0-dev.135`. It has to go with
+  `Uno.Sdk` **7.0.0-dev.89 or later** in `global.json`: dev.135 was built against Uno.WinUI
+  7.0.0-dev.2428 and Toolkit 11.0.0-dev.155, and an older Sdk's pins fail the restore with NU1605
+  downgrade errors.
+- The csproj references `Uno.WinUI.Lottie` in Debug builds only. On Uno.Sdk 7.0.0-dev.89 the Hot
+  Design and App MCP tooling packages still reference `Uno.UI.Lottie`, which Uno.WinUI no longer
+  ships; without the package a Debug build dies at startup with `FileNotFoundException`
+  ([unoplatform/uno.extensions#3262](https://github.com/unoplatform/uno.extensions/issues/3262)).
+
+Both go away once an Uno.Sdk pins Uno.Extensions 8.0.0-dev.135+ and the tooling packages are
+rebuilt.
+
 ### Pointing it at your own identity provider
 
 1. Register a **public client** with the **authorization code flow and PKCE**, no client secret (a
@@ -69,7 +88,7 @@ Two things to know about which file wins:
 
 | Head | Redirect URI | How it gets back into the app |
 | --- | --- | --- |
-| Desktop (Skia) | `http://127.0.0.1:52001/callback` | a loopback listener in the app (`Platforms/Desktop/SystemBrowser.cs`) |
+| Desktop (Skia) | `http://localhost:52001/authentication-callback` | the loopback `WebAuthenticationBroker` the OIDC provider registers (Uno.Extensions 8.0.0-dev.135+) |
 | WebAssembly | `http://localhost:5000/authentication-callback` | the `WebAuthenticationBroker` popup, on the app's own origin |
 | Android | `oidcdemo://callback` | the intent filter on `WebAuthenticationBrokerActivity` |
 | iOS | `oidcdemo://callback` | the `oidcdemo` scheme under `CFBundleURLTypes` in `Info.plist` |
@@ -88,13 +107,21 @@ configurations are also present, and are easier for the mobile heads.
 
 ### Desktop (Skia)
 
-**Project changes:** none — but note what the sample already does for you. Uno's
-`WebAuthenticationBroker` has no implementation on the Skia desktop targets, so the OIDC
-provider's default browser throws `NotImplementedException` and `LoginAsync` returns `false`.
-`Platforms/Desktop/SystemBrowser.cs` is the fix: an OidcClient `IBrowser` that opens the default
-browser and receives the redirect on an `HttpListener` bound to the loopback redirect URI.
-`Platforms/Desktop/PlatformSupport.Desktop.cs` registers it and overrides the redirect URIs for
-this head through configuration (an in-memory source layered over appsettings).
+**Project changes:** none — but note what the sample already does for you. Uno's own
+`WebAuthenticationBroker` has no implementation on the Skia desktop targets; since Uno.Extensions
+8.0.0-dev.135 (see [Versions](#versions)) `AddOidc` registers one, `DesktopWebAuthenticationBrokerProvider`,
+which opens the sign-in page in the default browser and receives the redirect on a loopback HTTP
+listener. All this head adds is a loopback redirect URI: `Platforms/Desktop/PlatformSupport.Desktop.cs`
+overrides `RedirectUri` and `PostLogoutRedirectUri` through configuration (an in-memory source
+layered over appsettings) with `http://localhost:52001/authentication-callback`, a fixed port so
+the value can be registered once. Two rules come with the broker:
+
+- Do not touch `WebAuthenticationBroker` (not even `GetCurrentApplicationCallbackUri()`) before
+  `UseAuthentication` has run: the registration is first-wins, and the static broker keeps the
+  provider it first resolved — Uno's stub, which throws `NotImplementedException`.
+- Its log lines sit under `Uno.Extensions.Authentication`, which the template's `CoreLogLevel`
+  filter hides; `App.xaml.cs` adds a filter at Information so the console says which broker is
+  handling the sign-in (`WebAuthenticationBroker flows are handled by the desktop loopback broker ...`).
 
 ```bash
 dotnet run --project Authentication.OidcExtensionsDemo/Authentication.OidcExtensionsDemo.csproj -f net10.0-desktop
@@ -104,9 +131,11 @@ dotnet run --project Authentication.OidcExtensionsDemo/Authentication.OidcExtens
 on desktop), so the second launch signs in silently through `RefreshAsync` with no prompt. To test
 the *interactive* path again, press **Sign out** first.
 
-**Sign out:** the identity provider's logged-out page shows a link back to the app; the sample's
-browser adds the `id_token_hint` the provider leaves out, which is what makes that link appear.
-Until you click it (or the 5-minute browser timeout elapses) the app shows the call as busy.
+**Sign out:** the provider sends the cached ID token as `id_token_hint`, so the identity provider
+can redirect back to the listener. The Duende demo server shows its logged-out page with a link
+back to the app; the sign-out completes as soon as you click it. Until then (or until the
+broker's authentication timeout elapses) the app shows the call as busy; the tokens are cleared
+either way.
 
 ### WebAssembly
 
@@ -122,7 +151,7 @@ dotnet run --project Authentication.OidcExtensionsDemo/Authentication.OidcExtens
 ```
 
 **While testing:** the popup must not be blocked, and the serving origin must not set
-`Cross-Origin-Opener-Policy`, or the flow opens a window and hangs. On **Sign out**, the identity provider's page may ask you to confirm the logout rather than return to the app (the provider sends no `id_token_hint`); confirm it or close the popup — the app signs out either way. Tokens live in browser storage;
+`Cross-Origin-Opener-Policy`, or the flow opens a window and hangs. On **Sign out**, the popup shows the identity provider's logged-out page with a link back to the app (the provider sends the ID token as `id_token_hint`); click it and the popup lands on the callback and closes, or just close the popup — the app signs out either way. Tokens live in browser storage;
 `appsettings.development.json` sets `KeyValueStorageConfiguration:BrowserCacheLocation` to
 `SessionStorage`, so a reload signs back in silently and closing the tab signs you out.
 
@@ -141,7 +170,8 @@ dotnet build Authentication.OidcExtensionsDemo/Authentication.OidcExtensionsDemo
 **On the device:** the broker opens the system browser (Chrome) on the sign-in page; after sign-in
 the identity provider redirects to `oidcdemo://callback`, which Android routes back to the app.
 Tokens are kept in the KeyStore-backed storage, so a restart goes through the silent path. On
-**Sign out**, pressing Back from the identity provider's logged-out page returns to the app; the
+**Sign out**, the identity provider's logged-out page shows a link back to the app (the provider
+sends the ID token as `id_token_hint`); following it or pressing Back returns to the app, and the
 provider clears the tokens either way.
 
 ### iOS
@@ -199,12 +229,13 @@ across all pages — useful when recording.
 | --- | --- | --- |
 | The *Sign in* page says no identity provider is configured | `Authority` or `ClientId` is empty | Fill the `OidcAuthentication` section, and **rebuild** (appsettings are embedded) |
 | Your edit to appsettings has no effect | Editing `appsettings.json` while running a Debug build | Debug runs the Development environment: edit `appsettings.development.json` |
-| `LoginAsync` returns false and the log shows `NotImplementedException` | Desktop head without an `IBrowser` | `SystemBrowser` is not registered — see `PlatformSupport.Desktop.cs` |
+| **Desktop:** `LoginAsync` returns false and the log names `NotImplementedException` or `DesktopWebAuthenticationBrokerProvider.TryRegister()` | Uno.Extensions older than 8.0.0-dev.135, or something used `WebAuthenticationBroker` before `UseAuthentication` ran | Check `UnoExtensionsVersion` (see [Versions](#versions)); move the earlier broker call after `UseAuthentication` |
+| **Desktop:** the window never appears in a Debug build, `FileNotFoundException: Uno.UI.Lottie` | The Debug tooling packages reference `Uno.UI.Lottie` (unoplatform/uno.extensions#3262) | Keep the Debug-only `Uno.WinUI.Lottie` reference in the csproj |
 | Redirect URI rejected by your identity provider | The registered URI is not exactly what was sent | Copy the value off the *Sign in* page; it differs per head |
 | **Android:** browser opens, sign-in completes, nothing comes back | `RedirectScheme` in `WebAuthenticationBrokerActivity.Android.cs` does not match the redirect URI | Fix it and rebuild |
 | **iOS:** `No schemes defined in info.plist` | The scheme is not under `CFBundleURLTypes` | Fix `Info.plist`, then **clean-build** the iOS head |
 | Signed in again at every launch | `offline_access` missing from `Scope`, so no refresh token | Add the scope at the identity provider and in configuration |
-| **Sign out** stays busy for minutes | The identity provider did not redirect back (no `id_token_hint` in the request, or the post-logout URI is not registered) | Register the post-logout URI; on desktop the sample adds the hint for you |
+| **Sign out** stays busy for minutes | The identity provider did not redirect back: the post-logout URI is not registered, or its logged-out page is waiting for you to click the link back to the app | Register the post-logout URI; click the link (closing the browser page also ends the call on WebAssembly) |
 | **WebAssembly:** popup opens and never closes | `Cross-Origin-Opener-Policy` on the serving origin, or the callback path is not served | Leave COOP unset; keep the `index.html` fallback |
 
 ## Relevant documentation

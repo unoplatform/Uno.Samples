@@ -16,8 +16,9 @@ namespace Authentication.OidcExtensionsDemo.Authentication;
 /// This is the only type in the sample that talks to the authentication stack, and it uses no
 /// OIDC library type directly: the <c>Uno.Extensions.Authentication.Oidc</c> provider owns the
 /// <c>OidcClient</c>, builds it from the <c>OidcAuthentication</c> configuration section,
-/// opens the identity provider's page through Uno's <c>WebAuthenticationBroker</c> (or the
-/// <c>IBrowser</c> a head registers), stores the tokens and refreshes them. The app only sees
+/// opens the identity provider's page through Uno's <c>WebAuthenticationBroker</c> (on the Skia
+/// desktop head, the loopback broker the provider registers), stores the tokens and refreshes
+/// them. The app only sees
 /// three calls (<c>LoginAsync</c>, <c>RefreshAsync</c>, <c>LogoutAsync</c>), the
 /// <c>LoggedOut</c> event, and the tokens in <see cref="ITokenCache"/>.
 /// </para>
@@ -299,7 +300,7 @@ public sealed class OidcFlowService
         AppPlatform.Android => "Chrome custom tab, returning through the intent filter for the redirect URI's scheme",
         AppPlatform.AppleUIKit => "ASWebAuthenticationSession, returning through the scheme declared in Info.plist",
         AppPlatform.WebAssembly => "a popup opened by Uno's WebAuthenticationBroker, returning to the origin's /authentication-callback",
-        AppPlatform.Desktop => "the default browser, returning to a loopback listener this sample provides",
+        AppPlatform.Desktop => "the default browser, returning to the loopback listener of the broker the provider registers",
         _ => "the platform's web authentication broker"
     };
 
@@ -385,8 +386,10 @@ public sealed class OidcFlowService
             + "Platform setup page.",
 
         NotImplementedException =>
-            "Uno's WebAuthenticationBroker has no implementation on this head. On Skia desktop, "
-            + "register an IBrowser (Platforms/Desktop/SystemBrowser.cs) with the OIDC provider.",
+            "Uno's built-in WebAuthenticationBroker has no implementation on this head. On Skia "
+            + "desktop, Uno.Extensions 8.0.0-dev.135 and later register a loopback broker from "
+            + "AddOidc: either this build runs an older Uno.Extensions, or something used "
+            + "WebAuthenticationBroker before UseAuthentication ran and it kept the stub.",
 
         HttpRequestException =>
             "The identity provider could not be reached. Check the Authority URL and the network; "

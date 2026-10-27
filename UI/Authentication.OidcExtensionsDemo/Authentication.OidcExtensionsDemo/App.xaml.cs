@@ -40,7 +40,13 @@ public partial class App : Application
                                 LogLevel.Warning)
 
                         // Default filters for core Uno Platform namespaces
-                        .CoreLogLevel(LogLevel.Warning);
+                        .CoreLogLevel(LogLevel.Warning)
+
+                        // The authentication provider and, on desktop, its loopback
+                        // WebAuthenticationBroker log under this category: at Information the
+                        // log says which broker is handling the sign-in. Uno's own logger only
+                        // reaches these sinks because of enableUnoLogging below.
+                        .AddFilter("Uno.Extensions.Authentication", LogLevel.Information);
 
                     // Uno Platform namespace filter groups
                     // Uncomment individual methods to see more detailed logging

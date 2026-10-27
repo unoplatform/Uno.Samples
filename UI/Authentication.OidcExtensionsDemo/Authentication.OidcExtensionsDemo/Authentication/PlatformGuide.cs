@@ -61,8 +61,12 @@ public static class PlatformGuide
     /// <summary>The custom scheme the mobile heads use for the redirect URI.</summary>
     public const string MobileScheme = "oidcdemo";
 
-    /// <summary>The loopback redirect URI the desktop head listens on.</summary>
-    public const string DesktopRedirectUri = "http://127.0.0.1:52001/callback";
+    /// <summary>
+    /// The loopback redirect URI the desktop head listens on. The path is the one Uno's
+    /// WebAuthenticationBroker uses by default; the port is fixed here so the value can be
+    /// registered once with the identity provider.
+    /// </summary>
+    public const string DesktopRedirectUri = "http://localhost:52001/authentication-callback";
 
     /// <summary>Steps that apply no matter which head you run.</summary>
     public static IReadOnlyList<SetupStep> Common { get; } =
@@ -118,28 +122,32 @@ public static class PlatformGuide
             new(AppPlatform.Desktop,
                 "Desktop (Skia)",
                 DesktopRedirectUri,
-                "The default browser opens the sign-in page; a loopback listener in the app receives the code.",
+                "The default browser opens the sign-in page; the provider's loopback broker receives the code.",
                 [
                     new(SetupArea.Project,
-                        "Provide an IBrowser: the broker is not implemented on this head",
+                        "Uno.Extensions 8.0.0-dev.135 or later: the provider brings the broker",
                         """
-                        Uno's WebAuthenticationBroker throws NotImplementedException on the Skia
-                        desktop head, so the OIDC provider's default browser cannot complete a
-                        sign-in there. Platforms/Desktop/SystemBrowser.cs implements OidcClient's
-                        IBrowser: it opens the system browser on the authorization URL and waits
-                        on an HttpListener bound to the loopback redirect URI for the code.
-                        App.xaml.cs registers it with services.AddTransient<IBrowser,
-                        SystemBrowser>() - the OIDC provider picks up whatever IBrowser is
-                        registered.
+                        Uno's own WebAuthenticationBroker has no implementation on the Skia
+                        desktop head. Since Uno.Extensions 8.0.0-dev.135, AddOidc registers one
+                        (DesktopWebAuthenticationBrokerProvider): it opens the system browser on
+                        the authorization URL and waits on a loopback HTTP listener for the
+                        code. Nothing to write in the app; this sample only raises
+                        UnoExtensionsVersion in Directory.Build.props because its Uno.Sdk still
+                        pins an older version. The registration is first-wins and the broker
+                        keeps the provider it first resolved, so do not touch
+                        WebAuthenticationBroker before UseAuthentication has run.
                         """),
 
                     new(SetupArea.Project,
-                        "Use the loopback redirect URI on this head",
+                        "Use a loopback redirect URI on this head",
                         $"""
                         Platforms/Desktop/PlatformSupport.Desktop.cs overrides RedirectUri and
-                        PostLogoutRedirectUri in code with {DesktopRedirectUri}: a custom scheme
-                        is not routed back to a desktop app that was not installed through a
-                        package, and the port is fixed so the value can be registered once.
+                        PostLogoutRedirectUri through configuration with {DesktopRedirectUri}:
+                        a custom scheme is not routed back to a desktop app, and the broker
+                        listens on the redirect URI itself. The port is fixed so the value can
+                        be registered once; without an override, the broker's own callback URI
+                        (WebAuthenticationBroker.GetCurrentApplicationCallbackUri()) picks a
+                        free port per process.
                         """),
 
                     new(SetupArea.IdentityProvider,
@@ -150,11 +158,14 @@ public static class PlatformGuide
                         """),
 
                     new(SetupArea.Runtime,
-                        "The session persists",
+                        "The session persists; sign-out comes back the same way",
                         """
                         Tokens are stored by Uno.Extensions' key-value storage: ApplicationData
                         on desktop. With offline_access in the scope, relaunching the app goes
-                        through RefreshAsync and signs back in with no prompt.
+                        through RefreshAsync and signs back in with no prompt. Sign-out opens the
+                        end-session page with the cached ID token as id_token_hint; the identity
+                        provider redirects to the same loopback listener (the Duende demo server
+                        shows a signed-out page with a link that does).
                         """)
                 ]),
 

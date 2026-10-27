@@ -13,7 +13,7 @@ Entra ID with the MSAL provider. Same UI, so the two are directly comparable:
 | Provider | `AddOidc` (Duende `OidcClient` underneath) | `AddMsal` (MSAL.NET underneath) |
 | Configured from | `OidcAuthentication` section in appsettings | `MsalAuthentication` section in appsettings |
 | Redirect URI | the configured value, except on WebAssembly | derived per platform by the provider |
-| Browser on desktop | an `IBrowser` the sample provides | MSAL's own system browser |
+| Browser on desktop | the loopback `WebAuthenticationBroker` the provider registers (Uno.Extensions 8.0.0-dev.135+) | MSAL's own system browser |
 | API call | a Refit client registered in `UseHttp` carries the token | a plain `HttpClient` with the header set by hand |
 
 ## The three pages
@@ -36,8 +36,9 @@ Entra ID with the MSAL provider. Same UI, so the two are directly comparable:
   it holds the app's one `LoggedOut` subscription.
 - `Authentication/PlatformSupport.cs` + `Platforms/*/PlatformSupport.*.cs` — per-head facts and
   host configuration as partial methods, so a new head without them is a compile error.
-- `Platforms/Desktop/SystemBrowser.cs` — the loopback `IBrowser` the desktop head needs, because
-  Uno's `WebAuthenticationBroker` is not implemented on Skia desktop.
+- `Platforms/Desktop/PlatformSupport.Desktop.cs` — the desktop head's loopback redirect URI,
+  layered over appsettings through configuration; the broker that listens on it comes from the
+  provider.
 - `Common/SecretRedactor.cs` — recording mode.
 
 ## Running it

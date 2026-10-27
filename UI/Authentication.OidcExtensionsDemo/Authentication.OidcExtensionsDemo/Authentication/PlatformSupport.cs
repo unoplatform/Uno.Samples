@@ -55,7 +55,7 @@ public static partial class PlatformSupport
     /// <summary>
     /// The head's own additions to the host: nothing on the mobile and WebAssembly heads, where
     /// Uno's <c>WebAuthenticationBroker</c> does the work; on desktop, the loopback redirect URI
-    /// and the <c>IBrowser</c> that listens on it.
+    /// the provider's own broker listens on.
     /// </summary>
     public static IHostBuilder ConfigureHost(IHostBuilder host) => ConfigureHostCore(host);
 
