@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  The demo server is plain HTTP on the development machine, which the emulator reaches at 10.0.2.2.
+  Android blocks cleartext traffic by default; this allows it to that address only, for the app's
+  own refresh and API calls (the sign-in page itself opens in the browser). A real backend serves
+  HTTPS and needs none of this.
+-->
+<network-security-config>
+  <domain-config cleartextTrafficPermitted="true">
+    <domain includeSubdomains="false">10.0.2.2</domain>
+  </domain-config>
+</network-security-config>
