@@ -1,8 +1,31 @@
 # Chat SignalR App
 
-Implements [SignalR library](https://learn.microsoft.com/en-us/aspnet/core/signalr/introduction?view=aspnetcore-3.1) for asynchronous notifications in an Uno Platform application.
+Implements [ASP.NET Core SignalR](https://learn.microsoft.com/en-us/aspnet/core/signalr/introduction) for real-time notifications in an Uno Platform application.
 
-To try out the sample, first launch an instance of the UnoChat.Service project which hosts the server that the chat clients will connect to. Next, simply launch any number of UnoChat projects which will serve as the chat clients. If you want to add chat clients that are hosted by system consoles, you can launch any number of them as well using the UnoChat.Client.Console project.
+To try out the sample:
+
+1. Launch `UnoChat.Service` first (the SignalR server).
+2. Launch one or more `UnoChat` clients (Uno Platform app).
+3. Optionally launch one or more `UnoChat.Client.Console` clients.
+
+All clients connect to `https://localhost:7167/chatHub` by default.
+
+> [!NOTE]
+> An Azure account is not required for this sample. It runs locally.
+
+## Quick start
+
+From `src/`:
+
+```bash
+# Run the SignalR server
+dotnet run --project UnoChat.Service
+
+# Run the console client (optional)
+dotnet run --project UnoChat.Client.Console
+```
+
+Run the Uno app from your IDE using one of the platform launch profiles in `UnoChat`.
 
 ![ChatSignalR Image](doc/assets/chatSignalR.png)
 
