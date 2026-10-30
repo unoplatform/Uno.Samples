@@ -6,7 +6,7 @@ and calls a protected API with the resulting token, from a single Uno Platform p
 
 Tested on:
 
-- [x] Desktop (Skia) — Uno.Sdk 7.0.0-dev.89, Uno.Extensions 8.0.0-dev.135
+- [x] Desktop (Skia) — Uno.Sdk 7.0.0-dev.115, Uno.Extensions 8.0.0-dev.150
 - [x] WebAssembly — Uno.Sdk 7.0.0-dev.89, Uno.Extensions 8.0.0-dev.135
 - [x] Android — last exercised on Uno.Sdk 7.0.0-dev.77, Uno.Extensions 8.0.0-dev.85
 - [x] iOS (simulator, iOS 18.5) — Uno.Sdk 7.0.0-dev.89, Uno.Extensions 8.0.0-dev.135
@@ -57,19 +57,16 @@ Two things to know about which file wins:
 Desktop (Skia) sign-in needs **Uno.Extensions 8.0.0-dev.135 or later**: that is the first version
 whose `AddOidc` registers a loopback `WebAuthenticationBroker` on Windows, macOS and Linux
 ([unoplatform/uno.extensions#3261](https://github.com/unoplatform/uno.extensions/pull/3261)).
-No Uno.Sdk pins it yet, so this sample sets two things you will not find in a template app:
+Uno.Sdk **7.0.0-dev.95 or later** pins it, so keep `global.json` at that or newer; the sample uses
+7.0.0-dev.115, which pins Uno.Extensions 8.0.0-dev.150.
 
-- `Directory.Build.props` raises `UnoExtensionsVersion` to `8.0.0-dev.135`. It has to go with
-  `Uno.Sdk` **7.0.0-dev.89 or later** in `global.json`: dev.135 was built against Uno.WinUI
-  7.0.0-dev.2428 and Toolkit 11.0.0-dev.155, and an older Sdk's pins fail the restore with NU1605
-  downgrade errors.
-- The csproj references `Uno.WinUI.Lottie` in Debug builds only. On Uno.Sdk 7.0.0-dev.89 the Hot
-  Design and App MCP tooling packages still reference `Uno.UI.Lottie`, which Uno.WinUI no longer
-  ships; without the package a Debug build dies at startup with `FileNotFoundException`
-  ([unoplatform/uno.extensions#3262](https://github.com/unoplatform/uno.extensions/issues/3262)).
-
-Both go away once an Uno.Sdk pins Uno.Extensions 8.0.0-dev.135+ and the tooling packages are
-rebuilt.
+One thing here you will not find in a template app: the csproj references `Uno.WinUI.Lottie` in
+Debug builds only. Even on Uno.Sdk 7.0.0-dev.115, the App MCP client that Debug builds carry
+(`Uno.UI.App.Mcp.Client`, App MCP 2.0.0-dev.18) still references `Uno.UI.Lottie`, which Uno.WinUI
+no longer ships; without the package a Debug build dies at startup with `FileNotFoundException`
+([unoplatform/uno.extensions#3262](https://github.com/unoplatform/uno.extensions/issues/3262)).
+Release builds do not carry the tooling and start without it. Remove the reference once the
+tooling packages are rebuilt.
 
 ### Pointing it at your own identity provider
 
@@ -229,7 +226,7 @@ across all pages — useful when recording.
 | --- | --- | --- |
 | The *Sign in* page says no identity provider is configured | `Authority` or `ClientId` is empty | Fill the `OidcAuthentication` section, and **rebuild** (appsettings are embedded) |
 | Your edit to appsettings has no effect | Editing `appsettings.json` while running a Debug build | Debug runs the Development environment: edit `appsettings.development.json` |
-| **Desktop:** `LoginAsync` returns false and the log names `NotImplementedException` or `DesktopWebAuthenticationBrokerProvider.TryRegister()` | Uno.Extensions older than 8.0.0-dev.135, or something used `WebAuthenticationBroker` before `UseAuthentication` ran | Check `UnoExtensionsVersion` (see [Versions](#versions)); move the earlier broker call after `UseAuthentication` |
+| **Desktop:** `LoginAsync` returns false and the log names `NotImplementedException` or `DesktopWebAuthenticationBrokerProvider.TryRegister()` | Uno.Extensions older than 8.0.0-dev.135, or something used `WebAuthenticationBroker` before `UseAuthentication` ran | Use Uno.Sdk 7.0.0-dev.95 or later in `global.json` (see [Versions](#versions)); move the earlier broker call after `UseAuthentication` |
 | **Desktop:** the window never appears in a Debug build, `FileNotFoundException: Uno.UI.Lottie` | The Debug tooling packages reference `Uno.UI.Lottie` (unoplatform/uno.extensions#3262) | Keep the Debug-only `Uno.WinUI.Lottie` reference in the csproj |
 | Redirect URI rejected by your identity provider | The registered URI is not exactly what was sent | Copy the value off the *Sign in* page; it differs per head |
 | **Android:** browser opens, sign-in completes, nothing comes back | `RedirectScheme` in `WebAuthenticationBrokerActivity.Android.cs` does not match the redirect URI | Fix it and rebuild |

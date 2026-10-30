@@ -131,9 +131,8 @@ public static class PlatformGuide
                         desktop head. Since Uno.Extensions 8.0.0-dev.135, AddOidc registers one
                         (DesktopWebAuthenticationBrokerProvider): it opens the system browser on
                         the authorization URL and waits on a loopback HTTP listener for the
-                        code. Nothing to write in the app; this sample only raises
-                        UnoExtensionsVersion in Directory.Build.props because its Uno.Sdk still
-                        pins an older version. The registration is first-wins and the broker
+                        code. Nothing to write in the app: Uno.Sdk 7.0.0-dev.95 and later pin
+                        a version that has it. The registration is first-wins and the broker
                         keeps the provider it first resolved, so do not touch
                         WebAuthenticationBroker before UseAuthentication has run.
                         """),

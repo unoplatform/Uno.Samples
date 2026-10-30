@@ -11,13 +11,5 @@
       PRI257: Ignore default language (en) not being one of the included resources (eg en-us, en-uk)
     -->
     <NoWarn>$(NoWarn);NU1507;NETSDK1201;PRI257</NoWarn>
-
-    <!--
-      Desktop (Skia) sign-in needs Uno.Extensions 8.0.0-dev.135 or later: that is the first
-      version whose AddOidc registers a loopback WebAuthenticationBroker on Windows, macOS and
-      Linux (unoplatform/uno.extensions#3261). The Uno.Sdk in global.json still pins an older
-      Uno.Extensions, so the version is raised here. Remove this once the Sdk pins dev.135+.
-    -->
-    <UnoExtensionsVersion>8.0.0-dev.135</UnoExtensionsVersion>
   </PropertyGroup>
 </Project>
