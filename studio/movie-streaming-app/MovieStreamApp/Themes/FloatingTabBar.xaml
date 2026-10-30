@@ -369,11 +369,11 @@
     <Setter Property="BorderThickness" Value="1" />
     <Setter Property="CornerRadius" Value="{StaticResource FloatingTabBarCornerRadius}" />
     <Setter Property="MinHeight" Value="{StaticResource FloatingTabBarHeight}" />
-    <Setter Property="Padding" Value="0" />
+    <Setter Property="Padding" Value="{ThemeResource Space0Thickness}" />
     <Setter Property="HorizontalAlignment" Value="Center" />
     <Setter Property="VerticalAlignment" Value="Bottom" />
     <!-- Detach from the home indicator; the Simple bottom bar bakes in no bottom inset. -->
-    <Setter Property="Margin" Value="0,0,0,12" />
+    <Setter Property="Margin" Value="{ThemeResource Space300BottomThickness}" />
     <Setter Property="utu:SafeArea.Insets" Value="Bottom" />
     <Setter Property="ItemContainerStyle" Value="{StaticResource FloatingTabBarItemStyle}" />
     <!--
@@ -675,7 +675,7 @@
     <!-- No vertical padding: it would inflate the sliding indicator's per-item cell (barHeight/itemCount)
          and drift the lozenge off each tab. End breathing room comes from the lozenge being smaller than
          the item, not from padding — same trick as the bottom bar. -->
-    <Setter Property="Padding" Value="6,0" />
+    <Setter Property="Padding" Value="{ThemeResource Space150HorizontalThickness}" />
     <Setter Property="HorizontalAlignment" Value="Left" />
     <Setter Property="VerticalAlignment" Value="Center" />
     <Setter Property="Margin" Value="18,0,0,0" />
