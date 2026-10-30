@@ -256,8 +256,9 @@ public static class PlatformGuide
                     "Allow plain HTTP to localhost",
                     """
                     The simulator reaches the development machine at localhost, so appsettings
-                    is written for this head. App Transport Security blocks the app's own HTTP
-                    calls (the refresh and the API) unless Info.plist sets NSAllowsLocalNetworking.
+                    is written for this head. Info.plist sets NSAllowsLocalNetworking so App
+                    Transport Security does not block the app's own HTTP calls (the refresh and
+                    the API).
                     """),
 
                 new(SetupArea.Project,

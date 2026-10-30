@@ -183,7 +183,7 @@ a fresh process with no sign-in waiting for it: sign in again.
 | File | What it does |
 | --- | --- |
 | `Platforms/iOS/Info.plist` | `CFBundleURLTypes` declares the `webdemo` URL scheme. Uno's `WebAuthenticationBroker` reads the schemes declared there and refuses to start a sign-in whose callback scheme is missing. The template generates a top-level `CFBundleURLSchemes` key instead, which iOS and the broker both ignore. |
-| `Platforms/iOS/Info.plist` | `NSAppTransportSecurity` > `NSAllowsLocalNetworking`, so the app's own HTTP calls (refresh, API) can reach the server at `http://localhost:5001`. |
+| `Platforms/iOS/Info.plist` | `NSAppTransportSecurity` > `NSAllowsLocalNetworking`, so App Transport Security lets the app's own HTTP calls (refresh, API) reach the server at `http://localhost:5001`. Not yet confirmed on a simulator run. |
 | `Platforms/iOS/Entitlements.plist` | Grants `keychain-access-groups`: Uno.Extensions keeps the tokens in the keychain, and without this the first token save fails. |
 
 ```bash
@@ -230,6 +230,7 @@ when recording.
 | **Android:** API call fails with a cleartext error | Plain HTTP to an address `network_security_config.xml` does not allow | Add the address there, or serve HTTPS |
 | **iOS:** `No schemes defined in info.plist` | The scheme is not under `CFBundleURLTypes` | Fix `Info.plist`, then **clean-build** the iOS head |
 | Signed out after every server restart | The demo server keeps its tokens in memory | Expected; a real backend persists them |
+| **WebAssembly:** the popup shows 404 for `/auth/login` | The head was started on its own dev server (`dotnet run -f net10.0-browserwasm`, port 5000), which has no backend | Run the server project and open `http://localhost:5001` |
 | **WebAssembly:** popup opens and never closes | `Cross-Origin-Opener-Policy` on the serving origin, or the callback path is not served | Leave COOP unset; keep the `index.html` fallback |
 
 ## Relevant documentation

@@ -76,8 +76,8 @@
 
 		<!--
 			The demo server is plain HTTP on the development machine, which the simulator reaches at
-			localhost. App Transport Security blocks the app's own HTTP calls (the refresh and the API)
-			unless local networking is allowed. A real backend serves HTTPS and needs none of this.
+			localhost. Allowing local networking keeps App Transport Security from blocking the app's own
+			HTTP calls (the refresh and the API). A real backend serves HTTPS and needs none of this.
 		-->
 		<key>NSAppTransportSecurity</key>
 		<dict>
