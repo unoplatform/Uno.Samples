@@ -1,0 +1,751 @@
+﻿<Page
+    x:Class="ProjectionShowcase.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:ProjectionShowcase"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+        <StackPanel
+            MaxWidth="900"
+            Padding="40,32,40,60"
+            HorizontalAlignment="Center"
+            Spacing="48">
+
+            <!--  Page Title  -->
+            <StackPanel Spacing="4">
+                <TextBlock
+                    FontSize="32"
+                    FontWeight="Bold"
+                    Text="Projection Showcase" />
+                <TextBlock
+                    FontSize="14"
+                    Foreground="{ThemeResource SystemControlForegroundBaseMediumBrush}"
+                    Text="PlaneProjection &amp; Matrix3DProjection animations" />
+            </StackPanel>
+
+            <!--  ════════════════════════════════════════════════════  -->
+            <!--  Section 1: Orbiting Cards — PlaneProjection Carousel  -->
+            <!--  ════════════════════════════════════════════════════  -->
+            <StackPanel Spacing="12">
+                <TextBlock
+                    FontSize="20"
+                    FontWeight="SemiBold"
+                    Text="Orbiting Cards" />
+                <TextBlock
+                    FontSize="12"
+                    Foreground="{ThemeResource SystemControlForegroundBaseMediumBrush}"
+                    Text="RotationY  &#x2022;  GlobalOffsetX  &#x2022;  GlobalOffsetZ" />
+                <Border
+                    Height="320"
+                    Padding="20"
+                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                    CornerRadius="16">
+                    <Grid>
+                        <!--  Card 0 — Blue  -->
+                        <Border
+                            x:Name="Card0"
+                            Width="110"
+                            Height="150"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            CornerRadius="12">
+                            <Border.Background>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                    <GradientStop Offset="0" Color="#FF60A5FA" />
+                                    <GradientStop Offset="1" Color="#FF2563EB" />
+                                </LinearGradientBrush>
+                            </Border.Background>
+                            <Border.Projection>
+                                <PlaneProjection x:Name="CardProj0" />
+                            </Border.Projection>
+                            <TextBlock
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                FontSize="32"
+                                FontWeight="Bold"
+                                Foreground="White"
+                                Text="1" />
+                        </Border>
+
+                        <!--  Card 1 — Purple  -->
+                        <Border
+                            x:Name="Card1"
+                            Width="110"
+                            Height="150"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            CornerRadius="12">
+                            <Border.Background>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                    <GradientStop Offset="0" Color="#FFA78BFA" />
+                                    <GradientStop Offset="1" Color="#FF7C3AED" />
+                                </LinearGradientBrush>
+                            </Border.Background>
+                            <Border.Projection>
+                                <PlaneProjection x:Name="CardProj1" />
+                            </Border.Projection>
+                            <TextBlock
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                FontSize="32"
+                                FontWeight="Bold"
+                                Foreground="White"
+                                Text="2" />
+                        </Border>
+
+                        <!--  Card 2 — Teal  -->
+                        <Border
+                            x:Name="Card2"
+                            Width="110"
+                            Height="150"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            CornerRadius="12">
+                            <Border.Background>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                    <GradientStop Offset="0" Color="#FF5EEAD4" />
+                                    <GradientStop Offset="1" Color="#FF0D9488" />
+                                </LinearGradientBrush>
+                            </Border.Background>
+                            <Border.Projection>
+                                <PlaneProjection x:Name="CardProj2" />
+                            </Border.Projection>
+                            <TextBlock
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                FontSize="32"
+                                FontWeight="Bold"
+                                Foreground="White"
+                                Text="3" />
+                        </Border>
+
+                        <!--  Card 3 — Orange  -->
+                        <Border
+                            x:Name="Card3"
+                            Width="110"
+                            Height="150"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            CornerRadius="12">
+                            <Border.Background>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                    <GradientStop Offset="0" Color="#FFFBBF24" />
+                                    <GradientStop Offset="1" Color="#FFEA580C" />
+                                </LinearGradientBrush>
+                            </Border.Background>
+                            <Border.Projection>
+                                <PlaneProjection x:Name="CardProj3" />
+                            </Border.Projection>
+                            <TextBlock
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                FontSize="32"
+                                FontWeight="Bold"
+                                Foreground="White"
+                                Text="4" />
+                        </Border>
+
+                        <!--  Card 4 — Pink  -->
+                        <Border
+                            x:Name="Card4"
+                            Width="110"
+                            Height="150"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            CornerRadius="12">
+                            <Border.Background>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                    <GradientStop Offset="0" Color="#FFF472B6" />
+                                    <GradientStop Offset="1" Color="#FFDB2777" />
+                                </LinearGradientBrush>
+                            </Border.Background>
+                            <Border.Projection>
+                                <PlaneProjection x:Name="CardProj4" />
+                            </Border.Projection>
+                            <TextBlock
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                FontSize="32"
+                                FontWeight="Bold"
+                                Foreground="White"
+                                Text="5" />
+                        </Border>
+                    </Grid>
+                </Border>
+            </StackPanel>
+
+            <!--  ════════════════════════════════════════════════════  -->
+            <!--  Section 2: Floating Tiles — Multi-Axis Oscillation  -->
+            <!--  ════════════════════════════════════════════════════  -->
+            <StackPanel Spacing="12">
+                <TextBlock
+                    FontSize="20"
+                    FontWeight="SemiBold"
+                    Text="Floating Tiles" />
+                <TextBlock
+                    FontSize="12"
+                    Foreground="{ThemeResource SystemControlForegroundBaseMediumBrush}"
+                    Text="RotationX  &#x2022;  RotationY  &#x2022;  RotationZ  &#x2022;  LocalOffsetZ" />
+                <Border
+                    Height="320"
+                    Padding="20"
+                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                    CornerRadius="16">
+                    <Grid
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        ColumnSpacing="40"
+                        RowSpacing="40">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <!--  Tile 0 — Red  -->
+                        <Border
+                            x:Name="Tile0"
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            Width="100"
+                            Height="100"
+                            Background="#FFEF4444"
+                            CornerRadius="12">
+                            <Border.Projection>
+                                <PlaneProjection x:Name="TileProj0" />
+                            </Border.Projection>
+                        </Border>
+
+                        <!--  Tile 1 — Blue  -->
+                        <Border
+                            x:Name="Tile1"
+                            Grid.Row="0"
+                            Grid.Column="1"
+                            Width="100"
+                            Height="100"
+                            Background="#FF3B82F6"
+                            CornerRadius="12">
+                            <Border.Projection>
+                                <PlaneProjection x:Name="TileProj1" />
+                            </Border.Projection>
+                        </Border>
+
+                        <!--  Tile 2 — Green  -->
+                        <Border
+                            x:Name="Tile2"
+                            Grid.Row="0"
+                            Grid.Column="2"
+                            Width="100"
+                            Height="100"
+                            Background="#FF22C55E"
+                            CornerRadius="12">
+                            <Border.Projection>
+                                <PlaneProjection x:Name="TileProj2" />
+                            </Border.Projection>
+                        </Border>
+
+                        <!--  Tile 3 — Orange  -->
+                        <Border
+                            x:Name="Tile3"
+                            Grid.Row="1"
+                            Grid.Column="0"
+                            Width="100"
+                            Height="100"
+                            Background="#FFF97316"
+                            CornerRadius="12">
+                            <Border.Projection>
+                                <PlaneProjection x:Name="TileProj3" />
+                            </Border.Projection>
+                        </Border>
+
+                        <!--  Tile 4 — Purple  -->
+                        <Border
+                            x:Name="Tile4"
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            Width="100"
+                            Height="100"
+                            Background="#FF8B5CF6"
+                            CornerRadius="12">
+                            <Border.Projection>
+                                <PlaneProjection x:Name="TileProj4" />
+                            </Border.Projection>
+                        </Border>
+
+                        <!--  Tile 5 — Cyan  -->
+                        <Border
+                            x:Name="Tile5"
+                            Grid.Row="1"
+                            Grid.Column="2"
+                            Width="100"
+                            Height="100"
+                            Background="#FF06B6D4"
+                            CornerRadius="12">
+                            <Border.Projection>
+                                <PlaneProjection x:Name="TileProj5" />
+                            </Border.Projection>
+                        </Border>
+                    </Grid>
+                </Border>
+            </StackPanel>
+
+            <!--  ════════════════════════════════════════════════════  -->
+            <!--  Section 3: Flip Card — Front/Back Reveal  -->
+            <!--  ════════════════════════════════════════════════════  -->
+            <StackPanel Spacing="12">
+                <TextBlock
+                    FontSize="20"
+                    FontWeight="SemiBold"
+                    Text="Flip Card" />
+                <TextBlock
+                    FontSize="12"
+                    Foreground="{ThemeResource SystemControlForegroundBaseMediumBrush}"
+                    Text="RotationY  &#x2022;  Visibility toggling at 90&#x00B0; / 270&#x00B0;" />
+                <Border
+                    Height="280"
+                    Padding="20"
+                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                    CornerRadius="16">
+                    <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <!--  Back Face (rendered first, behind front)  -->
+                        <Border
+                            x:Name="BackFace"
+                            Width="200"
+                            Height="220"
+                            CornerRadius="16"
+                            Visibility="Collapsed">
+                            <Border.Background>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                    <GradientStop Offset="0" Color="#FFA78BFA" />
+                                    <GradientStop Offset="1" Color="#FF7C3AED" />
+                                </LinearGradientBrush>
+                            </Border.Background>
+                            <Border.Projection>
+                                <PlaneProjection x:Name="BackProj" />
+                            </Border.Projection>
+                            <StackPanel
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Spacing="6">
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    FontSize="28"
+                                    FontWeight="Bold"
+                                    Foreground="White"
+                                    Text="BACK" />
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    FontSize="13"
+                                    Foreground="#CCFFFFFF"
+                                    Text="The other side" />
+                            </StackPanel>
+                        </Border>
+
+                        <!--  Front Face  -->
+                        <Border
+                            x:Name="FrontFace"
+                            Width="200"
+                            Height="220"
+                            CornerRadius="16">
+                            <Border.Background>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                    <GradientStop Offset="0" Color="#FF38BDF8" />
+                                    <GradientStop Offset="1" Color="#FF0284C7" />
+                                </LinearGradientBrush>
+                            </Border.Background>
+                            <Border.Projection>
+                                <PlaneProjection x:Name="FrontProj" />
+                            </Border.Projection>
+                            <StackPanel
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Spacing="6">
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    FontSize="28"
+                                    FontWeight="Bold"
+                                    Foreground="White"
+                                    Text="FRONT" />
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    FontSize="13"
+                                    Foreground="#CCFFFFFF"
+                                    Text="Watch it flip" />
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+                </Border>
+            </StackPanel>
+
+            <!--  ════════════════════════════════════════════════════  -->
+            <!--  Section 4: Perspective Tunnel — Spiraling Depth Rings  -->
+            <!--  ════════════════════════════════════════════════════  -->
+            <StackPanel Spacing="12">
+                <TextBlock
+                    FontSize="20"
+                    FontWeight="SemiBold"
+                    Text="Perspective Tunnel" />
+                <TextBlock
+                    FontSize="12"
+                    Foreground="{ThemeResource SystemControlForegroundBaseMediumBrush}"
+                    Text="RotationZ  &#x2022;  LocalOffsetZ" />
+                <Border
+                    Height="340"
+                    Padding="20"
+                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                    CornerRadius="16">
+                    <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <!--  Ring 0 — Red (outermost)  -->
+                        <Border
+                            x:Name="Ring0"
+                            Width="260"
+                            Height="260"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            BorderBrush="#FFEF4444"
+                            BorderThickness="4"
+                            CornerRadius="130"
+                            Opacity="1.0">
+                            <Border.Projection>
+                                <PlaneProjection x:Name="RingProj0" />
+                            </Border.Projection>
+                        </Border>
+
+                        <!--  Ring 1 — Orange  -->
+                        <Border
+                            x:Name="Ring1"
+                            Width="230"
+                            Height="230"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            BorderBrush="#FFF97316"
+                            BorderThickness="4"
+                            CornerRadius="115"
+                            Opacity="0.9">
+                            <Border.Projection>
+                                <PlaneProjection x:Name="RingProj1" />
+                            </Border.Projection>
+                        </Border>
+
+                        <!--  Ring 2 — Yellow  -->
+                        <Border
+                            x:Name="Ring2"
+                            Width="200"
+                            Height="200"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            BorderBrush="#FFEAB308"
+                            BorderThickness="3"
+                            CornerRadius="100"
+                            Opacity="0.8">
+                            <Border.Projection>
+                                <PlaneProjection x:Name="RingProj2" />
+                            </Border.Projection>
+                        </Border>
+
+                        <!--  Ring 3 — Green  -->
+                        <Border
+                            x:Name="Ring3"
+                            Width="170"
+                            Height="170"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            BorderBrush="#FF22C55E"
+                            BorderThickness="3"
+                            CornerRadius="85"
+                            Opacity="0.7">
+                            <Border.Projection>
+                                <PlaneProjection x:Name="RingProj3" />
+                            </Border.Projection>
+                        </Border>
+
+                        <!--  Ring 4 — Cyan  -->
+                        <Border
+                            x:Name="Ring4"
+                            Width="140"
+                            Height="140"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            BorderBrush="#FF06B6D4"
+                            BorderThickness="3"
+                            CornerRadius="70"
+                            Opacity="0.6">
+                            <Border.Projection>
+                                <PlaneProjection x:Name="RingProj4" />
+                            </Border.Projection>
+                        </Border>
+
+                        <!--  Ring 5 — Blue  -->
+                        <Border
+                            x:Name="Ring5"
+                            Width="110"
+                            Height="110"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            BorderBrush="#FF3B82F6"
+                            BorderThickness="2"
+                            CornerRadius="55"
+                            Opacity="0.5">
+                            <Border.Projection>
+                                <PlaneProjection x:Name="RingProj5" />
+                            </Border.Projection>
+                        </Border>
+
+                        <!--  Ring 6 — Indigo  -->
+                        <Border
+                            x:Name="Ring6"
+                            Width="80"
+                            Height="80"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            BorderBrush="#FF6366F1"
+                            BorderThickness="2"
+                            CornerRadius="40"
+                            Opacity="0.4">
+                            <Border.Projection>
+                                <PlaneProjection x:Name="RingProj6" />
+                            </Border.Projection>
+                        </Border>
+
+                        <!--  Ring 7 — Violet (innermost)  -->
+                        <Border
+                            x:Name="Ring7"
+                            Width="50"
+                            Height="50"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            BorderBrush="#FFA855F7"
+                            BorderThickness="2"
+                            CornerRadius="25"
+                            Opacity="0.3">
+                            <Border.Projection>
+                                <PlaneProjection x:Name="RingProj7" />
+                            </Border.Projection>
+                        </Border>
+                    </Grid>
+                </Border>
+            </StackPanel>
+
+            <!--  ════════════════════════════════════════════════════  -->
+            <!--  Section 5: Matrix3D Wave — Custom Matrix Ripple  -->
+            <!--  ════════════════════════════════════════════════════  -->
+            <StackPanel Spacing="12">
+                <TextBlock
+                    FontSize="20"
+                    FontWeight="SemiBold"
+                    Text="Matrix3D Wave" />
+                <TextBlock
+                    FontSize="12"
+                    Foreground="{ThemeResource SystemControlForegroundBaseMediumBrush}"
+                    Text="Matrix3DProjection  &#x2022;  Matrix3D with M34 perspective" />
+                <Border
+                    Height="200"
+                    Padding="20"
+                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                    CornerRadius="16">
+                    <StackPanel
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Orientation="Horizontal"
+                        Spacing="8">
+
+                        <Border
+                            x:Name="WaveTile0"
+                            Width="55"
+                            Height="80"
+                            Background="#FF06B6D4"
+                            CornerRadius="8">
+                            <Border.Projection>
+                                <Matrix3DProjection x:Name="WaveProj0" />
+                            </Border.Projection>
+                            <TextBlock
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                FontSize="18"
+                                FontWeight="SemiBold"
+                                Foreground="White"
+                                Opacity="0.8"
+                                Text="1" />
+                        </Border>
+
+                        <Border
+                            x:Name="WaveTile1"
+                            Width="55"
+                            Height="80"
+                            Background="#FF0891B2"
+                            CornerRadius="8">
+                            <Border.Projection>
+                                <Matrix3DProjection x:Name="WaveProj1" />
+                            </Border.Projection>
+                            <TextBlock
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                FontSize="18"
+                                FontWeight="SemiBold"
+                                Foreground="White"
+                                Opacity="0.8"
+                                Text="2" />
+                        </Border>
+
+                        <Border
+                            x:Name="WaveTile2"
+                            Width="55"
+                            Height="80"
+                            Background="#FF0E7490"
+                            CornerRadius="8">
+                            <Border.Projection>
+                                <Matrix3DProjection x:Name="WaveProj2" />
+                            </Border.Projection>
+                            <TextBlock
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                FontSize="18"
+                                FontWeight="SemiBold"
+                                Foreground="White"
+                                Opacity="0.8"
+                                Text="3" />
+                        </Border>
+
+                        <Border
+                            x:Name="WaveTile3"
+                            Width="55"
+                            Height="80"
+                            Background="#FF0EA5E9"
+                            CornerRadius="8">
+                            <Border.Projection>
+                                <Matrix3DProjection x:Name="WaveProj3" />
+                            </Border.Projection>
+                            <TextBlock
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                FontSize="18"
+                                FontWeight="SemiBold"
+                                Foreground="White"
+                                Opacity="0.8"
+                                Text="4" />
+                        </Border>
+
+                        <Border
+                            x:Name="WaveTile4"
+                            Width="55"
+                            Height="80"
+                            Background="#FF0284C7"
+                            CornerRadius="8">
+                            <Border.Projection>
+                                <Matrix3DProjection x:Name="WaveProj4" />
+                            </Border.Projection>
+                            <TextBlock
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                FontSize="18"
+                                FontWeight="SemiBold"
+                                Foreground="White"
+                                Opacity="0.8"
+                                Text="5" />
+                        </Border>
+
+                        <Border
+                            x:Name="WaveTile5"
+                            Width="55"
+                            Height="80"
+                            Background="#FF0369A1"
+                            CornerRadius="8">
+                            <Border.Projection>
+                                <Matrix3DProjection x:Name="WaveProj5" />
+                            </Border.Projection>
+                            <TextBlock
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                FontSize="18"
+                                FontWeight="SemiBold"
+                                Foreground="White"
+                                Opacity="0.8"
+                                Text="6" />
+                        </Border>
+
+                        <Border
+                            x:Name="WaveTile6"
+                            Width="55"
+                            Height="80"
+                            Background="#FF3B82F6"
+                            CornerRadius="8">
+                            <Border.Projection>
+                                <Matrix3DProjection x:Name="WaveProj6" />
+                            </Border.Projection>
+                            <TextBlock
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                FontSize="18"
+                                FontWeight="SemiBold"
+                                Foreground="White"
+                                Opacity="0.8"
+                                Text="7" />
+                        </Border>
+
+                        <Border
+                            x:Name="WaveTile7"
+                            Width="55"
+                            Height="80"
+                            Background="#FF2563EB"
+                            CornerRadius="8">
+                            <Border.Projection>
+                                <Matrix3DProjection x:Name="WaveProj7" />
+                            </Border.Projection>
+                            <TextBlock
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                FontSize="18"
+                                FontWeight="SemiBold"
+                                Foreground="White"
+                                Opacity="0.8"
+                                Text="8" />
+                        </Border>
+
+                        <Border
+                            x:Name="WaveTile8"
+                            Width="55"
+                            Height="80"
+                            Background="#FF6366F1"
+                            CornerRadius="8">
+                            <Border.Projection>
+                                <Matrix3DProjection x:Name="WaveProj8" />
+                            </Border.Projection>
+                            <TextBlock
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                FontSize="18"
+                                FontWeight="SemiBold"
+                                Foreground="White"
+                                Opacity="0.8"
+                                Text="9" />
+                        </Border>
+
+                        <Border
+                            x:Name="WaveTile9"
+                            Width="55"
+                            Height="80"
+                            Background="#FF8B5CF6"
+                            CornerRadius="8">
+                            <Border.Projection>
+                                <Matrix3DProjection x:Name="WaveProj9" />
+                            </Border.Projection>
+                            <TextBlock
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                FontSize="18"
+                                FontWeight="SemiBold"
+                                Foreground="White"
+                                Opacity="0.8"
+                                Text="10" />
+                        </Border>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+
+        </StackPanel>
+    </ScrollViewer>
+</Page>
