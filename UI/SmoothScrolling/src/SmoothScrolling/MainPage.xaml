@@ -1,0 +1,192 @@
+<Page x:Class="SmoothScrolling.MainPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:local="using:SmoothScrolling"
+      Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+  <Page.Resources>
+    <DataTemplate x:Key="FeedItemTemplate"
+                  x:DataType="local:FeedItem">
+      <Grid Margin="0,0,0,8"
+            Padding="12"
+            ColumnSpacing="16"
+            Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+            BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+            BorderThickness="1"
+            CornerRadius="{ThemeResource ControlCornerRadius}">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="160" />
+        </Grid.ColumnDefinitions>
+        <Border Width="64"
+                Height="64"
+                Background="{x:Bind Thumb}"
+                CornerRadius="{ThemeResource ControlCornerRadius}">
+          <SymbolIcon Symbol="{x:Bind Icon}"
+                      Foreground="White" />
+        </Border>
+        <StackPanel Grid.Column="1"
+                    VerticalAlignment="Center"
+                    Spacing="4">
+          <TextBlock Text="{x:Bind Title}"
+                     Style="{StaticResource BodyStrongTextBlockStyle}"
+                     TextTrimming="CharacterEllipsis" />
+          <TextBlock Text="{x:Bind Subtitle}"
+                     Style="{StaticResource CaptionTextBlockStyle}"
+                     Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                     TextTrimming="CharacterEllipsis" />
+        </StackPanel>
+        <Border Grid.Column="2"
+                Padding="8,2"
+                VerticalAlignment="Center"
+                Background="{ThemeResource AccentFillColorDefaultBrush}"
+                CornerRadius="{ThemeResource ControlCornerRadius}">
+          <TextBlock Text="{x:Bind Badge}"
+                     Style="{StaticResource CaptionTextBlockStyle}"
+                     Foreground="{ThemeResource TextOnAccentFillColorPrimaryBrush}" />
+        </Border>
+        <TextBlock Grid.Column="3"
+                   Text="{x:Bind Meta}"
+                   Style="{StaticResource CaptionTextBlockStyle}"
+                   Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+                   HorizontalTextAlignment="End"
+                   VerticalAlignment="Center" />
+      </Grid>
+    </DataTemplate>
+  </Page.Resources>
+
+  <Grid Padding="32,24,32,0"
+        RowSpacing="16">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="*" />
+    </Grid.RowDefinitions>
+
+    <Grid ColumnSpacing="24">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="Auto" />
+      </Grid.ColumnDefinitions>
+
+      <StackPanel Spacing="12">
+        <StackPanel Spacing="4">
+          <TextBlock Text="Smooth scrolling"
+                     Style="{StaticResource TitleTextBlockStyle}" />
+          <TextBlock Text="1,000 rich items, scrolled on the compositor frame clock."
+                     Style="{StaticResource BodyTextBlockStyle}"
+                     Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
+        </StackPanel>
+        <SelectorBar x:Name="Selector"
+                     AutomationProperties.AutomationId="ModeSelector"
+                     HorizontalAlignment="Left"
+                     SelectionChanged="OnModeChanged">
+          <SelectorBarItem x:Name="ScrollViewItem"
+                           AutomationProperties.AutomationId="ScrollViewTab"
+                           Text="ScrollView"
+                           IsSelected="True" />
+          <SelectorBarItem x:Name="ListViewItem"
+                           AutomationProperties.AutomationId="ListViewTab"
+                           Text="ListView" />
+        </SelectorBar>
+        <StackPanel Orientation="Horizontal"
+                    Spacing="8">
+          <Button x:Name="FlingButton"
+                  AutomationProperties.AutomationId="FlingButton"
+                  Content="Fling"
+                  Click="OnFling" />
+          <Button x:Name="TopButton"
+                  AutomationProperties.AutomationId="TopButton"
+                  Content="Back to top"
+                  Click="OnBackToTop" />
+        </StackPanel>
+      </StackPanel>
+
+      <Border Grid.Column="1"
+              MinWidth="280"
+              Padding="16"
+              VerticalAlignment="Top"
+              Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+              BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+              BorderThickness="1"
+              CornerRadius="{ThemeResource OverlayCornerRadius}">
+        <Grid RowSpacing="8"
+              ColumnSpacing="16">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+          </Grid.ColumnDefinitions>
+          <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+          </Grid.RowDefinitions>
+          <TextBlock Text="Live readout"
+                     Style="{StaticResource BodyStrongTextBlockStyle}"
+                     Grid.ColumnSpan="2" />
+          <TextBlock Grid.Row="1"
+                     Text="Frames / s"
+                     Style="{StaticResource CaptionTextBlockStyle}"
+                     Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
+          <TextBlock x:Name="FpsText"
+                     Grid.Row="1"
+                     Grid.Column="1"
+                     AutomationProperties.AutomationId="FpsText"
+                     Text="-"
+                     FontFamily="Consolas"
+                     Style="{StaticResource BodyStrongTextBlockStyle}"
+                     HorizontalTextAlignment="End" />
+          <TextBlock Grid.Row="2"
+                     Text="Fresh positions / s"
+                     Style="{StaticResource CaptionTextBlockStyle}"
+                     Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
+          <TextBlock x:Name="FreshText"
+                     Grid.Row="2"
+                     Grid.Column="1"
+                     AutomationProperties.AutomationId="FreshText"
+                     Text="-"
+                     FontFamily="Consolas"
+                     Style="{StaticResource BodyStrongTextBlockStyle}"
+                     HorizontalTextAlignment="End" />
+          <TextBlock Grid.Row="3"
+                     Text="Offset (px)"
+                     Style="{StaticResource CaptionTextBlockStyle}"
+                     Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
+          <TextBlock x:Name="OffsetText"
+                     Grid.Row="3"
+                     Grid.Column="1"
+                     AutomationProperties.AutomationId="OffsetText"
+                     Text="0"
+                     FontFamily="Consolas"
+                     Style="{StaticResource BodyStrongTextBlockStyle}"
+                     HorizontalTextAlignment="End" />
+        </Grid>
+      </Border>
+    </Grid>
+
+    <Grid Grid.Row="1">
+      <ScrollView x:Name="FeedScrollView"
+                  AutomationProperties.AutomationId="FeedScrollView"
+                  Padding="0,0,16,0">
+        <ItemsRepeater x:Name="Repeater"
+                       ItemTemplate="{StaticResource FeedItemTemplate}" />
+      </ScrollView>
+      <ListView x:Name="FeedListView"
+                AutomationProperties.AutomationId="FeedListView"
+                Visibility="Collapsed"
+                SelectionMode="None"
+                ItemTemplate="{StaticResource FeedItemTemplate}">
+        <ListView.ItemContainerStyle>
+          <Style TargetType="ListViewItem"
+                 BasedOn="{StaticResource DefaultListViewItemStyle}">
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="MinHeight" Value="0" />
+            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+          </Style>
+        </ListView.ItemContainerStyle>
+      </ListView>
+    </Grid>
+  </Grid>
+</Page>
