@@ -5,11 +5,13 @@
 	  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	  xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
 	  xmlns:toolkit="using:CommunityToolkit.WinUI.UI.Controls"
+	  xmlns:unoToolkit="using:Uno.UI.Toolkit"
 	  xmlns:ent="using:WCTDataTreeTabSample.Entities"
 	  xmlns:selectors="using:WCTDataTreeTabSample.TemplateSelectors"
 	  mc:Ignorable="d">
 
-	<Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+	<Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+		  unoToolkit:VisibleBoundsPadding.PaddingMask="All">
 		<muxc:NavigationView x:Name="NavView"
 							 OpenPaneLength="200"
 							 IsSettingsVisible="False"
@@ -141,5 +143,14 @@
 
 			<Frame x:Name="ContentFrame"></Frame>
 		</muxc:NavigationView>
+
+		<!-- Custom pane toggle button -->
+		<Button x:Name="NavViewToggleButton"
+				Grid.Row="2"
+				Click="NavViewToggleButton_Click"
+				HorizontalAlignment="Left"
+				AutomationProperties.AutomationId="NavToggle"
+				Style="{StaticResource PaneToggleButtonStyle}" />
+
 	</Grid>
 </Page>
