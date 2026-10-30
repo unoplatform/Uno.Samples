@@ -11,7 +11,7 @@ Tested on:
 - [x] Desktop (Skia) on Windows: Uno.Sdk 7.0.0-dev.115, Uno.Extensions 8.0.0-dev.150
 - [x] WebAssembly: Uno.Sdk 7.0.0-dev.115, Uno.Extensions 8.0.0-dev.150
 - [x] Android (API 36 emulator): Uno.Sdk 7.0.0-dev.115, Uno.Extensions 8.0.0-dev.150
-- [ ] iOS: not run yet
+- [x] iOS (iPhone 16 simulator, iOS 18.5): Uno.Sdk 7.0.0-dev.115, Uno.Extensions 8.0.0-dev.150
 
 This document is the **setup guide**. For what the sample *demonstrates* and how the code is
 arranged, see [`Authentication.CustomExtensionsDemo/ReadMe.md`](Authentication.CustomExtensionsDemo/ReadMe.md).
