@@ -3,24 +3,8 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:lvc="using:LiveChartsCore.SkiaSharpView.WinUI"
       xmlns:utu="using:Uno.Toolkit.UI"
+      xmlns:mvux="using:Uno.Extensions.Reactive.UI"
       Background="{ThemeResource DashboardPageBackgroundBrush}">
-  <Page.Resources>
-    <!-- A "Top Open Leads" row, bound to the highest-value open deals in the shared dataset. -->
-    <DataTemplate x:Key="TopLeadTemplate">
-      <Border BorderBrush="{ThemeResource DashboardBorderBrush}" BorderThickness="0,0,0,1" Padding="0,0,0,10" Margin="0,0,0,10">
-        <Grid>
-          <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="Auto" />
-          </Grid.ColumnDefinitions>
-          <TextBlock Text="{Binding Company}" Style="{StaticResource DashboardBodyTextStyle}" />
-          <TextBlock Grid.Column="1" Text="{Binding AmountDisplay}"
-                     Style="{StaticResource DashboardBodyTextStyle}"
-                     Foreground="{ThemeResource DashboardAccentBrush}" />
-        </Grid>
-      </Border>
-    </DataTemplate>
-  </Page.Resources>
 
   <!--
     Single responsive tree: every element (and in particular every LiveCharts control) exists
@@ -266,8 +250,11 @@
               <TextBlock Text="Top Open Leads"
                          Style="{StaticResource DashboardSectionTitleStyle}" />
 
-              <ItemsControl ItemsSource="{Binding TopOpenLeads}"
-                            ItemTemplate="{StaticResource TopLeadTemplate}" />
+              <!-- Its own request, so an account with no open leads is a designed state. -->
+              <mvux:FeedView Source="{Binding TopOpenLeads}"
+                             ValueTemplate="{StaticResource TopLeadListTemplate}"
+                             NoneTemplate="{StaticResource NoOpenLeadsTemplate}"
+                             ErrorTemplate="{StaticResource CrmErrorTemplate}" />
             </StackPanel>
           </Border>
         </Grid>

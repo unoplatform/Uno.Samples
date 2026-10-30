@@ -7,6 +7,18 @@
     height (the title region reserves two lines) and the status indicator lives
     in its own right-hand column so it is always pinned top-right and never
     overlaps a long, wrapping company name.
+
+    The indicator is one of four marks, and only one is ever visible. They escalate
+    in silhouette and size the same way the deal detail page does — a calm 8px dot,
+    a 12px caution diamond, a 14px alarm triangle — so a glance across a column
+    separates the deals that need attention from the ones that do not, without
+    relying on telling red from green. A won deal gets the check instead.
+
+    Every mark is pre-colored with its own {ThemeResource} and switched by
+    Visibility, rather than one shape whose Fill comes from a color key on the deal:
+    a key routed through a value converter is resolved app-wide, so it cannot see
+    this element's ActualTheme and returns nothing at all in a design-time host.
+    All four marks are 14px or under, so none of them changes the card's height.
   -->
   <Border Style="{StaticResource DashboardKanbanCardStyle}">
     <StackPanel Spacing="8">
@@ -27,14 +39,38 @@
                    Height="46"
                    VerticalAlignment="Top" />
 
+        <!-- Healthy: the calm dot. -->
         <Ellipse Grid.Column="1"
                  Width="8"
                  Height="8"
                  VerticalAlignment="Top"
                  Margin="8,7,0,0"
-                 Fill="{x:Bind Accent, Mode=OneWay}"
-                 Visibility="{x:Bind DotVisibility(IsWon), Mode=OneWay}" />
+                 Fill="{ThemeResource DashboardGreenBrush}"
+                 Visibility="{x:Bind HealthyVisibility(IsWon, Health), Mode=OneWay}" />
 
+        <!-- Watch: a caution diamond, larger than the dot. Same geometry the detail page uses. -->
+        <Path Grid.Column="1"
+              Width="12"
+              Height="12"
+              VerticalAlignment="Top"
+              Margin="8,6,0,0"
+              Stretch="Uniform"
+              Data="F0 M12 2 L22 12 L12 22 L2 12 Z M10.9 8.4 L13.1 8.4 L13.1 14.4 L10.9 14.4 Z M10.9 16.1 L13.1 16.1 L13.1 18.3 L10.9 18.3 Z"
+              Fill="{ThemeResource DashboardAmberDeepBrush}"
+              Visibility="{x:Bind WatchVisibility(IsWon, Health), Mode=OneWay}" />
+
+        <!-- At risk: the alarm triangle, the largest and loudest mark on the board. -->
+        <Path Grid.Column="1"
+              Width="14"
+              Height="14"
+              VerticalAlignment="Top"
+              Margin="8,5,0,0"
+              Stretch="Uniform"
+              Data="F0 M12 2.5 L22.6 21 L1.4 21 Z M10.9 9.6 L13.1 9.6 L13.1 15 L10.9 15 Z M10.9 16.7 L13.1 16.7 L13.1 18.9 L10.9 18.9 Z"
+              Fill="{ThemeResource DashboardRedDeepBrush}"
+              Visibility="{x:Bind AtRiskVisibility(IsWon, Health), Mode=OneWay}" />
+
+        <!-- Won: health no longer applies, so the check replaces the mark entirely. -->
         <Path Grid.Column="1"
               Width="14"
               Height="14"
@@ -43,7 +79,7 @@
               Visibility="{x:Bind CheckVisibility(IsWon), Mode=OneWay}"
               Data="F1 M4.53033 12.9697C4.23744 12.6768 3.76256 12.6768 3.46967 12.9697C3.17678 13.2626 3.17678 13.7374 3.46967 14.0303L7.96967 18.5303C8.26256 18.8232 8.73744 18.8232 9.03033 18.5303L20.0303 7.53033C20.3232 7.23744 20.3232 6.76256 20.0303 6.46967C19.7374 6.17678 19.2626 6.17678 18.9697 6.46967L8.5 16.9393L4.53033 12.9697Z"
               Stretch="Uniform"
-              Fill="{x:Bind Accent, Mode=OneWay}" />
+              Fill="{ThemeResource DashboardGreenDeepBrush}" />
       </Grid>
 
       <TextBlock Text="{x:Bind Amount, Mode=OneWay}"
