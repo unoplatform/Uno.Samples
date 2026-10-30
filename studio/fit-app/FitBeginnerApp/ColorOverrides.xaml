@@ -1,0 +1,30 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+  <!--
+    Seed exceptions, not a palette. Three seeds in App.xaml generate every semantic role; the role
+    below is the one the generator's recipe structurally cannot reach, so it is pinned back to the
+    authored brand value. Colors.OverrideSource merges last and wins over the generated palette, and
+    Uno.Themes rewrites the matching *Brush keys (and their hover/pressed/disabled variants) from
+    these values.
+
+    Both themes are declared on purpose: the brush resolver probes Light then Default, so a role
+    given only a Default value would bleed its dark color into light.
+
+    Why this one:
+    - SecondaryColor — only the light PrimaryColor is the seed verbatim under SeedColorMode.Fidelity;
+      Secondary and Tertiary are pinned to tone 40 in light. FitStart's energy orange sits well above
+      tone 40, so the generated role comes back as a dark brown and loses the accent entirely.
+  -->
+  <ResourceDictionary.ThemeDictionaries>
+
+    <ResourceDictionary x:Key="Light">
+      <Color x:Key="SecondaryColor">#E07B1F</Color>
+    </ResourceDictionary>
+
+    <ResourceDictionary x:Key="Default">
+      <Color x:Key="SecondaryColor">#FFB870</Color>
+    </ResourceDictionary>
+
+  </ResourceDictionary.ThemeDictionaries>
+</ResourceDictionary>

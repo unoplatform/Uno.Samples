@@ -50,7 +50,7 @@
                         utu:SafeArea.Insets="Bottom">
               <Border Width="64"
                       Height="64"
-                      CornerRadius="24"
+                      CornerRadius="{ThemeResource Radius700CornerRadius}"
                       HorizontalAlignment="Center"
                       Background="{ThemeResource PrimaryBrush}">
                 <Viewbox Width="30" Height="30">
@@ -81,7 +81,7 @@
           Padding="24,20,20,0"
           utu:SafeArea.Insets="Top">
       <StackPanel Orientation="Horizontal"
-                  Spacing="8"
+                  Spacing="{ThemeResource Space200}"
                   VerticalAlignment="Center">
         <Viewbox Width="22" Height="22" VerticalAlignment="Center">
           <Path Data="{Binding Source=play, Converter={StaticResource Icon}}"
@@ -113,7 +113,7 @@
     <StackPanel VerticalAlignment="Bottom"
                 HorizontalAlignment="Center"
                 MaxWidth="560"
-                Spacing="20"
+                Spacing="{ThemeResource Space500}"
                 Padding="32,0,32,40"
                 utu:SafeArea.Insets="Bottom">
       <PipsPager x:Name="SlidesPager"

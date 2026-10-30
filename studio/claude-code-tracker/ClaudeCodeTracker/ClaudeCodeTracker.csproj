@@ -1,10 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Project Sdk="Uno.Sdk.Private">
+<Project Sdk="Uno.Sdk">
   <PropertyGroup>
     <TargetFrameworks>net10.0-android;net10.0-ios;net10.0-browserwasm;net10.0-desktop</TargetFrameworks>
 
     <OutputType>Exe</OutputType>
     <UnoSingleProject>true</UnoSingleProject>
+
+    <!--
+      Design tokens (seed colours, DefaultCornerRadius/Spacing/FontFamily) need Uno.Themes 8.0, and
+      the runtime-token fixes land in 8.0.0-dev.15. The Toolkit matters too: SimpleToolkitTheme only
+      inherits BaseTheme — and so surfaces Colors and DefaultFontFamily — from 9.x. Both are ahead
+      of the SDK's implicit versions.
+    -->
+    <UnoThemesVersion>8.0.0-dev.15</UnoThemesVersion>
+    <UnoToolkitVersion>9.1.3</UnoToolkitVersion>
 
     <!-- Display name -->
     <ApplicationTitle>ClaudeCodeTracker</ApplicationTitle>
@@ -60,13 +69,27 @@
   </ItemGroup>
 
   <!--
+    Hot Design previews live in Previews/. Hot Design locates them at runtime via the
+    ApplicationPreviewsFolder assembly metadata the Uno.UI.HotDesign package computes from this
+    property, so it MUST point at our folder or none are listed — the default is HotDesignPreviews/,
+    and the legacy HotDesignStoriesFolder name is no longer bridged, so setting that one instead
+    resolves nothing. The SDK also drops this folder from the Release compile, which it has to: the
+    HotDesign package contributes no assets there, so the hd: types do not exist.
+  -->
+  <PropertyGroup>
+    <HotDesignPreviewsFolder>Previews</HotDesignPreviewsFolder>
+  </PropertyGroup>
+
+  <!--
     Desktop (Skia) window/taskbar icon. MainWindow.SetWindowIcon() loads "images/icon.png" from
     the app output at runtime; this is the composed app icon (logo + ring on #151515). Without it
     the slot is empty (and previously the LiveCharts package's own logo landed here — see above).
   -->
   <ItemGroup Condition="$(TargetFramework.Contains('-desktop'))">
-    <!-- icon.png: square window/taskbar icon (Windows/Linux). icon-macos.png: rounded squircle
-         with the macOS icon-grid margin, set as the Dock icon at runtime on macOS. -->
-    <Content Include="images\*.png" CopyToOutputDirectory="PreserveNewest" />
+    <!-- icon.png: the square window/taskbar icon SetWindowIcon() loads. The macOS Dock is branded
+         by the packaged .app icon Uno.Resizetizer generates from UnoIconForegroundFile above, not at
+         runtime: an unbundled `dotnet run` shows the generic Dock placeholder, and that is accepted
+         rather than reached for through native interop. -->
+    <Content Include="images\icon.png" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 </Project>
