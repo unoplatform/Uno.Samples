@@ -1,0 +1,151 @@
+using System.Diagnostics.CodeAnalysis;
+using Authentication.WebExtensionsDemo.Authentication;
+using Authentication.WebExtensionsDemo.Common;
+using Authentication.WebExtensionsDemo.DataContracts.Serialization;
+using Uno.Resizetizer;
+
+namespace Authentication.WebExtensionsDemo;
+
+public partial class App : Application
+{
+    /// <summary>
+    /// Initializes the singleton application object. This is the first line of authored code
+    /// executed, and as such is the logical equivalent of main() or WinMain().
+    /// </summary>
+    public App()
+    {
+        this.InitializeComponent();
+    }
+
+    protected Window? MainWindow { get; private set; }
+    protected IHost? Host { get; private set; }
+
+    [SuppressMessage("Trimming", "IL2026:Members annotated with 'RequiresUnreferencedCodeAttribute' require dynamic access otherwise can break functionality when trimming application code", Justification = "Uno.Extensions APIs are used in a way that is safe for trimming in this template context.")]
+    protected async override void OnLaunched(LaunchActivatedEventArgs args)
+    {
+        var builder = this.CreateBuilder(args)
+            // Add navigation support for toolkit controls such as TabBar and NavigationView
+            .UseToolkitNavigation()
+            .Configure(host => PlatformSupport.ConfigureHost(host
+#if DEBUG
+                // Switch to Development environment when running in DEBUG
+                .UseEnvironment(Environments.Development)
+#endif
+                .UseLogging(configure: (context, logBuilder) =>
+                {
+                    // Configure log levels for different categories of logging
+                    logBuilder
+                        .SetMinimumLevel(
+                            context.HostingEnvironment.IsDevelopment() ?
+                                LogLevel.Information :
+                                LogLevel.Warning)
+
+                        // Default filters for core Uno Platform namespaces
+                        .CoreLogLevel(LogLevel.Warning)
+
+                        // The authentication provider and, on desktop, its loopback
+                        // WebAuthenticationBroker log under this category: at Information the
+                        // log says which broker is handling the sign-in. Uno's own logger only
+                        // reaches these sinks because of enableUnoLogging below.
+                        .AddFilter("Uno.Extensions.Authentication", LogLevel.Information);
+
+                    // Uno Platform namespace filter groups
+                    // Uncomment individual methods to see more detailed logging
+                    //// Generic Xaml events
+                    //logBuilder.XamlLogLevel(LogLevel.Debug);
+                    //// Layout specific messages
+                    //logBuilder.XamlLayoutLogLevel(LogLevel.Debug);
+                    //// Storage messages
+                    //logBuilder.StorageLogLevel(LogLevel.Debug);
+                    //// Binding related messages
+                    //logBuilder.XamlBindingLogLevel(LogLevel.Debug);
+                    //// Binder memory references tracking
+                    //logBuilder.BinderMemoryReferenceLogLevel(LogLevel.Debug);
+                    //// DevServer and HotReload related
+                    //logBuilder.HotReloadCoreLogLevel(LogLevel.Information);
+                    //// Debug JS interop
+                    //logBuilder.WebAssemblyLogLevel(LogLevel.Debug);
+
+                }, enableUnoLogging: true)
+                .UseConfiguration(configure: configBuilder =>
+                    configBuilder
+                        .EmbeddedSource<App>()
+                        .Section<AppConfig>()
+                )
+                // Enable localization (see appsettings.json for supported languages)
+                .UseLocalization()
+                .UseHttp((context, services) =>
+                {
+#if DEBUG
+                    // DelegatingHandler will be automatically injected
+                    services.AddTransient<DelegatingHandler, DebugHttpHandler>();
+#endif
+                    // The clients that call the backend. Registering them here, inside UseHttp,
+                    // is what makes the authentication handler part of their pipeline: the
+                    // access token is attached to every call and a 401 triggers a refresh. Their
+                    // base addresses come from the AuthApi and ProfileApi sections of appsettings.
+                    services.AddRefitClient<IAuthApi>(context);
+                    services.AddRefitClient<IProfileApi>(context);
+                })
+                // The Web provider, configured from the WebAuthentication section (the name
+                // passed here). AddWeb<IAuthApi> rather than AddWeb: its callbacks receive the
+                // Refit client and, in PostLogin, the callback URL. WebFlowService.Configure adds
+                // the state check and the refresh call.
+                .UseAuthentication(auth =>
+                    auth.AddWeb<IAuthApi>(name: WebFlowService.ProviderName, configure: WebFlowService.Configure)
+                )
+                .ConfigureServices((context, services) =>
+                {
+                    // Serializer metadata for the API payload, so the Refit client deserializes
+                    // without reflection on the trimmed WebAssembly and mobile heads.
+                    services
+                        .AddJsonTypeInfo(AuthJsonContext.Default.TokenResponse)
+                        .AddJsonTypeInfo(AuthJsonContext.Default.RefreshRequest)
+                        .AddJsonTypeInfo(AuthJsonContext.Default.Profile);
+
+                    // Hides identifiers on screen while a demo is being recorded. A singleton, so
+                    // the switch in the header covers every section and the flow log at once.
+                    services.AddSingleton<SecretRedactor>();
+
+                    // Narrates every IAuthenticationService call into a flow log shown in the UI,
+                    // and holds the app's one LoggedOut subscription. A singleton so the log and
+                    // sign-in state survive switching sections.
+                    services.AddSingleton<WebFlowService>();
+                })
+                .UseNavigation(ReactiveViewModelMappings.ViewModelMappings, RegisterRoutes)
+            ));
+
+        MainWindow = builder.Window;
+
+#if DEBUG
+        MainWindow.UseStudio(showHotReloadIndicator: false, launchHotDesignOnStart: false);
+#endif
+        MainWindow.SetWindowIcon();
+
+        async Task InitialNavigate(IServiceProvider services, INavigator navigator)
+        {
+            // Run (and narrate) the silent path a production app should use at startup: with a
+            // refresh token stored from a previous run, this signs back in with no UI. Sign-in
+            // itself lives on the page, so navigation happens either way.
+            var flow = services.GetRequiredService<WebFlowService>();
+            await flow.StartupAsync();
+
+            await navigator.NavigateViewModelAsync<MainModel>(this, qualifier: Qualifiers.ClearBackStack);
+        }
+
+        Host = await MainWindow.InitializeNavigationAsync(
+            () => Task.FromResult(builder.Build()),
+            initialNavigate: InitialNavigate);
+    }
+
+    private static void RegisterRoutes(IViewRegistry views, IRouteRegistry routes)
+    {
+        views.Register(
+            new ViewMap<MainPage, MainModel>()
+        );
+
+        routes.Register(
+            new RouteMap("Main", View: views.FindByViewModel<MainModel>(), IsDefault: true)
+        );
+    }
+}
