@@ -11,7 +11,7 @@ Tested on:
 - [x] Desktop (Skia) on Windows: Uno.Sdk 7.0.0-dev.115, Uno.Extensions 8.0.0-dev.150
 - [x] WebAssembly: Uno.Sdk 7.0.0-dev.115, Uno.Extensions 8.0.0-dev.150
 - [x] Android (API 36 emulator): Uno.Sdk 7.0.0-dev.115, Uno.Extensions 8.0.0-dev.150
-- [ ] iOS: not run yet
+- [x] iOS (iPhone 16 simulator, iOS 18.5): Uno.Sdk 7.0.0-dev.115, Uno.Extensions 8.0.0-dev.150
 
 This document is the **setup guide**: what each head needs before it can sign in. For what the
 sample *demonstrates* and how the code is arranged, see
@@ -183,7 +183,7 @@ a fresh process with no sign-in waiting for it: sign in again.
 | File | What it does |
 | --- | --- |
 | `Platforms/iOS/Info.plist` | `CFBundleURLTypes` declares the `webdemo` URL scheme. Uno's `WebAuthenticationBroker` reads the schemes declared there and refuses to start a sign-in whose callback scheme is missing. The template generates a top-level `CFBundleURLSchemes` key instead, which iOS and the broker both ignore. |
-| `Platforms/iOS/Info.plist` | `NSAppTransportSecurity` > `NSAllowsLocalNetworking`, so App Transport Security lets the app's own HTTP calls (refresh, API) reach the server at `http://localhost:5001`. Not yet confirmed on a simulator run. |
+| `Platforms/iOS/Info.plist` | `NSAppTransportSecurity` > `NSAllowsLocalNetworking`, so App Transport Security lets the app's own HTTP calls (refresh, API) reach the server at `http://localhost:5001`. |
 | `Platforms/iOS/Entitlements.plist` | Grants `keychain-access-groups`: Uno.Extensions keeps the tokens in the keychain, and without this the first token save fails. |
 
 ```bash
