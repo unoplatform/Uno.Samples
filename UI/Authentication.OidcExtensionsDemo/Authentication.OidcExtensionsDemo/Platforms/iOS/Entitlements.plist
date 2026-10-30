@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+	<dict>
+		<!--
+			Uno.Extensions keeps ITokenCache in the iOS keychain. Without this entitlement the first
+			token save fails (see https://aka.platform.uno/missing-keychain-entitlement).
+			$(AppIdentifierPrefix) is the Team ID from the provisioning profile, filled in at build time.
+		-->
+		<key>keychain-access-groups</key>
+		<array>
+			<string>$(AppIdentifierPrefix)$(CFBundleIdentifier)</string>
+		</array>
+	</dict>
+</plist>
