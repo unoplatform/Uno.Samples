@@ -1,0 +1,51 @@
+<Project Sdk="Uno.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>net10.0-android;net10.0-ios;net10.0-browserwasm;net10.0-desktop</TargetFrameworks>
+
+    <OutputType>Exe</OutputType>
+    <UnoSingleProject>true</UnoSingleProject>
+
+    <!-- Display name -->
+    <ApplicationTitle>Authentication.CustomExtensionsDemo</ApplicationTitle>
+    <!-- App Identifier -->
+    <ApplicationId>com.companyname.authentication-customextensionsdemo</ApplicationId>
+    <!-- Versions -->
+    <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
+    <ApplicationVersion>1</ApplicationVersion>
+    <!-- Package Publisher -->
+    <ApplicationPublisher>Authentication.CustomExtensionsDemo</ApplicationPublisher>
+    <!-- Package Description -->
+    <Description>Authentication.CustomExtensionsDemo powered by Uno Platform.</Description>
+
+    <!--
+      UnoFeatures are used to quickly add and manage features enabled for your app.
+      https://aka.platform.uno/singleproject-features
+    -->
+    <UnoFeatures>
+      SimpleTheme;
+      Hosting;
+      Toolkit;
+      Logging;
+      MVUX;
+      Configuration;
+      HttpKiota;
+      Serialization;
+      Localization;
+      Authentication;
+      Navigation;
+      ThemeService;
+      SkiaRenderer;
+    </UnoFeatures>
+  </PropertyGroup>
+
+  <!--
+    Debug builds carry Uno's Hot Design and App MCP tooling, whose current packages (Uno.UI.HotDesign
+    2.0.0-dev.31 with Uno.Sdk 7.0.0-dev.115) still reference Uno.UI.Lottie, which Uno.WinUI no
+    longer ships: without this package a Debug build hangs at startup with no window on desktop
+    (unoplatform/uno.extensions#3262). Remove once those tooling packages ship without the reference.
+  -->
+  <ItemGroup Condition="'$(Configuration)' == 'Debug'">
+    <PackageReference Include="Uno.WinUI.Lottie" />
+  </ItemGroup>
+
+</Project>
