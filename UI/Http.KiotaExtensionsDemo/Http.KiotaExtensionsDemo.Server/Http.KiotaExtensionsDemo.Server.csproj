@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- Hosts the WebAssembly head (see Program.cs). -->
+    <ProjectReference Include="..\Http.KiotaExtensionsDemo\Http.KiotaExtensionsDemo.csproj"
+                      SetTargetFramework="TargetFramework=net10.0-browserwasm"
+                      ReferenceOutputAssembly="false" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Uno.Wasm.Bootstrap.Server" />
+  </ItemGroup>
+
+</Project>
