@@ -10,7 +10,6 @@ Uno Platform 7.0 draws the UI through a pluggable [drawing backend](https://plat
 - `src/DrawingBackends/Platforms/Desktop/Program.cs` - parses `--backend` and registers it with `GraphicsBackend(...)`
 - `src/DrawingBackends/BackendInfo.cs` - the chosen backend, shown in the UI
 - `src/DrawingBackends/MainPage.xaml` and `MainPage.xaml.cs` - the scene, the FPS counter and the controls
-- `src/Directory.Build.targets` - works around a private-SDK task loading failure (see the comment in the file)
 
 ## What is the Uno Platform
 
