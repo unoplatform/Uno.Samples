@@ -1,0 +1,68 @@
+<Page x:Class="Http.KiotaExtensionsDemo.Presentation.TaskEditPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:utu="using:Uno.Toolkit.UI"
+      Background="{ThemeResource BackgroundBrush}">
+
+  <!-- Validation is the server's: Save sends the draft, and a 400 problem+json response puts each
+       message under its field (Errors.Title, Errors.Notes, ...). -->
+  <Grid utu:SafeArea.Insets="VisibleBounds">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="*" />
+    </Grid.RowDefinitions>
+
+    <utu:NavigationBar Content="{Binding Heading}" />
+
+    <utu:SafeArea Grid.Row="1" Insets="SoftInput">
+      <StackPanel Padding="16" Spacing="4" MaxWidth="600" HorizontalAlignment="Stretch">
+        <TextBox Header="Title"
+                 Text="{Binding Draft.Title, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                 AutomationProperties.AutomationId="TitleBox" />
+        <TextBlock Style="{StaticResource BodySmall}" Foreground="{ThemeResource ErrorBrush}" TextWrapping="Wrap"
+                   AutomationProperties.AutomationId="TitleError" Text="{Binding Errors.Title}" />
+
+        <TextBox Header="Notes"
+                 AcceptsReturn="True"
+                 TextWrapping="Wrap"
+                 MinHeight="80"
+                 Text="{Binding Draft.Notes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                 AutomationProperties.AutomationId="NotesBox" />
+        <TextBlock Style="{StaticResource BodySmall}" Foreground="{ThemeResource ErrorBrush}" TextWrapping="Wrap"
+                   AutomationProperties.AutomationId="NotesError" Text="{Binding Errors.Notes}" />
+
+        <CalendarDatePicker Header="Due date"
+                            Date="{Binding Draft.DueDate, Mode=TwoWay}"
+                            AutomationProperties.AutomationId="DueDatePicker" />
+        <TextBlock Style="{StaticResource BodySmall}" Foreground="{ThemeResource ErrorBrush}" TextWrapping="Wrap"
+                   AutomationProperties.AutomationId="DueDateError" Text="{Binding Errors.DueDate}" />
+
+        <ComboBox Header="Priority"
+                  MinWidth="160"
+                  ItemsSource="{Binding Priorities}"
+                  SelectedItem="{Binding Draft.Priority, Mode=TwoWay}"
+                  AutomationProperties.AutomationId="PriorityComboBox" />
+        <TextBlock Style="{StaticResource BodySmall}" Foreground="{ThemeResource ErrorBrush}" TextWrapping="Wrap"
+                   AutomationProperties.AutomationId="PriorityError" Text="{Binding Errors.Priority}" />
+
+        <TextBox Header="Tags (comma-separated)"
+                 Text="{Binding Draft.Tags, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                 AutomationProperties.AutomationId="TagsBox" />
+        <TextBlock Style="{StaticResource BodySmall}" Foreground="{ThemeResource ErrorBrush}" TextWrapping="Wrap"
+                   AutomationProperties.AutomationId="TagsError" Text="{Binding Errors.Tags}" />
+
+        <CheckBox Content="Done"
+                  IsChecked="{Binding Draft.Done, Mode=TwoWay}"
+                  AutomationProperties.AutomationId="DoneCheckBox" />
+
+        <TextBlock Style="{StaticResource BodyMedium}" Foreground="{ThemeResource ErrorBrush}" TextWrapping="Wrap"
+                   AutomationProperties.AutomationId="FormError" Text="{Binding Errors.Form}" />
+        <Button Content="Save"
+                Margin="0,8,0,0"
+                Style="{StaticResource FilledButtonStyle}"
+                Command="{Binding Save}"
+                AutomationProperties.AutomationId="SaveButton" />
+      </StackPanel>
+    </utu:SafeArea>
+  </Grid>
+</Page>

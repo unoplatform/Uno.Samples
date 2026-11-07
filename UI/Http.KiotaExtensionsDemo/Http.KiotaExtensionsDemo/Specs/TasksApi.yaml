@@ -1,0 +1,244 @@
+openapi: 3.0.1
+info:
+  title: Tasks API
+  version: "1.0"
+  description: >
+    The contract for the Kiota extensions sample. The server implements this document and the app's
+    Kiota client is generated from it; change this file first, then the server, then regenerate.
+servers:
+  - url: https://tasks.example.com
+    description: Production (placeholder)
+paths:
+  /api/tasks:
+    get:
+      summary: List tasks
+      parameters:
+        - name: search
+          in: query
+          description: Case-insensitive match on the title.
+          schema: { type: string }
+        - name: done
+          in: query
+          description: Only tasks with this completion state.
+          schema: { type: boolean }
+        - name: top
+          in: query
+          description: Maximum number of tasks to return.
+          schema: { type: integer, format: int32, minimum: 1, maximum: 100, default: 50 }
+        - name: skip
+          in: query
+          schema: { type: integer, format: int32, minimum: 0, default: 0 }
+      responses:
+        "200":
+          description: The matching tasks, by due date.
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: "#/components/schemas/TaskItem" }
+    post:
+      summary: Create a task
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/TaskInput" }
+      responses:
+        "201":
+          description: Created.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/TaskItem" }
+        "400":
+          description: The input failed validation (for example an empty title).
+          content:
+            application/problem+json:
+              schema: { $ref: "#/components/schemas/ValidationProblem" }
+  /api/tasks/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema: { type: integer, format: int32 }
+    get:
+      summary: Get one task
+      responses:
+        "200":
+          description: The task.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/TaskItem" }
+        "404":
+          description: No task has this id.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/ApiError" }
+    put:
+      summary: Replace a task
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/TaskInput" }
+      responses:
+        "200":
+          description: The updated task.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/TaskItem" }
+        "400":
+          description: The input failed validation.
+          content:
+            application/problem+json:
+              schema: { $ref: "#/components/schemas/ValidationProblem" }
+        "404":
+          description: No task has this id.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/ApiError" }
+    delete:
+      summary: Delete a task
+      responses:
+        "204":
+          description: Deleted.
+        "404":
+          description: No task has this id.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/ApiError" }
+  /api/tasks/{id}/attachments:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema: { type: integer, format: int32 }
+    get:
+      summary: List a task's attachments
+      responses:
+        "200":
+          description: The attachments.
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: "#/components/schemas/Attachment" }
+        "404":
+          description: No task has this id.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/ApiError" }
+    post:
+      summary: Attach a file to a task
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required: [file]
+              properties:
+                file:
+                  type: string
+                  format: binary
+                description:
+                  type: string
+      responses:
+        "201":
+          description: Stored.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Attachment" }
+        "404":
+          description: No task has this id.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/ApiError" }
+  /api/status:
+    get:
+      summary: Server status line
+      description: A one-line, human-readable status, for display in the app's footer.
+      responses:
+        "200":
+          description: For example "Tasks API 1.0, 12 tasks".
+          content:
+            text/plain:
+              schema: { type: string }
+  /api/reports/summary:
+    get:
+      summary: Task summary
+      description: >
+        The report is computed on demand. While it is warming up the server answers 503 with a
+        Retry-After header; clients are expected to retry.
+      responses:
+        "200":
+          description: The summary.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Summary" }
+        "503":
+          description: Warming up; retry after the delay in Retry-After.
+          headers:
+            Retry-After:
+              schema: { type: integer }
+components:
+  schemas:
+    Priority:
+      type: string
+      enum: [low, normal, high]
+    TaskInput:
+      type: object
+      required: [title]
+      properties:
+        title: { type: string, maxLength: 200 }
+        notes: { type: string, nullable: true }
+        done: { type: boolean, default: false }
+        dueDate: { type: string, format: date-time, nullable: true }
+        priority: { $ref: "#/components/schemas/Priority" }
+        tags:
+          type: array
+          items: { type: string }
+    TaskItem:
+      allOf:
+        - $ref: "#/components/schemas/TaskInput"
+        - type: object
+          required: [id, createdAt]
+          properties:
+            id: { type: integer, format: int32 }
+            createdAt: { type: string, format: date-time }
+            attachmentCount: { type: integer, format: int32 }
+    Attachment:
+      type: object
+      required: [id, fileName, size]
+      properties:
+        id: { type: integer, format: int32 }
+        fileName: { type: string }
+        contentType: { type: string }
+        size: { type: integer, format: int64 }
+        description: { type: string, nullable: true }
+    ApiError:
+      type: object
+      required: [code, message]
+      properties:
+        code: { type: string, example: task_not_found }
+        message: { type: string }
+    ValidationProblem:
+      description: RFC 9457 problem details, as ASP.NET Core's Results.ValidationProblem writes them.
+      type: object
+      properties:
+        type: { type: string }
+        title: { type: string }
+        status: { type: integer, format: int32 }
+        errors:
+          type: object
+          additionalProperties:
+            type: array
+            items: { type: string }
+    Summary:
+      type: object
+      properties:
+        total: { type: integer, format: int32 }
+        done: { type: integer, format: int32 }
+        overdue: { type: integer, format: int32 }
+        byPriority:
+          type: object
+          additionalProperties: { type: integer, format: int32 }

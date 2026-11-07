@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FluentAssertions" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="NUnit" />
+    <PackageReference Include="NUnit3TestAdapter" />
+    <PackageReference Include="coverlet.collector" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- The app (its net10.0 target), for the same client registration the app uses... -->
+    <ProjectReference Include="..\Http.KiotaExtensionsDemo\Http.KiotaExtensionsDemo.csproj" />
+    <!-- ...and the server, hosted in-process by WebApplicationFactory. -->
+    <ProjectReference Include="..\Http.KiotaExtensionsDemo.Server\Http.KiotaExtensionsDemo.Server.csproj" />
+  </ItemGroup>
+</Project>
