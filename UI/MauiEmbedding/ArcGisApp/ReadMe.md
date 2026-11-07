@@ -9,6 +9,14 @@ For more information on how to use the controls from EsriMaps in an Uno Platform
 > [!NOTE]
 > In order to use the MapView control, you first need to create an account via the [ArcGIS Developers portal](https://developers.arcgis.com/sign-up/), and depending on the use of location services, you may also need an API key. This walkthrough does not require a license or an API key to run.
 
+## Platforms
+
+Android, iOS and Windows, with the `MauiNativeEmbedding` Uno Feature (the native .NET MAUI embedding of Uno.Extensions).
+
+There is no desktop or WebAssembly target. On those targets, MAUI embedding goes through [Uno.Maui.Embedding](https://www.nuget.org/packages/Uno.Maui.Embedding) (the `MauiEmbedding` Uno Feature), and the ArcGIS Maps SDK needs its native runtime, which it ships for Windows, Android, iOS and Mac Catalyst only (on macOS, `UseArcGISRuntime` throws `PlatformNotSupportedException: MacOS is not supported`).
+
+More information: https://aka.platform.uno/feature-maui-embedding
+
 ## List of controls used in this sample
 
 - MapView
@@ -22,10 +30,6 @@ For more information on how to use the controls from EsriMaps in an Uno Platform
 - **iOS:**
 
     ![iOS EsriMaps](doc/assets/iOS/EsriMaps.png)
-
-- **Mac Catalyst:**
-
-    ![Mac Catalyst EsriMaps](doc/assets/MacCatalyst/EsriMaps.png)
 
 - **Windows:**
 
