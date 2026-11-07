@@ -1,7 +1,18 @@
+using Uno.Resizetizer;
+
 namespace GrapeCityApp;
 
-public class App : Application
+public partial class App : Application
 {
+	/// <summary>
+	/// Initializes the singleton application object. This is the first line of authored code
+	/// executed, and as such is the logical equivalent of main() or WinMain().
+	/// </summary>
+	public App()
+	{
+		this.InitializeComponent();
+	}
+
 	protected Window? MainWindow { get; private set; }
 	protected IHost? Host { get; private set; }
 
@@ -62,6 +73,11 @@ public class App : Application
 				.UseNavigation(RegisterRoutes)
 			);
 		MainWindow = builder.Window;
+
+#if DEBUG
+		MainWindow.UseStudio();
+#endif
+		MainWindow.SetWindowIcon();
 
 		Host = await builder.NavigateAsync<Shell>();
 	}
