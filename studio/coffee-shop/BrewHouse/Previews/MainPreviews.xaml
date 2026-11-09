@@ -1,0 +1,23 @@
+<hd:PreviewGroup x:Class="BrewHouse.Previews.MainPreviews"
+                 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                 xmlns:local="using:BrewHouse.Presentation"
+                 xmlns:mock="using:BrewHouse.Presentation.MockData"
+                 xmlns:hd="using:Uno.UI.HotDesign"
+                 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                 mc:Ignorable="d">
+
+    <!-- The navigation shell itself: the responsive NavigationView pane / bottom TabBar, and the
+         hand-authored Cart count badge in its two states. The content region stays empty here —
+         Navigation injects the active page at runtime, and there is no navigator at design time,
+         so what these previews exercise is the chrome. No size on the <hd:Preview>: the shell
+         fills the canvas, and switching the device frame is what flips pane vs. tabs. -->
+    <hd:Preview PreviewName="Cart Badge" Visibility="Collapsed">
+        <local:MainPage DataContext="{x:Bind mock:MainPageMockData.Data}" />
+    </hd:Preview>
+
+    <hd:Preview PreviewName="No Badge" Visibility="Collapsed">
+        <local:MainPage DataContext="{x:Bind mock:MainPageMockData.EmptyCart}" />
+    </hd:Preview>
+</hd:PreviewGroup>

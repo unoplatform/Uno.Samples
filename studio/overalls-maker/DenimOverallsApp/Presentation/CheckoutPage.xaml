@@ -20,8 +20,8 @@
 		<!-- ── Scrollable form body ───────────────────────────────────── -->
 		<ScrollViewer Grid.Row="1"
 					  VerticalScrollBarVisibility="Auto">
-			<StackPanel Margin="16"
-						Spacing="20">
+			<StackPanel Margin="{ThemeResource Space400Thickness}"
+						Spacing="{ThemeResource Space500}">
 
 				<!-- ── Trust badges ───────────────────────────────────── -->
 				<!--
@@ -42,7 +42,7 @@
 													HorizontalAlignment="Stretch">
 								<StackPanel Padding="10,6"
 											Orientation="Horizontal"
-											Spacing="6">
+											Spacing="{ThemeResource Space150}">
 									<FontIcon Glyph="&#xE946;"
 											  FontSize="13"
 											  Foreground="{ThemeResource TertiaryBrush}"
@@ -61,7 +61,7 @@
 				<!-- ── Shipping Address ───────────────────────────────── -->
 				<StackPanel Spacing="10">
 					<StackPanel Orientation="Horizontal"
-								Spacing="8">
+								Spacing="{ThemeResource Space200}">
 						<FontIcon Glyph="&#xE707;"
 								  FontSize="16"
 								  Foreground="{ThemeResource SecondaryBrush}" />
@@ -74,8 +74,8 @@
 					<utu:CardContentControl Style="{StaticResource ElevatedCardContentControlStyle}"
 											IsClickable="False"
 											HorizontalAlignment="Stretch">
-						<StackPanel Padding="16"
-									Spacing="12">
+						<StackPanel Padding="{ThemeResource Space400Thickness}"
+									Spacing="{ThemeResource Space300}">
 							<!-- Name row -->
 							<Grid>
 								<Grid.ColumnDefinitions>
@@ -84,7 +84,7 @@
 									<ColumnDefinition Width="*" />
 								</Grid.ColumnDefinitions>
 								<StackPanel Grid.Column="0"
-											Spacing="4">
+											Spacing="{ThemeResource Space100}">
 									<TextBlock Text="First Name"
 											   Style="{StaticResource LabelSmall}"
 											   Foreground="{ThemeResource OnSurfaceVariantBrush}" />
@@ -94,7 +94,7 @@
 											 AutomationProperties.Name="First name" />
 								</StackPanel>
 								<StackPanel Grid.Column="2"
-											Spacing="4">
+											Spacing="{ThemeResource Space100}">
 									<TextBlock Text="Last Name"
 											   Style="{StaticResource LabelSmall}"
 											   Foreground="{ThemeResource OnSurfaceVariantBrush}" />
@@ -106,7 +106,7 @@
 							</Grid>
 
 							<!-- Email -->
-							<StackPanel Spacing="4">
+							<StackPanel Spacing="{ThemeResource Space100}">
 								<TextBlock Text="Email Address"
 										   Style="{StaticResource LabelSmall}"
 										   Foreground="{ThemeResource OnSurfaceVariantBrush}" />
@@ -118,7 +118,7 @@
 							</StackPanel>
 
 							<!-- Phone -->
-							<StackPanel Spacing="4">
+							<StackPanel Spacing="{ThemeResource Space100}">
 								<TextBlock Text="Phone (optional)"
 										   Style="{StaticResource LabelSmall}"
 										   Foreground="{ThemeResource OnSurfaceVariantBrush}" />
@@ -130,7 +130,7 @@
 							</StackPanel>
 
 							<!-- Address line 1 -->
-							<StackPanel Spacing="4">
+							<StackPanel Spacing="{ThemeResource Space100}">
 								<TextBlock Text="Address"
 										   Style="{StaticResource LabelSmall}"
 										   Foreground="{ThemeResource OnSurfaceVariantBrush}" />
@@ -141,7 +141,7 @@
 							</StackPanel>
 
 							<!-- Address line 2 -->
-							<StackPanel Spacing="4">
+							<StackPanel Spacing="{ThemeResource Space100}">
 								<TextBlock Text="Apt / Suite (optional)"
 										   Style="{StaticResource LabelSmall}"
 										   Foreground="{ThemeResource OnSurfaceVariantBrush}" />
@@ -159,7 +159,7 @@
 									<ColumnDefinition Width="120" />
 								</Grid.ColumnDefinitions>
 								<StackPanel Grid.Column="0"
-											Spacing="4">
+											Spacing="{ThemeResource Space100}">
 									<TextBlock Text="City"
 											   Style="{StaticResource LabelSmall}"
 											   Foreground="{ThemeResource OnSurfaceVariantBrush}" />
@@ -169,7 +169,7 @@
 											 AutomationProperties.Name="City" />
 								</StackPanel>
 								<StackPanel Grid.Column="2"
-											Spacing="4">
+											Spacing="{ThemeResource Space100}">
 									<TextBlock Text="ZIP / Postal"
 											   Style="{StaticResource LabelSmall}"
 											   Foreground="{ThemeResource OnSurfaceVariantBrush}" />
@@ -182,7 +182,7 @@
 							</Grid>
 
 							<!-- Country -->
-							<StackPanel Spacing="4">
+							<StackPanel Spacing="{ThemeResource Space100}">
 								<TextBlock Text="Country"
 										   Style="{StaticResource LabelSmall}"
 										   Foreground="{ThemeResource OnSurfaceVariantBrush}" />
@@ -208,7 +208,7 @@
 				<!-- ── Payment Method ─────────────────────────────────── -->
 				<StackPanel Spacing="10">
 					<StackPanel Orientation="Horizontal"
-								Spacing="8">
+								Spacing="{ThemeResource Space200}">
 						<FontIcon Glyph="&#xE8C5;"
 								  FontSize="16"
 								  Foreground="{ThemeResource SecondaryBrush}" />
@@ -220,7 +220,7 @@
 
 					<ItemsRepeater ItemsSource="{Binding PaymentMethods}">
 						<ItemsRepeater.Layout>
-							<StackLayout Spacing="8" />
+							<StackLayout Spacing="{ThemeResource Space200}" />
 						</ItemsRepeater.Layout>
 						<ItemsRepeater.ItemTemplate>
 							<DataTemplate>
@@ -230,7 +230,7 @@
 														AutomationProperties.Name="{Binding Label}">
 									<StackPanel Padding="16,12"
 												Orientation="Horizontal"
-												Spacing="12">
+												Spacing="{ThemeResource Space300}">
 										<RadioButton GroupName="PaymentGroup"
 													 VerticalAlignment="Center"
 													 AutomationProperties.Name="{Binding Label}" />
@@ -252,9 +252,9 @@
 					<utu:CardContentControl Style="{StaticResource ElevatedCardContentControlStyle}"
 											IsClickable="False"
 											HorizontalAlignment="Stretch">
-						<StackPanel Padding="16"
-									Spacing="12">
-							<StackPanel Spacing="4">
+						<StackPanel Padding="{ThemeResource Space400Thickness}"
+									Spacing="{ThemeResource Space300}">
+							<StackPanel Spacing="{ThemeResource Space100}">
 								<TextBlock Text="Card Number"
 										   Style="{StaticResource LabelSmall}"
 										   Foreground="{ThemeResource OnSurfaceVariantBrush}" />
@@ -272,7 +272,7 @@
 									<ColumnDefinition Width="100" />
 								</Grid.ColumnDefinitions>
 								<StackPanel Grid.Column="0"
-											Spacing="4">
+											Spacing="{ThemeResource Space100}">
 									<TextBlock Text="Expiry"
 											   Style="{StaticResource LabelSmall}"
 											   Foreground="{ThemeResource OnSurfaceVariantBrush}" />
@@ -283,7 +283,7 @@
 											 AutomationProperties.Name="Card expiry" />
 								</StackPanel>
 								<StackPanel Grid.Column="2"
-											Spacing="4">
+											Spacing="{ThemeResource Space100}">
 									<TextBlock Text="CVV"
 											   Style="{StaticResource LabelSmall}"
 											   Foreground="{ThemeResource OnSurfaceVariantBrush}" />
@@ -307,7 +307,7 @@
 										HorizontalAlignment="Stretch">
 					<StackPanel Padding="16,10"
 								Orientation="Horizontal"
-								Spacing="12">
+								Spacing="{ThemeResource Space300}">
 						<FontIcon Glyph="&#xE787;"
 								  FontSize="18"
 								  Foreground="{ThemeResource TertiaryBrush}"
@@ -335,7 +335,7 @@
 					<ColumnDefinition Width="Auto" />
 				</Grid.ColumnDefinitions>
 				<StackPanel Grid.Column="0"
-							Spacing="2"
+							Spacing="{ThemeResource Space050}"
 							VerticalAlignment="Center">
 					<TextBlock Text="ORDER TOTAL"
 							   Style="{StaticResource LabelExtraSmall}"

@@ -3,52 +3,42 @@ using BrewHouse.Presentation.Services;
 
 namespace BrewHouse.Presentation;
 
-// The full menu with a live text search and a category chip filter. Both the search box and the
-// selected category are two-way mutable states; the filtered product list and the chip selection
-// are feeds derived from them, so the grid re-filters reactively as the user types or taps a chip
-// (no Clear()+Add(); the derivation rebuilds the immutable list each time).
-public partial record MenuModel(ICartService Cart, INavigator Navigator)
+// The full menu with a live text search and a category chip filter. Both inputs are two-way states;
+// the product list is a list-feed that asks ICatalogService for the matching set whenever either
+// changes — the search runs on the SERVICE, not on a client-side copy of the catalogue, which is
+// what gives the page real loading, empty and failure states to render.
+public partial record MenuModel(ICatalogService Catalog, ICartService Cart, INavigator Navigator)
 {
-    public string PageTitle => "Our Menu";
-
     // Two-way bound to the search box.
     public IState<string> SearchText => State.Value(this, () => string.Empty);
 
     // The active category id ("all" by default); a tap on a chip sets it.
     public IState<string> CategoryId => State.Value(this, () => "all");
 
-    // Chips with their selected flag recomputed from the active category.
-    public IFeed<IImmutableList<CategoryItem>> Categories => CategoryId
-        .Select(active => (IImmutableList<CategoryItem>)CatalogData.Categories
-            .Select(c => c with { IsSelected = c.Id == active })
-            .ToImmutableList());
+    // The chip set, fetched once and cached, so tapping a chip re-projects the selected flag
+    // locally instead of re-hitting the service (which would flash the whole bar on every tap).
+    private IFeed<IImmutableList<CategoryItem>>? _allCategories;
+    private IFeed<IImmutableList<CategoryItem>> AllCategories =>
+        _allCategories ??= Feed.Async(Catalog.GetCategoriesAsync);
 
-    // The filtered product list: category + text search combined via Feed.Combine, so it recomputes
-    // whenever either state changes — no Clear()+Add(), the whole immutable list is rebuilt and
-    // re-projected. Exposed as a list feed so the grid binds its ItemsSource directly
-    // (keeping the page VM as the ItemsRepeater DataContext, so item templates reach the page
-    // commands via {utu:AncestorBinding}).
-    public IListFeed<ProductItem> FilteredProducts =>
-        Feed.Combine(CategoryId, SearchText)
-            .Select(criteria => (IImmutableList<ProductItem>)Filter(criteria.Item1, criteria.Item2))
+    // Chips with their selected flag recomputed from the active category. Bound directly rather than
+    // through a FeedView: the filter bar is chrome, and "no categories" / "categories failed" have
+    // no meaningful UI of their own.
+    public IListFeed<CategoryItem> Categories =>
+        Feed.Combine(AllCategories, CategoryId)
+            .Select(criteria => (IImmutableList<CategoryItem>)criteria.Item1
+                .Select(c => c with { IsSelected = c.Id == criteria.Item2 })
+                .ToImmutableList())
             .AsListFeed();
 
-    // True when the current filter/search matches nothing — drives the "no results" empty state.
-    // A scalar feed projection (never None), so it flips reliably even at zero matches.
-    public IFeed<bool> HasNoResults =>
+    // The product grid's source: category + search text combined, then handed to the service. The
+    // page renders it through a FeedView, so an empty result is the NoneTemplate ("No matches
+    // found") and a failed request is the ErrorTemplate — no bool feed, no visibility converter.
+    public IListFeed<ProductItem> FilteredProducts =>
         Feed.Combine(CategoryId, SearchText)
-            .Select(criteria => Filter(criteria.Item1, criteria.Item2).Count == 0);
-
-    private static IImmutableList<ProductItem> Filter(string categoryId, string? searchText)
-    {
-        var search = (searchText ?? string.Empty).Trim();
-        return CatalogData.AllProducts
-            .Where(p => (categoryId == "all" || p.CategoryId == categoryId)
-                        && (search.Length == 0
-                            || p.Name.Contains(search, StringComparison.OrdinalIgnoreCase)
-                            || p.Description.Contains(search, StringComparison.OrdinalIgnoreCase)))
-            .ToImmutableList();
-    }
+            .SelectAsync(async (criteria, ct) =>
+                await Catalog.SearchProductsAsync(criteria.Item1, criteria.Item2, ct))
+            .AsListFeed();
 
     public async ValueTask AddToCart(ProductItem product, CancellationToken ct)
         => await Cart.AddToCartAsync(product, ct);

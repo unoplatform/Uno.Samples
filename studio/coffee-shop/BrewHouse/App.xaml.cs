@@ -52,6 +52,8 @@ public partial class App : Application
                     // One shared cart/orders state for the whole app: a DI singleton owning the
                     // cart + order IListStates, injected into every page-Model so a mutation made on
                     // one page propagates to every feed derived from it.
+                    // The catalogue "backend" (async, cancellable) and the app's own shared cart.
+                    services.AddSingleton<ICatalogService, CatalogService>();
                     services.AddSingleton<ICartService, CartService>();
                 })
                 .UseNavigation(ReactiveViewModelMappings.ViewModelMappings, RegisterRoutes)

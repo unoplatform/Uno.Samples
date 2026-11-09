@@ -1,10 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Project Sdk="Uno.Sdk.Private">
+<Project Sdk="Uno.Sdk">
   <PropertyGroup>
     <TargetFrameworks>net10.0-android;net10.0-ios;net10.0-browserwasm;net10.0-desktop</TargetFrameworks>
 
     <OutputType>Exe</OutputType>
     <UnoSingleProject>true</UnoSingleProject>
+
+    <!--
+      Design tokens (seed colours, DefaultCornerRadius/Spacing/FontFamily) need Uno.Themes 8.0, and
+      the runtime-token fixes land in 8.0.0-dev.15. The Toolkit matters too: SimpleToolkitTheme only
+      inherits BaseTheme — and so surfaces Colors and DefaultFontFamily — from 9.x. Both are ahead
+      of the SDK's implicit versions.
+    -->
+    <UnoThemesVersion>8.0.0-dev.15</UnoThemesVersion>
+    <UnoToolkitVersion>9.1.3</UnoToolkitVersion>
 
     <!-- Display name -->
     <ApplicationTitle>BrewHouse</ApplicationTitle>
@@ -33,6 +42,15 @@
       Navigation;
       SkiaRenderer;
     </UnoFeatures>
+  </PropertyGroup>
+
+  <!--
+    Hot Design Previews live in Previews/. Hot Design locates them at runtime via the
+    ApplicationPreviewsFolder assembly-metadata the SDK generates from this property, so it MUST
+    point at our folder or no previews are listed.
+  -->
+  <PropertyGroup>
+    <HotDesignPreviewsFolder>Previews</HotDesignPreviewsFolder>
   </PropertyGroup>
 
   <!--

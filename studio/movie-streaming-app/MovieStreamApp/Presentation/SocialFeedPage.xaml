@@ -15,13 +15,13 @@
   -->
   <Grid utu:SafeArea.Insets="Top">
     <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
-      <StackPanel MaxWidth="1400" HorizontalAlignment="Stretch" Padding="{utu:Responsive Narrow='20,16,20,110', Wide='148,16,24,28'}" Spacing="24">
+      <StackPanel MaxWidth="1400" HorizontalAlignment="Stretch" Padding="{utu:Responsive Narrow='20,16,20,110', Wide='148,16,24,28'}" Spacing="{ThemeResource Space600}">
 
         <!-- Header: title + online count with a small live dot -->
-        <StackPanel Spacing="2">
+        <StackPanel Spacing="{ThemeResource Space050}">
           <TextBlock Text="Friends" Style="{StaticResource HeadlineSmall}" Foreground="{ThemeResource OnBackgroundBrush}" FontWeight="Bold" />
-          <StackPanel Orientation="Horizontal" Spacing="6">
-            <Border Width="9" Height="9" CornerRadius="5" Background="{ThemeResource TertiaryBrush}" VerticalAlignment="Center" />
+          <StackPanel Orientation="Horizontal" Spacing="{ThemeResource Space150}">
+            <Border Width="9" Height="9" CornerRadius="{ThemeResource Radius100CornerRadius}" Background="{ThemeResource TertiaryBrush}" VerticalAlignment="Center" />
             <TextBlock Style="{StaticResource BodyMedium}" Foreground="{ThemeResource OnSurfaceVariantBrush}" VerticalAlignment="Center">
               <Run Text="{Binding OnlineFriendsCount}" FontWeight="SemiBold" Foreground="{ThemeResource OnBackgroundBrush}" />
               <Run Text="friends online" />
@@ -56,13 +56,13 @@
                           <RowDefinition Height="*" />
                           <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
-                        <StackPanel Grid.Row="0" Spacing="8" HorizontalAlignment="Center" VerticalAlignment="Top">
-                          <Border Width="56" Height="56" CornerRadius="28" HorizontalAlignment="Center">
+                        <StackPanel Grid.Row="0" Spacing="{ThemeResource Space200}" HorizontalAlignment="Center" VerticalAlignment="Top">
+                          <Border Width="56" Height="56" CornerRadius="{ThemeResource RadiusFullCornerRadius}" HorizontalAlignment="Center">
                             <Border.Background>
                               <ImageBrush ImageSource="{Binding AvatarUrl}" Stretch="UniformToFill" />
                             </Border.Background>
                           </Border>
-                          <StackPanel Spacing="2" HorizontalAlignment="Center">
+                          <StackPanel Spacing="{ThemeResource Space050}" HorizontalAlignment="Center">
                             <TextBlock Text="{Binding Name}" Style="{StaticResource LabelLarge}" Foreground="{ThemeResource OnSurfaceBrush}" TextAlignment="Center" TextWrapping="Wrap" MaxLines="2" />
                             <TextBlock Text="{Binding Reason}" Style="{StaticResource BodySmall}" Foreground="{ThemeResource OutlineBrush}" TextAlignment="Center" TextWrapping="Wrap" MaxLines="2" />
                           </StackPanel>
@@ -82,11 +82,11 @@
         </StackPanel>
 
         <!-- Recent activity feed -->
-        <StackPanel Spacing="12">
+        <StackPanel Spacing="{ThemeResource Space300}">
           <TextBlock Text="Recent Activity" Style="{StaticResource TitleMedium}" Foreground="{ThemeResource OnBackgroundBrush}" />
           <ItemsRepeater ItemsSource="{Binding Activities}">
             <ItemsRepeater.Layout>
-              <StackLayout Spacing="12" />
+              <StackLayout Spacing="{ThemeResource Space300}" />
             </ItemsRepeater.Layout>
             <ItemsRepeater.ItemTemplate>
               <DataTemplate>
@@ -98,7 +98,7 @@
                                         uen:Navigation.Data="{Binding Movie}">
                   <utu:CardContentControl.ContentTemplate>
                     <DataTemplate>
-                      <StackPanel Spacing="0">
+                      <StackPanel Spacing="{ThemeResource Space0}">
 
                         <!-- Avatar (with online dot) + friend/action line + time -->
                         <Grid Padding="14,12,14,10" ColumnSpacing="12">
@@ -108,12 +108,12 @@
                             <ColumnDefinition Width="Auto" />
                           </Grid.ColumnDefinitions>
                           <Grid Grid.Column="0" Width="44" Height="44">
-                            <Border Width="44" Height="44" CornerRadius="22">
+                            <Border Width="44" Height="44" CornerRadius="{ThemeResource RadiusFullCornerRadius}">
                               <Border.Background>
                                 <ImageBrush ImageSource="{Binding AvatarUrl}" Stretch="UniformToFill" />
                               </Border.Background>
                             </Border>
-                            <Border Width="13" Height="13" CornerRadius="7"
+                            <Border Width="13" Height="13" CornerRadius="{ThemeResource Radius200CornerRadius}"
                                     Background="{ThemeResource TertiaryBrush}"
                                     BorderThickness="2" BorderBrush="{ThemeResource SurfaceBrush}"
                                     HorizontalAlignment="Right" VerticalAlignment="Bottom"
@@ -129,12 +129,12 @@
 
                         <!-- Poster thumb with genre chip -->
                         <Grid Margin="14,0" Height="130">
-                          <Border CornerRadius="12">
+                          <Border CornerRadius="{ThemeResource Radius300CornerRadius}">
                             <Border.Background>
                               <ImageBrush ImageSource="{Binding Movie.ImageUrl}" Stretch="UniformToFill" />
                             </Border.Background>
                           </Border>
-                          <Border CornerRadius="12">
+                          <Border CornerRadius="{ThemeResource Radius300CornerRadius}">
                             <Border.Background>
                               <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
                                 <GradientStop Color="#00000000" Offset="0.4" />
@@ -142,7 +142,7 @@
                               </LinearGradientBrush>
                             </Border.Background>
                           </Border>
-                          <Border Background="#40000000" CornerRadius="6" Padding="8,3" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="10,0,0,10">
+                          <Border Background="#40000000" CornerRadius="{ThemeResource Radius200CornerRadius}" Padding="8,3" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="10,0,0,10">
                             <TextBlock Text="{Binding Movie.Genre}" Style="{StaticResource LabelSmall}" Foreground="White" />
                           </Border>
                         </Grid>
@@ -155,12 +155,12 @@
                         </TextBlock>
 
                         <!-- Footer: heart + like count + time -->
-                        <StackPanel Orientation="Horizontal" Spacing="8" Padding="14,12,14,14" VerticalAlignment="Center">
+                        <StackPanel Orientation="Horizontal" Spacing="{ThemeResource Space200}" Padding="14,12,14,14" VerticalAlignment="Center">
                           <Viewbox Width="16" Height="16" VerticalAlignment="Center">
                             <Path Data="{Binding Source=heart, Converter={StaticResource Icon}}" Fill="{ThemeResource OutlineBrush}" Stretch="Uniform" />
                           </Viewbox>
                           <TextBlock Text="{Binding LikeCount}" Style="{StaticResource LabelMedium}" Foreground="{ThemeResource OnSurfaceVariantBrush}" VerticalAlignment="Center" />
-                          <TextBlock Text="{Binding TimeAgo}" Style="{StaticResource LabelSmall}" Foreground="{ThemeResource OutlineBrush}" VerticalAlignment="Center" Margin="6,0,0,0" />
+                          <TextBlock Text="{Binding TimeAgo}" Style="{StaticResource LabelSmall}" Foreground="{ThemeResource OutlineBrush}" VerticalAlignment="Center" Margin="{ThemeResource Space150LeftThickness}" />
                         </StackPanel>
 
                       </StackPanel>

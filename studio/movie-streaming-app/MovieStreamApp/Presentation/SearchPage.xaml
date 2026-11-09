@@ -31,8 +31,8 @@
                  Foreground="{ThemeResource OnBackgroundBrush}" />
 
       <Border Background="{ThemeResource SurfaceVariantBrush}"
-              CornerRadius="24"
-              Padding="16,0">
+              CornerRadius="{ThemeResource Radius700CornerRadius}"
+              Padding="{ThemeResource Space400HorizontalThickness}">
         <Grid ColumnSpacing="10" Height="48">
           <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
@@ -63,7 +63,7 @@
       <StackPanel MaxWidth="1400"
                   HorizontalAlignment="Stretch"
                   Padding="{utu:Responsive Narrow='20,4,20,110', Wide='148,4,24,28'}"
-                  Spacing="24">
+                  Spacing="{ThemeResource Space600}">
 
         <!-- Recent searches (display-only chips) -->
         <StackPanel Spacing="10">
@@ -72,7 +72,7 @@
                      Foreground="{ThemeResource OnBackgroundBrush}" />
           <ItemsRepeater ItemsSource="{Binding RecentSearches}">
             <ItemsRepeater.Layout>
-              <StackLayout Orientation="Vertical" Spacing="2" />
+              <StackLayout Orientation="Vertical" Spacing="{ThemeResource Space050}" />
             </ItemsRepeater.Layout>
             <ItemsRepeater.ItemTemplate>
               <DataTemplate>
@@ -104,7 +104,7 @@
         </StackPanel>
 
         <!-- Browse by Genre -->
-        <StackPanel Spacing="12">
+        <StackPanel Spacing="{ThemeResource Space300}">
           <TextBlock Text="Browse by Genre"
                      Style="{StaticResource TitleSmall}"
                      Foreground="{ThemeResource OnBackgroundBrush}" />
@@ -132,7 +132,7 @@
                         </Grid.ColumnDefinitions>
                         <Border Grid.Column="0"
                                 Background="{ThemeResource PrimaryContainerBrush}"
-                                CornerRadius="12"
+                                CornerRadius="{ThemeResource Radius300CornerRadius}"
                                 Width="40"
                                 Height="40">
                           <Viewbox Width="22" Height="22">
@@ -157,7 +157,7 @@
         </StackPanel>
 
         <!-- Results -->
-        <StackPanel Spacing="12">
+        <StackPanel Spacing="{ThemeResource Space300}">
           <TextBlock Text="Results"
                      Style="{StaticResource TitleSmall}"
                      Foreground="{ThemeResource OnBackgroundBrush}" />
@@ -184,12 +184,12 @@
                           <ColumnDefinition Width="76" />
                           <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
-                        <Border Grid.Column="0" Height="104" CornerRadius="12">
+                        <Border Grid.Column="0" Height="104" CornerRadius="{ThemeResource Radius300CornerRadius}">
                           <Border.Background>
                             <ImageBrush ImageSource="{Binding ImageUrl}" Stretch="UniformToFill" />
                           </Border.Background>
                         </Border>
-                        <StackPanel Grid.Column="1" VerticalAlignment="Center" Spacing="4">
+                        <StackPanel Grid.Column="1" VerticalAlignment="Center" Spacing="{ThemeResource Space100}">
                           <TextBlock Text="{Binding Title}"
                                      Style="{StaticResource TitleSmall}"
                                      Foreground="{ThemeResource OnSurfaceBrush}"
@@ -201,7 +201,7 @@
                             <Run Text=" • " Foreground="{ThemeResource OutlineBrush}" />
                             <Run Text="{Binding Year}" />
                           </TextBlock>
-                          <StackPanel Orientation="Horizontal" Spacing="6" VerticalAlignment="Center">
+                          <StackPanel Orientation="Horizontal" Spacing="{ThemeResource Space150}" VerticalAlignment="Center">
                             <Viewbox Width="14" Height="14" VerticalAlignment="Center">
                               <Path Data="{Binding Source=star, Converter={StaticResource Icon}, ConverterParameter=filled}"
                                     Fill="{ThemeResource TertiaryBrush}"
@@ -215,7 +215,7 @@
                                        Style="{StaticResource BodySmall}"
                                        Foreground="{ThemeResource OnSurfaceVariantBrush}"
                                        VerticalAlignment="Center"
-                                       Margin="8,0,0,0" />
+                                       Margin="{ThemeResource Space200LeftThickness}" />
                           </StackPanel>
                         </StackPanel>
                       </Grid>
@@ -227,7 +227,7 @@
           </ItemsRepeater>
 
           <!-- Empty state (only when NOT HasResults) -->
-          <StackPanel Spacing="12"
+          <StackPanel Spacing="{ThemeResource Space300}"
                       Padding="0,40"
                       HorizontalAlignment="Center"
                       Visibility="{Binding HasResults, Converter={StaticResource BoolToVisibility}, ConverterParameter=invert}">

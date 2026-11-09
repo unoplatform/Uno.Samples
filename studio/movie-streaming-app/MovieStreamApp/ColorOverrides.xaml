@@ -1,0 +1,36 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+  <!--
+    Seed exceptions, not a palette. Three seeds in App.xaml generate every semantic role; the roles
+    below are the ones the generator's recipe structurally cannot reach, so they are pinned back to
+    the authored brand value. Colors.OverrideSource merges last and wins over the generated palette,
+    and Uno.Themes rewrites the matching *Brush keys (and their hover/pressed/disabled variants)
+    from these values.
+
+    Both themes are declared for every role on purpose: the brush resolver probes Light then
+    Default, so a role given only a Default value would bleed its dark color into light.
+
+    Why these:
+    - PrimaryColor / SecondaryColor (dark) — the generator pins dark accents to tone 80 so a brand
+      color stays legible on a dark surface. CineStream authored mid-tone indigo and rose, which come
+      back pastel. This app is dark-first, so the dark accents are the identity.
+    - PrimaryContainerColor (dark) — the deep indigo container is drawn from the same pinned palette
+      and lightens with it.
+  -->
+  <ResourceDictionary.ThemeDictionaries>
+
+    <ResourceDictionary x:Key="Light">
+      <Color x:Key="PrimaryColor">#6158DF</Color>
+      <Color x:Key="SecondaryColor">#B53D68</Color>
+      <Color x:Key="PrimaryContainerColor">#E5E2FC</Color>
+    </ResourceDictionary>
+
+    <ResourceDictionary x:Key="Default">
+      <Color x:Key="PrimaryColor">#776FE4</Color>
+      <Color x:Key="SecondaryColor">#E5638E</Color>
+      <Color x:Key="PrimaryContainerColor">#2B2470</Color>
+    </ResourceDictionary>
+
+  </ResourceDictionary.ThemeDictionaries>
+</ResourceDictionary>

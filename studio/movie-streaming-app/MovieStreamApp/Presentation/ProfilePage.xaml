@@ -17,7 +17,7 @@
       <StackPanel MaxWidth="1400"
                   HorizontalAlignment="Stretch"
                   Padding="{utu:Responsive Narrow='20,16,20,110', Wide='148,16,24,28'}"
-                  Spacing="24">
+                  Spacing="{ThemeResource Space600}">
 
         <!-- Header: avatar + identity + subscription chip -->
         <Grid ColumnSpacing="16">
@@ -30,13 +30,13 @@
           <Border Grid.Column="0"
                   Width="88"
                   Height="88"
-                  CornerRadius="44">
+                  CornerRadius="{ThemeResource RadiusFullCornerRadius}">
             <Border.Background>
               <ImageBrush ImageSource="{Binding AvatarUrl}" Stretch="UniformToFill" />
             </Border.Background>
           </Border>
 
-          <StackPanel Grid.Column="1" VerticalAlignment="Center" Spacing="4">
+          <StackPanel Grid.Column="1" VerticalAlignment="Center" Spacing="{ThemeResource Space100}">
             <TextBlock Text="{Binding UserName}"
                        Style="{StaticResource TitleLarge}"
                        Foreground="{ThemeResource OnBackgroundBrush}" />
@@ -49,11 +49,11 @@
 
             <!-- Subscription chip -->
             <Border Background="{ThemeResource PrimaryBrush}"
-                    CornerRadius="12"
+                    CornerRadius="{ThemeResource Radius300CornerRadius}"
                     Padding="10,5"
                     HorizontalAlignment="Left"
-                    Margin="0,4,0,0">
-              <StackPanel Orientation="Horizontal" Spacing="6" VerticalAlignment="Center">
+                    Margin="{ThemeResource Space100TopThickness}">
+              <StackPanel Orientation="Horizontal" Spacing="{ThemeResource Space150}" VerticalAlignment="Center">
                 <Viewbox Width="14" Height="14">
                   <Path Data="{Binding Source=subscription, Converter={StaticResource Icon}}"
                         Fill="{ThemeResource OnPrimaryBrush}"
@@ -74,7 +74,7 @@
         </Grid>
 
         <!-- Stats row: My List / Watched / Reviews -->
-        <Border Background="{ThemeResource SurfaceVariantBrush}" CornerRadius="24" Padding="0,16">
+        <Border Background="{ThemeResource SurfaceVariantBrush}" CornerRadius="{ThemeResource Radius700CornerRadius}" Padding="{ThemeResource Space400VerticalThickness}">
           <Grid>
             <Grid.ColumnDefinitions>
               <ColumnDefinition Width="*" />
@@ -84,7 +84,7 @@
               <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
-            <StackPanel Grid.Column="0" HorizontalAlignment="Center" Spacing="2">
+            <StackPanel Grid.Column="0" HorizontalAlignment="Center" Spacing="{ThemeResource Space050}">
               <TextBlock Text="{Binding WatchlistCount}"
                          Style="{StaticResource HeadlineSmall}"
                          Foreground="{ThemeResource PrimaryBrush}"
@@ -95,9 +95,9 @@
                          HorizontalAlignment="Center" />
             </StackPanel>
 
-            <Rectangle Grid.Column="1" Width="1" Fill="{ThemeResource OutlineBrush}" Margin="0,4" />
+            <Rectangle Grid.Column="1" Width="1" Fill="{ThemeResource OutlineBrush}" Margin="{ThemeResource Space100VerticalThickness}" />
 
-            <StackPanel Grid.Column="2" HorizontalAlignment="Center" Spacing="2">
+            <StackPanel Grid.Column="2" HorizontalAlignment="Center" Spacing="{ThemeResource Space050}">
               <TextBlock Text="{Binding WatchedCount}"
                          Style="{StaticResource HeadlineSmall}"
                          Foreground="{ThemeResource PrimaryBrush}"
@@ -108,9 +108,9 @@
                          HorizontalAlignment="Center" />
             </StackPanel>
 
-            <Rectangle Grid.Column="3" Width="1" Fill="{ThemeResource OutlineBrush}" Margin="0,4" />
+            <Rectangle Grid.Column="3" Width="1" Fill="{ThemeResource OutlineBrush}" Margin="{ThemeResource Space100VerticalThickness}" />
 
-            <StackPanel Grid.Column="4" HorizontalAlignment="Center" Spacing="2">
+            <StackPanel Grid.Column="4" HorizontalAlignment="Center" Spacing="{ThemeResource Space050}">
               <TextBlock Text="{Binding ReviewsCount}"
                          Style="{StaticResource HeadlineSmall}"
                          Foreground="{ThemeResource PrimaryBrush}"
@@ -126,23 +126,23 @@
         <!-- Settings groups -->
         <ItemsRepeater ItemsSource="{Binding SettingGroups}">
           <ItemsRepeater.Layout>
-            <StackLayout Orientation="Vertical" Spacing="20" />
+            <StackLayout Orientation="Vertical" Spacing="{ThemeResource Space500}" />
           </ItemsRepeater.Layout>
           <ItemsRepeater.ItemTemplate>
             <DataTemplate>
-              <StackPanel Spacing="8">
+              <StackPanel Spacing="{ThemeResource Space200}">
                 <!-- Section label, small caps -->
                 <TextBlock Text="{Binding Title}"
                            Style="{StaticResource LabelMedium}"
                            Foreground="{ThemeResource OnSurfaceVariantBrush}"
                            CharacterSpacing="80"
-                           Margin="4,0,0,0" />
+                           Margin="{ThemeResource Space100LeftThickness}" />
 
                 <!-- Group rows -->
-                <Border Background="{ThemeResource SurfaceVariantBrush}" CornerRadius="24">
+                <Border Background="{ThemeResource SurfaceVariantBrush}" CornerRadius="{ThemeResource Radius700CornerRadius}">
                   <ItemsRepeater ItemsSource="{Binding Items}">
                     <ItemsRepeater.Layout>
-                      <StackLayout Orientation="Vertical" Spacing="0" />
+                      <StackLayout Orientation="Vertical" Spacing="{ThemeResource Space0}" />
                     </ItemsRepeater.Layout>
                     <ItemsRepeater.ItemTemplate>
                       <DataTemplate>
@@ -157,7 +157,7 @@
                           <Border Grid.Column="0"
                                   Width="38"
                                   Height="38"
-                                  CornerRadius="12"
+                                  CornerRadius="{ThemeResource Radius300CornerRadius}"
                                   Background="{ThemeResource SurfaceBrush}"
                                   VerticalAlignment="Center">
                             <Viewbox Width="20" Height="20">

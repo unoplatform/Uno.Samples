@@ -6,19 +6,19 @@
 
     <Grid utu:SafeArea.Insets="Top,Left,Right">
         <ScrollViewer VerticalScrollBarVisibility="Auto">
-            <StackPanel Spacing="0" Padding="0,0,0,24" MaxWidth="1100" HorizontalAlignment="Stretch">
+            <StackPanel Spacing="{ThemeResource Space0}" Padding="{ThemeResource Space600BottomThickness}" MaxWidth="1100" HorizontalAlignment="Stretch">
 
                 <!-- Profile hero header -->
                 <Grid x:Name="HeroSection" Background="{ThemeResource PrimaryContainerBrush}" Padding="16,28,16,24">
-                    <StackPanel Spacing="12" HorizontalAlignment="Center">
-                        <Border Width="80" Height="80" CornerRadius="40" Background="{ThemeResource PrimaryBrush}" HorizontalAlignment="Center">
+                    <StackPanel Spacing="{ThemeResource Space300}" HorizontalAlignment="Center">
+                        <Border Width="80" Height="80" CornerRadius="{ThemeResource RadiusFullCornerRadius}" Background="{ThemeResource PrimaryBrush}" HorizontalAlignment="Center">
                             <TextBlock Text="{Binding AvatarInitials}"
                                        FontSize="{StaticResource FontSizeStat}"
                                        Foreground="{ThemeResource OnPrimaryBrush}"
                                        HorizontalAlignment="Center"
                                        VerticalAlignment="Center" />
                         </Border>
-                        <StackPanel Spacing="4" HorizontalAlignment="Center">
+                        <StackPanel Spacing="{ThemeResource Space100}" HorizontalAlignment="Center">
                             <TextBlock Text="{Binding Profile.DisplayName}"
                                        FontSize="{StaticResource FontSizeStatSmall}"
                                        Foreground="{ThemeResource OnPrimaryContainerBrush}"
@@ -28,8 +28,8 @@
                                        Foreground="{ThemeResource OnPrimaryContainerBrush}"
                                        HorizontalAlignment="Center" />
                         </StackPanel>
-                        <StackPanel Orientation="Horizontal" Spacing="12" HorizontalAlignment="Center">
-                            <Border Background="{ThemeResource PrimaryBrush}" CornerRadius="8" Padding="12,6">
+                        <StackPanel Orientation="Horizontal" Spacing="{ThemeResource Space300}" HorizontalAlignment="Center">
+                            <Border Background="{ThemeResource PrimaryBrush}" CornerRadius="{ThemeResource Radius200CornerRadius}" Padding="12,6">
                                 <TextBlock Text="{Binding Profile.FitnessLevel}"
                                            FontSize="{StaticResource FontSizeLabel}"
                                            CharacterSpacing="140"
@@ -38,7 +38,7 @@
                                            VerticalAlignment="Center"
                                            HorizontalTextAlignment="Center" />
                             </Border>
-                            <Border Background="{ThemeResource SecondaryContainerBrush}" CornerRadius="8" Padding="12,6">
+                            <Border Background="{ThemeResource SecondaryContainerBrush}" CornerRadius="{ThemeResource Radius200CornerRadius}" Padding="12,6">
                                 <TextBlock Text="{Binding Profile.Goal}"
                                            FontSize="{StaticResource FontSizeLabel}"
                                            CharacterSpacing="140"
@@ -51,7 +51,7 @@
                     </StackPanel>
                 </Grid>
 
-                <StackPanel Padding="16,20,16,0" Spacing="0">
+                <StackPanel Padding="16,20,16,0" Spacing="{ThemeResource Space0}">
 
                     <!-- My stats — three de-carded stat readouts -->
                     <TextBlock Text="MY STATS" Style="{StaticResource SectionLabelStyle}" />
@@ -105,7 +105,7 @@
                     <!-- My preferences -->
                     <TextBlock Text="MY PREFERENCES" Style="{StaticResource SectionLabelStyle}" />
                     <Border x:Name="PreferencesSection" Style="{StaticResource CardBorderStyle}" Margin="0,0,0,26">
-                        <StackPanel Padding="16,14" Spacing="12">
+                        <StackPanel Padding="16,14" Spacing="{ThemeResource Space300}">
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*" />
@@ -145,7 +145,7 @@
                                            FontSize="{StaticResource FontSizeCaption}"
                                            Foreground="{ThemeResource OnSurfaceBrush}"
                                            VerticalAlignment="Center" />
-                                <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="4" VerticalAlignment="Center">
+                                <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="{ThemeResource Space100}" VerticalAlignment="Center">
                                     <TextBlock Text="{Binding SessionLengthMinutes}"
                                                FontSize="{StaticResource FontSizeBody}"
                                                Foreground="{ThemeResource PrimaryBrush}" />
@@ -162,7 +162,7 @@
                     <ItemsRepeater x:Name="GoalsSection" ItemsSource="{Binding Goals}" Margin="0,0,0,26"
                                    ItemTemplate="{StaticResource FitnessGoalTemplate}">
                         <ItemsRepeater.Layout>
-                            <StackLayout Spacing="8" />
+                            <StackLayout Spacing="{ThemeResource Space200}" />
                         </ItemsRepeater.Layout>
                     </ItemsRepeater>
 

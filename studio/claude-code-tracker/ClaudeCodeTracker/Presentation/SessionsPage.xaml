@@ -3,6 +3,7 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:utu="using:Uno.Toolkit.UI"
       xmlns:uen="using:Uno.Extensions.Navigation.UI"
+      xmlns:mvux="using:Uno.Extensions.Reactive.UI"
       Background="{ThemeResource BackgroundBrush}">
 
     <Grid x:Name="Root" utu:SafeArea.Insets="Top,SoftInput">
@@ -19,14 +20,14 @@
                     Background="{ThemeResource SurfaceVariantBrush}">
             <StackPanel MaxWidth="1100"
                         HorizontalAlignment="Stretch"
-                        Padding="20,0"
-                        Spacing="12">
+                        Padding="{ThemeResource Space500HorizontalThickness}"
+                        Spacing="{ThemeResource Space300}">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
-                    <StackPanel Grid.Column="0" Spacing="2">
+                    <StackPanel Grid.Column="0" Spacing="{ThemeResource Space050}">
                         <TextBlock
                                    Style="{StaticResource TitleLarge}"
                                    Foreground="{ThemeResource OnSurfaceBrush}"
@@ -45,95 +46,54 @@
                     </Viewbox>
                 </Grid>
 
-                <TextBox x:Name="SearchBox"
-                         PlaceholderText="Search sessions by name…"
+                <TextBox PlaceholderText="Search sessions by name…"
                          HorizontalAlignment="Stretch"
-                         TextChanged="SearchBox_TextChanged" />
+                         Text="{Binding Query, Mode=TwoWay}" />
 
-                <utu:ChipGroup x:Name="ModelFilter"
-                               SelectionMode="Single"
+                <utu:ChipGroup SelectionMode="Single"
                                ItemsSource="{Binding FilterOptions}"
-                               Style="{StaticResource FilterChipGroupStyle}"
-                               ItemChecked="ModelFilter_ItemChecked" />
+                               SelectedItem="{Binding ModelFilter, Mode=TwoWay}"
+                               Style="{StaticResource FilterChipGroupStyle}" />
             </StackPanel>
         </StackPanel>
 
-        <!-- Session list: centred column capped at the same 1100 max-width as the header + pages -->
-        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
-            <ItemsRepeater x:Name="SessionList"
-                           MaxWidth="1100"
+        <!--
+            Session list. The Model asks ITrackerService for the sessions matching the search text and
+            the model chip, so this is a feed with four states: the rows, the "nothing matched" message
+            below, a progress ring while the request is in flight, and the shared failure template.
+            The empty state used to be a TextBlock whose Visibility the code-behind toggled after
+            filtering the list itself.
+        -->
+        <mvux:FeedView Grid.Row="1"
+                       Source="{Binding Sessions}"
+                       ErrorTemplate="{StaticResource TrackerErrorTemplate}">
+            <mvux:FeedView.ValueTemplate>
+                <DataTemplate>
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                        <ItemsRepeater ItemsSource="{Binding Data}"
+                                       MaxWidth="1100"
                            HorizontalAlignment="Stretch"
-                           Margin="20,12,20,24">
+                           Margin="20,12,20,24"
+                                       ItemTemplate="{StaticResource SessionRowTemplate}">
                 <ItemsRepeater.Layout>
-                    <StackLayout Spacing="8" Orientation="Vertical" />
+                    <StackLayout Spacing="{ThemeResource Space200}" Orientation="Vertical" />
                 </ItemsRepeater.Layout>
-                <ItemsRepeater.ItemTemplate>
-                    <DataTemplate>
-                        <utu:CardContentControl Content="{Binding}"
-                                                Style="{StaticResource ElevatedCardContentControlStyle}"
-                                                HorizontalAlignment="Stretch"
-                                                IsClickable="True"
-                                                AutomationProperties.Name="Session entry"
-                                                uen:Navigation.Request="SessionDetail"
-                                                uen:Navigation.Data="{Binding}">
-                            <utu:CardContentControl.ContentTemplate>
-                                <DataTemplate>
-                                    <Grid Padding="14,12">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="*" />
-                                            <ColumnDefinition Width="Auto" />
-                                        </Grid.ColumnDefinitions>
-                                        <StackPanel Grid.Column="0" Spacing="6">
-                                            <TextBlock Style="{StaticResource LabelMedium}"
-                                                       Foreground="{ThemeResource OnSurfaceBrush}"
-                                                       TextTrimming="CharacterEllipsis"
-                                                       Text="{Binding ProjectName}" />
-                                            <StackPanel Orientation="Horizontal" Spacing="6">
-                                                <Border Background="{ThemeResource SecondaryContainerBrush}"
-                                                        CornerRadius="4"
-                                                        Padding="6,2">
-                                                    <TextBlock Style="{StaticResource LabelSmall}"
-                                                               Foreground="{ThemeResource OnSecondaryContainerBrush}"
-                                                               Text="{Binding ModelDisplayName}" />
-                                                </Border>
-                                                <TextBlock Style="{StaticResource LabelSmall}"
-                                                           VerticalAlignment="Center"
-                                                           Foreground="{ThemeResource OnSurfaceVariantBrush}"
-                                                           Text="&#xB7;" />
-                                                <TextBlock Style="{StaticResource LabelSmall}"
-                                                           VerticalAlignment="Center"
-                                                           Foreground="{ThemeResource OnSurfaceVariantBrush}">
-                                                    <Run Text="{Binding DurationMinutes}" /><Run Text=" min" />
-                                                </TextBlock>
-                                            </StackPanel>
-                                        </StackPanel>
-                                        <StackPanel Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center" Spacing="2">
-                                            <TextBlock Style="{StaticResource LabelMedium}"
-                                                       HorizontalAlignment="Right"
-                                                       Foreground="{ThemeResource PrimaryBrush}"
-                                                       Text="{Binding CostDisplay}" />
-                                            <TextBlock Style="{StaticResource LabelSmall}"
-                                                       HorizontalAlignment="Right"
-                                                       Foreground="{ThemeResource OnSurfaceVariantBrush}"
-                                                       Text="{Binding StartedAtDisplay}" />
-                                        </StackPanel>
-                                    </Grid>
-                                </DataTemplate>
-                            </utu:CardContentControl.ContentTemplate>
-                        </utu:CardContentControl>
-                    </DataTemplate>
-                </ItemsRepeater.ItemTemplate>
-            </ItemsRepeater>
-        </ScrollViewer>
+                        </ItemsRepeater>
+                    </ScrollViewer>
+                </DataTemplate>
+            </mvux:FeedView.ValueTemplate>
 
-        <!-- Empty state when search/filter excludes every session -->
-        <TextBlock x:Name="EmptyState"
-                   Grid.Row="1"
-                   Visibility="Collapsed"
-                   HorizontalAlignment="Center"
-                   Margin="0,48,0,0"
-                   Foreground="{ThemeResource OnSurfaceVariantBrush}"
-                   Style="{StaticResource BodyMedium}"
-                   Text="No sessions match your search" />
+            <mvux:FeedView.NoneTemplate>
+                <DataTemplate>
+                    <TextBlock HorizontalAlignment="Center"
+                               VerticalAlignment="Top"
+                               Margin="20,48,20,24"
+                               Foreground="{ThemeResource OnSurfaceVariantBrush}"
+                               Style="{StaticResource BodyMedium}"
+                               TextAlignment="Center"
+                               Text="No sessions match your search" />
+                </DataTemplate>
+            </mvux:FeedView.NoneTemplate>
+        </mvux:FeedView>
     </Grid>
 </Page>
