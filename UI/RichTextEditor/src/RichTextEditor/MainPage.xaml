@@ -1,0 +1,144 @@
+<Page x:Class="RichTextEditor.MainPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+  <Grid RowDefinitions="Auto,*" Padding="24,16,24,16" RowSpacing="12">
+
+    <Grid ColumnDefinitions="*,Auto">
+      <StackPanel Orientation="Horizontal" Spacing="12" VerticalAlignment="Center">
+        <FontIcon Glyph="&#xE70F;" FontSize="24" Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}" />
+        <TextBlock Text="Rich text on Skia" Style="{StaticResource SubtitleTextBlockStyle}" VerticalAlignment="Center" />
+      </StackPanel>
+      <SelectorBar x:Name="Tabs"
+                   Grid.Column="1"
+                   AutomationProperties.AutomationId="Tabs"
+                   SelectionChanged="OnTabChanged">
+        <SelectorBarItem x:Name="EditorTab" Text="Editor" IsSelected="True" AutomationProperties.AutomationId="EditorTab" />
+        <SelectorBarItem x:Name="ColumnsTab" Text="Columns" AutomationProperties.AutomationId="ColumnsTab" />
+      </SelectorBar>
+    </Grid>
+
+    <!-- Editor -->
+    <Grid x:Name="EditorPage" Grid.Row="1" RowDefinitions="Auto,*,Auto" RowSpacing="8">
+      <Border Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+              BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+              BorderThickness="1"
+              CornerRadius="{ThemeResource OverlayCornerRadius}">
+        <CommandBar HorizontalAlignment="Left" DefaultLabelPosition="Collapsed" Background="Transparent" IsOpen="False">
+          <AppBarToggleButton x:Name="BoldButton" Icon="Bold" Label="Bold" Click="OnBold"
+                              AutomationProperties.AutomationId="BoldButton" AutomationProperties.Name="Bold" />
+          <AppBarToggleButton x:Name="ItalicButton" Icon="Italic" Label="Italic" Click="OnItalic"
+                              AutomationProperties.AutomationId="ItalicButton" AutomationProperties.Name="Italic" />
+          <AppBarToggleButton x:Name="UnderlineButton" Icon="Underline" Label="Underline" Click="OnUnderline"
+                              AutomationProperties.AutomationId="UnderlineButton" AutomationProperties.Name="Underline" />
+          <AppBarToggleButton x:Name="StrikeButton" Label="Strikethrough" Click="OnStrike"
+                              AutomationProperties.AutomationId="StrikeButton" AutomationProperties.Name="Strikethrough">
+            <AppBarToggleButton.Icon>
+              <FontIcon Glyph="&#xEDE0;" />
+            </AppBarToggleButton.Icon>
+          </AppBarToggleButton>
+          <AppBarSeparator />
+          <AppBarElementContainer VerticalAlignment="Center" Margin="4,0">
+            <ComboBox x:Name="FontSizeBox"
+                      Width="88"
+                      SelectedIndex="3"
+                      SelectionChanged="OnFontSizeChanged"
+                      AutomationProperties.AutomationId="FontSizeBox"
+                      AutomationProperties.Name="Font size" />
+          </AppBarElementContainer>
+          <AppBarButton x:Name="ColorButton" Label="Text color"
+                        AutomationProperties.AutomationId="ColorButton" AutomationProperties.Name="Text color">
+            <AppBarButton.Icon>
+              <FontIcon Glyph="&#xE790;" />
+            </AppBarButton.Icon>
+            <AppBarButton.Flyout>
+              <MenuFlyout x:Name="ColorMenu" />
+            </AppBarButton.Flyout>
+          </AppBarButton>
+          <AppBarSeparator />
+          <AppBarToggleButton x:Name="AlignLeftButton" Label="Align left" Click="OnAlignLeft"
+                              AutomationProperties.AutomationId="AlignLeftButton" AutomationProperties.Name="Align left">
+            <AppBarToggleButton.Icon><FontIcon Glyph="&#xE8E4;" /></AppBarToggleButton.Icon>
+          </AppBarToggleButton>
+          <AppBarToggleButton x:Name="AlignCenterButton" Label="Center" Click="OnAlignCenter"
+                              AutomationProperties.AutomationId="AlignCenterButton" AutomationProperties.Name="Center">
+            <AppBarToggleButton.Icon><FontIcon Glyph="&#xE8E3;" /></AppBarToggleButton.Icon>
+          </AppBarToggleButton>
+          <AppBarToggleButton x:Name="AlignRightButton" Label="Align right" Click="OnAlignRight"
+                              AutomationProperties.AutomationId="AlignRightButton" AutomationProperties.Name="Align right">
+            <AppBarToggleButton.Icon><FontIcon Glyph="&#xE8E2;" /></AppBarToggleButton.Icon>
+          </AppBarToggleButton>
+          <AppBarSeparator />
+          <AppBarButton x:Name="UndoButton" Icon="Undo" Label="Undo" Click="OnUndo"
+                        AutomationProperties.AutomationId="UndoButton" AutomationProperties.Name="Undo" />
+          <AppBarButton x:Name="RedoButton" Icon="Redo" Label="Redo" Click="OnRedo"
+                        AutomationProperties.AutomationId="RedoButton" AutomationProperties.Name="Redo" />
+        </CommandBar>
+      </Border>
+
+      <RichEditBox x:Name="Editor"
+                   Grid.Row="1"
+                   AcceptsReturn="True"
+                   TextWrapping="Wrap"
+                   Padding="48,32,48,32"
+                   FontSize="16"
+                   CornerRadius="{ThemeResource ControlCornerRadius}"
+                   HorizontalAlignment="Stretch"
+                   VerticalAlignment="Stretch"
+                   TextChanged="OnEditorTextChanged"
+                   SelectionChanged="OnEditorSelectionChanged"
+                   AutomationProperties.AutomationId="Editor"
+                   AutomationProperties.Name="Document editor" />
+
+      <Grid Grid.Row="2" ColumnDefinitions="*,Auto" Padding="4,0">
+        <TextBlock x:Name="StatusText"
+                   Style="{StaticResource CaptionTextBlockStyle}"
+                   Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                   AutomationProperties.AutomationId="StatusText" />
+        <TextBlock x:Name="SelectionText"
+                   Grid.Column="1"
+                   Style="{StaticResource CaptionTextBlockStyle}"
+                   Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                   AutomationProperties.AutomationId="SelectionText" />
+      </Grid>
+    </Grid>
+
+    <!-- Columns -->
+    <Grid x:Name="ColumnsPage" Grid.Row="1" RowDefinitions="Auto,*" RowSpacing="12" Visibility="Collapsed">
+      <Grid ColumnDefinitions="*,Auto,Auto" ColumnSpacing="8">
+        <TextBlock Text="One RichTextBlock flowing through two RichTextBlockOverflow columns"
+                   Style="{StaticResource BodyTextBlockStyle}"
+                   Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                   VerticalAlignment="Center" />
+        <Button x:Name="SelectButton" Grid.Column="1" Content="Select across columns" Click="OnSelectAcross"
+                AutomationProperties.AutomationId="SelectAcrossButton" />
+        <Button x:Name="ClearButton" Grid.Column="2" Content="Clear selection" Click="OnClearSelection"
+                AutomationProperties.AutomationId="ClearSelectionButton" />
+      </Grid>
+
+      <Border Grid.Row="1"
+              Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+              BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+              BorderThickness="1"
+              CornerRadius="{ThemeResource OverlayCornerRadius}"
+              Padding="32,28,32,28">
+        <Grid ColumnDefinitions="*,*,*" ColumnSpacing="32">
+          <RichTextBlock x:Name="Column1"
+                         OverflowContentTarget="{x:Bind Column2}"
+                         IsTextSelectionEnabled="True"
+                         TextWrapping="Wrap"
+                         FontSize="16"
+                         LineHeight="24"
+                         AutomationProperties.AutomationId="Column1" />
+          <RichTextBlockOverflow x:Name="Column2"
+                                 Grid.Column="1"
+                                 OverflowContentTarget="{x:Bind Column3}"
+                                 AutomationProperties.AutomationId="Column2" />
+          <RichTextBlockOverflow x:Name="Column3"
+                                 Grid.Column="2"
+                                 AutomationProperties.AutomationId="Column3" />
+        </Grid>
+      </Border>
+    </Grid>
+  </Grid>
+</Page>

@@ -1,0 +1,114 @@
+<Page x:Class="DrawingBackends.MainPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+  <Grid>
+    <Canvas x:Name="Scene"
+            AutomationProperties.AutomationId="Scene"
+            Background="{ThemeResource LayerFillColorDefaultBrush}"
+            IsHitTestVisible="False" />
+
+    <Border HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Margin="32"
+            Padding="24,20"
+            MaxWidth="460"
+            Background="{ThemeResource AcrylicInAppFillColorDefaultBrush}"
+            BorderBrush="{ThemeResource SurfaceStrokeColorDefaultBrush}"
+            BorderThickness="1"
+            CornerRadius="{ThemeResource OverlayCornerRadius}">
+      <StackPanel Spacing="8">
+        <TextBlock Style="{StaticResource CaptionTextBlockStyle}"
+                   Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                   Text="UNO PLATFORM 7.0 - DRAWING BACKENDS" />
+        <TextBlock Style="{StaticResource TitleTextBlockStyle}"
+                   Text="One scene, two renderers" />
+        <TextBlock Style="{StaticResource BodyTextBlockStyle}"
+                   Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                   TextWrapping="Wrap"
+                   Text="Every shape here is plain XAML animated through the Composition API. Start the app with --backend skia or --backend webgpu to pick who draws it." />
+        <Border HorizontalAlignment="Left"
+                Margin="0,8,0,0"
+                Padding="12,6"
+                Background="{ThemeResource AccentFillColorDefaultBrush}"
+                CornerRadius="{ThemeResource ControlCornerRadius}">
+          <StackPanel Orientation="Horizontal" Spacing="8">
+            <FontIcon Glyph="&#xE9D9;"
+                      FontSize="16"
+                      Foreground="{ThemeResource TextOnAccentFillColorPrimaryBrush}" />
+            <TextBlock x:Name="BackendBadge"
+                       AutomationProperties.AutomationId="BackendBadge"
+                       Style="{StaticResource BodyStrongTextBlockStyle}"
+                       Foreground="{ThemeResource TextOnAccentFillColorPrimaryBrush}" />
+          </StackPanel>
+        </Border>
+      </StackPanel>
+    </Border>
+
+    <Border HorizontalAlignment="Right"
+            VerticalAlignment="Bottom"
+            Margin="32"
+            Padding="20,16"
+            Width="320"
+            Background="{ThemeResource AcrylicInAppFillColorDefaultBrush}"
+            BorderBrush="{ThemeResource SurfaceStrokeColorDefaultBrush}"
+            BorderThickness="1"
+            CornerRadius="{ThemeResource OverlayCornerRadius}">
+      <Grid RowSpacing="12">
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid ColumnSpacing="16">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+          </Grid.ColumnDefinitions>
+          <StackPanel>
+            <TextBlock Style="{StaticResource CaptionTextBlockStyle}"
+                       Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                       Text="FRAMES PER SECOND" />
+            <TextBlock x:Name="FpsText"
+                       AutomationProperties.AutomationId="FpsText"
+                       Style="{StaticResource TitleLargeTextBlockStyle}"
+                       Text="--" />
+          </StackPanel>
+          <StackPanel Grid.Column="1">
+            <TextBlock Style="{StaticResource CaptionTextBlockStyle}"
+                       Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                       Text="FRAMES RENDERED" />
+            <TextBlock x:Name="FrameText"
+                       AutomationProperties.AutomationId="FrameText"
+                       Style="{StaticResource SubtitleTextBlockStyle}"
+                       Margin="0,10,0,0"
+                       Text="0" />
+          </StackPanel>
+        </Grid>
+        <StackPanel Grid.Row="1" Spacing="4">
+          <Grid>
+            <TextBlock Style="{StaticResource BodyStrongTextBlockStyle}" Text="Shapes" />
+            <TextBlock x:Name="CountText"
+                       AutomationProperties.AutomationId="CountText"
+                       HorizontalAlignment="Right"
+                       Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
+          </Grid>
+          <Slider x:Name="CountSlider"
+                  AutomationProperties.AutomationId="CountSlider"
+                  AutomationProperties.Name="Shape count"
+                  Minimum="50"
+                  Maximum="800"
+                  StepFrequency="50"
+                  Value="300"
+                  ValueChanged="OnCountChanged" />
+        </StackPanel>
+        <ToggleSwitch x:Name="AnimateToggle"
+                      Grid.Row="2"
+                      AutomationProperties.AutomationId="AnimateToggle"
+                      Header="Animate"
+                      IsOn="True"
+                      Toggled="OnAnimateToggled" />
+      </Grid>
+    </Border>
+  </Grid>
+</Page>
