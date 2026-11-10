@@ -1,2 +1,37 @@
 <Project>
+	<!--
+		Workaround until unoplatform/uno.extensions#3299 ships (Windows, MauiNativeEmbedding, .NET MAUI 10).
+		MauiHost.Source="controls:MyView" makes the WinUI XAML compiler generate accessors for every property of the MAUI view in
+		XamlTypeInfo.g.cs. It ignores [Obsolete(error: true)], so the getters of TemplatedView.Children and ScrollView.Children fail
+		with CS0619. Both hide Compatibility.Layout.Children and return it: read it through that base type instead.
+	-->
+	<Target Name="SampleFixObsoleteMauiChildren"
+			BeforeTargets="CoreCompile"
+			Condition="$(TargetFramework.Contains('-windows')) and Exists('$(IntermediateOutputPath)XamlTypeInfo.g.cs')">
+		<SampleRegexReplaceInFile File="$(IntermediateOutputPath)XamlTypeInfo.g.cs"
+								  Pattern="(var that = \(global::Microsoft\.Maui\.Controls\.)(?:TemplatedView|ScrollView)(\)instance;\s+return that\.Children;)"
+								  Replacement="${1}Compatibility.Layout${2}" />
+	</Target>
+
+	<UsingTask TaskName="SampleRegexReplaceInFile" TaskFactory="RoslynCodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.Core.dll">
+		<ParameterGroup>
+			<File ParameterType="System.String" Required="true" />
+			<Pattern ParameterType="System.String" Required="true" />
+			<Replacement ParameterType="System.String" Required="true" />
+		</ParameterGroup>
+		<Task>
+			<Using Namespace="System.IO" />
+			<Using Namespace="System.Text.RegularExpressions" />
+			<Code Type="Fragment" Language="cs">
+				<![CDATA[
+					var text = System.IO.File.ReadAllText(File);
+					var updated = Regex.Replace(text, Pattern, Replacement);
+					if (updated != text)
+					{
+						System.IO.File.WriteAllText(File, updated);
+					}
+				]]>
+			</Code>
+		</Task>
+	</UsingTask>
 </Project>
