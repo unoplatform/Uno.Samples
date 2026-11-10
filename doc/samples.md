@@ -382,6 +382,12 @@ Uno PongWars is a simple minigame that draws inspiration from the [PongWars HTML
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/PongWars)
 
+### Reactor Coffee Tracker
+
+A small coffee tracker written with [Microsoft.UI.Reactor](https://github.com/unoplatform/Uno.microsoft-ui-reactor), the declarative, hooks-based C# UI framework for WinUI, running on Uno Platform. The whole app is one C# file, with no XAML and no view models.
+
+[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/ReactorCoffeeTracker)
+
 ### ScottPlot
 
 [ScottPlot](https://scottplot.net/) is a free and open-source plotting library for .NET that makes it easy to interactively display large datasets. Line plots, bar charts, pie graphs, scatter plots, and more can be created with just a few lines of code.
