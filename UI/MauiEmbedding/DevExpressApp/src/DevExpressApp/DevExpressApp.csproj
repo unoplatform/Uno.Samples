@@ -1,9 +1,10 @@
 ﻿<Project Sdk="Uno.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>
-      net8.0-android;
-      net8.0-ios;
-    </TargetFrameworks>
+    <!--
+      Android and iOS only: the DevExpress .NET MAUI controls ship no Windows build, which Uno.Maui.Embedding
+      (the MauiEmbedding feature, desktop and WebAssembly) needs.
+    -->
+    <TargetFrameworks>net10.0-android;net10.0-ios</TargetFrameworks>
 
     <OutputType>Exe</OutputType>
     <UnoSingleProject>true</UnoSingleProject>
@@ -19,13 +20,15 @@
     <!--
       UnoFeatures let's you quickly add and manage implicit package references based on the features you want to use.
       https://aka.platform.uno/singleproject-features
+
+      MauiNativeEmbedding: the native MAUI embedding of Uno.Extensions (Android and iOS).
+      https://aka.platform.uno/feature-maui-embedding
     -->
     <UnoFeatures>
-      Lottie;
       Hosting;
       Toolkit;
       Logging;
-      MauiEmbedding;
+      MauiNativeEmbedding;
       Mvvm;
       Configuration;
       Navigation;

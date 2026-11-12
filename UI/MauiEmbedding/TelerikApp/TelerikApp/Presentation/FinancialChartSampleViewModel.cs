@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace TelerikApp.Presentation;
@@ -33,7 +34,13 @@ internal partial class FinancialChartSampleViewModel : ObservableObject
 
         using var reader = new StreamReader(stream!);
         var json = reader.ReadToEnd();
-        var options = new JsonSerializerOptions(JsonSerializerDefaults.Web);
-        return JsonSerializer.Deserialize<FinancialDataItem[]>(json, options) ?? Array.Empty<FinancialDataItem>();
+        return JsonSerializer.Deserialize(json, FinancialDataJsonContext.Default.FinancialDataItemArray) ?? Array.Empty<FinancialDataItem>();
     }
+}
+
+// Source-generated metadata: reflection-based System.Text.Json serialization is disabled in trimmed builds (WebAssembly).
+[JsonSourceGenerationOptions(JsonSerializerDefaults.Web)]
+[JsonSerializable(typeof(FinancialDataItem[]))]
+internal partial class FinancialDataJsonContext : JsonSerializerContext
+{
 }

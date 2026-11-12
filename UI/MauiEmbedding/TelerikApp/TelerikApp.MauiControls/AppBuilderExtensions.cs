@@ -13,8 +13,8 @@ public static class AppBuilderExtensions
             //.UseTelerik()
             .ConfigureFonts(fonts =>
             {
-                fonts.AddFont("TelerikApp/Assets/Fonts/OpenSansRegular.ttf", "OpenSansRegular");
-                fonts.AddFont("TelerikApp/Assets/Fonts/telerikfont.ttf", "TelerikFont");
+                fonts.AddFont("Assets/Fonts/OpenSansRegular.ttf", "OpenSansRegular");
+                fonts.AddFont("Assets/Fonts/telerikfont.ttf", "TelerikFont");
             });
 
         // TODO: Validate if these fixes are still required

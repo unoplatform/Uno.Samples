@@ -8,8 +8,8 @@ public static class AppBuilderExtensions
 		builder
 			.ConfigureFonts(fonts =>
 			{
-				fonts.AddFont("SyncfusionApp/Assets/Fonts/OpenSansRegular.ttf", "OpenSansRegular");
-				fonts.AddFont("SyncfusionApp/Assets/Fonts/OpenSansSemibold.ttf", "OpenSansSemibold");
+				fonts.AddFont("Assets/Fonts/OpenSansRegular.ttf", "OpenSansRegular");
+				fonts.AddFont("Assets/Fonts/OpenSansSemibold.ttf", "OpenSansSemibold");
 			})
 			.ConfigureSyncfusionCore();
 }
