@@ -1,0 +1,82 @@
+﻿<Page x:Class="Authentication.CustomExtensionsDemo.Presentation.MainPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:utu="using:Uno.Toolkit.UI"
+      xmlns:views="using:Authentication.CustomExtensionsDemo.Presentation"
+      NavigationCacheMode="Required"
+      Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+  <Grid RowDefinitions="Auto,*">
+
+    <!-- SafeArea keeps the header clear of the status bar / notch on mobile. -->
+    <Border Grid.Row="0"
+            Padding="16,12"
+            utu:SafeArea.Insets="Top"
+            Background="{ThemeResource LayerFillColorDefaultBrush}"
+            BorderBrush="{ThemeResource DividerStrokeColorDefaultBrush}"
+            BorderThickness="0,0,0,1">
+      <Grid ColumnDefinitions="*,Auto,Auto" ColumnSpacing="12">
+        <StackPanel VerticalAlignment="Center">
+          <TextBlock Text="Custom authentication on Uno Platform"
+                     Style="{StaticResource SubtitleTextBlockStyle}" />
+          <TextBlock Text="Uno.Extensions.Authentication AddCustom, with a Kiota client"
+                     Style="{StaticResource CaptionTextBlockStyle}"
+                     Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
+        </StackPanel>
+
+        <!--
+          Recording mode. Hides the client ID, the signed-in account and anything token-shaped,
+          everywhere in the app at once, and remembers the choice across restarts so the
+          silent-sign-in demo can restart the app without exposing anything.
+        -->
+        <ToggleButton Grid.Column="1"
+                      VerticalAlignment="Center"
+                      AutomationProperties.AutomationId="RedactToggle"
+                      Content="{Binding Redaction.ToggleLabel}"
+                      IsChecked="{Binding Redaction.IsEnabled, Mode=TwoWay}"
+                      ToolTipService.ToolTip="Hide identifiers while recording" />
+
+        <Border Grid.Column="2"
+                Padding="8,4"
+                VerticalAlignment="Center"
+                Background="{ThemeResource ControlAltFillColorSecondaryBrush}"
+                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                BorderThickness="1"
+                CornerRadius="4">
+          <TextBlock x:Name="PlatformChip"
+                     AutomationProperties.AutomationId="PlatformChip"
+                     FontSize="11"
+                     FontWeight="SemiBold"
+                     Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
+        </Border>
+      </Grid>
+    </Border>
+
+    <!--
+      The three views are all kept alive and toggled, rather than navigated to with a Frame, so
+      the flow log and the API response survive switching pages.
+    -->
+    <NavigationView x:Name="Nav"
+                    Grid.Row="1"
+                    AutomationProperties.AutomationId="SectionNav"
+                    IsBackButtonVisible="Collapsed"
+                    IsPaneToggleButtonVisible="False"
+                    IsSettingsVisible="False"
+                    PaneDisplayMode="Top"
+                    SelectionChanged="OnSectionChanged">
+      <NavigationView.MenuItems>
+        <NavigationViewItem AutomationProperties.AutomationId="SignInTab" Content="Sign in" IsSelected="True" Tag="signin" />
+        <NavigationViewItem AutomationProperties.AutomationId="ApiTab" Content="Call the API" Tag="api" />
+        <NavigationViewItem AutomationProperties.AutomationId="SetupTab" Content="Platform setup" Tag="setup" />
+      </NavigationView.MenuItems>
+
+      <Grid>
+        <views:SignInView x:Name="SignInSection" DataContext="{Binding SignIn}" />
+        <views:ApiView x:Name="ApiSection" DataContext="{Binding Api}" Visibility="Collapsed" />
+        <views:PlatformSetupView x:Name="SetupSection" DataContext="{Binding Setup}" Visibility="Collapsed" />
+      </Grid>
+    </NavigationView>
+
+  </Grid>
+
+</Page>

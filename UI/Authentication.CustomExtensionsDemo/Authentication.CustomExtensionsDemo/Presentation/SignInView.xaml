@@ -1,0 +1,150 @@
+<UserControl x:Class="Authentication.CustomExtensionsDemo.Presentation.SignInView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+  <ScrollViewer x:Name="RootScroll">
+    <StackPanel MaxWidth="920"
+                Padding="16"
+                Spacing="16">
+
+      <!-- Shown until the DemoServer section names a server. -->
+      <Border Style="{StaticResource CardStyle}"
+              AutomationProperties.AutomationId="NotConfiguredCard"
+              Background="#26D08700"
+              BorderBrush="{StaticResource FlowWarningBrush}"
+              Visibility="{Binding IsNotConfigured, Converter={StaticResource BoolToVisibility}}">
+        <StackPanel Spacing="6">
+          <TextBlock Text="No server configured"
+                     Style="{StaticResource BodyStrongTextBlockStyle}" />
+          <TextBlock Text="{Binding ConfigurationWarning}"
+                     Style="{StaticResource BodyTextBlockStyle}"
+                     TextWrapping="Wrap" />
+        </StackPanel>
+      </Border>
+
+      <!-- Where the Kiota client sends the calls: the one value that changes per head. -->
+      <Border Style="{StaticResource CardStyle}">
+        <StackPanel Spacing="14">
+          <TextBlock Text="DEMO SERVER (appsettings, section DemoServer)"
+                     Style="{StaticResource LabelTextStyle}" />
+
+          <StackPanel Spacing="2">
+            <TextBlock Text="Running on" Style="{StaticResource LabelTextStyle}" />
+            <TextBlock Text="{Binding PlatformName}" AutomationProperties.AutomationId="PlatformName" Style="{StaticResource BodyTextBlockStyle}" />
+          </StackPanel>
+
+          <StackPanel Spacing="2">
+            <TextBlock Text="Server" Style="{StaticResource LabelTextStyle}" />
+            <TextBlock Text="{Binding ApiUrlDisplay}"
+                       AutomationProperties.AutomationId="ApiUrl"
+                       Style="{StaticResource CodeTextStyle}"
+                       FontSize="13"
+                       Foreground="{StaticResource FlowCallBrush}" />
+            <TextBlock Text="{Binding ServerSource}"
+                       Style="{StaticResource CodeTextStyle}"
+                       Margin="0,4,0,0"
+                       TextWrapping="Wrap"
+                       Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
+          </StackPanel>
+        </StackPanel>
+      </Border>
+
+      <!--
+        The app's own login form: with AddCustom the credentials never leave the app except in
+        the Login callback's request. Demo accounts: alice / alice, bob / bob.
+      -->
+      <Border Style="{StaticResource CardStyle}">
+        <StackPanel Spacing="10" MaxWidth="360" HorizontalAlignment="Left">
+          <TextBlock Text="SIGN IN (alice / alice, bob / bob)" Style="{StaticResource LabelTextStyle}" />
+          <TextBox Header="User name"
+                   AutomationProperties.AutomationId="UsernameBox"
+                   Text="{Binding Username, Mode=TwoWay}" />
+          <PasswordBox Header="Password"
+                       AutomationProperties.AutomationId="PasswordBox"
+                       Password="{Binding Password, Mode=TwoWay}" />
+        </StackPanel>
+      </Border>
+
+      <!-- Actions. Horizontally scrollable so the row survives narrow phone screens. -->
+      <ScrollViewer HorizontalScrollBarVisibility="Auto"
+                    HorizontalScrollMode="Auto"
+                    VerticalScrollBarVisibility="Disabled"
+                    VerticalScrollMode="Disabled">
+        <StackPanel Orientation="Horizontal" Spacing="8">
+          <Button Click="OnSignInClick"
+                  AutomationProperties.AutomationId="SignInButton"
+                  Content="Sign in"
+                  IsEnabled="{Binding IsNotBusy}"
+                  Style="{StaticResource AccentButtonStyle}" />
+          <Button Click="OnRefreshClick"
+                  AutomationProperties.AutomationId="RefreshButton"
+                  Content="Silent only"
+                  IsEnabled="{Binding IsNotBusy}" />
+          <Button Click="OnSignOutClick"
+                  AutomationProperties.AutomationId="SignOutButton"
+                  Content="Sign out"
+                  IsEnabled="{Binding IsNotBusy}" />
+          <Button Click="OnClearLogClick"
+                  AutomationProperties.AutomationId="ClearLogButton"
+                  Content="Clear log" />
+        </StackPanel>
+      </ScrollViewer>
+
+      <!-- Result of the last call. -->
+      <Border Style="{StaticResource CardStyle}">
+        <StackPanel Spacing="10">
+          <TextBlock Text="TOKENS" Style="{StaticResource LabelTextStyle}" />
+          <TextBlock Text="{Binding StatusHeadline}"
+                     AutomationProperties.AutomationId="StatusHeadline"
+                     Style="{StaticResource SubtitleTextBlockStyle}"
+                     TextWrapping="Wrap" />
+          <TextBlock Text="{Binding ResultDetail}" Style="{StaticResource CodeTextStyle}" />
+          <TextBlock Text="{Binding TokensSummary}"
+                     AutomationProperties.AutomationId="TokensSummary"
+                     Style="{StaticResource CodeTextStyle}"
+                     Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
+          <ProgressBar AutomationProperties.AutomationId="BusyBar"
+                       IsIndeterminate="True"
+                       Visibility="{Binding IsBusy, Converter={StaticResource BoolToVisibility}}" />
+        </StackPanel>
+      </Border>
+
+      <!-- Every authentication call, in order, with the reason it was made. -->
+      <Border Style="{StaticResource CardStyle}">
+        <StackPanel Spacing="12">
+          <TextBlock Text="FLOW LOG" Style="{StaticResource LabelTextStyle}" />
+          <ItemsControl AutomationProperties.AutomationId="FlowLog" ItemsSource="{Binding Log}">
+            <ItemsControl.ItemTemplate>
+              <DataTemplate>
+                <Grid Margin="0,0,0,12"
+                      ColumnDefinitions="16,Auto,*"
+                      ColumnSpacing="8">
+                  <TextBlock Grid.Column="0"
+                             Text="{Binding Glyph}"
+                             FontWeight="Bold"
+                             Foreground="{Binding Kind, Converter={StaticResource FlowStepKindToBrush}}" />
+                  <TextBlock Grid.Column="1"
+                             Text="{Binding Time}"
+                             Style="{StaticResource CodeTextStyle}"
+                             Foreground="{ThemeResource TextFillColorTertiaryBrush}" />
+                  <StackPanel Grid.Column="2" Spacing="3">
+                    <TextBlock Text="{Binding DisplayTitle}"
+                               Style="{StaticResource BodyStrongTextBlockStyle}"
+                               Foreground="{Binding Kind, Converter={StaticResource FlowStepKindToBrush}}"
+                               TextWrapping="Wrap" />
+                    <TextBlock Text="{Binding DisplayDetail}"
+                               Style="{StaticResource CodeTextStyle}"
+                               Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                               Visibility="{Binding HasDetail, Converter={StaticResource BoolToVisibility}}" />
+                  </StackPanel>
+                </Grid>
+              </DataTemplate>
+            </ItemsControl.ItemTemplate>
+          </ItemsControl>
+        </StackPanel>
+      </Border>
+
+    </StackPanel>
+  </ScrollViewer>
+
+</UserControl>
