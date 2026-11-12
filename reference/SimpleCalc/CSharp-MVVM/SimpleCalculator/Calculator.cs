@@ -128,8 +128,8 @@ public record Calculator
 
 			double result = calculator.Operator switch
 			{
-				"÷" => calculator.Number1!.Value / (number2!.Value / 100) * calculator.Number1!.Value,
-				"×" => calculator.Number1!.Value * (number2!.Value / 100) * calculator.Number1!.Value,
+				"÷" => calculator.Number1!.Value / (number2!.Value / 100),
+				"×" => calculator.Number1!.Value * (number2!.Value / 100),
 				"+" => calculator.Number1!.Value + (number2!.Value / 100) * calculator.Number1!.Value,
 				"−" => calculator.Number1!.Value - (number2!.Value / 100) * calculator.Number1!.Value,
 				_ => throw new InvalidOperationException()
