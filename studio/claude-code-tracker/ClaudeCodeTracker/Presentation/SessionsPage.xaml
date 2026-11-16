@@ -1,0 +1,99 @@
+<Page x:Class="ClaudeCodeTracker.Presentation.SessionsPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:utu="using:Uno.Toolkit.UI"
+      xmlns:uen="using:Uno.Extensions.Navigation.UI"
+      xmlns:mvux="using:Uno.Extensions.Reactive.UI"
+      Background="{ThemeResource BackgroundBrush}">
+
+    <Grid x:Name="Root" utu:SafeArea.Insets="Top,SoftInput">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!-- Header: title, search, model filter chips. Full-bleed band whose inner content is
+             capped at the same 1100 max-width as the other pages, so the title and filters sit in
+             a centered column instead of stretching edge-to-edge on wide layouts. -->
+        <StackPanel Grid.Row="0"
+                    Padding="0,16,0,12"
+                    Background="{ThemeResource SurfaceVariantBrush}">
+            <StackPanel MaxWidth="1100"
+                        HorizontalAlignment="Stretch"
+                        Padding="{ThemeResource Space500HorizontalThickness}"
+                        Spacing="{ThemeResource Space300}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0" Spacing="{ThemeResource Space050}">
+                        <TextBlock
+                                   Style="{StaticResource TitleLarge}"
+                                   Foreground="{ThemeResource OnSurfaceBrush}"
+                                   Text="Sessions" />
+                        <TextBlock Style="{StaticResource BodyMedium}"
+                                   Foreground="{ThemeResource OnSurfaceVariantBrush}"
+                                   Text="{Binding TotalCountDisplay}" />
+                    </StackPanel>
+                    <Viewbox Grid.Column="1"
+                             Width="20"
+                             Height="20"
+                             VerticalAlignment="Center"
+                             AutomationProperties.AccessibilityView="Raw">
+                        <PathIcon Data="F1 M16.1017 17.1624C14.717 18.3101 12.9391 19 11 19C6.58172 19 3 15.4183 3 11C3 6.58172 6.58172 3 11 3C15.4183 3 19 6.58172 19 11C19 12.9391 18.3101 14.717 17.1624 16.1018L21.7803 20.7197C22.0732 21.0126 22.0732 21.4874 21.7803 21.7803C21.4874 22.0732 21.0125 22.0732 20.7196 21.7803L16.1017 17.1624ZM17.5 11C17.5 7.41015 14.5899 4.5 11 4.5C7.41015 4.5 4.5 7.41015 4.5 11C4.5 14.5899 7.41015 17.5 11 17.5C14.5899 17.5 17.5 14.5899 17.5 11Z"
+                                  Foreground="{ThemeResource OnSurfaceVariantBrush}" />
+                    </Viewbox>
+                </Grid>
+
+                <TextBox PlaceholderText="Search sessions by name…"
+                         HorizontalAlignment="Stretch"
+                         Text="{Binding Query, Mode=TwoWay}" />
+
+                <utu:ChipGroup SelectionMode="Single"
+                               ItemsSource="{Binding FilterOptions}"
+                               SelectedItem="{Binding ModelFilter, Mode=TwoWay}"
+                               Style="{StaticResource FilterChipGroupStyle}" />
+            </StackPanel>
+        </StackPanel>
+
+        <!--
+            Session list. The Model asks ITrackerService for the sessions matching the search text and
+            the model chip, so this is a feed with four states: the rows, the "nothing matched" message
+            below, a progress ring while the request is in flight, and the shared failure template.
+            The empty state used to be a TextBlock whose Visibility the code-behind toggled after
+            filtering the list itself.
+        -->
+        <mvux:FeedView Grid.Row="1"
+                       Source="{Binding Sessions}"
+                       ErrorTemplate="{StaticResource TrackerErrorTemplate}">
+            <mvux:FeedView.ValueTemplate>
+                <DataTemplate>
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                        <ItemsRepeater ItemsSource="{Binding Data}"
+                                       MaxWidth="1100"
+                           HorizontalAlignment="Stretch"
+                           Margin="20,12,20,24"
+                                       ItemTemplate="{StaticResource SessionRowTemplate}">
+                <ItemsRepeater.Layout>
+                    <StackLayout Spacing="{ThemeResource Space200}" Orientation="Vertical" />
+                </ItemsRepeater.Layout>
+                        </ItemsRepeater>
+                    </ScrollViewer>
+                </DataTemplate>
+            </mvux:FeedView.ValueTemplate>
+
+            <mvux:FeedView.NoneTemplate>
+                <DataTemplate>
+                    <TextBlock HorizontalAlignment="Center"
+                               VerticalAlignment="Top"
+                               Margin="20,48,20,24"
+                               Foreground="{ThemeResource OnSurfaceVariantBrush}"
+                               Style="{StaticResource BodyMedium}"
+                               TextAlignment="Center"
+                               Text="No sessions match your search" />
+                </DataTemplate>
+            </mvux:FeedView.NoneTemplate>
+        </mvux:FeedView>
+    </Grid>
+</Page>

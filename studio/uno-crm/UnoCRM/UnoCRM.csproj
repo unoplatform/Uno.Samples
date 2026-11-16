@@ -1,0 +1,70 @@
+<Project Sdk="Uno.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>net10.0-android;net10.0-ios;net10.0-browserwasm;net10.0-desktop</TargetFrameworks>
+
+    <OutputType>Exe</OutputType>
+    <UnoSingleProject>true</UnoSingleProject>
+
+    <!--
+      Design tokens (seed colours, DefaultCornerRadius/Spacing/FontFamily) need Uno.Themes 8.0, and
+      the runtime-token fixes land in 8.0.0-dev.15. The Toolkit matters too: SimpleToolkitTheme only
+      inherits BaseTheme — and so surfaces Colors and DefaultFontFamily — from 9.x. Both are ahead
+      of the SDK's implicit versions.
+    -->
+    <UnoThemesVersion>8.0.0-dev.15</UnoThemesVersion>
+    <UnoToolkitVersion>9.1.3</UnoToolkitVersion>
+
+    <!-- Display name -->
+    <ApplicationTitle>UnoCRM</ApplicationTitle>
+    <!-- App Identifier -->
+    <ApplicationId>com.companyname.unocrm</ApplicationId>
+    <!-- Versions -->
+    <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
+    <ApplicationVersion>1</ApplicationVersion>
+    <!-- Package Publisher -->
+    <ApplicationPublisher>UnoCRM</ApplicationPublisher>
+    <!-- Package Description -->
+    <Description>UnoCRM powered by Uno Platform.</Description>
+
+    <!--
+      UnoFeatures are used to quickly add and manage features enabled for your app.
+      https://aka.platform.uno/singleproject-features
+    -->
+    <UnoFeatures>
+      SimpleTheme;
+      Hosting;
+      Toolkit;
+      Logging;
+      MVUX;
+      Navigation;
+      SkiaRenderer;
+    </UnoFeatures>
+  </PropertyGroup>
+
+  <!--
+    Hot Design Previews live in Previews/. Hot Design locates them at runtime via the
+    ApplicationPreviewsFolder assembly-metadata the SDK generates from this property, so it MUST
+    point at our folder or no previews are listed.
+  -->
+  <PropertyGroup>
+    <HotDesignPreviewsFolder>Previews</HotDesignPreviewsFolder>
+  </PropertyGroup>
+
+  <!--
+    App icon + splash screen via Uno.Resizetizer (all platforms).
+    Source is a bar-chart logo (transparent corners) on a #151515 dark background,
+    so the background colour fills the corners/adaptive-icon background seamlessly.
+  -->
+  <PropertyGroup>
+    <UnoIconForegroundFile>Assets/Icons/icon_foreground.svg</UnoIconForegroundFile>
+    <UnoIconBackgroundColor>#151515</UnoIconBackgroundColor>
+    <UnoSplashScreenFile>Assets/Splash/splash_screen.svg</UnoSplashScreenFile>
+    <UnoSplashScreenColor>#151515</UnoSplashScreenColor>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="LiveChartsCore.SkiaSharpView.Uno.WinUI" />
+    <PackageReference Include="Mapsui.Uno.WinUI" />
+  </ItemGroup>
+
+</Project>

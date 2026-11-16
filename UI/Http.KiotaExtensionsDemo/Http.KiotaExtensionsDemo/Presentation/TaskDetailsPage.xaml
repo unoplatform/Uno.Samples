@@ -1,0 +1,116 @@
+<Page x:Class="Http.KiotaExtensionsDemo.Presentation.TaskDetailsPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:utu="using:Uno.Toolkit.UI"
+      xmlns:mvux="using:Uno.Extensions.Reactive.UI"
+      Background="{ThemeResource BackgroundBrush}">
+
+  <Grid utu:SafeArea.Insets="VisibleBounds">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="*" />
+    </Grid.RowDefinitions>
+
+    <utu:NavigationBar Content="Task">
+      <utu:NavigationBar.PrimaryCommands>
+        <AppBarButton Label="Edit" Command="{Binding Edit}" AutomationProperties.AutomationId="EditButton">
+          <AppBarButton.Icon>
+            <SymbolIcon Symbol="Edit" />
+          </AppBarButton.Icon>
+        </AppBarButton>
+        <AppBarButton Label="Delete" Command="{Binding Delete}" AutomationProperties.AutomationId="DeleteButton">
+          <AppBarButton.Icon>
+            <SymbolIcon Symbol="Delete" />
+          </AppBarButton.Icon>
+        </AppBarButton>
+      </utu:NavigationBar.PrimaryCommands>
+    </utu:NavigationBar>
+
+    <utu:SafeArea Grid.Row="1" Insets="SoftInput">
+      <StackPanel Padding="16" Spacing="16">
+        <mvux:FeedView x:Name="TaskFeed" Source="{Binding Current}">
+          <DataTemplate>
+            <StackPanel Spacing="4">
+              <TextBlock Style="{StaticResource HeadlineSmall}"
+                         TextWrapping="Wrap"
+                         AutomationProperties.AutomationId="TaskTitle"
+                         Text="{Binding Data.Title}" />
+              <TextBlock Style="{StaticResource BodyMedium}"
+                         Foreground="{ThemeResource OnSurfaceVariantBrush}"
+                         Text="{Binding Data.Details}" />
+              <CheckBox Content="Done" IsChecked="{Binding Data.Done}" IsEnabled="False" />
+              <TextBlock Style="{StaticResource BodyLarge}" TextWrapping="Wrap" Text="{Binding Data.Notes}" />
+            </StackPanel>
+          </DataTemplate>
+          <mvux:FeedView.ErrorTemplate>
+            <DataTemplate>
+              <StackPanel Spacing="8">
+                <TextBlock Style="{StaticResource TitleSmall}"
+                           Foreground="{ThemeResource ErrorBrush}"
+                           AutomationProperties.AutomationId="TaskError"
+                           Text="The task could not be loaded." />
+                <TextBlock Style="{StaticResource BodySmall}" TextWrapping="Wrap" Text="{Binding Message}" />
+                <Button Content="Retry"
+                        Command="{Binding Refresh, ElementName=TaskFeed}"
+                        AutomationProperties.AutomationId="TaskRetryButton" />
+              </StackPanel>
+            </DataTemplate>
+          </mvux:FeedView.ErrorTemplate>
+        </mvux:FeedView>
+
+        <utu:Divider />
+
+        <TextBlock Style="{StaticResource TitleMedium}" Text="Attachments" />
+        <mvux:FeedView x:Name="AttachmentsFeed" Source="{Binding Attachments}">
+          <DataTemplate>
+            <ItemsControl ItemsSource="{Binding Data}" AutomationProperties.AutomationId="AttachmentsList">
+              <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                  <StackPanel Padding="0,4" AutomationProperties.AutomationId="{Binding Id}">
+                    <TextBlock Style="{StaticResource BodyLarge}" Text="{Binding FileName}" />
+                    <TextBlock Style="{StaticResource BodySmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}">
+                      <Run Text="{Binding SizeText}" /> <Run Text="{Binding ContentType}" /> <Run Text="{Binding Description}" />
+                    </TextBlock>
+                  </StackPanel>
+                </DataTemplate>
+              </ItemsControl.ItemTemplate>
+            </ItemsControl>
+          </DataTemplate>
+          <mvux:FeedView.NoneTemplate>
+            <DataTemplate>
+              <TextBlock Style="{StaticResource BodyMedium}"
+                         AutomationProperties.AutomationId="AttachmentsEmpty"
+                         Text="No attachments yet." />
+            </DataTemplate>
+          </mvux:FeedView.NoneTemplate>
+          <mvux:FeedView.ErrorTemplate>
+            <DataTemplate>
+              <StackPanel Spacing="8">
+                <TextBlock Style="{StaticResource BodyMedium}"
+                           Foreground="{ThemeResource ErrorBrush}"
+                           AutomationProperties.AutomationId="AttachmentsError"
+                           Text="The attachments could not be loaded." />
+                <Button Content="Retry"
+                        Command="{Binding Refresh, ElementName=AttachmentsFeed}"
+                        AutomationProperties.AutomationId="AttachmentsRetryButton" />
+              </StackPanel>
+            </DataTemplate>
+          </mvux:FeedView.ErrorTemplate>
+        </mvux:FeedView>
+
+        <!-- The upload is a multipart/form-data request: the picked file plus this description. -->
+        <TextBox Header="Description (optional)"
+                 Text="{Binding Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                 AutomationProperties.AutomationId="DescriptionBox" />
+        <Button Content="Attach a file..."
+                Style="{StaticResource FilledButtonStyle}"
+                Command="{Binding Upload}"
+                AutomationProperties.AutomationId="AttachButton" />
+        <TextBlock Style="{StaticResource BodyMedium}"
+                   TextWrapping="Wrap"
+                   AutomationProperties.AutomationId="MessageText"
+                   Text="{Binding Message}" />
+      </StackPanel>
+    </utu:SafeArea>
+  </Grid>
+</Page>

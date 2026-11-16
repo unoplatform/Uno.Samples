@@ -9,6 +9,13 @@ For more information on how to use the controls from Syncfusion in an Uno Platfo
 > [!NOTE]
 > In order to use the Syncfusion controls, you will need to create an account and purchase a Syncfusion license [here](https://help.syncfusion.com/maui/licensing/overview). This sample can be run in development without a license key.
 
+## Platforms
+
+- **Desktop and WebAssembly:** the `MauiEmbedding` Uno Feature ([Uno.Maui.Embedding](https://www.nuget.org/packages/Uno.Maui.Embedding), experimental preview), which draws the Syncfusion controls through their Windows (`net10.0-windows10.0.19041`) build.
+- **Android, iOS and Windows:** the `MauiNativeEmbedding` Uno Feature (the native .NET MAUI embedding of Uno.Extensions).
+
+More information: https://aka.platform.uno/feature-maui-embedding
+
 ## List of controls used in this sample
 - Doughnut
     - CenterElevation

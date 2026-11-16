@@ -38,8 +38,8 @@ public static class AppBuilderExtensions
             // .UseGrial()
 			.ConfigureFonts(fonts =>
 			{
-				fonts.AddFont("GrialKitApp/Assets/Fonts/OpenSansRegular.ttf", "OpenSansRegular");
-				fonts.AddFont("GrialKitApp/Assets/Fonts/OpenSansSemibold.ttf", "OpenSansSemibold");
+				fonts.AddFont("Assets/Fonts/OpenSansRegular.ttf", "OpenSansRegular");
+				fonts.AddFont("Assets/Fonts/OpenSansSemibold.ttf", "OpenSansSemibold");
 			});
 	}
 }

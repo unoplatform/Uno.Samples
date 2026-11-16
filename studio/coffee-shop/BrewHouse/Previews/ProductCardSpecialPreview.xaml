@@ -1,0 +1,18 @@
+<hd:Preview x:Class="BrewHouse.Previews.ProductCardSpecialPreview"
+            xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+            xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+            xmlns:mock="using:BrewHouse.Presentation.MockData"
+            xmlns:hd="using:Uno.UI.HotDesign"
+            xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+            xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+            mc:Ignorable="d">
+
+    <!-- Same template, a "Today's Special" product, so the special badge shows. -->
+    <Grid>
+        <ContentControl ContentTemplate="{StaticResource ProductCardTemplate}"
+                        Content="{x:Bind mock:PreviewData.SpecialProduct}"
+                        Width="360"
+                        HorizontalContentAlignment="Stretch"
+                        VerticalAlignment="Top" />
+    </Grid>
+</hd:Preview>

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 // TODO: Uncomment
-//using Telerik.Maui.Controls.Compatibility.Primitives;
+//using Telerik.Maui.Controls.BadgeView;
 
 namespace TelerikApp.Presentation;
 

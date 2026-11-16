@@ -1,0 +1,31 @@
+﻿<Page x:Class="UnoFSharp.Presentation.MainPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:local="using:UnoFSharp.Presentation"
+      xmlns:uen="using:Uno.Extensions.Navigation.UI"
+      xmlns:utu="using:Uno.Toolkit.UI"
+      xmlns:um="using:Uno.Material"
+      NavigationCacheMode="Required"
+      Background="{ThemeResource BackgroundBrush}">
+  <ScrollViewer IsTabStop="True">
+    <Grid utu:SafeArea.Insets="VisibleBounds">
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto" />
+        <RowDefinition />
+      </Grid.RowDefinitions>
+      <utu:NavigationBar Content="{Binding Title}" />
+
+      <StackPanel Grid.Row="1"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Spacing="16">
+        <Button Content="Test F# Records with MVUX"
+            Command="{Binding GoToFSharpTest}"
+            Style="{StaticResource FilledButtonStyle}" />
+        <Button Content="Interactive F# + MVUX Demo"
+            Command="{Binding GoToInteractive}"
+            Style="{StaticResource FilledButtonStyle}" />
+      </StackPanel>
+    </Grid>
+  </ScrollViewer>
+</Page>

@@ -17,7 +17,7 @@ public partial class MainPage : Page
 {
     public MainPage()
     {
-        this.DataContext<BindableMainModel>((page, vm) => page
+        this.DataContext<MainViewModel>((page, vm) => page
             .Background(Theme.Brushes.Background.Default)
             .NavigationCacheMode(NavigationCacheMode.Required)
             .StatusBar

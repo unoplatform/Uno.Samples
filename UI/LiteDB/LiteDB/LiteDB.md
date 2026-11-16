@@ -67,12 +67,12 @@ Of course we simplify here a bit. On top we most probable have a unique identifi
 
 ![Comparison](Comparison.png)
 
-## LiteDB and UNO
-Now we can use this power when we want to build a **UNO Platform** app. You might remember that we already could do something similiar with SQLite: *[Working with SQLite and WebAssembly for .NET Developers](https://platform.uno/blog/working-with-sqlite-and-webassembly-for-net-developers/)*. This article describes how to use SQLite with the UNO Platform. And guess what: We can do something similiar with **LiteDB** as well. So let's do it. If you did not setup the **UNO Platform** on your developer machine, head first to the [*Get Started* ](https://platform.uno/docs/articles/get-started.html)guide. Yes you read right, we can also use **LiteDB** inside the browser and therefore give the user an easy possibility to perist state! That is awesome! Here is what we are going for:
+## LiteDB and Uno Platform
+Now we can use this power when we want to build a **Uno Platform** app. You might remember that we already could do something similiar with SQLite: *[Working with SQLite and WebAssembly for .NET Developers](https://platform.uno/blog/working-with-sqlite-and-webassembly-for-net-developers/)*. This article describes how to use SQLite with the Uno Platform. And guess what: We can do something similiar with **LiteDB** as well. So let's do it. If you did not setup the **Uno Platform** on your developer machine, head first to the [*Get Started* ](https://platform.uno/docs/articles/get-started.html)guide. Yes you read right, we can also use **LiteDB** inside the browser and therefore give the user an easy possibility to perist state! That is awesome! Here is what we are going for:
 
 ![LiteDB WASM](Browser.png)
 
-So let's create a new UNO Platform app. I am a big fan of the command line arguments, but you can also take the [Visual Studio Project templates](https://platform.uno/docs/articles/get-started-dotnet-new.html). To create a new app you can simply type: `dotnet new unoapp-uwp-net6 -o LiteDBSample` (the template allows also for optionally removing some UNO Platform heads: `dotnet new unoapp-uwp-net6 -o LiteDBSample -M=false -skia-wpf=false -skia-gtk=false -skia-linux-fb=false`. With this you are only running the WASM head). Don't worry you can also take other templates if you wish, as the code will work everywhere. Now if we want to use **LiteDB**, we have to reference the nuget package in your UNO Head<sup>[What is a Head?](https://platform.uno/docs/articles/uno-app-solution-structure.html)</sup> projects:
+So let's create a new Uno Platform app. I am a big fan of the command line arguments, but you can also take the [Visual Studio Project templates](https://platform.uno/docs/articles/get-started-dotnet-new.html). To create a new app you can simply type: `dotnet new unoapp-uwp-net6 -o LiteDBSample` (the template allows also for optionally removing some Uno Platform heads: `dotnet new unoapp-uwp-net6 -o LiteDBSample -M=false -skia-wpf=false -skia-gtk=false -skia-linux-fb=false`. With this you are only running the WASM head). Don't worry you can also take other templates if you wish, as the code will work everywhere. Now if we want to use **LiteDB**, we have to reference the nuget package in your Uno Platform Head<sup>[What is a Head?](https://platform.uno/docs/articles/uno-app-solution-structure.html)</sup> projects:
 
 ```csharp
 dotnet add package LiteDB --version 5.0.15
@@ -145,7 +145,20 @@ var itemsWhichShouldBeDoneByToday =
     where !item.IsDone && item.DeadLine <= DateTime.Now
     select item).ToList();
 ```
-Of course you can also use the method chaining instead of the query language. The core idea is, that `Query()` returns you a `IQueryable`, which let's you use all the power of LINQ and friends. And there you have it, the easy and rapid power of **LiteDB** paired with the easiness and power of the **UNO Platform**.
+Of course you can also use the method chaining instead of the query language. The core idea is, that `Query()` returns you a `IQueryable`, which let's you use all the power of LINQ and friends. And there you have it, the easy and rapid power of **LiteDB** paired with the easiness and power of the **Uno Platform**.
+
+## File System Initialization on WebAssembly
+
+On WebAssembly, the file system is initialized asynchronously while the application is launching. Attempts to access the file system before this operation finalizes (e.g. during `Application.OnLaunched` or while the main page of the application is navigated to) may have unexpected results and could even cause a crash.
+
+To prevent this, make sure to perform and await an asynchronous operation on `ApplicationData.Current.LocalFolder` first. A good example would be to store the database in a nested `Data` folder, which needs to be asynchronously created first:
+
+```csharp
+var localFolder = Windows.Storage.ApplicationData.Current.LocalFolder;
+var dataFolder = await localFolder.CreateFolderAsync("Data", CreationCollisionOption.OpenIfExists);
+var dbPath = System.IO.Path.Combine(dataFolder.Path, "save.db");
+var liteDb = new LiteDatabase(dbPath);
+```
 
 ## LiteDB `async`
 One thing you might have noticed until now: All the methods I used are **synchrnous**. There is no `await liteDatabase.GetCollection<TodoItem>().ToListAsync()` or friends. You should consider the asynchrnous paradigm. If you have a regular desktop application or even the WASM head, `async` makes sense, as it doesn't block the UI thread. **LiteDB** itself doesn't offer asynchrnous operations, but there is a community project, which does that: [litedb-async](https://github.com/mlockett42/litedb-async).

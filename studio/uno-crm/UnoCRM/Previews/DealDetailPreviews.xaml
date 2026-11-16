@@ -1,0 +1,31 @@
+<hd:PreviewGroup x:Class="UnoCRM.Previews.DealDetailPreviews"
+                 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                 xmlns:local="using:UnoCRM.Presentation"
+                 xmlns:mock="using:UnoCRM.Presentation.MockData"
+                 xmlns:hd="using:Uno.UI.HotDesign"
+                 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                 mc:Ignorable="d">
+
+    <!-- DealDetailPage across its stage / health / dwell states. Ordered by escalation so the four
+         side by side read as one scale: a fresh healthy lead, a stalling deal to watch, a stale
+         at-risk deal, then a closed one. Each child sets the page's design-time DataContext in XAML,
+         overriding the page ctor's default seed. No size on the <hd:Preview>: a page fills the
+         canvas / device frame. -->
+    <hd:Preview PreviewName="Healthy" Visibility="Collapsed">
+        <local:DealDetailPage DataContext="{x:Bind mock:DealDetailPageMockData.Healthy}" />
+    </hd:Preview>
+
+    <hd:Preview PreviewName="Watch" Visibility="Collapsed">
+        <local:DealDetailPage DataContext="{x:Bind mock:DealDetailPageMockData.Watch}" />
+    </hd:Preview>
+
+    <hd:Preview PreviewName="At Risk" Visibility="Collapsed">
+        <local:DealDetailPage DataContext="{x:Bind mock:DealDetailPageMockData.AtRisk}" />
+    </hd:Preview>
+
+    <hd:Preview PreviewName="Won" Visibility="Collapsed">
+        <local:DealDetailPage DataContext="{x:Bind mock:DealDetailPageMockData.Won}" />
+    </hd:Preview>
+</hd:PreviewGroup>

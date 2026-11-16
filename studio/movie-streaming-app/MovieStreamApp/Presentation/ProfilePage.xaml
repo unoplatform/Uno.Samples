@@ -1,0 +1,216 @@
+<Page x:Class="MovieStreamApp.Presentation.ProfilePage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:utu="using:Uno.Toolkit.UI"
+      Background="{ThemeResource BackgroundBrush}">
+
+  <!--
+    Profile tab. DataContext is ProfileModel. Header (circular avatar + identity + subscription
+    chip), a three-up stats row (My List / Watched / Reviews), and the settings groups rendered as
+    a vertical ItemsRepeater of groups, each a card of display-only rows. Every icon is vector
+    geometry via the Icon converter (leading icons keyed off the row Label with ConverterParameter
+    =setting); no FontIcon. The scroll content caps at 1100 on desktop and reserves ~110 of bottom
+    padding so the last row clears the floating TabBar.
+  -->
+  <Grid utu:SafeArea.Insets="Top">
+    <ScrollViewer VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Disabled">
+      <StackPanel MaxWidth="1400"
+                  HorizontalAlignment="Stretch"
+                  Padding="{utu:Responsive Narrow='20,16,20,110', Wide='148,16,24,28'}"
+                  Spacing="{ThemeResource Space600}">
+
+        <!-- Header: avatar + identity + subscription chip -->
+        <Grid ColumnSpacing="16">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+          </Grid.ColumnDefinitions>
+
+          <!-- Large circular avatar -->
+          <Border Grid.Column="0"
+                  Width="88"
+                  Height="88"
+                  CornerRadius="{ThemeResource RadiusFullCornerRadius}">
+            <Border.Background>
+              <ImageBrush ImageSource="{Binding AvatarUrl}" Stretch="UniformToFill" />
+            </Border.Background>
+          </Border>
+
+          <StackPanel Grid.Column="1" VerticalAlignment="Center" Spacing="{ThemeResource Space100}">
+            <TextBlock Text="{Binding UserName}"
+                       Style="{StaticResource TitleLarge}"
+                       Foreground="{ThemeResource OnBackgroundBrush}" />
+            <TextBlock Text="{Binding UserEmail}"
+                       Style="{StaticResource BodySmall}"
+                       Foreground="{ThemeResource OnSurfaceVariantBrush}" />
+            <TextBlock Text="{Binding MemberSince}"
+                       Style="{StaticResource LabelSmall}"
+                       Foreground="{ThemeResource OutlineBrush}" />
+
+            <!-- Subscription chip -->
+            <Border Background="{ThemeResource PrimaryBrush}"
+                    CornerRadius="{ThemeResource Radius300CornerRadius}"
+                    Padding="10,5"
+                    HorizontalAlignment="Left"
+                    Margin="{ThemeResource Space100TopThickness}">
+              <StackPanel Orientation="Horizontal" Spacing="{ThemeResource Space150}" VerticalAlignment="Center">
+                <Viewbox Width="14" Height="14">
+                  <Path Data="{Binding Source=subscription, Converter={StaticResource Icon}}"
+                        Fill="{ThemeResource OnPrimaryBrush}"
+                        Stretch="Uniform" />
+                </Viewbox>
+                <TextBlock Text="{Binding SubscriptionTier}"
+                           Style="{StaticResource LabelMedium}"
+                           Foreground="{ThemeResource OnPrimaryBrush}"
+                           VerticalAlignment="Center" />
+                <TextBlock Text="{Binding SubscriptionRenewal}"
+                           Style="{StaticResource LabelSmall}"
+                           Foreground="{ThemeResource OnPrimaryBrush}"
+                           Opacity="0.8"
+                           VerticalAlignment="Center" />
+              </StackPanel>
+            </Border>
+          </StackPanel>
+        </Grid>
+
+        <!-- Stats row: My List / Watched / Reviews -->
+        <Border Background="{ThemeResource SurfaceVariantBrush}" CornerRadius="{ThemeResource Radius700CornerRadius}" Padding="{ThemeResource Space400VerticalThickness}">
+          <Grid>
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="Auto" />
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="Auto" />
+              <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Grid.Column="0" HorizontalAlignment="Center" Spacing="{ThemeResource Space050}">
+              <TextBlock Text="{Binding WatchlistCount}"
+                         Style="{StaticResource HeadlineSmall}"
+                         Foreground="{ThemeResource PrimaryBrush}"
+                         HorizontalAlignment="Center" />
+              <TextBlock Text="My List"
+                         Style="{StaticResource LabelSmall}"
+                         Foreground="{ThemeResource OnSurfaceVariantBrush}"
+                         HorizontalAlignment="Center" />
+            </StackPanel>
+
+            <Rectangle Grid.Column="1" Width="1" Fill="{ThemeResource OutlineBrush}" Margin="{ThemeResource Space100VerticalThickness}" />
+
+            <StackPanel Grid.Column="2" HorizontalAlignment="Center" Spacing="{ThemeResource Space050}">
+              <TextBlock Text="{Binding WatchedCount}"
+                         Style="{StaticResource HeadlineSmall}"
+                         Foreground="{ThemeResource PrimaryBrush}"
+                         HorizontalAlignment="Center" />
+              <TextBlock Text="Watched"
+                         Style="{StaticResource LabelSmall}"
+                         Foreground="{ThemeResource OnSurfaceVariantBrush}"
+                         HorizontalAlignment="Center" />
+            </StackPanel>
+
+            <Rectangle Grid.Column="3" Width="1" Fill="{ThemeResource OutlineBrush}" Margin="{ThemeResource Space100VerticalThickness}" />
+
+            <StackPanel Grid.Column="4" HorizontalAlignment="Center" Spacing="{ThemeResource Space050}">
+              <TextBlock Text="{Binding ReviewsCount}"
+                         Style="{StaticResource HeadlineSmall}"
+                         Foreground="{ThemeResource PrimaryBrush}"
+                         HorizontalAlignment="Center" />
+              <TextBlock Text="Reviews"
+                         Style="{StaticResource LabelSmall}"
+                         Foreground="{ThemeResource OnSurfaceVariantBrush}"
+                         HorizontalAlignment="Center" />
+            </StackPanel>
+          </Grid>
+        </Border>
+
+        <!-- Settings groups -->
+        <ItemsRepeater ItemsSource="{Binding SettingGroups}">
+          <ItemsRepeater.Layout>
+            <StackLayout Orientation="Vertical" Spacing="{ThemeResource Space500}" />
+          </ItemsRepeater.Layout>
+          <ItemsRepeater.ItemTemplate>
+            <DataTemplate>
+              <StackPanel Spacing="{ThemeResource Space200}">
+                <!-- Section label, small caps -->
+                <TextBlock Text="{Binding Title}"
+                           Style="{StaticResource LabelMedium}"
+                           Foreground="{ThemeResource OnSurfaceVariantBrush}"
+                           CharacterSpacing="80"
+                           Margin="{ThemeResource Space100LeftThickness}" />
+
+                <!-- Group rows -->
+                <Border Background="{ThemeResource SurfaceVariantBrush}" CornerRadius="{ThemeResource Radius700CornerRadius}">
+                  <ItemsRepeater ItemsSource="{Binding Items}">
+                    <ItemsRepeater.Layout>
+                      <StackLayout Orientation="Vertical" Spacing="{ThemeResource Space0}" />
+                    </ItemsRepeater.Layout>
+                    <ItemsRepeater.ItemTemplate>
+                      <DataTemplate>
+                        <Grid Padding="14,13" ColumnSpacing="14">
+                          <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                          </Grid.ColumnDefinitions>
+
+                          <!-- Leading icon in a rounded container -->
+                          <Border Grid.Column="0"
+                                  Width="38"
+                                  Height="38"
+                                  CornerRadius="{ThemeResource Radius300CornerRadius}"
+                                  Background="{ThemeResource SurfaceBrush}"
+                                  VerticalAlignment="Center">
+                            <Viewbox Width="20" Height="20">
+                              <Path Data="{Binding Label, Converter={StaticResource Icon}, ConverterParameter=setting}"
+                                    Fill="{ThemeResource OnSurfaceVariantBrush}"
+                                    Stretch="Uniform" />
+                            </Viewbox>
+                          </Border>
+
+                          <!-- Label + optional subtitle. The subtitle MUST collapse when empty: an
+                               always-present empty TextBlock still reserves a line, which pushes the
+                               single-line rows' label off the row's vertical centre while the leading
+                               icon and trailing chevron stay centred — so rows with and without a
+                               subtitle would misalign. Collapse it through StringToVisibility (a non-empty
+                               subtitle is Visible, empty is Collapsed): binding Visibility straight to the
+                               string only *looks* like it works — it throws on every non-empty value as the
+                               framework tries to parse the text as a Visibility enum. -->
+                          <StackPanel Grid.Column="1" VerticalAlignment="Center" Spacing="1">
+                            <TextBlock Text="{Binding Label}"
+                                       Style="{StaticResource BodyMedium}"
+                                       Foreground="{ThemeResource OnSurfaceBrush}" />
+                            <TextBlock Text="{Binding Subtitle}"
+                                       Visibility="{Binding Subtitle, Converter={StaticResource StringToVisibility}}"
+                                       Style="{StaticResource BodySmall}"
+                                       Foreground="{ThemeResource OutlineBrush}"
+                                       TextTrimming="CharacterEllipsis"
+                                       MaxLines="1" />
+                          </StackPanel>
+
+                          <!-- Trailing chevron -->
+                          <Viewbox Grid.Column="2" Width="16" Height="16" VerticalAlignment="Center">
+                            <Path Data="{Binding Source=chevron, Converter={StaticResource Icon}}"
+                                  Fill="{ThemeResource OutlineBrush}"
+                                  Stretch="Uniform" />
+                          </Viewbox>
+                        </Grid>
+                      </DataTemplate>
+                    </ItemsRepeater.ItemTemplate>
+                  </ItemsRepeater>
+                </Border>
+              </StackPanel>
+            </DataTemplate>
+          </ItemsRepeater.ItemTemplate>
+        </ItemsRepeater>
+
+        <!-- Sign out (display-only) -->
+        <Button Content="Sign Out"
+                Style="{StaticResource FlatButtonStyle}"
+                Padding="16,14"
+                HorizontalAlignment="Stretch"
+                AutomationProperties.Name="Sign out of CineStream" />
+
+      </StackPanel>
+    </ScrollViewer>
+  </Grid>
+</Page>

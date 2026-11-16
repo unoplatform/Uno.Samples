@@ -1,0 +1,777 @@
+<Page x:Class="DenimOverallsApp.Presentation.MainPage"
+	  x:Name="PageRoot"
+	  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	  xmlns:utu="using:Uno.Toolkit.UI"
+	  xmlns:uen="using:Uno.Extensions.Navigation.UI"
+	  xmlns:conv="using:DenimOverallsApp.Converters"
+	  xmlns:local="using:DenimOverallsApp.Presentation"
+	  Background="{ThemeResource LinenBackgroundBrush}">
+
+	<Page.Resources>
+		<ResourceDictionary>
+			<ResourceDictionary.ThemeDictionaries>
+				<!-- Light: warm linen / ink / brass -->
+				<ResourceDictionary x:Key="Light">
+					<LinearGradientBrush x:Key="LinenBackgroundBrush" StartPoint="0,0" EndPoint="1,1">
+						<GradientStop Offset="0" Color="#F7F4ED" />
+						<GradientStop Offset="0.55" Color="#F0EBDF" />
+						<GradientStop Offset="1" Color="#E6DFCF" />
+					</LinearGradientBrush>
+					<RadialGradientBrush x:Key="LinenMottleBrush" Center="0.3,0.25" RadiusX="0.9" RadiusY="0.9">
+						<GradientStop Offset="0" Color="#22FFFFFF" />
+						<GradientStop Offset="0.6" Color="#08FFFFFF" />
+						<GradientStop Offset="1" Color="#00FFFFFF" />
+					</RadialGradientBrush>
+					<RadialGradientBrush x:Key="VignetteBrush" Center="0.5,0.5" RadiusX="0.75" RadiusY="0.75">
+						<GradientStop Offset="0" Color="#001F2430" />
+						<GradientStop Offset="0.72" Color="#001F2430" />
+						<GradientStop Offset="1" Color="#1A1F2430" />
+					</RadialGradientBrush>
+					<LinearGradientBrush x:Key="PreviewCardBrush" StartPoint="0,0" EndPoint="0.4,1">
+						<GradientStop Offset="0" Color="#FBF8F1" />
+						<GradientStop Offset="1" Color="#F1ECE0" />
+					</LinearGradientBrush>
+					<SolidColorBrush x:Key="MotifInkBrush"
+									 Color="#1F2430"
+									 Opacity="0.16" />
+					<SolidColorBrush x:Key="MotifBrassBrush"
+									 Color="#B07B3C"
+									 Opacity="0.22" />
+					<SolidColorBrush x:Key="PreviewCardBorderBrush"
+									 Color="#C9A36A"
+									 Opacity="0.35" />
+				</ResourceDictionary>
+				<!-- Dark: deep ink, soft brass accents -->
+				<ResourceDictionary x:Key="Dark">
+					<LinearGradientBrush x:Key="LinenBackgroundBrush" StartPoint="0,0" EndPoint="1,1">
+						<GradientStop Offset="0" Color="#15171F" />
+						<GradientStop Offset="0.55" Color="#1B1F2B" />
+						<GradientStop Offset="1" Color="#222739" />
+					</LinearGradientBrush>
+					<RadialGradientBrush x:Key="LinenMottleBrush" Center="0.3,0.25" RadiusX="0.9" RadiusY="0.9">
+						<GradientStop Offset="0" Color="#18FFFFFF" />
+						<GradientStop Offset="0.6" Color="#06FFFFFF" />
+						<GradientStop Offset="1" Color="#00FFFFFF" />
+					</RadialGradientBrush>
+					<RadialGradientBrush x:Key="VignetteBrush" Center="0.5,0.5" RadiusX="0.75" RadiusY="0.75">
+						<GradientStop Offset="0" Color="#00000000" />
+						<GradientStop Offset="0.62" Color="#00000000" />
+						<GradientStop Offset="1" Color="#44000000" />
+					</RadialGradientBrush>
+					<LinearGradientBrush x:Key="PreviewCardBrush" StartPoint="0,0" EndPoint="0.4,1">
+						<GradientStop Offset="0" Color="#2B303C" />
+						<GradientStop Offset="1" Color="#222734" />
+					</LinearGradientBrush>
+					<SolidColorBrush x:Key="MotifInkBrush"
+									 Color="#EDE8DE"
+									 Opacity="0.13" />
+					<SolidColorBrush x:Key="MotifBrassBrush"
+									 Color="#D9B877"
+									 Opacity="0.26" />
+					<SolidColorBrush x:Key="PreviewCardBorderBrush"
+									 Color="#C9A36A"
+									 Opacity="0.30" />
+				</ResourceDictionary>
+			</ResourceDictionary.ThemeDictionaries>
+
+			<conv:HexColorToBrushConverter x:Key="HexToBrush" />
+			<conv:BooleanToVisibilityConverter x:Key="BoolToVis" />
+			<conv:SelectionToThicknessConverter x:Key="SelThickness" />
+
+
+			<!-- Borderless click surface: the CardContentControl inside provides all visuals -->
+			<Style x:Key="OptionCardButtonStyle"
+				   TargetType="Button">
+				<Setter Property="HorizontalAlignment" Value="Stretch" />
+				<Setter Property="HorizontalContentAlignment" Value="Stretch" />
+				<Setter Property="VerticalAlignment" Value="Stretch" />
+				<Setter Property="VerticalContentAlignment" Value="Stretch" />
+				<Setter Property="Padding" Value="{ThemeResource Space0Thickness}" />
+				<Setter Property="Background" Value="Transparent" />
+				<Setter Property="BorderThickness" Value="0" />
+				<Setter Property="UseSystemFocusVisuals" Value="True" />
+				<Setter Property="Template">
+					<Setter.Value>
+						<ControlTemplate TargetType="Button">
+							<ContentPresenter Content="{TemplateBinding Content}"
+											  HorizontalAlignment="Stretch"
+											  VerticalAlignment="Stretch"
+											  HorizontalContentAlignment="Stretch"
+											  VerticalContentAlignment="Stretch" />
+						</ControlTemplate>
+					</Setter.Value>
+				</Setter>
+			</Style>
+		</ResourceDictionary>
+	</Page.Resources>
+
+	<Grid x:Name="RootGrid"
+		  utu:SafeArea.Insets="VisibleBounds">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="*" />
+			<RowDefinition Height="Auto" />
+		</Grid.RowDefinitions>
+
+		<!-- ── Ambience: linen background, soft mottle, edge vignette (behind everything) ── -->
+		<Rectangle Grid.Row="0"
+				   Grid.RowSpan="3"
+				   Fill="{ThemeResource LinenBackgroundBrush}"
+				   IsHitTestVisible="False" />
+		<Rectangle Grid.Row="0"
+				   Grid.RowSpan="3"
+				   Fill="{ThemeResource LinenMottleBrush}"
+				   IsHitTestVisible="False" />
+		<Rectangle Grid.Row="0"
+				   Grid.RowSpan="3"
+				   Fill="{ThemeResource VignetteBrush}"
+				   IsHitTestVisible="False" />
+
+		<!-- ── Header ─────────────────────────────────────────────────── -->
+		<utu:CardContentControl Grid.Row="0"
+								Style="{StaticResource FilledCardContentControlStyle}"
+								HorizontalAlignment="Stretch"
+								IsClickable="False">
+			<StackPanel Padding="16,12"
+						Spacing="{ThemeResource Space050}">
+				<TextBlock Text="DENIM STUDIO"
+						   Style="{StaticResource LabelExtraSmall}"
+						   Foreground="{ThemeResource SecondaryBrush}"
+						   CharacterSpacing="150" />
+				<TextBlock Text="Build Your Overalls"
+						   Style="{StaticResource HeadlineMedium}"
+						   Foreground="{ThemeResource OnSurfaceBrush}" />
+				<TextBlock Text="Design your perfect pair."
+						   Style="{StaticResource BodySmall}"
+						   Foreground="{ThemeResource OnSurfaceVariantBrush}" />
+			</StackPanel>
+		</utu:CardContentControl>
+
+		<!-- ── Body: responsive split ─────────────────────────────────── -->
+		<!--
+			The preview column width is driven from code-behind against the Grid's ACTUAL
+			width (not the window width — which is what made the studio mobile frame clip):
+			the options column always keeps its minimum so the cards never clip, and the
+			preview takes the remaining space, its Viewbox squeezing the figure down.
+		-->
+		<Grid Grid.Row="1"
+			  SizeChanged="OnBodySizeChanged">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition x:Name="PreviewCol"
+								  Width="300" />
+				<ColumnDefinition x:Name="OptionsCol"
+								  Width="*" />
+			</Grid.ColumnDefinitions>
+
+			<!-- LEFT — Overall Preview Panel (squeezes down as width shrinks) -->
+			<ScrollViewer Grid.Column="0"
+						  VerticalScrollBarVisibility="Auto">
+				<StackPanel Margin="{ThemeResource Space400Thickness}"
+							Spacing="{ThemeResource Space400}">
+					<TextBlock Text="PREVIEW"
+							   Style="{StaticResource LabelExtraSmall}"
+							   CharacterSpacing="150"
+							   Foreground="{ThemeResource SecondaryBrush}"
+							   HorizontalAlignment="Center" />
+
+					<!-- Preview card — warm linen, faint motifs behind a single-coordinate "SVG" overall -->
+					<Border CornerRadius="{ThemeResource Radius500CornerRadius}"
+							Background="{ThemeResource PreviewCardBrush}"
+							BorderBrush="{ThemeResource PreviewCardBorderBrush}"
+							BorderThickness="1"
+							Padding="{ThemeResource Space200Thickness}"
+							HorizontalAlignment="Stretch">
+						<Grid MinHeight="578">
+
+							<!-- ░░ Decorative line-art motifs (behind figure, non-interactive) ░░ -->
+							<Grid IsHitTestVisible="False">
+								<Viewbox Width="54"
+										 Height="70"
+										 HorizontalAlignment="Left"
+										 VerticalAlignment="Top"
+										 Margin="8,8,0,0">
+									<Canvas Width="58"
+											Height="74">
+										<Path Stroke="{ThemeResource MotifBrassBrush}"
+											  StrokeThickness="1"
+											  StrokeLineJoin="Round"
+											  StrokeStartLineCap="Round"
+											  StrokeEndLineCap="Round"
+											  Data="M 29,72 C 27,52 26,34 30,8" />
+										<Path Stroke="{ThemeResource MotifBrassBrush}"
+											  StrokeThickness="1"
+											  StrokeLineJoin="Round"
+											  Data="M 28,56 C 14,52 8,44 6,34 C 18,36 26,44 28,56 Z" />
+										<Path Stroke="{ThemeResource MotifBrassBrush}"
+											  StrokeThickness="1"
+											  StrokeLineJoin="Round"
+											  Data="M 29,44 C 43,40 50,32 52,22 C 40,24 31,32 29,44 Z" />
+										<Path Stroke="{ThemeResource MotifBrassBrush}"
+											  StrokeThickness="1"
+											  StrokeLineJoin="Round"
+											  Data="M 30,30 C 20,26 15,18 14,10 C 24,12 29,20 30,30 Z" />
+									</Canvas>
+								</Viewbox>
+								<Viewbox Width="54"
+										 Height="54"
+										 HorizontalAlignment="Right"
+										 VerticalAlignment="Top"
+										 Margin="0,10,10,0">
+									<Canvas Width="60"
+											Height="60">
+										<Ellipse Canvas.Left="20"
+												 Canvas.Top="20"
+												 Width="20"
+												 Height="20"
+												 Stroke="{ThemeResource MotifBrassBrush}"
+												 StrokeThickness="1" />
+										<Line X1="30"
+											  Y1="2"
+											  X2="30"
+											  Y2="12"
+											  Stroke="{ThemeResource MotifBrassBrush}"
+											  StrokeThickness="1"
+											  StrokeStartLineCap="Round"
+											  StrokeEndLineCap="Round" />
+										<Line X1="30"
+											  Y1="48"
+											  X2="30"
+											  Y2="58"
+											  Stroke="{ThemeResource MotifBrassBrush}"
+											  StrokeThickness="1"
+											  StrokeStartLineCap="Round"
+											  StrokeEndLineCap="Round" />
+										<Line X1="2"
+											  Y1="30"
+											  X2="12"
+											  Y2="30"
+											  Stroke="{ThemeResource MotifBrassBrush}"
+											  StrokeThickness="1"
+											  StrokeStartLineCap="Round"
+											  StrokeEndLineCap="Round" />
+										<Line X1="48"
+											  Y1="30"
+											  X2="58"
+											  Y2="30"
+											  Stroke="{ThemeResource MotifBrassBrush}"
+											  StrokeThickness="1"
+											  StrokeStartLineCap="Round"
+											  StrokeEndLineCap="Round" />
+										<Line X1="11"
+											  Y1="11"
+											  X2="18"
+											  Y2="18"
+											  Stroke="{ThemeResource MotifBrassBrush}"
+											  StrokeThickness="1"
+											  StrokeStartLineCap="Round"
+											  StrokeEndLineCap="Round" />
+										<Line X1="49"
+											  Y1="11"
+											  X2="42"
+											  Y2="18"
+											  Stroke="{ThemeResource MotifBrassBrush}"
+											  StrokeThickness="1"
+											  StrokeStartLineCap="Round"
+											  StrokeEndLineCap="Round" />
+										<Line X1="11"
+											  Y1="49"
+											  X2="18"
+											  Y2="42"
+											  Stroke="{ThemeResource MotifBrassBrush}"
+											  StrokeThickness="1"
+											  StrokeStartLineCap="Round"
+											  StrokeEndLineCap="Round" />
+										<Line X1="49"
+											  Y1="49"
+											  X2="42"
+											  Y2="42"
+											  Stroke="{ThemeResource MotifBrassBrush}"
+											  StrokeThickness="1"
+											  StrokeStartLineCap="Round"
+											  StrokeEndLineCap="Round" />
+									</Canvas>
+								</Viewbox>
+								<Viewbox Width="72"
+										 Height="42"
+										 HorizontalAlignment="Right"
+										 VerticalAlignment="Top"
+										 Margin="0,150,8,0">
+									<Canvas Width="74"
+											Height="44">
+										<Polyline Stroke="{ThemeResource MotifInkBrush}"
+												  StrokeThickness="1"
+												  StrokeLineJoin="Round"
+												  Points="0,42 16,18 26,30 40,6 54,26 62,16 74,42" />
+										<Polyline Stroke="{ThemeResource MotifInkBrush}"
+												  StrokeThickness="1"
+												  StrokeLineJoin="Round"
+												  Points="34,14 40,6 46,15 42,13 38,16" />
+									</Canvas>
+								</Viewbox>
+								<Viewbox Width="150"
+										 Height="34"
+										 HorizontalAlignment="Center"
+										 VerticalAlignment="Bottom"
+										 Margin="0,0,0,14">
+									<Canvas Width="150"
+											Height="34">
+										<Path Stroke="{ThemeResource MotifInkBrush}"
+											  StrokeThickness="1"
+											  StrokeStartLineCap="Round"
+											  StrokeEndLineCap="Round"
+											  Data="M 0,8 C 12,2 24,14 36,8 C 48,2 60,14 72,8 C 84,2 96,14 108,8 C 120,2 132,14 150,8" />
+										<Path Stroke="{ThemeResource MotifInkBrush}"
+											  StrokeThickness="1"
+											  StrokeStartLineCap="Round"
+											  StrokeEndLineCap="Round"
+											  Data="M 0,22 C 12,16 24,28 36,22 C 48,16 60,28 72,22 C 84,16 96,28 108,22 C 120,16 132,28 150,22" />
+									</Canvas>
+								</Viewbox>
+							</Grid>
+
+							<!-- Hero denim figure — reusable control, shared with the order summary -->
+							<local:OverallPreview ColorHex="{Binding SelectedColorHex}"
+												  LengthOption="{Binding LengthId}"
+												  BibType="{Binding BibId}"
+												  PocketType="{Binding PocketId}"
+												  HasLogo="{Binding ShowLogo}"
+												  EmbroideryText="{Binding Text, ElementName=EmbroideryBox}" />
+						</Grid>
+					</Border>
+
+					<!-- Selected color badge -->
+					<utu:CardContentControl Style="{StaticResource FilledCardContentControlStyle}"
+											IsClickable="False"
+											HorizontalAlignment="Center">
+						<StackPanel Padding="12,6"
+									Orientation="Horizontal"
+									Spacing="{ThemeResource Space200}">
+							<Ellipse Width="14"
+									 Height="14"
+									 Fill="{Binding SelectedColorHex, Converter={StaticResource HexToBrush}}"
+									 VerticalAlignment="Center" />
+							<TextBlock Text="{Binding SelectedColorName}"
+									   Style="{StaticResource LabelMedium}"
+									   Foreground="{ThemeResource OnSurfaceBrush}"
+									   VerticalAlignment="Center" />
+						</StackPanel>
+					</utu:CardContentControl>
+
+					<!-- Config summary pills -->
+					<StackPanel Spacing="{ThemeResource Space150}"
+								HorizontalAlignment="Center">
+						<utu:CardContentControl Style="{StaticResource OutlinedCardContentControlStyle}"
+												IsClickable="False">
+							<TextBlock Text="{Binding PreviewLengthLabel}"
+									   Style="{StaticResource BodySmall}"
+									   Foreground="{ThemeResource OnSurfaceVariantBrush}"
+									   Padding="10,4" />
+						</utu:CardContentControl>
+						<utu:CardContentControl Style="{StaticResource OutlinedCardContentControlStyle}"
+												IsClickable="False">
+							<TextBlock Text="{Binding PreviewBibLabel}"
+									   Style="{StaticResource BodySmall}"
+									   Foreground="{ThemeResource OnSurfaceVariantBrush}"
+									   Padding="10,4" />
+						</utu:CardContentControl>
+						<utu:CardContentControl Style="{StaticResource OutlinedCardContentControlStyle}"
+												IsClickable="False">
+							<TextBlock Text="{Binding PreviewPocketLabel}"
+									   Style="{StaticResource BodySmall}"
+									   Foreground="{ThemeResource OnSurfaceVariantBrush}"
+									   Padding="10,4" />
+						</utu:CardContentControl>
+					</StackPanel>
+				</StackPanel>
+			</ScrollViewer>
+
+			<!-- RIGHT — Options Panel -->
+			<ScrollViewer Grid.Column="1"
+						  VerticalScrollBarVisibility="Auto">
+				<StackPanel Margin="{ThemeResource Space400Thickness}"
+							Spacing="{ThemeResource Space500}">
+
+					<!-- ── Length ──────────────────────────────────────── -->
+					<StackPanel Spacing="10">
+						<StackPanel Orientation="Horizontal"
+									Spacing="{ThemeResource Space200}">
+							<FontIcon Glyph="&#xE8A5;"
+									  FontSize="16"
+									  Foreground="{ThemeResource SecondaryBrush}" />
+							<TextBlock Text="LENGTH"
+									   Style="{StaticResource LabelLarge}"
+									   CharacterSpacing="80"
+									   Foreground="{ThemeResource OnBackgroundBrush}" />
+						</StackPanel>
+						<!--
+							MinWidth matches UniformGridLayout.MinItemWidth so the repeater is never measured
+							below one item width. Without it, a transient measure pass with availableWidth < MinItemWidth
+							makes UniformGridLayout compute itemsPerLine = 0 and throw DivideByZeroException.
+						-->
+						<ItemsRepeater ItemsSource="{Binding Lengths}"
+									   MinWidth="140">
+							<ItemsRepeater.Layout>
+								<UniformGridLayout MinItemWidth="140"
+												   MinItemHeight="96"
+												   MinColumnSpacing="8"
+												   MinRowSpacing="8" />
+							</ItemsRepeater.Layout>
+							<ItemsRepeater.ItemTemplate>
+								<DataTemplate>
+									<Button Style="{StaticResource OptionCardButtonStyle}"
+											Command="{Binding DataContext.SelectLength, ElementName=PageRoot}"
+											CommandParameter="{Binding Option}"
+											AutomationProperties.Name="{Binding Option.Label}">
+										<Grid>
+											<utu:CardContentControl Style="{StaticResource ElevatedCardContentControlStyle}"
+																	IsClickable="True"
+																	HorizontalAlignment="Stretch"
+																	VerticalAlignment="Stretch">
+												<StackPanel Padding="14,12"
+															Spacing="{ThemeResource Space100}">
+													<TextBlock Text="{Binding Option.Label}"
+															   Style="{StaticResource TitleSmall}"
+															   Foreground="{ThemeResource OnSurfaceBrush}" />
+													<TextBlock Text="{Binding Option.Description}"
+															   Style="{StaticResource BodySmall}"
+															   Foreground="{ThemeResource OnSurfaceVariantBrush}"
+															   TextWrapping="Wrap" />
+												</StackPanel>
+											</utu:CardContentControl>
+											<Border CornerRadius="{ThemeResource Radius200CornerRadius}"
+													BorderBrush="{ThemeResource PrimaryBrush}"
+													BorderThickness="{Binding IsSelected, Converter={StaticResource SelThickness}}"
+													IsHitTestVisible="False" />
+											<Border Width="22"
+													Height="22"
+													CornerRadius="{ThemeResource RadiusFullCornerRadius}"
+													Background="{ThemeResource PrimaryBrush}"
+													HorizontalAlignment="Right"
+													VerticalAlignment="Top"
+													Margin="0,8,8,0"
+													IsHitTestVisible="False"
+													Visibility="{Binding IsSelected, Converter={StaticResource BoolToVis}}">
+												<FontIcon Glyph="&#xE73E;"
+														  FontSize="12"
+														  Foreground="{ThemeResource OnPrimaryBrush}" />
+											</Border>
+										</Grid>
+									</Button>
+								</DataTemplate>
+							</ItemsRepeater.ItemTemplate>
+						</ItemsRepeater>
+					</StackPanel>
+
+					<!-- ── Bib Type ────────────────────────────────────── -->
+					<StackPanel Spacing="10">
+						<StackPanel Orientation="Horizontal"
+									Spacing="{ThemeResource Space200}">
+							<FontIcon Glyph="&#xE8FD;"
+									  FontSize="16"
+									  Foreground="{ThemeResource SecondaryBrush}" />
+							<TextBlock Text="BIB TYPE"
+									   Style="{StaticResource LabelLarge}"
+									   CharacterSpacing="80"
+									   Foreground="{ThemeResource OnBackgroundBrush}" />
+						</StackPanel>
+						<!-- MinWidth guards against UniformGridLayout itemsPerLine = 0 divide-by-zero (see Lengths above). -->
+						<ItemsRepeater ItemsSource="{Binding Bibs}"
+									   MinWidth="140">
+							<ItemsRepeater.Layout>
+								<UniformGridLayout MinItemWidth="140"
+												   MinItemHeight="118"
+												   MinColumnSpacing="8"
+												   MinRowSpacing="8" />
+							</ItemsRepeater.Layout>
+							<ItemsRepeater.ItemTemplate>
+								<DataTemplate>
+									<Button Style="{StaticResource OptionCardButtonStyle}"
+											Command="{Binding DataContext.SelectBib, ElementName=PageRoot}"
+											CommandParameter="{Binding Option}"
+											AutomationProperties.Name="{Binding Option.Label}">
+										<Grid>
+											<utu:CardContentControl Style="{StaticResource ElevatedCardContentControlStyle}"
+																	IsClickable="True"
+																	HorizontalAlignment="Stretch"
+																	VerticalAlignment="Stretch">
+												<StackPanel Padding="14,12"
+															Spacing="{ThemeResource Space100}">
+													<TextBlock Text="{Binding Option.Label}"
+															   Style="{StaticResource TitleSmall}"
+															   Foreground="{ThemeResource OnSurfaceBrush}" />
+													<TextBlock Text="{Binding Option.Description}"
+															   Style="{StaticResource BodySmall}"
+															   Foreground="{ThemeResource OnSurfaceVariantBrush}"
+															   TextWrapping="Wrap" />
+												</StackPanel>
+											</utu:CardContentControl>
+											<Border CornerRadius="{ThemeResource Radius200CornerRadius}"
+													BorderBrush="{ThemeResource PrimaryBrush}"
+													BorderThickness="{Binding IsSelected, Converter={StaticResource SelThickness}}"
+													IsHitTestVisible="False" />
+											<Border Width="22"
+													Height="22"
+													CornerRadius="{ThemeResource RadiusFullCornerRadius}"
+													Background="{ThemeResource PrimaryBrush}"
+													HorizontalAlignment="Right"
+													VerticalAlignment="Top"
+													Margin="0,8,8,0"
+													IsHitTestVisible="False"
+													Visibility="{Binding IsSelected, Converter={StaticResource BoolToVis}}">
+												<FontIcon Glyph="&#xE73E;"
+														  FontSize="12"
+														  Foreground="{ThemeResource OnPrimaryBrush}" />
+											</Border>
+										</Grid>
+									</Button>
+								</DataTemplate>
+							</ItemsRepeater.ItemTemplate>
+						</ItemsRepeater>
+					</StackPanel>
+
+					<!-- ── Denim Color ────────────────────────────────── -->
+					<StackPanel Spacing="10">
+						<StackPanel Orientation="Horizontal"
+									Spacing="{ThemeResource Space200}">
+							<FontIcon Glyph="&#xE771;"
+									  FontSize="16"
+									  Foreground="{ThemeResource SecondaryBrush}" />
+							<TextBlock Text="DENIM COLOR"
+									   Style="{StaticResource LabelLarge}"
+									   CharacterSpacing="80"
+									   Foreground="{ThemeResource OnBackgroundBrush}" />
+						</StackPanel>
+						<!-- MinWidth guards against UniformGridLayout itemsPerLine = 0 divide-by-zero (see Lengths above). -->
+						<ItemsRepeater ItemsSource="{Binding Colors}"
+									   MinWidth="110">
+							<ItemsRepeater.Layout>
+								<UniformGridLayout MinItemWidth="110"
+												   MinItemHeight="92"
+												   MinColumnSpacing="8"
+												   MinRowSpacing="8" />
+							</ItemsRepeater.Layout>
+							<ItemsRepeater.ItemTemplate>
+								<DataTemplate>
+									<Button Style="{StaticResource OptionCardButtonStyle}"
+											Command="{Binding DataContext.SelectColor, ElementName=PageRoot}"
+											CommandParameter="{Binding Option}"
+											AutomationProperties.Name="{Binding Option.Label}">
+										<Grid>
+											<utu:CardContentControl Style="{StaticResource ElevatedCardContentControlStyle}"
+																	IsClickable="True"
+																	HorizontalAlignment="Stretch"
+																	VerticalAlignment="Stretch">
+												<StackPanel Padding="12,10"
+															Spacing="{ThemeResource Space150}">
+													<Border Width="36"
+															Height="36"
+															CornerRadius="{ThemeResource RadiusFullCornerRadius}"
+															HorizontalAlignment="Left"
+															Background="{Binding Option.HexColor, Converter={StaticResource HexToBrush}}" />
+													<TextBlock Text="{Binding Option.Label}"
+															   Style="{StaticResource LabelMedium}"
+															   Foreground="{ThemeResource OnSurfaceBrush}"
+															   TextWrapping="Wrap" />
+												</StackPanel>
+											</utu:CardContentControl>
+											<Border CornerRadius="{ThemeResource Radius200CornerRadius}"
+													BorderBrush="{ThemeResource PrimaryBrush}"
+													BorderThickness="{Binding IsSelected, Converter={StaticResource SelThickness}}"
+													IsHitTestVisible="False" />
+											<Border Width="22"
+													Height="22"
+													CornerRadius="{ThemeResource RadiusFullCornerRadius}"
+													Background="{ThemeResource PrimaryBrush}"
+													HorizontalAlignment="Right"
+													VerticalAlignment="Top"
+													Margin="0,8,8,0"
+													IsHitTestVisible="False"
+													Visibility="{Binding IsSelected, Converter={StaticResource BoolToVis}}">
+												<FontIcon Glyph="&#xE73E;"
+														  FontSize="12"
+														  Foreground="{ThemeResource OnPrimaryBrush}" />
+											</Border>
+										</Grid>
+									</Button>
+								</DataTemplate>
+							</ItemsRepeater.ItemTemplate>
+						</ItemsRepeater>
+					</StackPanel>
+
+					<!-- ── Custom Text ────────────────────────────────── -->
+					<StackPanel Spacing="10">
+						<StackPanel Orientation="Horizontal"
+									Spacing="{ThemeResource Space200}">
+							<FontIcon Glyph="&#xE70F;"
+									  FontSize="16"
+									  Foreground="{ThemeResource SecondaryBrush}" />
+							<TextBlock Text="EMBROIDERY TEXT"
+									   Style="{StaticResource LabelLarge}"
+									   CharacterSpacing="80"
+									   Foreground="{ThemeResource OnBackgroundBrush}" />
+						</StackPanel>
+						<utu:CardContentControl Style="{StaticResource ElevatedCardContentControlStyle}"
+												IsClickable="False"
+												HorizontalAlignment="Stretch">
+							<StackPanel Padding="16,12"
+										Spacing="{ThemeResource Space200}">
+								<TextBlock Text="Add your personal touch &#x2014; name, motto, or short phrase"
+										   Style="{StaticResource BodySmall}"
+										   Foreground="{ThemeResource OnSurfaceVariantBrush}"
+										   TextWrapping="Wrap" />
+								<TextBox x:Name="EmbroideryBox"
+										 Text="{Binding CustomText, Mode=TwoWay}"
+										 PlaceholderText="e.g. Alex, REBEL, 1987 …"
+										 MaxLength="20"
+										 Style="{StaticResource OutlinedTextBoxStyle}"
+										 HorizontalAlignment="Stretch"
+										 AutomationProperties.Name="Custom embroidery text" />
+								<TextBlock Text="Max 20 characters &#x00B7; Stitched on the bib chest"
+										   Style="{StaticResource LabelSmall}"
+										   Foreground="{ThemeResource OutlineBrush}" />
+							</StackPanel>
+						</utu:CardContentControl>
+					</StackPanel>
+
+					<!-- ── Uno Logo ───────────────────────────────────── -->
+					<StackPanel Spacing="10">
+						<StackPanel Orientation="Horizontal"
+									Spacing="{ThemeResource Space200}">
+							<FontIcon Glyph="&#xE946;"
+									  FontSize="16"
+									  Foreground="{ThemeResource SecondaryBrush}" />
+							<TextBlock Text="UNO LOGO"
+									   Style="{StaticResource LabelLarge}"
+									   CharacterSpacing="80"
+									   Foreground="{ThemeResource OnBackgroundBrush}" />
+						</StackPanel>
+						<utu:CardContentControl Style="{StaticResource ElevatedCardContentControlStyle}"
+												IsClickable="False"
+												HorizontalAlignment="Stretch">
+							<Grid Padding="16,10">
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition Width="*" />
+									<ColumnDefinition Width="Auto" />
+								</Grid.ColumnDefinitions>
+								<StackPanel Grid.Column="0"
+											VerticalAlignment="Center"
+											Spacing="{ThemeResource Space050}">
+									<TextBlock Text="Show the Uno Platform logo"
+											   Style="{StaticResource BodyMedium}"
+											   Foreground="{ThemeResource OnSurfaceBrush}" />
+									<TextBlock Text="Stitched patch on the bib chest"
+											   Style="{StaticResource LabelSmall}"
+											   Foreground="{ThemeResource OnSurfaceVariantBrush}" />
+								</StackPanel>
+								<ToggleSwitch Grid.Column="1"
+											  IsOn="{Binding ShowLogo, Mode=TwoWay}"
+											  VerticalAlignment="Center"
+											  AutomationProperties.Name="Show Uno logo on the bib" />
+							</Grid>
+						</utu:CardContentControl>
+					</StackPanel>
+
+					<!-- ── Pocket Type ────────────────────────────────── -->
+					<StackPanel Spacing="10">
+						<StackPanel Orientation="Horizontal"
+									Spacing="{ThemeResource Space200}">
+							<FontIcon Glyph="&#xE8FD;"
+									  FontSize="16"
+									  Foreground="{ThemeResource SecondaryBrush}" />
+							<TextBlock Text="POCKET STYLE"
+									   Style="{StaticResource LabelLarge}"
+									   CharacterSpacing="80"
+									   Foreground="{ThemeResource OnBackgroundBrush}" />
+						</StackPanel>
+						<!-- MinWidth guards against UniformGridLayout itemsPerLine = 0 divide-by-zero (see Lengths above). -->
+						<ItemsRepeater ItemsSource="{Binding Pockets}"
+									   MinWidth="140">
+							<ItemsRepeater.Layout>
+								<UniformGridLayout MinItemWidth="140"
+												   MinItemHeight="118"
+												   MinColumnSpacing="8"
+												   MinRowSpacing="8" />
+							</ItemsRepeater.Layout>
+							<ItemsRepeater.ItemTemplate>
+								<DataTemplate>
+									<Button Style="{StaticResource OptionCardButtonStyle}"
+											Command="{Binding DataContext.SelectPocket, ElementName=PageRoot}"
+											CommandParameter="{Binding Option}"
+											AutomationProperties.Name="{Binding Option.Label}">
+										<Grid>
+											<utu:CardContentControl Style="{StaticResource ElevatedCardContentControlStyle}"
+																	IsClickable="True"
+																	HorizontalAlignment="Stretch"
+																	VerticalAlignment="Stretch">
+												<StackPanel Padding="14,12"
+															Spacing="{ThemeResource Space100}">
+													<TextBlock Text="{Binding Option.Label}"
+															   Style="{StaticResource TitleSmall}"
+															   Foreground="{ThemeResource OnSurfaceBrush}" />
+													<TextBlock Text="{Binding Option.Description}"
+															   Style="{StaticResource BodySmall}"
+															   Foreground="{ThemeResource OnSurfaceVariantBrush}"
+															   TextWrapping="Wrap" />
+												</StackPanel>
+											</utu:CardContentControl>
+											<Border CornerRadius="{ThemeResource Radius200CornerRadius}"
+													BorderBrush="{ThemeResource PrimaryBrush}"
+													BorderThickness="{Binding IsSelected, Converter={StaticResource SelThickness}}"
+													IsHitTestVisible="False" />
+											<Border Width="22"
+													Height="22"
+													CornerRadius="{ThemeResource RadiusFullCornerRadius}"
+													Background="{ThemeResource PrimaryBrush}"
+													HorizontalAlignment="Right"
+													VerticalAlignment="Top"
+													Margin="0,8,8,0"
+													IsHitTestVisible="False"
+													Visibility="{Binding IsSelected, Converter={StaticResource BoolToVis}}">
+												<FontIcon Glyph="&#xE73E;"
+														  FontSize="12"
+														  Foreground="{ThemeResource OnPrimaryBrush}" />
+											</Border>
+										</Grid>
+									</Button>
+								</DataTemplate>
+							</ItemsRepeater.ItemTemplate>
+						</ItemsRepeater>
+					</StackPanel>
+
+					<Border Height="16" />
+				</StackPanel>
+			</ScrollViewer>
+		</Grid>
+
+		<!-- ── Pricing + CTA bar (single price) ────────────────────────── -->
+		<utu:CardContentControl Grid.Row="2"
+								Style="{StaticResource FilledCardContentControlStyle}"
+								HorizontalAlignment="Stretch"
+								IsClickable="False">
+			<Grid Padding="16,12">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="*" />
+					<ColumnDefinition Width="Auto" />
+				</Grid.ColumnDefinitions>
+				<StackPanel Grid.Column="0"
+							Spacing="{ThemeResource Space050}"
+							VerticalAlignment="Center">
+					<TextBlock Text="ESTIMATED PRICE"
+							   Style="{StaticResource LabelExtraSmall}"
+							   CharacterSpacing="80"
+							   Foreground="{ThemeResource OnSurfaceVariantBrush}" />
+					<TextBlock Text="{Binding PriceLabel}"
+							   Style="{StaticResource HeadlineSmall}"
+							   Foreground="{ThemeResource PrimaryBrush}" />
+				</StackPanel>
+				<Button Grid.Column="1"
+						Content="Review Order"
+						Style="{StaticResource FilledButtonStyle}"
+						VerticalAlignment="Center"
+						AutomationProperties.Name="Review your order"
+						Command="{Binding ReviewOrder}" />
+			</Grid>
+		</utu:CardContentControl>
+	</Grid>
+</Page>

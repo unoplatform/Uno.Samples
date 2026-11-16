@@ -1,8 +1,8 @@
-﻿namespace ToDo.Data.Mock;
+namespace ToDo.Data.Mock;
 
 internal class MockUserProfilePictureEndpoint : IUserProfilePictureEndpoint
 {
-	private const string ProfilePictureDataFile = "Mock/profilePicture.json";
+	private const string ProfilePictureDataFile = "Assets/Mock/profilePicture.json";
 
 	private readonly ISerializer<string> _profilePictureSerializer;
 	private readonly IStorage _dataService;

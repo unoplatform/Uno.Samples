@@ -79,6 +79,14 @@ jobs:
       # So it will be safer to remove it. For now, we set it to false as it makes the build much faster.
       dotnet build $(solutionPath) /p:AndroidAddKeepAlives=false /p:Configuration=Release /p:WasmShellMonoRuntimeExecutionMode=Interpreter /p:PublishTrimmed=false /p:WasmShellILLinkerEnabled=false /p:EnableCoreMrtTooling=false /p:RunAOTCompilation=false /p:MtouchUseLlvm=false /p:WindowsAppSDKSelfContained=false /p:WindowsPackageType=None "/bl:$(build.artifactstagingdirectory)\$(Agent.JobName).binlog"
 
+      # Capture the build result immediately: a subsequent 'dotnet test' would
+      # overwrite $LASTEXITCODE and silently mask a failed build.
+      $buildExitCode = $LASTEXITCODE
+      if ($buildExitCode -ne 0) {
+          Write-Host "##vso[task.logissue type=error]Build failed for $(solutionPath) with exit code $buildExitCode"
+          exit $buildExitCode
+      }
+
       # Locate test projects and execute tests if applicable.
       $folderPath = [System.IO.Path]::GetDirectoryName("$(solutionPath)")
       $testProject = Get-Item -Path $folderPath\**\*.Tests.csproj -ErrorAction SilentlyContinue
@@ -89,7 +97,7 @@ jobs:
           Write-Host "No tests found for project: $($folderPath)"
       }
 
-      # Ensure the build fails on error.
+      # Ensure the step fails if the tests failed.
       if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
       # Configure Git to handle long paths and clean the repository to avoid disk space issues.

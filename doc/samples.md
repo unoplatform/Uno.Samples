@@ -4,7 +4,7 @@ uid: Uno.Samples
 
 # Uno.Samples
 
-The [Uno.Samples repository](https://github.com/unoplatform/Uno.Samples) gathers various working examples for Uno Platform, ranging from small single-feature samples to larger showcase applications.
+The [Uno.Samples repository](https://aka.platform.uno/uno-samples-repo) gathers various working examples for Uno Platform, ranging from small single-feature samples to larger showcase applications.
 
 Browse the complete list below:
 
@@ -15,32 +15,84 @@ Browse the complete list below:
 Experience the simplicity and power of Uno.Extensions through the Counter App, a straightforward yet powerful demonstration of both basic and advanced features of the Uno Platform. This app provides a hands-on experience with fundamental concepts such as state management, user interaction, and real-time UI updates.
 This sample app was built using the four variants of the [Counter workshop](https://aka.platform.uno/counter-tutorial), combining markup language (XAML or C# Markup) and presentation framework (MVVM or MVUX).
 
-[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/reference/Counter)
+[Browse source](https://aka.platform.uno/counter-app)
 
 ### SimpleCalc App
 
 The SimpleCalc App is a sample application designed to perform basic arithmetic operations. App was built using the four variants of the [Simple Calc workshop](https://aka.platform.uno/simplecalc-workshop), combining different markup languages (XAML or C# Markup) and presentation frameworks (MVVM or MVUX).
 
-[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/reference/SimpleCalc)
+[Browse source](https://aka.platform.uno/simple-calc-app)
 
 ### TubePlayer App
 
 The TubePlayer App is a sample application that allows users to search for, and stream Youtube videos. This app was created using the tools, libraries, and patterns provided by the Uno Platform, designed to facilitate the rapid development of high-quality applications.
 This sample app was built following the [Tube Player workshop](https://aka.platform.uno/tubeplayer-workshop).
 
-[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/reference/TubePlayer)
+[Browse source](https://aka.platform.uno/tubeplayer-sampleapp)
+
+### Chefs App
+
+The [Chefs app](xref:Uno.Chefs.Overview) is an engaging recipe platform where you can explore a wide variety of recipes with step-by-step instructions, video tutorials, nutritional details with charts, and user reviews. You can save your favorite recipes, filter options based on your preferences, and even discover nearby contributors on the maps. The app also offers an exciting opportunity to learn from the [Recipe Books](xref:Uno.Recipes.Overview) section, where you'll find specially selected collections that show how powerful Uno Platform features are applied in real-world scenarios, providing you with practical insights and examples to enhance your development skills.
+
+[Browse source](https://aka.platform.uno/uno-chefs-repo)
 
 ### Commerce App
 
 The Commerce App is a sample application that demonstrates the use of ListFeed pagination, Feedviews, and other features provided by Uno.Extensions. It illustrates how these features can be applied to create an application complete with a shopping cart, products, and more.
 
-[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/reference/Commerce)
+[Browse source](https://aka.platform.uno/commerce-app)
 
 ### ToDo App
 
 Dive into the essentials of task management with the ToDo App, a meticulously crafted sample application that highlights the power and flexibility of Uno.Extensions. By emphasizing the creation and organization of to-do lists, this app showcases practical applications of essential Uno.Extensions features, offering a hands-on experience in crafting responsive and user-friendly interfaces across multiple platforms.
 
-[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/reference/ToDo)
+[Browse source](https://aka.platform.uno/todo-app)
+
+## Studio Gallery Samples
+
+These apps are featured in the **Uno Platform Studio Gallery** — a curated set of complete, cross-platform sample apps you can open, run, and extend directly in Uno Platform Studio. Each one is a full Uno single-project app built with MVUX and the Uno Toolkit, showcasing a responsive navigation shell, semantic theming, and real-world app patterns across iOS, Android, WebAssembly, and desktop. Browse them below, or explore the [`studio` folder](https://aka.platform.uno/studio-samples).
+
+### BrewHouse
+
+A cross-platform coffee-shop ordering app — browse the menu, filter by category, build a cart, and place orders. It demonstrates a responsive navigation shell (a NavigationView pane on desktop/web, a bottom TabBar on phones) whose content reflows to multiple columns on wide screens, MVUX page-models wired through Uno.Extensions Navigation with one shared cart/orders state, and a warm light/dark theme — all from a single Uno project targeting iOS, Android, WebAssembly, and desktop.
+
+[Open in Studio](https://aka.platform.uno/studio-sample-coffee-shop) or [browse source](https://aka.platform.uno/coffee-shop-app)
+
+### Claude Code Tracker
+
+A cross-platform Claude Code usage dashboard covering coding sessions, token use, and cost. It demonstrates a responsive NavigationView + bottom-TabBar shell, the MVUX pattern with typed page-to-page navigation, theme-aware LiveCharts2 charts, and a custom light/dark palette — from a single Uno project targeting iOS, Android, WebAssembly, and desktop.
+
+[Open in Studio](https://aka.platform.uno/gallery-claude-code-tracker-app) or [browse source](https://aka.platform.uno/claude-code-tracker-app)
+
+### FitStart
+
+A beginner-friendly fitness companion built with MVUX and mock seeded data. An adaptive shell shows a NavigationView pane on wide screens and a bottom TabBar on phones, behind a branded ExtendedSplashScreen. Home has a personalized greeting, today's workout with a Start button, weekly activity stats, recent results, and quick tips, alongside a Plan page (scheduled workouts), a Progress page (history + milestones), a Profile page, and a guided full-screen Workout Session. Clean, motivating UI on the Uno Toolkit Simple theme.
+
+[Open in Studio](https://aka.platform.uno/gallery-fitstart) or [browse source](https://aka.platform.uno/fit-start-app)
+
+### Movie Streaming App
+
+A cinematic movie-streaming app (CineStream) with a dark, poster-driven UI on the Uno Simple theme and an iOS-style floating capsule TabBar shell. It includes an onboarding carousel, a Browse home (featured hero, category filter chips, Trending and New Arrivals rails), a Search page (live query + genre filter), a Social Feed of friend activity, a Profile with a live watchlist count, a rich Movie Detail (a full-screen page on phone/tablet and a modal on desktop), and a Playback screen. A shared watchlist service and MVUX state make the filters and "My List" toggle actually work, and the app runs responsively on desktop and mobile.
+
+[Open in Studio](https://aka.platform.uno/gallery-movie-streaming-app) or [browse source](https://aka.platform.uno/movie-streaming-app)
+
+### Overalls Maker
+
+An interactive denim overalls configurator built with MVUX. Customize length, bib type, denim color, pockets, and embroidered text, with a live reactive preview drawn entirely in XAML (a single-coordinate, "SVG-like" denim figure that reacts to every selection) and real-time pricing. It includes an order Summary and Checkout flow, a warm linen/denim aesthetic with brass hardware and topstitching, and a responsive split layout (preview + options on wide screens).
+
+[Open in Studio](https://aka.platform.uno/gallery-overalls-maker-app) or [browse source](https://aka.platform.uno/overalls-maker-app) 
+
+### Uno CRM
+
+A production-ready CRM sales dashboard with mock state and a responsive desktop/mobile layout. It includes a Dashboard (KPI cards for leads, deals, revenue, and conversion rate, a pipeline summary by stage, and a recent-activity feed) plus dedicated Pipeline, Leads, and Contacts pages, all inside an adaptive shell (sidebar on desktop, bottom navigation on mobile) with a clean, professional UI.
+
+[Open in Studio](https://aka.platform.uno/gallery-uno-crm) or [browse source](https://aka.platform.uno/uno-crm-app)
+
+### Voyago
+
+A polished travel-discovery app built with MVUX and Uno.Extensions Navigation. A responsive shell (a NavigationView rail on desktop, a bottom TabBar on mobile) hosts Home, Search, Trips, Favorites, and Profile, plus a full-screen destination detail page reached with navigation-passed data. It demonstrates a branded icon and splash, a bundled type + design-token system, vector PathIcon iconography, a hero carousel, and distinct light/dark theming from a single palette.
+
+[Open in Studio](https://aka.platform.uno/gallery-travel-app) or [browse source](https://aka.platform.uno/travel-app)
 
 ## Other Samples
 
@@ -55,6 +107,12 @@ The {x:Bind} markup extension (new for Windows 10) is an alternative to {Binding
 An Android-specific sample that shows how to start a camera capture intent, and display the result in an `Image` control.
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/AndroidCustomCamera)
+
+### Authentication with MSAL (Microsoft Entra ID)
+
+This sample application demonstrates signing users in with `Uno.WinUI.MSAL` and MSAL.NET against Microsoft Entra ID, then calling Microsoft Graph with the acquired token. It narrates each step of the token cache → silent → interactive flow, and documents the Entra ID registration and redirect URI each platform needs.
+
+[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/Authentication.MsalDemo) | [Read the docs](https://platform.uno/docs/articles/interop/MSAL.html)
 
 ### Authentication with OpenID Connect (OIDC)
 
@@ -104,6 +162,12 @@ Demonstrates the use of [SignalR](https://docs.microsoft.com/en-us/aspnet/core/s
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/ChatSignalR)
 
+### ChatUI
+
+A chat app featuring a UI template that's ready to connect to a service with real data. The app leverages MVUX to manage incoming data efficiently.
+
+[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/ChatUI)
+
 ### Control Library
 
 An example of creating a custom control library and calling a control from your shared project.
@@ -119,6 +183,18 @@ An example of creating a custom control library and calling a control from your 
 Sample app to accompany "Adding Custom Sorting Logic" blog post.
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/CustomSorting)
+
+### Custom Title Bar
+
+A desktop app that extends its content into the title bar with `Window.ExtendsContentIntoTitleBar` and `SetTitleBar`, hosting back and pane buttons, a search box and a profile picture.
+
+[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/CustomTitleBar)
+
+### Drawing Backends
+
+The same animated Composition scene rendered by the Skia backend or the opt-in WebGPU backend introduced in Uno Platform 7.0, selected at startup.
+
+[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/DrawingBackends)
 
 ### Dual-Screen
 
@@ -179,11 +255,29 @@ A pair of samples related to localization:
 
   [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/LocalizationSamples/RuntimeCultureSwitching) | [Follow the tutorial](https://aka.platform.uno/how-to-hotswap-app-language)
 
+### Lottie Built In
+
+Lottie animations played by `AnimatedVisualPlayer` with no extra package, the same animation compiled with LottieGen and loaded from JSON, plus WinUI's ProgressRing and AnimatedIcon.
+
+[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/LottieBuiltIn)
+
 ### Map Control
 
 An implementation of the UWP `Maps` control with a custom slider that binds the value of the slider to the `ZoomLevel` property of the control.
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/MapControlSample)
+
+### Media Gallery
+
+Implementation of a class that enables saving media files into a gallery on Android, iOS, and Mac Catalyst.
+
+[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/MediaGallery)
+
+### MVUX Samples
+
+An implementation of simple, to-the-point code samples for [MVUX](https://aka.platform.uno/mvux) topics.
+
+[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/MVUX)
 
 ### .NET MAUI Embedding
 
@@ -202,9 +296,21 @@ Embeds the [DevExpress .NET MAUI Controls](https://aka.platform.uno/maui-embeddi
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/MauiEmbedding/DevExpressApp)
 
-#### GrapeCity ComponentOne .NET MAUI Controls
+### GLCanvasElement Samples
 
-Embeds the [GrapeCity ComponentOne .NET MAUI Controls](https://aka.platform.uno/maui-embedding-tutorial-grapecity) in an Uno Platform application.
+Samples showcasing the usage of GLCanvasElement:
+
+- GLCanvasElementSimpleTriangle: A sample that draws a simple triangle with GLCanvasElement.
+
+  [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/GLCanvasElementSamples/GLCanvasElementSimpleTriangle)
+
+- GLCanvasElementRotatingCube: A sample that draws a continuously-rotating 3D cube.
+
+  [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/GLCanvasElementSamples/GLCanvasElementRotatingCube)
+
+#### MESCIUS ComponentOne .NET MAUI Controls
+
+Embeds the MESCIUS (formerly GrapeCity) [ComponentOne .NET MAUI Controls](https://aka.platform.uno/maui-embedding-tutorial-grapecity) in an Uno Platform application.
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/MauiEmbedding/GrapeCityApp)
 
@@ -262,6 +368,12 @@ An example of a toggle that allows you to switch between Native UI Controls and 
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/NativeStylesSwitch)
 
+### Navigation (Uno.Extensions)
+
+An example series demonstrating the use of various Navigation features.
+
+[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/Navigation)
+
 ### Neumorphism
 
 An example of an app containing an animated lock that you can unlock.
@@ -282,11 +394,48 @@ An example that demonstrates the use of `PipsPager` with a `FlipView`, in an app
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/PetAdoptUI)
 
+### Photo Gallery
+
+A justified photo gallery built with `ItemsView` and `LinedFlowLayout`, with live controls for line height, spacing, justification and stretch.
+
+[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/PhotoGallery)
+
+### Rich Text Editor
+
+A `RichEditBox` with a formatting toolbar, and a `RichTextBlock` flowing through `RichTextBlockOverflow` columns with highlights and cross-column selection.
+
+[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/RichTextEditor)
+
 ### Uno PongWars
 
 Uno PongWars is a simple minigame that draws inspiration from the [PongWars HTML/JavaScript sample](https://github.com/vnglst/pong-wars), reimagined with the modern capabilities of [Uno Platform](https://platform.uno). Set in the backdrop of the eternal conflict between day and night, good and bad. This sample showcases Material design for a visually appealing experience. It demonstrates the use of [C# Markup](https://aka.platform.uno/csharp-markup) for UI development and [MVUX](https://aka.platform.uno/mvux) for state management, highlighting how Uno Platform enables building responsive games across Web (WebAssembly), Windows, Linux, Mac Catalyst, iOS, and Android from a single codebase. Explore interactive elements like a speed slider and adaptable theme colors, all running natively across platforms.
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/PongWars)
+
+### ScottPlot
+
+[ScottPlot](https://scottplot.net/) is a free and open-source plotting library for .NET that makes it easy to interactively display large datasets. Line plots, bar charts, pie graphs, scatter plots, and more can be created with just a few lines of code.
+
+Three sample apps are available:
+
+1. **Quickstart sample**  
+   This sample app was created by following the [ScottPlot Uno Platform Quickstart documentation](https://scottplot.net/quickstart/unoplatform).
+
+2. **Signal plot with 5 million points sample**  
+   This sample app was created the same way by following the [ScottPlot Uno Platform Quickstart documentation](https://scottplot.net/quickstart/unoplatform).  
+   Only the code-behind differs to display a signal plot with 5 million random points.
+
+3. **SQLite Data Persistence and Large Dataset Visualization Sample**  
+   This sample demonstrates how to combine SQLite for database-driven data persistence with ScottPlot for visualizing large datasets.  
+   It showcases how to handle and visualize different plot types while persisting the data in a database for long-term storage.
+
+[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/ScottPlot) | [Follow the quickstart tutorial](https://scottplot.net/quickstart/unoplatform)
+
+### SKCanvasElement Showcase
+
+A sample demonstrating how to use `SKCanvasElement`.
+
+[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/SKCanvasElementShowcase) | [Read the documentation](https://aka.platform.uno/skcanvaselement)
 
 ### SkiaSharp Test
 
@@ -301,6 +450,12 @@ This sample shows the use of the SkiaSharp.Skottie component, which allows the p
 This component provides Lottie support for all available Uno Platform targets.
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/SkottieSample)
+
+### Smooth Scrolling
+
+A 1,000-item feed in `ScrollView` and `ListView` with a live readout of frames and fresh scroll positions per second.
+
+[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/SmoothScrolling)
 
 ### Splash Screen Sample
 
@@ -379,6 +534,13 @@ A sample showing how to integrate smart contracts on the Ethereum blockchain wit
 A sample showing how to make an app containing several pages in a TabView, as well as fake data generation to populate those pages. The blog post series for this app includes parts on [creating the home page](https://platform.uno/blog/recreating-amazon-goodreads-app-home-page-using-material-ui-figma-and-uno-platform/), [creating the author page](https://platform.uno/blog/how-to-quickly-build-goodreads-author-page-with-figma-and-uno-platform/), [creating the books page](https://platform.uno/blog/replicating-goodreads-detail-page-in-figma-with-uno-platform/), and [code generation with Figma](https://platform.uno/blog/from-figma-to-visual-studio-adding-back-end-logic-to-goodreads-app/).
 
 [Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/UnoGoodReads)
+
+### UnoGrpc
+
+This sample shows how to use gRPC in a Uno Platform application.
+
+[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/UnoGrpc) | [Consult the documentation](https://github.com/unoplatform/Uno.Samples/tree/master/UI/UnoGrpc/README.md)
+
 
 ### Uno Islands
 

@@ -2,8 +2,8 @@ namespace ToDo.Data.Mock;
 
 public class MockTaskListEndpoint : ITaskListEndpoint
 {
-	private const string ListDataFile = "Assets/lists.json";
-	private const string TasksDataFile = "Assets/tasks.json";
+	private const string ListDataFile = "Assets/Mock/lists.json";
+	private const string TasksDataFile = "Assets/Mock/tasks.json";
 
 
 	private readonly ISerializer<TaskListData> _listSerializer;

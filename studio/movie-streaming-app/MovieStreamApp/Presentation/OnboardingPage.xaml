@@ -1,0 +1,132 @@
+<Page x:Class="MovieStreamApp.Presentation.OnboardingPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:utu="using:Uno.Toolkit.UI"
+      xmlns:uen="using:Uno.Extensions.Navigation.UI"
+      Background="{ThemeResource BackgroundBrush}">
+
+  <!--
+    Full-screen cinematic onboarding carousel (shell sibling, no tab bar). A FlipView fills the
+    screen; each slide is a full-bleed Border+ImageBrush with a strong bottom gradient and an
+    overlaid icon Path + Title + Subtitle. A PipsPager (two-way synced to the FlipView) sits above
+    the CTA. A brand lockup rides the top; Skip (top-right) and Get Started both enter the app via
+    Navigation.Request="Main". All icons are vector Paths via the shared Icon converter.
+  -->
+  <Grid Background="{ThemeResource BackgroundBrush}">
+
+    <!-- Full-bleed carousel: the slide images bleed to every edge behind the chrome -->
+    <FlipView x:Name="SlidesFlip"
+              ItemsSource="{Binding Slides}"
+              Background="Transparent"
+              BorderThickness="0">
+      <FlipView.ItemTemplate>
+        <DataTemplate>
+          <Grid>
+            <!-- Slide artwork, clipped by the frame -->
+            <Border>
+              <Border.Background>
+                <ImageBrush ImageSource="{Binding ImageUrl}" Stretch="UniformToFill" />
+              </Border.Background>
+            </Border>
+
+            <!-- Cinematic bottom scrim so the copy stays legible over any frame -->
+            <Border>
+              <Border.Background>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                  <GradientStop Color="#00000000" Offset="0.0" />
+                  <GradientStop Color="#66000000" Offset="0.45" />
+                  <GradientStop Color="#E60F0B10" Offset="0.82" />
+                  <GradientStop Color="#FF0F0B10" Offset="1.0" />
+                </LinearGradientBrush>
+              </Border.Background>
+            </Border>
+
+            <!-- Overlaid slide copy: icon chip + Title (Headline) + Subtitle (Body) -->
+            <StackPanel VerticalAlignment="Bottom"
+                        HorizontalAlignment="Center"
+                        MaxWidth="560"
+                        Spacing="14"
+                        Padding="32,0,32,168"
+                        utu:SafeArea.Insets="Bottom">
+              <Border Width="64"
+                      Height="64"
+                      CornerRadius="{ThemeResource Radius700CornerRadius}"
+                      HorizontalAlignment="Center"
+                      Background="{ThemeResource PrimaryBrush}">
+                <Viewbox Width="30" Height="30">
+                  <Path Data="{Binding IconKey, Converter={StaticResource Icon}}"
+                        Fill="{ThemeResource OnPrimaryBrush}"
+                        Stretch="Uniform" />
+                </Viewbox>
+              </Border>
+              <TextBlock Text="{Binding Title}"
+                         Style="{StaticResource HeadlineMedium}"
+                         Foreground="White"
+                         FontWeight="Bold"
+                         TextAlignment="Center"
+                         TextWrapping="Wrap" />
+              <TextBlock Text="{Binding Subtitle}"
+                         Style="{StaticResource BodyLarge}"
+                         Foreground="#CCFFFFFF"
+                         TextAlignment="Center"
+                         TextWrapping="Wrap" />
+            </StackPanel>
+          </Grid>
+        </DataTemplate>
+      </FlipView.ItemTemplate>
+    </FlipView>
+
+    <!-- Top chrome: brand lockup (left) + Skip (right) -->
+    <Grid VerticalAlignment="Top"
+          Padding="24,20,20,0"
+          utu:SafeArea.Insets="Top">
+      <StackPanel Orientation="Horizontal"
+                  Spacing="{ThemeResource Space200}"
+                  VerticalAlignment="Center">
+        <Viewbox Width="22" Height="22" VerticalAlignment="Center">
+          <Path Data="{Binding Source=play, Converter={StaticResource Icon}}"
+                Fill="{ThemeResource PrimaryBrush}"
+                Stretch="Uniform" />
+        </Viewbox>
+        <TextBlock Text="{Binding AppName}"
+                   Style="{StaticResource TitleLarge}"
+                   Foreground="White"
+                   FontWeight="ExtraBold"
+                   VerticalAlignment="Center" />
+        <TextBlock Text="{Binding Tagline}"
+                   Style="{StaticResource LabelSmall}"
+                   Foreground="#99FFFFFF"
+                   VerticalAlignment="Bottom"
+                   Margin="4,0,0,3" />
+      </StackPanel>
+
+      <Button Content="Skip"
+              HorizontalAlignment="Right"
+              VerticalAlignment="Center"
+              Style="{StaticResource TextBlockButtonStyle}"
+              Foreground="#CCFFFFFF"
+              AutomationProperties.Name="Skip onboarding"
+              uen:Navigation.Request="Main" />
+    </Grid>
+
+    <!-- Bottom chrome: pager synced to the FlipView + primary CTA -->
+    <StackPanel VerticalAlignment="Bottom"
+                HorizontalAlignment="Center"
+                MaxWidth="560"
+                Spacing="{ThemeResource Space500}"
+                Padding="32,0,32,40"
+                utu:SafeArea.Insets="Bottom">
+      <PipsPager x:Name="SlidesPager"
+                 HorizontalAlignment="Center"
+                 IsHitTestVisible="True"
+                 NumberOfPages="{Binding Slides.Count}"
+                 SelectedPageIndex="{Binding SelectedIndex, ElementName=SlidesFlip, Mode=TwoWay}" />
+
+      <Button Content="Get Started"
+              HorizontalAlignment="Stretch"
+              Style="{StaticResource FilledButtonStyle}"
+              AutomationProperties.Name="Get started with CineStream"
+              uen:Navigation.Request="Main" />
+    </StackPanel>
+  </Grid>
+</Page>

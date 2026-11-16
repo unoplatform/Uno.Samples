@@ -1,0 +1,25 @@
+<hd:PreviewGroup x:Class="FitBeginnerApp.Previews.WeeklyRingPreviews"
+                 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                 xmlns:local="using:FitBeginnerApp.Presentation"
+                 xmlns:hd="using:Uno.UI.HotDesign"
+                 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                 mc:Ignorable="d">
+
+    <!-- The app's signature control: a weekly-goal progress ring whose accent arc sweeps to
+         Completed/Goal. Data is set on the control's dependency properties in XAML — the control
+         sizes itself (176x176), so nothing here carries a size, and nothing goes on the
+         <hd:Preview>. The three states are the ones the arc geometry actually distinguishes. -->
+    <hd:Preview PreviewName="Not Started" Visibility="Collapsed">
+        <local:WeeklyRing Completed="0" Goal="3" HorizontalAlignment="Center" VerticalAlignment="Center" />
+    </hd:Preview>
+
+    <hd:Preview PreviewName="Partway" Visibility="Collapsed">
+        <local:WeeklyRing Completed="2" Goal="3" HorizontalAlignment="Center" VerticalAlignment="Center" />
+    </hd:Preview>
+
+    <hd:Preview PreviewName="Goal Met" Visibility="Collapsed">
+        <local:WeeklyRing Completed="3" Goal="3" HorizontalAlignment="Center" VerticalAlignment="Center" />
+    </hd:Preview>
+</hd:PreviewGroup>

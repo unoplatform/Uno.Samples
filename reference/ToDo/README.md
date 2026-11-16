@@ -14,12 +14,12 @@ In addition, the sample code utilizes [Uno.Extensions](https://aka.platform.uno/
 
 ## Codebase
 
-* [**WelcomeViewModel.cs**](src/ToDo/Presentation/WelcomeViewModel.cs) accessing tokens with Authentication.
-* [**TaskListViewModel.cs**](src/ToDo/Presentation/TaskListViewModel.cs) common Navigation methods.
-* [**HomeViewModel.cs**](src/ToDo/Presentation/HomeViewModel.cs) changing the language with Localization via the model.
+* [**WelcomeModel.cs**](src/ToDo/Presentation/WelcomeModel.cs) accessing tokens with Authentication.
+* [**TaskListModel.cs**](src/ToDo/Presentation/TaskListModel.cs) common Navigation methods.
+* [**HomeModel.cs**](src/ToDo/Presentation/HomeModel.cs) changing the language with Localization via the model.
 * [**TaskListPage.xaml**](src/ToDo/Views/TaskListPage.xaml) adapting the language in the Xaml with Localization via `x:Uid`.
-* [**SettingsViewModel.cs**](src/ToDo/Presentation/SettingsViewModel.cs) theme switching with ThemeService.
-* [**TaskListViewModel.cs**](src/ToDo/Presentation/TaskListViewModel.cs) Reactive ListFeeds with [**TaskListPage.xaml**](src/ToDo/Views/TaskListPage.xaml) FeedViews.
+* [**SettingsModel.cs**](src/ToDo/Presentation/SettingsModel.cs) theme switching with ThemeService.
+* [**TaskListModel.cs**](src/ToDo/Presentation/TaskListModel.cs) Reactive ListFeeds with [**TaskListPage.xaml**](src/ToDo/Views/TaskListPage.xaml) FeedViews.
 
 
 ## What is the Uno Platform
