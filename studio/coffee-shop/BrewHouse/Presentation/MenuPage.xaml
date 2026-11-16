@@ -1,0 +1,65 @@
+<Page x:Class="BrewHouse.Presentation.MenuPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:utu="using:Uno.Toolkit.UI"
+      xmlns:mvux="using:Uno.Extensions.Reactive.UI"
+      Background="{ThemeResource BackgroundBrush}">
+
+    <utu:SafeArea Insets="VisibleBounds">
+        <!-- Centred, capped content; the product grid below reflows to fill the width on desktop/web -->
+        <Grid x:Name="Root" MaxWidth="1100" HorizontalAlignment="Stretch">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+
+            <!-- Header (shared style: consistent position/background/type across every page) -->
+            <Border Grid.Row="0" Style="{StaticResource PageHeaderStyle}">
+                <StackPanel Spacing="{ThemeResource Space300}">
+                    <StackPanel>
+                        <TextBlock Text="Our Menu" Style="{StaticResource PageTitleStyle}" />
+                        <TextBlock Text="Find your perfect brew" Style="{StaticResource PageSubtitleStyle}" />
+                    </StackPanel>
+                    <!-- Live text search; follows the app theme on the themed header background -->
+                    <AutoSuggestBox PlaceholderText="Search the menu"
+                                    Text="{Binding SearchText, Mode=TwoWay}"
+                                    QueryIcon="Find"
+                                    AutomationProperties.Name="Search the menu" />
+                </StackPanel>
+            </Border>
+
+            <!-- Category Chip Filter Bar -->
+            <ScrollViewer Grid.Row="1"
+                          HorizontalScrollBarVisibility="Hidden"
+                          VerticalScrollBarVisibility="Disabled"
+                          HorizontalScrollMode="Enabled"
+                          Background="{ThemeResource BackgroundBrush}"
+                          Padding="0,12,0,12">
+                <ItemsControl ItemsSource="{Binding Categories}"
+                              Padding="16,0,16,0"
+                              ItemTemplate="{StaticResource CategoryFilterChipTemplate}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Horizontal"
+                                        Spacing="10" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                </ItemsControl>
+            </ScrollViewer>
+
+            <!-- The product grid is a FeedView over the Model's IListFeed, so every state the
+                 catalogue request can be in is a designed template rather than a hand-rolled
+                 branch: results (the grid), no matches (the search legitimately returning nothing),
+                 a failed request, and the loading ring in between. The templates are keyed in
+                 DataTemplates.xaml like every other template in the app. -->
+            <mvux:FeedView Grid.Row="2"
+                           Source="{Binding FilteredProducts}"
+                           ValueTemplate="{StaticResource MenuGridTemplate}"
+                           NoneTemplate="{StaticResource MenuNoResultsTemplate}"
+                           ErrorTemplate="{StaticResource CatalogErrorTemplate}" />
+
+        </Grid>
+    </utu:SafeArea>
+</Page>

@@ -1,13 +1,6 @@
 <Project Sdk="Uno.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>
-      net8.0-android;
-      net8.0-ios;
-      net8.0-maccatalyst;
-      net8.0-windows10.0.19041;
-      net8.0-desktop;
-      net8.0-browserwasm;
-    </TargetFrameworks>
+    <TargetFrameworks>net10.0-android;net10.0-ios;net10.0-maccatalyst;net10.0-windows10.0.26100;net10.0-browserwasm;net10.0-desktop</TargetFrameworks>
 
     <OutputType>Exe</OutputType>
     <UnoSingleProject>true</UnoSingleProject>
@@ -29,7 +22,7 @@
       the "Microsoft.Windows.SDK.BuildTools" package above, and the "revision" version number
       must be the highest found in https://www.nuget.org/packages/Microsoft.Windows.SDK.NET.Ref.
     -->
-    <!-- <WindowsSdkPackageVersion>10.0.22621.28</WindowsSdkPackageVersion> -->
+    <!--<WindowsSdkPackageVersion>10.0.22621.28</WindowsSdkPackageVersion>-->
 
     <!--
       UnoFeatures let's you quickly add and manage implicit package references based on the features you want to use.
@@ -49,8 +42,10 @@
       Localization;
       Navigation;
       ExtensionsCore;
+      SkiaRenderer;
     </UnoFeatures>
   </PropertyGroup>
+
   <ItemGroup>
     <None Remove="products.json" />
     <Content Include="products.json" />

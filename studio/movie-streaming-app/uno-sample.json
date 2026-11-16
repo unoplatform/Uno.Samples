@@ -1,0 +1,41 @@
+{
+  "$schema": "https://schemas.platform.uno/sample/v1",
+  "id": "movie-streaming-app",
+  "displayName": "Movie Streaming App",
+  "description": "A cinematic movie-streaming app (CineStream) with a dark, poster-driven UI on the Uno Simple theme and an iOS-style floating capsule TabBar shell. Onboarding carousel, a Browse home (featured hero, category filter chips, Trending and New Arrivals rails), a Search page (live query + genre filter with a derived results list), a Social Feed of friend activity, a Profile with a live watchlist count and grouped settings, a rich Movie Detail (hero, cast, scores, reviews, related — a full-screen page on phone/tablet and a modal on desktop) and a Playback screen. Every movie card opens its detail; a shared watchlist service and MVUX state make the filters and 'My List' toggle actually work. Runs responsively on desktop and mobile.",
+  "platforms": [
+    "desktop",
+    "wasm"
+  ],
+  "sourcePath": "MovieStreamApp/MovieStreamApp.csproj",
+  "userConversation": {
+    "messages": [
+      {
+        "role": "user",
+        "content": "Generate a production-ready movie streaming app mockup with:\n- mock state\n- a polished, cinematic dark UI with movie posters\n- an adaptive bottom TabBar shell\n\nPages:\n- Onboarding (a feature carousel introducing the app)\n- Browse (a featured hero, category chips, and Trending Now / New Arrivals poster rails)\n- Search (genre tiles, recent searches, and a results grid)\n- Social Feed (friend activity: now watching, ratings, watchlist adds, plus suggested friends and trending among friends)\n- Profile (subscription details, stats, and grouped settings)\n- Movie Detail (hero, synopsis, cast, audience/critics scores, reviews, related movies)\n- Playback (a video scrubber with now-playing metadata, cast and related titles)\n\nInclude:\n- full working code\n- navigation between pages\n- mock state\n- seeded sample data (movies, friends, reviews, cast, settings)"
+      },
+      {
+        "role": "assistant",
+        "content": "Here's your **Movie Streaming App**! It's built and running in the preview."
+      }
+    ],
+    "suggestedPrompts": [
+      "Change the accent color theme",
+      "Add a Downloads page for offline titles",
+      "Add a 'My Watchlist' section to the profile",
+      "Improve the layout and spacing"
+    ]
+  },
+  "agentContext": {
+    "messages": [
+      {
+        "role": "user",
+        "content": "Generate a production-ready movie streaming app mockup with:\n- mock state\n- a polished, cinematic dark UI with movie posters\n- an adaptive bottom TabBar shell\n\nPages:\n- Onboarding (a feature carousel introducing the app)\n- Browse (a featured hero, category chips, and Trending Now / New Arrivals poster rails)\n- Search (genre tiles, recent searches, and a results grid)\n- Social Feed (friend activity: now watching, ratings, watchlist adds, plus suggested friends and trending among friends)\n- Profile (subscription details, stats, and grouped settings)\n- Movie Detail (hero, synopsis, cast, audience/critics scores, reviews, related movies)\n- Playback (a video scrubber with now-playing metadata, cast and related titles)\n\nInclude:\n- full working code\n- navigation between pages\n- mock state\n- seeded sample data (movies, friends, reviews, cast, settings)"
+      },
+      {
+        "role": "assistant",
+        "content": "I've modernized the Uno Platform app at MovieStreamApp/MovieStreamApp.csproj.\n\n**Structure:**\n- A Shell (UserControl) hosts a utu:ExtendedSplashScreen and is the navigation root. MainPage is the tab shell: an iOS-26-style floating capsule utu:TabBar (Themes/FloatingTabBar.xaml, built on the Simple theme) centred over a visibility-based content region, with tabs Browse, Search, Friends (SocialFeed) and Profile. Onboarding, Playback and the Movie Detail are full-screen shell SIBLINGS (not tab routes) navigated to on demand; the Movie Detail is a full-screen Page on phone/tablet and a centred ContentDialog modal on desktop (two DataViewMaps -> one MovieDetailModel, chosen by width with {utu:Responsive}). Detail/Playback receive the tapped Movie via DataViewMap nav-data.\n- Domain records live in Presentation/SharedTypes.cs (Movie has a [property: Key] Id); one shared MovieData catalogue seeds every page and is keyed by id, so a card resolves the full entity to open its detail. Images are specific remote pexels photos (no bundled Content assets, no random placeholder seeds).\n- Page models are MVUX records. Interactive pages are reactive: Browse's category chips and Search's query + genre tiles are IState with derived IListFeed results, and a DI-singleton WatchlistService (IListState<Movie>) backs the 'My List' toggle shared across Browse, Movie Detail and the Profile count. Purely static pages (SocialFeed, Onboarding, Playback) opt out with [ReactiveBindable(false)].\n- Every icon is vector PathIcon/Path geometry resolved through a shared Icon converter (Fluent UI System Icons), never FontIcon glyphs, so icons render on every target and in the design host. Rounded image tiles are Border+ImageBrush so they clip to the corner radius. Rails use ItemsRepeater + UniformGridLayout and every page caps its content width for desktop.\n- Runs on the Uno Simple theme (SimpleToolkitTheme) with the CineStream brand seeds generating every semantic role colour (ColorOverrides.xaml pins the dark accents the tonal recipe would lighten); the styling vocabulary is in Styles.xaml (merged last). Body text is the framework Roboto. Branded app icon + splash via Uno.Resizetizer.\n- Navigation uses Uno.Extensions.Navigation with routes registered in App.xaml.cs.\n\nThe app builds and runs on iOS, Android, WebAssembly and desktop. The user may ask me to modify it."
+      }
+    ]
+  }
+}

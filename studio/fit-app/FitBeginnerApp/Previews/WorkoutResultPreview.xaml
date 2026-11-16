@@ -1,0 +1,21 @@
+<hd:Preview x:Class="FitBeginnerApp.Previews.WorkoutResultPreview"
+            xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+            xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+            xmlns:mock="using:FitBeginnerApp.Presentation.MockData"
+            xmlns:hd="using:Uno.UI.HotDesign"
+            xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+            xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+            mc:Ignorable="d">
+
+    <!-- The result card shared by Home's recent strip and Progress's history, feeling pill included. -->
+    <!-- The templated ContentControl is WRAPPED so it is not the Preview's direct content:
+         Preview.OnLoaded would otherwise overwrite the Content bound here with null. Any size goes
+         on the previewed element, never on the <hd:Preview>. -->
+    <Grid>
+        <ContentControl ContentTemplate="{StaticResource WorkoutResultTemplate}"
+                        Content="{x:Bind mock:PreviewData.RecentResult}"
+                        Width="380"
+                        HorizontalContentAlignment="Stretch"
+                        VerticalAlignment="Center" />
+    </Grid>
+</hd:Preview>

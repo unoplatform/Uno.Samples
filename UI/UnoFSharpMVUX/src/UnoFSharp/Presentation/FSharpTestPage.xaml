@@ -1,0 +1,157 @@
+﻿<Page x:Class="UnoFSharp.Presentation.FSharpTestPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:uen="using:Uno.Extensions.Navigation.UI"
+      xmlns:utu="using:Uno.Toolkit.UI"
+      xmlns:local="using:UnoFSharp.Presentation"
+      Background="{ThemeResource BackgroundBrush}">
+
+  <Grid utu:SafeArea.Insets="VisibleBounds">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="*" />
+    </Grid.RowDefinitions>
+
+    <utu:NavigationBar Content="{Binding Title}" />
+
+    <ScrollViewer Grid.Row="1">
+      <StackPanel Padding="16" Spacing="24">
+
+        <!-- Test 1: Simple Person Record -->
+        <StackPanel Spacing="8">
+          <TextBlock Text="Test 1: Simple F# Record (Person)" 
+                     Style="{StaticResource TitleTextBlockStyle}" />
+          <TextBlock Text="Demonstrates basic F# record type binding with simple properties and a computed property."
+                     TextWrapping="Wrap"
+                     Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                     Margin="0,0,0,8" />
+          <Border BorderBrush="{ThemeResource DividerStrokeColorDefaultBrush}"
+                  BorderThickness="1"
+                  CornerRadius="8"
+                  Padding="16">
+            <StackPanel Spacing="4">
+              <StackPanel Orientation="Horizontal" Spacing="4">
+                <TextBlock Text="First Name:" FontWeight="SemiBold" />
+                <TextBlock Text="{Binding CurrentPerson.FirstName}" />
+              </StackPanel>
+              <StackPanel Orientation="Horizontal" Spacing="4">
+                <TextBlock Text="Last Name:" FontWeight="SemiBold" />
+                <TextBlock Text="{Binding CurrentPerson.LastName}" />
+              </StackPanel>
+              <StackPanel Orientation="Horizontal" Spacing="4">
+                <TextBlock Text="Age:" FontWeight="SemiBold" />
+                <TextBlock Text="{Binding CurrentPerson.Age}" />
+              </StackPanel>
+              <StackPanel Orientation="Horizontal" Spacing="4">
+                <TextBlock Text="Full Name (computed):" FontWeight="SemiBold" />
+                <TextBlock Text="{Binding CurrentPersonFullName}" />
+              </StackPanel>
+            </StackPanel>
+          </Border>
+        </StackPanel>
+
+        <!-- Test 2: Product with Optional Field -->
+        <StackPanel Spacing="8">
+          <TextBlock Text="Test 2: F# Record with Option (Product)" 
+                     Style="{StaticResource TitleTextBlockStyle}" />
+          <TextBlock Text="Tests F# Option types and how to access their values through data binding."
+                     TextWrapping="Wrap"
+                     Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                     Margin="0,0,0,8" />
+          <Border BorderBrush="{ThemeResource DividerStrokeColorDefaultBrush}"
+                  BorderThickness="1"
+                  CornerRadius="8"
+                  Padding="16">
+            <StackPanel Spacing="4">
+              <StackPanel Orientation="Horizontal" Spacing="4">
+                <TextBlock Text="ID:" FontWeight="SemiBold" />
+                <TextBlock Text="{Binding CurrentProduct.Id}" />
+              </StackPanel>
+              <StackPanel Orientation="Horizontal" Spacing="4">
+                <TextBlock Text="Name:" FontWeight="SemiBold" />
+                <TextBlock Text="{Binding CurrentProduct.Name}" />
+              </StackPanel>
+              <StackPanel Orientation="Horizontal" Spacing="4">
+                <TextBlock Text="Price: $" FontWeight="SemiBold" />
+                <TextBlock Text="{Binding CurrentProduct.Price}" />
+              </StackPanel>
+              <StackPanel Orientation="Horizontal" Spacing="4">
+                <TextBlock Text="Description:" FontWeight="SemiBold" />
+                <TextBlock Text="{Binding CurrentProduct.Description.Value}" />
+              </StackPanel>
+            </StackPanel>
+          </Border>
+        </StackPanel>
+
+        <!-- Test 3: Nested Records -->
+        <StackPanel Spacing="8">
+          <TextBlock Text="Test 3: Nested F# Records (Customer)" 
+                     Style="{StaticResource TitleTextBlockStyle}" />
+          <TextBlock Text="Validates binding to nested F# record structures with complex hierarchical data."
+                     TextWrapping="Wrap"
+                     Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                     Margin="0,0,0,8" />
+          <Border BorderBrush="{ThemeResource DividerStrokeColorDefaultBrush}"
+                  BorderThickness="1"
+                  CornerRadius="8"
+                  Padding="16">
+            <StackPanel Spacing="4">
+              <StackPanel Orientation="Horizontal" Spacing="4">
+                <TextBlock Text="ID:" FontWeight="SemiBold" />
+                <TextBlock Text="{Binding CurrentCustomer.Id}" />
+              </StackPanel>
+              <StackPanel Orientation="Horizontal" Spacing="4">
+                <TextBlock Text="Name:" FontWeight="SemiBold" />
+                <TextBlock Text="{Binding CurrentCustomer.Name}" />
+              </StackPanel>
+              <StackPanel Orientation="Horizontal" Spacing="4">
+                <TextBlock Text="Email:" FontWeight="SemiBold" />
+                <TextBlock Text="{Binding CurrentCustomer.Email}" />
+              </StackPanel>
+              <TextBlock Text="Address:" FontWeight="SemiBold" />
+              <StackPanel Padding="16,0,0,0" Spacing="2">
+                <TextBlock Text="{Binding CurrentCustomer.Address.Street}" />
+                <StackPanel Orientation="Horizontal" Spacing="4">
+                  <TextBlock Text="{Binding CurrentCustomer.Address.City}" />
+                  <TextBlock Text="," />
+                  <TextBlock Text="{Binding CurrentCustomer.Address.ZipCode}" />
+                </StackPanel>
+              </StackPanel>
+            </StackPanel>
+          </Border>
+        </StackPanel>
+
+        <!-- Test 4: List of F# Records -->
+        <StackPanel Spacing="8">
+          <TextBlock Text="Test 4: List/Feed of F# Records (People)" 
+                     Style="{StaticResource TitleTextBlockStyle}" />
+          <TextBlock Text="Verifies that F# record collections work with MVUX feeds and UI list controls."
+                     TextWrapping="Wrap"
+                     Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                     Margin="0,0,0,8" />
+          <ListView ItemsSource="{Binding People}"
+                    BorderBrush="{ThemeResource DividerStrokeColorDefaultBrush}"
+                    BorderThickness="1"
+                    CornerRadius="8">
+            <ListView.ItemTemplate>
+              <DataTemplate>
+                <StackPanel Padding="16,8">
+                  <StackPanel Orientation="Horizontal" Spacing="4">
+                    <TextBlock Text="{Binding FirstName}" />
+                    <TextBlock Text="{Binding LastName}" />
+                  </StackPanel>
+                  <StackPanel Orientation="Horizontal" 
+                              Spacing="4">
+                    <TextBlock Text="Age:" FontSize="12" />
+                    <TextBlock Text="{Binding Age}" FontSize="12" />
+                  </StackPanel>
+                </StackPanel>
+              </DataTemplate>
+            </ListView.ItemTemplate>
+          </ListView>
+        </StackPanel>
+
+      </StackPanel>
+    </ScrollViewer>
+  </Grid>
+</Page>

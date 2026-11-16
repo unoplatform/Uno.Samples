@@ -4,7 +4,7 @@ public sealed partial class MainPage : Page
 {
     public MainPage()
     {
-        this.DataContext(new BindableMainModel(), (page, vm) => page
+        this.DataContext(new MainViewModel(), (page, vm) => page
             .Background(ThemeResource.Get<Brush>("ApplicationPageBackgroundThemeBrush"))
             .Content(
                 new StackPanel()

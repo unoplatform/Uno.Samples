@@ -1,0 +1,240 @@
+<Page x:Class="BrewHouse.Presentation.HomePage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:utu="using:Uno.Toolkit.UI"
+      xmlns:mvux="using:Uno.Extensions.Reactive.UI"
+      Background="{ThemeResource BackgroundBrush}">
+
+    <utu:SafeArea Insets="VisibleBounds">
+        <!-- Phone-first; caps to a centred, width-filling column on wide desktop/WASM -->
+        <Grid x:Name="Root" MaxWidth="1100" HorizontalAlignment="Stretch">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <!-- Header (shared style: consistent position/background/type across every page) -->
+            <Border Grid.Row="0" Style="{StaticResource PageHeaderStyle}">
+                <StackPanel>
+                    <TextBlock Text="BrewHouse" Style="{StaticResource PageTitleStyle}" />
+                    <TextBlock Text="Good coffee, made simple" Style="{StaticResource PageSubtitleStyle}" />
+                </StackPanel>
+            </Border>
+
+            <ScrollViewer Grid.Row="1"
+                          VerticalScrollBarVisibility="Hidden"
+                          VerticalScrollMode="Enabled">
+                <StackPanel Spacing="{ThemeResource Space0}">
+
+                    <!-- Hero Carousel: full-bleed on phone (no corner clipping where the image meets
+                         the screen edge), a taller rounded banner on desktop/web where it's inset from
+                         the nav rail and window edge (Wide margin) so it reads as a floating banner. -->
+                    <Grid Height="{utu:Responsive Narrow=220, Wide=340}"
+                          Margin="{utu:Responsive Narrow='0', Wide='20,8,20,4'}">
+                        <FlipView x:Name="HeroFlip"
+                                  Style="{StaticResource HeroFlipViewStyle}"
+                                  ItemsSource="{Binding HeroBanners}"
+                                  HorizontalAlignment="Stretch"
+                                  VerticalAlignment="Stretch"
+                                  CornerRadius="{utu:Responsive Narrow=0, Wide=16}"
+                                  AutomationProperties.Name="Featured promotions carousel"
+                                  ItemTemplate="{StaticResource HeroBannerTemplate}" />
+                        <!-- Position indicator only (IsHitTestVisible=False): it mirrors the FlipView's
+                             current page (kept in sync in code-behind) but isn't itself clickable —
+                             clicking a pip to move the FlipView is unreliable on Uno, and a display-only
+                             pager can never fall out of step with the slide. Paging is via swipe, the
+                             custom prev/next buttons below, and the FlipView's own arrow-key support.
+                             RequestedTheme=Dark gives pips that read on the scrim. -->
+                        <PipsPager x:Name="HeroPips"
+                                   NumberOfPages="{Binding HeroBannerCount}"
+                                   IsHitTestVisible="False"
+                                   RequestedTheme="Dark"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Bottom"
+                                   Margin="0,0,0,10" />
+
+                        <!-- Custom, fixed-size paging buttons — the ONLY flippers (the FlipView template
+                             above has none), so they render identically on every form factor. They page
+                             by scrolling the FlipView's ScrollingHost in code-behind, which is reliable
+                             on Skia and keeps the pager in sync via SelectionChanged. -->
+                        <Button x:Name="HeroPrev"
+                                Style="{StaticResource HeroNavButtonStyle}"
+                                HorizontalAlignment="Left"
+                                Margin="{ThemeResource Space300LeftThickness}"
+                                Click="HeroPrev_Click"
+                                AutomationProperties.Name="Previous banner">
+                            <!-- Path + Stretch="Uniform" (not PathIcon in a Viewbox): a PathIcon keeps
+                                 the Fluent 24-grid origin, so the asymmetric chevron drifts off-centre
+                                 in the button. A Path uses the geometry's tight bbox and centres it. -->
+                            <Path Data="M15.5303 4.21967C15.8232 4.51256 15.8232 4.98744 15.5303 5.28033L8.81066 12L15.5303 18.7197C15.8232 19.0126 15.8232 19.4874 15.5303 19.7803C15.2374 20.0732 14.7626 20.0732 14.4697 19.7803L7.21967 12.5303C6.92678 12.2374 6.92678 11.7626 7.21967 11.4697L14.4697 4.21967C14.7626 3.92678 15.2374 3.92678 15.5303 4.21967Z"
+                                  Fill="#FFFFFF"
+                                  Stretch="Uniform"
+                                  Width="15"
+                                  Height="15"
+                                  HorizontalAlignment="Center"
+                                  VerticalAlignment="Center" />
+                        </Button>
+                        <Button x:Name="HeroNext"
+                                Style="{StaticResource HeroNavButtonStyle}"
+                                HorizontalAlignment="Right"
+                                Margin="{ThemeResource Space300RightThickness}"
+                                Click="HeroNext_Click"
+                                AutomationProperties.Name="Next banner">
+                            <Path Data="M8.46967 4.21967C8.76256 3.92678 9.23744 3.92678 9.53033 4.21967L16.7803 11.4697C17.0732 11.7626 17.0732 12.2374 16.7803 12.5303L9.53033 19.7803C9.23744 20.0732 8.76256 20.0732 8.46967 19.7803C8.17678 19.4874 8.17678 19.0126 8.46967 18.7197L15.1893 12L8.46967 5.28033C8.17678 4.98744 8.17678 4.51256 8.46967 4.21967Z"
+                                  Fill="#FFFFFF"
+                                  Stretch="Uniform"
+                                  Width="15"
+                                  Height="15"
+                                  HorizontalAlignment="Center"
+                                  VerticalAlignment="Center" />
+                        </Button>
+                    </Grid>
+
+                    <!-- Today's Specials Section -->
+                    <StackPanel Spacing="{ThemeResource Space0}">
+
+                        <StackPanel Padding="20,20,20,10" Spacing="{ThemeResource Space100}">
+                            <TextBlock Text="Today's Specials"
+                                       FontSize="20"
+                                       FontWeight="Bold"
+                                       Foreground="{ThemeResource OnBackgroundBrush}" />
+                            <TextBlock Text="Fresh picks just for you"
+                                       FontSize="13"
+                                       Foreground="{ThemeResource OnSurfaceVariantBrush}" />
+                        </StackPanel>
+
+                        <!-- Specials: its own catalogue request, so its own FeedView — the row
+                             shows a loading ring, the cards, "nothing today", or the shared failure
+                             card, without the page branching on anything itself. -->
+                        <mvux:FeedView Source="{Binding Specials}"
+                                       ValueTemplate="{StaticResource HomeSpecialsTemplate}"
+                                       NoneTemplate="{StaticResource HomeSectionEmptyTemplate}"
+                                       ErrorTemplate="{StaticResource CatalogErrorTemplate}" />
+
+                        <!-- Category Chips -->
+                        <StackPanel Padding="20,20,20,8" Spacing="10">
+                            <TextBlock Text="Browse by Category"
+                                       FontSize="20"
+                                       FontWeight="Bold"
+                                       Foreground="{ThemeResource OnBackgroundBrush}" />
+                            <ScrollViewer HorizontalScrollBarVisibility="Hidden"
+                                          VerticalScrollBarVisibility="Disabled"
+                                          HorizontalScrollMode="Enabled">
+                                <ItemsControl ItemsSource="{Binding Categories}"
+                                              ItemTemplate="{StaticResource CategoryShortcutTemplate}">
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <StackPanel Orientation="Horizontal" Spacing="{ThemeResource Space200}" />
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                </ItemsControl>
+                            </ScrollViewer>
+                        </StackPanel>
+
+                        <!-- Featured Products -->
+                        <StackPanel Padding="20,4,20,0" Spacing="10">
+                            <TextBlock Text="Featured Products"
+                                       FontSize="20"
+                                       FontWeight="Bold"
+                                       Foreground="{ThemeResource OnBackgroundBrush}" />
+
+                            <!-- Featured: a second, independent catalogue request. -->
+                            <mvux:FeedView Source="{Binding FeaturedProducts}"
+                                           ValueTemplate="{StaticResource HomeFeaturedTemplate}"
+                                           NoneTemplate="{StaticResource HomeSectionEmptyTemplate}"
+                                           ErrorTemplate="{StaticResource CatalogErrorTemplate}" />
+                        </StackPanel>
+
+                        <!-- Cart summary strip: shown when the cart has items. Binds directly to the
+                             shared cart summary feed value, so it tracks every add/remove from any
+                             page; visibility = CartHasItems bool (BoolToVisibility).
+                             Buttons reach the page VM via Root. -->
+                        <Border Background="{ThemeResource PrimaryBrush}"
+                                CornerRadius="{ThemeResource Radius400CornerRadius}"
+                                Margin="20,20,20,4"
+                                Padding="18,14"
+                                Visibility="{Binding CartHasItems, Converter={StaticResource BoolToVisibility}}">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Grid.Column="0" Spacing="{ThemeResource Space050}" VerticalAlignment="Center">
+                                    <!-- ItemCountText, not ItemCount + a literal "items": the
+                                         summary already pluralizes ("1 item" / "2 items"). -->
+                                    <TextBlock FontSize="12"
+                                               Foreground="{ThemeResource OnPrimaryBrush}"
+                                               Opacity="0.85">
+                                        <Run Text="{Binding Summary.ItemCountText}" />
+                                        <Run Text="in your cart" />
+                                    </TextBlock>
+                                    <TextBlock FontSize="17"
+                                               FontWeight="Bold"
+                                               Foreground="{ThemeResource OnPrimaryBrush}">
+                                        <Run Text="Total: $" />
+                                        <Run Text="{Binding Summary.SubtotalFormatted}" />
+                                    </TextBlock>
+                                </StackPanel>
+                                <Button Grid.Column="1"
+                                        Style="{StaticResource BrewButtonStyle}"
+                                        Content="View Cart"
+                                        AutomationProperties.Name="View cart"
+                                        Background="{ThemeResource SurfaceBrush}"
+                                        Foreground="{ThemeResource PrimaryBrush}"
+                                        CornerRadius="{ThemeResource Radius300CornerRadius}"
+                                        Padding="16,9"
+                                        FontSize="13"
+                                        Command="{Binding DataContext.GoToCart, ElementName=Root}" />
+                            </Grid>
+                        </Border>
+
+                        <!-- Empty-cup card: shown when the cart is empty (CartHasItems inverted). -->
+                        <Border Background="{ThemeResource SurfaceBrush}"
+                                CornerRadius="{ThemeResource Radius400CornerRadius}"
+                                Margin="20,20,20,4"
+                                Padding="24,28"
+                                BorderBrush="{ThemeResource BrewCardBorderBrush}"
+                                BorderThickness="1"
+                                Visibility="{Binding CartHasItems, Converter={StaticResource BoolToVisibility}, ConverterParameter=Invert}">
+                            <StackPanel HorizontalAlignment="Center"
+                                        Spacing="10">
+                                <Viewbox Width="48" Height="48"
+                                         HorizontalAlignment="Center"
+                                         AutomationProperties.AccessibilityView="Raw">
+                                    <PathIcon Data="F1 M5.5 2.75C5.5 2.33579 5.16421 2 4.75 2C4.33579 2 4 2.33579 4 2.75C4 4.02066 4.92806 4.6672 5.50571 5.06963L5.5699 5.11442C6.24985 5.59039 6.5 5.81889 6.5 6.25C6.5 6.66421 6.83579 7 7.25 7C7.66421 7 8 6.66421 8 6.25C8 4.97934 7.07194 4.3328 6.49429 3.93037L6.4301 3.88558C5.75015 3.40961 5.5 3.18111 5.5 2.75ZM3 9.82143C3 8.81548 3.81548 8 4.82143 8H17.1786C18.1845 8 19 8.81548 19 9.82143V10.5H19.75C21.5449 10.5 23 11.9551 23 13.75C23 15.5449 21.5449 17 19.75 17H18.4185C17.2317 19.9318 14.3574 22 11 22C6.58172 22 3 18.4183 3 14V9.82143ZM17.5 9.82143C17.5 9.64391 17.3561 9.5 17.1786 9.5H4.82143C4.64391 9.5 4.5 9.64391 4.5 9.82143V14C4.5 17.5899 7.41015 20.5 11 20.5C14.5899 20.5 17.5 17.5899 17.5 14V9.82143ZM19.75 12H19V14C19 14.5127 18.9518 15.0141 18.8596 15.5H19.75C20.7165 15.5 21.5 14.7165 21.5 13.75C21.5 12.7835 20.7165 12 19.75 12ZM8.75 2C9.16421 2 9.5 2.33579 9.5 2.75C9.5 3.18111 9.75015 3.40961 10.4301 3.88558L10.4943 3.93037C11.0719 4.3328 12 4.97934 12 6.25C12 6.66421 11.6642 7 11.25 7C10.8358 7 10.5 6.66421 10.5 6.25C10.5 5.81889 10.2499 5.59039 9.5699 5.11442L9.50571 5.06963C8.92806 4.6672 8 4.02066 8 2.75C8 2.33579 8.33579 2 8.75 2ZM13.5 2.75C13.5 2.33579 13.1642 2 12.75 2C12.3358 2 12 2.33579 12 2.75C12 4.02066 12.9281 4.6672 13.5057 5.06963L13.5699 5.11442C14.2499 5.59039 14.5 5.81889 14.5 6.25C14.5 6.66421 14.8358 7 15.25 7C15.6642 7 16 6.66421 16 6.25C16 4.97934 15.0719 4.3328 14.4943 3.93037L14.4301 3.88558C13.7501 3.40961 13.5 3.18111 13.5 2.75Z"
+                                              Foreground="{ThemeResource SecondaryBrush}" />
+                                </Viewbox>
+                                <TextBlock Text="Your cart is empty"
+                                           FontSize="18"
+                                           FontWeight="Bold"
+                                           Foreground="{ThemeResource OnSurfaceBrush}"
+                                           HorizontalAlignment="Center" />
+                                <TextBlock Text="Browse the menu and add your favourite brew to get started."
+                                           FontSize="13"
+                                           Foreground="{ThemeResource OnSurfaceVariantBrush}"
+                                           HorizontalAlignment="Center"
+                                           TextAlignment="Center"
+                                           TextWrapping="Wrap"
+                                           MaxWidth="240" />
+                                <Button Style="{StaticResource BrewButtonStyle}"
+                                        Content="Browse Full Menu"
+                                        AutomationProperties.Name="Browse full menu"
+                                        CornerRadius="{ThemeResource Radius300CornerRadius}"
+                                        Padding="28,11"
+                                        FontSize="14"
+                                        HorizontalAlignment="Center"
+                                        Margin="{ThemeResource Space150TopThickness}"
+                                        Command="{Binding DataContext.GoToMenu, ElementName=Root}" />
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Bottom padding -->
+                        <Border Height="24" />
+
+                    </StackPanel>
+
+                </StackPanel>
+            </ScrollViewer>
+        </Grid>
+    </utu:SafeArea>
+</Page>

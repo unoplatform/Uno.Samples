@@ -6,12 +6,20 @@ For more information on how to use the controls from GrialKit in an Uno Platform
 
 <img src="doc/assets/third-party-sample-grialkit.gif" alt="Grial UI Kit for .NET MAUI Demo sample" />
 
+## Platforms
+
+This sample runs on **Android** and **iOS** only, with the native .NET MAUI embedding of Uno.Extensions (the `MauiNativeEmbedding` Uno Feature).
+
+There is no desktop or WebAssembly target: on those targets MAUI embedding goes through `Uno.Maui.Embedding` (the `MauiEmbedding` Uno Feature), which draws MAUI controls through their Windows handlers and so needs the MAUI library to ship a Windows (`net*-windows`) build. The Grial UI Kit ships Android and iOS builds only.
+
+## Setting up Grial
+
 > [!NOTE]
-> In order to use the Grial UI Kit controls, you first need to [sign up](https://admin.grialkit.com/secure/grial/front/signup). 
+> In order to use the Grial UI Kit controls, you first need to [sign up](https://admin.grialkit.com/secure/grial/front/signup).
 
 > After signing up, when you log in to the [admin portal](https://admin.grialkit.com), you'll be prompted to create a Grial app by entering the name of the application. Once you've created the Grial app, go to the Download tab and select `Download Kickoff Solution` - at this point, you'll be prompted to purchase a license, which you'll need in order to proceed with using Grial.
 
-> Extract the downloaded zip file and locate the GrialLicense file. We'll add this file to the Uno application. Also in the zip file, open the csproj file and retrieve the ApplicationTitle and ApplicationId property values.
+> Extract the downloaded zip file and locate the GrialLicense file. Copy it into the `GrialKitApp.MauiControls` folder. Also in the zip file, open the csproj file and retrieve the ApplicationTitle and ApplicationId property values, and set them in `GrialKitApp/GrialKitApp.csproj`.
 
 ```xml
 <!-- Display name -->
@@ -19,7 +27,9 @@ For more information on how to use the controls from GrialKit in an Uno Platform
 <!-- App Identifier -->
 <ApplicationId>[ApplicationId]</ApplicationId>
 ```
-> The last thing we'll need from the zip file is the nuget.config file. This file will also be added to the Uno application.
+> The last thing we'll need from the zip file is the nuget.config file (it adds the Grial NuGet feed). Copy it next to `GrialKitApp.sln`.
+
+> Then search for `TODO: Uncomment` and uncomment the corresponding code (the `UXDivers.GrialMaui` package reference and the Grial controls). The `UXDivers.GrialMaui` version must ship `net10.0-android` and `net10.0-ios` builds.
 
 ## List of controls used in this sample
 - Area Chart

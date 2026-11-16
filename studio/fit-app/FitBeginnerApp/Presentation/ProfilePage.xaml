@@ -1,0 +1,181 @@
+<Page x:Class="FitBeginnerApp.Presentation.ProfilePage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:utu="using:Uno.Toolkit.UI"
+      Background="{ThemeResource BackgroundBrush}">
+
+    <Grid utu:SafeArea.Insets="Top,Left,Right">
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <StackPanel Spacing="{ThemeResource Space0}" Padding="{ThemeResource Space600BottomThickness}" MaxWidth="1100" HorizontalAlignment="Stretch">
+
+                <!-- Profile hero header -->
+                <Grid x:Name="HeroSection" Background="{ThemeResource PrimaryContainerBrush}" Padding="16,28,16,24">
+                    <StackPanel Spacing="{ThemeResource Space300}" HorizontalAlignment="Center">
+                        <Border Width="80" Height="80" CornerRadius="{ThemeResource RadiusFullCornerRadius}" Background="{ThemeResource PrimaryBrush}" HorizontalAlignment="Center">
+                            <TextBlock Text="{Binding AvatarInitials}"
+                                       FontSize="{StaticResource FontSizeStat}"
+                                       Foreground="{ThemeResource OnPrimaryBrush}"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center" />
+                        </Border>
+                        <StackPanel Spacing="{ThemeResource Space100}" HorizontalAlignment="Center">
+                            <TextBlock Text="{Binding Profile.DisplayName}"
+                                       FontSize="{StaticResource FontSizeStatSmall}"
+                                       Foreground="{ThemeResource OnPrimaryContainerBrush}"
+                                       HorizontalAlignment="Center" />
+                            <TextBlock Text="{Binding JoinedDate}"
+                                       FontSize="{StaticResource FontSizeCaption}"
+                                       Foreground="{ThemeResource OnPrimaryContainerBrush}"
+                                       HorizontalAlignment="Center" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Spacing="{ThemeResource Space300}" HorizontalAlignment="Center">
+                            <Border Background="{ThemeResource PrimaryBrush}" CornerRadius="{ThemeResource Radius200CornerRadius}" Padding="12,6">
+                                <TextBlock Text="{Binding Profile.FitnessLevel}"
+                                           FontSize="{StaticResource FontSizeLabel}"
+                                           CharacterSpacing="140"
+                                           Foreground="{ThemeResource OnPrimaryBrush}"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           HorizontalTextAlignment="Center" />
+                            </Border>
+                            <Border Background="{ThemeResource SecondaryContainerBrush}" CornerRadius="{ThemeResource Radius200CornerRadius}" Padding="12,6">
+                                <TextBlock Text="{Binding Profile.Goal}"
+                                           FontSize="{StaticResource FontSizeLabel}"
+                                           CharacterSpacing="140"
+                                           Foreground="{ThemeResource OnSecondaryContainerBrush}"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           HorizontalTextAlignment="Center" />
+                            </Border>
+                        </StackPanel>
+                    </StackPanel>
+                </Grid>
+
+                <StackPanel Padding="16,20,16,0" Spacing="{ThemeResource Space0}">
+
+                    <!-- My stats — three de-carded stat readouts -->
+                    <TextBlock Text="MY STATS" Style="{StaticResource SectionLabelStyle}" />
+                    <Border x:Name="StatsSection" Style="{StaticResource CardBorderStyle}" Margin="0,0,0,26" HorizontalAlignment="Stretch">
+                        <Grid Padding="20,20" HorizontalAlignment="Stretch">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Grid.Column="0" HorizontalAlignment="Center" Spacing="3">
+                                <TextBlock Text="{Binding Profile.TotalWorkouts}"
+                                           FontSize="{StaticResource FontSizeStat}"
+                                           Foreground="{ThemeResource PrimaryBrush}"
+                                           HorizontalAlignment="Center" />
+                                <TextBlock Text="WORKOUTS"
+                                           FontSize="{StaticResource FontSizeLabel}"
+                                           CharacterSpacing="140"
+                                           Foreground="{ThemeResource OnSurfaceVariantBrush}"
+                                           HorizontalAlignment="Center" />
+                            </StackPanel>
+                            <Border Grid.Column="1" Width="1" Margin="14,4" Background="{ThemeResource OutlineVariantBrush}" />
+                            <StackPanel Grid.Column="2" HorizontalAlignment="Center" Spacing="3">
+                                <TextBlock Text="{Binding Profile.CurrentStreakDays}"
+                                           FontSize="{StaticResource FontSizeStat}"
+                                           Foreground="{ThemeResource SecondaryBrush}"
+                                           HorizontalAlignment="Center" />
+                                <TextBlock Text="DAY STREAK"
+                                           FontSize="{StaticResource FontSizeLabel}"
+                                           CharacterSpacing="140"
+                                           Foreground="{ThemeResource OnSurfaceVariantBrush}"
+                                           HorizontalAlignment="Center" />
+                            </StackPanel>
+                            <Border Grid.Column="3" Width="1" Margin="14,4" Background="{ThemeResource OutlineVariantBrush}" />
+                            <StackPanel Grid.Column="4" HorizontalAlignment="Center" Spacing="3">
+                                <TextBlock Text="{Binding Profile.WeeklyGoalDays}"
+                                           FontSize="{StaticResource FontSizeStat}"
+                                           Foreground="{ThemeResource TertiaryBrush}"
+                                           HorizontalAlignment="Center" />
+                                <TextBlock Text="GOAL/WEEK"
+                                           FontSize="{StaticResource FontSizeLabel}"
+                                           CharacterSpacing="140"
+                                           Foreground="{ThemeResource OnSurfaceVariantBrush}"
+                                           HorizontalAlignment="Center" />
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+
+                    <!-- My preferences -->
+                    <TextBlock Text="MY PREFERENCES" Style="{StaticResource SectionLabelStyle}" />
+                    <Border x:Name="PreferencesSection" Style="{StaticResource CardBorderStyle}" Margin="0,0,0,26">
+                        <StackPanel Padding="16,14" Spacing="{ThemeResource Space300}">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="Preferred time"
+                                           FontSize="{StaticResource FontSizeCaption}"
+                                           Foreground="{ThemeResource OnSurfaceBrush}"
+                                           VerticalAlignment="Center" />
+                                <TextBlock Grid.Column="1" Text="{Binding PreferredTime}"
+                                           FontSize="{StaticResource FontSizeBody}"
+                                           Foreground="{ThemeResource PrimaryBrush}"
+                                           VerticalAlignment="Center" />
+                            </Grid>
+                            <Border Height="1" Background="{ThemeResource OutlineVariantBrush}" />
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="Equipment"
+                                           FontSize="{StaticResource FontSizeCaption}"
+                                           Foreground="{ThemeResource OnSurfaceBrush}"
+                                           VerticalAlignment="Center" />
+                                <TextBlock Grid.Column="1" Text="{Binding EquipmentAvailable}"
+                                           FontSize="{StaticResource FontSizeBody}"
+                                           Foreground="{ThemeResource PrimaryBrush}"
+                                           VerticalAlignment="Center" />
+                            </Grid>
+                            <Border Height="1" Background="{ThemeResource OutlineVariantBrush}" />
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="Session length"
+                                           FontSize="{StaticResource FontSizeCaption}"
+                                           Foreground="{ThemeResource OnSurfaceBrush}"
+                                           VerticalAlignment="Center" />
+                                <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="{ThemeResource Space100}" VerticalAlignment="Center">
+                                    <TextBlock Text="{Binding SessionLengthMinutes}"
+                                               FontSize="{StaticResource FontSizeBody}"
+                                               Foreground="{ThemeResource PrimaryBrush}" />
+                                    <TextBlock Text="min"
+                                               FontSize="{StaticResource FontSizeBody}"
+                                               Foreground="{ThemeResource PrimaryBrush}" />
+                                </StackPanel>
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- My goals -->
+                    <TextBlock Text="MY GOALS" Style="{StaticResource SectionLabelStyle}" />
+                    <ItemsRepeater x:Name="GoalsSection" ItemsSource="{Binding Goals}" Margin="0,0,0,26"
+                                   ItemTemplate="{StaticResource FitnessGoalTemplate}">
+                        <ItemsRepeater.Layout>
+                            <StackLayout Spacing="{ThemeResource Space200}" />
+                        </ItemsRepeater.Layout>
+                    </ItemsRepeater>
+
+                    <!-- Settings -->
+                    <TextBlock Text="SETTINGS" Style="{StaticResource SectionLabelStyle}" />
+                    <Border x:Name="SettingsSection" Style="{StaticResource CardBorderStyle}">
+                        <ItemsRepeater ItemsSource="{Binding Settings}"
+                                       ItemTemplate="{StaticResource SettingRowTemplate}">
+                        </ItemsRepeater>
+                    </Border>
+
+                </StackPanel>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</Page>

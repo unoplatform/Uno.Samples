@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+option csharp_namespace = "TestWeatherService";
+
+package weather;
+
+service Weather {
+	rpc GetWeather (WeatherRequest) returns (WeatherReply);
+}
+
+message WeatherRequest {
+  string city = 1;
+  bool mock = 2;
+}
+
+message WeatherReply {
+  string city = 1;
+  string temperature = 2;
+  string description = 3;
+  string wind = 4;
+  bool success = 5;
+}

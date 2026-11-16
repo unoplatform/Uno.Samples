@@ -1,0 +1,38 @@
+{
+  "$schema": "https://schemas.platform.uno/sample/v1",
+  "id": "uno-crm",
+  "displayName": "Uno CRM",
+  "description": "A production-ready CRM sales dashboard built with MVUX and Uno.Extensions Navigation, with a responsive desktop/mobile layout. Includes a Dashboard (KPI cards for leads, deals, revenue and conversion rate, a pipeline summary by stage, and a recent-activity feed), a Pipeline board whose deal cards open a full-screen deal detail, a Leads page with LiveCharts analytics, and a Contacts page with a live Mapsui map and reactive filters. Adaptive shell (sidebar on desktop, bottom navigation on mobile) with a clean, professional light/dark UI.",
+  "platforms": ["desktop", "wasm"],
+  "sourcePath": "UnoCRM/UnoCRM.csproj",
+  "userConversation": {
+    "messages": [
+      {
+        "role": "user",
+        "content": "Generate a production-ready CRM sales dashboard app with:\n- mock state\n- a responsive layout that adapts between desktop (sidebar navigation) and mobile (bottom navigation)\n- a clean, professional UI\n\nDashboard:\n- KPI cards (Total Leads, Active Deals, Revenue This Month, Conversion Rate) with trend indicators\n- a Pipeline Summary showing each stage (New Lead, Qualified, Proposal, Negotiation, Closed Won) with progress bars\n- a Recent Activity feed (deals closed, leads assigned, proposals sent, meetings scheduled)\n- a search box and notifications\n\nNavigation:\n- Dashboard, Pipeline, Leads and Contacts pages\n- adaptive shell: sidebar on desktop, bottom nav bar on mobile\n\nInclude:\n- full working code\n- navigation between pages\n- mock state\n- seeded sample data (leads, deals, activity)"
+      },
+      {
+        "role": "assistant",
+        "content": "Here's your **Uno CRM** app! It's built and running in the preview."
+      }
+    ],
+    "suggestedPrompts": [
+      "Change the color theme",
+      "Add a deal details page with navigation",
+      "Add a chart to the dashboard",
+      "Improve the layout and spacing"
+    ]
+  },
+  "agentContext": {
+    "messages": [
+      {
+        "role": "user",
+        "content": "Generate a production-ready CRM sales dashboard app with:\n- mock state\n- a responsive layout that adapts between desktop (sidebar navigation) and mobile (bottom navigation)\n- a clean, professional UI\n\nDashboard:\n- KPI cards (Total Leads, Active Deals, Revenue This Month, Conversion Rate) with trend indicators\n- a Pipeline Summary showing each stage (New Lead, Qualified, Proposal, Negotiation, Closed Won) with progress bars\n- a Recent Activity feed (deals closed, leads assigned, proposals sent, meetings scheduled)\n- a search box and notifications\n\nNavigation:\n- Dashboard, Pipeline, Leads and Contacts pages\n- adaptive shell: sidebar on desktop, bottom nav bar on mobile\n\nInclude:\n- full working code\n- navigation between pages\n- mock state\n- seeded sample data (leads, deals, activity)"
+      },
+      {
+        "role": "assistant",
+        "content": "I've created a complete Uno Platform app at UnoCRM/UnoCRM.csproj.\n\n**Key files:**\n- UnoCRM/App.xaml (thin manifest merging ThemeColors.xaml + Styles.xaml)\n- UnoCRM/App.xaml.cs (Uno.Extensions Hosting + MVUX ReactiveViewModelMappings + RegisterRoutes)\n- UnoCRM/ThemeColors.xaml, UnoCRM/Styles.xaml\n- UnoCRM/Presentation/Shell.xaml(.cs), ShellModel.cs\n- UnoCRM/Presentation/MainPage.xaml(.cs), MainModel.cs (responsive NavigationView + TabBar shell)\n- UnoCRM/Presentation/DashboardPage.xaml(.cs), DashboardModel.cs\n- UnoCRM/Presentation/PipelinePage.xaml(.cs), PipelineModel.cs\n- UnoCRM/Presentation/LeadsPage.xaml(.cs), LeadsModel.cs\n- UnoCRM/Presentation/ContactsPage.xaml(.cs), ContactsModel.cs\n- UnoCRM/Presentation/DealDetailPage.xaml(.cs), DealDetailModel.cs\n- UnoCRM/Presentation/Data/Entities.cs, CrmData.cs (immutable records + deterministic seed)\n- UnoCRM/Presentation/MockData/ContactsPageMockData.cs (Hot Design)\n- UnoCRM/Controls/PipelineCard.xaml, AppLogo.xaml\n- UnoCRM/Converters/*.cs\n\n**Structure:**\n- The app uses **MVUX** (partial-record Models, IState/IFeed/IListFeed, no INotifyPropertyChanged/RelayCommand) and **Uno.Extensions Navigation**. Shell hosts the ExtendedSplashScreen; MainPage is the navigation shell (NavigationView pane on desktop, bottom TabBar on mobile, driven by {utu:Responsive}) into which Dashboard/Pipeline/Leads/Contacts are injected.\n- Dashboard: KPI cards (Total Leads, Active Deals, Revenue, Conversion Rate), a Pipeline Summary with per-stage bars, and a Recent Activity feed.\n- Pipeline: a stage board of deal cards; each card is a clickable button that opens a full-screen DealDetail page (DataViewMap with the tapped Deal as nav data).\n- Leads: LiveCharts analytics (lead-trend line, stage-distribution donut using a dedicated chart palette, source bar).\n- Contacts: a live Mapsui map plus a reactive contact list filtered by search/region/segment (IState + Feed.Combine); the desktop and mobile filter controls share one state.\n- One deterministic in-memory dataset (Presentation/Data/CrmData.cs) feeds every page. Icons are PathIcon/Path vector geometry (Fluent), text uses the framework Roboto, and the semantic role palette is generated from three seed colours on SimpleToolkitTheme.Colors in App.xaml (ColorOverrides.xaml pins the roles the tonal recipe cannot reach), and the app's own dashboard styling lives in ThemeColors.xaml + Styles.xaml.\n\nThe app builds and runs on desktop, WebAssembly, iOS and Android. The user may ask me to modify it."
+      }
+    ]
+  }
+}
