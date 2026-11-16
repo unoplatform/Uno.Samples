@@ -6,25 +6,14 @@ For more information on how to use the controls from DevExpress in an Uno Platfo
 
 <img src="doc/assets/third-party-sample-devexpress.gif" alt="DevExpress .NET MAUI Controls Demo sample" />
 
+## Platforms
+
+This sample runs on **Android** and **iOS** only, with the native .NET MAUI embedding of Uno.Extensions (the `MauiNativeEmbedding` Uno Feature).
+
+There is no desktop or WebAssembly target: on those targets MAUI embedding goes through `Uno.Maui.Embedding` (the `MauiEmbedding` Uno Feature), which draws MAUI controls through their Windows handlers and so needs the MAUI library to ship a Windows (`net*-windows`) build. The DevExpress .NET MAUI controls ship Android and iOS builds only.
+
 > [!IMPORTANT]
-> The DevExpress .NET MAUI Controls are currently available [free of charge](https://www.devexpress.com/maui/). However, in order to access the NuGet packages you do need to create an account at [DevExpress website](https://www.devexpress.com/MyAccount/Register/?returnUrl=https%3a%2f%2fnuget.devexpress.com%2f%23feed-url).
->
-> Once you have an account with DevExpress, you need to visit the [Your DevExpress NuGet Feed URL](https://nuget.devexpress.com/#feed-url) page to retrieve a NuGet feed that's associated with your account. You can either add this as a NuGet feed in Visual Studio or use a nuget.config file.
->
-> ```xml
-> <?xml version="1.0" encoding="utf-8"?>
-> <configuration>
->   <packageSources>
->    <add key="DevExpress Private Feed" value="[your NuGet feed goes here]" />
->   </packageSources>
-> </configuration>
-> ```
->
-> To summarize in order to test this sample app:
->
-> 1. Create a DevExpress account and obtain the necessary licenses for the DevExpress packages.
-> 2. Add your [DevExpress NuGet Feed URL](https://nuget.devexpress.com/#feed-url) to the project.
-> 3. Look for comments marked with "IMPORTANT: TODO: Uncomment to test the DevExpressApp" and uncomment the corresponding code blocks.
+> The DevExpress .NET MAUI packages (`DevExpress.Maui.Charts`, `DevExpress.Maui.DataGrid`) are restored from nuget.org. Without a DevExpress license key on the build machine, the build reports `DX1001` ("For evaluation purposes only. Redistribution prohibited"). See [DevExpress .NET MAUI](https://www.devexpress.com/maui/) and [devexpress.com/DX1001](https://devexpress.com/DX1001) for how to obtain and install the key.
 
 ## List of controls used in this sample
 

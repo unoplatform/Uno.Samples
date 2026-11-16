@@ -1,0 +1,123 @@
+<Page x:Class="Voyago.Presentation.SearchPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:local="using:Voyago.Presentation"
+      xmlns:uen="using:Uno.Extensions.Navigation.UI"
+      xmlns:utu="using:Uno.Toolkit.UI"
+      xmlns:mvux="using:Uno.Extensions.Reactive.UI"
+      Background="{ThemeResource BackgroundBrush}">
+
+    <Page.Resources>
+        <!-- Raise the "widest" threshold to 1400 so the two-column results+rail layout only engages
+             when there's genuine room beyond the persistent nav pane (~320px); below that the single
+             column fills the width. Other breakpoints keep their defaults. -->
+        <utu:ResponsiveLayout x:Key="DefaultResponsiveLayout" Narrowest="150" Narrow="300" Normal="600" Wide="800" Widest="1400" />
+    </Page.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0" Background="{ThemeResource SurfaceBrush}" Padding="20,14" utu:SafeArea.Insets="Top">
+            <TextBlock Text="Search" Style="{StaticResource TitleLarge}" Foreground="{ThemeResource OnSurfaceBrush}"
+                       MaxWidth="{StaticResource ContentMaxWidthWide}" HorizontalAlignment="Stretch" />
+        </Grid>
+
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+            <StackPanel Spacing="{ThemeResource Space0}" MaxWidth="{StaticResource ContentMaxWidthWide}" HorizontalAlignment="Stretch" local:Motion.Stagger="True">
+
+                <!-- Search entry + popular searches (shared across both layouts) -->
+                <StackPanel Padding="16,20,16,0" Spacing="18">
+                    <!-- A REAL search input, two-way bound to the Model's Query state. This was a
+                         TextBlock inside a Border — a search bar you could not type into — so the
+                         page's own reason to exist was decorative. Every keystroke re-runs the
+                         service query behind the results FeedView below. -->
+                    <Border Background="{ThemeResource SurfaceVariantBrush}" CornerRadius="{StaticResource ControlCornerRadius}">
+                        <Grid Padding="16,4">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Viewbox Grid.Column="0" Width="18" Height="18" VerticalAlignment="Center" Margin="{ThemeResource Space300RightThickness}">
+                                <Path Data="{Binding Converter={StaticResource Icon}, ConverterParameter=search}" Fill="{ThemeResource PrimaryBrush}" Stretch="Uniform" />
+                            </Viewbox>
+                            <TextBox Grid.Column="1"
+                                     Text="{Binding Query, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                     PlaceholderText="{Binding SearchPlaceholder}"
+                                     AutomationProperties.Name="Search destinations"
+                                     BorderThickness="0"
+                                     Background="Transparent"
+                                     VerticalAlignment="Center" />
+                        </Grid>
+                    </Border>
+
+                    <StackPanel Spacing="10">
+                        <TextBlock Text="Popular searches" Style="{StaticResource TitleSmall}" Foreground="{ThemeResource OnBackgroundBrush}" />
+                        <ScrollViewer HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Disabled" HorizontalScrollMode="Enabled">
+                            <ItemsRepeater ItemsSource="{Binding PopularSearches}"
+                                           ItemTemplate="{StaticResource PopularSearchChipTemplate}">
+                                <ItemsRepeater.Layout>
+                                    <StackLayout Orientation="Horizontal" Spacing="{ThemeResource Space200}" />
+                                </ItemsRepeater.Layout>
+                            </ItemsRepeater>
+                        </ScrollViewer>
+                    </StackPanel>
+                </StackPanel>
+
+                <!-- Narrow / medium: destinations grid then browse tiles, stacked full width -->
+                <StackPanel Spacing="{ThemeResource Space0}" Visibility="{utu:Responsive Narrow=Visible, Widest=Collapsed}">
+                    <StackPanel Padding="16,24,16,0" Spacing="{ThemeResource Space300}">
+                        <TextBlock Text="Destinations" Style="{StaticResource TitleMedium}" Foreground="{ThemeResource OnBackgroundBrush}" />
+                        <!-- Results come from the service for the current query, so an empty result
+                             is a designed NoneTemplate and a failed request its own card. The empty
+                             query returns the popular set, which is what shows before you type. -->
+                        <mvux:FeedView Source="{Binding Results}"
+                                       ValueTemplate="{StaticResource SearchResultsNarrowTemplate}"
+                                       NoneTemplate="{StaticResource NoSearchResultsTemplate}"
+                                       ErrorTemplate="{StaticResource DiscoveryErrorTemplate}" />
+                    </StackPanel>
+                    <StackPanel Padding="16,24,16,26" Spacing="{ThemeResource Space300}">
+                        <TextBlock Text="Browse by style" Style="{StaticResource TitleMedium}" Foreground="{ThemeResource OnBackgroundBrush}" />
+                        <!-- One column on phones, two once there's room (tablet landscape+), so the
+                             banners don't stretch to a thin full-width strip. -->
+                        <ItemsRepeater ItemsSource="{Binding ExploreCategories}" ItemTemplate="{StaticResource SearchCategoryTileTemplate}">
+                            <ItemsRepeater.Layout>
+                                <UniformGridLayout MinItemWidth="320" MinColumnSpacing="12" MinRowSpacing="12" ItemsStretch="Fill" Orientation="Horizontal" />
+                            </ItemsRepeater.Layout>
+                        </ItemsRepeater>
+                    </StackPanel>
+                </StackPanel>
+
+                <!-- Wide (>=1400): main results grid + a "Browse by style" discovery rail -->
+                <Grid Padding="16,24,16,26" ColumnSpacing="24" Visibility="{utu:Responsive Narrow=Collapsed, Widest=Visible}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="340" />
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0" Spacing="{ThemeResource Space300}">
+                        <TextBlock Text="Destinations" Style="{StaticResource TitleMedium}" Foreground="{ThemeResource OnBackgroundBrush}" />
+                        <!-- The same Results feed as the narrow arrangement, in the wide layout, so
+                             the two stay in step by construction. -->
+                        <mvux:FeedView Source="{Binding Results}"
+                                       ValueTemplate="{StaticResource SearchResultsWideTemplate}"
+                                       NoneTemplate="{StaticResource NoSearchResultsTemplate}"
+                                       ErrorTemplate="{StaticResource DiscoveryErrorTemplate}" />
+                    </StackPanel>
+                    <StackPanel Grid.Column="1" Spacing="{ThemeResource Space300}" VerticalAlignment="Top">
+                        <TextBlock Text="Browse by style" Style="{StaticResource TitleMedium}" Foreground="{ThemeResource OnBackgroundBrush}" />
+                        <!-- One column of fixed-height banners. UniformGridLayout + ItemsStretch=Fill
+                             reliably sizes the tiles (a StackLayout here left them collapsed with gaps). -->
+                        <ItemsRepeater ItemsSource="{Binding ExploreCategories}" ItemTemplate="{StaticResource SearchCategoryTileTemplate}">
+                            <ItemsRepeater.Layout>
+                                <UniformGridLayout MinItemWidth="300" MinItemHeight="132" MaximumRowsOrColumns="1" MinColumnSpacing="12" MinRowSpacing="12" ItemsStretch="Fill" Orientation="Horizontal" />
+                            </ItemsRepeater.Layout>
+                        </ItemsRepeater>
+                    </StackPanel>
+                </Grid>
+
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</Page>

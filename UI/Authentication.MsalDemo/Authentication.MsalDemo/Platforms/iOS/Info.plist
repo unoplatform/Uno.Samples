@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+	<dict>
+		<key>LSRequiresIPhoneOS</key>
+		<true/>
+		<key>UIDeviceFamily</key>
+		<array>
+			<integer>1</integer>
+			<integer>2</integer>
+		</array>
+		<key>UIRequiredDeviceCapabilities</key>
+		<array>
+			<string>armv7</string>
+			<string>arm64</string>
+		</array>
+		<key>UISupportedInterfaceOrientations</key>
+		<array>
+			<string>UIInterfaceOrientationPortrait</string>
+			<string>UIInterfaceOrientationLandscapeLeft</string>
+			<string>UIInterfaceOrientationLandscapeRight</string>
+		</array>
+		<key>UISupportedInterfaceOrientations~ipad</key>
+		<array>
+			<string>UIInterfaceOrientationPortrait</string>
+			<string>UIInterfaceOrientationPortraitUpsideDown</string>
+			<string>UIInterfaceOrientationLandscapeLeft</string>
+			<string>UIInterfaceOrientationLandscapeRight</string>
+		</array>
+		<key>UIViewControllerBasedStatusBarAppearance</key>
+		<false/>
+		<key>XSAppIconAssets</key>
+		<string>Assets.xcassets/icon.appiconset</string>
+		<key>UIApplicationSupportsIndirectInputEvents</key>
+		<true/>
+
+		<!--
+			MSAL sign-in callback.
+
+			iOS delivers the msauth.{BundleId}://auth redirect back to the app through this URL
+			scheme, which MsalAppDelegate forwards to MSAL. The scheme must be msauth. followed by
+			the bundle identifier - that is <ApplicationId> in Authentication.MsalDemo.csproj - and the same
+			msauth.{BundleId}://auth string must be registered on the Entra ID app registration.
+		-->
+		<key>CFBundleURLTypes</key>
+		<array>
+			<dict>
+				<key>CFBundleURLName</key>
+				<string>com.companyname.authentication.msaldemo.msal</string>
+				<key>CFBundleURLSchemes</key>
+				<array>
+					<string>msauth.com.companyname.authentication.msaldemo</string>
+				</array>
+			</dict>
+		</array>
+
+		<!--
+			Only needed if you opt in to broker sign-in (Microsoft Authenticator / Company Portal)
+			with .WithBroker(). MSAL uses these to detect whether a broker is installed.
+
+			<key>LSApplicationQueriesSchemes</key>
+			<array>
+				<string>msauthv2</string>
+				<string>msauthv3</string>
+			</array>
+		-->
+<key>LSApplicationQueriesSchemes</key>
+			<array>
+				<string>msauthv2</string>
+				<string>msauthv3</string>
+			</array>
+
+		<!--
+		Adjust this to your application's encryption usage.
+		<key>ITSAppUsesNonExemptEncryption</key>
+		<false/>
+		-->
+	</dict>
+</plist>

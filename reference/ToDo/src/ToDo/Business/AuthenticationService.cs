@@ -39,7 +39,7 @@ public class AuthenticationService : IAuthenticationService
 		return WebAuthenticationBroker.GetCurrentApplicationCallbackUri().OriginalString;
 	}
 
-	public async Task<string> GetAccessToken()
+	public async Task<string> GetAccessToken(CancellationToken ct = default)
 	{
 		var result = await AcquireSilentTokenAsync();
 

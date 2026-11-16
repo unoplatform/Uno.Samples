@@ -1,0 +1,98 @@
+<Page x:Class="Voyago.Presentation.MainPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:uen="using:Uno.Extensions.Navigation.UI"
+      xmlns:utu="using:Uno.Toolkit.UI"
+      Background="{ThemeResource BackgroundBrush}">
+
+    <!-- Adaptive shell: a NavigationView side rail on wide screens, a bottom TabBar on narrow.
+         Both are driven by {utu:Responsive} (never AdaptiveTrigger/VSM) so the breakpoint is
+         consistent app-wide and the TabBar reliably appears on phones (lessons 1/21). -->
+    <Grid x:Name="RootShellGrid" uen:Region.Attached="True">
+
+        <NavigationView x:Name="NavView"
+                        uen:Region.Attached="True"
+                        IsSettingsVisible="False"
+                        IsBackButtonVisible="Collapsed"
+                        PaneDisplayMode="{utu:Responsive Narrow=LeftMinimal, Wide=Left}"
+                        IsPaneToggleButtonVisible="{utu:Responsive Narrow=False, Wide=True}"
+                        IsPaneOpen="{utu:Responsive Narrow=False, Wide=True}">
+            <NavigationView.MenuItems>
+                <NavigationViewItem uen:Region.Name="Home" Content="Home">
+                    <NavigationViewItem.Icon>
+                        <PathIcon Data="{Binding Converter={StaticResource Icon}, ConverterParameter=home}" />
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+                <NavigationViewItem uen:Region.Name="Search" Content="Search">
+                    <NavigationViewItem.Icon>
+                        <PathIcon Data="{Binding Converter={StaticResource Icon}, ConverterParameter=search}" />
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+                <NavigationViewItem uen:Region.Name="Trips" Content="Trips">
+                    <NavigationViewItem.Icon>
+                        <PathIcon Data="{Binding Converter={StaticResource Icon}, ConverterParameter=luggage}" />
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+                <NavigationViewItem uen:Region.Name="Favorites" Content="Favorites">
+                    <NavigationViewItem.Icon>
+                        <PathIcon Data="{Binding Converter={StaticResource Icon}, ConverterParameter=heart}" />
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+                <NavigationViewItem uen:Region.Name="Profile" Content="Profile">
+                    <NavigationViewItem.Icon>
+                        <PathIcon Data="{Binding Converter={StaticResource Icon}, ConverterParameter=person}" />
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+            </NavigationView.MenuItems>
+
+            <NavigationView.Content>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <!-- Shared content area — left blank; the navigation framework injects views -->
+                    <Grid Grid.Row="0"
+                          uen:Region.Attached="True"
+                          uen:Region.Navigator="Visibility" />
+
+                    <!-- Bottom TabBar: visible on narrow only. SafeArea bottom inset keeps it clear
+                         of the home indicator (the Simple BottomTabBarStyle adds none — lesson 33). -->
+                    <utu:TabBar x:Name="BottomTabs"
+                                Grid.Row="1"
+                                uen:Region.Attached="True"
+                                Style="{StaticResource BottomTabBarStyle}"
+                                utu:SafeArea.Insets="Bottom"
+                                Visibility="{utu:Responsive Narrow=Visible, Wide=Collapsed}">
+                        <utu:TabBarItem uen:Region.Name="Home" Content="Home" FontSize="11">
+                            <utu:TabBarItem.Icon>
+                                <PathIcon Data="{Binding Converter={StaticResource Icon}, ConverterParameter=home}" />
+                            </utu:TabBarItem.Icon>
+                        </utu:TabBarItem>
+                        <utu:TabBarItem uen:Region.Name="Search" Content="Search" FontSize="11">
+                            <utu:TabBarItem.Icon>
+                                <PathIcon Data="{Binding Converter={StaticResource Icon}, ConverterParameter=search}" />
+                            </utu:TabBarItem.Icon>
+                        </utu:TabBarItem>
+                        <utu:TabBarItem uen:Region.Name="Trips" Content="Trips" FontSize="11">
+                            <utu:TabBarItem.Icon>
+                                <PathIcon Data="{Binding Converter={StaticResource Icon}, ConverterParameter=luggage}" />
+                            </utu:TabBarItem.Icon>
+                        </utu:TabBarItem>
+                        <utu:TabBarItem uen:Region.Name="Favorites" Content="Favorites" FontSize="11">
+                            <utu:TabBarItem.Icon>
+                                <PathIcon Data="{Binding Converter={StaticResource Icon}, ConverterParameter=heart}" />
+                            </utu:TabBarItem.Icon>
+                        </utu:TabBarItem>
+                        <utu:TabBarItem uen:Region.Name="Profile" Content="Profile" FontSize="11">
+                            <utu:TabBarItem.Icon>
+                                <PathIcon Data="{Binding Converter={StaticResource Icon}, ConverterParameter=person}" />
+                            </utu:TabBarItem.Icon>
+                        </utu:TabBarItem>
+                    </utu:TabBar>
+                </Grid>
+            </NavigationView.Content>
+        </NavigationView>
+    </Grid>
+</Page>

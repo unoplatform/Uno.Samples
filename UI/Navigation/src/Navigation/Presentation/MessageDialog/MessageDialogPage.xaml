@@ -1,0 +1,47 @@
+﻿<Page x:Class="Navigation.Presentation.MessageDialogPage"
+	  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	  xmlns:local="using:Navigation.Presentation"
+	  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	  xmlns:uen="using:Uno.Extensions.Navigation.UI"
+	  xmlns:utu="using:Uno.Toolkit.UI"
+	  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+	  mc:Ignorable="d">
+
+	<Grid utu:SafeArea.Insets="VisibleBounds">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition />
+		</Grid.RowDefinitions>
+
+		<utu:NavigationBar Content="Message Dialog" />
+
+		<TextBlock x:Name="MessageDialogResultText"
+				   Grid.Row="1" />
+
+		<StackPanel Grid.Row="1"
+					HorizontalAlignment="Center"
+					VerticalAlignment="Center"
+					Spacing="16">
+			<Image Width="150"
+				   Height="150"
+				   Margin="12"
+				   HorizontalAlignment="Center"
+				   Source="ms-appx:///Assets/logo.png" />
+
+			<!--  Button to show Message Dialog with XAML  -->
+			<Button uen:Navigation.Request="MyMessage"
+					Content="Show Message Dialog with XAML" />
+
+			<!--  Button to show Message Dialog with code behind  -->
+			<Button Command="{Binding ShowSimpleDialogCommand}"
+					Content="Show Message Dialog with code behind" />
+
+			<!--  Button to show Message Dialog that disappears aftrer 2 secs  -->
+			<Button Command="{Binding MessageDialogCodebehindCancelCommand}"
+					Content="MessageDialog Codebehind (cancel after 2s)" />
+
+		</StackPanel>
+	</Grid>
+</Page>

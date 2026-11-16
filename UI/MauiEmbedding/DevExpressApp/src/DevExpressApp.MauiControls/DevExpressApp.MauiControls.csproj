@@ -1,10 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
+    <!-- The DevExpress .NET MAUI controls ship Android and iOS builds only. -->
     <TargetFrameworks>
-      net8.0;
-      net8.0-android;
-      net8.0-ios;
+      net10.0-android;
+      net10.0-ios;
     </TargetFrameworks>
 
     <UseMaui>true</UseMaui>
@@ -12,13 +12,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <!-- =============================================================== -->
-    <!-- ===== IMPORTANT: TODO: Uncomment to test the DevExpressApp ==== -->
-    <!-- ===== after you added the DevExpress NuGet Feed URL =========== -->
-    <!-- ===== (https://nuget.devexpress.com/#feed-url) ================ -->
-    <!-- =============================================================== -->
-    <!--<PackageReference Include="DevExpress.Maui.Charts" />-->
-    <!--<PackageReference Include="DevExpress.Maui.DataGrid" />-->
+    <PackageReference Include="DevExpress.Maui.Charts" />
+    <PackageReference Include="DevExpress.Maui.DataGrid" />
     <PackageReference Include="Microsoft.Maui.Controls" />
     <PackageReference Include="Microsoft.Maui.Controls.Compatibility" />
   </ItemGroup>

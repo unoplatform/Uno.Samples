@@ -18,7 +18,7 @@ public sealed partial class SettingsFlyout : Flyout, IRecipient<ThemeChangedMess
 
     private void ThemeChipGroup_ItemChecked(object sender, ChipItemEventArgs e)
     {
-        if (FlyoutRoot.DataContext is BindableSettingsViewModel viewModel)
+        if (FlyoutRoot.DataContext is SettingsViewModel viewModel)
         {
 #if ANDROID
             if (_isThemeInitialized)

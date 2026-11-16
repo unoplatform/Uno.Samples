@@ -1,0 +1,77 @@
+<Page x:Class="FitBeginnerApp.Presentation.PlanPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:uen="using:Uno.Extensions.Navigation.UI"
+      xmlns:utu="using:Uno.Toolkit.UI"
+      xmlns:mvux="using:Uno.Extensions.Reactive.UI"
+      Background="{ThemeResource BackgroundBrush}">
+
+    <Grid utu:SafeArea.Insets="Top,Left,Right">
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <StackPanel Spacing="{ThemeResource Space0}" Padding="20,24,20,28" MaxWidth="1100" HorizontalAlignment="Stretch">
+
+                <!-- Header -->
+                <StackPanel x:Name="HeaderSection" Spacing="{ThemeResource Space150}" Margin="0,0,0,22">
+                    <TextBlock Text="My Training Plan"
+                               FontSize="{StaticResource FontSizeH1}"
+                               Foreground="{ThemeResource OnBackgroundBrush}" />
+                    <TextBlock Text="{Binding WeekLabel}"
+                               FontSize="{StaticResource FontSizeBody}"
+                               Foreground="{ThemeResource OnSurfaceVariantBrush}" />
+                </StackPanel>
+
+                <!-- Week progress: two de-carded stat readouts -->
+                <Border x:Name="SummarySection" Style="{StaticResource CardBorderStyle}" Margin="0,0,0,26">
+                    <Grid Padding="20,20" HorizontalAlignment="Center">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0" HorizontalAlignment="Center" Spacing="3" MinWidth="120">
+                            <TextBlock Text="{Binding ScheduledCount}"
+                                       FontSize="{StaticResource FontSizeStat}"
+                                       Foreground="{ThemeResource PrimaryBrush}"
+                                       HorizontalAlignment="Center" />
+                            <TextBlock Text="SCHEDULED"
+                                       FontSize="{StaticResource FontSizeLabel}"
+                                       CharacterSpacing="140"
+                                       Foreground="{ThemeResource OnSurfaceVariantBrush}"
+                                       HorizontalAlignment="Center" />
+                        </StackPanel>
+                        <Border Grid.Column="1" Width="1" Margin="16,4" Background="{ThemeResource OutlineVariantBrush}" />
+                        <StackPanel Grid.Column="2" HorizontalAlignment="Center" Spacing="3" MinWidth="120">
+                            <TextBlock Text="{Binding CompletedCount}"
+                                       FontSize="{StaticResource FontSizeStat}"
+                                       Foreground="{ThemeResource SecondaryBrush}"
+                                       HorizontalAlignment="Center" />
+                            <TextBlock Text="COMPLETED"
+                                       FontSize="{StaticResource FontSizeLabel}"
+                                       CharacterSpacing="140"
+                                       Foreground="{ThemeResource OnSurfaceVariantBrush}"
+                                       HorizontalAlignment="Center" />
+                        </StackPanel>
+                    </Grid>
+                </Border>
+
+                <!-- This week's schedule — each row opens the guided session -->
+                <TextBlock Text="THIS WEEK" Style="{StaticResource SectionLabelStyle}" />
+                <!-- An empty week is a real state for a member who hasn't picked a plan yet. -->
+                <mvux:FeedView x:Name="WeekListSection" Margin="0,0,0,26"
+                               Source="{Binding WeeklyPlan}"
+                               ValueTemplate="{StaticResource PlannedWorkoutListTemplate}"
+                               NoneTemplate="{StaticResource NoPlanYetTemplate}"
+                               ErrorTemplate="{StaticResource ServiceErrorTemplate}" />
+
+                <!-- Suggested plans -->
+                <TextBlock Text="SUGGESTED PLANS" Style="{StaticResource SectionLabelStyle}" />
+                <!-- A second, independent request. -->
+                <mvux:FeedView x:Name="SuggestedSection" Source="{Binding SuggestedPlans}"
+                               ValueTemplate="{StaticResource SuggestedPlanListTemplate}"
+                               NoneTemplate="{StaticResource NoResultsYetTemplate}"
+                               ErrorTemplate="{StaticResource ServiceErrorTemplate}" />
+
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</Page>

@@ -1,0 +1,31 @@
+<Page x:Class="MovieStreamApp.Presentation.MovieDetailPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:uen="using:Uno.Extensions.Navigation.UI"
+      xmlns:utu="using:Uno.Toolkit.UI"
+      xmlns:local="using:MovieStreamApp.Presentation"
+      Background="{ThemeResource BackgroundBrush}">
+
+  <!--
+    Phone/tablet detail: a full-screen page (a shell sibling, so the TabBar doesn't overlay it).
+    On desktop the same movie opens as MovieDetailModal instead (lesson 64). The content column caps
+    at 900 and centres on wide windows; Back ("-") returns to the originating tab.
+  -->
+  <Grid>
+    <local:MovieDetailContent HorizontalAlignment="Stretch" MaxWidth="900" />
+
+    <Grid utu:SafeArea.Insets="Top" VerticalAlignment="Top" HorizontalAlignment="Left">
+      <Button Style="{StaticResource IconGhostButtonStyle}"
+              Background="#66000000"
+              Foreground="White"
+              Width="44" Height="44"
+              Margin="{ThemeResource Space300Thickness}"
+              uen:Navigation.Request="-"
+              AutomationProperties.Name="Back">
+        <Viewbox Width="22" Height="22">
+          <Path Data="{Binding Source=back, Converter={StaticResource Icon}}" Fill="White" Stretch="Uniform" />
+        </Viewbox>
+      </Button>
+    </Grid>
+  </Grid>
+</Page>

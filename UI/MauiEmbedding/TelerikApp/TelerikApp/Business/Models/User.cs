@@ -1,7 +1,7 @@
 ﻿using Microsoft.Maui.Controls;
 using Microsoft.Maui.Graphics;
 // TODO: Uncomment
-//using Telerik.Maui.Controls.Compatibility.Primitives;
+//using Telerik.Maui.Controls.BadgeView;
 using AppTheme = Microsoft.Maui.ApplicationModel.AppTheme;
 using MauiApplication = Microsoft.Maui.Controls.Application;
 

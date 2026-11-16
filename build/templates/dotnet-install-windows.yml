@@ -1,23 +1,25 @@
 parameters:
-  DotNetVersion: '8.0.100'
-  UnoCheck_Version: '1.17.0-dev.20'
-  UnoCheck_Manifest: 'https://raw.githubusercontent.com/unoplatform/uno.check/3b250f49b719d1cf5ab205f997c3959b5e9fed1d/manifests/uno.ui.manifest.json'
+  DotNetVersions: ['8.0.100', '9.0.300', '10.0.x']
+  UnoCheck_Version: '1.34.1'
 
 steps:
 
-  - task: UseDotNet@2
-    displayName: 'Use .NET Core SDK ${{ parameters.DotNetVersion }}'
-    retryCountOnTaskFailure: 3
-    inputs:
-      packageType: sdk
-      version: ${{ parameters.DotNetVersion }}
-      includePreviewVersions: true
+  # Install multiple .NET SDK versions
+  - ${{ each version in parameters.DotNetVersions }}:
+    - task: UseDotNet@2
+      displayName: 'Use .NET Core SDK ${{ version }}'
+      retryCountOnTaskFailure: 3
+      inputs:
+        packageType: sdk
+        version: ${{ version }}
+        includePreviewVersions: true
 
   - template: jdk-setup.yml
-    
+
+  # Install the necessary workloads for .NET 8, 9 and 10
   - powershell: |
       & dotnet tool update --global uno.check --version ${{ parameters.UnoCheck_Version }} --add-source https://api.nuget.org/v3/index.json
-      & uno-check --pre -v --ci --non-interactive --fix --skip androidsdk --skip androidemulator --skip xcode --skip gtk3 --skip vswin --skip vsmac --manifest ${{ parameters.UnoCheck_Manifest }}
+      & uno-check --pre -v --ci --non-interactive --fix --skip androidsdk --skip androidemulator --skip xcode --skip gtk3 --skip vswin --skip vsmac
     displayName: Install .NET Workloads
     errorActionPreference: continue
     ignoreLASTEXITCODE: true

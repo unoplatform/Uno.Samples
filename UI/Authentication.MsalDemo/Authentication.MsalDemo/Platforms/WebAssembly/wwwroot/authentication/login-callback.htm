@@ -1,0 +1,44 @@
+<!--
+  MSAL redirect landing page for the WebAssembly head.
+
+  The browser will not let one origin read the URL of a page on another origin, so the sign-in
+  popup has to come back to a page served by this app. This file is that page: it is static content
+  whose only job is to exist at the registered redirect URI.
+
+  Uno's WebAssembly MSAL web UI would poll the popup until its URL starts with the redirect URI,
+  read the authorization code out of the query string, and close the window - which is why nothing
+  here needs to run any script.
+
+  That web UI is not loaded while the app enables the SkiaRenderer feature, so no popup is opened
+  and this page is never reached today - see MSAL-SETUP.md. It is still what the registered redirect
+  URI points at, so keep it at the path configured in MsalConfig.WasmRedirectPath if you intend to
+  restore a browser flow.
+-->
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Signing in...</title>
+    <style>
+        body {
+            font-family: -apple-system, "Segoe UI", system-ui, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            color: #444;
+            background: #fff;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            body {
+                color: #ddd;
+                background: #1c1c1c;
+            }
+        }
+    </style>
+</head>
+<body>
+    <p>Completing sign-in, you can close this window.</p>
+</body>
+</html>

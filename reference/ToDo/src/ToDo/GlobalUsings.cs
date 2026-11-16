@@ -44,3 +44,5 @@ global using Windows.Security.Authentication.Web;
 global using System;
 global using System.Collections.Generic;
 global using Uno.Extensions.Navigation;
+
+[assembly: Uno.Extensions.Reactive.Config.BindableGenerationTool(3)]

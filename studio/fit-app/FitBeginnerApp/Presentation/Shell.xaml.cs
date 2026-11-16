@@ -1,0 +1,63 @@
+using System;
+using System.Threading.Tasks;
+using Microsoft.UI.Dispatching;
+using Uno.Toolkit.UI;
+
+namespace FitBeginnerApp.Presentation;
+
+public sealed partial class Shell : UserControl, IContentControlProvider
+{
+    // Demo-only: a fixed minimum so the extended splash is perceptible while the app warms up.
+    // A production app would instead gate the reveal on real readiness (first navigation
+    // completing / data loaded) rather than an arbitrary delay.
+    private static readonly TimeSpan SplashMinimumDuration = TimeSpan.FromSeconds(2);
+
+    public Shell()
+    {
+        this.InitializeComponent();
+
+        var loader = new StartupLoadable();
+        ShellContent.Source = loader;
+        loader.Begin(DispatcherQueue, SplashMinimumDuration);
+    }
+
+    // Navigation injects the active page into this ExtendedSplashScreen's Content; it stays hidden
+    // behind the loading content until the loader below completes, then is revealed.
+    public ContentControl ContentControl => ShellContent;
+
+    /// <summary>
+    /// Minimal <see cref="ILoadable"/> that reports "executing" for a fixed delay, then flips to
+    /// done so the <see cref="ExtendedSplashScreen"/> reveals its content. The flag is ALWAYS
+    /// cleared — even if the UI dispatcher can't be reached — so the app can never get stuck on
+    /// the splash.
+    /// </summary>
+    private sealed class StartupLoadable : ILoadable
+    {
+        public bool IsExecuting { get; private set; } = true;
+
+        public event EventHandler? IsExecutingChanged;
+
+        public async void Begin(DispatcherQueue dispatcher, TimeSpan delay)
+        {
+            await Task.Delay(delay);
+
+            // Prefer the UI thread; if enqueue fails (dispatcher shutting down), complete inline so
+            // IsExecuting is never left stuck true — this is what guarantees the splash is dismissed.
+            if (!dispatcher.TryEnqueue(Complete))
+            {
+                Complete();
+            }
+        }
+
+        private void Complete()
+        {
+            if (!IsExecuting)
+            {
+                return;
+            }
+
+            IsExecuting = false;
+            IsExecutingChanged?.Invoke(this, EventArgs.Empty);
+        }
+    }
+}

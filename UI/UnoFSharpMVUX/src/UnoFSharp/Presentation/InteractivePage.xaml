@@ -1,0 +1,148 @@
+﻿<Page x:Class="UnoFSharp.Presentation.InteractivePage"
+      x:Name="PageRoot"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:uen="using:Uno.Extensions.Navigation.UI"
+      xmlns:utu="using:Uno.Toolkit.UI"
+      xmlns:local="using:UnoFSharp.Presentation"
+      Background="{ThemeResource BackgroundBrush}">
+
+  <Grid utu:SafeArea.Insets="VisibleBounds">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="*" />
+    </Grid.RowDefinitions>
+
+    <utu:NavigationBar Content="{Binding Title}" />
+
+    <ScrollViewer Grid.Row="1">
+      <StackPanel Padding="16" Spacing="24">
+
+        <!-- Header -->
+        <StackPanel Spacing="8">
+          <TextBlock Text="Interactive F# Todo Manager"
+                     Style="{StaticResource TitleTextBlockStyle}" />
+          <TextBlock Text="Demonstrates interactive MVUX features with F# records including commands, state management, and dynamic lists."
+                     TextWrapping="Wrap"
+                     Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                     Margin="0,0,0,8" />
+        </StackPanel>
+
+        <!-- Add New Todo Section -->
+        <StackPanel Spacing="8">
+          <TextBlock Text="Add New Todo"
+                     Style="{StaticResource SubtitleTextBlockStyle}" />
+          <TextBlock Text="Create new todo items with F# record types."
+                     TextWrapping="Wrap"
+                     Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                     Margin="0,0,0,8" />
+          <Border BorderBrush="{ThemeResource DividerStrokeColorDefaultBrush}"
+                  BorderThickness="1"
+                  CornerRadius="8"
+                  Padding="16">
+            <StackPanel Spacing="12">
+              <TextBox Text="{Binding NewTodoTitle, Mode=TwoWay}"
+                       PlaceholderText="Todo title..."
+                       Header="Title" />
+              <TextBox Text="{Binding NewTodoDescription, Mode=TwoWay}"
+                       PlaceholderText="Optional description..."
+                       Header="Description"
+                       TextWrapping="Wrap"
+                       AcceptsReturn="True"
+                       Height="80" />
+              <Grid ColumnSpacing="8">
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="*" />
+                  <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Button Grid.Column="0"
+                        Content="Add Todo"
+                        Command="{Binding AddTodo}"
+                        HorizontalAlignment="Stretch" />
+                <Button Grid.Column="1"
+                        Content="Load Samples"
+                        Command="{Binding LoadSampleData}"
+                        Style="{StaticResource TextButtonStyle}"
+                        HorizontalAlignment="Stretch" />
+              </Grid>
+            </StackPanel>
+          </Border>
+        </StackPanel>
+
+        <!-- Todo List Section -->
+        <StackPanel Spacing="8">
+          <StackPanel Orientation="Horizontal" Spacing="8">
+            <TextBlock Text="Todo List"
+                       Style="{StaticResource SubtitleTextBlockStyle}"
+                       VerticalAlignment="Center" />
+            <Button Content="Complete All"
+                    Command="{Binding CompleteAll}"
+                    Style="{StaticResource TextButtonStyle}"
+                    FontSize="12"
+                    Padding="8,4" />
+            <Button Content="Clear Completed"
+                    Command="{Binding ClearCompleted}"
+                    Style="{StaticResource TextButtonStyle}"
+                    FontSize="12"
+                    Padding="8,4" />
+          </StackPanel>
+          <TextBlock Text="Interactive list of F# TodoItem records with toggle and delete commands."
+                     TextWrapping="Wrap"
+                     Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                     Margin="0,0,0,8" />
+
+          <ItemsRepeater ItemsSource="{Binding TodoItems}">
+            <ItemsRepeater.ItemTemplate>
+              <DataTemplate>
+                <Border BorderBrush="{ThemeResource DividerStrokeColorDefaultBrush}"
+                        BorderThickness="1"
+                        CornerRadius="8"
+                        Padding="12"
+                        Margin="0,0,0,8">
+                  <Grid ColumnSpacing="12">
+                    <Grid.ColumnDefinitions>
+                      <ColumnDefinition Width="Auto" />
+                      <ColumnDefinition Width="*" />
+                      <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <CheckBox Grid.Column="0"
+                              IsChecked="{Binding IsCompleted, Mode=OneWay}"
+                              Command="{Binding DataContext.ToggleTodo, ElementName=PageRoot}"
+                              CommandParameter="{Binding}"
+                              VerticalAlignment="Top"
+                              Margin="0,4,0,0" />
+
+                    <StackPanel Grid.Column="1" Spacing="4">
+                      <TextBlock Text="{Binding Title}"
+                                 FontWeight="SemiBold" />
+                      <TextBlock Text="{Binding Description}"
+                                 Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                 FontSize="12"
+                                 TextWrapping="Wrap" />
+                      <TextBlock Text="{Binding CreatedAt}"
+                                 Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+                                 FontSize="10" />
+                    </StackPanel>
+
+                    <Button Grid.Column="2"
+                            Content="Delete"
+                            Command="{Binding DataContext.DeleteTodo, ElementName=PageRoot}"
+                            CommandParameter="{Binding}"
+                            VerticalAlignment="Center"
+                            Style="{StaticResource TextButtonStyle}"
+                            Foreground="{ThemeResource SystemFillColorCriticalBrush}" />
+                  </Grid>
+                </Border>
+              </DataTemplate>
+            </ItemsRepeater.ItemTemplate>
+          </ItemsRepeater>
+
+        </StackPanel>
+
+      
+
+      </StackPanel>
+    </ScrollViewer>
+  </Grid>
+</Page>

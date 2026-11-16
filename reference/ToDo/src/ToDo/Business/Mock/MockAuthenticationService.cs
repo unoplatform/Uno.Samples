@@ -6,7 +6,7 @@ public class MockAuthenticationService : IAuthenticationService
 {
 	private UserContext? _user;
 
-	public async Task<string> GetAccessToken() => _user?.AccessToken ?? string.Empty;
+	public async Task<string> GetAccessToken(CancellationToken ct = default) => _user?.AccessToken ?? string.Empty;
 
 	public async Task<UserContext?> GetCurrentUserAsync() => _user;
 
