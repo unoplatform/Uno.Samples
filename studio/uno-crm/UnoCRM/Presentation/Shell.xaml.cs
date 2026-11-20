@@ -5,7 +5,7 @@ using Uno.Toolkit.UI;
 
 namespace UnoCRM.Presentation;
 
-public sealed partial class Shell : UserControl
+public sealed partial class Shell : UserControl, IContentControlProvider
 {
     // Demo-only: a fixed minimum so the splash is perceptible while the app warms up.
     // A production app would instead gate the reveal on real readiness (e.g. first
@@ -20,6 +20,9 @@ public sealed partial class Shell : UserControl
         Splash.Source = loader;
         loader.Begin(DispatcherQueue, SplashMinimumDuration);
     }
+
+    // Navigation injects the active page into the splash screen's Content and reveals it once loading completes.
+    public ContentControl ContentControl => Splash;
 
     /// <summary>
     /// Minimal <see cref="ILoadable"/> that reports "executing" for a fixed delay, then
