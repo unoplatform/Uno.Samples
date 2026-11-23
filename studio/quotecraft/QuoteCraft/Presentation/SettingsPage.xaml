@@ -1,0 +1,846 @@
+<Page x:Class="QuoteCraft.Presentation.SettingsPage"
+      x:Name="SettingsRoot"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:local="using:QuoteCraft.Presentation"
+      xmlns:uen="using:Uno.Extensions.Navigation.UI"
+      xmlns:utu="using:Uno.Toolkit.UI"
+      xmlns:um="using:Uno.Material"
+      xmlns:mvux="using:Uno.Extensions.Reactive.UI"
+      Background="{ThemeResource BackgroundBrush}">
+
+  <Grid utu:SafeArea.Insets="Top">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition />
+    </Grid.RowDefinitions>
+
+    <!-- Header band -->
+    <Border Background="{ThemeResource SurfaceBrush}"
+            BorderBrush="{ThemeResource OutlineVariantBrush}"
+            BorderThickness="0,0,0,1">
+      <Grid MaxWidth="{StaticResource PageMaxWidth}"
+            Height="{StaticResource PageHeaderHeight}"
+            Padding="{utu:Responsive Narrow={StaticResource Space200HorizontalThickness}, Normal={StaticResource Space300HorizontalThickness}, Wide={StaticResource Space400HorizontalThickness}}">
+        <TextBlock Text="Settings"
+                   Style="{StaticResource TitleLargeBold}"
+                   AutomationProperties.HeadingLevel="Level1"
+                   VerticalAlignment="Center" />
+      </Grid>
+    </Border>
+
+    <!--
+      Settings per category: one form column (FormMaxWidth, centred) below 1400; from 1400 (SplitLayout) the quote
+      preview sits beside it, following the fields as they are typed. Rows are 48 px tall on Narrow (touch) and 40 px
+      from Wide.
+    -->
+    <Grid Grid.Row="1" MaxWidth="{StaticResource PageMaxWidth}"
+          Padding="{utu:Responsive Narrow={StaticResource PaneInsetNarrow}, Normal={StaticResource PaneInsetNormal}, Wide={StaticResource PaneInsetWide}, Widest={StaticResource PaneInsetWidest}}">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="*" />
+      </Grid.ColumnDefinitions>
+
+      <!-- Left Column: Settings Form -->
+      <ScrollViewer Grid.ColumnSpan="{utu:Responsive Narrowest=2, Widest=1, Layout={StaticResource SplitLayout}}"
+                    Width="{utu:Responsive Narrowest=NaN, Widest={StaticResource FormMaxWidth}, Layout={StaticResource SplitLayout}}"
+                    MaxWidth="{StaticResource FormMaxWidth}"
+                    HorizontalScrollBarVisibility="Disabled"
+                    Padding="{utu:Responsive Narrow='0', Wide={StaticResource Space300RightThickness}}">
+        <StackPanel Spacing="{StaticResource Space300}">
+
+        <!-- Load error, with Retry (a string state binds directly; a FeedView over it never renders) -->
+        <utu:CardContentControl Style="{StaticResource StaticCardStyle}" BorderThickness="0" Background="{ThemeResource ErrorContainerBrush}"
+                                CornerRadius="{StaticResource Radius300CornerRadius}" Padding="{StaticResource Inset16x12}"
+                                Visibility="{Binding LoadError, Converter={StaticResource EmptyToVisibleConverter}, ConverterParameter=Invert, FallbackValue=Collapsed}">
+          <Grid ColumnSpacing="{StaticResource Space150}">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="{Binding LoadError}" Style="{StaticResource BodyMedium}"
+                       Foreground="{ThemeResource OnErrorContainerBrush}"
+                       TextWrapping="Wrap" VerticalAlignment="Center"
+                       AutomationProperties.LiveSetting="Assertive" />
+            <Button Grid.Column="1" Content="Retry"
+                    Command="{Binding Reload}"
+                    AutomationProperties.Name="Retry loading settings"
+                    Style="{StaticResource OutlinedButtonStyle}" />
+          </Grid>
+        </utu:CardContentControl>
+
+        <!-- Upgrade Banner (only where billing is configured; AccountSettingsModel) -->
+        <utu:CardContentControl Style="{StaticResource BannerCardStyle}" RequestedTheme="Light" Padding="{StaticResource Space300Thickness}"
+                DataContext="{Binding Account}"
+                Visibility="{Binding LocalModeNote, Converter={StaticResource EmptyToVisibleConverter}}">
+          <StackPanel Spacing="{StaticResource Space200}">
+            <StackPanel Spacing="{StaticResource Space050}">
+              <TextBlock Text="Unlock QuoteCraft Pro"
+                         Style="{StaticResource TitleMedium}"
+                         Foreground="{ThemeResource OnPrimaryBrush}" FontWeight="Bold" />
+              <TextBlock Text="Unlimited quotes, custom branding, and priority support"
+                         Style="{StaticResource BodySmall}"
+                         Foreground="{ThemeResource OnPrimaryMediumBrush}"
+                         TextWrapping="Wrap" />
+            </StackPanel>
+            <!-- Monthly, or yearly at the annual discount (PRD F13.6) -->
+            <StackPanel Orientation="Horizontal" Spacing="{StaticResource Space100}">
+              <Button Style="{StaticResource AccentButtonStyle}"
+                      Command="{Binding UpgradeToPro}"
+                      AutomationProperties.Name="Upgrade to Pro, billed monthly">
+                <TextBlock Text="Upgrade — $15/mo"
+                           Style="{StaticResource LabelLargeSemiBold}" />
+              </Button>
+              <Button Style="{StaticResource OutlinedButtonStyle}"
+                      Command="{Binding UpgradeToProAnnual}"
+                      BorderBrush="{ThemeResource OnPrimaryBrush}"
+                      Foreground="{ThemeResource OnPrimaryBrush}"
+                      MinHeight="{StaticResource ControlHeightMediumLarge}"
+                      AutomationProperties.Name="Upgrade to Pro, billed yearly">
+                <TextBlock Text="$144/yr (save 20%)" Style="{StaticResource LabelLargeSemiBold}" />
+              </Button>
+            </StackPanel>
+          </StackPanel>
+        </utu:CardContentControl>
+
+        <!-- BUSINESS INFO -->
+        <StackPanel Spacing="{StaticResource Space100}">
+          <TextBlock Text="BUSINESS INFO"
+                     Style="{StaticResource LabelSmall}"
+                     Foreground="{ThemeResource OnSurfaceVariantBrush}"
+                     FontWeight="Bold" Margin="{StaticResource Space050LeftThickness}" AutomationProperties.HeadingLevel="Level2" />
+
+          <utu:CardContentControl Style="{StaticResource StaticCardStyle}">
+            <StackPanel>
+              <Grid Padding="{StaticResource Space250HorizontalThickness}" MinHeight="{utu:Responsive Narrow={StaticResource TouchTargetMinSize}, Wide={StaticResource ControlHeightMedium}}">
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="{StaticResource FormLabelWidth}" />
+                  <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Business Name" Style="{StaticResource BodyMedium}"
+                           FontWeight="Medium" VerticalAlignment="Center" />
+                <TextBox Grid.Column="1"
+                         Text="{Binding BusinessName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         PlaceholderText="Your company name"
+                         AutomationProperties.Name="Business name"
+                         Style="{StaticResource InlineTextBoxStyle}"
+                         HorizontalAlignment="Stretch" TextAlignment="Right" />
+              </Grid>
+              <Border Height="{StaticResource HairlineThickness}" Background="{ThemeResource OutlineVariantBrush}" Margin="{StaticResource Space250HorizontalThickness}" />
+
+              <Grid Padding="{StaticResource Space250HorizontalThickness}" MinHeight="{utu:Responsive Narrow={StaticResource TouchTargetMinSize}, Wide={StaticResource ControlHeightMedium}}">
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="{StaticResource FormLabelWidth}" />
+                  <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Phone" Style="{StaticResource BodyMedium}"
+                           FontWeight="Medium" VerticalAlignment="Center" />
+                <TextBox Grid.Column="1"
+                         Text="{Binding Phone, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         PlaceholderText="(555) 123-4567"
+                         AutomationProperties.Name="Phone number"
+                         InputScope="TelephoneNumber"
+                         Style="{StaticResource InlineTextBoxStyle}"
+                         HorizontalAlignment="Stretch" TextAlignment="Right" />
+              </Grid>
+              <Border Height="{StaticResource HairlineThickness}" Background="{ThemeResource OutlineVariantBrush}" Margin="{StaticResource Space250HorizontalThickness}" />
+
+              <Grid Padding="{StaticResource Space250HorizontalThickness}" MinHeight="{utu:Responsive Narrow={StaticResource TouchTargetMinSize}, Wide={StaticResource ControlHeightMedium}}">
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="{StaticResource FormLabelWidth}" />
+                  <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Email" Style="{StaticResource BodyMedium}"
+                           FontWeight="Medium" VerticalAlignment="Center" />
+                <TextBox Grid.Column="1"
+                         Text="{Binding Email, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         PlaceholderText="you@company.com"
+                         AutomationProperties.Name="Email address"
+                         InputScope="EmailSmtpAddress"
+                         Style="{StaticResource InlineTextBoxStyle}"
+                         HorizontalAlignment="Stretch" TextAlignment="Right" />
+              </Grid>
+              <Border Height="{StaticResource HairlineThickness}" Background="{ThemeResource OutlineVariantBrush}" Margin="{StaticResource Space250HorizontalThickness}" />
+
+              <Grid Padding="{StaticResource Space250HorizontalThickness}" MinHeight="{utu:Responsive Narrow={StaticResource TouchTargetMinSize}, Wide={StaticResource ControlHeightMedium}}">
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="{StaticResource FormLabelWidth}" />
+                  <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Address" Style="{StaticResource BodyMedium}"
+                           FontWeight="Medium" VerticalAlignment="Center" />
+                <TextBox Grid.Column="1"
+                         Text="{Binding Address, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         PlaceholderText="123 Trade St, Anytown USA"
+                         AutomationProperties.Name="Business address"
+                         Style="{StaticResource InlineTextBoxStyle}"
+                         HorizontalAlignment="Stretch" TextAlignment="Right" />
+              </Grid>
+              <Border Height="{StaticResource HairlineThickness}" Background="{ThemeResource OutlineVariantBrush}" Margin="{StaticResource Space250HorizontalThickness}" />
+
+              <Grid Padding="{StaticResource Space250HorizontalThickness}" MinHeight="{utu:Responsive Narrow={StaticResource TouchTargetMinSize}, Wide={StaticResource ControlHeightMedium}}">
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="{StaticResource FormLabelWidth}" />
+                  <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Website" Style="{StaticResource BodyMedium}"
+                           FontWeight="Medium" VerticalAlignment="Center" />
+                <TextBox Grid.Column="1"
+                         Text="{Binding Website, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         PlaceholderText="www.yourcompany.com"
+                         AutomationProperties.Name="Website"
+                         InputScope="Url"
+                         Style="{StaticResource InlineTextBoxStyle}"
+                         HorizontalAlignment="Stretch" TextAlignment="Right" />
+              </Grid>
+              <Border Height="{StaticResource HairlineThickness}" Background="{ThemeResource OutlineVariantBrush}" Margin="{StaticResource Space250HorizontalThickness}" />
+
+              <Grid Padding="{StaticResource Space250HorizontalThickness}" MinHeight="{utu:Responsive Narrow={StaticResource TouchTargetMinSize}, Wide={StaticResource ControlHeightMedium}}">
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="{StaticResource FormLabelWidth}" />
+                  <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Business #" Style="{StaticResource BodyMedium}"
+                           FontWeight="Medium" VerticalAlignment="Center" />
+                <TextBox Grid.Column="1"
+                         Text="{Binding BusinessNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         PlaceholderText="e.g. BN123456789"
+                         AutomationProperties.Name="Business number"
+                         Style="{StaticResource InlineTextBoxStyle}"
+                         HorizontalAlignment="Stretch" TextAlignment="Right" />
+              </Grid>
+              <Border Height="{StaticResource HairlineThickness}" Background="{ThemeResource OutlineVariantBrush}" Margin="{StaticResource Space250HorizontalThickness}" />
+
+              <Grid Padding="{StaticResource Space250HorizontalThickness}" MinHeight="{utu:Responsive Narrow={StaticResource TouchTargetMinSize}, Wide={StaticResource ControlHeightMedium}}">
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="{StaticResource FormLabelWidth}" />
+                  <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Logo" Style="{StaticResource BodyMedium}"
+                           FontWeight="Medium" VerticalAlignment="Center" />
+                <StackPanel Grid.Column="1" Orientation="Horizontal"
+                            HorizontalAlignment="Right" Spacing="{StaticResource Space100}" VerticalAlignment="Center">
+                  <!-- xaml-lint: allow card - clips the logo thumbnail to rounded corners with a hairline stroke -->
+                  <Border Width="{StaticResource LogoThumbSize}" Height="{StaticResource LogoThumbSize}" CornerRadius="{StaticResource Radius100CornerRadius}"
+                          BorderBrush="{ThemeResource OutlineVariantBrush}" BorderThickness="1"
+                          Visibility="{Binding LogoPath, Converter={StaticResource EmptyToVisibleConverter}, ConverterParameter=Invert, FallbackValue=Collapsed}">
+                    <Image Source="{Binding LogoPath}" Stretch="UniformToFill" AutomationProperties.Name="Business logo" />
+                  </Border>
+                  <TextBlock Text="{Binding LogoFileName}"
+                             Style="{StaticResource BodySmall}"
+                             Foreground="{ThemeResource OnSurfaceVariantBrush}"
+                             VerticalAlignment="Center"
+                             MaxWidth="{StaticResource FileNameMaxWidth}" TextTrimming="CharacterEllipsis"
+                             Visibility="{Binding LogoPath, Converter={StaticResource EmptyToVisibleConverter}, ConverterParameter=Invert, FallbackValue=Collapsed}" />
+                  <!-- Remove (when there is a logo): the copy goes, and Save stores the profile without it -->
+                  <Button Command="{Binding RemoveLogo}"
+                          AutomationProperties.Name="Remove logo"
+                          ToolTipService.ToolTip="Remove logo"
+                          Style="{StaticResource TextButtonStyle}"
+                          MinHeight="{StaticResource ControlHeightMediumLarge}" MinWidth="{StaticResource ControlHeightMediumLarge}"
+                          Padding="{StaticResource Space100HorizontalThickness}"
+                          Visibility="{Binding LogoPath, Converter={StaticResource EmptyToVisibleConverter}, ConverterParameter=Invert, FallbackValue=Collapsed}">
+                    <FontIcon Glyph="&#xE74D;" FontSize="{StaticResource BodySmallFontSize}"
+                              Foreground="{ThemeResource ErrorBrush}" VerticalAlignment="Center" />
+                  </Button>
+                  <Button Command="{Binding UploadLogo}"
+                          AutomationProperties.Name="Upload logo"
+                          Style="{StaticResource TextButtonStyle}"
+                          MinHeight="{StaticResource ControlHeightMediumLarge}" Padding="{StaticResource Space100HorizontalThickness}">
+                    <StackPanel Orientation="Horizontal" Spacing="{StaticResource Space050}">
+                      <TextBlock Text="Upload" Style="{StaticResource BodyMedium}"
+                                 Foreground="{ThemeResource PrimaryBrush}" />
+                      <FontIcon Glyph="&#xE898;" FontSize="{StaticResource BodySmallFontSize}"
+                                Foreground="{ThemeResource PrimaryBrush}" VerticalAlignment="Center" />
+                    </StackPanel>
+                  </Button>
+                </StackPanel>
+              </Grid>
+              <!-- What Upload or Remove could not do -->
+              <TextBlock Text="{Binding LogoError}"
+                         Style="{StaticResource BodySmall}"
+                         Foreground="{ThemeResource ErrorBrush}"
+                         TextWrapping="Wrap"
+                         Margin="{StaticResource Space200HorizontalThickness}"
+                         AutomationProperties.LiveSetting="Assertive"
+                         Visibility="{Binding LogoError, Converter={StaticResource EmptyToVisibleConverter}, ConverterParameter=Invert, FallbackValue=Collapsed}" />
+            </StackPanel>
+          </utu:CardContentControl>
+        </StackPanel>
+
+        <!-- QUOTE SETTINGS -->
+        <StackPanel Spacing="{StaticResource Space100}">
+          <TextBlock Text="QUOTE SETTINGS"
+                     Style="{StaticResource LabelSmall}"
+                     Foreground="{ThemeResource OnSurfaceVariantBrush}"
+                     FontWeight="Bold" Margin="{StaticResource Space050LeftThickness}" AutomationProperties.HeadingLevel="Level2" />
+
+          <utu:CardContentControl Style="{StaticResource StaticCardStyle}">
+            <StackPanel>
+              <Grid Padding="{StaticResource Space250HorizontalThickness}" MinHeight="{utu:Responsive Narrow={StaticResource TouchTargetMinSize}, Wide={StaticResource ControlHeightMedium}}">
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="*" />
+                  <ColumnDefinition Width="Auto" />
+                  <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Default Tax Rate" Style="{StaticResource BodyMedium}"
+                           FontWeight="Medium" VerticalAlignment="Center" />
+                <TextBox Grid.Column="1"
+                         Text="{Binding DefaultTaxRate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         PlaceholderText="8.5" InputScope="Number"
+                         AutomationProperties.Name="Default tax rate"
+                         Width="{StaticResource NumberFieldWidth}" MinHeight="{StaticResource CompactFieldHeight}" Padding="{StaticResource CompactFieldInset}"
+                         BorderBrush="{ThemeResource OutlineVariantBrush}"
+                         BorderThickness="1" CornerRadius="{StaticResource Radius200CornerRadius}"
+                         Background="Transparent" TextAlignment="Right"
+                         VerticalAlignment="Center" />
+                <TextBlock Grid.Column="2" Text="%" Style="{StaticResource BodyMedium}"
+                           Foreground="{ThemeResource OnSurfaceVariantBrush}"
+                           VerticalAlignment="Center" Margin="{StaticResource Space050LeftThickness}"
+                           Width="{StaticResource UnitLabelWidth}" TextAlignment="Left" />
+              </Grid>
+              <Border Height="{StaticResource HairlineThickness}" Background="{ThemeResource OutlineVariantBrush}" Margin="{StaticResource Space250HorizontalThickness}" />
+
+              <Grid Padding="{StaticResource Space250HorizontalThickness}" MinHeight="{utu:Responsive Narrow={StaticResource TouchTargetMinSize}, Wide={StaticResource ControlHeightMedium}}">
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="*" />
+                  <ColumnDefinition Width="Auto" />
+                  <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Default Markup" Style="{StaticResource BodyMedium}"
+                           FontWeight="Medium" VerticalAlignment="Center" />
+                <TextBox Grid.Column="1"
+                         Text="{Binding DefaultMarkup, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         PlaceholderText="15" InputScope="Number"
+                         AutomationProperties.Name="Default markup percentage"
+                         Width="{StaticResource NumberFieldWidth}" MinHeight="{StaticResource CompactFieldHeight}" Padding="{StaticResource CompactFieldInset}"
+                         BorderBrush="{ThemeResource OutlineVariantBrush}"
+                         BorderThickness="1" CornerRadius="{StaticResource Radius200CornerRadius}"
+                         Background="Transparent" TextAlignment="Right"
+                         VerticalAlignment="Center" />
+                <TextBlock Grid.Column="2" Text="%" Style="{StaticResource BodyMedium}"
+                           Foreground="{ThemeResource OnSurfaceVariantBrush}"
+                           VerticalAlignment="Center" Margin="{StaticResource Space050LeftThickness}"
+                           Width="{StaticResource UnitLabelWidth}" TextAlignment="Left" />
+              </Grid>
+              <Border Height="{StaticResource HairlineThickness}" Background="{ThemeResource OutlineVariantBrush}" Margin="{StaticResource Space250HorizontalThickness}" />
+
+              <Grid Padding="{StaticResource Space250HorizontalThickness}" MinHeight="{utu:Responsive Narrow={StaticResource TouchTargetMinSize}, Wide={StaticResource ControlHeightMedium}}">
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="*" />
+                  <ColumnDefinition Width="Auto" />
+                  <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <StackPanel Orientation="Horizontal" Spacing="{StaticResource Space050}" VerticalAlignment="Center">
+                  <TextBlock Text="Valid For" Style="{StaticResource BodyMedium}"
+                             FontWeight="Medium" />
+                  <TextBlock Text="(days)" Style="{StaticResource BodySmall}"
+                             Foreground="{ThemeResource OnSurfaceVariantBrush}"
+                             VerticalAlignment="Center" />
+                </StackPanel>
+                <TextBox Grid.Column="1"
+                         Text="{Binding QuoteValidDays, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         PlaceholderText="14" InputScope="Number"
+                         AutomationProperties.Name="Quote valid days"
+                         Width="{StaticResource NumberFieldWidth}" MinHeight="{StaticResource CompactFieldHeight}" Padding="{StaticResource CompactFieldInset}"
+                         BorderBrush="{ThemeResource OutlineVariantBrush}"
+                         BorderThickness="1" CornerRadius="{StaticResource Radius200CornerRadius}"
+                         Background="Transparent" TextAlignment="Right"
+                         VerticalAlignment="Center" />
+                <TextBlock Grid.Column="2" Text="" Style="{StaticResource BodyMedium}"
+                           Width="{StaticResource UnitLabelWidth}" />
+              </Grid>
+              <Border Height="{StaticResource HairlineThickness}" Background="{ThemeResource OutlineVariantBrush}" Margin="{StaticResource Space250HorizontalThickness}" />
+
+              <Grid Padding="{StaticResource Space250HorizontalThickness}" MinHeight="{utu:Responsive Narrow={StaticResource TouchTargetMinSize}, Wide={StaticResource ControlHeightMedium}}">
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="*" />
+                  <ColumnDefinition Width="Auto" />
+                  <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Currency" Style="{StaticResource BodyMedium}"
+                           FontWeight="Medium" VerticalAlignment="Center" />
+                <ComboBox Grid.Column="1"
+                          SelectedItem="{Binding CurrencyCode, Mode=TwoWay}"
+                          VerticalAlignment="Center"
+                          MinWidth="{StaticResource CompactPickerMinWidth}" BorderThickness="0"
+                          Background="Transparent"
+                          AutomationProperties.Name="Currency">
+                  <x:String>USD</x:String>
+                  <x:String>CAD</x:String>
+                </ComboBox>
+                <TextBlock Grid.Column="2" Text="" Style="{StaticResource BodyMedium}"
+                           Width="{StaticResource UnitLabelWidth}" />
+              </Grid>
+              <Border Height="{StaticResource HairlineThickness}" Background="{ThemeResource OutlineVariantBrush}" Margin="{StaticResource Space250HorizontalThickness}" />
+
+              <Grid Padding="{StaticResource Space250HorizontalThickness}" MinHeight="{utu:Responsive Narrow={StaticResource TouchTargetMinSize}, Wide={StaticResource ControlHeightMedium}}">
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="*" />
+                  <ColumnDefinition Width="Auto" />
+                  <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Quote Prefix" Style="{StaticResource BodyMedium}"
+                           FontWeight="Medium" VerticalAlignment="Center" />
+                <TextBox Grid.Column="1"
+                         Text="{Binding QuoteNumberPrefix, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         PlaceholderText="QC-"
+                         AutomationProperties.Name="Quote number prefix"
+                         Width="{StaticResource NumberFieldWidth}" MinHeight="{StaticResource CompactFieldHeight}" Padding="{StaticResource CompactFieldInset}"
+                         BorderBrush="{ThemeResource OutlineVariantBrush}"
+                         BorderThickness="1" CornerRadius="{StaticResource Radius200CornerRadius}"
+                         Background="Transparent" TextAlignment="Right"
+                         VerticalAlignment="Center" />
+                <TextBlock Grid.Column="2" Text="" Style="{StaticResource BodyMedium}"
+                           Width="{StaticResource UnitLabelWidth}" />
+              </Grid>
+              <Border Height="{StaticResource HairlineThickness}" Background="{ThemeResource OutlineVariantBrush}" Margin="{StaticResource Space250HorizontalThickness}" />
+
+              <Grid Padding="{StaticResource Space250HorizontalThickness}" MinHeight="{utu:Responsive Narrow={StaticResource TouchTargetMinSize}, Wide={StaticResource ControlHeightMedium}}">
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="{StaticResource FormLabelWidth}" />
+                  <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Custom Footer" Style="{StaticResource BodyMedium}"
+                           FontWeight="Medium" VerticalAlignment="Center" />
+                <TextBox Grid.Column="1"
+                         Text="{Binding CustomFooter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         PlaceholderText="e.g. Thank you for your business!"
+                         AutomationProperties.Name="Custom footer text"
+                         Style="{StaticResource InlineTextBoxStyle}"
+                         HorizontalAlignment="Stretch" TextAlignment="Right" />
+              </Grid>
+            </StackPanel>
+          </utu:CardContentControl>
+        </StackPanel>
+
+        <!-- MY CATALOGS -->
+        <StackPanel Spacing="{StaticResource Space100}">
+          <TextBlock Text="MY CATALOGS"
+                     Style="{StaticResource LabelSmall}"
+                     Foreground="{ThemeResource OnSurfaceVariantBrush}"
+                     FontWeight="Bold" Margin="{StaticResource Space050LeftThickness}" AutomationProperties.HeadingLevel="Level2" />
+
+          <utu:CardContentControl Style="{StaticResource StaticCardStyle}">
+            <StackPanel>
+              <Grid Padding="{StaticResource Space250HorizontalThickness}" MinHeight="{utu:Responsive Narrow={StaticResource TouchTargetMinSize}, Wide={StaticResource ControlHeightMedium}}">
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="Auto" />
+                  <ColumnDefinition Width="*" />
+                  <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <FontIcon Glyph="&#xE82D;" FontSize="{StaticResource IconSizeSmall}"
+                          Foreground="{ThemeResource PrimaryBrush}"
+                          VerticalAlignment="Center" Margin="{StaticResource Space150RightThickness}" />
+                <TextBlock Grid.Column="1" Text="Catalog items"
+                           Style="{StaticResource BodyMediumWeightMedium}"
+                           VerticalAlignment="Center" />
+                <!-- A primitive feed binds directly: a FeedView over IFeed<int> never leaves its progress template -->
+                <TextBlock Grid.Column="2" Style="{StaticResource BodySmall}"
+                           Foreground="{ThemeResource OnSurfaceVariantBrush}"
+                           VerticalAlignment="Center">
+                  <Run Text="{Binding CatalogItemCount}" /><Run Text=" items" />
+                </TextBlock>
+              </Grid>
+              <Border Height="{StaticResource HairlineThickness}" Background="{ThemeResource OutlineVariantBrush}" Margin="{StaticResource Space250HorizontalThickness}" />
+
+              <!-- Opens the Catalog page, where categories and items are added -->
+              <Button Command="{Binding OpenCatalog}"
+                      Style="{StaticResource TextButtonStyle}"
+                      HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"
+                      MinHeight="{StaticResource ControlHeightMediumLarge}"
+                      Padding="{StaticResource Space250HorizontalThickness}"
+                      Content="Manage catalog"
+                      AutomationProperties.Name="Manage catalog" />
+            </StackPanel>
+          </utu:CardContentControl>
+        </StackPanel>
+
+        <!-- APPEARANCE: System (default), Light or Dark; saved and restored at launch (ThemeSettingsModel) -->
+        <StackPanel Spacing="{StaticResource Space100}" DataContext="{Binding Appearance}">
+          <TextBlock Text="APPEARANCE"
+                     Style="{StaticResource LabelSmall}"
+                     Foreground="{ThemeResource OnSurfaceVariantBrush}"
+                     FontWeight="Bold" Margin="{StaticResource Space050LeftThickness}" AutomationProperties.HeadingLevel="Level2" />
+
+          <utu:CardContentControl Style="{StaticResource StaticCardStyle}">
+            <Grid Padding="{StaticResource Space250HorizontalThickness}" MinHeight="{utu:Responsive Narrow={StaticResource TouchTargetMinSize}, Wide={StaticResource ControlHeightMedium}}">
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="{StaticResource FormLabelWidth}" />
+                <ColumnDefinition Width="*" />
+              </Grid.ColumnDefinitions>
+              <TextBlock Text="Theme" Style="{StaticResource BodyMedium}"
+                         FontWeight="Medium" VerticalAlignment="Center" />
+              <ComboBox Grid.Column="1"
+                        SelectedIndex="{Binding ThemeIndex, Mode=TwoWay}"
+                        AutomationProperties.Name="Theme"
+                        HorizontalAlignment="Right" VerticalAlignment="Center"
+                        Margin="{StaticResource Space050VerticalThickness}">
+                <ComboBoxItem Content="System default" />
+                <ComboBoxItem Content="Light" />
+                <ComboBoxItem Content="Dark" />
+              </ComboBox>
+            </Grid>
+          </utu:CardContentControl>
+        </StackPanel>
+
+        <!-- Account and billing (AccountSettingsModel): the local-mode note, or the subscription and the account -->
+        <StackPanel Spacing="{StaticResource Space300}" DataContext="{Binding Account}">
+          <!-- LOCAL MODE (no Supabase project configured: no account, sync or plans) -->
+          <StackPanel Spacing="{StaticResource Space100}"
+                      Visibility="{Binding LocalModeNote, Converter={StaticResource EmptyToVisibleConverter}, ConverterParameter=Invert}">
+            <TextBlock Text="ACCOUNT"
+                       Style="{StaticResource LabelSmall}"
+                       Foreground="{ThemeResource OnSurfaceVariantBrush}"
+                       FontWeight="Bold" Margin="{StaticResource Space050LeftThickness}" AutomationProperties.HeadingLevel="Level2" />
+
+            <utu:CardContentControl Style="{StaticResource StaticCardStyle}" Padding="{StaticResource Inset20x12}">
+              <Grid ColumnSpacing="{StaticResource Space150}">
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="Auto" />
+                  <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <FontIcon Glyph="&#xE977;" FontSize="{StaticResource IconSizeSmall}"
+                          Foreground="{ThemeResource OnSurfaceVariantBrush}"
+                          VerticalAlignment="Top" Margin="{StaticResource Space025TopThickness}" />
+                <TextBlock Grid.Column="1"
+                           Text="{Binding LocalModeNote}"
+                           Style="{StaticResource BodyMedium}"
+                           Foreground="{ThemeResource OnSurfaceVariantBrush}"
+                           TextWrapping="Wrap" />
+              </Grid>
+            </utu:CardContentControl>
+          </StackPanel>
+
+          <!-- SUBSCRIPTION -->
+          <StackPanel Spacing="{StaticResource Space100}"
+                      Visibility="{Binding LocalModeNote, Converter={StaticResource EmptyToVisibleConverter}}">
+            <TextBlock Text="SUBSCRIPTION"
+                       Style="{StaticResource LabelSmall}"
+                       Foreground="{ThemeResource OnSurfaceVariantBrush}"
+                       FontWeight="Bold" Margin="{StaticResource Space050LeftThickness}" AutomationProperties.HeadingLevel="Level2" />
+
+            <utu:CardContentControl Style="{StaticResource StaticCardStyle}">
+              <StackPanel>
+                <Grid Padding="{StaticResource Space250HorizontalThickness}" MinHeight="{utu:Responsive Narrow={StaticResource TouchTargetMinSize}, Wide={StaticResource ControlHeightMedium}}">
+                  <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                  </Grid.ColumnDefinitions>
+                  <TextBlock Text="Current Plan" Style="{StaticResource BodyMedium}"
+                             FontWeight="Medium" VerticalAlignment="Center" />
+                  <TextBlock Grid.Column="1" Text="{Binding CurrentPlanName}"
+                             Style="{StaticResource BodyMedium}"
+                             Foreground="{ThemeResource OnSurfaceVariantBrush}"
+                             HorizontalAlignment="Right" VerticalAlignment="Center" />
+                </Grid>
+                <Border Height="{StaticResource HairlineThickness}" Background="{ThemeResource OutlineVariantBrush}" Margin="{StaticResource Space250HorizontalThickness}" />
+
+                <Grid Padding="{StaticResource Space250HorizontalThickness}" MinHeight="{utu:Responsive Narrow={StaticResource TouchTargetMinSize}, Wide={StaticResource ControlHeightMedium}}">
+                  <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                  </Grid.ColumnDefinitions>
+                  <TextBlock Text="Quotes Used" Style="{StaticResource BodyMedium}"
+                             FontWeight="Medium" VerticalAlignment="Center" />
+                  <TextBlock Grid.Column="1" Text="{Binding QuotaUsage}"
+                             Style="{StaticResource BodyMedium}"
+                             Foreground="{ThemeResource OnSurfaceVariantBrush}"
+                             HorizontalAlignment="Right" VerticalAlignment="Center" />
+                </Grid>
+                <Border Height="{StaticResource HairlineThickness}" Background="{ThemeResource OutlineVariantBrush}" Margin="{StaticResource Space250HorizontalThickness}" />
+
+                <Grid Padding="{StaticResource Space250HorizontalThickness}" MinHeight="{utu:Responsive Narrow={StaticResource TouchTargetMinSize}, Wide={StaticResource ControlHeightMedium}}">
+                  <Button Command="{Binding ManageSubscription}"
+                          HorizontalAlignment="Stretch"
+                          Style="{StaticResource TextButtonStyle}"
+                          AutomationProperties.Name="Manage subscription">
+                    <StackPanel Orientation="Horizontal" Spacing="{StaticResource Space100}">
+                      <FontIcon Glyph="&#xE8A7;" FontSize="{StaticResource IconSizeSmall}"
+                                Foreground="{ThemeResource PrimaryBrush}" />
+                      <TextBlock Text="Manage Subscription"
+                                 Style="{StaticResource BodyMedium}"
+                                 Foreground="{ThemeResource PrimaryBrush}" />
+                    </StackPanel>
+                  </Button>
+                </Grid>
+              </StackPanel>
+            </utu:CardContentControl>
+          </StackPanel>
+
+          <!-- ACCOUNT (a Supabase project is configured; cloud sync is still off: DECISIONS D8) -->
+          <StackPanel Spacing="{StaticResource Space100}"
+                      Visibility="{Binding LocalModeNote, Converter={StaticResource EmptyToVisibleConverter}}">
+            <TextBlock Text="ACCOUNT"
+                       Style="{StaticResource LabelSmall}"
+                       Foreground="{ThemeResource OnSurfaceVariantBrush}"
+                       FontWeight="Bold" Margin="{StaticResource Space050LeftThickness}" AutomationProperties.HeadingLevel="Level2" />
+            <TextBlock Text="Cloud sync is off in this version: your quotes, clients and settings stay on this device. Your account is used for your plan."
+                       Style="{StaticResource BodySmall}"
+                       Foreground="{ThemeResource OnSurfaceVariantBrush}"
+                       TextWrapping="Wrap" Margin="{StaticResource Space050LeftThickness}" />
+
+            <utu:CardContentControl Style="{StaticResource StaticCardStyle}">
+              <Grid Padding="{StaticResource Space250HorizontalThickness}" MinHeight="{utu:Responsive Narrow={StaticResource TouchTargetMinSize}, Wide={StaticResource ControlHeightMedium}}">
+                <!-- Signed out: Sign In opens the sign-in page; signed in: Sign Out -->
+                <Button Command="{Binding SignIn}"
+                        HorizontalAlignment="Stretch"
+                        Style="{StaticResource TextButtonStyle}"
+                        AutomationProperties.Name="Sign in"
+                        Visibility="{Binding IsSignedIn, Converter={StaticResource InverseBoolConverter}, FallbackValue=Visible}">
+                  <StackPanel Orientation="Horizontal" Spacing="{StaticResource Space100}">
+                    <FontIcon Glyph="&#xE77B;" FontSize="{StaticResource IconSizeSmall}"
+                              Foreground="{ThemeResource PrimaryBrush}" />
+                    <TextBlock Text="Sign In"
+                               Style="{StaticResource BodyMedium}"
+                               Foreground="{ThemeResource PrimaryBrush}" />
+                  </StackPanel>
+                </Button>
+                <Button Command="{Binding SignOut}"
+                        HorizontalAlignment="Stretch"
+                        Style="{StaticResource TextButtonStyle}"
+                        AutomationProperties.Name="Sign out"
+                        Visibility="{Binding IsSignedIn, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Collapsed}">
+                  <StackPanel Orientation="Horizontal" Spacing="{StaticResource Space100}">
+                    <FontIcon Glyph="&#xE7E8;" FontSize="{StaticResource IconSizeSmall}"
+                              Foreground="{ThemeResource ErrorBrush}" />
+                    <TextBlock Text="Sign Out"
+                               Style="{StaticResource BodyMedium}"
+                               Foreground="{ThemeResource ErrorBrush}" />
+                  </StackPanel>
+                </Button>
+              </Grid>
+            </utu:CardContentControl>
+          </StackPanel>
+        </StackPanel>
+
+        <!-- Save: validation, saving and saved states -->
+        <StackPanel Spacing="{StaticResource Space100}">
+          <!-- String states bind directly (a FeedView over IState<string> never renders) -->
+          <StackPanel Orientation="Horizontal" Spacing="{StaticResource Space100}"
+                      Visibility="{Binding ValidationError, Converter={StaticResource EmptyToVisibleConverter}, ConverterParameter=Invert, FallbackValue=Collapsed}">
+            <FontIcon Glyph="&#xE783;" FontSize="{StaticResource BodyMediumFontSize}" Foreground="{ThemeResource ErrorBrush}" />
+            <TextBlock Text="{Binding ValidationError}" Style="{StaticResource BodyMedium}"
+                       Foreground="{ThemeResource ErrorBrush}" TextWrapping="Wrap"
+                       AutomationProperties.LiveSetting="Assertive" />
+          </StackPanel>
+          <StackPanel Orientation="Horizontal" Spacing="{StaticResource Space100}"
+                      Visibility="{Binding SavedMessage, Converter={StaticResource EmptyToVisibleConverter}, ConverterParameter=Invert, FallbackValue=Collapsed}">
+            <FontIcon Glyph="&#xE73E;" FontSize="{StaticResource BodyMediumFontSize}" Foreground="{ThemeResource SuccessBrush}" />
+            <TextBlock Text="{Binding SavedMessage}" Style="{StaticResource BodyMedium}" TextWrapping="Wrap"
+                       AutomationProperties.LiveSetting="Polite" />
+          </StackPanel>
+          <!-- IsIndeterminate follows IsSaving too: a collapsed indeterminate bar keeps animating (a full CPU core on Skia) -->
+          <ProgressBar IsIndeterminate="{Binding IsSaving}" AutomationProperties.Name="Saving"
+                       Visibility="{Binding IsSaving, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Collapsed}" />
+        </StackPanel>
+
+        <Button Content="Save Settings"
+                Command="{Binding Save}"
+                AutomationProperties.Name="Save settings"
+                HorizontalAlignment="Stretch"
+                MinHeight="{StaticResource ControlHeightMediumLarge}"
+                Style="{StaticResource FilledButtonStyle}" />
+
+        </StackPanel>
+      </ScrollViewer>
+
+      <!--
+        Right column (from 1400): a preview of a new quote with these settings, worked out as they are typed
+        (SettingsModel.Preview): the business header and logo, the number, today and the validity, sample items priced
+        with the markup, tax at the default rate and the total, in the currency, and the footer.
+      -->
+      <ScrollViewer Grid.Column="1"
+                    Margin="{StaticResource Space400LeftThickness}"
+                    Visibility="{utu:Responsive Narrowest=Collapsed, Widest=Visible, Layout={StaticResource SplitLayout}}"
+                    AutomationProperties.Name="Quote preview">
+        <utu:CardContentControl Style="{StaticResource StaticCardStyle}" CornerRadius="{StaticResource Radius200CornerRadius}"
+                                Padding="{StaticResource Inset32x24}"
+                                Margin="{StaticResource Space300BottomThickness}"
+                                MaxWidth="{StaticResource ReadingMaxWidth}"
+                                HorizontalAlignment="Stretch">
+          <StackPanel>
+
+            <!-- Header: logo, the business, the quote number and dates -->
+            <Grid>
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+              </Grid.ColumnDefinitions>
+
+              <!-- Logo (a top-aligned wrapper: the card template passes its alignment to its own fill) -->
+              <Grid VerticalAlignment="Top" Margin="{StaticResource Space200RightThickness}">
+                <utu:CardContentControl Style="{StaticResource TonalCardStyle}" Width="{StaticResource PreviewLogoSize}" Height="{StaticResource PreviewLogoSize}">
+                  <Grid>
+                    <FontIcon Glyph="&#xE91B;" FontSize="{StaticResource IconSizeMedium}"
+                              Foreground="{ThemeResource OutlineBrush}"
+                              HorizontalAlignment="Center" VerticalAlignment="Center"
+                              Visibility="{Binding LogoPath, Converter={StaticResource EmptyToVisibleConverter}, FallbackValue=Visible}" />
+                    <Image Source="{Binding LogoPath}" Stretch="UniformToFill" AutomationProperties.Name="Business logo"
+                           Visibility="{Binding LogoPath, Converter={StaticResource EmptyToVisibleConverter}, ConverterParameter=Invert, FallbackValue=Collapsed}" />
+                  </Grid>
+                </utu:CardContentControl>
+              </Grid>
+
+              <!-- The business, or a placeholder for each empty field -->
+              <StackPanel Grid.Column="1" Spacing="{StaticResource Space025}" VerticalAlignment="Top">
+                <TextBlock Text="{Binding BusinessName}"
+                           Style="{StaticResource TitleMedium}" FontWeight="Bold"
+                           Foreground="{ThemeResource PrimaryBrush}"
+                           TextTrimming="CharacterEllipsis" MaxLines="1"
+                           Visibility="{Binding BusinessName, Converter={StaticResource EmptyToVisibleConverter}, ConverterParameter=Invert, FallbackValue=Collapsed}" />
+                <TextBlock Text="Your Company Name"
+                           Style="{StaticResource TitleMedium}" FontWeight="Bold"
+                           Foreground="{ThemeResource OnSurfaceVariantBrush}" FontStyle="Italic"
+                           Visibility="{Binding BusinessName, Converter={StaticResource EmptyToVisibleConverter}, FallbackValue=Visible}" />
+                <TextBlock Text="{Binding Phone}" Style="{StaticResource BodySmall}"
+                           Foreground="{ThemeResource OnSurfaceVariantBrush}"
+                           Visibility="{Binding Phone, Converter={StaticResource EmptyToVisibleConverter}, ConverterParameter=Invert, FallbackValue=Collapsed}" />
+                <TextBlock Text="{Binding Email}" Style="{StaticResource BodySmall}"
+                           Foreground="{ThemeResource OnSurfaceVariantBrush}" TextTrimming="CharacterEllipsis"
+                           Visibility="{Binding Email, Converter={StaticResource EmptyToVisibleConverter}, ConverterParameter=Invert, FallbackValue=Collapsed}" />
+                <TextBlock Text="{Binding Address}" Style="{StaticResource BodySmall}"
+                           Foreground="{ThemeResource OnSurfaceVariantBrush}" TextWrapping="Wrap"
+                           Visibility="{Binding Address, Converter={StaticResource EmptyToVisibleConverter}, ConverterParameter=Invert, FallbackValue=Collapsed}" />
+                <TextBlock Text="{Binding Website}" Style="{StaticResource BodySmall}"
+                           Foreground="{ThemeResource OnSurfaceVariantBrush}" TextTrimming="CharacterEllipsis"
+                           Visibility="{Binding Website, Converter={StaticResource EmptyToVisibleConverter}, ConverterParameter=Invert, FallbackValue=Collapsed}" />
+                <TextBlock Style="{StaticResource BodySmall}"
+                           Foreground="{ThemeResource OnSurfaceVariantBrush}"
+                           Visibility="{Binding BusinessNumber, Converter={StaticResource EmptyToVisibleConverter}, ConverterParameter=Invert, FallbackValue=Collapsed}">
+                  <Run Text="Bus# " /><Run Text="{Binding BusinessNumber}" />
+                </TextBlock>
+              </StackPanel>
+
+              <mvux:FeedView Grid.Column="2" Source="{Binding Preview}" VerticalAlignment="Top">
+                <DataTemplate>
+                  <StackPanel HorizontalAlignment="Right" Spacing="{StaticResource Space025}">
+                    <TextBlock Text="QUOTE" Style="{StaticResource TitleLarge}"
+                               FontWeight="Bold" Foreground="{ThemeResource PrimaryBrush}" HorizontalAlignment="Right" />
+                    <TextBlock Text="{Binding Data.QuoteNumber}" Style="{StaticResource BodySmall}"
+                               Foreground="{ThemeResource OnSurfaceVariantBrush}" HorizontalAlignment="Right" />
+                    <TextBlock Text="{Binding Data.Date}" Style="{StaticResource BodySmall}"
+                               Foreground="{ThemeResource OnSurfaceVariantBrush}" HorizontalAlignment="Right" />
+                  </StackPanel>
+                </DataTemplate>
+              </mvux:FeedView>
+            </Grid>
+
+            <Border Height="{StaticResource HairlineThickness}" Background="{ThemeResource OutlineVariantBrush}" Margin="{StaticResource Space250VerticalThickness}" />
+
+            <!-- Bill to (a sample client) -->
+            <StackPanel Spacing="{StaticResource Space025}" Margin="{StaticResource Space250BottomThickness}">
+              <TextBlock Text="BILL TO" Style="{StaticResource LabelSmall}"
+                         FontWeight="Bold" Foreground="{ThemeResource OnSurfaceVariantBrush}" />
+              <TextBlock Text="Sample Client" Style="{StaticResource BodyMedium}" FontWeight="SemiBold" />
+              <TextBlock Text="client@example.com" Style="{StaticResource BodySmall}"
+                         Foreground="{ThemeResource OnSurfaceVariantBrush}" />
+            </StackPanel>
+
+            <!-- Items and totals -->
+            <mvux:FeedView Source="{Binding Preview}">
+              <DataTemplate>
+                <StackPanel>
+                  <Grid Padding="{StaticResource Inset16x8}" Background="{ThemeResource SurfaceVariantBrush}"
+                        CornerRadius="{StaticResource RadiusTopMd}">
+                    <Grid.ColumnDefinitions>
+                      <ColumnDefinition Width="*" />
+                      <ColumnDefinition Width="{StaticResource TableQtyWidth}" />
+                      <ColumnDefinition Width="{StaticResource TableMoneyWidth}" />
+                      <ColumnDefinition Width="{StaticResource TableMoneyWidth}" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="DESCRIPTION" Style="{StaticResource LabelSmall}"
+                               FontWeight="Bold" Foreground="{ThemeResource OnSurfaceVariantBrush}" />
+                    <TextBlock Grid.Column="1" Text="QTY" Style="{StaticResource LabelSmall}"
+                               FontWeight="Bold" Foreground="{ThemeResource OnSurfaceVariantBrush}" HorizontalAlignment="Right" />
+                    <TextBlock Grid.Column="2" Text="PRICE" Style="{StaticResource LabelSmall}"
+                               FontWeight="Bold" Foreground="{ThemeResource OnSurfaceVariantBrush}" HorizontalAlignment="Right" />
+                    <TextBlock Grid.Column="3" Text="TOTAL" Style="{StaticResource LabelSmall}"
+                               FontWeight="Bold" Foreground="{ThemeResource OnSurfaceVariantBrush}" HorizontalAlignment="Right" />
+                  </Grid>
+                  <ItemsControl ItemsSource="{Binding Data.Lines}" IsTabStop="False">
+                    <ItemsControl.ItemTemplate>
+                      <DataTemplate>
+                        <Grid Padding="{StaticResource Inset16x12}"
+                              BorderBrush="{ThemeResource OutlineVariantBrush}" BorderThickness="0,0,0,1">
+                          <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="{StaticResource TableQtyWidth}" />
+                            <ColumnDefinition Width="{StaticResource TableMoneyWidth}" />
+                            <ColumnDefinition Width="{StaticResource TableMoneyWidth}" />
+                          </Grid.ColumnDefinitions>
+                          <TextBlock Text="{Binding Description}" Style="{StaticResource BodyMedium}" TextWrapping="Wrap" />
+                          <TextBlock Grid.Column="1" Text="{Binding Quantity}" Style="{StaticResource BodyMedium}" HorizontalAlignment="Right" />
+                          <TextBlock Grid.Column="2" Text="{Binding UnitPrice}" Style="{StaticResource BodyMedium}"
+                                     FontFamily="{StaticResource MonospaceFontFamily}" HorizontalAlignment="Right" />
+                          <TextBlock Grid.Column="3" Text="{Binding LineTotal}" Style="{StaticResource BodyMediumSemiBold}"
+                                     FontFamily="{StaticResource MonospaceFontFamily}" HorizontalAlignment="Right" />
+                        </Grid>
+                      </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                  </ItemsControl>
+
+                  <StackPanel HorizontalAlignment="Right" Spacing="{StaticResource Space050}" Margin="{StaticResource Space200TopThickness}">
+                    <Grid>
+                      <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="{StaticResource TotalsValueWidth}" />
+                      </Grid.ColumnDefinitions>
+                      <TextBlock Text="Subtotal" Style="{StaticResource BodyMedium}"
+                                 Foreground="{ThemeResource OnSurfaceVariantBrush}" HorizontalAlignment="Right" Margin="{StaticResource Space200RightThickness}" />
+                      <TextBlock Grid.Column="1" Text="{Binding Data.Subtotal}" Style="{StaticResource BodyMedium}"
+                                 FontFamily="{StaticResource MonospaceFontFamily}" TextAlignment="Right" />
+                    </Grid>
+                    <Grid>
+                      <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="{StaticResource TotalsValueWidth}" />
+                      </Grid.ColumnDefinitions>
+                      <TextBlock Text="{Binding Data.TaxLabel}" Style="{StaticResource BodyMedium}"
+                                 Foreground="{ThemeResource OnSurfaceVariantBrush}" HorizontalAlignment="Right" Margin="{StaticResource Space200RightThickness}" />
+                      <TextBlock Grid.Column="1" Text="{Binding Data.Tax}" Style="{StaticResource BodyMedium}"
+                                 FontFamily="{StaticResource MonospaceFontFamily}" TextAlignment="Right" />
+                    </Grid>
+                    <Border Height="{StaticResource RuleThickness}" Background="{ThemeResource PrimaryBrush}" Margin="{StaticResource Space050VerticalThickness}" />
+                    <Grid>
+                      <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="{StaticResource TotalsValueWidth}" />
+                      </Grid.ColumnDefinitions>
+                      <TextBlock Text="TOTAL" Style="{StaticResource TitleSmall}" FontWeight="Bold"
+                                 Foreground="{ThemeResource PrimaryBrush}" HorizontalAlignment="Right" Margin="{StaticResource Space200RightThickness}" />
+                      <TextBlock Grid.Column="1" Text="{Binding Data.Total}" Style="{StaticResource TitleSmall}" FontWeight="Bold"
+                                 FontFamily="{StaticResource MonospaceFontFamily}" Foreground="{ThemeResource PrimaryBrush}" TextAlignment="Right" />
+                    </Grid>
+                  </StackPanel>
+
+                  <StackPanel Margin="{StaticResource Space200TopThickness}" Spacing="{StaticResource Space050}">
+                    <TextBlock Style="{StaticResource BodySmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}">
+                      <Run Text="Valid until " /><Run Text="{Binding Data.ValidUntil}" />
+                    </TextBlock>
+                    <TextBlock Style="{StaticResource BodySmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}">
+                      <Run Text="All amounts in " /><Run Text="{Binding Data.Currency}" />
+                    </TextBlock>
+                  </StackPanel>
+                </StackPanel>
+              </DataTemplate>
+              <mvux:FeedView.ProgressTemplate>
+                <DataTemplate>
+                  <ProgressRing IsActive="True" HorizontalAlignment="Center" AutomationProperties.Name="Updating the preview" />
+                </DataTemplate>
+              </mvux:FeedView.ProgressTemplate>
+            </mvux:FeedView>
+
+            <!-- Custom footer -->
+            <TextBlock Text="{Binding CustomFooter}" Style="{StaticResource BodySmall}"
+                       Foreground="{ThemeResource OnSurfaceVariantBrush}"
+                       FontStyle="Italic" TextWrapping="Wrap" Margin="{StaticResource Space150TopThickness}"
+                       Visibility="{Binding CustomFooter, Converter={StaticResource EmptyToVisibleConverter}, ConverterParameter=Invert, FallbackValue=Collapsed}" />
+          </StackPanel>
+        </utu:CardContentControl>
+      </ScrollViewer>
+
+    </Grid>
+  </Grid>
+</Page>

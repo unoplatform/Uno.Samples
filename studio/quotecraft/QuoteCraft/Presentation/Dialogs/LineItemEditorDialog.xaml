@@ -1,0 +1,93 @@
+<!-- !LineItemEditor: Save keeps the dialog open with a message until the fields read; the result goes to the caller. -->
+<ContentDialog x:Class="QuoteCraft.Presentation.LineItemEditorDialog"
+               xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+               xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+               xmlns:uen="using:Uno.Extensions.Navigation.UI"
+               xmlns:utu="using:Uno.Toolkit.UI"
+               xmlns:ctrl="using:QuoteCraft.Controls"
+               Style="{StaticResource AppDialogStyle}">
+
+  <StackPanel Spacing="{StaticResource Space200}" MinWidth="{utu:Responsive Narrow=0, Normal={StaticResource DialogMinWidth}}">
+
+    <ctrl:DialogHeader Glyph="&#xE70F;" Title="Line Item" Subtitle="Add or edit a line item for this quote"
+                       Margin="{StaticResource Space050BottomThickness}" />
+
+    <TextBox Header="Description"
+             Text="{Binding Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+             PlaceholderText="e.g. Kitchen faucet installation"
+             AutomationProperties.Name="Description" />
+
+    <!-- The business's currency, the user's number format -->
+    <TextBox Header="{Binding UnitPriceHeader}"
+             PlaceholderText="{Binding UnitPricePlaceholder}"
+             Text="{Binding UnitPrice, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+             InputScope="Number"
+             AutomationProperties.Name="Unit price" />
+
+    <!-- Quantity with -/+ -->
+    <Grid ColumnSpacing="{StaticResource Space100}">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="Auto" />
+      </Grid.ColumnDefinitions>
+      <Button Content="-" Command="{Binding DecreaseQuantity}"
+              AutomationProperties.Name="Decrease quantity"
+              Style="{StaticResource OutlinedButtonStyle}"
+              VerticalAlignment="Bottom"
+              MinWidth="{StaticResource ControlHeightMediumLarge}" MinHeight="{StaticResource ControlHeightMediumLarge}" Padding="{StaticResource Inset8x4}" CornerRadius="{StaticResource Radius200CornerRadius}" />
+      <TextBox Grid.Column="1"
+               Header="Quantity"
+               Text="{Binding Quantity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+               HorizontalAlignment="Stretch" TextAlignment="Center"
+               InputScope="Number"
+               AutomationProperties.Name="Quantity" />
+      <Button Content="+" Command="{Binding IncreaseQuantity}" Grid.Column="2"
+              AutomationProperties.Name="Increase quantity"
+              Style="{StaticResource OutlinedButtonStyle}"
+              VerticalAlignment="Bottom"
+              MinWidth="{StaticResource ControlHeightMediumLarge}" MinHeight="{StaticResource ControlHeightMediumLarge}" Padding="{StaticResource Inset8x4}" CornerRadius="{StaticResource Radius200CornerRadius}" />
+    </Grid>
+
+    <!-- What Save found wrong -->
+    <TextBlock Text="{Binding ValidationError}"
+               Style="{StaticResource BodySmall}"
+               Foreground="{ThemeResource ErrorBrush}"
+               TextWrapping="Wrap"
+               AutomationProperties.LiveSetting="Assertive"
+               Visibility="{Binding ValidationError, Converter={StaticResource EmptyToVisibleConverter}, ConverterParameter=Invert, FallbackValue=Collapsed}" />
+
+    <!-- Line total -->
+    <utu:CardContentControl Style="{StaticResource BannerCardStyle}" RequestedTheme="Light">
+      <Grid>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <TextBlock Text="Line Total" Foreground="{ThemeResource OnPrimaryMediumBrush}"
+                   Style="{StaticResource BodyMedium}" VerticalAlignment="Center" />
+        <TextBlock Grid.Column="1" Text="{Binding LineTotal}"
+                   Foreground="{ThemeResource OnPrimaryBrush}"
+                   FontFamily="{StaticResource MonospaceFontFamily}"
+                   Style="{StaticResource TitleLargeBold}" VerticalAlignment="Center" />
+      </Grid>
+    </utu:CardContentControl>
+
+    <Grid ColumnSpacing="{StaticResource Space100}">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="Auto" />
+      </Grid.ColumnDefinitions>
+      <Button Content="Delete" Command="{Binding Delete}"
+              Visibility="{Binding IsEditing, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Collapsed}"
+              Style="{StaticResource TextButtonStyle}"
+              Foreground="{ThemeResource ErrorBrush}"
+              AutomationProperties.Name="Delete line item" />
+      <!-- xaml-lint: allow backbar - a dialog Cancel that closes the dialog, not a page back bar -->
+      <Button Grid.Column="2" Content="Cancel" uen:Navigation.Request="-" Style="{StaticResource TextButtonStyle}" AutomationProperties.Name="Cancel" />
+      <Button Grid.Column="3" Content="Save" Command="{Binding Save}" Style="{StaticResource FilledButtonStyle}" AutomationProperties.Name="Save line item" />
+    </Grid>
+  </StackPanel>
+</ContentDialog>

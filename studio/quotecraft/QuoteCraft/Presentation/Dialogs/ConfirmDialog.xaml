@@ -1,0 +1,14 @@
+<!-- !Confirm: the dialog's own buttons close it, and the caller reads the ContentDialogResult (DialogNavigation). -->
+<ContentDialog x:Class="QuoteCraft.Presentation.ConfirmDialog"
+               xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+               xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+               xmlns:utu="using:Uno.Toolkit.UI"
+               xmlns:ctrl="using:QuoteCraft.Controls"
+               Style="{StaticResource AppDialogStyle}"
+               PrimaryButtonText="{Binding PrimaryText}"
+               CloseButtonText="{Binding CloseText}">
+  <ctrl:DialogHeader Glyph="{Binding Glyph}"
+                     Title="{Binding Title}"
+                     Subtitle="{Binding Message}"
+                     MinWidth="{utu:Responsive Narrow=0, Normal={StaticResource DialogMinWidth}}" />
+</ContentDialog>

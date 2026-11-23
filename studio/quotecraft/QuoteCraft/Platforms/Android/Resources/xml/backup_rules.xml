@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Android 11 and earlier (android:fullBackupContent). The app's files stay on the device: the SQLCipher database, photos
+  and Uno's PasswordVault file (.vault) are encrypted with an AndroidKeyStore key that backups never carry, so a restored
+  copy could not be opened (docs/DECISIONS-production-readiness.md, D13). Settings (SharedPreferences) are still backed up.
+-->
+<full-backup-content>
+  <exclude domain="file" path="." />
+</full-backup-content>

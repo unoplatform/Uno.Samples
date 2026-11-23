@@ -1,0 +1,136 @@
+<!--
+  !CatalogBrowser: stays open while items are added; Done (the dialog's own button, so it stays in view under a long
+  list) closes it and the caller reloads the quote.
+-->
+<ContentDialog x:Class="QuoteCraft.Presentation.CatalogBrowserDialog"
+               xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+               xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+               xmlns:mvux="using:Uno.Extensions.Reactive.UI"
+               xmlns:utu="using:Uno.Toolkit.UI"
+               xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+               xmlns:ctrl="using:QuoteCraft.Controls"
+               Style="{StaticResource AppDialogStyle}"
+               CloseButtonText="Done"
+               DefaultButton="Close">
+
+  <StackPanel x:Name="BrowserRoot"
+              Spacing="{StaticResource Space150}"
+              MinWidth="{utu:Responsive Narrow=0, Normal={StaticResource DialogMinWidth}}"
+              MinHeight="{StaticResource BrowserMinHeight}">
+
+    <ctrl:DialogHeader Glyph="&#xE82D;" Title="Add from Catalog" Subtitle="Browse your saved items and add to this quote"
+                       Margin="{StaticResource Space050BottomThickness}" />
+
+    <!-- Search -->
+    <utu:CardContentControl Style="{StaticResource TonalCardStyle}"
+                            Padding="{StaticResource Space150HorizontalThickness}" Height="{StaticResource ControlHeightMedium}">
+      <Grid ColumnSpacing="{StaticResource Space100}">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <FontIcon Glyph="&#xE721;" FontSize="{StaticResource BodyMediumFontSize}"
+                  Foreground="{ThemeResource OnSurfaceVariantBrush}" VerticalAlignment="Center" />
+        <TextBox Grid.Column="1"
+                 Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                 PlaceholderText="Search catalog..."
+                 AutomationProperties.Name="Search catalog"
+                 BorderThickness="0" Background="Transparent"
+                 Padding="0" MinHeight="0"
+                 VerticalAlignment="Center" />
+      </Grid>
+    </utu:CardContentControl>
+
+    <!-- Categories: one row that scrolls sideways (a ChipGroup does not wrap) -->
+    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled"
+                  HorizontalScrollMode="Enabled" VerticalScrollMode="Disabled">
+      <utu:ChipGroup ItemsSource="{Binding Categories}"
+                     SelectedItem="{Binding SelectedCategory, Mode=TwoWay}"
+                     SelectionMode="Single"
+                     Style="{StaticResource FilterChipGroupStyle}"
+                     ItemContainerStyle="{StaticResource ChipStyle}"
+                     AutomationProperties.Name="Category" />
+    </ScrollViewer>
+
+    <!-- Items, or why there are none (a search or category with no match) -->
+    <mvux:FeedView x:Name="ItemsFeed" Source="{Binding Items}">
+      <DataTemplate>
+        <ScrollViewer MaxHeight="{StaticResource BrowserListMaxHeight}">
+          <muxc:ItemsRepeater ItemsSource="{Binding Data}">
+            <muxc:ItemsRepeater.Layout>
+              <muxc:StackLayout Spacing="{StaticResource Space050}" />
+            </muxc:ItemsRepeater.Layout>
+            <muxc:ItemsRepeater.ItemTemplate>
+              <DataTemplate>
+                <utu:CardContentControl Style="{StaticResource StaticCardStyle}"
+                                        CornerRadius="{StaticResource Radius200CornerRadius}"
+                                        Padding="{StaticResource Inset12x8}">
+                  <Grid ColumnSpacing="{StaticResource Space100}">
+                    <Grid.ColumnDefinitions>
+                      <ColumnDefinition Width="*" />
+                      <ColumnDefinition Width="Auto" />
+                      <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <StackPanel VerticalAlignment="Center" Spacing="{StaticResource Space025}">
+                      <TextBlock Text="{Binding Description}" Style="{StaticResource BodyMedium}" TextWrapping="Wrap" />
+                      <TextBlock Text="{Binding Category}" Style="{StaticResource LabelSmall}"
+                                 Foreground="{ThemeResource OnSurfaceVariantBrush}" />
+                    </StackPanel>
+                    <TextBlock Grid.Column="1"
+                               Text="{Binding UnitPrice, Converter={StaticResource CurrencyFormatConverter}}"
+                               FontFamily="{StaticResource MonospaceFontFamily}"
+                               Style="{StaticResource BodyMedium}"
+                               VerticalAlignment="Center" />
+                    <Button Grid.Column="2"
+                            Command="{Binding DataContext.AddItem, ElementName=BrowserRoot}"
+                            CommandParameter="{Binding}"
+                            AutomationProperties.Name="Add to quote"
+                            ToolTipService.ToolTip="Add to quote"
+                            Style="{StaticResource TextButtonStyle}"
+                            Padding="{StaticResource Inset8x4}" MinWidth="{StaticResource ControlHeightMediumLarge}" MinHeight="{StaticResource ControlHeightMediumLarge}">
+                      <FontIcon Glyph="&#xE710;" FontSize="{StaticResource IconSizeSmall}" />
+                    </Button>
+                  </Grid>
+                </utu:CardContentControl>
+              </DataTemplate>
+            </muxc:ItemsRepeater.ItemTemplate>
+          </muxc:ItemsRepeater>
+        </ScrollViewer>
+      </DataTemplate>
+      <mvux:FeedView.NoneTemplate>
+        <DataTemplate>
+          <TextBlock Text="No catalog items match. Clear the search or pick another category."
+                     Style="{StaticResource BodyMedium}"
+                     Foreground="{ThemeResource OnSurfaceVariantBrush}"
+                     TextWrapping="Wrap" Margin="{StaticResource Space150VerticalThickness}" />
+        </DataTemplate>
+      </mvux:FeedView.NoneTemplate>
+      <mvux:FeedView.ProgressTemplate>
+        <DataTemplate>
+          <ProgressRing IsActive="True" HorizontalAlignment="Center" Margin="{StaticResource Space150VerticalThickness}"
+                        AutomationProperties.Name="Loading the catalog" />
+        </DataTemplate>
+      </mvux:FeedView.ProgressTemplate>
+      <!-- The template's DataContext is the exception: Retry reaches the FeedView by name. -->
+      <mvux:FeedView.ErrorTemplate>
+        <DataTemplate>
+          <StackPanel Spacing="{StaticResource Space100}" Margin="{StaticResource Space150VerticalThickness}">
+            <TextBlock Text="The catalog could not be loaded."
+                       Style="{StaticResource BodyMedium}"
+                       Foreground="{ThemeResource OnSurfaceVariantBrush}" />
+            <Button Content="Retry"
+                    Command="{Binding Refresh, ElementName=ItemsFeed}"
+                    AutomationProperties.Name="Retry loading the catalog"
+                    Style="{StaticResource OutlinedButtonStyle}" />
+          </StackPanel>
+        </DataTemplate>
+      </mvux:FeedView.ErrorTemplate>
+    </mvux:FeedView>
+
+    <TextBlock Text="{Binding Status}"
+               Style="{StaticResource BodySmall}"
+               Foreground="{ThemeResource OnSurfaceVariantBrush}"
+               TextWrapping="Wrap"
+               AutomationProperties.LiveSetting="Polite" />
+  </StackPanel>
+</ContentDialog>

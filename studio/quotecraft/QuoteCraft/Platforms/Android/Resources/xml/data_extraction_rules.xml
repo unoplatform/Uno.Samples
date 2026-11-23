@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Android 12 and later (android:dataExtractionRules): the same rule as backup_rules.xml, for cloud backup and for a
+  device-to-device transfer. Neither carries the AndroidKeyStore key that opens the database and the vault (D13).
+-->
+<data-extraction-rules>
+  <cloud-backup>
+    <exclude domain="file" path="." />
+  </cloud-backup>
+  <device-transfer>
+    <exclude domain="file" path="." />
+  </device-transfer>
+</data-extraction-rules>

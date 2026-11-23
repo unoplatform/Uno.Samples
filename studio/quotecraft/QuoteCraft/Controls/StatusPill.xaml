@@ -1,0 +1,88 @@
+<!--
+  A quote status: icon, name and colour together, so the status never rests on colour alone. Each status is a container
+  and its On pair, through ThemeResource setters, so it follows a theme or palette change: Draft and Expired the
+  SurfaceVariant roles, Viewed SecondaryContainer, Declined ErrorContainer; Accepted (Success) and Sent have no palette
+  role and are App.xaml's own Light and Default brushes. Radius200 (8) rounds the pill's ends fully at its height;
+  RadiusFull would draw an oval on Skia, which clamps each axis of a corner separately.
+-->
+<UserControl x:Class="QuoteCraft.Controls.StatusPill"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             HorizontalAlignment="Left"
+             VerticalAlignment="Center"
+             IsTabStop="False">
+  <Grid x:Name="Pill"
+        CornerRadius="{StaticResource Radius200CornerRadius}"
+        Padding="{StaticResource PillInset}"
+        ColumnSpacing="{StaticResource Space050}"
+        Background="{ThemeResource SurfaceVariantBrush}">
+    <VisualStateManager.VisualStateGroups>
+      <VisualStateGroup x:Name="StatusStates">
+        <VisualState x:Name="Draft">
+          <VisualState.Setters>
+            <Setter Target="Pill.Background" Value="{ThemeResource SurfaceVariantBrush}" />
+            <Setter Target="Glyph.Foreground" Value="{ThemeResource OnSurfaceVariantBrush}" />
+            <Setter Target="Label.Foreground" Value="{ThemeResource OnSurfaceVariantBrush}" />
+            <Setter Target="Glyph.Glyph" Value="&#xE70F;" />
+          </VisualState.Setters>
+        </VisualState>
+        <VisualState x:Name="Sent">
+          <VisualState.Setters>
+            <Setter Target="Pill.Background" Value="{ThemeResource StatusSentContainerBrush}" />
+            <Setter Target="Glyph.Foreground" Value="{ThemeResource StatusSentBrush}" />
+            <Setter Target="Label.Foreground" Value="{ThemeResource StatusSentBrush}" />
+            <Setter Target="Glyph.Glyph" Value="&#xE724;" />
+          </VisualState.Setters>
+        </VisualState>
+        <VisualState x:Name="Viewed">
+          <VisualState.Setters>
+            <Setter Target="Pill.Background" Value="{ThemeResource SecondaryContainerBrush}" />
+            <Setter Target="Glyph.Foreground" Value="{ThemeResource OnSecondaryContainerBrush}" />
+            <Setter Target="Label.Foreground" Value="{ThemeResource OnSecondaryContainerBrush}" />
+            <Setter Target="Glyph.Glyph" Value="&#xE7B3;" />
+          </VisualState.Setters>
+        </VisualState>
+        <VisualState x:Name="Accepted">
+          <VisualState.Setters>
+            <Setter Target="Pill.Background" Value="{ThemeResource SuccessContainerBrush}" />
+            <Setter Target="Glyph.Foreground" Value="{ThemeResource SuccessBrush}" />
+            <Setter Target="Label.Foreground" Value="{ThemeResource SuccessBrush}" />
+            <Setter Target="Glyph.Glyph" Value="&#xE73E;" />
+          </VisualState.Setters>
+        </VisualState>
+        <VisualState x:Name="Declined">
+          <VisualState.Setters>
+            <Setter Target="Pill.Background" Value="{ThemeResource ErrorContainerBrush}" />
+            <Setter Target="Glyph.Foreground" Value="{ThemeResource OnErrorContainerBrush}" />
+            <Setter Target="Label.Foreground" Value="{ThemeResource OnErrorContainerBrush}" />
+            <Setter Target="Glyph.Glyph" Value="&#xE711;" />
+          </VisualState.Setters>
+        </VisualState>
+        <VisualState x:Name="Expired">
+          <VisualState.Setters>
+            <Setter Target="Pill.Background" Value="{ThemeResource SurfaceVariantBrush}" />
+            <Setter Target="Glyph.Foreground" Value="{ThemeResource OnSurfaceVariantBrush}" />
+            <Setter Target="Label.Foreground" Value="{ThemeResource OnSurfaceVariantBrush}" />
+            <Setter Target="Glyph.Glyph" Value="&#xE823;" />
+          </VisualState.Setters>
+        </VisualState>
+      </VisualStateGroup>
+    </VisualStateManager.VisualStateGroups>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="Auto" />
+      <ColumnDefinition Width="Auto" />
+    </Grid.ColumnDefinitions>
+    <FontIcon x:Name="Glyph"
+              Glyph="&#xE70F;"
+              FontSize="{StaticResource LabelSmallFontSize}"
+              VerticalAlignment="Center"
+              Foreground="{ThemeResource OnSurfaceVariantBrush}"
+              AutomationProperties.AccessibilityView="Raw" />
+    <TextBlock x:Name="Label"
+               Grid.Column="1"
+               Text="DRAFT"
+               Style="{StaticResource LabelSmall}"
+               VerticalAlignment="Center"
+               Foreground="{ThemeResource OnSurfaceVariantBrush}" />
+  </Grid>
+</UserControl>

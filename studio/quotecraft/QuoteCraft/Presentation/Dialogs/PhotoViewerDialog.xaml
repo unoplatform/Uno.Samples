@@ -1,0 +1,18 @@
+<!--
+  !PhotoViewer: a job photo as large as the dialog allows (PRD F14.8, D22), opened from a thumbnail in the quote
+  editor; Close closes it. The photo scales to fit without cropping. Material's dialog sets the size: at most 560 px
+  wide, and 56 px in from each side of a phone's screen (it reads its size keys statically, so they cannot be raised
+  for this dialog alone).
+-->
+<ContentDialog x:Class="QuoteCraft.Presentation.PhotoViewerDialog"
+               xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+               xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+               Style="{StaticResource AppDialogStyle}"
+               CloseButtonText="Close">
+  <Image Stretch="Uniform"
+         AutomationProperties.Name="Job photo, enlarged">
+    <Image.Source>
+      <BitmapImage UriSource="{Binding Path}" />
+    </Image.Source>
+  </Image>
+</ContentDialog>

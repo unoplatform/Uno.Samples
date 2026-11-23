@@ -1,0 +1,57 @@
+<!-- !CatalogItemEditor: Save writes the item and closes; Delete goes back to the page, which asks once more. -->
+<ContentDialog x:Class="QuoteCraft.Presentation.CatalogItemEditorDialog"
+               xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+               xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+               xmlns:uen="using:Uno.Extensions.Navigation.UI"
+               xmlns:utu="using:Uno.Toolkit.UI"
+               xmlns:ctrl="using:QuoteCraft.Controls"
+               Style="{StaticResource AppDialogStyle}">
+  <StackPanel Spacing="{StaticResource Space200}"
+              MinWidth="{utu:Responsive Narrow=0, Normal={StaticResource DialogMinWidth}}">
+    <ctrl:DialogHeader Glyph="&#xE82D;" Title="{Binding Heading}" Subtitle="{Binding Subheading}"
+                       Margin="{StaticResource Space050BottomThickness}" />
+
+    <TextBox Header="Description"
+             Text="{Binding Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+             PlaceholderText="Item description"
+             AutomationProperties.Name="Description" />
+    <TextBox Header="{Binding UnitPriceHeader}"
+             PlaceholderText="{Binding UnitPricePlaceholder}"
+             Text="{Binding UnitPrice, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+             InputScope="Number"
+             AutomationProperties.Name="Unit price" />
+    <!-- A category from the list, or a new one typed in -->
+    <ComboBox Header="Category"
+              IsEditable="True"
+              ItemsSource="{Binding CategoryNames}"
+              SelectedItem="{Binding InitialCategory, Mode=OneTime}"
+              Text="{Binding Category, Mode=TwoWay}"
+              PlaceholderText="e.g. Plumbing, Electrical, Painting"
+              HorizontalAlignment="Stretch"
+              AutomationProperties.Name="Category" />
+
+    <TextBlock Text="{Binding ValidationError}"
+               Style="{StaticResource BodySmall}"
+               Foreground="{ThemeResource ErrorBrush}"
+               TextWrapping="Wrap"
+               AutomationProperties.LiveSetting="Assertive"
+               Visibility="{Binding ValidationError, Converter={StaticResource EmptyToVisibleConverter}, ConverterParameter=Invert, FallbackValue=Collapsed}" />
+
+    <Grid ColumnSpacing="{StaticResource Space100}">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="Auto" />
+      </Grid.ColumnDefinitions>
+      <Button Content="Delete Item" Command="{Binding Delete}"
+              Visibility="{Binding IsEditing, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Collapsed}"
+              Style="{StaticResource TextButtonStyle}"
+              Foreground="{ThemeResource ErrorBrush}"
+              AutomationProperties.Name="Delete item" />
+      <!-- xaml-lint: allow backbar - a dialog Cancel that closes the dialog, not a page back bar -->
+      <Button Grid.Column="2" Content="Cancel" uen:Navigation.Request="-" Style="{StaticResource TextButtonStyle}" AutomationProperties.Name="Cancel" />
+      <Button Grid.Column="3" Content="Save" Command="{Binding Save}" Style="{StaticResource FilledButtonStyle}" AutomationProperties.Name="Save item" />
+    </Grid>
+  </StackPanel>
+</ContentDialog>

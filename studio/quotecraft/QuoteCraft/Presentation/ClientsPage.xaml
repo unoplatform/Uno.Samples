@@ -1,0 +1,596 @@
+<Page x:Class="QuoteCraft.Presentation.ClientsPage"
+      x:Name="ClientsRoot"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:local="using:QuoteCraft.Presentation"
+      xmlns:uen="using:Uno.Extensions.Navigation.UI"
+      xmlns:utu="using:Uno.Toolkit.UI"
+      xmlns:um="using:Uno.Material"
+      xmlns:mvux="using:Uno.Extensions.Reactive.UI"
+      xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+      xmlns:ctrl="using:QuoteCraft.Controls"
+      Background="{ThemeResource BackgroundBrush}">
+
+  <!--
+    Clients per category (same frame as Quotes):
+      Narrow   header on two rows; the totals card and the list scroll as one page; a client opens over the list.
+      Normal   header on one row; otherwise as Narrow.
+      Wide     the three total cards stay above the list; one pane.
+      Widest   list (380) and detail side by side; from 1400 (SplitLayout) the summary sits beside the quote history.
+  -->
+  <Grid utu:SafeArea.Insets="Top">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition />
+    </Grid.RowDefinitions>
+
+    <!-- Header band -->
+    <Border Background="{ThemeResource SurfaceBrush}"
+            BorderBrush="{ThemeResource OutlineVariantBrush}"
+            BorderThickness="0,0,0,1">
+      <Grid MaxWidth="{StaticResource PageMaxWidth}"
+            MinHeight="{StaticResource PageHeaderHeight}"
+            Padding="{utu:Responsive Narrow={StaticResource PageHeaderInsetNarrow}, Normal={StaticResource Space300HorizontalThickness}, Wide={StaticResource Space400HorizontalThickness}}">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <TextBlock Text="Clients"
+                   Style="{StaticResource TitleLargeBold}"
+                   AutomationProperties.HeadingLevel="Level1"
+                   VerticalAlignment="Center" />
+
+        <!-- A primitive feed binds directly: a FeedView over IFeed<int> never leaves its progress template -->
+        <TextBlock Grid.Column="1"
+                   Style="{StaticResource BodyMedium}"
+                   Foreground="{ThemeResource OnSurfaceVariantBrush}"
+                   VerticalAlignment="Center" Margin="{StaticResource Space100LeftThickness}">
+          <Run Text="{Binding ClientCount}" /><Run Text=" contacts" />
+        </TextBlock>
+
+        <!-- Search (under the title row on Narrow) -->
+        <utu:CardContentControl Style="{StaticResource TonalCardStyle}" Grid.Row="{utu:Responsive Narrow=1, Normal=0}"
+                Grid.Column="{utu:Responsive Narrow=0, Normal=2}"
+                Grid.ColumnSpan="{utu:Responsive Narrow=4, Normal=1}"
+                Padding="{StaticResource Space150HorizontalThickness}"
+                Height="{StaticResource ControlHeightMedium}"
+                MinWidth="{utu:Responsive Narrow=0, Normal={StaticResource SearchMinWidth}}"
+                MaxWidth="{utu:Responsive Narrow={StaticResource SearchMaxWidthNarrow}, Normal={StaticResource SearchMaxWidth}}"
+                HorizontalAlignment="{utu:Responsive Narrow=Stretch, Normal=Right}"
+                VerticalAlignment="Center"
+                Margin="{utu:Responsive Narrow={StaticResource Space100VerticalThickness}, Normal={StaticResource Space200HorizontalThickness}}">
+          <Grid>
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="Auto" />
+              <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <FontIcon Glyph="&#xE721;" FontSize="{StaticResource BodyMediumFontSize}"
+                      Foreground="{ThemeResource OnSurfaceVariantBrush}"
+                      VerticalAlignment="Center" Margin="{StaticResource Space100RightThickness}" />
+            <TextBox Grid.Column="1"
+                     Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                     PlaceholderText="Search clients..."
+                     AutomationProperties.Name="Search clients"
+                     BorderThickness="0" Background="Transparent"
+                     Padding="0" MinHeight="0"
+                     VerticalAlignment="Center"
+                     VerticalContentAlignment="Center" />
+          </Grid>
+        </utu:CardContentControl>
+
+        <Button Grid.Column="3"
+                Command="{Binding AddClient}"
+                AutomationProperties.Name="Add new client"
+                Style="{StaticResource AccentButtonStyle}">
+          <StackPanel Orientation="Horizontal" Spacing="{StaticResource Space100}">
+            <FontIcon Glyph="&#xE710;" FontSize="{StaticResource BodySmallFontSize}" />
+            <TextBlock Text="Add Client" Style="{StaticResource LabelLargeSemiBold}" />
+          </StackPanel>
+        </Button>
+      </Grid>
+    </Border>
+
+    <!-- Total cards (Wide and Widest) -->
+    <mvux:FeedView Grid.Row="1" Source="{Binding Analytics}"
+                   Visibility="{utu:Responsive Narrow=Collapsed, Wide=Visible}">
+      <DataTemplate>
+        <Grid MaxWidth="{StaticResource PageMaxWidth}" Padding="{StaticResource BandInsetWide}" ColumnSpacing="{StaticResource Space200}">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+          </Grid.ColumnDefinitions>
+
+          <utu:CardContentControl Style="{StaticResource PaddedCardStyle}">
+            <StackPanel Spacing="{StaticResource Space050}" VerticalAlignment="Center">
+              <TextBlock Text="TOTAL CLIENTS" Style="{StaticResource LabelSmall}"
+                         Foreground="{ThemeResource OnSurfaceVariantBrush}" FontWeight="SemiBold" />
+              <StackPanel Orientation="Horizontal" Spacing="{StaticResource Space050}">
+                <TextBlock Text="{Binding Data.TotalClients}"
+                           Style="{StaticResource HeadlineSmallBold}" />
+                <TextBlock Text="contacts" Style="{StaticResource BodyMedium}"
+                           Foreground="{ThemeResource OnSurfaceVariantBrush}"
+                           VerticalAlignment="Bottom" Margin="{StaticResource Space025BottomThickness}" />
+              </StackPanel>
+            </StackPanel>
+          </utu:CardContentControl>
+
+          <utu:CardContentControl Style="{StaticResource PaddedCardStyle}" Grid.Column="1">
+            <StackPanel Spacing="{StaticResource Space050}" VerticalAlignment="Center">
+              <TextBlock Text="ACCEPTED REVENUE" Style="{StaticResource LabelSmall}"
+                         Foreground="{ThemeResource OnSurfaceVariantBrush}" FontWeight="SemiBold" />
+              <TextBlock Text="{Binding Data.TotalRevenue, Converter={StaticResource CurrencyFormatConverter}}"
+                         Style="{StaticResource HeadlineSmallBold}"
+                         FontFamily="{StaticResource MonospaceFontFamily}" />
+            </StackPanel>
+          </utu:CardContentControl>
+
+          <utu:CardContentControl Style="{StaticResource PaddedCardStyle}" Grid.Column="2">
+            <StackPanel Spacing="{StaticResource Space050}" VerticalAlignment="Center">
+              <TextBlock Text="AVG PER CLIENT" Style="{StaticResource LabelSmall}"
+                         Foreground="{ThemeResource OnSurfaceVariantBrush}" FontWeight="SemiBold" />
+              <TextBlock Text="{Binding Data.AvgPerClient, Converter={StaticResource CurrencyFormatConverter}}"
+                         Style="{StaticResource HeadlineSmallBold}"
+                         FontFamily="{StaticResource MonospaceFontFamily}" />
+            </StackPanel>
+          </utu:CardContentControl>
+        </Grid>
+      </DataTemplate>
+
+      <mvux:FeedView.NoneTemplate>
+        <DataTemplate>
+          <Border Height="0" />
+        </DataTemplate>
+      </mvux:FeedView.NoneTemplate>
+      <mvux:FeedView.ErrorTemplate>
+        <DataTemplate>
+          <Border Height="0" />
+        </DataTemplate>
+      </mvux:FeedView.ErrorTemplate>
+    </mvux:FeedView>
+
+    <!-- Body: list pane, and the detail (beside it from 1080, over it below) -->
+    <Grid Grid.Row="2" MaxWidth="{StaticResource PageMaxWidth}">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="*" />
+      </Grid.ColumnDefinitions>
+
+      <Grid Grid.ColumnSpan="{utu:Responsive Narrow=2, Widest=1}"
+            Width="{utu:Responsive Narrow=NaN, Widest={StaticResource ListPaneWidth}}"
+            BorderBrush="{ThemeResource OutlineVariantBrush}"
+            BorderThickness="{utu:Responsive Narrow='0', Widest='0,0,1,0'}">
+        <ScrollViewer VerticalScrollBarVisibility="{utu:Responsive Narrow=Auto, Wide=Disabled}"
+                      VerticalScrollMode="{utu:Responsive Narrow=Auto, Wide=Disabled}"
+                      HorizontalScrollBarVisibility="Disabled">
+          <Grid>
+            <Grid.RowDefinitions>
+              <RowDefinition Height="Auto" />
+              <RowDefinition />
+            </Grid.RowDefinitions>
+
+            <!-- Compact totals (Narrow and Normal) -->
+            <mvux:FeedView Source="{Binding Analytics}"
+                           Visibility="{utu:Responsive Narrow=Visible, Wide=Collapsed}">
+              <DataTemplate>
+                <utu:CardContentControl Style="{StaticResource PaddedCardStyle}" Margin="{utu:Responsive Narrow={StaticResource BandInsetNarrow}, Normal={StaticResource BandInsetNormal}}">
+                  <Grid RowSpacing="{StaticResource Space100}" ColumnSpacing="{StaticResource Space150}">
+                    <Grid.ColumnDefinitions>
+                      <ColumnDefinition Width="*" />
+                      <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                      <RowDefinition Height="Auto" />
+                      <RowDefinition Height="Auto" />
+                      <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <TextBlock Text="TOTAL CLIENTS" Style="{StaticResource LabelSmall}" VerticalAlignment="Center"
+                               Foreground="{ThemeResource OnSurfaceVariantBrush}" FontWeight="SemiBold" />
+                    <TextBlock Grid.Column="1" Text="{Binding Data.TotalClients}" Style="{StaticResource TitleMediumBold}" />
+                    <TextBlock Grid.Row="1" Text="ACCEPTED REVENUE" Style="{StaticResource LabelSmall}" VerticalAlignment="Center"
+                               Foreground="{ThemeResource OnSurfaceVariantBrush}" FontWeight="SemiBold" />
+                    <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Data.TotalRevenue, Converter={StaticResource CurrencyFormatConverter}}"
+                               Style="{StaticResource TitleMediumBold}" FontFamily="{StaticResource MonospaceFontFamily}" />
+                    <TextBlock Grid.Row="2" Text="AVG PER CLIENT" Style="{StaticResource LabelSmall}" VerticalAlignment="Center"
+                               Foreground="{ThemeResource OnSurfaceVariantBrush}" FontWeight="SemiBold" />
+                    <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding Data.AvgPerClient, Converter={StaticResource CurrencyFormatConverter}}"
+                               Style="{StaticResource TitleMediumBold}" FontFamily="{StaticResource MonospaceFontFamily}" />
+                  </Grid>
+                </utu:CardContentControl>
+              </DataTemplate>
+              <mvux:FeedView.NoneTemplate>
+                <DataTemplate>
+                  <Border Height="0" />
+                </DataTemplate>
+              </mvux:FeedView.NoneTemplate>
+              <mvux:FeedView.ErrorTemplate>
+                <DataTemplate>
+                  <Border Height="0" />
+                </DataTemplate>
+              </mvux:FeedView.ErrorTemplate>
+            </mvux:FeedView>
+
+            <!-- Client Cards -->
+            <mvux:FeedView Grid.Row="1" Source="{Binding Clients}">
+              <DataTemplate>
+                <ScrollViewer Padding="{utu:Responsive Narrow={StaticResource ListInsetNarrow}, Normal={StaticResource ListInsetNormal}, Widest={StaticResource ListInsetWidest}}">
+                  <muxc:ItemsRepeater ItemsSource="{Binding Data}" TabFocusNavigation="Local">
+                    <muxc:ItemsRepeater.Layout>
+                      <muxc:StackLayout Spacing="{StaticResource Space050}" />
+                    </muxc:ItemsRepeater.Layout>
+                    <muxc:ItemsRepeater.ItemTemplate>
+                      <DataTemplate>
+                        <!-- The card is a button: tap, Enter or Space opens the client -->
+                        <utu:CardContentControl Style="{StaticResource StaticCardStyle}" CornerRadius="{StaticResource Radius200CornerRadius}">
+                          <Button Command="{Binding DataContext.SelectClient, ElementName=ClientsRoot}"
+                                  CommandParameter="{Binding}"
+                                  AutomationProperties.Name="{Binding Name}"
+                                  Style="{StaticResource ListCardButtonStyle}"
+                                  Padding="{StaticResource Space150Thickness}">
+                            <Grid ColumnSpacing="{StaticResource Space150}">
+                              <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                              </Grid.ColumnDefinitions>
+
+                              <utu:CardContentControl Style="{StaticResource AvatarCardStyle}" Width="{StaticResource AvatarSize}" Height="{StaticResource AvatarSize}" CornerRadius="{StaticResource RadiusFullCornerRadius}" AutomationProperties.AccessibilityView="Raw">
+                                <TextBlock Text="{Binding Initials}" Style="{StaticResource LabelLarge}"
+                                           Foreground="{ThemeResource OnPrimaryContainerBrush}"
+                                           HorizontalAlignment="Center" VerticalAlignment="Center" />
+                              </utu:CardContentControl>
+
+                              <StackPanel Grid.Column="1" VerticalAlignment="Center" Spacing="{StaticResource Space025}">
+                                <TextBlock Text="{Binding Name}" Style="{StaticResource BodyMediumSemiBold}"
+                                           TextTrimming="CharacterEllipsis" />
+                                <TextBlock Text="{Binding Summary}"
+                                           Style="{StaticResource BodySmall}"
+                                           Foreground="{ThemeResource OnSurfaceVariantBrush}"
+                                           TextTrimming="CharacterEllipsis" />
+                              </StackPanel>
+
+                              <StackPanel Grid.Column="2" VerticalAlignment="Center"
+                                          HorizontalAlignment="Right">
+                                <TextBlock Text="{Binding TotalValue, Converter={StaticResource CurrencyFormatConverter}}"
+                                           FontFamily="{StaticResource MonospaceFontFamily}"
+                                           Style="{StaticResource BodySmallSemiBold}"
+                                           HorizontalAlignment="Right" />
+                                <TextBlock Text="total" Style="{StaticResource LabelSmall}"
+                                           Foreground="{ThemeResource OnSurfaceVariantBrush}"
+                                           HorizontalAlignment="Right" />
+                              </StackPanel>
+                            </Grid>
+                          </Button>
+                        </utu:CardContentControl>
+                      </DataTemplate>
+                    </muxc:ItemsRepeater.ItemTemplate>
+                  </muxc:ItemsRepeater>
+                </ScrollViewer>
+              </DataTemplate>
+
+              <mvux:FeedView.NoneTemplate>
+                <DataTemplate>
+                  <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center"
+                              Spacing="{StaticResource Space150}" Padding="{StaticResource Space300Thickness}">
+                    <FontIcon Glyph="&#xE77B;" FontSize="{StaticResource IconSizeLarge}"
+                              Foreground="{ThemeResource OnSurfaceVariantBrush}" HorizontalAlignment="Center" />
+                    <TextBlock Text="No clients here" Style="{StaticResource TitleSmall}"
+                               HorizontalAlignment="Center" Foreground="{ThemeResource OnSurfaceVariantBrush}" />
+                    <TextBlock Text="Add a client, or clear the search."
+                               Style="{StaticResource BodyMedium}"
+                               HorizontalAlignment="Center" TextAlignment="Center" TextWrapping="Wrap"
+                               Foreground="{ThemeResource OnSurfaceVariantBrush}" />
+                    <Button Command="{Binding DataContext.AddClient, ElementName=ClientsRoot}"
+                            Style="{StaticResource AccentButtonStyle}"
+                            HorizontalAlignment="Center" Margin="{StaticResource Space100TopThickness}"
+                            AutomationProperties.Name="Add client">
+                      <StackPanel Orientation="Horizontal" Spacing="{StaticResource Space100}">
+                        <FontIcon Glyph="&#xE710;" FontSize="{StaticResource BodySmallFontSize}" />
+                        <TextBlock Text="Add Client" Style="{StaticResource LabelLargeSemiBold}" />
+                      </StackPanel>
+                    </Button>
+                  </StackPanel>
+                </DataTemplate>
+              </mvux:FeedView.NoneTemplate>
+
+              <mvux:FeedView.ProgressTemplate>
+                <DataTemplate>
+                  <ProgressRing IsActive="True" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                Margin="{StaticResource Space300Thickness}" AutomationProperties.Name="Loading clients" />
+                </DataTemplate>
+              </mvux:FeedView.ProgressTemplate>
+
+              <mvux:FeedView.ErrorTemplate>
+                <DataTemplate>
+                  <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center"
+                              Spacing="{StaticResource Space150}" Padding="{StaticResource Space300Thickness}"
+                              AutomationProperties.LiveSetting="Polite">
+                    <FontIcon Glyph="&#xE783;" FontSize="{StaticResource IconSizeLarge}"
+                              Foreground="{ThemeResource ErrorBrush}" HorizontalAlignment="Center" />
+                    <TextBlock Text="Clients could not be loaded." Style="{StaticResource TitleSmall}"
+                               HorizontalAlignment="Center" TextAlignment="Center" TextWrapping="Wrap" />
+                    <Button Content="Retry"
+                            Command="{Binding DataContext.RefreshList, ElementName=ClientsRoot}"
+                            Style="{StaticResource OutlinedButtonStyle}"
+                            HorizontalAlignment="Center"
+                            AutomationProperties.Name="Retry loading clients" />
+                  </StackPanel>
+                </DataTemplate>
+              </mvux:FeedView.ErrorTemplate>
+            </mvux:FeedView>
+          </Grid>
+        </ScrollViewer>
+      </Grid>
+
+      <!-- Client Detail: beside the list from 1080, over it below -->
+      <mvux:FeedView Grid.Column="{utu:Responsive Narrow=0, Widest=1}"
+                     Grid.ColumnSpan="{utu:Responsive Narrow=2, Widest=1}"
+                     Source="{Binding SelectedClientDetail}">
+        <DataTemplate>
+          <ScrollViewer Background="{ThemeResource BackgroundBrush}"
+                        Padding="{utu:Responsive Narrow={StaticResource PaneInsetNarrow}, Normal={StaticResource PaneInsetNormal}, Wide={StaticResource PaneInsetWide}, Widest={StaticResource PaneInsetWidest}}">
+            <StackPanel Spacing="{StaticResource Space250}" HorizontalAlignment="Stretch">
+
+              <!-- Back to the list (one-pane layouts) -->
+              <Button Command="{Binding DataContext.BackToList, ElementName=ClientsRoot}"
+                      Visibility="{utu:Responsive Narrow=Visible, Widest=Collapsed}"
+                      Style="{StaticResource TextButtonStyle}"
+                      MinHeight="{StaticResource ControlHeightMediumLarge}"
+                      Margin="{StaticResource LeadingIconNudge}"
+                      AutomationProperties.Name="Back to clients">
+                <StackPanel Orientation="Horizontal" Spacing="{StaticResource Space100}">
+                  <FontIcon Glyph="&#xE72B;" FontSize="{StaticResource BodyMediumFontSize}" />
+                  <TextBlock Text="Clients" />
+                </StackPanel>
+              </Button>
+
+              <!-- Name + Actions (actions under the name until the detail is wide) -->
+              <Grid ColumnSpacing="{StaticResource Space200}"
+                    RowSpacing="{utu:Responsive Narrowest={StaticResource Space150}, Widest=0, Layout={StaticResource SplitLayout}}">
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="*" />
+                  <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                  <RowDefinition Height="Auto" />
+                  <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <TextBlock Text="{Binding Data.Client.Name}"
+                           Grid.ColumnSpan="{utu:Responsive Narrowest=2, Widest=1, Layout={StaticResource SplitLayout}}"
+                           Style="{StaticResource HeadlineMedium}"
+                           AutomationProperties.HeadingLevel="Level2"
+                           TextWrapping="Wrap" MaxLines="2" TextTrimming="CharacterEllipsis" />
+                <StackPanel Grid.Row="{utu:Responsive Narrowest=1, Widest=0, Layout={StaticResource SplitLayout}}"
+                            Grid.Column="{utu:Responsive Narrowest=0, Widest=1, Layout={StaticResource SplitLayout}}"
+                            Orientation="Horizontal" Spacing="{StaticResource Space100}" VerticalAlignment="Center">
+                  <Button Command="{Binding DataContext.EditClient, ElementName=ClientsRoot}"
+                          AutomationProperties.Name="Edit client"
+                          ToolTipService.ToolTip="Edit client"
+                          Style="{StaticResource OutlinedButtonStyle}"
+                          MinHeight="{StaticResource ControlHeightMediumLarge}" MinWidth="{StaticResource ControlHeightMediumLarge}"
+                          CornerRadius="{StaticResource Radius200CornerRadius}">
+                    <StackPanel Orientation="Horizontal" Spacing="{StaticResource Space100}">
+                      <FontIcon Glyph="&#xE70F;" FontSize="{StaticResource BodyMediumFontSize}" />
+                      <TextBlock Text="Edit" Visibility="{utu:Responsive Narrow=Collapsed, Normal=Visible}" />
+                    </StackPanel>
+                  </Button>
+
+                  <Button Command="{Binding DataContext.DeleteClient, ElementName=ClientsRoot}"
+                          AutomationProperties.Name="Delete client"
+                          ToolTipService.ToolTip="Delete client"
+                          Style="{StaticResource OutlinedButtonStyle}"
+                          BorderBrush="{ThemeResource ErrorBrush}"
+                          MinHeight="{StaticResource ControlHeightMediumLarge}" MinWidth="{StaticResource ControlHeightMediumLarge}"
+                          CornerRadius="{StaticResource Radius200CornerRadius}">
+                    <StackPanel Orientation="Horizontal" Spacing="{StaticResource Space100}">
+                      <FontIcon Glyph="&#xE74D;" FontSize="{StaticResource BodyMediumFontSize}"
+                                Foreground="{ThemeResource ErrorBrush}" />
+                      <TextBlock Text="Delete" Visibility="{utu:Responsive Narrow=Collapsed, Normal=Visible}"
+                                 Foreground="{ThemeResource ErrorBrush}" />
+                    </StackPanel>
+                  </Button>
+
+                  <Button Command="{Binding DataContext.CreateQuoteForClient, ElementName=ClientsRoot}"
+                          AutomationProperties.Name="Create new quote for client"
+                          Style="{StaticResource AccentButtonStyle}">
+                    <StackPanel Orientation="Horizontal" Spacing="{StaticResource Space100}">
+                      <FontIcon Glyph="&#xE710;" FontSize="{StaticResource BodySmallFontSize}" />
+                      <TextBlock Text="New Quote" Style="{StaticResource LabelLargeSemiBold}" />
+                    </StackPanel>
+                  </Button>
+                </StackPanel>
+              </Grid>
+
+              <!-- Contact Info (stacked until the detail is wide) -->
+              <StackPanel Orientation="{utu:Responsive Narrowest=Vertical, Widest=Horizontal, Layout={StaticResource SplitLayout}}"
+                          Spacing="{utu:Responsive Narrowest={StaticResource Space100}, Widest={StaticResource Space200}, Layout={StaticResource SplitLayout}}">
+                <StackPanel Orientation="Horizontal" Spacing="{StaticResource Space050}">
+                  <FontIcon Glyph="&#xE715;" FontSize="{StaticResource BodySmallFontSize}" Foreground="{ThemeResource OnSurfaceVariantBrush}" />
+                  <TextBlock Text="{Binding Data.Client.Entity.Email}" Style="{StaticResource BodySmall}"
+                             Foreground="{ThemeResource OnSurfaceVariantBrush}" TextWrapping="Wrap" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Spacing="{StaticResource Space050}">
+                  <FontIcon Glyph="&#xE717;" FontSize="{StaticResource BodySmallFontSize}" Foreground="{ThemeResource OnSurfaceVariantBrush}" />
+                  <TextBlock Text="{Binding Data.Client.Entity.Phone}" Style="{StaticResource BodySmall}"
+                             Foreground="{ThemeResource OnSurfaceVariantBrush}" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Spacing="{StaticResource Space050}">
+                  <FontIcon Glyph="&#xE707;" FontSize="{StaticResource BodySmallFontSize}" Foreground="{ThemeResource OnSurfaceVariantBrush}" />
+                  <TextBlock Text="{Binding Data.Client.Entity.Address}" Style="{StaticResource BodySmall}"
+                             Foreground="{ThemeResource OnSurfaceVariantBrush}" TextWrapping="Wrap" />
+                </StackPanel>
+              </StackPanel>
+
+              <!-- Quote History + Summary (summary below until the detail is wide) -->
+              <Grid>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="*" />
+                  <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                  <RowDefinition Height="Auto" />
+                  <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <!-- Quote History -->
+                <utu:CardContentControl Style="{StaticResource ElevatedSurfaceCardStyle}" Padding="{StaticResource Space200Thickness}"
+                        Grid.ColumnSpan="{utu:Responsive Narrowest=2, Widest=1, Layout={StaticResource SplitLayout}}"
+                        Margin="{utu:Responsive Narrowest='0', Widest={StaticResource Space300RightThickness}, Layout={StaticResource SplitLayout}}">
+                  <StackPanel Spacing="{StaticResource Space100}">
+                    <TextBlock Style="{StaticResource LabelSmall}"
+                               Foreground="{ThemeResource OnSurfaceVariantBrush}" FontWeight="SemiBold">
+                      <Run Text="QUOTE HISTORY (" /><Run Text="{Binding Data.Client.QuoteCount}" /><Run Text=")" />
+                    </TextBlock>
+
+                    <!-- Quotes list (directly from composite detail, no nested FeedView) -->
+                    <muxc:ItemsRepeater ItemsSource="{Binding Data.Quotes}">
+                      <muxc:ItemsRepeater.Layout>
+                        <muxc:StackLayout Spacing="0" />
+                      </muxc:ItemsRepeater.Layout>
+                      <muxc:ItemsRepeater.ItemTemplate>
+                        <DataTemplate>
+                          <!-- Each quote is a button: tap, Enter or Space opens it in the editor -->
+                          <Button Command="{Binding DataContext.OpenQuote, ElementName=ClientsRoot}"
+                                  CommandParameter="{Binding}"
+                                  AutomationProperties.Name="{Binding Title}"
+                                  Style="{StaticResource TextButtonStyle}"
+                                  Foreground="{ThemeResource OnSurfaceBrush}"
+                                  BorderBrush="{ThemeResource OutlineVariantBrush}"
+                                  BorderThickness="0,0,0,1"
+                                  CornerRadius="{StaticResource Radius0CornerRadius}"
+                                  MinHeight="{StaticResource TouchTargetMinSize}"
+                                  Padding="{StaticResource Space150VerticalThickness}"
+                                  HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch">
+                          <Grid ColumnSpacing="{StaticResource Space150}">
+                            <Grid.ColumnDefinitions>
+                              <ColumnDefinition Width="*" />
+                              <ColumnDefinition Width="Auto" />
+                              <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Spacing="{StaticResource Space025}">
+                              <TextBlock Text="{Binding Title}" Style="{StaticResource BodyMedium}" TextTrimming="CharacterEllipsis" />
+                              <TextBlock Style="{StaticResource BodySmall}"
+                                         Foreground="{ThemeResource OnSurfaceVariantBrush}" TextTrimming="CharacterEllipsis">
+                                <Run Text="{Binding QuoteNumber}" />
+                                <Run Text=" · " />
+                                <Run Text="{Binding CreatedAt, Converter={StaticResource RelativeDateConverter}}" />
+                              </TextBlock>
+                            </StackPanel>
+                            <TextBlock Grid.Column="1"
+                                       Text="{Binding Total, Converter={StaticResource CurrencyFormatConverter}}"
+                                       FontFamily="{StaticResource MonospaceFontFamily}"
+                                       Style="{StaticResource BodyMediumSemiBold}"
+                                       VerticalAlignment="Center" />
+                            <ctrl:StatusPill Grid.Column="2" Status="{Binding Status}" />
+                          </Grid>
+                          </Button>
+                        </DataTemplate>
+                      </muxc:ItemsRepeater.ItemTemplate>
+                    </muxc:ItemsRepeater>
+                    <TextBlock Text="No quotes for this client yet."
+                               Visibility="{Binding Data.Client.QuoteCount, Converter={StaticResource ZeroToVisibleConverter}}"
+                               Style="{StaticResource BodyMedium}"
+                               Foreground="{ThemeResource OnSurfaceVariantBrush}" />
+                  </StackPanel>
+                </utu:CardContentControl>
+
+                <!-- Summary -->
+                <utu:CardContentControl Style="{StaticResource ElevatedSurfaceCardStyle}" Grid.Row="{utu:Responsive Narrowest=1, Widest=0, Layout={StaticResource SplitLayout}}"
+                        Grid.Column="{utu:Responsive Narrowest=0, Widest=1, Layout={StaticResource SplitLayout}}"
+                        Grid.ColumnSpan="{utu:Responsive Narrowest=2, Widest=1, Layout={StaticResource SplitLayout}}"
+                        Margin="{utu:Responsive Narrowest={StaticResource Space200TopThickness}, Widest='0', Layout={StaticResource SplitLayout}}"
+                        Width="{utu:Responsive Narrowest=NaN, Widest={StaticResource SummaryColumnWidth}, Layout={StaticResource SplitLayout}}" Padding="{StaticResource Space200Thickness}"
+                        VerticalAlignment="Top">
+                  <StackPanel Spacing="{StaticResource Space150}">
+                    <TextBlock Text="SUMMARY" Style="{StaticResource LabelSmall}"
+                               Foreground="{ThemeResource OnSurfaceVariantBrush}" FontWeight="SemiBold" />
+                    <Grid>
+                      <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                      </Grid.ColumnDefinitions>
+                      <TextBlock Text="Total Quotes" Style="{StaticResource BodySmall}"
+                                 Foreground="{ThemeResource OnSurfaceVariantBrush}" />
+                      <TextBlock Grid.Column="1" Text="{Binding Data.Client.QuoteCount}" Style="{StaticResource BodySmall}" />
+                    </Grid>
+                    <Grid>
+                      <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                      </Grid.ColumnDefinitions>
+                      <TextBlock Text="Total Value" Style="{StaticResource BodySmall}"
+                                 Foreground="{ThemeResource OnSurfaceVariantBrush}" />
+                      <TextBlock Grid.Column="1"
+                                 Text="{Binding Data.Client.TotalValue, Converter={StaticResource CurrencyFormatConverter}}"
+                                 FontFamily="{StaticResource MonospaceFontFamily}"
+                                 Style="{StaticResource BodySmallSemiBold}" />
+                    </Grid>
+                  </StackPanel>
+                </utu:CardContentControl>
+              </Grid>
+            </StackPanel>
+          </ScrollViewer>
+        </DataTemplate>
+
+        <mvux:FeedView.NoneTemplate>
+          <DataTemplate>
+            <!-- Only beside the list: in the one-pane layouts the list shows until a client is picked. -->
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center"
+                        Visibility="{utu:Responsive Narrow=Collapsed, Widest=Visible}"
+                        Spacing="{StaticResource Space150}" Padding="{StaticResource Space400Thickness}">
+              <FontIcon Glyph="&#xE77B;" FontSize="{StaticResource HeroIconSize}"
+                        Foreground="{ThemeResource OnSurfaceVariantBrush}" HorizontalAlignment="Center" />
+              <TextBlock Text="Select a client" Style="{StaticResource TitleSmall}"
+                         HorizontalAlignment="Center"
+                         Foreground="{ThemeResource OnSurfaceVariantBrush}" />
+              <TextBlock Text="Choose a client from the list to view their details and quote history."
+                         Style="{StaticResource BodyMedium}" HorizontalAlignment="Center"
+                         Foreground="{ThemeResource OnSurfaceVariantBrush}"
+                         TextAlignment="Center" TextWrapping="Wrap" MaxWidth="{StaticResource HintMaxWidth}" />
+            </StackPanel>
+          </DataTemplate>
+        </mvux:FeedView.NoneTemplate>
+
+        <mvux:FeedView.ProgressTemplate>
+          <DataTemplate>
+            <ProgressRing IsActive="True" HorizontalAlignment="Center" VerticalAlignment="Center"
+                          Visibility="{utu:Responsive Narrow=Collapsed, Widest=Visible}"
+                          AutomationProperties.Name="Loading client" />
+          </DataTemplate>
+        </mvux:FeedView.ProgressTemplate>
+
+        <mvux:FeedView.ErrorTemplate>
+          <DataTemplate>
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center"
+                        Background="{ThemeResource BackgroundBrush}"
+                        Spacing="{StaticResource Space150}" Padding="{StaticResource Space400Thickness}"
+                        AutomationProperties.LiveSetting="Polite">
+              <FontIcon Glyph="&#xE783;" FontSize="{StaticResource HeroIconSize}"
+                        Foreground="{ThemeResource ErrorBrush}" HorizontalAlignment="Center" />
+              <TextBlock Text="This client could not be loaded." Style="{StaticResource TitleSmall}"
+                         HorizontalAlignment="Center" TextAlignment="Center" TextWrapping="Wrap" />
+              <StackPanel Orientation="Horizontal" Spacing="{StaticResource Space100}" HorizontalAlignment="Center">
+                <Button Content="Back"
+                        Command="{Binding DataContext.BackToList, ElementName=ClientsRoot}"
+                        Style="{StaticResource TextButtonStyle}"
+                        AutomationProperties.Name="Back to clients" />
+                <Button Content="Retry"
+                        Command="{Binding DataContext.RefreshList, ElementName=ClientsRoot}"
+                        Style="{StaticResource OutlinedButtonStyle}"
+                        AutomationProperties.Name="Retry loading the client" />
+              </StackPanel>
+            </StackPanel>
+          </DataTemplate>
+        </mvux:FeedView.ErrorTemplate>
+      </mvux:FeedView>
+    </Grid>
+  </Grid>
+</Page>
