@@ -1,0 +1,50 @@
+{
+  "$schema": "https://schemas.platform.uno/sample/v1",
+  "id": "quotecraft",
+  "displayName": "QuoteCraft",
+  "description": "QuoteCraft is a quoting app for independent contractors and small trade businesses. A quote is built from line items, typed in or picked from a service catalog, with its tax rate and valid-until date; it is exported as a PDF and sent by email, and it moves from Draft to Sent, Accepted, Declined or Expired, with a reminder three days before it expires. A client directory, a business profile that sets the defaults, and Light, Dark or system themes complete it. Data stays on the device in an encrypted SQLite database (SQLCipher); Supabase sign-in and Stripe billing appear only when a project is configured. One Uno Platform single project for desktop, the browser, Android and iOS, with MVUX models, Navigation Extensions (tab and detail regions, dialogs and a drawer as routes), the Uno Toolkit's responsive layouts, Material, and PDFs drawn with SkiaSharp on every head.",
+  "platforms": [
+    "desktop",
+    "wasm",
+    "android",
+    "ios"
+  ],
+  "sourcePath": "QuoteCraft/QuoteCraft.csproj",
+  "iconUrl": "https://raw.githubusercontent.com/unoplatform/Uno.Samples/master/studio/quotecraft/.studiolive/icon.png",
+  "screenshots": [
+    "https://raw.githubusercontent.com/unoplatform/Uno.Samples/master/studio/quotecraft/.studiolive/screenshots/quotes-desktop.png",
+    "https://raw.githubusercontent.com/unoplatform/Uno.Samples/master/studio/quotecraft/.studiolive/screenshots/preview-desktop.png",
+    "https://raw.githubusercontent.com/unoplatform/Uno.Samples/master/studio/quotecraft/.studiolive/screenshots/quote-phone.png",
+    "https://raw.githubusercontent.com/unoplatform/Uno.Samples/master/studio/quotecraft/.studiolive/screenshots/editor-phone.png"
+  ],
+  "showcase": {
+    "summary": "Quotes for contractors: line items from a catalog, a PDF on every platform and a status lifecycle, local-first.",
+    "type": "showcase",
+    "status": "preview",
+    "owner": [
+      "noknowscode"
+    ],
+    "industry": "Trades and home services (contractors)",
+    "goals": [
+      "MVUX models over a local SQLCipher database, with loading, empty and error states and Retry on every page",
+      "Navigation Extensions: tab and list-detail regions, ContentDialog routes that return typed results, and a drawer route",
+      "Four responsive layouts with the Uno Toolkit: bottom tabs on a phone, a side rail and list beside detail on a wide window",
+      "Material theming with Light, Dark and the system theme, chosen in the app and remembered",
+      "A quote PDF drawn with SkiaSharp's SKDocument on every head: saved on desktop, downloaded in the browser, offered to the save dialog on Android and iOS",
+      "Optional Supabase sign-in and Stripe billing that stay hidden when no project is configured"
+    ],
+    "requires": [
+      "An email app on the device to send a quote (a mailto link; the PDF is attached by hand)"
+    ],
+    "tags": [
+      "mvux",
+      "navigation",
+      "toolkit",
+      "material",
+      "skia",
+      "pdf",
+      "sqlite",
+      "local-first"
+    ]
+  }
+}
