@@ -12,6 +12,7 @@ Needs Pillow for the icon and screenshot sizes (pip install pillow); without it 
 import argparse
 import json
 import re
+import subprocess
 import sys
 from pathlib import Path
 
@@ -239,7 +240,22 @@ def check(folder):
         report.error('no solution file at the sample root')
     if (folder / 'uno-sample.json').is_file():
         report.warn('uno-sample.json: the legacy manifest; .studiolive/sample.json replaces it')
+    for name in ignored(studiolive):
+        report.error(f'.studiolive/{name}: ignored by git, so it would never be committed')
     return report, sdk
+
+
+def ignored(studiolive):
+    """Files in .studiolive that git ignores (none when the folder is not in a git work tree)."""
+    files = [p.relative_to(studiolive).as_posix() for p in studiolive.rglob('*') if p.is_file()]
+    if not files:
+        return []
+    try:
+        result = subprocess.run(['git', 'check-ignore', '--no-index', '--stdin'], cwd=studiolive, input=chr(10).join(files),
+                                capture_output=True, text=True)
+    except FileNotFoundError:
+        return []
+    return [line for line in result.stdout.splitlines() if line]
 
 
 def main():
