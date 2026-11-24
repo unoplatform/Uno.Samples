@@ -17,7 +17,7 @@ studio/
       user-conversation.json   # Studio: prefilled chat and suggested prompts (optional)
       icon.png                 # 256x256, referenced from sample.json
       screenshots/             # 1280x800 landscape or 390x844 portrait, referenced from sample.json
-    global.json                # pins Uno.Sdk; the PR checks read the Uno version here
+    global.json                # pins Uno.Sdk; the checker reads the Uno version here
     <App>.sln
     <App>/<App>.csproj         # sample.json points at this
     README.md
@@ -29,7 +29,7 @@ The samples added before this layout still carry `uno-sample.json` at the sample
 
 ## The info file: `.studiolive/sample.json`
 
-The file has two groups of fields. The top level is Studio's sample manifest, schema v1 (`https://schemas.platform.uno/sample/v1`). The `showcase` object holds the fields the samples page and the PR checks need. Studio does not read `showcase`.
+The file has two groups of fields. The top level is Studio's sample manifest, schema v1 (`https://schemas.platform.uno/sample/v1`). The `showcase` object holds the fields the samples page and the checker need. Studio does not read `showcase`. `id` is a repo convention on top of both (see below).
 
 Worked example, from Patina:
 
@@ -74,7 +74,6 @@ Worked example, from Patina:
 | Field | Required | What it is |
 |---|---|---|
 | `$schema` | yes | `https://schemas.platform.uno/sample/v1`. The format version lives in this URI. |
-| `id` | yes | Kebab-case id, equal to the folder name. |
 | `displayName` | yes | Name on the gallery card and in the chat. |
 | `description` | yes | The gallery card paragraph: what the app is and which patterns it uses. |
 | `platforms` | no | Any of `desktop`, `wasm`, `ios`, `android`, `macos`. Omitted means all. A showcase sample lists `wasm`, since the live demo is the web build. |
@@ -84,8 +83,12 @@ Worked example, from Patina:
 
 Studio's two optional companion files keep their current shape:
 
-- `agent-context.json`: `{ "messages": [ { "role", "content" } ] }`, the technical context the agent receives so it can keep editing the app.
-- `user-conversation.json`: `{ "messages": [...], "suggestedPrompts": [...] }`, the chat Studio shows when the sample opens.
+- `agent-context.json`: `{ "messages": [ { "role", "content" } ] }`, the technical context the agent receives so it can keep editing the app. The checker expects at least one message, since an empty context does nothing.
+- `user-conversation.json`: `{ "messages": [...], "suggestedPrompts": [...] }`, the chat Studio shows when the sample opens. Studio needs the `messages` list but not any messages in it, so an empty list with only `suggestedPrompts` is fine.
+
+### Repo convention: `id`
+
+`id` sits at the top level next to Studio's fields, but Studio doesn't read it. It is this repo's convention: kebab-case and equal to the folder name, and the checker enforces both. It keeps the info file self-describing when it is read on its own, for example by the samples page.
 
 ### Showcase fields (`showcase`)
 
@@ -104,7 +107,7 @@ Studio's two optional companion files keep their current shape:
 ### What is deliberately not in the file
 
 - **Featured, sort order, published**: the catalog decides these. One list.
-- **Uno Platform version**: `global.json` already pins it. The PR checks read it from there and compare it with what Studio supports.
+- **Uno Platform version**: `global.json` already pins it. The checker reads it from there; comparing it with what Studio supports is a planned PR check (see step 4 below).
 - **Source link**: the repo plus the folder gives it; nothing to keep in sync.
 - **Prompt that generated the app**: `user-conversation.json`, when there is one.
 
@@ -113,7 +116,7 @@ Studio's two optional companion files keep their current shape:
 1. Create `studio/<sample-id>/` with the app, `global.json` pinned to the Uno.Sdk version the catalog supports, and a README.
 2. Add `.studiolive/sample.json` with every required field above, plus `icon.png` and at least one screenshot.
 3. Add `agent-context.json` and `user-conversation.json` so the sample opens in Studio with context.
-4. Go through [Before you open the PR](#before-you-open-the-pr), then open the PR. The checks validate the info file, build the project, confirm the platforms and the Uno version, and post a web preview link.
+4. Go through [Before you open the PR](#before-you-open-the-pr), including the checker, then open the PR. CI builds every solution in the repo, this one included. It does not run the checker yet, and it doesn't check the Uno version against Studio or post a web preview; those are planned, so run the checker yourself and mention the result in the PR.
 5. After merge, ask for a catalog entry (Dev first, then live). The sample appears on the samples page once the catalog lists it.
 
 ## Before you open the PR
@@ -127,6 +130,6 @@ A sample usually comes from a development repo, and that repo carries things a p
 - **Replace the template logo.** The launcher icon and splash (`Assets/Icons`, `Assets/Splash`) are the app's own, and `icon.png` is that icon at 256x256.
 - **Take screenshots from the running app** at exactly 1280x800 or 390x844. A headless browser over the web build gives exact sizes without touching your desktop.
 - **Check asset licences.** Bundled photos, fonts and data allow redistribution, and their credits stay with them.
-- **Run the checker:** `python -I build/validate_studio_sample.py <sample-id>` checks the layout and info file against this page. It needs Pillow for the image sizes.
+- **Run the checker:** `python build/validate_studio_sample.py <sample-id>` checks the layout and info file against this page. It needs Pillow for the icon and screenshot sizes (`pip install pillow`) and fails without it; `--no-images` skips those checks on purpose. `--root <folder>` checks a sample that isn't in this repo yet.
 
 The icon and screenshot URLs point at `master`, so they show only after the merge.
