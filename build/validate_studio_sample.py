@@ -1,13 +1,14 @@
 """Check a showcase sample in studio/<sample-id>/ against the layout and info file in studio/README.md.
 
 Usage:
-  python -I build/validate_studio_sample.py [--root <folder>] [<sample-id> ...]
+  python build/validate_studio_sample.py [--root <folder>] [--no-images] [<sample-id> ...]
 
 With no ids it checks every folder in studio/ that has .studiolive/sample.json. --root checks samples outside this repo
 (a staging folder with one sample per subfolder). Prints one line per problem and exits 1 if any sample has an error.
 Warnings (W) do not fail the run.
 
-Needs Pillow for the icon and screenshot sizes (pip install pillow); without it the image checks are skipped.
+Needs Pillow for the icon and screenshot sizes (pip install pillow). Without it the run fails, unless --no-images skips
+the image checks on purpose.
 """
 import argparse
 import json
@@ -15,11 +16,13 @@ import re
 import subprocess
 import sys
 from pathlib import Path
+from urllib.parse import unquote
 
 try:
-    from PIL import Image
+    from PIL import Image, UnidentifiedImageError
 except ImportError:
     Image = None
+    UnidentifiedImageError = OSError
 
 SCHEMA = 'https://schemas.platform.uno/sample/v1'
 RAW = 'https://raw.githubusercontent.com/unoplatform/Uno.Samples/master/studio/'
@@ -31,7 +34,8 @@ SHOWCASE = {'summary', 'type', 'status', 'owner', 'industry', 'goals', 'requires
 SCREEN_SIZES = {(1280, 800), (390, 844)}
 ICON_SIZE, ICON_BYTES = (256, 256), 200 * 1024
 KEBAB = re.compile(r'^[a-z0-9]+(-[a-z0-9]+)*$')
-HANDLE = re.compile(r'^[A-Za-z0-9](?:[A-Za-z0-9-]{0,38})$')
+# GitHub handles: 1 to 39 letters, digits and single hyphens, not starting or ending with a hyphen.
+HANDLE = re.compile(r'^(?=.{1,39}$)[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*$')
 
 
 def text(value):
@@ -53,6 +57,49 @@ class Report:
         self.warnings.append(message)
 
 
+def read_json_object(path, label, report, strip_comments=False):
+    """The JSON object in a file, or None after reporting why not. utf-8-sig accepts a byte order mark, as .NET does."""
+    try:
+        raw = path.read_text(encoding='utf-8-sig')
+    except FileNotFoundError:
+        return None
+    except (OSError, UnicodeDecodeError) as e:
+        report.error(f'{label}: cannot be read ({e})')
+        return None
+    try:
+        data = json.loads(without_comments(raw) if strip_comments else raw)
+    except ValueError as e:
+        report.error(f'{label}: not valid JSON ({e})')
+        return None
+    if not isinstance(data, dict):
+        report.error(f'{label}: must be a JSON object, got {type(data).__name__}')
+        return None
+    return data
+
+
+def without_comments(raw):
+    """JSON with // and /* */ comments removed outside strings, the way dotnet reads global.json."""
+    out, i, n = [], 0, len(raw)
+    while i < n:
+        c = raw[i]
+        if c == '"':
+            j = i + 1
+            while j < n and raw[j] != '"':
+                j += 2 if raw[j] == '\\' else 1
+            out.append(raw[i:j + 1])
+            i = j + 1
+        elif raw.startswith('//', i):
+            while i < n and raw[i] != '\n':
+                i += 1
+        elif raw.startswith('/*', i):
+            end = raw.find('*/', i + 2)
+            i = n if end < 0 else end + 2
+        else:
+            out.append(c)
+            i += 1
+    return ''.join(out)
+
+
 def local_file(url, folder, sample_id, report, field):
     """The file in the sample folder that an absolute raw.githubusercontent URL points at."""
     if not text(url) or not url.startswith('https://'):
@@ -62,19 +109,28 @@ def local_file(url, folder, sample_id, report, field):
     if not url.startswith(prefix):
         report.error(f'{field}: must start with {prefix}')
         return None
-    path = folder / url[len(prefix):]
+    relative = unquote(url[len(prefix):])
+    path = (folder / relative).resolve()
+    if not path.is_relative_to(folder.resolve()):
+        report.error(f'{field}: {relative} points outside the sample folder')
+        return None
     if not path.is_file():
-        report.error(f'{field}: {url[len(prefix):]} is not in the sample folder')
+        report.error(f'{field}: {relative} is not in the sample folder')
         return None
     return path
 
 
-def image_size(path):
-    with Image.open(path) as image:
-        return image.size, image.format
+def image_size(path, report, field):
+    """The image's size and format, or None after reporting that it can't be read as an image."""
+    try:
+        with Image.open(path) as image:
+            return image.size, image.format
+    except (UnidentifiedImageError, OSError) as e:
+        report.error(f'{field}: {path.name} is not a readable image ({e})')
+        return None
 
 
-def check_info(folder, info, report):
+def check_info(folder, info, report, images):
     sample_id = folder.name
     for key in sorted(set(info) - TOP):
         report.warn(f'unknown top-level field {key!r} (Studio ignores it; showcase fields go in "showcase")')
@@ -109,23 +165,27 @@ def check_info(folder, info, report):
         if icon:
             if icon.stat().st_size > ICON_BYTES:
                 report.error(f'iconUrl: {icon.stat().st_size // 1024} KB, over 200 KB')
-            if Image:
-                size, fmt = image_size(icon)
+            if images and (read := image_size(icon, report, 'iconUrl')):
+                size, fmt = read
                 if size != ICON_SIZE:
                     report.error(f'iconUrl: {size[0]}x{size[1]}, must be 256x256')
                 if fmt not in ('PNG', 'WEBP'):
                     report.error(f'iconUrl: {fmt}, must be PNG or WebP')
+    else:
+        report.warn('iconUrl: missing; the gallery card shows no icon (README, Adding a sample, step 2)')
 
     screenshots = info.get('screenshots', [])
     if not isinstance(screenshots, list):
         report.error('screenshots: a list of URLs')
         screenshots = []
+    if not screenshots:
+        report.warn('screenshots: none; add at least one (README, Adding a sample, step 2)')
     if len(screenshots) > 10:
         report.error(f'screenshots: {len(screenshots)}, at most 10')
     for i, url in enumerate(screenshots):
         shot = local_file(url, folder, sample_id, report, f'screenshots[{i}]')
-        if shot and Image:
-            size, _ = image_size(shot)
+        if shot and images and (read := image_size(shot, report, f'screenshots[{i}]')):
+            size, _ = read
             if size not in SCREEN_SIZES:
                 report.error(f'screenshots[{i}]: {shot.name} is {size[0]}x{size[1]}, must be 1280x800 or 390x844')
     return platforms
@@ -178,24 +238,24 @@ def check_showcase(info, platforms, sdk, report):
 
 
 def check_companions(studiolive, report):
-    for name, keys in (('agent-context.json', ('messages',)), ('user-conversation.json', ('messages', 'suggestedPrompts'))):
+    # Studio needs the messages list; agent-context.json is only useful with at least one message, while
+    # user-conversation.json may start empty and carry only suggestedPrompts.
+    for name, may_be_empty in (('agent-context.json', False), ('user-conversation.json', True)):
         path = studiolive / name
         if not path.is_file():
             report.warn(f'{name}: missing (optional; the sample opens in Studio without context)')
             continue
-        try:
-            data = json.loads(path.read_text(encoding='utf-8'))
-        except ValueError as e:
-            report.error(f'{name}: not valid JSON ({e})')
+        data = read_json_object(path, name, report)
+        if data is None:
             continue
         messages = data.get('messages')
-        if not isinstance(messages, list) or not messages:
-            report.error(f'{name}: messages must be a non-empty list')
+        if not isinstance(messages, list) or (not messages and not may_be_empty):
+            report.error(f'{name}: messages must be a {"list" if may_be_empty else "non-empty list"}')
             continue
         for i, m in enumerate(messages):
             if not isinstance(m, dict) or m.get('role') not in ('user', 'assistant', 'system') or not text(m.get('content')):
                 report.error(f'{name}: messages[{i}] needs a role (user, assistant, system) and content')
-        if 'suggestedPrompts' in keys and 'suggestedPrompts' in data and not strings(data['suggestedPrompts']):
+        if name == 'user-conversation.json' and 'suggestedPrompts' in data and not strings(data['suggestedPrompts']):
             report.error(f'{name}: suggestedPrompts must be a list of strings')
 
 
@@ -204,34 +264,29 @@ def uno_sdk(folder, report):
     if not path.is_file():
         report.error('global.json: missing (it pins Uno.Sdk)')
         return None
-    try:
-        # dotnet reads global.json with // and /* */ comments. Strip whole comment lines and blocks only, so a URL in a
-        # value stays intact.
-        raw = re.sub(r'/\*[\s\S]*?\*/|^[ \t]*//[^\n]*', '', path.read_text(encoding='utf-8'), flags=re.M)
-        sdk = json.loads(raw).get('msbuild-sdks', {}).get('Uno.Sdk')
-    except ValueError as e:
-        report.error(f'global.json: not valid JSON ({e})')
+    data = read_json_object(path, 'global.json', report, strip_comments=True)
+    if data is None:
         return None
+    sdks = data.get('msbuild-sdks')
+    sdk = sdks.get('Uno.Sdk') if isinstance(sdks, dict) else None
     if not text(sdk):
         report.error('global.json: no msbuild-sdks.Uno.Sdk version')
         return None
     return sdk
 
 
-def check(folder):
+def check(folder, images):
     report = Report(folder.name)
     studiolive = folder / '.studiolive'
     path = studiolive / 'sample.json'
-    try:
-        info = json.loads(path.read_text(encoding='utf-8'))
-    except FileNotFoundError:
+    if not path.is_file():
         report.error('.studiolive/sample.json: missing')
         return report, None
-    except ValueError as e:
-        report.error(f'.studiolive/sample.json: not valid JSON ({e})')
+    info = read_json_object(path, '.studiolive/sample.json', report)
+    if info is None:
         return report, None
     sdk = uno_sdk(folder, report)
-    platforms = check_info(folder, info, report)
+    platforms = check_info(folder, info, report, images)
     check_showcase(info, platforms, sdk, report)
     check_companions(studiolive, report)
     if not (folder / 'README.md').is_file():
@@ -261,18 +316,31 @@ def ignored(studiolive):
 def main():
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     parser.add_argument('--root', type=Path, default=Path(__file__).resolve().parents[1] / 'studio')
+    parser.add_argument('--no-images', action='store_true', help='skip the icon and screenshot size checks (no Pillow needed)')
     parser.add_argument('ids', nargs='*')
     args = parser.parse_args()
+    if not args.root.is_dir():
+        print(f'E --root: {args.root} is not a folder')
+        return 1
+    if Image is None and not args.no_images:
+        print('E Pillow is not installed, so the icon and screenshot sizes cannot be checked.')
+        print('  Install it (pip install pillow), or pass --no-images to skip those checks on purpose.')
+        return 1
+    images = not args.no_images
     folders = [args.root / i for i in args.ids] if args.ids else sorted(
         p for p in args.root.iterdir() if (p / '.studiolive' / 'sample.json').is_file())
     if not folders:
         print(f'No samples with .studiolive/sample.json under {args.root}')
         return 1
-    if not Image:
-        print('W Pillow is not installed: icon and screenshot sizes not checked')
+    if not images:
+        print('W --no-images: icon and screenshot sizes not checked')
     failed = 0
     for folder in folders:
-        report, sdk = check(folder)
+        if not folder.is_dir():
+            print(f'FAIL {folder.name}  (no such folder under {args.root})')
+            failed += 1
+            continue
+        report, sdk = check(folder, images)
         state = 'FAIL' if report.errors else 'OK'
         print(f'{state:4} {folder.name}  (Uno.Sdk {sdk or "?"}, {len(report.errors)} errors, {len(report.warnings)} warnings)')
         for e in report.errors:
