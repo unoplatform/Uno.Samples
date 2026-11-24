@@ -111,5 +111,20 @@ Studio's two optional companion files keep their current shape:
 1. Create `studio/<sample-id>/` with the app, `global.json` pinned to the Uno.Sdk version the catalog supports, and a README.
 2. Add `.studiolive/sample.json` with every required field above, plus `icon.png` and at least one screenshot.
 3. Add `agent-context.json` and `user-conversation.json` so the sample opens in Studio with context.
-4. Open a PR. The checks validate the info file, build the project, confirm the platforms and the Uno version, and post a web preview link.
+4. Go through [Before you open the PR](#before-you-open-the-pr), then open the PR. The checks validate the info file, build the project, confirm the platforms and the Uno version, and post a web preview link.
 5. After merge, ask for a catalog entry (Dev first, then live). The sample appears on the samples page once the catalog lists it.
+
+## Before you open the PR
+
+A sample usually comes from a development repo, and that repo carries things a public sample shouldn't.
+
+- **Leave out development files.** Session and handoff notes, specs, briefs, PRDs, test evidence and screenshots, agent and tool config (`.mcp.json` and the like), and scripts that only write into those folders. Remove the README's links to them too. Keep what a reader needs to build and run the app, and the files its README points to.
+- **Drop the old manifest.** A new sample has no `uno-sample.json`; `.studiolive/sample.json` replaces it.
+- **Build Release on every platform in `platforms`.** Debug-only code that a Release build still reaches is the usual failure.
+- **Check the README against the project.** Versions come from `global.json` and the restored packages, not from memory, and every link resolves.
+- **Replace the template logo.** The launcher icon and splash (`Assets/Icons`, `Assets/Splash`) are the app's own, and `icon.png` is that icon at 256x256.
+- **Take screenshots from the running app** at exactly 1280x800 or 390x844. A headless browser over the web build gives exact sizes without touching your desktop.
+- **Check asset licences.** Bundled photos, fonts and data allow redistribution, and their credits stay with them.
+- **Run the checker:** `python -I build/validate_studio_sample.py <sample-id>` checks the layout and info file against this page. It needs Pillow for the image sizes.
+
+The icon and screenshot URLs point at `master`, so they show only after the merge.
