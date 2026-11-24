@@ -6,6 +6,8 @@ One list decides what shows and in which order: Studio's gallery catalog. A samp
 
 ## Layout
 
+![A sample's folder in Uno.Samples: studio/<sample-id>/ holds the app's code, global.json, README.md and a .studiolive/ folder with sample.json, icon.png, screenshots/, and the Studio-only agent-context.json and user-conversation.json. The samples page and Uno Platform Studio both read it.](sample-structure.png)
+
 ```text
 studio/
   <sample-id>/
