@@ -16,7 +16,7 @@ studio/
       agent-context.json       # Studio: context injected into the agent (optional)
       user-conversation.json   # Studio: prefilled chat and suggested prompts (optional)
       icon.png                 # 256x256, referenced from sample.json
-      screenshots/             # 1280x800 landscape or 390x844 portrait, referenced from sample.json
+      screenshots/             # PNG, 1280x800 landscape or 390x844 portrait, referenced from sample.json
     global.json                # pins the public Uno.Sdk; the checker reads the Uno version here
     <App>.sln
     <App>/<App>.csproj         # sample.json points at this
@@ -78,7 +78,7 @@ Worked example, from Patina:
 | `platforms` | no | Any of `desktop`, `wasm`, `ios`, `android`, `macos`. Omitted means all. A showcase sample lists `wasm`, since the live demo is the web build. |
 | `sourcePath` | yes | Path to the `.csproj`, relative to the sample folder. |
 | `iconUrl` | no | Absolute URL to a 256x256 PNG under 200 KB. |
-| `screenshots` | no | Absolute URLs, up to 10, 1280x800 landscape or 390x844 portrait. |
+| `screenshots` | no | Absolute URLs to PNGs, up to 10, 1280x800 landscape or 390x844 portrait. |
 
 Studio's two optional companion files keep their current shape:
 

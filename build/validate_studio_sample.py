@@ -163,7 +163,8 @@ def check_info(folder, info, report):
         shot = local_file(url, folder, sample_id, report, f'screenshots[{i}]')
         size = shot and png_size(shot, folder, report, f'screenshots[{i}]')
         if size and size not in SCREEN_SIZES:
-            report.error(f'screenshots[{i}]: {shot.name} is {size[0]}x{size[1]}, must be 1280x800 or 390x844')
+            name = shot.relative_to(folder.resolve()).as_posix()
+            report.error(f'screenshots[{i}]: {name} is {size[0]}x{size[1]}, must be 1280x800 or 390x844')
     return platforms
 
 
@@ -246,7 +247,8 @@ def uno_sdk(folder, report):
     except (OSError, UnicodeDecodeError) as e:
         report.error(f'global.json: cannot be read ({e})')
         return None
-    found = dict(UNO_SDK.findall(raw))
+    # Whole-line // comments can hold an old pin ("// was: Uno.Sdk.Private ..."); only live entries count.
+    found = dict(UNO_SDK.findall(re.sub(r'^\s*//.*$', '', raw, flags=re.M)))
     if 'Uno.Sdk.Private' in found:
         report.error(f'global.json: pins Uno.Sdk.Private {found["Uno.Sdk.Private"]}; showcase samples pin the public '
                      'Uno.Sdk so they restore outside Uno Platform')
