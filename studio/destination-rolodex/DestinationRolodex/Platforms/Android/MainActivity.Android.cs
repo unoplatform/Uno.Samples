@@ -12,7 +12,7 @@ namespace DestinationRolodex.Droid;
     WindowSoftInputMode = SoftInput.AdjustNothing | SoftInput.StateHidden,
     Exported = true
 )]
-public class MainActivity : Microsoft.UI.Xaml.ApplicationActivity
+public class MainActivity : Uno.UI.Runtime.Android.ApplicationActivity
 {
     protected override void OnCreate(Bundle? savedInstanceState)
     {

@@ -1006,6 +1006,8 @@ public sealed partial class DestinationRolodexCard : UserControl
             return;
         }
 
+#if !__ANDROID__
+        // MouseWheelDelta is not implemented on Android (Uno0001), where there is no mouse wheel to read.
         e.Handled = true;
         ExitPreview();
         // Uno reports ±120 per notch; the prototype's math expects the browser's 100 per notch, positive = down.
@@ -1019,6 +1021,7 @@ public sealed partial class DestinationRolodexCard : UserControl
         Pause();
         _picker.Wheel(cssDelta, Now);
         Wake();
+#endif
     }
 
     private void OnScenePointerPressed(object sender, PointerRoutedEventArgs e)
