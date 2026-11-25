@@ -5,7 +5,7 @@ namespace DestinationRolodex.Controls;
 /// <summary>
 /// Letter-spaced text on the Uno Skia text stack. TextBlock.CharacterSpacing is a silent no-op there (runtime gotcha),
 /// so tracked labels are laid out one glyph per TextBlock with a negative or positive margin. A whitespace-only
-/// TextBlock measures zero, so spaces become an explicit-width spacer. Pair kerning is lost; recorded in SPEC.md.
+/// TextBlock measures zero, so spaces become an explicit-width spacer. Pair kerning between letters is lost.
 /// </summary>
 internal static class GlyphLayout
 {
