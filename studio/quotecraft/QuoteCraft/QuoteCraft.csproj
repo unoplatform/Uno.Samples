@@ -1,0 +1,95 @@
+<Project Sdk="Uno.Sdk">
+  <PropertyGroup>
+    <!-- Uno.Sdk skips the heads the build OS can't build (iOS on Linux, Windows off Windows). -->
+    <TargetFrameworks>net10.0-android;net10.0-ios;net10.0-windows10.0.19041;net10.0-browserwasm;net10.0-desktop</TargetFrameworks>
+    <!-- One head at a time (CI, RID-specific publish): -p:QuoteCraftTargetFrameworks=net10.0-desktop. -->
+    <TargetFrameworks Condition="'$(QuoteCraftTargetFrameworks)' != ''">$(QuoteCraftTargetFrameworks)</TargetFrameworks>
+
+    <OutputType>Exe</OutputType>
+    <UnoSingleProject>true</UnoSingleProject>
+
+    <!-- Display name -->
+    <ApplicationTitle>QuoteCraft</ApplicationTitle>
+    <!-- App Identifier -->
+    <ApplicationId>com.companyname.quotecraft</ApplicationId>
+    <!-- Versions -->
+    <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
+    <ApplicationVersion>1</ApplicationVersion>
+    <!-- Package Publisher -->
+    <ApplicationPublisher>QuoteCraft</ApplicationPublisher>
+    <!-- Package Description -->
+    <Description>QuoteCraft powered by Uno Platform.</Description>
+    <!-- Uno0001 = member not implemented in Uno Platform: fail the build instead of shipping a silent no-op. -->
+    <WarningsAsErrors>$(WarningsAsErrors);Uno0001</WarningsAsErrors>
+
+    <!--
+      UnoFeatures are used to quickly add and manage features enabled for your app.
+      https://aka.platform.uno/singleproject-features
+    -->
+    <UnoFeatures>
+      Material;
+      Hosting;
+      Toolkit;
+      Logging;
+      MVUX;
+      Configuration;
+      Navigation;
+      SkiaRenderer;
+    </UnoFeatures>
+    <!--
+      Uno.Sdk 7.0.0-dev.115 bundles Hot Design 2.0.0-dev.31 and App MCP 2.0.0-dev.18, whose clients still reference
+      Uno.UI.Lottie, an assembly Uno 7 no longer ships: every Debug launch crashed in GlobalStaticResources. Both stay off
+      (Debug only; Release never had them) until a dev build drops the reference. Delete these three lines then.
+    -->
+    <UnoDisableHotDesign>true</UnoDisableHotDesign>
+    <UnoDisableMCPSupport>true</UnoDisableMCPSupport>
+    <DefineConstants>$(DefineConstants);NO_UNO_STUDIO</DefineConstants>
+  </PropertyGroup>
+
+  <!--
+    WinAppSDK: build x64 or ARM64, never AnyCPU (SkiaSharp and SQLCipher ship per-architecture native libraries).
+    Uno 7's WinUI libraries are built against WinRT.Runtime 2.3.1; the SDK's default projection for 19041
+    (Microsoft.Windows.SDK.NET.Ref 10.0.19041.57) carries 2.2.0 and fails with CS1705, so pin a projection that matches.
+  -->
+  <PropertyGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">
+    <Platforms>x64;ARM64</Platforms>
+    <Platform Condition="'$(Platform)' == '' or '$(Platform)' == 'AnyCPU'">x64</Platform>
+    <WindowsSdkPackageVersion>10.0.19041.87</WindowsSdkPackageVersion>
+  </PropertyGroup>
+
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Data.Sqlite.Core" />
+    <PackageReference Include="SQLitePCLRaw.bundle_e_sqlcipher" />
+  </ItemGroup>
+
+  <!--
+    WebAssembly keeps the database and files in the browser's IndexedDB (IDBFS, mounted under ApplicationData's
+    folders). Without it the file system is in memory and every page load started from scratch.
+  -->
+  <PropertyGroup Condition="'$(TargetFramework)' == 'net10.0-browserwasm'">
+    <WasmShellEnableIDBFS>true</WasmShellEnableIDBFS>
+    <!--
+      WASM0001: SQLitePCLRaw declares sqlite3_config and sqlite3_db_config, which take varargs that WebAssembly cannot
+      call. Microsoft.Data.Sqlite does not call them; the database opens, reads and writes in the browser.
+    -->
+    <MSBuildWarningsAsMessages>$(MSBuildWarningsAsMessages);WASM0001</MSBuildWarningsAsMessages>
+  </PropertyGroup>
+
+  <!--
+    WebAssembly: SQLitePCLRaw 2.1.10 links its net8.0 e_sqlcipher.a (built for .NET 8's emscripten) whatever the .NET
+    version, and in a .NET 10 build every database write failed with "disk I/O error". The package's net9.0 build
+    matches the emscripten that .NET 9 and 10 use (3.1.56), so it takes its place before the native link.
+  -->
+  <Target Name="QuoteCraftLinkMatchingSqlCipher"
+          BeforeTargets="_PrepareForBrowserWasmBuildNative"
+          Condition="'$(RuntimeIdentifier)' == 'browser-wasm'">
+    <ItemGroup>
+      <_QuoteCraftSqlCipher Include="@(NativeFileReference->'%(FullPath)')" Condition="'%(Filename)' == 'e_sqlcipher'" />
+      <NativeFileReference Remove="@(NativeFileReference)" Condition="'%(Filename)' == 'e_sqlcipher'" />
+      <NativeFileReference Include="@(_QuoteCraftSqlCipher->Replace('nativeassets/net8.0', 'nativeassets/net9.0')->Replace('nativeassets\net8.0', 'nativeassets\net9.0'))" />
+    </ItemGroup>
+    <Message Importance="high" Text="QuoteCraft: linking @(NativeFileReference->WithMetadataValue('Filename', 'e_sqlcipher'))" />
+  </Target>
+
+</Project>

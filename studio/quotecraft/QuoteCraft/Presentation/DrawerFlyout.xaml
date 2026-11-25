@@ -1,0 +1,18 @@
+<!--
+  The flyout that Page routes opened with "!" (dialog qualifier) are shown in: a drawer from the right instead of
+  Uno.Extensions' full-window NavigationFlyout. Registered in App.xaml.cs as the Flyout service.
+-->
+<Flyout x:Class="QuoteCraft.Presentation.DrawerFlyout"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:uen="using:Uno.Extensions.Navigation.UI"
+        Placement="Full"
+        FlyoutPresenterStyle="{StaticResource SideDrawerFlyoutPresenterStyle}">
+  <Grid>
+    <Frame uen:Region.Attached="True"
+           HorizontalAlignment="Stretch"
+           VerticalAlignment="Stretch"
+           HorizontalContentAlignment="Stretch"
+           VerticalContentAlignment="Stretch" />
+  </Grid>
+</Flyout>

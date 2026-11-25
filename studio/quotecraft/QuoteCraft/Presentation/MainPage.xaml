@@ -1,0 +1,316 @@
+<Page x:Class="QuoteCraft.Presentation.MainPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:local="using:QuoteCraft.Presentation"
+      xmlns:uen="using:Uno.Extensions.Navigation.UI"
+      xmlns:utu="using:Uno.Toolkit.UI"
+      xmlns:um="using:Uno.Material"
+      utu:VisualStateManagerExtensions.States="{Binding ShellState}"
+      Background="{ThemeResource BackgroundBrush}">
+
+  <!--
+    Shell per category: Narrow and Normal (below 800) put the four destinations and Alerts (the notifications drawer) in a
+    bottom tab bar; Wide and Widest show the side rail with labels, notifications, the theme menu and the collapse
+    toggle.
+    The visual states below come from MainModel.ShellState.
+  -->
+  <Grid uen:Region.Attached="True">
+    <VisualStateManager.VisualStateGroups>
+      <VisualStateGroup x:Name="RailStates">
+        <VisualState x:Name="RailExpanded" />
+        <!-- Icons only: the labels go, and so do the tab names (each tab keeps its accessible name) -->
+        <VisualState x:Name="RailCollapsed">
+          <VisualState.Setters>
+            <Setter Target="SideRail.Width" Value="{StaticResource RailCollapsedWidth}" />
+            <Setter Target="BrandLabel.Visibility" Value="Collapsed" />
+            <Setter Target="NotifLabel.Visibility" Value="Collapsed" />
+            <Setter Target="ThemeLabel.Visibility" Value="Collapsed" />
+            <Setter Target="CollapseLabel.Visibility" Value="Collapsed" />
+            <Setter Target="SideQuotesTab.Content" Value="" />
+            <Setter Target="SideClientsTab.Content" Value="" />
+            <Setter Target="SideCatalogTab.Content" Value="" />
+            <Setter Target="SideSettingsTab.Content" Value="" />
+            <Setter Target="CollapseIcon.Glyph" Value="&#xE76C;" />
+            <Setter Target="CollapseToggle.(AutomationProperties.Name)" Value="Expand sidebar" />
+            <Setter Target="CollapseToggle.(ToolTipService.ToolTip)" Value="Expand sidebar" />
+          </VisualState.Setters>
+        </VisualState>
+      </VisualStateGroup>
+      <VisualStateGroup x:Name="ConnectivityStates">
+        <VisualState x:Name="Online" />
+        <VisualState x:Name="Offline">
+          <VisualState.Setters>
+            <Setter Target="OfflineBanner.Visibility" Value="Visible" />
+          </VisualState.Setters>
+        </VisualState>
+      </VisualStateGroup>
+    </VisualStateManager.VisualStateGroups>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition />
+      <RowDefinition Height="Auto" />
+    </Grid.RowDefinitions>
+
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="Auto" />
+      <ColumnDefinition Width="*" />
+    </Grid.ColumnDefinitions>
+
+    <!-- Offline Banner -->
+    <Border x:Name="OfflineBanner"
+            Grid.Row="0" Grid.ColumnSpan="2"
+            Background="{ThemeResource ErrorContainerBrush}"
+            Padding="{StaticResource Inset12x8}"
+            Visibility="Collapsed">
+      <StackPanel Orientation="Horizontal" Spacing="{StaticResource Space100}"
+                  HorizontalAlignment="Center" VerticalAlignment="Center">
+        <FontIcon Glyph="&#xEB5E;" FontSize="{StaticResource BodyMediumFontSize}"
+                  Foreground="{ThemeResource OnErrorContainerBrush}" />
+        <TextBlock Text="You're offline. Your work is saved on this device; sign-in and billing need a connection."
+                   Style="{StaticResource BodySmall}"
+                   TextWrapping="Wrap"
+                   Foreground="{ThemeResource OnErrorContainerBrush}" />
+      </StackPanel>
+    </Border>
+
+    <!-- Content region -->
+    <Grid x:Name="NavigationGrid"
+          Grid.Row="1"
+          Grid.Column="1"
+          uen:Region.Attached="True"
+          uen:Region.Navigator="Visibility" />
+
+    <!-- Bottom TabBar (Narrow and Normal) -->
+    <utu:TabBar x:Name="BottomTabs"
+                Grid.Row="2"
+                Grid.Column="1"
+                Height="{StaticResource BottomTabBarHeight}"
+                Visibility="{utu:Responsive Normal=Visible, Wide=Collapsed}"
+                uen:Region.Attached="True"
+                Style="{StaticResource BottomTabBarStyle}">
+      <utu:TabBarItem uen:Region.Name="Dashboard"
+                      Command="{Binding OpenTab}" CommandParameter="Dashboard"
+                      Content="Quotes"
+                      IsSelectable="True"
+                      Style="{StaticResource BottomTabBarItemStyle}"
+                      AutomationProperties.Name="Quotes">
+        <utu:TabBarItem.Icon>
+          <FontIcon Glyph="&#xE8A5;" />
+        </utu:TabBarItem.Icon>
+      </utu:TabBarItem>
+
+      <utu:TabBarItem uen:Region.Name="Clients"
+                      Command="{Binding OpenTab}" CommandParameter="Clients"
+                      Content="Clients"
+                      IsSelectable="True"
+                      Style="{StaticResource BottomTabBarItemStyle}"
+                      AutomationProperties.Name="Clients">
+        <utu:TabBarItem.Icon>
+          <FontIcon Glyph="&#xE77B;" />
+        </utu:TabBarItem.Icon>
+      </utu:TabBarItem>
+
+      <utu:TabBarItem uen:Region.Name="Catalog"
+                      Command="{Binding OpenTab}" CommandParameter="Catalog"
+                      Content="Catalog"
+                      IsSelectable="True"
+                      Style="{StaticResource BottomTabBarItemStyle}"
+                      AutomationProperties.Name="Catalog">
+        <utu:TabBarItem.Icon>
+          <FontIcon Glyph="&#xE7BF;" />
+        </utu:TabBarItem.Icon>
+      </utu:TabBarItem>
+
+      <!-- Notifications below 800 px (the rail's bell is hidden there): opens the drawer, so it is not a destination -->
+      <utu:TabBarItem Command="{Binding OpenNotifications}"
+                      Content="Alerts"
+                      AutomationProperties.Name="Notifications"
+                      IsSelectable="False"
+                      BadgeValue="{Binding UnreadBadge}"
+                      BadgeVisibility="{Binding HasUnreadNotifications, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Collapsed}"
+                      Style="{StaticResource BottomTabBarItemStyle}">
+        <utu:TabBarItem.Icon>
+          <FontIcon Glyph="&#xEA8F;" />
+        </utu:TabBarItem.Icon>
+      </utu:TabBarItem>
+
+      <utu:TabBarItem uen:Region.Name="Settings"
+                      Command="{Binding OpenTab}" CommandParameter="Settings"
+                      Content="Settings"
+                      IsSelectable="True"
+                      Style="{StaticResource BottomTabBarItemStyle}"
+                      AutomationProperties.Name="Settings">
+        <utu:TabBarItem.Icon>
+          <FontIcon Glyph="&#xE115;" />
+        </utu:TabBarItem.Icon>
+      </utu:TabBarItem>
+    </utu:TabBar>
+
+    <!-- Side rail (Wide and Widest) -->
+    <Grid x:Name="SideRail" ColumnDefinitions="*" Grid.RowSpan="3"
+          BorderBrush="{ThemeResource OutlineVariantBrush}"
+          BorderThickness="0,0,1,0"
+          Visibility="{utu:Responsive Normal=Collapsed, Wide=Visible}"
+          Width="{StaticResource RailWidth}">
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition />
+        <RowDefinition Height="Auto" />
+      </Grid.RowDefinitions>
+
+      <!-- Brand Header: the brand band, Primary under the Light theme in both modes (the design keeps it fixed) -->
+      <Border Background="{ThemeResource PrimaryBrush}" RequestedTheme="Light"
+              Height="{StaticResource RailBrandHeight}" HorizontalAlignment="Stretch">
+        <StackPanel x:Name="BrandFull" Orientation="Horizontal" Spacing="{StaticResource Space100}"
+                    HorizontalAlignment="Center" VerticalAlignment="Center"
+                    AutomationProperties.Name="QuoteCraft">
+          <TextBlock Text="QC"
+                     Foreground="{ThemeResource OnPrimaryBrush}"
+                     Style="{StaticResource TitleMediumBold}" />
+          <TextBlock x:Name="BrandLabel" Text="QuoteCraft"
+                     Foreground="{ThemeResource OnPrimaryBrush}"
+                     Style="{StaticResource LabelLarge}"
+                     VerticalAlignment="Center" />
+        </StackPanel>
+      </Border>
+
+      <!-- Amber accent bar -->
+      <Border Grid.Row="1" Height="{StaticResource AccentBarHeight}"
+              Background="{ThemeResource SecondaryBrush}" />
+
+      <!-- Tab items - horizontal icon + label, stacked vertically -->
+      <utu:TabBar x:Name="SideTabs"
+                  HorizontalAlignment="Stretch" Grid.Row="2"
+                  VerticalAlignment="Top"
+                  Margin="{StaticResource Space100TopThickness}"
+                  uen:Region.Attached="True"
+                  Style="{StaticResource VerticalTabBarStyle}">
+        <utu:TabBar.ItemsPanel>
+          <ItemsPanelTemplate>
+            <StackPanel Orientation="Vertical" Spacing="{StaticResource Space025}" />
+          </ItemsPanelTemplate>
+        </utu:TabBar.ItemsPanel>
+
+        <utu:TabBarItem x:Name="SideQuotesTab"
+                        uen:Region.Name="Dashboard"
+                        Command="{Binding OpenTab}" CommandParameter="Dashboard"
+                        Content="Quotes"
+                        AutomationProperties.Name="Quotes"
+                        IsSelectable="True"
+                        Style="{StaticResource SideNavTabBarItemStyle}">
+          <utu:TabBarItem.Icon>
+            <FontIcon Glyph="&#xE8A5;" FontSize="{StaticResource IconSizeSmall}" />
+          </utu:TabBarItem.Icon>
+        </utu:TabBarItem>
+
+        <utu:TabBarItem x:Name="SideClientsTab"
+                        uen:Region.Name="Clients"
+                        Command="{Binding OpenTab}" CommandParameter="Clients"
+                        Content="Clients"
+                        AutomationProperties.Name="Clients"
+                        IsSelectable="True"
+                        Style="{StaticResource SideNavTabBarItemStyle}">
+          <utu:TabBarItem.Icon>
+            <FontIcon Glyph="&#xE77B;" FontSize="{StaticResource IconSizeSmall}" />
+          </utu:TabBarItem.Icon>
+        </utu:TabBarItem>
+
+        <utu:TabBarItem x:Name="SideCatalogTab"
+                        uen:Region.Name="Catalog"
+                        Command="{Binding OpenTab}" CommandParameter="Catalog"
+                        Content="Catalog"
+                        AutomationProperties.Name="Catalog"
+                        IsSelectable="True"
+                        Style="{StaticResource SideNavTabBarItemStyle}">
+          <utu:TabBarItem.Icon>
+            <FontIcon Glyph="&#xE7BF;" FontSize="{StaticResource IconSizeSmall}" />
+          </utu:TabBarItem.Icon>
+        </utu:TabBarItem>
+
+        <utu:TabBarItem x:Name="SideSettingsTab"
+                        uen:Region.Name="Settings"
+                        Command="{Binding OpenTab}" CommandParameter="Settings"
+                        Content="Settings"
+                        AutomationProperties.Name="Settings"
+                        IsSelectable="True"
+                        Style="{StaticResource SideNavTabBarItemStyle}">
+          <utu:TabBarItem.Icon>
+            <FontIcon Glyph="&#xE115;" FontSize="{StaticResource IconSizeSmall}" />
+          </utu:TabBarItem.Icon>
+        </utu:TabBarItem>
+      </utu:TabBar>
+
+      <!-- Bottom actions: Notifications, Theme, Collapse -->
+      <StackPanel Grid.Row="3">
+        <Border Height="{StaticResource HairlineThickness}" Background="{ThemeResource OutlineVariantBrush}" Margin="{StaticResource Space150HorizontalThickness}" />
+        <!-- The drawer, through the same command as the Alerts tab below 800 px -->
+        <Button Command="{Binding OpenNotifications}"
+                Margin="{StaticResource RailActionMargin}"
+                MinHeight="{StaticResource ControlHeightMediumLarge}"
+                HorizontalAlignment="Stretch"
+                Style="{StaticResource TextButtonStyle}"
+                AutomationProperties.Name="Notifications"
+                ToolTipService.ToolTip="Notifications">
+          <Grid>
+            <StackPanel Orientation="Horizontal" Spacing="{StaticResource Space100}"
+                        HorizontalAlignment="Center">
+              <FontIcon Glyph="&#xEA8F;" FontSize="{StaticResource IconSizeSmall}" />
+              <TextBlock x:Name="NotifLabel" Text="Notifications" Style="{StaticResource BodySmall}" />
+            </StackPanel>
+            <InfoBadge Value="{Binding UnreadNotificationCount}"
+                       Background="{ThemeResource ErrorBrush}"
+                       Foreground="{ThemeResource OnErrorBrush}"
+                       HorizontalAlignment="Left" VerticalAlignment="Top"
+                       Margin="{StaticResource BadgeOffset}"
+                       Visibility="{Binding UnreadNotificationCount, Converter={StaticResource ZeroToVisibleConverter}, ConverterParameter=Invert, FallbackValue=Collapsed}" />
+          </Grid>
+        </Button>
+        <Button x:Name="ThemeButton"
+                Margin="{StaticResource RailActionMargin}"
+                MinHeight="{StaticResource ControlHeightMediumLarge}"
+                HorizontalAlignment="Stretch"
+                Style="{StaticResource TextButtonStyle}"
+                AutomationProperties.Name="{Binding ThemeLabel}"
+                ToolTipService.ToolTip="Theme">
+          <Button.Flyout>
+            <MenuFlyout Placement="RightEdgeAlignedBottom">
+              <RadioMenuFlyoutItem Text="System default" GroupName="AppTheme"
+                                   IsChecked="{Binding IsSystemTheme}"
+                                   Command="{Binding SetTheme}" CommandParameter="System"
+                                   AutomationProperties.Name="System default theme" />
+              <RadioMenuFlyoutItem Text="Light" GroupName="AppTheme"
+                                   IsChecked="{Binding IsLightTheme}"
+                                   Command="{Binding SetTheme}" CommandParameter="Light"
+                                   AutomationProperties.Name="Light theme" />
+              <RadioMenuFlyoutItem Text="Dark" GroupName="AppTheme"
+                                   IsChecked="{Binding IsDarkTheme}"
+                                   Command="{Binding SetTheme}" CommandParameter="Dark"
+                                   AutomationProperties.Name="Dark theme" />
+            </MenuFlyout>
+          </Button.Flyout>
+          <StackPanel Orientation="Horizontal" Spacing="{StaticResource Space100}"
+                      HorizontalAlignment="Center">
+            <FontIcon Glyph="{ThemeResource ThemeIconGlyph}" FontSize="{StaticResource IconSizeSmall}" />
+            <TextBlock x:Name="ThemeLabel" Text="{Binding ThemeLabel}" Style="{StaticResource BodySmall}" />
+          </StackPanel>
+        </Button>
+
+        <Button x:Name="CollapseToggle"
+                Margin="{StaticResource RailLastActionMargin}"
+                MinHeight="{StaticResource ControlHeightMediumLarge}"
+                HorizontalAlignment="Stretch"
+                Command="{Binding ToggleRail}"
+                Style="{StaticResource TextButtonStyle}"
+                AutomationProperties.Name="Collapse sidebar"
+                ToolTipService.ToolTip="Collapse sidebar">
+          <StackPanel Orientation="Horizontal" Spacing="{StaticResource Space100}"
+                      HorizontalAlignment="Center">
+            <FontIcon x:Name="CollapseIcon" Glyph="&#xE76B;" FontSize="{StaticResource BodyMediumFontSize}" />
+            <TextBlock x:Name="CollapseLabel" Text="Collapse" Style="{StaticResource BodySmall}" />
+          </StackPanel>
+        </Button>
+      </StackPanel>
+    </Grid>
+  </Grid>
+</Page>

@@ -1,0 +1,41 @@
+<!--
+  !NewQuote. Create and Cancel are in the content, not the dialog's own buttons: those close the dialog before the
+  model has checked the title, and Create keeps it open with a message instead.
+-->
+<ContentDialog x:Class="QuoteCraft.Presentation.NewQuoteDialog"
+               xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+               xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+               xmlns:uen="using:Uno.Extensions.Navigation.UI"
+               xmlns:utu="using:Uno.Toolkit.UI"
+               xmlns:ctrl="using:QuoteCraft.Controls"
+               Style="{StaticResource AppDialogStyle}">
+  <StackPanel Spacing="{StaticResource Space200}"
+              MinWidth="{utu:Responsive Narrow=0, Normal={StaticResource DialogMinWidth}}">
+    <ctrl:DialogHeader Glyph="&#xE1D0;" Title="New Quote" Subtitle="Create a new quote for a client" />
+
+    <TextBox Header="Quote Title"
+             Text="{Binding QuoteTitle, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+             PlaceholderText="e.g. Kitchen Renovation"
+             AutomationProperties.Name="Quote title" />
+
+    <AutoSuggestBox Header="Client Name (optional)"
+                    Text="{Binding ClientName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    ItemsSource="{Binding ClientSuggestions}"
+                    PlaceholderText="Start typing a client name..."
+                    TextBoxStyle="{StaticResource OutlinedTextBoxStyle}"
+                    AutomationProperties.Name="Client name" />
+
+    <TextBlock Text="{Binding ValidationError}"
+               Style="{StaticResource BodySmall}"
+               Foreground="{ThemeResource ErrorBrush}"
+               TextWrapping="Wrap"
+               AutomationProperties.LiveSetting="Assertive"
+               Visibility="{Binding ValidationError, Converter={StaticResource EmptyToVisibleConverter}, ConverterParameter=Invert, FallbackValue=Collapsed}" />
+
+    <StackPanel Orientation="Horizontal" Spacing="{StaticResource Space100}" HorizontalAlignment="Right">
+      <!-- xaml-lint: allow backbar - a dialog Cancel that closes the dialog, not a page back bar -->
+      <Button Content="Cancel" uen:Navigation.Request="-" Style="{StaticResource TextButtonStyle}" AutomationProperties.Name="Cancel" />
+      <Button Content="Create" Command="{Binding Create}" Style="{StaticResource FilledButtonStyle}" AutomationProperties.Name="Create quote" />
+    </StackPanel>
+  </StackPanel>
+</ContentDialog>

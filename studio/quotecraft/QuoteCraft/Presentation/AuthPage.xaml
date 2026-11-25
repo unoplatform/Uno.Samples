@@ -1,0 +1,118 @@
+<Page x:Class="QuoteCraft.Presentation.AuthPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:local="using:QuoteCraft.Presentation"
+      xmlns:utu="using:Uno.Toolkit.UI"
+      xmlns:um="using:Uno.Material"
+      Background="{ThemeResource BackgroundBrush}">
+
+  <Grid utu:SafeArea.Insets="All"
+        HorizontalAlignment="Center" VerticalAlignment="Center"
+        MaxWidth="{StaticResource DialogMinWidth}" Padding="{utu:Responsive Narrow={StaticResource Space200Thickness}, Normal={StaticResource Space400Thickness}}">
+
+    <StackPanel Spacing="{StaticResource Space300}">
+
+      <!-- Brand -->
+      <StackPanel Spacing="{StaticResource Space100}" HorizontalAlignment="Center">
+        <utu:CardContentControl Style="{StaticResource StaticCardStyle}" BorderThickness="0" Background="{ThemeResource PrimaryBrush}" RequestedTheme="Light"
+                Width="{StaticResource LogoSizeLarge}" Height="{StaticResource LogoSizeLarge}" CornerRadius="{StaticResource Radius400CornerRadius}">
+          <TextBlock Text="QC" Foreground="{ThemeResource OnPrimaryBrush}"
+                     Style="{StaticResource HeadlineSmallBold}"
+                     HorizontalAlignment="Center" VerticalAlignment="Center" />
+        </utu:CardContentControl>
+        <TextBlock Text="QuoteCraft"
+                   Style="{StaticResource HeadlineSmall}"
+                   FontWeight="Bold"
+                   HorizontalAlignment="Center" />
+        <TextBlock Text="Professional quotes for contractors"
+                   Style="{StaticResource BodyMedium}"
+                   Foreground="{ThemeResource OnSurfaceVariantBrush}"
+                   HorizontalAlignment="Center" />
+      </StackPanel>
+
+      <!-- What stopped sign-in (string and bool states bind directly; a FeedView over them never renders) -->
+      <TextBlock Text="{Binding ErrorMessage}"
+                 Style="{StaticResource BodyMedium}"
+                 Foreground="{ThemeResource ErrorBrush}"
+                 TextWrapping="Wrap"
+                 HorizontalAlignment="Center"
+                 AutomationProperties.LiveSetting="Assertive"
+                 Visibility="{Binding ErrorMessage, Converter={StaticResource EmptyToVisibleConverter}, ConverterParameter=Invert, FallbackValue=Collapsed}" />
+
+      <!-- Magic link sent confirmation -->
+      <utu:CardContentControl Style="{StaticResource StaticCardStyle}" BorderThickness="0" Background="{ThemeResource TertiaryContainerBrush}"
+                              CornerRadius="{StaticResource Radius200CornerRadius}" Padding="{StaticResource Space200Thickness}"
+                              Visibility="{Binding MagicLinkSent, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Collapsed}">
+        <TextBlock Text="Check your email for a sign-in link."
+                   Style="{StaticResource BodyMedium}"
+                   Foreground="{ThemeResource OnTertiaryContainerBrush}"
+                   TextWrapping="Wrap" HorizontalAlignment="Center"
+                   AutomationProperties.LiveSetting="Polite" />
+      </utu:CardContentControl>
+
+      <!-- While signing in, creating the account or sending the link. IsIndeterminate follows IsBusy too: a collapsed
+           indeterminate bar keeps animating (a full CPU core on Skia). -->
+      <ProgressBar IsIndeterminate="{Binding IsBusy}"
+                   AutomationProperties.Name="Signing in"
+                   Visibility="{Binding IsBusy, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Collapsed}" />
+
+      <TextBox Text="{Binding Email, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+               PlaceholderText="Email address"
+               InputScope="EmailSmtpAddress"
+               AutomationProperties.Name="Email"
+               Style="{StaticResource OutlinedTextBoxStyle}" />
+
+      <PasswordBox Password="{Binding Password, Mode=TwoWay}"
+                   PlaceholderText="Password"
+                   AutomationProperties.Name="Password"
+                   Style="{StaticResource OutlinedPasswordBoxStyle}" />
+
+      <!-- Primary action buttons -->
+      <StackPanel Spacing="{StaticResource Space150}">
+        <!-- Sign In, or Create Account in sign-up mode -->
+        <Button Command="{Binding SignIn}"
+                HorizontalAlignment="Stretch"
+                Style="{StaticResource FilledButtonStyle}"
+                AutomationProperties.Name="Sign in"
+                Visibility="{Binding IsSignUp, Converter={StaticResource InverseBoolConverter}, FallbackValue=Visible}">
+          <TextBlock Text="Sign In" />
+        </Button>
+        <Button Command="{Binding SignUp}"
+                HorizontalAlignment="Stretch"
+                Style="{StaticResource FilledButtonStyle}"
+                AutomationProperties.Name="Create account"
+                Visibility="{Binding IsSignUp, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Collapsed}">
+          <TextBlock Text="Create Account" />
+        </Button>
+
+        <Button Command="{Binding SendMagicLink}"
+                HorizontalAlignment="Stretch"
+                Style="{StaticResource OutlinedButtonStyle}"
+                AutomationProperties.Name="Send magic link">
+          <TextBlock Text="Send Magic Link" />
+        </Button>
+      </StackPanel>
+
+      <!-- Toggle sign up / sign in -->
+      <Button Command="{Binding ToggleMode}"
+              HorizontalAlignment="Center"
+              Style="{StaticResource TextButtonStyle}"
+              AutomationProperties.Name="{Binding ModeToggleText}">
+        <TextBlock Text="{Binding ModeToggleText}"
+                   Style="{StaticResource BodySmall}"
+                   Foreground="{ThemeResource PrimaryBrush}" />
+      </Button>
+
+      <!-- Skip (Free tier) -->
+      <Button Command="{Binding SkipAuth}"
+              HorizontalAlignment="Center"
+              Style="{StaticResource TextButtonStyle}"
+              AutomationProperties.Name="Continue without account">
+        <TextBlock Text="Continue without an account"
+                   Style="{StaticResource BodySmall}"
+                   Foreground="{ThemeResource OnSurfaceVariantBrush}" />
+      </Button>
+
+    </StackPanel>
+  </Grid>
+</Page>
