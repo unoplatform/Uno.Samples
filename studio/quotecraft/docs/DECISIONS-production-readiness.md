@@ -292,8 +292,8 @@ Verified:
   `pdftotext` is missing, which includes CI's Ubuntu image (no poppler-utils).
 - **Desktop** (Linux, Xvfb, Debug, `--qc-seed=sample`, with 24 more line items, a logo and three photos added to
   QC-2026-0001): Export PDF (editor), Download PDF (preview) and Download PDF Only (Send dialog) each wrote
-  `exports/QC-2026-0001.pdf` (321 KB, three Letter pages, DM Sans embedded). Rendered with `pdftoppm`
-  (`docs/evidence/pdf-export.jpg`): the header with the logo on both quote pages; the table breaking after 18 rows with
+  `exports/QC-2026-0001.pdf` (321 KB, three Letter pages, DM Sans embedded). Rendered with `pdftoppm`,
+  the pages showed the header with the logo on both quote pages; the table breaking after 18 rows with
   its header row repeated; subtotal $9,058.00 USD, tax (13%) $1,177.54 and total $10,235.54 USD, as the editor shows
   them; the notes, the custom footer, and the photo appendix. The watermark is off without billing (D3); a render of the
   same layout with it on (from a test) showed it centred above the date.

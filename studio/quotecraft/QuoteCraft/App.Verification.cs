@@ -1,7 +1,7 @@
 namespace QuoteCraft;
 
 /// <summary>
-/// Debug-only verification hooks for the screenshot matrix and the runtime checks (docs/evidence), read from the
+/// Debug-only verification hooks for the screenshot matrix and the runtime checks, read from the
 /// command line by <c>VerificationArgs</c>. App.OnLaunched calls the two entry points; in Release they
 /// do nothing and none of the hooks is compiled.
 /// <list type="bullet">

@@ -2,7 +2,7 @@
 namespace QuoteCraft.Helpers;
 
 /// <summary>
-/// Debug-only command-line hooks for the screenshot matrix (docs/evidence): <c>--qc-data=&lt;folder&gt;</c>,
+/// Debug-only command-line hooks for the screenshot matrix: <c>--qc-data=&lt;folder&gt;</c>,
 /// <c>--qc-seed=sample</c>, <c>--qc-theme=light|dark</c>, <c>--qc-route=&lt;route&gt;[:detail]</c>,
 /// <c>--qc-focus=log</c> and <c>--qc-fault=load</c>.
 /// Release builds never read them.
