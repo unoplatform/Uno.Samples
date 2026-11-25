@@ -1,0 +1,12 @@
+{
+  "messages": [
+    {
+      "role": "user",
+      "content": "Destination Rolodex is a reusable travel destination card: a photo per country behind an endless country list, with SkSL photo transitions, a globe, a Look around mode, an autoplay tour and loading and failure states."
+    },
+    {
+      "role": "assistant",
+      "content": "Destination Rolodex is an Uno Platform single-project app (Uno.Sdk 7.0.22, pinned in global.json) at DestinationRolodex/DestinationRolodex.csproj, with heads net10.0-desktop, net10.0-browserwasm and net10.0-android, and unit tests in DestinationRolodex.Tests.\n\n**Key files:**\n- Controls/DestinationRolodexCard: the reusable control. Dependency properties: Destinations, SelectedIndex, SelectedDestinationId, TransitionKind (MorphBlend or LiquidWarp), TransitionDuration (350 to 3000 ms), TransitionStrength (0 to 1), IsAutoPlayEnabled, AutoPlayInterval, IsReducedMotionEnabled. Methods Next, Previous, GoTo, Play, Pause, ZoomIn, ZoomOut, ResetCamera, Retry; events SelectionChanged, SelectionSettled, TransitionStarted, TransitionProgress, TransitionCompleted, MediaFailed, RendererFallback, ViewModeChanged.\n- Rendering: TransitionShaderSource (the SkSL), PhotoRenderer, SceneFrame and MaterialColors (one position drives everything), GlobeRenderer, PhotoTransitionSurface.\n- Input: CountryPickerController (spring, drag, wheel, keys), CameraController.\n- Services: DestinationRepository reads Assets/Data/destinations.json and the photos in Assets/Destinations/{id}.jpg; DestinationMediaCache decodes asynchronously with an LRU budget.\n- Presentation: DestinationDemoViewModel (CommunityToolkit.Mvvm) for the demo page; SpikePage is a Debug-only shader diagnostic.\n- Styles/DestinationRolodexResources.xaml: tokens, fonts (Inter and Source Serif 4) and icons. The theme is Uno Simple.\n\n**Build:** dotnet build DestinationRolodex/DestinationRolodex.csproj -f net10.0-desktop, then dotnet run with the same arguments. Uno0001 is an error.\n\nThe app is built and running. The user may ask me to modify it."
+    }
+  ]
+}

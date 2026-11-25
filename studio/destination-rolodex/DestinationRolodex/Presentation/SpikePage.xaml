@@ -1,0 +1,26 @@
+<Page x:Class="DestinationRolodex.Presentation.SpikePage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      Background="#FFF5F6F2">
+  <!-- xaml-lint: allow hex - DEBUG diagnostic page, not a product surface -->
+  <!-- DEBUG diagnostic: the raw photo layer with no text overlay, for shader comparison against the GLSL reference. -->
+  <Grid Padding="24" ColumnSpacing="24">
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="Auto" />
+      <ColumnDefinition Width="*" />
+    </Grid.ColumnDefinitions>
+    <Border x:Name="SurfaceHost" Width="480" Height="530" Background="#FF295C65" />
+    <StackPanel Grid.Column="1" Spacing="12" MaxWidth="320" HorizontalAlignment="Left">
+      <TextBlock x:Name="Status" Text="Spike" TextWrapping="Wrap" />
+      <TextBlock Text="Progress" />
+      <Slider x:Name="ProgressSlider" Minimum="0" Maximum="1000" Value="0" ValueChanged="OnProgressChanged" />
+      <ToggleSwitch x:Name="ModeSwitch" Header="Liquid Warp (off = Morph Blend)" Toggled="OnSettingChanged" />
+      <ToggleSwitch x:Name="DirectionSwitch" Header="Backward direction" Toggled="OnSettingChanged" />
+      <ToggleSwitch x:Name="PairSwitch" Header="Pair jp→it (off = ph→jp)" Toggled="OnSettingChanged" />
+      <TextBlock Text="Strength" />
+      <Slider x:Name="StrengthSlider" Minimum="0" Maximum="100" Value="60" ValueChanged="OnProgressChanged" />
+      <Button Content="Play 1200 ms" Click="OnPlay" />
+      <TextBlock x:Name="Timing" TextWrapping="Wrap" />
+    </StackPanel>
+  </Grid>
+</Page>

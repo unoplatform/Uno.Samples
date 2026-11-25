@@ -1,0 +1,280 @@
+<!--
+  Destination Rolodex tokens. The card is a light design painted over photographs; its ink belongs to the card
+  surface and the photo, not to the app theme, so every value here is theme-invariant (suffix Fixed).
+  Sources: ../design/tokens.json and prototype/source/rolodex.js. CSS RRGGBBAA converted to XAML AARRGGBB.
+-->
+<!-- xaml-lint: allow hex - design tokens of the handoff kit; theme-invariant by design (ink over photography) -->
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+  <!-- Living Postcard (revision 2) palette: page, print rim, type -->
+  <Color x:Key="PostcardPageColorFixed">#FFE6E8EC</Color>
+  <Color x:Key="PostcardRimColorFixed">#FFEBE6DC</Color>
+  <Color x:Key="PostcardCountryColorFixed">#FFFFFDF6</Color>
+  <Color x:Key="PostcardCaptionColorFixed">#FFFFF8EB</Color>
+  <Color x:Key="PostcardDescriptionColorFixed">#FFEEEADE</Color>
+  <SolidColorBrush x:Key="PostcardPageBrushFixed" Color="{StaticResource PostcardPageColorFixed}" />
+  <SolidColorBrush x:Key="PostcardRimBrushFixed" Color="{StaticResource PostcardRimColorFixed}" />
+  <SolidColorBrush x:Key="PostcardCountryBrushFixed" Color="{StaticResource PostcardCountryColorFixed}" />
+  <SolidColorBrush x:Key="PostcardCaptionBrushFixed" Color="{StaticResource PostcardCaptionColorFixed}" />
+  <SolidColorBrush x:Key="PostcardDescriptionBrushFixed" Color="{StaticResource PostcardDescriptionColorFixed}" />
+  <SolidColorBrush x:Key="PostcardInnerHighlightBrushFixed" Color="#2EFFFFFF" />
+  <SolidColorBrush x:Key="PostcardRegionBrushFixed" Color="#C2FFF8EB" />
+  <SolidColorBrush x:Key="PostcardDotBrushFixed" Color="#8AFFF8EB" />
+  <SolidColorBrush x:Key="PostcardCircleFillBrushFixed" Color="#2A0E2A2A" />
+  <SolidColorBrush x:Key="PostcardCircleBorderBrushFixed" Color="#4DFFFFFF" />
+  <FontFamily x:Key="PostcardSerif">ms-appx:///Assets/Fonts/SourceSerif4_Regular.ttf#Source Serif 4</FontFamily>
+  <x:Double x:Key="PostcardPlaceFontSize">23</x:Double>
+  <x:Double x:Key="PostcardPlaceFontSizeCompact">20.5</x:Double>
+  <x:Double x:Key="PostcardDescriptionFontSize">12</x:Double>
+  <CornerRadius x:Key="PostcardOuterRadius">30</CornerRadius>
+  <CornerRadius x:Key="PostcardOuterRadiusNarrow">27</CornerRadius>
+  <Thickness x:Key="PostcardRim">6</Thickness>
+
+  <!-- Colors -->
+  <Color x:Key="RolodexPageColorFixed">#FFF5F6F2</Color>
+  <Color x:Key="RolodexPageInkColorFixed">#FF273D31</Color>
+  <Color x:Key="RolodexCardColorFixed">#FFFFFFFF</Color>
+  <Color x:Key="RolodexInkColorFixed">#FF263633</Color>
+  <Color x:Key="RolodexDescriptionColorFixed">#FF707A75</Color>
+  <Color x:Key="RolodexRegionColorFixed">#FF7E8984</Color>
+  <Color x:Key="RolodexPinColorFixed">#FF788581</Color>
+  <Color x:Key="RolodexSceneTextColorFixed">#FFFFFFFF</Color>
+  <Color x:Key="RolodexAccentColorFixed">#FFE5F5B6</Color>
+  <Color x:Key="RolodexPaginationActiveColorFixed">#FF3D5E4E</Color>
+  <Color x:Key="RolodexPaginationInactiveColorFixed">#FFDEE4DF</Color>
+  <Color x:Key="RolodexPaginationHoverColorFixed">#FF8DA392</Color>
+  <Color x:Key="RolodexNavInkColorFixed">#FF52655B</Color>
+  <Color x:Key="RolodexNavBorderColorFixed">#FFE5EAE5</Color>
+  <Color x:Key="RolodexNavHoverColorFixed">#FFF3F6F2</Color>
+  <Color x:Key="RolodexSceneDefaultColorFixed">#FF295C65</Color>
+  <Color x:Key="RolodexFocusColorFixed">#FFBCE589</Color>
+  <Color x:Key="RolodexEmptyInkColorFixed">#FF61756C</Color>
+
+  <SolidColorBrush x:Key="RolodexPageBrushFixed" Color="{StaticResource RolodexPageColorFixed}" />
+  <SolidColorBrush x:Key="RolodexPageInkBrushFixed" Color="{StaticResource RolodexPageInkColorFixed}" />
+  <SolidColorBrush x:Key="RolodexCardBrushFixed" Color="{StaticResource RolodexCardColorFixed}" />
+  <SolidColorBrush x:Key="RolodexInkBrushFixed" Color="{StaticResource RolodexInkColorFixed}" />
+  <SolidColorBrush x:Key="RolodexDescriptionBrushFixed" Color="{StaticResource RolodexDescriptionColorFixed}" />
+  <SolidColorBrush x:Key="RolodexRegionBrushFixed" Color="{StaticResource RolodexRegionColorFixed}" />
+  <SolidColorBrush x:Key="RolodexPinBrushFixed" Color="{StaticResource RolodexPinColorFixed}" />
+  <SolidColorBrush x:Key="RolodexSceneTextBrushFixed" Color="{StaticResource RolodexSceneTextColorFixed}" />
+  <SolidColorBrush x:Key="RolodexAccentBrushFixed" Color="{StaticResource RolodexAccentColorFixed}" />
+  <SolidColorBrush x:Key="RolodexPaginationActiveBrushFixed" Color="{StaticResource RolodexPaginationActiveColorFixed}" />
+  <SolidColorBrush x:Key="RolodexPaginationInactiveBrushFixed" Color="{StaticResource RolodexPaginationInactiveColorFixed}" />
+  <SolidColorBrush x:Key="RolodexPaginationHoverBrushFixed" Color="{StaticResource RolodexPaginationHoverColorFixed}" />
+  <SolidColorBrush x:Key="RolodexNavInkBrushFixed" Color="{StaticResource RolodexNavInkColorFixed}" />
+  <SolidColorBrush x:Key="RolodexNavBorderBrushFixed" Color="{StaticResource RolodexNavBorderColorFixed}" />
+  <SolidColorBrush x:Key="RolodexNavHoverBrushFixed" Color="{StaticResource RolodexNavHoverColorFixed}" />
+  <SolidColorBrush x:Key="RolodexFocusBrushFixed" Color="{StaticResource RolodexFocusColorFixed}" />
+  <SolidColorBrush x:Key="RolodexEmptyInkBrushFixed" Color="{StaticResource RolodexEmptyInkColorFixed}" />
+
+  <!-- Scene glass surfaces (CSS alpha hex converted) -->
+  <SolidColorBrush x:Key="RolodexIconButtonBorderBrushFixed" Color="#42FFFFFF" />
+  <SolidColorBrush x:Key="RolodexIconButtonFillBrushFixed" Color="#240C3332" />
+  <SolidColorBrush x:Key="RolodexIconButtonHoverBrushFixed" Color="#25FFFFFF" />
+  <SolidColorBrush x:Key="RolodexLookToggleBorderBrushFixed" Color="#52FFFFFF" />
+  <SolidColorBrush x:Key="RolodexLookToggleFillBrushFixed" Color="#25133732" />
+  <SolidColorBrush x:Key="RolodexLookToggleHoverBrushFixed" Color="#22FFFFFF" />
+  <SolidColorBrush x:Key="RolodexCameraFillBrushFixed" Color="#3B092B33" />
+  <SolidColorBrush x:Key="RolodexCameraBorderBrushFixed" Color="#45FFFFFF" />
+  <SolidColorBrush x:Key="RolodexCameraDividerBrushFixed" Color="#29FFFFFF" />
+  <SolidColorBrush x:Key="RolodexStatusFillBrushFixed" Color="#6610322F" />
+  <SolidColorBrush x:Key="RolodexStatusBorderBrushFixed" Color="#28FFFFFF" />
+  <SolidColorBrush x:Key="RolodexMarkerHaloBrushFixed" Color="#19E5F5B6" />
+  <SolidColorBrush x:Key="RolodexMarkerLineBrushFixed" Color="#60FFFFFF" />
+  <SolidColorBrush x:Key="RolodexFocusRingBrushFixed" Color="#A6E5F5B6" />
+  <SolidColorBrush x:Key="RolodexCreditBrushFixed" Color="#A8FFFFFF" />
+
+  <!-- Stable scene wash: linear-gradient(180deg, #051d2430 0%, #021e2412 18%, #00171c18 35%, #00161e29 54%, #00161c08 76%, #061c305c 100%) -->
+  <LinearGradientBrush x:Key="RolodexWashVerticalBrushFixed" StartPoint="0,0" EndPoint="0,1">
+    <GradientStop Color="#30051D24" Offset="0" />
+    <GradientStop Color="#12021E24" Offset="0.18" />
+    <GradientStop Color="#1800171C" Offset="0.35" />
+    <GradientStop Color="#2900161E" Offset="0.54" />
+    <GradientStop Color="#0800161C" Offset="0.76" />
+    <GradientStop Color="#5C061C30" Offset="1" />
+  </LinearGradientBrush>
+  <!-- linear-gradient(90deg, #00131920, transparent 45%, #0013190b) -->
+  <LinearGradientBrush x:Key="RolodexWashHorizontalBrushFixed" StartPoint="0,0" EndPoint="1,0">
+    <GradientStop Color="#20001319" Offset="0" />
+    <GradientStop Color="#00001319" Offset="0.45" />
+    <GradientStop Color="#0B001319" Offset="1" />
+  </LinearGradientBrush>
+  <!-- radial-gradient(ellipse at center, #00171f2e 0%, #00171f12 49%, transparent 74%) -->
+  <RadialGradientBrush x:Key="RolodexReadabilityBrushFixed" Center="0.5,0.5" RadiusX="0.5" RadiusY="0.5">
+    <GradientStop Color="#2E00171F" Offset="0" />
+    <GradientStop Color="#1200171F" Offset="0.49" />
+    <GradientStop Color="#0000171F" Offset="0.74" />
+  </RadialGradientBrush>
+
+  <!-- Typography: Inter static instances (OFL 1.1). Prototype weight 650 maps to SemiBold. -->
+  <FontFamily x:Key="RolodexFontRegular">ms-appx:///Assets/Fonts/Inter_Regular.ttf#Inter</FontFamily>
+  <FontFamily x:Key="RolodexFontMedium">ms-appx:///Assets/Fonts/Inter_Medium.ttf#Inter Medium</FontFamily>
+  <FontFamily x:Key="RolodexFontSemiBold">ms-appx:///Assets/Fonts/Inter_SemiBold.ttf#Inter SemiBold</FontFamily>
+  <FontFamily x:Key="RolodexFontBold">ms-appx:///Assets/Fonts/Inter_Bold.ttf#Inter Bold</FontFamily>
+
+  <!-- Layout -->
+  <x:Double x:Key="RolodexCardMaxWidth">480</x:Double>
+  <x:Double x:Key="RolodexSceneMinHeight">340</x:Double>
+  <x:Double x:Key="RolodexPickerWindowHeight">300</x:Double>
+  <x:Double x:Key="RolodexPickerWindowHeightSmall">266</x:Double>
+  <CornerRadius x:Key="RolodexCardCornerRadius">26</CornerRadius>
+  <CornerRadius x:Key="RolodexCardCornerRadiusNarrow">23</CornerRadius>
+  <Thickness x:Key="RolodexDetailPadding">25,23,25,15</Thickness>
+  <Thickness x:Key="RolodexDetailPaddingSmall">20,20,20,13</Thickness>
+  <x:Double x:Key="RolodexLocationFontSize">12</x:Double>
+  <x:Double x:Key="RolodexRegionFontSize">9</x:Double>
+  <x:Double x:Key="RolodexDescriptionFontSize">13</x:Double>
+  <x:Double x:Key="RolodexEyebrowFontSize">10</x:Double>
+  <x:Double x:Key="RolodexCounterFontSize">10</x:Double>
+  <x:Double x:Key="RolodexHintFontSize">9</x:Double>
+  <x:Double x:Key="RolodexLookToggleFontSize">11</x:Double>
+  <x:Double x:Key="RolodexLookCountryFontSize">34</x:Double>
+  <x:Double x:Key="RolodexLookSubtitleFontSize">11</x:Double>
+  <x:Double x:Key="RolodexBadgeFontSize">8</x:Double>
+  <x:Double x:Key="RolodexStatusFontSize">10</x:Double>
+  <x:Double x:Key="RolodexCreditFontSize">9</x:Double>
+  <x:Double x:Key="RolodexEmptyFontSize">14</x:Double>
+
+  <!-- Icons: the 15 supplied 24-unit stroke glyphs (assets/icons), keyed as Path styles so Data converts at parse time. -->
+  <Style x:Key="RolodexIconBase" TargetType="Path">
+    <Setter Property="Stroke" Value="{StaticResource RolodexSceneTextBrushFixed}" />
+    <Setter Property="StrokeThickness" Value="1.45" />
+    <Setter Property="StrokeStartLineCap" Value="Round" />
+    <Setter Property="StrokeEndLineCap" Value="Round" />
+    <Setter Property="StrokeLineJoin" Value="Round" />
+    <Setter Property="Width" Value="24" />
+    <Setter Property="Height" Value="24" />
+    <Setter Property="Stretch" Value="None" />
+  </Style>
+  <Style x:Key="RolodexIconGlobe" TargetType="Path" BasedOn="{StaticResource RolodexIconBase}">
+    <Setter Property="Data" Value="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0 M7.7 12a4.3 9 0 1 0 8.6 0a4.3 9 0 1 0 -8.6 0 M3 12h18M4.8 6.8h14.4M4.8 17.2h14.4" />
+  </Style>
+  <Style x:Key="RolodexIconOrbit" TargetType="Path" BasedOn="{StaticResource RolodexIconBase}">
+    <Setter Property="Data" Value="M9 12a3 3 0 1 0 6 0a3 3 0 1 0 -6 0 M20.19 6.26A10 4.5 -35 1 0 3.81 17.74A10 4.5 -35 1 0 20.19 6.26 M18 3l3 1-1 3" />
+  </Style>
+  <Style x:Key="RolodexIconPin" TargetType="Path" BasedOn="{StaticResource RolodexIconBase}">
+    <Setter Property="Data" Value="M18.5 10c0 5-6.5 10-6.5 10S5.5 15 5.5 10a6.5 6.5 0 0 1 13 0Z M10 10a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+  </Style>
+  <Style x:Key="RolodexIconUp" TargetType="Path" BasedOn="{StaticResource RolodexIconBase}">
+    <Setter Property="Data" Value="M6 14l6-6 6 6" />
+  </Style>
+  <Style x:Key="RolodexIconDown" TargetType="Path" BasedOn="{StaticResource RolodexIconBase}">
+    <Setter Property="Data" Value="M6 10l6 6 6-6" />
+  </Style>
+  <Style x:Key="RolodexIconPlay" TargetType="Path" BasedOn="{StaticResource RolodexIconBase}">
+    <Setter Property="Data" Value="M9 5l10 7-10 7V5Z" />
+    <Setter Property="Fill" Value="{StaticResource RolodexSceneTextBrushFixed}" />
+    <Setter Property="Stroke" Value="{x:Null}" />
+  </Style>
+  <Style x:Key="RolodexIconPause" TargetType="Path" BasedOn="{StaticResource RolodexIconBase}">
+    <Setter Property="Data" Value="M8.5 6v12M15.5 6v12" />
+    <Setter Property="StrokeThickness" Value="2.7" />
+  </Style>
+  <Style x:Key="RolodexIconBack" TargetType="Path" BasedOn="{StaticResource RolodexIconBase}">
+    <Setter Property="Data" Value="M10 6l-6 6 6 6M4 12h16" />
+  </Style>
+  <Style x:Key="RolodexIconReset" TargetType="Path" BasedOn="{StaticResource RolodexIconBase}">
+    <Setter Property="Data" Value="M3 10a9 9 0 1 1 2 8M3 4v6h6" />
+  </Style>
+  <Style x:Key="RolodexIconMinus" TargetType="Path" BasedOn="{StaticResource RolodexIconBase}">
+    <Setter Property="Data" Value="M6 12h12M12 11.995v.01" />
+  </Style>
+  <Style x:Key="RolodexIconPlus" TargetType="Path" BasedOn="{StaticResource RolodexIconBase}">
+    <Setter Property="Data" Value="M6 12h12M12 6v12" />
+  </Style>
+  <Style x:Key="RolodexIconInfo" TargetType="Path" BasedOn="{StaticResource RolodexIconBase}">
+    <Setter Property="Data" Value="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0 M12 11v6M12 7v.1" />
+  </Style>
+  <Style x:Key="RolodexIconClose" TargetType="Path" BasedOn="{StaticResource RolodexIconBase}">
+    <Setter Property="Data" Value="M6 6l12 12M18 6L6 18" />
+  </Style>
+  <Style x:Key="RolodexIconScroll" TargetType="Path" BasedOn="{StaticResource RolodexIconBase}">
+    <Setter Property="Data" Value="M12 3v18m-3-3l3 3 3-3M9 6l3-3 3 3" />
+  </Style>
+  <Style x:Key="RolodexIconExpand" TargetType="Path" BasedOn="{StaticResource RolodexIconBase}">
+    <Setter Property="Data" Value="M8 3H3v5m13-5h5v5M3 16v5h5m13-5v5h-5" />
+  </Style>
+
+  <!-- Demo-page glyphs from the prototype's lab panel (index.html inline SVGs, 40-unit boxes) -->
+  <SolidColorBrush x:Key="RolodexLabGlyphBrushFixed" Color="#FF8B9A7E" />
+  <SolidColorBrush x:Key="RolodexLabArrowBrushFixed" Color="#FFA5B29A" />
+  <Style x:Key="RolodexIconLabMorph" TargetType="Path" BasedOn="{StaticResource RolodexIconBase}">
+    <Setter Property="Data" Value="M8 12c7-8 14 8 24 0M8 20c7-8 14 8 24 0M8 28c7-8 14 8 24 0" />
+    <Setter Property="Stroke" Value="{StaticResource RolodexLabGlyphBrushFixed}" />
+    <Setter Property="StrokeThickness" Value="0.95" />
+    <Setter Property="Width" Value="40" />
+    <Setter Property="Height" Value="40" />
+  </Style>
+  <Style x:Key="RolodexIconLabLiquid" TargetType="Path" BasedOn="{StaticResource RolodexIconBase}">
+    <Setter Property="Data" Value="M8 20a12 10 0 1 0 24 0a12 10 0 1 0 -24 0 M13 20a7 6 0 1 0 14 0a7 6 0 1 0 -14 0 M18 20a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+    <Setter Property="Stroke" Value="{StaticResource RolodexLabGlyphBrushFixed}" />
+    <Setter Property="StrokeThickness" Value="0.95" />
+    <Setter Property="Width" Value="40" />
+    <Setter Property="Height" Value="40" />
+  </Style>
+  <Style x:Key="RolodexIconArrowRight" TargetType="Path" BasedOn="{StaticResource RolodexIconBase}">
+    <Setter Property="Data" Value="M4 12h16m-5-5 5 5-5 5" />
+    <Setter Property="Stroke" Value="{StaticResource RolodexLabArrowBrushFixed}" />
+    <Setter Property="StrokeThickness" Value="1.25" />
+  </Style>
+  <Style x:Key="RolodexIconReplay" TargetType="Path" BasedOn="{StaticResource RolodexIconBase}">
+    <Setter Property="Data" Value="M4 9a8 8 0 1 1 1 9M4 3v6h6" />
+    <Setter Property="StrokeThickness" Value="1.25" />
+  </Style>
+
+  <!-- Transparent chrome-less button base for scene controls (visual drawn by content, hit region ≥ 44). -->
+  <Style x:Key="RolodexBareButton" TargetType="Button">
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="BorderThickness" Value="0" />
+    <Setter Property="Padding" Value="0" />
+    <Setter Property="MinWidth" Value="44" />
+    <Setter Property="MinHeight" Value="44" />
+    <Setter Property="HorizontalContentAlignment" Value="Center" />
+    <Setter Property="VerticalContentAlignment" Value="Center" />
+    <Setter Property="UseSystemFocusVisuals" Value="True" />
+    <Setter Property="FocusVisualPrimaryBrush" Value="{StaticResource RolodexFocusBrushFixed}" />
+    <Setter Property="FocusVisualSecondaryBrush" Value="Transparent" />
+    <Setter Property="FocusVisualMargin" Value="-4" />
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="Button">
+          <Grid x:Name="RootGrid" Background="{TemplateBinding Background}" MinWidth="{TemplateBinding MinWidth}" MinHeight="{TemplateBinding MinHeight}">
+            <VisualStateManager.VisualStateGroups>
+              <VisualStateGroup x:Name="CommonStates">
+                <VisualState x:Name="Normal" />
+                <VisualState x:Name="PointerOver">
+                  <VisualState.Setters>
+                    <Setter Target="Presenter.Opacity" Value="0.92" />
+                  </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Pressed">
+                  <VisualState.Setters>
+                    <Setter Target="Presenter.RenderTransform">
+                      <Setter.Value>
+                        <ScaleTransform ScaleX="0.96" ScaleY="0.96" />
+                      </Setter.Value>
+                    </Setter>
+                  </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Disabled">
+                  <VisualState.Setters>
+                    <Setter Target="Presenter.Opacity" Value="0.45" />
+                  </VisualState.Setters>
+                </VisualState>
+              </VisualStateGroup>
+            </VisualStateManager.VisualStateGroups>
+            <ContentPresenter x:Name="Presenter"
+                              Content="{TemplateBinding Content}"
+                              ContentTemplate="{TemplateBinding ContentTemplate}"
+                              HorizontalAlignment="Center"
+                              VerticalAlignment="Center"
+                              RenderTransformOrigin="0.5,0.5" />
+          </Grid>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
+</ResourceDictionary>

@@ -1,0 +1,29 @@
+{
+  "$schema": "https://schemas.platform.uno/sample/v1",
+  "displayName": "Destination Rolodex",
+  "description": "A reusable destination card: one photograph fills the card behind an endless list of countries, with a caption, a small globe and quiet controls. Turning the list blends one photo into the next through a runtime SkSL shader (Morph Blend or Liquid Warp) drawn on an SKCanvasElement, while the rows, globe, letters and colours all follow the same position. Pointer parallax, a Look around mode with pan, zoom and tilt, an autoplay tour, loading and failure states with Retry, and reduced motion. One Uno Platform single project for desktop, the browser and Android; the card is a control with dependency properties, and the demo page uses MVVM.",
+  "platforms": ["desktop", "wasm", "android"],
+  "sourcePath": "DestinationRolodex/DestinationRolodex.csproj",
+  "iconUrl": "https://raw.githubusercontent.com/unoplatform/Uno.Samples/master/studio/destination-rolodex/.studiolive/icon.png",
+  "screenshots": [
+    "https://raw.githubusercontent.com/unoplatform/Uno.Samples/master/studio/destination-rolodex/.studiolive/screenshots/card-desktop.png",
+    "https://raw.githubusercontent.com/unoplatform/Uno.Samples/master/studio/destination-rolodex/.studiolive/screenshots/another-destination-desktop.png",
+    "https://raw.githubusercontent.com/unoplatform/Uno.Samples/master/studio/destination-rolodex/.studiolive/screenshots/card-phone.png"
+  ],
+  "showcase": {
+    "summary": "A travel card that blends one destination's photo into the next with a SkSL shader as you scroll.",
+    "type": "feature",
+    "status": "active",
+    "owner": ["noknowscode"],
+    "industry": "Travel",
+    "goals": [
+      "Runtime SkSL shaders on an SKCanvasElement, with a plain-image fallback when shaders are unavailable",
+      "One continuous position driving the list, the photo transition, the globe and the colours",
+      "A reusable control with dependency properties, events and methods, hosted by an MVVM demo page",
+      "Spring-based drag, wheel and keyboard input, with reduced motion",
+      "Loading, failure and Retry states for the photos"
+    ],
+    "requires": [],
+    "tags": ["skia", "sksl", "shaders", "custom-control", "animation", "mvvm"]
+  }
+}
