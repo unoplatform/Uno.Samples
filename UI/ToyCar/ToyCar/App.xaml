@@ -1,0 +1,25 @@
+﻿<Application x:Class="ToyCar.App"
+       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+  <Application.Resources>
+    <ResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <!-- Load WinUI resources -->
+        <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
+      </ResourceDictionary.MergedDictionaries>
+
+      <!-- Static instances rather than the variable fonts they were cut from: the wght axis
+           is applied by DirectWrite on WinAppSDK but not by the Skia targets, which use the
+           file's default coordinate instead. That default is the lightest weight, so every
+           FontWeight in the markup was silently dropped everywhere except Windows. One family
+           per weight leaves no axis to disagree about. -->
+      <FontFamily x:Key="QuicksandLightFontFamily">ms-appx:///Assets/Fonts/Quicksand-Light.ttf#Quicksand Light</FontFamily>
+      <FontFamily x:Key="QuicksandMediumFontFamily">ms-appx:///Assets/Fonts/Quicksand-Medium.ttf#Quicksand Medium</FontFamily>
+      <FontFamily x:Key="QuicksandBoldFontFamily">ms-appx:///Assets/Fonts/Quicksand-Bold.ttf#Quicksand Bold</FontFamily>
+      <FontFamily x:Key="RalewayLightFontFamily">ms-appx:///Assets/Fonts/Raleway-Light.ttf#Raleway Light</FontFamily>
+
+    </ResourceDictionary>
+  </Application.Resources>
+
+</Application>

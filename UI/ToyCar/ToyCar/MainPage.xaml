@@ -1,0 +1,899 @@
+﻿<Page x:Class="ToyCar.MainPage"
+	  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	  xmlns:local="using:ToyCar"
+	  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	  xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+	  xmlns:toolkit="using:Uno.UI.Toolkit"
+	  mc:Ignorable="d">
+
+    <Page.Resources>
+        <!-- BulletPoint ContentTemplate -->
+        <DataTemplate x:Key="BulletPointContentTemplate">
+            <TextBlock Margin="0,5"
+					   FontSize="14"
+					   TextWrapping="Wrap"
+					   Foreground="#F1F1F1"
+					   FontFamily="{StaticResource QuicksandLightFontFamily}">
+				<Run Text="• "
+					 Foreground="#67E5AD" />
+				<Run Text="{Binding}" />
+            </TextBlock>
+        </DataTemplate>
+    </Page.Resources>
+
+    <Grid x:Name="MainRoot">
+        <VisualStateManager.VisualStateGroups>
+            <!-- Height size classes: real foldable panes are 626-720pt tall, which the
+                 400px car band alone will not fit alongside the navbar, title and scene. -->
+            <!-- Car band sized from both dimensions. 170 fits the 120px car; 290 is what the
+                 242px features panel needs - 250 left it only 4px of slack and the system
+                 gesture bar then sat over its lowest callout; 400 is the roomy desktop look.
+                 The plate is decorative and yields first. Later states win, so the more
+                 demanding conditions are declared last. -->
+            <VisualStateGroup x:Name="LayoutStates">
+                <!-- Shortest windows: the car is 120px, so 140 is the least the band can be
+                     while still framing it, and it buys the left column the ~30px it needs to
+                     keep the VIEW DETAILS button on screen. -->
+                <VisualState x:Name="TinyLayout">
+                    <VisualState.Setters>
+                        <Setter Target="MainCarBandRow.Height" Value="140" />
+                        <Setter Target="Pane1CarBandRow.Height" Value="140" />
+                        <Setter Target="Pane2CarBandRow.Height" Value="140" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="CompactLayout">
+                    <VisualState.Setters>
+                        <Setter Target="MainCarBandRow.Height" Value="170" />
+                        <Setter Target="Pane1CarBandRow.Height" Value="170" />
+                        <Setter Target="Pane2CarBandRow.Height" Value="170" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="CompactWidePanel">
+                    <VisualState.Setters>
+                        <Setter Target="MainCarBandRow.Height" Value="290" />
+                        <Setter Target="Pane1CarBandRow.Height" Value="290" />
+                        <Setter Target="Pane2CarBandRow.Height" Value="290" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="MediumLayout">
+                    <VisualState.Setters>
+                        <Setter Target="MainCarBandRow.Height" Value="170" />
+                        <Setter Target="Pane1CarBandRow.Height" Value="170" />
+                        <Setter Target="Pane2CarBandRow.Height" Value="170" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="MediumWidePanel">
+                    <VisualState.Setters>
+                        <Setter Target="MainCarBandRow.Height" Value="290" />
+                        <Setter Target="Pane1CarBandRow.Height" Value="290" />
+                        <Setter Target="Pane2CarBandRow.Height" Value="290" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="RegularLayout">
+                    <VisualState.Setters>
+                        <Setter Target="MainCarBandRow.Height" Value="400" />
+                        <Setter Target="Pane1CarBandRow.Height" Value="400" />
+                        <Setter Target="Pane2CarBandRow.Height" Value="400" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+
+            <!-- The features panel is 398x242, so it needs both a pane wide enough to hold
+                 it and a car band tall enough not to clip its lowest callout. A single
+                 trigger carrying both bounds keeps the two conditions from fighting across
+                 groups; below either one the panel is dropped rather than clipped. -->
+            <VisualStateGroup x:Name="FeaturesPanelStates">
+                <VisualState x:Name="FeaturesPanelHidden">
+                    <VisualState.Setters>
+                        <Setter Target="FeaturesPanel.Visibility" Value="Collapsed" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="FeaturesPanelShown">
+                    <VisualState.Setters>
+                        <Setter Target="FeaturesPanel.Visibility" Value="Visible" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition x:Name="MainCarBandRow"
+						   Height="400" />
+        </Grid.RowDefinitions>
+
+        <muxc:TwoPaneView Grid.RowSpan="2"
+						  Pane1Length="*"
+						  Pane2Length="*"
+						  PanePriority="Pane1"
+						  WideModeConfiguration="LeftRight"
+						  TallModeConfiguration="SinglePane">
+            <muxc:TwoPaneView.Resources>
+                <Storyboard x:Name="CarStoryboard">
+                    <!-- SketchCar bouncing animation -->
+                    <DoubleAnimationUsingKeyFrames RepeatBehavior="Forever"
+												   Storyboard.TargetName="SketchCar"
+												   Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.Y)">
+                        <EasingDoubleKeyFrame Value="2"
+											  KeyTime="00:00:02">
+                            <EasingDoubleKeyFrame.EasingFunction>
+                                <BounceEase Bounces="4"
+											EasingMode="EaseIn"
+											Bounciness="1.8" />
+                            </EasingDoubleKeyFrame.EasingFunction>
+                        </EasingDoubleKeyFrame>
+
+                        <EasingDoubleKeyFrame Value="0"
+											  KeyTime="00:00:04">
+                            <EasingDoubleKeyFrame.EasingFunction>
+                                <BounceEase Bounces="4"
+											EasingMode="EaseOut"
+											Bounciness="1.8" />
+                            </EasingDoubleKeyFrame.EasingFunction>
+                        </EasingDoubleKeyFrame>
+                    </DoubleAnimationUsingKeyFrames>
+
+
+                </Storyboard>
+
+                <!--
+                    Wheel motion is derived from the ground speed rather than picked by eye.
+                    The ground scrolls 800px in 5s (160 px/s) and the wheel is 50px across
+                    (circumference 157.08px), so one revolution must take 0.982s. The original
+                    0.5s spun the wheels at roughly twice the ground speed, which reads as
+                    slipping.
+
+                    SpinUp accelerates from rest with a quadratic ease. Its duration is chosen
+                    so the curve's final angular velocity equals the loop's constant one
+                    (v = 2 x 360 / T => T = 1.964s), and it covers exactly one revolution, so
+                    the handoff to the loop matches in both speed and wheel angle - no jump.
+                    The ground accelerates over the same curve, travelling exactly one wheel
+                    circumference, so the wheels never skid against it.
+                -->
+                <Storyboard x:Name="WheelSpinUpStoryboard">
+                    <DoubleAnimation From="0"
+									 To="360"
+									 Duration="0:0:1.848"
+									 Storyboard.TargetName="BackWheel"
+									 Storyboard.TargetProperty="(UIElement.RenderTransform).(RotateTransform.Angle)">
+                        <DoubleAnimation.EasingFunction>
+                            <PowerEase EasingMode="EaseIn"
+									   Power="2" />
+                        </DoubleAnimation.EasingFunction>
+                    </DoubleAnimation>
+
+                    <DoubleAnimation From="0"
+									 To="360"
+									 Duration="0:0:1.848"
+									 Storyboard.TargetName="FrontWheel"
+									 Storyboard.TargetProperty="(UIElement.RenderTransform).(RotateTransform.Angle)">
+                        <DoubleAnimation.EasingFunction>
+                            <PowerEase EasingMode="EaseIn"
+									   Power="2" />
+                        </DoubleAnimation.EasingFunction>
+                    </DoubleAnimation>
+
+                    <DoubleAnimation From="0"
+									 To="-157.08"
+									 Duration="0:0:1.848"
+									 Storyboard.TargetName="Trees"
+									 Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)">
+                        <DoubleAnimation.EasingFunction>
+                            <PowerEase EasingMode="EaseIn"
+									   Power="2" />
+                        </DoubleAnimation.EasingFunction>
+                    </DoubleAnimation>
+                </Storyboard>
+
+                <Storyboard x:Name="WheelLoopStoryboard">
+                    <DoubleAnimation From="0"
+									 To="360"
+									 Duration="0:0:0.924"
+									 RepeatBehavior="Forever"
+									 Storyboard.TargetName="BackWheel"
+									 Storyboard.TargetProperty="(UIElement.RenderTransform).(RotateTransform.Angle)" />
+
+                    <DoubleAnimation From="0"
+									 To="360"
+									 Duration="0:0:0.924"
+									 RepeatBehavior="Forever"
+									 Storyboard.TargetName="FrontWheel"
+									 Storyboard.TargetProperty="(UIElement.RenderTransform).(RotateTransform.Angle)" />
+
+                    <!-- Picks up exactly where the spin-up left the ground, and travels one
+                         tile width (500px at 160px/s = 3.125s) so the repeat is seamless. -->
+                    <DoubleAnimation From="-157.08"
+									 To="-2707.08"
+									 Duration="0:0:15.000"
+									 RepeatBehavior="Forever"
+									 Storyboard.TargetName="Trees"
+									 Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)" />
+                </Storyboard>
+
+                <!-- The callouts are laid out for the car at the very end of its travel, so they
+                     are revealed only then - by the drag - and not when the hinge parks the car on
+                     the seam. Tying them to CarStoryboard showed them while the car was still mid
+                     pane, with the leader lines pointing off the edge. -->
+                <Storyboard x:Name="FeaturesRevealStoryboard">
+                    <DoubleAnimation From="0"
+									 To="1"
+									 Duration="0:0:2"
+									 Storyboard.TargetName="FeaturesPanel"
+									 Storyboard.TargetProperty="Opacity" />
+
+                    <DoubleAnimation From="0"
+									 To="1"
+									 Duration="0:0:2"
+									 Storyboard.TargetName="CompactFeatures"
+									 Storyboard.TargetProperty="Opacity" />
+                </Storyboard>
+
+                <!-- Stopping the reveal is not enough to put the callouts away again: the held
+                     end value survives the Stop, so they are faded out explicitly. No From, so
+                     it starts from whatever opacity they are currently showing. -->
+                <Storyboard x:Name="FeaturesHideStoryboard">
+                    <DoubleAnimation To="0"
+									 Duration="0:0:0.25"
+									 Storyboard.TargetName="FeaturesPanel"
+									 Storyboard.TargetProperty="Opacity" />
+
+                    <DoubleAnimation To="0"
+									 Duration="0:0:0.25"
+									 Storyboard.TargetName="CompactFeatures"
+									 Storyboard.TargetProperty="Opacity" />
+                </Storyboard>
+
+                <Storyboard x:Name="SceneStoryboard">
+                    <!-- Clouds animation -->
+                    <DoubleAnimation From="0"
+									 To="-2000"
+									 Duration="0:7:3.5"
+									 RepeatBehavior="Forever"
+									 Storyboard.TargetName="Clouds"
+									 Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)" />
+
+                    <!-- Uno Air Balloon: climbs far enough to leave the top of any window, then
+                         repeats. The paired opacity keyframes fade it in low against the ridge and
+                         out once it is clear of the scene, so the loop's reset is never seen - the
+                         balloon simply rises away and a new one drifts up from behind the mountains. -->
+                    <DoubleAnimation x:Name="BalloonRise"
+									 From="0"
+									 To="-600"
+									 Duration="0:0:20"
+									 RepeatBehavior="Forever"
+									 Storyboard.TargetName="UnoAirBalloon"
+									 Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.Y)" />
+
+                    <DoubleAnimationUsingKeyFrames RepeatBehavior="Forever"
+												   Storyboard.TargetName="UnoAirBalloon"
+												   Storyboard.TargetProperty="Opacity">
+                        <DiscreteDoubleKeyFrame Value="0"
+												KeyTime="0:0:0" />
+                        <LinearDoubleKeyFrame Value="1"
+											  KeyTime="0:0:1.5" />
+                        <LinearDoubleKeyFrame Value="1"
+											  KeyTime="0:0:18.5" />
+                        <!-- Reaches zero before the loop restarts, not at the same instant: the
+                             rise and the opacity are separate animations, so resetting both on
+                             the boundary let the balloon show for one frame back at the bottom. -->
+                        <LinearDoubleKeyFrame Value="0"
+											  KeyTime="0:0:19.3" />
+                        <DiscreteDoubleKeyFrame Value="0"
+												KeyTime="0:0:20" />
+                    </DoubleAnimationUsingKeyFrames>
+                </Storyboard>
+            </muxc:TwoPaneView.Resources>
+
+            <muxc:TwoPaneView.Pane1>
+                <Grid Background="#159BFF"
+					  toolkit:VisibleBoundsPadding.PaddingMask="Top">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition x:Name="Pane1CarBandRow"
+									   Height="400" />
+                    </Grid.RowDefinitions>
+
+                    <!-- Left NavBar -->
+                    <!-- Real text in a down-only Viewbox. The nav was a 720x72 bitmap: stretching
+                         it blurred the baked glyphs, and drawing it 1:1 clipped "Sales" on narrow
+                         panes. Text renders crisply at its natural 17px whenever the pane allows,
+                         and the Viewbox only scales - never clips - when it does not. Because the
+                         content is glyphs rather than pixels, Skia re-renders at the scaled size
+                         instead of resampling, so it stays legible either way. -->
+                    <Grid Height="72"
+						  VerticalAlignment="Top">
+                    <Viewbox Name="LeftNavBar"
+							 Margin="72,0,12,0"
+							 Stretch="Uniform"
+							 StretchDirection="DownOnly"
+							 VerticalAlignment="Center"
+							 HorizontalAlignment="Left">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Width="26"
+								   Height="16"
+								   VerticalAlignment="Center"
+								   Source="ms-appx:///Assets/navbar-logo.png" />
+
+                            <TextBlock Text="Home"
+									   Margin="88,0,0,0"
+									   FontSize="17"
+									   Foreground="#F1F1F1"
+									   FontFamily="{StaticResource QuicksandMediumFontFamily}" />
+
+                            <TextBlock Text="Collections"
+									   Margin="39,0,0,0"
+									   FontSize="17"
+									   Opacity="0.74"
+									   Foreground="#F1F1F1"
+									   FontFamily="{StaticResource QuicksandLightFontFamily}" />
+
+                            <TextBlock Text="Sales"
+									   Margin="38,0,0,0"
+									   FontSize="17"
+									   Opacity="0.74"
+									   Foreground="#F1F1F1"
+									   FontFamily="{StaticResource QuicksandLightFontFamily}" />
+                        </StackPanel>
+                    </Viewbox>
+                    </Grid>
+
+                    <!-- Left main content -->
+                    <Grid x:Name="Pane1Content"
+						  Grid.Row="1"
+						  Grid.RowSpan="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <!-- Number pane -->
+                        <Grid x:Name="NumberPlate"
+							  Margin="0,20,10,0">
+                            <Rectangle Fill="#121111"
+									   Height="125"
+									   Width="129" />
+                            <TextBlock Text="1."
+									   FontSize="96"
+									   Opacity="0.9"
+									   Margin="0,0,0,30"
+									   Foreground="#F1F1F1"
+									   VerticalAlignment="Bottom"
+									   HorizontalAlignment="Center"
+									   FontFamily="{StaticResource RalewayLightFontFamily}" />
+                        </Grid>
+
+                        <!-- Toy car description -->
+                        <StackPanel Grid.Row="1"
+									Grid.Column="1"
+									Margin="0,0,20,0"
+									VerticalAlignment="Center">
+                            <TextBlock Text="Retro metal frame toy car"
+									   Margin="10,0,0,10"
+									   FontSize="24"
+									   TextWrapping="Wrap"
+									   Foreground="#F1F1F1"
+									   FontFamily="{StaticResource QuicksandMediumFontFamily}" />
+
+                            <ContentControl Content="ToyCar animation with hinge angle"
+											ContentTemplate="{StaticResource BulletPointContentTemplate}" />
+
+                            <ContentControl x:Name="SensorStatus"
+											x:DefaultBindMode="TwoWay"
+											ContentTemplate="{StaticResource BulletPointContentTemplate}" />
+
+                            <ContentControl x:Name="AngleValue"
+											x:DefaultBindMode="TwoWay"
+											ContentTemplate="{StaticResource BulletPointContentTemplate}" />
+                        </StackPanel>
+
+                        <!-- Toy car price -->
+                        <StackPanel Grid.Row="3"
+									Grid.Column="1"
+									Margin="0,0,0,10"
+									Orientation="Horizontal"
+									HorizontalAlignment="Left">
+                            <TextBlock Text="Retail"
+									   FontSize="14"
+									   Foreground="#F1F1F1"
+									   VerticalAlignment="Bottom"
+									   FontFamily="{StaticResource QuicksandMediumFontFamily}" />
+
+                            <TextBlock									   Margin="8,0,0,0"
+									   Foreground="#67E5AD"
+									   VerticalAlignment="Bottom"
+									   FontFamily="{StaticResource QuicksandBoldFontFamily}">
+								<Run Text="$16"
+									 FontSize="18" /><Run Text=".95"
+														  FontSize="14" />
+                            </TextBlock>
+                        </StackPanel>
+
+                        <!-- View details area -->
+                        <Grid Grid.Row="4"
+							  Grid.Column="1"
+							  Margin="0,0,0,40"
+							  HorizontalAlignment="Left">
+                            <Rectangle Fill="#121111"
+									   Height="40"
+									   Width="180" />
+                            <StackPanel Orientation="Horizontal"
+										VerticalAlignment="Center"
+										HorizontalAlignment="Center">
+                                <TextBlock Text="VIEW DETAILS"
+										   FontSize="14"
+										   Margin="0,0,4,0"
+										   Foreground="#F8F8F8"
+										   FontFamily="{StaticResource QuicksandBoldFontFamily}" />
+
+                                <!-- Right Arrow -->
+                                <Path Data="M484.14,226.886L306.46,49.202c-5.072-5.072-11.832-7.856-19.04-7.856c-7.216,0-13.972,2.788-19.044,7.856l-16.132,16.136c-5.068,5.064-7.86,11.828-7.86,19.04c0,7.208,2.792,14.2,7.86,19.264L355.9,207.526H26.58C11.732,207.526,0,219.15,0,234.002v22.812c0,14.852,11.732,27.648,26.58,27.648h330.496L252.248,388.926c-5.068,5.072-7.86,11.652-7.86,18.864c0,7.204,2.792,13.88,7.86,18.948l16.132,16.084c5.072,5.072,11.828,7.836,19.044,7.836c7.208,0,13.968-2.8,19.04-7.872l177.68-177.68c5.084-5.088,7.88-11.88,7.86-19.1C492.02,238.762,489.228,231.966,484.14,226.886z"
+									  HorizontalAlignment="Center"
+									  VerticalAlignment="Bottom"
+									  Stretch="Uniform"
+									  Margin="4,0,0,4"
+									  Fill="#F8F8F8"
+									  Width="9" />
+                            </StackPanel>
+                        </Grid>
+                    </Grid>
+
+                    <!-- ToyCar -->
+                    <Grid Name="DragLeftCar"
+						  Grid.Row="2"
+						  Width="220"
+						  Height="120"
+						  VerticalAlignment="Center"
+						  HorizontalAlignment="Left">
+                        <Image Width="220"
+							   Height="120"
+							   Stretch="Fill"
+							   HorizontalAlignment="Left"
+							   Source="ms-appx:///Assets/BlueCar.png" />
+
+                        <Image Width="25"
+							   Height="25"
+							   Stretch="Fill"
+							   Margin="110,0,0,36"
+							   VerticalAlignment="Bottom"
+							   HorizontalAlignment="Left"
+							   Source="ms-appx:///Assets/UnoLogoSmall.png" />
+                    </Grid>
+                </Grid>
+            </muxc:TwoPaneView.Pane1>
+            <muxc:TwoPaneView.Pane2>
+                <Grid Background="White"
+					  toolkit:VisibleBoundsPadding.PaddingMask="Top">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition x:Name="Pane2CarBandRow"
+									   Height="400" />
+                    </Grid.RowDefinitions>
+
+                    <!-- Right NavBar -->
+                    <!-- The three icons cropped from the original 720x72 artwork and drawn 1:1,
+                         so they stay pixel-identical and sharp at any pane width. -->
+                    <Image Name="RightNavBar"
+						   Margin="0,0,76,0"
+						   Stretch="None"
+						   VerticalAlignment="Top"
+						   HorizontalAlignment="Right"
+						   Source="ms-appx:///Assets/navbar-icons.png" />
+
+                    <!-- Right Title -->
+                    <TextBlock Grid.Row="1"
+							   Text="Our thrilling toy cars put kids in the driver's seat."
+							   Margin="72,5,32,0"
+							   FontSize="24"
+							   MaxWidth="450"
+							   TextWrapping="Wrap"
+							   VerticalAlignment="Bottom"
+							   HorizontalAlignment="Left"
+							   FontFamily="{StaticResource QuicksandLightFontFamily}" />
+
+                    <!-- Uno Air Balloon -->
+                    <Image Name="UnoAirBalloon"
+						   Grid.Row="3"
+						   Width="70"
+						   Margin="220,0,0,20"
+						   Stretch="Uniform"
+						   HorizontalAlignment="Center"
+						   VerticalAlignment="Bottom"
+						   Source="ms-appx:///Assets/uno-air-balloon.png">
+                        <Image.RenderTransform>
+                            <TranslateTransform />
+                        </Image.RenderTransform>
+                    </Image>
+
+                    <!-- Mountains -->
+                    <Path Grid.Row="3"
+						  Data="M69 93C47.6255 96.1128 11.5 82 0 74V161H737.5V74C705 74 623 127.5 556 127.5C489 127.5 357.5 0.5 286.5 0.5C215.5 0.5 120.5 85.5 69 93Z"
+						  VerticalAlignment="Bottom"
+						  Margin="0,0,0,20"
+						  Stretch="Uniform"
+						  Fill="#F8F8F8" />
+
+                    <!-- Trees: a 2550px stretch of road repeated twice, scrolled by exactly one
+                         tile width so the wrap is invisible (15s cycle at 170px/s). Sparse and
+                         slow on purpose - one passes about every 3s and takes 3s to cross
+                         a pane - because fast, closely spaced trees strobe and tire the eye. -->
+                    <Grid x:Name="Trees"
+						  Grid.Row="3"
+						  Width="5100"
+						  HorizontalAlignment="Left"
+						  VerticalAlignment="Bottom">
+                        <Grid.RenderTransform>
+                            <TranslateTransform />
+                        </Grid.RenderTransform>
+
+                        <Image Width="36"
+                               Margin="0,0,0,0"
+                               Stretch="Uniform"
+                               VerticalAlignment="Bottom"
+                               HorizontalAlignment="Left"
+                               Source="ms-appx:///Assets/tree-middle.png" />
+
+                        <Image Width="24"
+                               Margin="562,0,0,0"
+                               Stretch="Uniform"
+                               VerticalAlignment="Bottom"
+                               HorizontalAlignment="Left"
+                               Source="ms-appx:///Assets/tree-middle.png" />
+
+                        <Image Width="24"
+                               Margin="1306,0,0,0"
+                               Stretch="Uniform"
+                               VerticalAlignment="Bottom"
+                               HorizontalAlignment="Left"
+                               Source="ms-appx:///Assets/tree-middle.png" />
+
+                        <Image Width="36"
+                               Margin="1386,0,0,0"
+                               Stretch="Uniform"
+                               VerticalAlignment="Bottom"
+                               HorizontalAlignment="Left"
+                               Source="ms-appx:///Assets/tree-right.png" />
+
+                        <Image Width="32"
+                               Margin="2057,0,0,0"
+                               Stretch="Uniform"
+                               VerticalAlignment="Bottom"
+                               HorizontalAlignment="Left"
+                               Source="ms-appx:///Assets/tree-right.png" />
+
+                        <Image Width="36"
+                               Margin="2550,0,0,0"
+                               Stretch="Uniform"
+                               VerticalAlignment="Bottom"
+                               HorizontalAlignment="Left"
+                               Source="ms-appx:///Assets/tree-middle.png" />
+
+                        <Image Width="24"
+                               Margin="3112,0,0,0"
+                               Stretch="Uniform"
+                               VerticalAlignment="Bottom"
+                               HorizontalAlignment="Left"
+                               Source="ms-appx:///Assets/tree-middle.png" />
+
+                        <Image Width="24"
+                               Margin="3856,0,0,0"
+                               Stretch="Uniform"
+                               VerticalAlignment="Bottom"
+                               HorizontalAlignment="Left"
+                               Source="ms-appx:///Assets/tree-middle.png" />
+
+                        <Image Width="36"
+                               Margin="3936,0,0,0"
+                               Stretch="Uniform"
+                               VerticalAlignment="Bottom"
+                               HorizontalAlignment="Left"
+                               Source="ms-appx:///Assets/tree-right.png" />
+
+                        <Image Width="32"
+                               Margin="4607,0,0,0"
+                               Stretch="Uniform"
+                               VerticalAlignment="Bottom"
+                               HorizontalAlignment="Left"
+                               Source="ms-appx:///Assets/tree-right.png" />
+                    </Grid>
+
+                    <!-- Clouds: same tiling trick, but drifting far slower than the trees so the
+                         sky reads as distant. Spacing, size and height all vary, so they no longer
+                         pass in identical pairs. -->
+                    <Grid x:Name="Clouds"
+						  Grid.Row="3"
+						  Width="4000"
+						  VerticalAlignment="Top"
+						  HorizontalAlignment="Left">
+                        <Grid.RenderTransform>
+                            <TranslateTransform />
+                        </Grid.RenderTransform>
+
+                        <Image Width="36"
+                               Margin="0,10,0,0"
+                               Stretch="Uniform"
+                               VerticalAlignment="Top"
+                               HorizontalAlignment="Left"
+                               Source="ms-appx:///Assets/cloud.png" />
+
+                        <Image Width="46"
+                               Margin="238,39,0,0"
+                               Stretch="Uniform"
+                               VerticalAlignment="Top"
+                               HorizontalAlignment="Left"
+                               Source="ms-appx:///Assets/cloud-big.png" />
+
+                        <Image Width="42"
+                               Margin="684,67,0,0"
+                               Stretch="Uniform"
+                               VerticalAlignment="Top"
+                               HorizontalAlignment="Left"
+                               Source="ms-appx:///Assets/cloud-big.png" />
+
+                        <Image Width="30"
+                               Margin="1097,24,0,0"
+                               Stretch="Uniform"
+                               VerticalAlignment="Top"
+                               HorizontalAlignment="Left"
+                               Source="ms-appx:///Assets/cloud.png" />
+
+                        <Image Width="42"
+                               Margin="1463,1,0,0"
+                               Stretch="Uniform"
+                               VerticalAlignment="Top"
+                               HorizontalAlignment="Left"
+                               Source="ms-appx:///Assets/cloud-big.png" />
+
+                        <Image Width="36"
+                               Margin="2000,10,0,0"
+                               Stretch="Uniform"
+                               VerticalAlignment="Top"
+                               HorizontalAlignment="Left"
+                               Source="ms-appx:///Assets/cloud.png" />
+
+                        <Image Width="46"
+                               Margin="2238,39,0,0"
+                               Stretch="Uniform"
+                               VerticalAlignment="Top"
+                               HorizontalAlignment="Left"
+                               Source="ms-appx:///Assets/cloud-big.png" />
+
+                        <Image Width="42"
+                               Margin="2684,67,0,0"
+                               Stretch="Uniform"
+                               VerticalAlignment="Top"
+                               HorizontalAlignment="Left"
+                               Source="ms-appx:///Assets/cloud-big.png" />
+
+                        <Image Width="30"
+                               Margin="3097,24,0,0"
+                               Stretch="Uniform"
+                               VerticalAlignment="Top"
+                               HorizontalAlignment="Left"
+                               Source="ms-appx:///Assets/cloud.png" />
+
+                        <Image Width="42"
+                               Margin="3463,1,0,0"
+                               Stretch="Uniform"
+                               VerticalAlignment="Top"
+                               HorizontalAlignment="Left"
+                               Source="ms-appx:///Assets/cloud-big.png" />
+                    </Grid>
+
+                    <!-- Sun -->
+                    <Image Name="Sun"
+						   Grid.Row="3"
+						   Height="22"
+						   Margin="0,0,100,0"
+						   Stretch="Uniform"
+						   VerticalAlignment="Top"
+						   HorizontalAlignment="Right"
+						   Source="ms-appx:///Assets/Sun.png" />
+
+                    <!-- SketchCar -->
+                    <Grid x:Name="DragRightCar"
+						  Grid.Row="4"
+						  Width="220"
+						  Height="120"
+						  VerticalAlignment="Center"
+						  HorizontalAlignment="Left">
+                        <Grid x:Name="SketchCar"
+							  Width="220"
+							  Height="120"
+							  HorizontalAlignment="Left">
+                            <Grid.RenderTransform>
+                                <TranslateTransform />
+                            </Grid.RenderTransform>
+
+                            <Image Width="220"
+								   Height="120"
+								   Stretch="Fill"
+								   HorizontalAlignment="Left"
+								   Source="ms-appx:///Assets/SketchCarWithoutWheels.png" />
+
+                            <Image Width="25"
+								   Height="25"
+								   Stretch="Fill"
+								   Margin="110,0,0,36"
+								   VerticalAlignment="Bottom"
+								   HorizontalAlignment="Left"
+								   Source="ms-appx:///Assets/UnoLogoSmallMonochrome.png" />
+                        </Grid>
+
+                        <Image Name="BackWheel"
+							   Width="50"
+							   Height="50"
+							   Stretch="Fill"
+							   Margin="16,0,0,0"
+							   VerticalAlignment="Bottom"
+							   HorizontalAlignment="Left"
+							   RenderTransformOrigin="0.5,0.5"
+							   Source="ms-appx:///Assets/BackWheel.png">
+                            <Image.RenderTransform>
+                                <RotateTransform />
+                            </Image.RenderTransform>
+                        </Image>
+
+                        <Image Name="FrontWheel"
+							   Width="50"
+							   Height="50"
+							   Stretch="Fill"
+							   Margin="0,0,20,0"
+							   RenderTransformOrigin="0.5,0.5"
+							   VerticalAlignment="Bottom"
+							   HorizontalAlignment="Right"
+							   Source="ms-appx:///Assets/FrontWheel.png">
+                            <Image.RenderTransform>
+                                <RotateTransform />
+                            </Image.RenderTransform>
+                        </Image>
+                    </Grid>
+
+                    <!-- Sketch car features panel -->
+                    <!-- Sized from code to the pane's width: the panel is 398x242 of baked
+                         artwork, so on a narrow pane it scales rather than being dropped. Scaling
+                         is fine here precisely because these are images, not live text. -->
+                    <Viewbox x:Name="FeaturesPanel"
+							 Grid.Row="4"
+							 Opacity="0"
+							 Stretch="Uniform"
+							 StretchDirection="DownOnly"
+							 VerticalAlignment="Center"
+							 HorizontalAlignment="Left">
+                        <Grid Width="398"
+							  Height="242">
+                        <!-- Headlamp feature details -->
+                        <Image x:Name="VectorHeadlamp"
+							   Width="184"
+							   Margin="0,12,0,0"
+							   Stretch="Uniform"
+							   VerticalAlignment="Top"
+							   HorizontalAlignment="Right"
+							   Source="ms-appx:///Assets/new-vector-headlamp.png" />
+
+                        <Image x:Name="FeatureHeadlamp"
+							   Width="93"
+							   Margin="110,0,0,0"
+							   Stretch="Uniform"
+							   VerticalAlignment="Top"
+							   HorizontalAlignment="Left"
+							   Source="ms-appx:///Assets/new-feature-card-headlamp.png" />
+
+                        <Ellipse Fill="#F85977"
+								 Height="5"
+								 Width="5"
+								 Margin="0,113,0,0"
+								 VerticalAlignment="Top"
+								 HorizontalAlignment="Right" />
+
+                        <!-- Window feature details -->
+                        <Image x:Name="VectorWindow"
+							   Width="160"
+							   Margin="150,70,0,0"
+							   Stretch="Uniform"
+							   VerticalAlignment="Top"
+							   HorizontalAlignment="Left"
+							   Source="ms-appx:///Assets/new-vector-window.png" />
+
+                        <Image x:Name="FeatureWindow"
+							   Width="131"
+							   Margin="0,60,0,0"
+							   Stretch="Uniform"
+							   VerticalAlignment="Top"
+							   HorizontalAlignment="Left"
+							   Source="ms-appx:///Assets/new-feature-card-window.png" />
+
+                        <Ellipse Fill="#67E5AD"
+								 Height="5"
+								 Width="5"
+								 Margin="239,88,0,0"
+								 VerticalAlignment="Top"
+								 HorizontalAlignment="Left" />
+
+                        <!-- Battery feature details -->
+                        <Image x:Name="VectorBattery"
+							   Width="121"
+							   Margin="165,0,0,20"
+							   Stretch="Uniform"
+							   VerticalAlignment="Bottom"
+							   HorizontalAlignment="Left"
+							   Source="ms-appx:///Assets/new-vector-battery.png" />
+
+                        <Image x:Name="FeatureBattery"
+							   Width="122"
+							   Margin="30,0,0,10"
+							   Stretch="Uniform"
+							   VerticalAlignment="Bottom"
+							   HorizontalAlignment="Left"
+							   Source="ms-appx:///Assets/new-feature-card-battery.png" />
+
+                        <Ellipse Fill="#7A67F8"
+								 Height="5"
+								 Width="5"
+								 Margin="284,0,0,98"
+								 VerticalAlignment="Bottom"
+								 HorizontalAlignment="Left" />
+                        </Grid>
+                    </Viewbox>
+
+                    <!-- Narrow panes cannot hold the full callout composition: it is 400dp wide
+                         because the leader lines are drawn at a fixed length. The labels themselves
+                         are only 131-182dp, so instead of scaling the artwork - which would pull the
+                         leader lines off the car and drag the wheel/ground maths with it - the
+                         decoration is dropped and the content is kept, stacked at its native size. -->
+                    <StackPanel x:Name="CompactFeatures"
+								Grid.Row="4"
+								Opacity="0"
+								Margin="16,12,0,0"
+								Spacing="10"
+								VerticalAlignment="Top"
+								HorizontalAlignment="Left">
+                        <Image Width="131"
+							   Stretch="None"
+							   HorizontalAlignment="Left"
+							   Source="ms-appx:///Assets/new-feature-card-headlamp.png" />
+                        <Image Width="182"
+							   Stretch="None"
+							   HorizontalAlignment="Left"
+							   Source="ms-appx:///Assets/new-feature-card-window.png" />
+                        <Image Width="170"
+							   Stretch="None"
+							   HorizontalAlignment="Left"
+							   Source="ms-appx:///Assets/new-feature-card-battery.png" />
+                    </StackPanel>
+
+                    <!-- Social network area -->
+                    <Image Name="SocialNetWorks"
+						   Grid.RowSpan="5"
+						   Width="38"
+						   Stretch="Uniform"
+						   VerticalAlignment="Center"
+						   HorizontalAlignment="Right"
+						   Source="ms-appx:///Assets/SocialNetworks.png" />
+                </Grid>
+            </muxc:TwoPaneView.Pane2>
+        </muxc:TwoPaneView>
+
+        <!-- Rectangle used for ManipulationDelta event -->
+        <Rectangle Name="TouchRectangle"
+				   Grid.Row="1"
+				   Width="220"
+				   Height="120"
+				   Fill="Transparent"
+				   ManipulationMode="All"
+				   VerticalAlignment="Center"
+				   HorizontalAlignment="Left" />
+    </Grid>
+</Page>
