@@ -96,6 +96,12 @@ A polished travel-discovery app built with MVUX and Uno.Extensions Navigation. A
 
 ## Other Samples
 
+### Scroll Anchoring
+
+Demonstrates `ScrollViewer` scroll anchoring: inserting or removing items above the anchored item keeps the anchor's on-screen position stable, using `RegisterAnchorCandidate`, `CurrentAnchor`, and `VerticalAnchorRatio`.
+
+[Browse source](https://github.com/unoplatform/Uno.Samples/tree/master/UI/ScrollAnchoring)
+
 ### Advanced XBind
 
 The {x:Bind} markup extension (new for Windows 10) is an alternative to {Binding}. {x:Bind} runs in less time and less memory than {Binding} and supports better debugging.
