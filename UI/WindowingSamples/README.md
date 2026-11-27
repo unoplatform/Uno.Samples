@@ -13,6 +13,9 @@ Most windowing features are currently available on desktop targets of [Uno Platf
 * [**MinimizeMaximizeWindow.xaml & MinimizeMaximizeWindow.xaml.cs**](src/WindowingSamples/MinimizeMaximizeWindow.xaml.cs): Minimizing and maximizing a window.
 * [**StayOnTopWindow.xaml & StayOnTopWindow.xaml.cs**](src/WindowingSamples/StayOnTopWindow.xaml.cs): Window that always stays on top of other content.
 * [**WindowTitleWindow.xaml & WindowTitleWindow.xaml.cs**](src/WindowingSamples/WindowTitleWindow.xaml.cs): Customizing the Window title.
+* [**ExtendContentIntoTitleBarWindow.xaml & ExtendContentIntoTitleBarWindow.xaml.cs**](src/WindowingSamples/ExtendContentIntoTitleBarWindow.xaml.cs): Demonstrating `Window.ExtendsContentIntoTitleBar` API to extend XAML UI into the titlebar area while preserving the caption buttons.
+* [**CustomTitleBarWindow.xaml & CustomTitleBarWindow.xaml.cs**](src/WindowingSamples/CustomTitleBarWindow.xaml.cs): Demonstrating `SetBorderAndTitleBar(true, false)` API to completely extend the client area and hide the caption buttons, with custom caption buttons and `InputNonClientPointerSource.SetRegionRects` for the Maximize button to support Snap layouts menu.
+* [**DraggableRegionWindow.xaml & DraggableRegionWindow.xaml.cs**](src/WindowingSamples/DraggableRegionWindow.xaml.cs): Demonstrating `InputNonClientPointerSource.SetRegionRects` for Caption region to create custom draggable regions in the window.
 
 ## What is the Uno Platform
 
